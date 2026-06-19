@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 010 — 19 June 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+
+  /* resolved + footer */
+  .resolved-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>ANTHROPIC</b> Day 8 of the blackout — Fable 5 + Mythos 5 still off worldwide, but int'l MD Chris Ciauri tells a Seoul press conference he is "very confident" access returns "in the coming days" — still no date, no signed deal &nbsp;◆&nbsp; <b>SPCX</b> cools hard — pulls back to ~$2.29T (Jun 18 close ~$174.90, down from ~$191.82), slipping behind both Microsoft and Amazon after the ~$2.94T peak &nbsp;◆&nbsp; <b>CURSOR</b> Anysphere ARR now reported ~$4B — recasting SpaceX's $60B all-stock deal at ~15x &nbsp;◆&nbsp; <b>OPENAI</b> GPT-5.6 still unshipped; Polymarket ~83% for Jun 22–28 — window opens in 3 days &nbsp;◆&nbsp; <b>G7</b> Amodei + Hassabis's US-led AI coalition call still echoing &nbsp;◆&nbsp; <b>EU</b> Aug 2 transparency + GPAI enforcement: 44 days &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>010</b></span>
+    <span>FRIDAY, 19 JUNE 2026</span>
+    <span>CRITICAL <b>3</b> / NOTABLE 6 / MONITOR 5</span>
+    <span>SCAN: 14 SEARCHES · 24H WINDOW</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="anthropic-fable-mythos">
+  <div>
+    <div class="kicker">■ Critical · Models / Policy · Rank 1 · Day 10 of the model-wave arc</div>
+    <h2>Day 8: Anthropic's flagships stay dark — but an exec in Seoul says they'll be back "in the coming days"</h2>
+    <p class="dek">Fable 5 and Mythos 5 remain <strong>disabled worldwide</strong> into Friday, eight days after the <strong>Jun 12</strong> Commerce directive barring foreign-national access. The newest signal is the most optimistic yet — and the least concrete: at a Seoul press conference Wednesday, Anthropic's Managing Director of International, Chris Ciauri, said the company is <a href="https://www.koreajoongangdaily.com/business/anthropic-confident-of-reenabling-mythos-fable-5-access-in-coming-days-executive/12727522">"very confident that in the coming days, the models will become available again."</a> It tracks with reporting that officials and Anthropic are <a href="https://www.theglobeandmail.com/business/article-anthropic-trump-officials-deal-restore-fable-5-mythos-5/">working toward a deal</a>, with Secretary Howard Lutnick on regular calls. But "coming days" is not a date, and there is still no signed agreement — the same on-record national-security rationale (feared diversion to military-intelligence users in China, Russia or other countries of concern) remains the basis for the shutoff. Ciauri also used the Seoul stage to name Korea a top-growth market and pledge a bigger local team.</p>
+    <p class="sowhat">So what: confidence from an executive is not a restoration date. Eight days in, treat "coming days" as guidance, not a guarantee — keep your fallback live and your migration priced, and expect any switch-back to arrive with nationality-gating attached.</p>
+    <span class="chip arc">ARC: MODEL-WAVE · D10</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://www.koreajoongangdaily.com/business/anthropic-confident-of-reenabling-mythos-fable-5-access-in-coming-days-executive/12727522">Korea JoongAng Daily (Ciauri: "coming days")</a> ·
+      <a href="https://digg.com/tech/cf6cssvi">Digg (Ciauri remarks)</a> ·
+      <a href="https://www.theglobeandmail.com/business/article-anthropic-trump-officials-deal-restore-fable-5-mythos-5/">Globe and Mail (deal in progress)</a> ·
+      <a href="https://www.anthropic.com/news/fable-mythos-access">Anthropic statement</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>Where it stands.</strong> As of this Friday scan, both Fable 5 and Mythos 5 are still offline for all users worldwide — Day 8 of the blackout; every other Claude model remains available, with traffic routed to Opus 4.8. Anthropic continues to dispute the directive while complying, and says it is working to restore access "as soon as possible" (<a href="https://fortune.com/2026/06/13/anthropic-disables-fable-mythos-export-controls-national-security-threat/">Fortune</a>, <a href="https://www.anthropic.com/news/fable-mythos-access">Anthropic</a>).</p>
+      <p><strong>The new note: "coming days."</strong> Speaking at a Seoul press conference, international chief Chris Ciauri said, "We are very confident that in the coming days, the models will become available again" (<a href="https://www.koreajoongangdaily.com/business/anthropic-confident-of-reenabling-mythos-fable-5-access-in-coming-days-executive/12727522">Korea JoongAng Daily</a>, <a href="https://digg.com/tech/cf6cssvi">Digg</a>). It is the most upbeat framing from a named Anthropic executive since the shutoff — but it is a confidence statement, not a committed date, and no signed deal has been announced.</p>
+      <p><strong>The deal track.</strong> Per <a href="https://www.theglobeandmail.com/business/article-anthropic-trump-officials-deal-restore-fable-5-mythos-5/">the Globe and Mail</a>, Anthropic's technical staff have met with Commerce officials nearly every day since the prior Friday, and Secretary Lutnick has held regular calls as he "works toward a deal"; the government is seeking assurances the models cannot be turned against the US. No agreement and no restoration timeline have been confirmed.</p>
+      <p><strong>The rationale, on record.</strong> Commerce Secretary <a href="https://www.usnews.com/news/top-news/articles/2026-06-15/anthropic-and-us-officials-meeting-monday-to-resolve-dispute-over-export-curbs-administration-official-says">Lutnick said</a> he acted because officials feared Fable 5 and Mythos 5 could be diverted to military-intelligence users in China, Russia or other countries of concern — the first named-official reason. The Amazon-jailbreak account (<a href="https://www.axios.com/2026/06/12/anthropic-trump-mythos-fable-national-security">Axios</a>) remains the proximate trigger; Anthropic disputes that a narrow potential jailbreak justifies recalling a model deployed to hundreds of millions.</p>
+      <p><strong>The wider backdrop.</strong> At the Jun 17 G7 in Évian, Amodei and DeepMind's Hassabis called for a US-led AI coalition even as Amodei negotiated his own models back (<a href="https://www.cnbc.com/2026/06/17/anthropic-amodei-google-hassabis-us-ai-coalition-g7.html">CNBC</a>); a 76-signatory security letter (Stamos, Moussouris) still presses for reversal, arguing the models are "not uniquely good" and China's are "only months behind" (<a href="https://www.business-standard.com/technology/tech-news/cybersecurity-experts-urge-trump-admin-to-lift-curbs-on-anthropic-ai-models-126061600025_1.html">Business Standard</a>); and the EU Commission has warned the curbs "should not be discriminatory" (<a href="https://www.euronews.com/my-europe/2026/06/14/us-export-controls-on-anthropic-should-not-be-discriminatory-eu-commission-warns">Euronews</a>).</p>
+      <p><strong>Watch next.</strong> Whether "coming days" produces an actual restoration this week, and whether it arrives clean or narrowed to nationality gating; whether a signed deal is announced; and whether any parallel directive touches OpenAI or Google. Commentators keep treating the episode as a live test of a missing government AI-safety playbook (<a href="https://www.techpolicy.press/anthropics-mythos-recall-and-the-white-houses-missing-ai-safety-playbook/">Tech Policy Press</a>).</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>Status (Jun 19)</dt><dd>Fable 5 + Mythos 5 still disabled worldwide — Day 8; all other Claude models up; no restoration date</dd>
+      <dt>Directive</dt><dd>Jun 12 — US Commerce Dept (Sec. Howard Lutnick) letter to Dario Amodei, barring foreign-national access</dd>
+      <dt>New: "coming days"</dt><dd>Int'l MD Chris Ciauri (Seoul, Jun 18): "very confident…in the coming days, the models will become available again" (Korea JoongAng Daily)</dd>
+      <dt>Deal track</dt><dd>Officials + Anthropic "working toward a deal"; Lutnick on regular calls; staff meeting nearly daily — no signed agreement</dd>
+      <dt>Rationale</dt><dd>Lutnick: feared diversion to military intelligence in China/Russia — first named-official reason (US News)</dd>
+      <dt>Pushback</dt><dd>76-signatory security letter (Stamos, Moussouris); EU warns curbs "should not be discriminatory"</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">10</b>/10 — every Fable/Mythos user worldwide, all frontier labs, AI-policy &amp; national-security watchers</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE CRITICALS</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="anthropic-fable-mythos">
+      <div class="num">1</div>
+      <h4>Day 8 dark — but an exec says "coming days"</h4>
+      <p>Fable 5 &amp; Mythos 5 are still off worldwide. The change: Anthropic's international chief Chris Ciauri told a Seoul press conference he is "very confident" access returns "in the coming days." It's the most optimistic framing yet — but it's a confidence statement, not a date, and there's still no signed deal. The on-record rationale (feared diversion to China/Russia military intelligence) stands.</p>
+    </article>
+    <article class="trip" data-story-id="spacex-cursor">
+      <div class="num">2</div>
+      <h4>SpaceX's $60B Cursor deal — now at ~15x as ARR jumps</h4>
+      <p>SpaceX's all-stock agreement to buy Anysphere (Cursor) at a $60B valuation gets recast: Cursor's annualized revenue is now reported around <strong>$4B</strong> (up from the ~$1B+ cited at signing), putting the price near ~15x rather than ~60x. With xAI already inside SpaceX, the conglomerate owns model, app and the developer layer. Close expected Q3, subject to approvals.</p>
+    </article>
+    <article class="trip" data-story-id="us-export-controls">
+      <div class="num">3</div>
+      <h4>Export-control precedent stands as restoration nears</h4>
+      <p>The model-level kill switch is eight days live, with a named-official rationale (Lutnick: feared military-intelligence diversion) and a 76-name security revolt against it. Even if access returns "in coming days," the precedent — a cabinet-level suspension of a deployed frontier model — is now established. Still no parallel order against OpenAI or Google.</p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>BEHIND THE FOLD:</strong> Quiet-ish day — the dominant thread is Anthropic's "coming days" signal · SPCX cools to ~$2.29T (Jun 18 close ~$174.90, down ~9% on the day), slipping behind Microsoft and Amazon after the ~$2.94T peak · GPT-5.6 still unshipped, Polymarket ~83% for Jun 22–28 (window opens Monday) · DeepSeek's ~$7.4B round closed and digesting · OpenAI S-1 quiet, ~$1T target (some reports float $1.75–2T+, up to $75B raise) vs $730–852B private marks, Q4 window · EU Aug 2 clock at 44 days · Gemini 3.5 Pro holds late-June (~50–55% by Jun 30); Grok V9-Medium reportedly arriving, Grok 5 ~33% by Jun 30. Also in window but stale: Microsoft's seven in-house MAI models (Build, Jun 2) and Meta's proprietary Muse Spark pivot. India quiet (RBI Jul 1 on the radar).</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOSAIC FEED ══════════ -->
+<section>
+  <div class="sec-head">The Feed <small>14 STORIES · RANKED</small></div>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (14)</button>
+    <button class="tab" data-cat="models">MODELS (4)</button>
+    <button class="tab" data-cat="business">BUSINESS (5)</button>
+    <button class="tab" data-cat="policy">POLICY (4)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (1)</button>
+  </div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="models" data-story-id="anthropic-fable-mythos">
+      <div><span class="impact">IMPACT <b>10</b>/10</span><span class="rank">#1</span> <span class="cat">MODELS · NATIONAL SECURITY</span></div>
+      <h4>Day 8 of the blackout: Fable 5 &amp; Mythos 5 still off — but Anthropic says access returns "in the coming days"</h4>
+      <div class="body">The week's defining AI story stays open, and the tone shifted. Eight days after the Jun 12 Commerce directive, both flagship models remain disabled worldwide; all other Claude models are up. The new signal: at a Seoul press conference, international chief Chris Ciauri said the company is "very confident that in the coming days, the models will become available again" (<a href="https://www.koreajoongangdaily.com/business/anthropic-confident-of-reenabling-mythos-fable-5-access-in-coming-days-executive/12727522">Korea JoongAng Daily</a>, <a href="https://digg.com/tech/cf6cssvi">Digg</a>) — the most upbeat note from a named executive since the shutoff, consistent with reporting that Anthropic and officials are "working toward a deal" (Globe and Mail). But "coming days" is not a date, no signed agreement exists, and the on-record rationale (Lutnick: feared diversion to military-intelligence users in China/Russia) still stands. Full brief above.</div>
+      <p class="sowhat">An executive's confidence is not a restoration date — keep the fallback live and the migration priced, and assume any switch-back lands with nationality-gating attached rather than a clean reversal.</p>
+      <div><span class="chip arc">ARC: MODEL-WAVE · D10</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.koreajoongangdaily.com/business/anthropic-confident-of-reenabling-mythos-fable-5-access-in-coming-days-executive/12727522">Korea JoongAng Daily</a> · <a href="https://digg.com/tech/cf6cssvi">Digg</a> · <a href="https://www.theglobeandmail.com/business/article-anthropic-trump-officials-deal-restore-fable-5-mythos-5/">Globe and Mail</a> · <a href="https://www.anthropic.com/news/fable-mythos-access">Anthropic</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="business" data-story-id="spacex-cursor">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">#2</span> <span class="cat">BUSINESS · M&amp;A</span></div>
+      <h4>SpaceX's $60B all-stock deal for Cursor parent Anysphere — now recast at ~15x as ARR is reported near $4B</h4>
+      <div class="body">Landmark, and now better-priced than it first looked. SpaceX's Jun 16 merger agreement to acquire Anysphere — maker of Cursor — values it at <strong>$60 billion</strong>, all in stock; subsidiary X67 Inc. merges into Anysphere, with the share count set on SpaceX's seven-day VWAP at closing (expected Q3 2026, subject to approvals). The new wrinkle: Cursor's annualized recurring revenue is now reported around <strong>$4 billion</strong> (<a href="https://www.tradingkey.com/analysis/stocks/us-stocks/261970297-spacex-spcx-cursor-arr-acquire-tradingkey">TradingKey</a>), well above the ~$1B+ cited at signing — putting the deal near ~15x ARR rather than ~60x. The strategic logic is vertical: with xAI already folded into SpaceX, the freshly public entity now owns the coding tool reportedly used to train Grok's coding models — capturing model, app and the developer-distribution layer in one stack (<a href="https://www.cnbc.com/2026/06/16/spacex-spcx-cursor-acquisition-ipo.html">CNBC</a>).</div>
+      <p class="sowhat">A higher ARR makes the $60B look like a growth multiple, not a moonshot — if your stack rides Cursor, map your exposure to SpaceX/xAI governance and pricing before the Q3 close.</p>
+      <div><span class="chip arc">ARC: CONSOLIDATION · D3</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/06/16/spacex-spcx-cursor-acquisition-ipo.html">CNBC</a> · <a href="https://techcrunch.com/2026/06/16/spacex-to-acquire-cursor-for-60b-in-stock-days-after-blockbuster-ipo/">TechCrunch</a> · <a href="https://www.tradingkey.com/analysis/stocks/us-stocks/261970297-spacex-spcx-cursor-arr-acquire-tradingkey">TradingKey (ARR ~$4B)</a> · <a href="https://qz.com/spacex-acquiring-cursor-anysphere-60-billion-stock-deal-061726">Quartz</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="us-export-controls">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#3</span> <span class="cat">POLICY · US</span></div>
+      <h4>The model-level export-control precedent stands — even as restoration is said to be near</h4>
+      <div class="body">Friday's order is now an established precedent, whether or not access returns this week. Washington moved from restricting chips to suspending access to a deployed frontier model on national-security grounds — and held it for eight days. The reasoning is on the record: Commerce Secretary <a href="https://www.usnews.com/news/top-news/articles/2026-06-15/anthropic-and-us-officials-meeting-monday-to-resolve-dispute-over-export-curbs-administration-official-says">Lutnick said</a> officials feared diversion to military-intelligence users in China, Russia or other countries of concern. Pushback persists: a <strong>76-signatory</strong> open letter (Stamos, Ellis, Callas, Moussouris) argues the models are "not uniquely good" and China's are "only months behind" (<a href="https://www.business-standard.com/technology/tech-news/cybersecurity-experts-urge-trump-admin-to-lift-curbs-on-anthropic-ai-models-126061600025_1.html">Business Standard</a>), and the EU Commission warned the curbs "should not be discriminatory" (<a href="https://www.euronews.com/my-europe/2026/06/14/us-export-controls-on-anthropic-should-not-be-discriminatory-eu-commission-warns">Euronews</a>). No parallel directive against OpenAI or Google has surfaced.</div>
+      <p class="sowhat">Every US frontier lab now has a worked example of a cabinet-level suspension with a stated military-diversion rationale — war-game a national-security shutoff this quarter and document your nationality-gating capability regardless of how the Anthropic case ends.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D10</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.usnews.com/news/top-news/articles/2026-06-15/anthropic-and-us-officials-meeting-monday-to-resolve-dispute-over-export-curbs-administration-official-says">US News</a> · <a href="https://www.itnews.com.au/news/security-leaders-say-lift-export-controls-for-anthropics-mythos-class-models-626660">iTnews (76 signatories)</a> · <a href="https://www.euronews.com/my-europe/2026/06/14/us-export-controls-on-anthropic-should-not-be-discriminatory-eu-commission-warns">Euronews (EU)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="g7-ai-coalition">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#4</span> <span class="cat">POLICY · GEOPOLITICS</span></div>
+      <h4>The G7's US-led AI coalition idea keeps echoing</h4>
+      <div class="body">Direction-setting, now one day on. At the Jun 17 G7 working lunch in Évian-les-Bains, Anthropic's Dario Amodei and Google DeepMind's Demis Hassabis called for a <strong>US-led coalition</strong> to shape global AI rules and standards. Amodei said cooperation should include <strong>structured access to frontier models</strong>, trade in chips and critical components that <strong>excludes China</strong>, and joint work on AI cyber, bioterrorism and intelligence risks (<a href="https://www.cnbc.com/2026/06/17/anthropic-amodei-google-hassabis-us-ai-coalition-g7.html">CNBC</a>). About a dozen tech executives attended, including OpenAI's Sam Altman, alongside Trump, Lutnick, Bessent and Rubio; Canada signaled receptiveness (<a href="https://thenextweb.com/news/anthropic-google-us-led-ai-coalition-g7-amodei-hassabis">TNW</a>). The subtext still writes itself: the proposal landed the same week Washington took Amodei's own flagship models offline.</div>
+      <p class="sowhat">A Western "structured access" bloc would re-draw who can buy which models and chips — if you sell or deploy frontier AI internationally, start mapping your customer base to a possible allied-vs-excluded line.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D10</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/06/17/anthropic-amodei-google-hassabis-us-ai-coalition-g7.html">CNBC</a> · <a href="https://thenextweb.com/news/anthropic-google-us-led-ai-coalition-g7-amodei-hassabis">The Next Web</a> · <a href="https://www.fastcompany.com/91561045/g7-wraps-openai-anthropic-meet-world-leaders-discuss-future-ai">Fast Company</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="models" data-story-id="openai-gpt56">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#5</span> <span class="cat">MODELS · RUMOR</span></div>
+      <h4>GPT-5.6 still unshipped — Polymarket ~83% window opens Monday (Jun 22–28)</h4>
+      <div class="body"><span class="chip rumor">RUMOR-FLAG</span> Holding at the edge of real, and the clock is short. Reporting says OpenAI chief scientist Jakub Pachocki told staff GPT-5.6 is a "meaningful improvement" over GPT-5.5 (<a href="https://www.techtimes.com/articles/318492/20260616/gpt-56-openai-chief-scientist-calls-it-meaningful-leap-june-launch-nears.htm">TechTimes</a>). Leaks point to a much larger effective context, stronger agentic coding and lower token use. <a href="https://polymarket.com/event/gpt-5pt6-released-by">Polymarket</a> prices a Jun 22–28 release near 83% — the window opens Monday. OpenAI has still issued no formal announcement, system card or API model string, and the cost/capability figures remain unverified — but the timing is conspicuous: a cheaper Mythos-substitute landing while Anthropic's flagship stays dark.</div>
+      <p class="sowhat">If you lost Fable/Mythos access, a late-June GPT-5.6 is the most likely landing spot — stand up an eval harness now, but treat the date and the cost claims as unconfirmed until a system card exists.</p>
+      <div><span class="chip arc">ARC: MODEL-WAVE · D10</span><span class="chip rumor">RUMOR-FLAG</span></div>
+      <div class="src"><a href="https://www.techtimes.com/articles/318492/20260616/gpt-56-openai-chief-scientist-calls-it-meaningful-leap-june-launch-nears.htm">TechTimes</a> · <a href="https://www.geeky-gadgets.com/gpt-5-6-june-2026-release/">Geeky Gadgets</a> · <a href="https://polymarket.com/event/gpt-5pt6-released-by">Polymarket</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="spcx-pricing">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#6</span> <span class="cat">BUSINESS · IPO</span></div>
+      <h4>SPCX cools — pulls back to ~$2.29T, slipping behind Microsoft and Amazon</h4>
+      <div class="body">The melt-up gave way to a pullback. After briefly touching ~$2.94T on Jun 17 and momentarily topping Microsoft, SpaceX cooled hard: by the Jun 18 close it was around <strong>$174.90</strong> (down from ~$191.82, roughly <strong>−9% on the day</strong>), for a market value near <strong>$2.29T</strong> — back behind both Microsoft and Amazon (<a href="https://www.investing.com/equities/spacex">Investing.com</a>, <a href="https://public.com/stocks/spcx/market-cap">public.com</a>). The trajectory since the Jun 12 debut has been violent in both directions: +19% day one, a three-session surge past Amazon to ~$2.65T (<a href="https://www.bloomberg.com/news/articles/2026-06-16/spacex-spcx-stock-set-for-more-than-50-jump-in-just-three-sessions">Bloomberg</a>), a Cursor-fueled spike, and now a sharp give-back. With xAI inside, SPCX remains the first public-market mark touching a frontier lab — and the bellwether for the 2026 AI/space listing pipeline, OpenAI included.</div>
+      <p class="sowhat">The risk has flipped from "missed the pop" to "valuation air": a ~9% single-day drop shows how fast the AI-IPO sentiment trade can reverse — size any SPCX exposure for volatility, not momentum.</p>
+      <div><span class="chip arc">ARC: IPO-WAVE · D10</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.investing.com/equities/spacex">Investing.com (SPCX)</a> · <a href="https://public.com/stocks/spcx/market-cap">public.com (market cap)</a> · <a href="https://www.bloomberg.com/news/articles/2026-06-16/spacex-spcx-stock-set-for-more-than-50-jump-in-just-three-sessions">Bloomberg</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="deepseek-raise">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#7</span> <span class="cat">BUSINESS · FUNDING</span></div>
+      <h4>DeepSeek's ~$7.4B maiden round, closed and digesting</h4>
+      <div class="body">Settled. DeepSeek closed its first-ever external round Jun 16, raising more than <strong>$7.4B</strong> (over 50B yuan) at a valuation above <strong>$50B</strong> — China's most valuable AI startup. Founder Liang Wenfeng put in ~20B yuan (~$3B), Tencent ~10B yuan, and battery giant CATL ~5B yuan. The structure remains the story: capital flows into a limited partnership managed by Liang rather than into DeepSeek itself, with a state-anchored control design that keeps governance tightly held while commercial investors get no votes (<a href="https://www.trendingtopics.eu/deepseek-raises-7-4-billion-only-the-chinese-state-gets-voting-rights/">Trending Topics</a>, <a href="https://www.scmp.com/tech/big-tech/article/3355818/deepseek-nears-us7b-haul-first-ever-funding-round-backing-tencent-catl">SCMP</a>). Sizeable for China, still a fraction of Anthropic's and OpenAI's raises — a marker of the lopsided East–West capital race. CATL's entry signals the energy and model layers converging.</div>
+      <p class="sowhat">State-anchored capital flowing into a frontier open-weights lab is the supply-side counter to US export pressure — track which models the cash accelerates, and note the battery-maker tie as a physical-stack play.</p>
+      <div><span class="chip arc">ARC: CAPITAL-WAVE · D8</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.scmp.com/tech/big-tech/article/3355818/deepseek-nears-us7b-haul-first-ever-funding-round-backing-tencent-catl">SCMP</a> · <a href="https://www.trendingtopics.eu/deepseek-raises-7-4-billion-only-the-chinese-state-gets-voting-rights/">Trending Topics</a> · <a href="https://technode.com/2026/06/04/deepseek-in-talks-to-raise-7-billion-from-tencent-catl-and-other-investors/">TechNode</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="openai-s1">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#8</span> <span class="cat">BUSINESS · IPO</span></div>
+      <h4>OpenAI S-1 quiet — $1T target (some reports $1.75–2T+), Q4 window</h4>
+      <div class="body">No new filings; the standing picture holds — confidential S-1 (filed ~May 22, confirmed Jun 8), with Goldman, Morgan Stanley and JPMorgan leading, and a debut as early as September into Q4. The headline target is up to <strong>$1 trillion</strong>, though some reporting (Bloomberg/Reuters) floats a <strong>$1.75T–$2T+</strong> range with a raise of up to <strong>$75B</strong>; pre-IPO marks sit lower, in the <strong>$730B–$852B</strong> range, and the official number is set only at the roadshow (<a href="https://cryptobriefing.com/openai-ipo-filing-trillion-valuation/">Crypto Briefing</a>, <a href="https://www.indmoney.com/blog/us-stocks/openai-ipo-valuation-financials-risks">INDmoney</a>). The financials underline the gamble: ~$30B revenue against a forecast ~$14B loss for 2026. An imminent GPT-5.6 gives a fresh flagship for the narrative; SPCX's volatile tape is a live — and cautionary — comp.</div>
+      <p class="sowhat">A new flagship is the bull case for OpenAI flipping its S-1 public this fall — but SPCX's ~9% air-pocket is a reminder that the trillion-dollar comp cuts both ways; watch the window after Labor Day.</p>
+      <div><span class="chip arc">ARC: IPO-WAVE · D10</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://cryptobriefing.com/openai-ipo-filing-trillion-valuation/">Crypto Briefing</a> · <a href="https://www.indmoney.com/blog/us-stocks/openai-ipo-valuation-financials-risks">INDmoney</a> · <a href="https://techjacksolutions.com/ai-brief/openai-reportedly-targets-q4-2026-ipo-near-1t-valuation-what/">Tech Jacks</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="eu-labelling-cop">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#9</span> <span class="cat">POLICY · EU</span></div>
+      <h4>EU clock: 44 days to Aug 2 transparency + GPAI enforcement</h4>
+      <div class="body">Near steady state, calendar ticking. From <strong>Aug 2</strong> the AI Act brings Article 50 transparency duties (disclosure when users interact with AI; labelling of synthetic media) plus the start of the Commission's GPAI enforcement powers — documentation/information requests, model evaluations, compliance/risk-mitigation measures, and fines up to the greater of €15M or 3% of global turnover (<a href="https://www.lw.com/en/insights/eu-ai-act-gpai-model-obligations-in-force-and-final-gpai-code-of-practice-in-place">Latham</a>, <a href="https://artificialintelligenceact.eu/enforcement-of-chapter-v-under-the-eu-ai-act/">artificialintelligenceact.eu</a>). The GPAI Code of Practice (transparency, copyright, safety &amp; security) is the practical compliance tool; signing carries a "presumption of conformity." The safety chapter binds only the ~5–15 systemic-risk providers above 10^25 FLOP; ~24 firms (Anthropic, Google, Microsoft, Mistral, OpenAI and others) have signed. A separate Digital Omnibus postponement of some high-risk obligations remains provisionally agreed, not yet formally adopted — Aug 2 transparency and GPAI enforcement still stand.</div>
+      <p class="sowhat">The Aug 2 enforcement switch is 44 days out — if your synthetic-media labelling and Article 50 transparency workstreams aren't staffed, they're late.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D10</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai">EU Digital Strategy</a> · <a href="https://artificialintelligenceact.eu/enforcement-of-chapter-v-under-the-eu-ai-act/">artificialintelligenceact.eu</a> · <a href="https://www.lw.com/en/insights/eu-ai-act-gpai-model-obligations-in-force-and-final-gpai-code-of-practice-in-place">Latham</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="business" data-story-id="anthropic-sub-split">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#10</span> <span class="cat">BUSINESS · PRICING</span></div>
+      <h4>Anthropic's Agent SDK credit split: the first billing cycle keeps running</h4>
+      <div class="body">Operational steady state. Since Jun 15, Agent SDK calls, claude -p, Claude Code GitHub Actions and third-party agents draw from a dedicated monthly credit billed at standard API list prices — $20 (Pro), $100 (Max 5x), $200 (Max 20x), non-rollover and per-user. Interactive Claude Code, Cowork and chat stay on subscription limits; Claude 4 retired the same day. Once a pool runs dry, automated requests stop unless overflow billing is on — no auto-fallback. Several days in, the surprises land as teams watch their first pools draw down: a $20 Pro pool covers only ~30–50 medium agent tasks/month at Sonnet 4.6 rates (<a href="https://thenewstack.io/anthropic-agent-sdk-credits/">The New Stack</a>).</div>
+      <p class="sowhat">At API rates a small pool can evaporate in one busy CI day — finish auditing which automations ride your subscription and enable overflow only where you can afford it.</p>
+      <div><span class="chip arc">ARC: DISTRIBUTION · D10</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://thenewstack.io/anthropic-agent-sdk-credits/">The New Stack</a> · <a href="https://codersera.com/blog/anthropic-june-2026-billing-change-claude-code/">Codersera</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="models" data-story-id="gemini-35-pro-watch">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#11</span> <span class="cat">MODELS · WATCH</span></div>
+      <h4>Gemini 3.5 Pro watch: late June still the line — no GA date</h4>
+      <div class="body">Nothing new in 24h; the watch holds. The shape is unchanged from the May 19 I/O preview: a 2M-token context window, "Deep Think" reasoning, frontier multimodality, pricing expected near $15/$60 per M tokens; Flash already shipped as the default, and Pro is in limited Vertex preview pending GA (<a href="https://www.techtimes.com/articles/317919/20260606/google-gemini-35-pro-nears-june-launch-2-million-token-context-deep-think-reasoning.htm">TechTimes</a>). Pichai's "give us until next month" guidance still points to a June GA with no committed date — Polymarket prices a release by Jun 30 near 50–55%. With Apple's Siri now riding a custom Gemini model and Anthropic's flagships dark into a second week, Google's distribution position keeps strengthening even before Pro lands.</div>
+      <p class="sowhat">Holding large Pro-tier migration decisions another fortnight remains the cheap option — the supply landscape just got more volatile, not less.</p>
+      <div><span class="chip arc">ARC: MODEL-WAVE · D10</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.techtimes.com/articles/317919/20260606/google-gemini-35-pro-nears-june-launch-2-million-token-context-deep-think-reasoning.htm">TechTimes</a> · <a href="https://wavespeed.ai/blog/posts/gemini-3-5-pro-coming-next-month/">WaveSpeed</a> · <a href="https://codersera.com/blog/gemini-3-5-pro-launch-guide-2026/">Codersera</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="models" data-story-id="grok5-rumor">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#12</span> <span class="cat">MODELS · RUMOR</span></div>
+      <h4>Grok V9-Medium reportedly arriving; Grok 5 still undated (~33% by Jun 30)</h4>
+      <div class="body"><span class="chip rumor">RUMOR-FLAG</span> Holding — and newly resonant given SpaceX's Cursor buy. The 1.5T "Grok V9-Medium" — explicitly Cursor-trained to chase a coding lead — finished training in late May with a "mid-June" window now open; some coverage reports it arriving alongside the Cursor deal, though xAI has issued no formal launch note in this scan (<a href="https://www.techtimes.com/articles/318495/20260616/grok-v9-medium-arrives-spacex-seals-cursor-developers-face-model-choice-risk.htm">TechTimes</a>). The flagship ~6T-parameter Grok 5 keeps training on Colossus 2 in Memphis, with no official date; Polymarket gives it roughly a one-in-three chance of shipping by Jun 30. Already live per xAI's notes: Grok Build with an Agent Dashboard, Grok Voice and grok-imagine-video-1.5. SpaceX's acquisition of Cursor's parent now puts that training pipeline in-house.</div>
+      <p class="sowhat">Don't reserve eval bandwidth on Grok 5 timing — V9-Medium is the realistic near-term drop; if it lands this week, benchmark its coding claims against your incumbent before committing.</p>
+      <div><span class="chip arc">ARC: MODEL-WAVE · D10</span><span class="chip rumor">RUMOR-FLAG</span></div>
+      <div class="src"><a href="https://www.techtimes.com/articles/318495/20260616/grok-v9-medium-arrives-spacex-seals-cursor-developers-face-model-choice-risk.htm">TechTimes</a> · <a href="https://chatforest.com/builders-log/xai-grok-v9-medium-1-5t-coding-model-mid-june-2026-builder-guide/">ChatForest</a> · <a href="https://felloai.com/all-we-know-so-far-about-grok-5/">FelloAI (Grok 5)</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="wwdc-siri-extensions">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#13</span> <span class="cat">PLATFORMS · DISTRIBUTION</span></div>
+      <h4>WWDC's Gemini-Siri and iOS 27 Extensions remain in developers' hands</h4>
+      <div class="body">Day 11, holding: no new developments, the action is in betas. Siri's cloud intelligence now runs on a ~1.2T-parameter custom Google Gemini model (a multi-year deal reported near $1B/yr), with on-device models handling simple queries; iOS/iPadOS/macOS 27 add an "Extensions" system to swap Claude, ChatGPT or Gemini across Apple Intelligence. Developer betas opened Jun 9; public betas mid-July; ships in the fall. It was Tim Cook's final keynote before he becomes chairman Sep 1. The optics sharpen by the day: Apple leaned on Gemini just as a US lab's flagship went dark (<a href="https://www.macrumors.com/2026/06/08/apple-reveals-new-ai-architecture/">MacRumors</a>).</div>
+      <p class="sowhat">If you build an assistant, treat the July public beta as your Extensions integration deadline — distribution is consolidating around Google and Apple.</p>
+      <div><span class="chip arc">ARC: DISTRIBUTION · D11</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.macrumors.com/2026/06/08/apple-reveals-new-ai-architecture/">MacRumors</a> · <a href="https://www.techtimes.com/articles/317985/20260608/apple-wwdc-2026-siri-rebuilt-gemini-homeos-previewed-cook-farewell-keynote.htm">TechTimes</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="policy" data-story-id="us-preemption">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#14</span> <span class="cat">POLICY · US</span></div>
+      <h4>Great American AI Act quiet — overshadowed by the export-control fight</h4>
+      <div class="body">Holding, and overshadowed. The Obernolte–Trahan draft saw no new developments in 24h — the week's policy oxygen went to the export-control action, the 76-name security revolt and the G7. The standing picture holds: the opposition wall (ACLU letter, unions, House Democratic commission) stands; law-firm analyses (DLA Piper, Fisher Phillips) and the Future of Privacy Forum continue to unpack the three-year development-law preemption against state frontier-AI statutes. The deployment-law carve-out remains the load-bearing distinction. No hearing is scheduled.</div>
+      <p class="sowhat">Still a draft with hostile arithmetic — keep building to the strictest applicable state law while the lobbying runs.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D10</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.dlapiper.com/en-us/insights/publications/2026/06/unpacking-the-great-american-ai-act">DLA Piper</a> · <a href="https://fpf.org/blog/frontier-ai-goes-federal-how-the-great-american-ai-act-compares-to-state-laws/">FPF</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ RESOLVED ══════════ -->
+<section>
+  <div class="sec-head">Resolved <small>YESTERDAY'S OPEN THREADS, CLOSED</small></div>
+  <div class="resolved-strip" id="resolved-strip"></div>
+</section>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 010 · 2026-06-19 (IST)</strong></p>
+    <p>METHOD: 14 web searches across frontier models, business/funding/IPO/M&amp;A, regulation (EU/US/India), research, open-source and enterprise adoption; primary 24h window with 72h context for carry-over arcs. Aggregator claims cross-checked against ≥2 outlets where possible; single-source and rumor items are chip-flagged. Impact /10 = breadth of who must act. Tiers: CRITICAL act this week · NOTABLE informs this month · MONITOR trajectory.</p>
+    <p>KNOWN SCAN GAPS THIS EDITION: a quieter day — the Anthropic blackout remains the dominant story, and the freshest signal is Chris Ciauri's Seoul "coming days" remark (Korea JoongAng Daily, Digg), which is an executive confidence statement, not a confirmed restoration date or signed deal; the underlying military-intelligence-diversion rationale (US News) is on the record but disputed by Anthropic. SPCX's pullback to ~$2.29T rests on Jun 18 intraday/close market data (Investing.com, public.com) and is volatile/not re-checked at IST close; the prior ~$2.94T peak and the Amazon-overtake (~$2.65T) are from Jun 16–17 coverage (Bloomberg). Cursor's reported ~$4B ARR (TradingKey) is a single-outlet figure above the ~$1B+ cited at signing and is not audited; the $60B SpaceX–Anysphere deal is confirmed by a signed merger agreement (CNBC, TechCrunch) but the close is subject to Q3 approval and the final share count depends on SpaceX's closing VWAP. GPT-5.6 stays RUMOR-FLAGGED: no formal OpenAI announcement, system card or API string; the Jun 22–28 timing is leak/Polymarket-based. DeepSeek's ~$7.4B round is reported closed; final terms, the &gt;$50B valuation and the exact voting/control structure are pre-audit and reported slightly differently across outlets. OpenAI's $1T target sits above reported $730–852B private marks, with higher $1.75–2T+ figures attributed to Bloomberg/Reuters. Gemini 3.5 Pro and Grok 5 remain undated; Grok V9-Medium is reported arriving but lacks a formal xAI launch note in this scan. Also in window but stale (not within 24h): Microsoft's seven in-house MAI models (Build, Jun 2) and Meta's proprietary Muse Spark pivot. India regulatory window quiet (RBI Jul 1 dark-pattern Directions on the radar; DPDP consent rules due Nov 2026). Meta, Mistral and Qwen had no qualifying 24h announcements; no standalone frontier research story broke inside 24h.</p>
+    <p>NOTE: Links point to sources found during the scan; where only an outlet root was available it is labelled as such. Nothing here is investment advice.</p>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 10,
+  "date": "2026-06-19",
+  "tz": "Asia/Kolkata",
+  "scanCount": 14,
+  "tiers": {"critical": 3, "notable": 6, "monitor": 5},
+  "stories": [
+    {"id":"anthropic-fable-mythos","rank":1,"title":"Day 8 of the blackout: Fable 5 & Mythos 5 still disabled worldwide; int'l MD Chris Ciauri tells a Seoul press conference Anthropic is 'very confident…in the coming days, the models will become available again' — most upbeat note yet but no date and no signed deal; deal track continues (Lutnick on regular calls); on-record rationale stands (feared diversion to military intelligence in China/Russia)","tier":"critical","impact":10,"delta":"carry","arc":"model-wave","arcDay":10,"confidence":"2x src","new24h":true,"category":"models"},
+    {"id":"spacex-cursor","rank":2,"title":"SpaceX's $60B all-stock Anysphere/Cursor deal (Jun 16) recast as Cursor ARR is now reported ~$4B (up from ~$1B+ at signing) — ~15x rather than ~60x; X67 Inc. merges into Anysphere, share count on SpaceX seven-day VWAP, close Q3; with xAI inside, captures model + app + developer layer","tier":"critical","impact":9,"delta":"carry","arc":"consolidation","arcDay":3,"confidence":"2x src","new24h":false,"category":"business"},
+    {"id":"us-export-controls","rank":3,"title":"Model-level export-control precedent stands even as restoration is said to be near: on-record rationale (Lutnick feared diversion to military intelligence in China/Russia/other countries of concern); 76-signatory defenders' letter (Stamos, Ellis, Callas, Moussouris: 'not uniquely good', China 'only months behind'); EU Commission warns curbs 'should not be discriminatory'; still no parallel OpenAI/Google order","tier":"critical","impact":8,"delta":"carry","arc":"reg-clock","arcDay":10,"confidence":"2x src","new24h":false,"category":"policy"},
+    {"id":"g7-ai-coalition","rank":4,"title":"G7 (Évian, Jun 17) US-led AI coalition call keeps echoing: Amodei + Hassabis urge structured access to frontier models, China-excluding chip/component trade, and cooperation on AI cyber/bio/intelligence risk; Altman attends; Trump/Lutnick/Bessent/Rubio present; Canada receptive — landed the same week the US took Amodei's own models offline","tier":"notable","impact":7,"delta":"carry","arc":"reg-clock","arcDay":10,"confidence":"2x src","new24h":false,"category":"policy"},
+    {"id":"openai-gpt56","rank":5,"title":"GPT-5.6 still unshipped: chief scientist Pachocki reportedly calls it a 'meaningful improvement' over GPT-5.5; leaks point to larger effective context + stronger agentic coding + lower token use; Polymarket ~83% for Jun 22-28 (window opens Monday); no formal OpenAI announcement, system card or API string","tier":"notable","impact":7,"delta":"carry","arc":"model-wave","arcDay":10,"confidence":"Rumor-flag","new24h":false,"category":"models"},
+    {"id":"spcx-pricing","rank":6,"title":"SPCX cools hard: after a ~$2.94T peak (Jun 17) and briefly topping Microsoft, it pulled back to ~$2.29T by Jun 18 close (~$174.90, down ~9% on the day from ~$191.82), slipping behind both Microsoft and Amazon; first public-market mark touching a frontier lab (xAI inside) and the AI-IPO sentiment bellwether","tier":"notable","impact":6,"delta":"deescalated","arc":"ipo-wave","arcDay":10,"confidence":"2x src","new24h":true,"category":"business"},
+    {"id":"deepseek-raise","rank":7,"title":"DeepSeek's ~$7.4B maiden round (closed Jun 16, >50B yuan) at a >$50B valuation now digesting — China's most valuable AI startup; Liang ~20B yuan, Tencent ~10B yuan, CATL ~5B yuan; capital flows into a Liang-managed LP with a state-anchored control design and no votes for commercial investors; CATL tie signals energy+model convergence","tier":"notable","impact":6,"delta":"carry","arc":"capital-wave","arcDay":8,"confidence":"2x src","new24h":false,"category":"business"},
+    {"id":"openai-s1","rank":8,"title":"OpenAI S-1 quiet; ~$1T target valuation (some reports float $1.75-2T+, raise up to $75B) above reported $730-852B private marks; Goldman/Morgan Stanley/JPMorgan leading; ~$30B revenue vs ~$14B forecast 2026 loss; debut as early as Sept into Q4; imminent GPT-5.6 + volatile SPCX comp frame the window","tier":"notable","impact":6,"delta":"carry","arc":"ipo-wave","arcDay":10,"confidence":"2x src","new24h":false,"category":"business"},
+    {"id":"eu-labelling-cop","rank":9,"title":"EU clock: 44 days to Aug 2 Article 50 transparency + GPAI enforcement + sandboxes; penalties up to €15M/3% turnover; signing the GPAI Code gives a 'presumption of conformity'; safety chapter binds only ~5-15 systemic-risk providers (>10^25 FLOP); ~24 firms signed; Digital Omnibus high-risk postponement provisionally agreed, not yet formally adopted","tier":"notable","impact":6,"delta":"carry","arc":"reg-clock","arcDay":10,"confidence":"2x src","new24h":false,"category":"policy"},
+    {"id":"anthropic-sub-split","rank":10,"title":"Anthropic Agent SDK credit split: first billing cycle still running (since Jun 15) — $20/$100/$200 non-rollover pools at API rates; Claude 4 retired same day; no auto-fallback once credit runs dry; a $20 Pro pool covers only ~30-50 medium agent tasks/month","tier":"monitor","impact":6,"delta":"carry","arc":"distribution","arcDay":10,"confidence":"2x src","new24h":false,"category":"business"},
+    {"id":"gemini-35-pro-watch","rank":11,"title":"Gemini 3.5 Pro watch: late June / June GA still the line, limited Vertex preview, Polymarket ~50-55% by Jun 30, no committed date; 2M context, Deep Think, ~$15/$60 expected; Siri-Gemini win + Fable/Mythos blackout strengthen Google's hand","tier":"monitor","impact":5,"delta":"carry","arc":"model-wave","arcDay":10,"confidence":"2x src","new24h":false,"category":"models"},
+    {"id":"grok5-rumor","rank":12,"title":"Grok V9-Medium (1.5T, Cursor-trained) reported arriving alongside SpaceX's Cursor deal but no formal xAI launch note this scan; Grok 5 undated (~33% by Jun 30, ~6T params training on Colossus 2); Grok Build + Agent Dashboard + Voice + imagine-video-1.5 live; SpaceX's Cursor buy puts the training pipeline in-house","tier":"monitor","impact":5,"delta":"carry","arc":"model-wave","arcDay":10,"confidence":"Rumor-flag","new24h":false,"category":"models"},
+    {"id":"wwdc-siri-extensions","rank":13,"title":"WWDC Gemini-Siri (~1.2T custom Gemini, ~$1B/yr) + iOS 27 Extensions in developer betas; public beta mid-July, ships fall; Cook's final keynote","tier":"monitor","impact":5,"delta":"carry","arc":"distribution","arcDay":11,"confidence":"2x src","new24h":false,"category":"enterprise"},
+    {"id":"us-preemption","rank":14,"title":"Great American AI Act quiet: no hearing scheduled, no new motion in 24h; preemption fight stands, eclipsed by export-control action, the security revolt and the G7","tier":"monitor","impact":4,"delta":"carry","arc":"reg-clock","arcDay":10,"confidence":"2x src","new24h":false,"category":"policy"}
+  ],
+  "arcs": {
+    "ipo-wave": {"day": 10, "note": "SPCX cools — after a ~$2.94T peak (Jun 17) and briefly topping Microsoft, it pulled back to ~$2.29T by Jun 18 close (~$174.90, down ~9% on the day), slipping behind Microsoft and Amazon; OpenAI S-1 quiet, ~$1T target (some reports $1.75-2T+) above $730-852B private marks, Q4 window"},
+    "reg-clock": {"day": 10, "note": "Export-control precedent stands with an on-record rationale (Lutnick: feared diversion to military intelligence in China/Russia) even as Anthropic says restoration is near; defenders' 76-signatory letter; EU warns curbs 'should not be discriminatory'; G7 US-led AI coalition call (Amodei + Hassabis) still echoing; EU Aug 2 (44d); GAAIA quiet; India quiet (RBI Jul 1, DPDP consent rules Nov 2026)"},
+    "model-wave": {"day": 10, "note": "Fable 5 + Mythos 5 still dark Day 8 — int'l MD Ciauri (Seoul) 'very confident…coming days', no date/no signed deal; GPT-5.6 still unshipped, Polymarket ~83% Jun 22-28 (window opens Monday); Gemini 3.5 Pro late June (~50-55% by Jun 30); Grok V9-Medium reported arriving, Grok 5 ~33% by Jun 30"},
+    "distribution": {"day": 10, "note": "Anthropic Agent SDK credit split first billing cycle running; WWDC Gemini-Siri/Extensions in dev betas, public beta mid-July; SpaceX-Cursor folds the developer-tooling layer into the SpaceX/xAI stack"},
+    "consolidation": {"day": 3, "note": "SpaceX's $60B all-stock Anysphere/Cursor merger (signed Jun 16) recast as Cursor ARR is now reported ~$4B (TradingKey), putting the price near ~15x rather than ~60x; with xAI inside, captures model + app + developer-distribution layer in one conglomerate; close expected Q3"},
+    "liability": {"day": 1, "note": "Dormant — no qualifying reliability story"},
+    "capital-wave": {"day": 8, "note": "DeepSeek's ~$7.4B maiden round (closed Jun 16) at >$50B now digesting, with a Liang-managed LP and state-anchored control design (no votes for commercial investors); CATL's entry signals energy+model convergence — China's supply-side counter to US export pressure; backdrop: Anthropic ~$965B Series H, OpenAI ~$1T IPO target"}
+  },
+  "resolved": [
+    "SPCX's 'how high?' (yesterday's #5): the melt-up reversed — after peaking near ~$2.94T on Jun 17, SpaceX pulled back to ~$2.29T by the Jun 18 close (~$174.90, down ~9% on the day), slipping behind both Microsoft and Amazon (Investing.com, public.com, Bloomberg). Continues, de-escalated, as today's #6.",
+    "Cursor revenue (carried as '~$1B+ ARR' since the deal): now reported around ~$4B ARR (TradingKey), recasting SpaceX's $60B all-stock price at roughly ~15x rather than ~60x. Continues within today's #2.",
+    "Anthropic restoration timing (the open 'no date' thread): an executive — int'l MD Chris Ciauri, in Seoul — now says the company is 'very confident' access returns 'in the coming days' (Korea JoongAng Daily, Digg). Still not a confirmed date or signed deal; continues as today's #1."
+  ],
+  "deadlines": [
+    {"date": "2026-06-23", "label": "OpenAI GPT-5.6 window opens — Polymarket ~83% for Jun 22-28; chief-scientist 'meaningful improvement' note (leak-based, unconfirmed)", "severity": "medium"},
+    {"date": "2026-06-30", "label": "Model windows lapse if no ship: Gemini 3.5 Pro GA (~50-55% by Jun 30), Grok V9-Medium (reported arriving), Grok 5 (~33%)", "severity": "medium"},
+    {"date": "2026-07-01", "label": "RBI dark-pattern ban (Responsible Business Conduct Directions) effective — India", "severity": "medium"},
+    {"date": "2026-07-31", "label": "OpenAI public S-1 expected as soon as late July (reporting); Q4 listing window", "severity": "low"},
+    {"date": "2026-08-02", "label": "EU AI Act: Article 50 transparency, GPAI enforcement (fines up to €15M/3% turnover), national sandboxes — 44 days", "severity": "high"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── resolved strip from state ──
+  if(state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── category tabs ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
