@@ -31,6 +31,7 @@
   .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
   .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
   .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
 
   /* hero */
   .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
@@ -62,6 +63,8 @@
   /* triptych */
   .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
   .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
   .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
   .trip{padding:18px;border-right:1px solid var(--rule)}
   .trip:last-child{border-right:none}
@@ -79,6 +82,12 @@
   .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
   .tile.today{outline:2px solid var(--crit)}
   .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
 
   /* tabs + mosaic */
   .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
@@ -98,9 +107,15 @@
   .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
   .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
   .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
 
-  /* resolved + footer */
-  .resolved-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0}
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
   footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
   footer p{margin-bottom:6px}
   @media(max-width:860px){
@@ -115,7 +130,7 @@
 
 <!-- ══════════ TICKER ══════════ -->
 <div class="ticker"><div class="ticker-inner">
-  <b>ANTHROPIC</b> Day 12 — Fable 5 + Mythos 5 still dark worldwide; deal track grinds on (Lutnick on regular calls), markets still ~57% restored before Jul 1; allies reportedly float a "trusted partner" access framework — no agreement &nbsp;◆&nbsp; <b>OPENAI</b> GPT-5.6 window now open (Jun 22–28, ~83% Polymarket); chatter that some Pro users may already be seeing it, Jun 25 floated — no system card &nbsp;◆&nbsp; <b>SPCX</b> slides to ~$165.78 on Jun 22 (prior close $185), ~$2.1T — bounce reverses &nbsp;◆&nbsp; <b>TALENT</b> Nobel laureate John Jumper (AlphaFold) confirmed leaving Google DeepMind for Anthropic &nbsp;◆&nbsp; <b>EU</b> Aug 2 transparency + GPAI enforcement: 40 days &nbsp;◆&nbsp;
+  <b>OPEN WEIGHTS</b> MiniMax M3 + Z.AI's GLM-5.2 top open-weight SWE-Bench Pro (59.0% / 62.1%), edging GPT-5.5 on coding — open models reach the closed frontier &nbsp;◆&nbsp; <b>AGENTS</b> Microsoft Agent 365 GA + NVIDIA Agent Toolkit; prompt injection now called a "permanent flaw," OWASP's #1 agentic threat &nbsp;◆&nbsp; <b>NVIDIA</b> RTX Spark "AI PC" superchip + Vera CPUs in full production (Anthropic/OpenAI/SpaceXAI early customers) &nbsp;◆&nbsp; <b>INDIA</b> Sarvam becomes newest AI unicorn — $234M Series B at $1.5B, HCLTech-led &nbsp;◆&nbsp; <b>ANTHROPIC</b> Day 12 — Fable 5/Mythos 5 still dark; Jul 1 market window 8 days out &nbsp;◆&nbsp;
 </div></div>
 
 <!-- ══════════ MASTHEAD ══════════ -->
@@ -125,72 +140,69 @@
   <div class="meta-bar">
     <span>EDITION <b>013</b></span>
     <span>TUESDAY, 23 JUNE 2026</span>
-    <span>CRITICAL <b>3</b> / NOTABLE 7 / MONITOR 5</span>
-    <span>SCAN: 12 SEARCHES · 24–72H WINDOW</span>
+    <span class="seg">NEW <b>10</b> · DEVELOPING <b>8</b> · TRACKING <b>7</b></span>
+    <span>CRITICAL <b>5</b> / NOTABLE 11 / MONITOR 2</span>
+    <span>SCAN: 22 SEARCHES · 24–72H</span>
   </div>
 </header>
 
 <main class="wrap">
 
 <!-- ══════════ HERO ══════════ -->
-<article class="hero" data-story-id="anthropic-fable-mythos">
+<article class="hero" data-story-id="open-weight-surge">
   <div>
-    <div class="kicker">■ Critical · Models / Policy · Rank 1 · Day 14 of the model-wave arc</div>
-    <h2>Day 12: the flagships stay dark as the Jul 1 clock nears — and allies float a "trusted partner" lane</h2>
-    <p class="dek">Fable 5 and Mythos 5 remain <strong>disabled worldwide</strong> into Tuesday, twelve days after the <strong>Jun 12</strong> Commerce directive barring foreign-national access. There is still no formal lifting and no signed deal; the directive stands. The talks grind on — Anthropic's technical staff have met with Commerce nearly daily and Secretary <strong>Howard Lutnick</strong> has held regular calls as officials "work toward a deal" (<a href="https://www.theglobeandmail.com/business/article-anthropic-trump-officials-deal-restore-fable-5-mythos-5/">Globe and Mail</a>). The fresher thread is structural: Bloomberg reports the crackdown <a href="https://www.bloomberg.com/news/articles/2026-06-19/lutnick-s-anthropic-crackdown-claims-new-power-over-ai-models">claims a new federal power over deployed AI models</a>, and G7 sources say allies have floated a <strong>"trusted partner"</strong> framework — restoring access for select allied nations or firms — though no agreement has been reached. The most concrete read stays the prediction markets: Kalshi traders put roughly <strong>57%</strong> on access returning <strong>before Jul 1</strong> (eight days out) and <strong>67% before Jul 10</strong> (<a href="https://news.kalshi.com/p/fable-5-odds-anthropic-access-restored-july-57-percent">Kalshi</a>). Allies stay cut off; the ban "further strains alliances" (<a href="https://www.aljazeera.com/news/2026/6/19/us-export-ban-on-anthropics-ai-models-further-strains-alliances">Al Jazeera</a>).</p>
-    <p class="sowhat">So what: the rhetoric softened last week but nothing has been signed and the clock is now the story — with the Jul 1 market-implied window eight days out, keep your fallback live and migration priced, and assume any switch-back lands with nationality-gating or a "trusted partner" gate attached rather than a clean reversal.</p>
-    <span class="chip arc">ARC: MODEL-WAVE · D14</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="kicker">■ Today's Lead · New · Models · Day 1 of the open-weight arc</div>
+    <h2>Open weights just reached the closed frontier — as Washington keeps Anthropic's flagships dark</h2>
+    <p class="dek">Two open-weight models released this month now sit at the top of open coding benchmarks and edge a Western closed flagship. <strong>MiniMax M3</strong> (Jun 1) pairs frontier-tier coding with a 1M-token context and native multimodality, posting <strong>59.0% on SWE-Bench Pro</strong> — reportedly above GPT-5.5 and Gemini 3.1 Pro — plus 66.0% Terminal-Bench 2.1 and 74.2% MCP Atlas (<a href="https://huggingface.co/blog/daya-shankar/open-source-llms">Hugging Face</a>, <a href="https://kilo.ai/open-source-models">Kilo</a>). Days later, Z.AI's <strong>GLM-5.2</strong> (753B total / 40B active, 1M context) went further — <strong>62.1% SWE-Bench Pro</strong> and 81.0% Terminal-Bench 2.1, again above GPT-5.5's ~58.6% (<a href="https://kilo.ai/open-source-models">Kilo</a>). The strategic read writes itself: at the exact moment the US has switched off Anthropic's Fable 5 / Mythos 5 for foreign nationals (today's lead Developing thread, Day 12), open weights that anyone can self-host have closed the gap to the closed labs on the workload enterprises care most about — coding. The catch is downstream: these gains land in agent stacks where <strong>prompt injection is now described as a permanent, not patchable, flaw</strong> (see New #2).</p>
+    <p class="sowhat">So what: a self-hostable model that matches GPT-5.5 on coding changes the build-vs-buy and the export-exposure math for every platform team — pull MiniMax M3 / GLM-5.2 into your eval harness this week and price what an open-weight fallback would actually cost you to run.</p>
+    <span class="chip arc">ARC: OPEN-WEIGHT · D1</span><span class="chip">CONFIDENCE: 2x SRC</span>
     <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
-      <a href="https://www.theglobeandmail.com/business/article-anthropic-trump-officials-deal-restore-fable-5-mythos-5/">Globe and Mail (deal track)</a> ·
-      <a href="https://www.bloomberg.com/news/articles/2026-06-19/lutnick-s-anthropic-crackdown-claims-new-power-over-ai-models">Bloomberg (new power over models)</a> ·
-      <a href="https://news.kalshi.com/p/fable-5-odds-anthropic-access-restored-july-57-percent">Kalshi (Fable 5 market)</a> ·
-      <a href="https://www.aljazeera.com/news/2026/6/19/us-export-ban-on-anthropics-ai-models-further-strains-alliances">Al Jazeera (alliances)</a>
+      <a href="https://huggingface.co/blog/daya-shankar/open-source-llms">Hugging Face (open-weight roundup)</a> ·
+      <a href="https://kilo.ai/open-source-models">Kilo (coding leaderboard)</a> ·
+      <a href="https://huggingface.co/blog/huggingface/state-of-os-hf-spring-2026">HF State of Open Source</a>
     </div>
     <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
     <div class="full-brief" id="hero-brief">
-      <p><strong>Where it stands.</strong> As of this Tuesday scan, both Fable 5 and Mythos 5 are still offline for all users worldwide — Day 12 of the blackout; every other Claude model remains available, with traffic routed to Opus 4.8. Anthropic continues to dispute the directive while complying, and says it is working to restore access "as soon as possible" (<a href="https://fortune.com/2026/06/13/anthropic-disables-fable-mythos-export-controls-national-security-threat/">Fortune</a>, <a href="https://www.anthropic.com/news/fable-mythos-access">Anthropic</a>).</p>
-      <p><strong>The deal track.</strong> Per <a href="https://www.theglobeandmail.com/business/article-anthropic-trump-officials-deal-restore-fable-5-mythos-5/">the Globe and Mail</a>, Anthropic's technical staff have met with Commerce officials nearly every day, and Secretary Lutnick has held regular calls as he "works toward a deal"; the government is seeking assurances the models cannot be turned against the US. No signed agreement and no restoration timeline have been confirmed — markets remain the most concrete read (Kalshi ~57% before Jul 1, ~67% before Jul 10; <a href="https://news.kalshi.com/p/fable-5-odds-anthropic-access-restored-july-57-percent">Kalshi</a>, <a href="https://www.cnbc.com/2026/06/16/kalshi-traders-think-anthropic-will-restore-access-to-ai-model-quickly.html">CNBC</a>).</p>
-      <p><strong>The new wrinkle: an institutionalized power, and a "trusted partner" idea.</strong> Bloomberg reports that in handling Anthropic, Lutnick's Commerce Department has effectively <a href="https://www.bloomberg.com/news/articles/2026-06-19/lutnick-s-anthropic-crackdown-claims-new-power-over-ai-models">claimed a new authority to police deployed frontier models</a>, not just chips — a precedent that outlasts this one case. Separately, G7 diplomatic sources say allied governments have raised a <strong>"trusted partner"</strong> scheme that would restore Fable 5 / Mythos 5 access to vetted allied nations or companies; nothing has been agreed, and the idea is reported, not confirmed by Commerce.</p>
-      <p><strong>The policy frame.</strong> The shutoff followed a Jun 2 executive order, <a href="https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/">"Promoting Advanced Artificial Intelligence Innovation and Security,"</a> directing a secure-deployment framework with up to 30 days of voluntary government early access before wide release (<a href="https://www.cfr.org/articles/assessing-trumps-executive-order-on-ai-oversight">CFR</a>). The proximate trigger remains a jailbreak report; the on-record rationale is Lutnick's fear of diversion to military intelligence in China or Russia (<a href="https://www.usnews.com/news/top-news/articles/2026-06-15/anthropic-and-us-officials-meeting-monday-to-resolve-dispute-over-export-curbs-administration-official-says">US News</a>). Last week Trump told <a href="https://www.cnbc.com/2026/06/19/trump-tells-axios-he-no-longer-views-anthropic-as-national-security-threat.html">The Axios Show</a> he no longer views Anthropic as a threat — "not now, but a week ago, maybe" — but the directive was never lifted on the strength of that remark.</p>
-      <p><strong>The alliance cost.</strong> Allies remain locked out: the ban "further strains alliances," with European and Asian partners unable to access Fable 5 or Mythos 5 while negotiations run, and the EU Commission has warned the curbs "should not be discriminatory" (<a href="https://www.aljazeera.com/news/2026/6/19/us-export-ban-on-anthropics-ai-models-further-strains-alliances">Al Jazeera</a>, <a href="https://www.euronews.com/my-europe/2026/06/14/us-export-controls-on-anthropic-should-not-be-discriminatory-eu-commission-warns">Euronews</a>). Anthropic spent the prior week opening a Seoul office and signing Samsung/LG/NAVER deployments in a market it cannot fully serve (today's #6).</p>
-      <p><strong>Watch next.</strong> Whether a deal is signed inside the Jul 1 market-implied window; whether restoration arrives clean, nationality-gated, or via a "trusted partner" lane; and whether the new model-level authority Bloomberg describes gets pointed at any other lab.</p>
+      <p><strong>What shipped.</strong> <strong>MiniMax M3</strong> (released Jun 1) is described as the first open-weight model to combine frontier coding, a 1M-token context and native multimodality (image/video input + computer use). Reported scores: 59.0% SWE-Bench Pro, 66.0% Terminal-Bench 2.1, 74.2% MCP Atlas, 70.06% OSWorld-Verified (<a href="https://huggingface.co/blog/daya-shankar/open-source-llms">Hugging Face</a>). <strong>GLM-5.2</strong> from Z.AI followed in June — 753B total / 40B active parameters, a 1M context (5× GLM-5.1's 200K), 62.1% SWE-Bench Pro and 81.0% Terminal-Bench 2.1 (<a href="https://kilo.ai/open-source-models">Kilo</a>).</p>
+      <p><strong>Why it's the lead.</strong> Under the old, narrower scan this briefing tracked the same closed-lab sagas day after day. Broadening the beat surfaces the more consequential shift: the open-weight tier has caught the closed frontier on coding, and it did so from Chinese labs (MiniMax, Z.AI) while US policy is actively restricting a US lab's best models abroad. For buyers cut off from Fable 5 / Mythos 5, a self-hostable model at GPT-5.5-class coding is no longer a compromise — it's a hedge against both pricing and export risk.</p>
+      <p><strong>The caveats.</strong> Benchmark figures here are from open-weight roundups and coding leaderboards, not yet independently re-run in this scan; "beats GPT-5.5" is benchmark-specific (SWE-Bench Pro / Terminal-Bench), not a blanket capability claim. Self-hosting a 753B model is a real infrastructure cost, and the agent-security risks below apply with full force.</p>
+      <p><strong>Watch next.</strong> Independent re-runs of the SWE-Bench Pro numbers; whether Western open-weight efforts (Llama, Mistral, gpt-oss) respond; and whether enterprises cut off by the export ban formally adopt open weights as the documented fallback.</p>
     </div>
   </div>
   <aside class="facts">
     <h3>Facts</h3>
     <dl>
-      <dt>Status (Jun 23)</dt><dd>Fable 5 + Mythos 5 still disabled worldwide — Day 12; all other Claude models up; no restoration date, no signed deal</dd>
-      <dt>Deal track</dt><dd>Anthropic staff meeting Commerce nearly daily; Lutnick on regular calls "working toward a deal"; seeking assurances vs. misuse</dd>
-      <dt>New: model-level power</dt><dd>Bloomberg — the crackdown claims a new federal authority to police deployed AI models, not just chips; a precedent beyond this case</dd>
-      <dt>Trusted-partner idea</dt><dd>G7 sources: allies floated restoring access for vetted allied nations/firms — reported, not agreed, not confirmed by Commerce</dd>
-      <dt>Market odds</dt><dd>Kalshi ~57% access restored before Jul 1 (8 days out), ~67% before Jul 10 — most concrete signal absent a date</dd>
-      <dt>Allies</dt><dd>EU + Asian partners still cut off; ban "further strains alliances" (Al Jazeera); EU warns it "should not be discriminatory"</dd>
-      <dt>Impact</dt><dd><b style="font-size:18px">10</b>/10 — every Fable/Mythos user worldwide, all frontier labs, AI-policy &amp; national-security watchers</dd>
+      <dt>MiniMax M3 (Jun 1)</dt><dd>Open-weight; frontier coding + 1M context + multimodal; 59.0% SWE-Bench Pro, 66.0% Terminal-Bench 2.1</dd>
+      <dt>GLM-5.2 (Jun, Z.AI)</dt><dd>753B/40B, 1M context; 62.1% SWE-Bench Pro, 81.0% Terminal-Bench 2.1 — above GPT-5.5 (~58.6%)</dd>
+      <dt>Why it matters</dt><dd>Open, self-hostable models reach closed-frontier coding just as the US restricts Anthropic's flagships abroad</dd>
+      <dt>Both available</dt><dd>Open weights on Hugging Face — deployable today, no export gate</dd>
+      <dt>Caveat</dt><dd>Scores from roundups/leaderboards, not re-run here; "beats GPT-5.5" is benchmark-specific; large self-host cost</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">9</b>/10 — every platform/dev team weighing build-vs-buy, export exposure and agent-coding stacks</dd>
     </dl>
   </aside>
 </article>
 
 <!-- ══════════ 30-SECOND READ ══════════ -->
 <section>
-  <div class="sec-head">The 30-Second Read <small>THE THREE CRITICALS</small></div>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
   <div class="triptych">
-    <article class="trip" data-story-id="anthropic-fable-mythos">
+    <article class="trip" data-story-id="open-weight-surge">
       <div class="num">1</div>
-      <h4>Day 12 dark — now it's a race against the Jul 1 clock</h4>
-      <p>Fable 5 &amp; Mythos 5 are still off worldwide; no deal is signed and the directive stands. Talks grind on (Lutnick on regular calls), Bloomberg says the crackdown claims a new federal power over deployed models, and allies have floated a "trusted partner" access lane — none agreed. Markets still price ~57% restoration before Jul 1, now eight days out.</p>
+      <h4>Open weights hit the closed frontier on coding</h4>
+      <p>MiniMax M3 (59.0%) and Z.AI's GLM-5.2 (62.1%) top open-weight SWE-Bench Pro and edge GPT-5.5 — self-hostable models that anyone can run, landing exactly as the US keeps Anthropic's flagships dark abroad. A genuine hedge on pricing and export risk. <strong>NEW.</strong></p>
     </article>
-    <article class="trip" data-story-id="spacex-cursor">
+    <article class="trip" data-story-id="anthropic-fable-mythos">
       <div class="num">2</div>
-      <h4>SpaceX's $60B Cursor deal — ~15x as ARR jumps</h4>
-      <p>SpaceX's all-stock agreement to buy Anysphere (Cursor) at a $60B valuation holds, now better-priced: Cursor's annualized revenue is reported around <strong>$4B</strong> (up from the ~$1B+ cited at signing), putting the deal near ~15x rather than ~60x. With xAI already inside SpaceX, the conglomerate owns model, app and the developer layer. Close expected Q3, subject to approvals. No new 24h developments.</p>
+      <h4>Anthropic blackout, Day 12 — clock to Jul 1</h4>
+      <p>Fable 5 &amp; Mythos 5 still off worldwide; no signed deal, directive stands. Bloomberg says Commerce has claimed a standing power over deployed models; allies floated a "trusted partner" lane (not agreed). Markets price ~57% restoration before Jul 1 — eight days out. <strong>DEVELOPING.</strong></p>
     </article>
-    <article class="trip" data-story-id="us-export-controls">
+    <article class="trip" data-story-id="agent-security">
       <div class="num">3</div>
-      <h4>Export-control precedent hardens into a power</h4>
-      <p>The model-level kill switch is twelve days live, with a named-official rationale (Lutnick: feared military-intelligence diversion) and a 76-name security revolt against it. Bloomberg now frames it as Commerce claiming a standing authority to police deployed frontier models — a precedent that outlasts the Anthropic case. Still no parallel order against OpenAI or Google.</p>
+      <h4>Prompt injection called a permanent flaw</h4>
+      <p>As agents go GA everywhere, security catches up: OWASP's #1 agentic threat, mapped to 6 of 10 categories; a LiteLLM supply-chain backdoor (47K downloads) and a Semantic Kernel prompt-to-RCE path show the "lethal trifecta" is live in production. <strong>NEW.</strong></p>
     </article>
   </div>
-  <p class="fold-line"><strong>BEHIND THE FOLD:</strong> An incremental couple of days (no Jun 22 edition) — the dominant thread stays Anthropic's Day-12 blackout, now a countdown to the Jul 1 market-implied window with talks unresolved and a reported "trusted partner" idea · GPT-5.6's release window is now open (Jun 22–28, Polymarket ~83%), with chatter some Pro users may already be seeing it and Jun 25 floated — no system card · SPCX slides to ~$165.78 on Jun 22 (prior close $185), ~$2.1T — the bounce reverses · John Jumper's (AlphaFold) move from Google DeepMind to Anthropic confirmed, with DeepMind→Anthropic departures reported near 11:1 · Anthropic's Seoul office + Samsung/LG/NAVER deployments carry · OpenAI S-1 quiet (~$1T target; Anthropic's late-May $65B round priced it ~$965B, above OpenAI) · DeepSeek's ~$7.4B round digesting, V4.1 expected in June · EU Aug 2 clock at 40 days · Gemini 3.5 Pro holds late-June (~50–55% by Jun 30); Grok V9-Medium reportedly arriving, Grok 5 ~33%. Also in window: June megarounds (Ramp $750M/$44B, Supabase $500M/$10.5B, Bezos-backed Flourish $500M). India quiet (RBI Jul 1 on the radar).</p>
+  <p class="fold-line"><strong>WHY THIS EDITION LOOKS DIFFERENT:</strong> new v2 format — a broadened scan (research, open-source, agents, hardware, security, vertical AI, India) surfaced <strong>10 genuinely new items</strong> the old narrow beat had been missing, now split into <em>New on the Wire</em> vs <em>Developing</em> (carried threads + what changed) vs <em>Still Tracking</em> (quiet long-runners). New today also includes NVIDIA's RTX Spark "AI PC" superchip + Vera CPUs in full production · Microsoft Agent 365 GA + NVIDIA's enterprise Agent Toolkit · India's Sarvam becomes a unicorn ($234M / $1.5B, HCLTech-led) · the Robin AI drug-discovery system (Nature) repurposing a glaucoma drug for macular degeneration · agent-reliability benchmarks (AgileThinker, AgentHallu) · June megarounds (Ramp $750M/$44B, Supabase $500M/$10.5B, Bezos-backed Flourish $500M) · OpenAI's "next phase of enterprise AI." Developing threads (Anthropic blackout, export-control precedent, GPT-5.6 window now open, SPCX's slide to ~$166, OpenAI/DeepSeek, EU Aug 2) carry below with explicit change-lines.</p>
 </section>
 
 <!-- ══════════ DEADLINE RADAR ══════════ -->
@@ -199,155 +211,211 @@
   <div class="radar" id="radar"></div>
 </section>
 
-<!-- ══════════ MOSAIC FEED ══════════ -->
+<!-- ══════════ MOVERS ══════════ -->
 <section>
-  <div class="sec-head">The Feed <small>15 STORIES · RANKED</small></div>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
   <div class="tabs">
-    <button class="tab active" data-cat="all">ALL (15)</button>
-    <button class="tab" data-cat="models">MODELS (4)</button>
-    <button class="tab" data-cat="business">BUSINESS (5)</button>
+    <button class="tab active" data-cat="all">ALL (18)</button>
+    <button class="tab" data-cat="models">MODELS (3)</button>
+    <button class="tab" data-cat="business">BUSINESS (6)</button>
     <button class="tab" data-cat="policy">POLICY (3)</button>
-    <button class="tab" data-cat="enterprise">ENTERPRISE (2)</button>
-    <button class="tab" data-cat="research">RESEARCH (1)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (3)</button>
+    <button class="tab" data-cat="research">RESEARCH (2)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (1)</button>
   </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>10 ITEMS · BROKE / SURFACED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="models" data-story-id="open-weight-surge">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">#1</span> <span class="cat">MODELS · OPEN-WEIGHT</span></div>
+      <h4>Open weights reach the closed frontier: MiniMax M3 &amp; GLM-5.2 top SWE-Bench Pro</h4>
+      <div class="body">The lead, in full above. Two open-weight releases this month now sit atop open coding leaderboards and edge GPT-5.5: <strong>MiniMax M3</strong> (Jun 1) at 59.0% SWE-Bench Pro with 1M context and native multimodality, and Z.AI's <strong>GLM-5.2</strong> (753B/40B, 1M context) at 62.1% — both self-hostable on <a href="https://huggingface.co/blog/daya-shankar/open-source-llms">Hugging Face</a> (<a href="https://kilo.ai/open-source-models">Kilo</a>). The geopolitics sharpen it: open weights from Chinese labs hit closed-frontier coding just as the US restricts Anthropic's best models abroad.</div>
+      <p class="sowhat">A self-hostable GPT-5.5-class coder rewrites build-vs-buy and export-exposure math — eval both this week and price an open-weight fallback before you need it.</p>
+      <div><span class="chip arc">ARC: OPEN-WEIGHT · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://huggingface.co/blog/daya-shankar/open-source-llms">Hugging Face</a> · <a href="https://kilo.ai/open-source-models">Kilo</a> · <a href="https://huggingface.co/blog/huggingface/state-of-os-hf-spring-2026">HF State of OSS</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="agent-security">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#2</span> <span class="cat">POLICY · SECURITY</span></div>
+      <h4>The agent-security reckoning: prompt injection called a permanent, not patchable, flaw</h4>
+      <div class="body">As agents go GA across the stack, the security bill arrives. Prompt injection is now OWASP's <strong>#1 agentic-AI threat</strong>, mapped to six of ten categories, and researchers increasingly frame it as a structural flaw rather than a bug to patch (<a href="https://www.helpnetsecurity.com/2026/06/11/owasp-prompt-injection-ai-security-failures/">Help Net Security</a>, <a href="https://www.techtimes.com/articles/318361/20260614/ai-agent-security-hits-its-reckoning-prompt-injection-may-permanent-flaw-not-patchable-bug.htm">TechTimes</a>). Recent proof: a <strong>LiteLLM</strong> supply-chain backdoor sat on PyPI for three hours with ~47,000 downloads (the gateway for CrewAI, DSPy, GraphRAG), and Microsoft showed a <strong>Semantic Kernel</strong> path turning a single prompt into host-level RCE (<a href="https://www.microsoft.com/en-us/security/blog/2026/05/07/prompts-become-shells-rce-vulnerabilities-ai-agent-frameworks/">Microsoft Security</a>). Simon Willison's "lethal trifecta" — private data + untrusted content + external comms — is the live failure mode.</div>
+      <p class="sowhat">If you're shipping agents, treat prompt injection as a permanent threat model, not a backlog ticket — isolate the trifecta, pin your framework deps, and assume any untrusted input can become code.</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.helpnetsecurity.com/2026/06/11/owasp-prompt-injection-ai-security-failures/">Help Net Security</a> · <a href="https://www.techtimes.com/articles/318361/20260614/ai-agent-security-hits-its-reckoning-prompt-injection-may-permanent-flaw-not-patchable-bug.htm">TechTimes</a> · <a href="https://www.microsoft.com/en-us/security/blog/2026/05/07/prompts-become-shells-rce-vulnerabilities-ai-agent-frameworks/">Microsoft Security</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="ms-agent365">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#3</span> <span class="cat">ENTERPRISE · AGENTS</span></div>
+      <h4>Microsoft Agent 365 hits GA — a control plane to govern agents across clouds</h4>
+      <div class="body">Microsoft's <strong>Agent 365</strong> is now generally available: a control plane to discover, govern and secure AI agents across Microsoft, AWS and Google Cloud, turning "shadow AI" into a managed asset class (<a href="https://futurumgroup.com/insights/microsoft-agent-365-turns-shadow-ai-into-a-governed-asset-class/">Futurum</a>). A Defender context-mapping capability arriving this month maps relationships between agents, devices, identities and reachable cloud resources to assess exposure — a direct answer to the agent-security problem in New #2. It lands in a month one analysis called the shift from "are agents real?" to "which part of my company gets agentized first?"</div>
+      <p class="sowhat">If agents are spreading faster than your governance, a cross-cloud control plane is now table stakes — inventory your deployed agents before a compliance or security review does it for you.</p>
+      <div><span class="chip arc">ARC: AGENT-LAYER · D1</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://futurumgroup.com/insights/microsoft-agent-365-turns-shadow-ai-into-a-governed-asset-class/">Futurum</a> · <a href="https://openai.com/index/next-phase-of-enterprise-ai/">OpenAI (enterprise context)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="hardware" data-story-id="nvidia-rubin-spark">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#4</span> <span class="cat">HARDWARE · NVIDIA</span></div>
+      <h4>NVIDIA's RTX Spark "AI PC" superchip and Vera CPUs in full production</h4>
+      <div class="body">At Computex (Jun 1), Jensen Huang introduced the <strong>RTX Spark</strong> — a CPU+GPU superchip (built with MediaTek) for "AI personal computers," shipping this fall in machines from Dell, HP, Lenovo, ASUS, Microsoft Surface and MSI, with the pitch that agents can run locally cheaper than in the cloud (<a href="https://nvidianews.nvidia.com/news/nvidia-microsoft-windows-pcs-agents-rtx-spark">NVIDIA</a>, <a href="https://www.cnbc.com/2026/06/02/nvidias-new-pc-chips-are-ceos-bid-to-own-every-part-of-ai-stack.html">CNBC</a>). NVIDIA also said its data-center <strong>Vera CPUs</strong> are in full production — "our new major growth driver" — with early customers including Anthropic, OpenAI and SpaceXAI, alongside the next-gen <strong>Rubin</strong> platform (<a href="https://www.aljazeera.com/economy/2026/6/1/nvidia-unveils-new-chip-to-bring-ai-directly-to-personal-computers">Al Jazeera</a>).</div>
+      <p class="sowhat">Local-first agent inference is becoming a hardware product, not a research demo — if your roadmap assumes cloud-only inference, the cost curve is about to move under you.</p>
+      <div><span class="chip arc">ARC: COMPUTE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://nvidianews.nvidia.com/news/nvidia-microsoft-windows-pcs-agents-rtx-spark">NVIDIA</a> · <a href="https://www.cnbc.com/2026/06/02/nvidias-new-pc-chips-are-ceos-bid-to-own-every-part-of-ai-stack.html">CNBC</a> · <a href="https://www.aljazeera.com/economy/2026/6/1/nvidia-unveils-new-chip-to-bring-ai-directly-to-personal-computers">Al Jazeera</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="sarvam-unicorn">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#5</span> <span class="cat">BUSINESS · INDIA</span></div>
+      <h4>Sarvam becomes India's newest AI unicorn — $234M Series B at $1.5B, HCLTech-led</h4>
+      <div class="body"><strong>Sarvam AI</strong> raised <strong>$234M</strong> in the first close of a Series B at a <strong>$1.5B</strong> post-money valuation (Jun 15) — India's newest AI unicorn. <strong>HCLTech</strong> led with a $150M strategic investment for >10%, with Bessemer joining alongside Khosla Ventures and Peak XV; the round targets $300M total (<a href="https://techcrunch.com/2026/06/15/sarvam-becomes-indias-newest-ai-unicorn-with-234-million-funding-round-led-by-hcltech/">TechCrunch</a>, <a href="https://beststartup.in/sarvam-ai-funding-2026/">BestStartup</a>). The money funds Sarvam's next frontier model in agentic AI, coding and cybersecurity, plus India-scale compute — part of a record ~$50B in AI funding to Indian startups by June.</div>
+      <p class="sowhat">India is building a sovereign frontier-model contender with a system-integrator (HCLTech) attached for distribution — watch Sarvam's coding/agentic model as the local alternative for India-data-residency buyers.</p>
+      <div><span class="chip arc">ARC: CAPITAL-WAVE · D12</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/06/15/sarvam-becomes-indias-newest-ai-unicorn-with-234-million-funding-round-led-by-hcltech/">TechCrunch</a> · <a href="https://beststartup.in/sarvam-ai-funding-2026/">BestStartup</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="research" data-story-id="robin-drug">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#6</span> <span class="cat">RESEARCH · HEALTH</span></div>
+      <h4>"Robin" AI drug-discovery system repurposes a glaucoma drug for macular degeneration</h4>
+      <div class="body">A Nature study (May 2026) introduces <strong>Robin</strong>, an AI system that, in a proof-of-concept for dry age-related macular degeneration, identified <strong>ripasudil</strong> — a glaucoma therapy — as a repurposing candidate and confirmed efficacy in lab experiments (<a href="https://www.drugtargetreview.com/2026-the-year-ai-stops-being-optional-in-drug-discovery/682243.article">Drug Target Review</a>). It lands as the sector enters a "builder" phase — NVIDIA's <strong>BioNeMo</strong> added new Clara open models and GPU cheminformatics tools — with 200+ AI-discovered drugs now in clinical development (94 Phase 1, 56 Phase 2, 15 Phase 3) but still <strong>zero FDA approvals</strong> (<a href="https://itif.org/publications/2026/06/02/ai-drug-discovery-systems-could-strengthen-biopharmaceutical-innovation/">ITIF</a>).</div>
+      <p class="sowhat">AI-native discovery is moving from target-ID to closing the loop on validated candidates — the read-through (Jumper→Anthropic, BioNeMo) is that science-grade infrastructure is the next frontier battleground.</p>
+      <div><span class="chip arc">ARC: AI-SCIENCE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.drugtargetreview.com/2026-the-year-ai-stops-being-optional-in-drug-discovery/682243.article">Drug Target Review</a> · <a href="https://itif.org/publications/2026/06/02/ai-drug-discovery-systems-could-strengthen-biopharmaceutical-innovation/">ITIF</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="megarounds">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#7</span> <span class="cat">BUSINESS · FUNDING</span></div>
+      <h4>June megarounds proliferate: Ramp, Supabase and a Bezos-backed brain-AI bet</h4>
+      <div class="body">The private-capital surge keeps widening beyond the frontier labs. Recent rounds: <strong>Ramp</strong> $750M at a <strong>$44B</strong> valuation; <strong>Supabase</strong> (the open-source/AI-app backend) $500M at <strong>$10.5B</strong>; and <strong>Flourish</strong>, a startup building brain-inspired AI models, $500M in initial funding from backers including <strong>Jeff Bezos</strong>, Lux Capital and Google Ventures (<a href="https://news.crunchbase.com/venture/biggest-funding-rounds-june-5-2026/">Crunchbase News</a>). It sits atop a record Q1 2026 — ~$300B into ~6,000 startups, with AI driving the bulk.</div>
+      <p class="sowhat">The capital is rotating from model labs to the AI application and infra layer (spend, backends, novel architectures) — a signal of where the next defensible businesses are being funded.</p>
+      <div><span class="chip arc">ARC: CAPITAL-WAVE · D12</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://news.crunchbase.com/venture/biggest-funding-rounds-june-5-2026/">Crunchbase News</a> · <a href="https://news.crunchbase.com/venture/record-breaking-funding-ai-global-q1-2026/">Crunchbase (Q1 record)</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="enterprise" data-story-id="nvidia-agent-stack">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#8</span> <span class="cat">ENTERPRISE · AGENTS</span></div>
+      <h4>NVIDIA opens an enterprise agent-development platform; 15+ ISVs sign on</h4>
+      <div class="body">NVIDIA launched an open <strong>Agent Toolkit</strong> / development platform for "knowledge work," with leading enterprise software vendors — Adobe, Atlassian, Box, Cadence, Cisco, CrowdStrike, Dassault, IQVIA, Red Hat, SAP, Salesforce, Siemens, ServiceNow and Synopsys — building agents on it (<a href="https://nvidianews.nvidia.com/news/ai-agents">NVIDIA</a>, <a href="https://nvidianews.nvidia.com/news/enterprise-software-leaders-build-ai-agents-with-nvidia">NVIDIA Newsroom</a>). Combined with Microsoft Agent 365 (New #3) and OpenAI's <a href="https://openai.com/index/next-phase-of-enterprise-ai/">"next phase of enterprise AI,"</a> the agent layer is consolidating into a vendor-backed software category, not a DIY experiment.</div>
+      <p class="sowhat">Agent orchestration is becoming a platform decision (NVIDIA vs Microsoft vs OpenAI) — pick where your agents are governed before each team picks a different stack.</p>
+      <div><span class="chip arc">ARC: AGENT-LAYER · D1</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://nvidianews.nvidia.com/news/ai-agents">NVIDIA</a> · <a href="https://nvidianews.nvidia.com/news/enterprise-software-leaders-build-ai-agents-with-nvidia">NVIDIA Newsroom</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="research" data-story-id="agent-research">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#9</span> <span class="cat">RESEARCH · AGENTS</span></div>
+      <h4>New agent-reliability benchmarks: AgileThinker (real-time) and AgentHallu (blame-the-step)</h4>
+      <div class="body">Two June arXiv lines target the gap between agent demos and dependable agents. <strong>AgileThinker</strong> runs a cheap reactive head and a deeper planner concurrently so agents stay both correct and on time under time pressure (trading, ops, robotics, live support) — single-paradigm agents degrade as pressure rises. <strong>AgentHallu</strong> is a 693-trajectory benchmark across 7 frameworks and 5 domains that tests whether a model can pinpoint <em>which</em> step in a multi-step run caused a hallucination, and why (<a href="https://www.buildthisnow.com/blog/guide/mechanics/ai-research-june-2026">Build This Now</a>, <a href="https://arxiv.org/list/cs.AI/current">arXiv cs.AI</a>).</div>
+      <p class="sowhat">Reliability tooling is maturing faster than headlines suggest — borrow these eval ideas (latency-aware correctness, step-level hallucination attribution) for your own agent test suite.</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D1</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://www.buildthisnow.com/blog/guide/mechanics/ai-research-june-2026">Build This Now</a> · <a href="https://arxiv.org/list/cs.AI/current">arXiv cs.AI</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="openai-enterprise">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#10</span> <span class="cat">ENTERPRISE · OPENAI</span></div>
+      <h4>OpenAI frames "the next phase of enterprise AI" around deployed agents</h4>
+      <div class="body">OpenAI published a positioning piece on <a href="https://openai.com/index/next-phase-of-enterprise-ai/">the next phase of enterprise AI</a>, leaning into deployed, governed agents as the unit of enterprise value — the same thesis Microsoft (Agent 365) and NVIDIA (Agent Toolkit) are racing to own. It dovetails with OpenAI's IPO run-up (Developing) and the GPT-5.6 window, positioning the enterprise-agent story as the revenue narrative ahead of any listing.</div>
+      <p class="sowhat">Three of the biggest vendors are now converging on "agents as the enterprise product" — expect aggressive bundling; keep your agent layer portable rather than locked to one provider's control plane.</p>
+      <div><span class="chip arc">ARC: AGENT-LAYER · D1</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://openai.com/index/next-phase-of-enterprise-ai/">OpenAI</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
   <div class="mosaic">
 
     <article class="card w3 crit" data-cat="models" data-story-id="anthropic-fable-mythos">
-      <div><span class="impact">IMPACT <b>10</b>/10</span><span class="rank">#1</span> <span class="cat">MODELS · NATIONAL SECURITY</span></div>
-      <h4>Day 12 of the blackout: Fable 5 &amp; Mythos 5 still dark — now a countdown to the Jul 1 window</h4>
-      <div class="body">The defining AI story stays open and unresolved twelve days on. Both flagship models remain disabled worldwide; all other Claude models are up. There is no signed deal and no formal lifting — the directive stands. Talks grind on: Anthropic's staff meet Commerce nearly daily and Secretary Lutnick holds regular calls as officials "work toward a deal" (<a href="https://www.theglobeandmail.com/business/article-anthropic-trump-officials-deal-restore-fable-5-mythos-5/">Globe and Mail</a>). The fresher thread is structural — Bloomberg reports the crackdown <a href="https://www.bloomberg.com/news/articles/2026-06-19/lutnick-s-anthropic-crackdown-claims-new-power-over-ai-models">claims a new federal power over deployed models</a> — and G7 sources say allies have floated a <strong>"trusted partner"</strong> access lane for vetted nations or firms, with nothing agreed. The concrete clock is the market: Kalshi prices ~57% restoration before Jul 1 (eight days out), ~67% before Jul 10 (<a href="https://news.kalshi.com/p/fable-5-odds-anthropic-access-restored-july-57-percent">Kalshi</a>). Allies remain cut off — the ban "further strains alliances" (<a href="https://www.aljazeera.com/news/2026/6/19/us-export-ban-on-anthropics-ai-models-further-strains-alliances">Al Jazeera</a>). Full brief above.</div>
-      <p class="sowhat">The rhetoric softened last week but nothing is signed and the calendar is now the story — with Jul 1 eight days out, keep the fallback live and the migration priced, and assume any switch-back lands nationality-gated or via a "trusted partner" gate, not a clean reversal.</p>
+      <div><span class="impact">IMPACT <b>10</b>/10</span><span class="rank">D1</span> <span class="cat">MODELS · NATIONAL SECURITY</span></div>
+      <h4>Day 12: Fable 5 &amp; Mythos 5 still dark — a countdown to the Jul 1 window</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Clock moved, not the situation: still no signed deal; Bloomberg now frames Commerce as claiming a standing power over deployed models; G7 sources say allies floated a "trusted partner" access lane (reported, not agreed). Jul 1 market window now 8 days out.</div>
+      <div class="body">Both flagship models remain disabled worldwide; all other Claude models are up. Anthropic's staff meet Commerce nearly daily and Lutnick holds regular calls as officials "work toward a deal" (<a href="https://www.theglobeandmail.com/business/article-anthropic-trump-officials-deal-restore-fable-5-mythos-5/">Globe and Mail</a>). Bloomberg reports the crackdown <a href="https://www.bloomberg.com/news/articles/2026-06-19/lutnick-s-anthropic-crackdown-claims-new-power-over-ai-models">claims a new federal power over deployed models</a>. Kalshi prices ~57% restoration before Jul 1, ~67% before Jul 10 (<a href="https://news.kalshi.com/p/fable-5-odds-anthropic-access-restored-july-57-percent">Kalshi</a>); the ban "further strains alliances" (<a href="https://www.aljazeera.com/news/2026/6/19/us-export-ban-on-anthropics-ai-models-further-strains-alliances">Al Jazeera</a>).</div>
+      <p class="sowhat">Nothing is signed and the calendar is the story — keep the fallback live (open weights now qualify; see the lead) and assume any switch-back is nationality-gated, not clean.</p>
       <div><span class="chip arc">ARC: MODEL-WAVE · D14</span><span class="chip">2x SRC</span></div>
-      <div class="src"><a href="https://www.theglobeandmail.com/business/article-anthropic-trump-officials-deal-restore-fable-5-mythos-5/">Globe and Mail</a> · <a href="https://www.bloomberg.com/news/articles/2026-06-19/lutnick-s-anthropic-crackdown-claims-new-power-over-ai-models">Bloomberg</a> · <a href="https://news.kalshi.com/p/fable-5-odds-anthropic-access-restored-july-57-percent">Kalshi</a> · <a href="https://www.aljazeera.com/news/2026/6/19/us-export-ban-on-anthropics-ai-models-further-strains-alliances">Al Jazeera</a></div>
-    </article>
-
-    <article class="card w3 crit" data-cat="business" data-story-id="spacex-cursor">
-      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">#2</span> <span class="cat">BUSINESS · M&amp;A</span></div>
-      <h4>SpaceX's $60B all-stock deal for Cursor parent Anysphere — recast at ~15x as ARR is reported near $4B</h4>
-      <div class="body">Landmark, and better-priced than it first looked. SpaceX's Jun 16 merger agreement to acquire Anysphere — maker of Cursor — values it at <strong>$60 billion</strong>, all in stock; subsidiary X67 Inc. merges into Anysphere, with the share count set on SpaceX's seven-day VWAP at closing (expected Q3 2026, subject to approvals). The wrinkle that re-rates the deal: Cursor's annualized recurring revenue is reported around <strong>$4 billion</strong> (<a href="https://www.tradingkey.com/analysis/stocks/us-stocks/261970297-spacex-spcx-cursor-arr-acquire-tradingkey">TradingKey</a>), well above the ~$1B+ cited at signing — putting the price near ~15x ARR rather than ~60x. The logic is vertical: with xAI already folded into SpaceX, the freshly public entity now owns the coding tool reportedly used to train Grok's coding models — capturing model, app and the developer-distribution layer in one stack (<a href="https://www.cnbc.com/2026/06/16/spacex-spcx-cursor-acquisition-ipo.html">CNBC</a>). No new developments in the past 24h.</div>
-      <p class="sowhat">A higher ARR makes the $60B look like a growth multiple, not a moonshot — if your stack rides Cursor, map your exposure to SpaceX/xAI governance and pricing before the Q3 close.</p>
-      <div><span class="chip arc">ARC: CONSOLIDATION · D7</span><span class="chip">2x SRC</span></div>
-      <div class="src"><a href="https://www.cnbc.com/2026/06/16/spacex-spcx-cursor-acquisition-ipo.html">CNBC</a> · <a href="https://techcrunch.com/2026/06/16/spacex-to-acquire-cursor-for-60b-in-stock-days-after-blockbuster-ipo/">TechCrunch</a> · <a href="https://www.tradingkey.com/analysis/stocks/us-stocks/261970297-spacex-spcx-cursor-arr-acquire-tradingkey">TradingKey (ARR ~$4B)</a> · <a href="https://qz.com/spacex-acquiring-cursor-anysphere-60-billion-stock-deal-061726">Quartz</a></div>
+      <div class="src"><a href="https://www.theglobeandmail.com/business/article-anthropic-trump-officials-deal-restore-fable-5-mythos-5/">Globe and Mail</a> · <a href="https://www.bloomberg.com/news/articles/2026-06-19/lutnick-s-anthropic-crackdown-claims-new-power-over-ai-models">Bloomberg</a> · <a href="https://news.kalshi.com/p/fable-5-odds-anthropic-access-restored-july-57-percent">Kalshi</a></div>
     </article>
 
     <article class="card w3 crit" data-cat="policy" data-story-id="us-export-controls">
-      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#3</span> <span class="cat">POLICY · US</span></div>
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">D2</span> <span class="cat">POLICY · US</span></div>
       <h4>The model-level export-control precedent hardens into a claimed federal power</h4>
-      <div class="body">The Jun 12 order is now an established precedent — and, per Bloomberg, an institutionalized one. Washington moved from restricting chips to suspending a deployed frontier model on national-security grounds, and has held it twelve days; Bloomberg reports that in doing so Lutnick's Commerce Department has effectively <a href="https://www.bloomberg.com/news/articles/2026-06-19/lutnick-s-anthropic-crackdown-claims-new-power-over-ai-models">claimed a standing authority to police deployed AI models</a>, a power that outlasts the Anthropic case. Trump's Axios remark that Anthropic is "not now" a threat (today's #1) eases the politics but does not undo the action; the directive remains in force. It sits atop the Jun 2 executive order <a href="https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/">"Promoting Advanced AI Innovation and Security,"</a> which set up a secure-deployment framework with up to 30 days of voluntary government early access (<a href="https://www.cfr.org/articles/assessing-trumps-executive-order-on-ai-oversight">CFR</a>). The reasoning is on the record: Commerce Secretary <a href="https://www.usnews.com/news/top-news/articles/2026-06-15/anthropic-and-us-officials-meeting-monday-to-resolve-dispute-over-export-curbs-administration-official-says">Lutnick said</a> officials feared diversion to military-intelligence users in China, Russia or other countries of concern. Pushback persists: a <strong>76-signatory</strong> open letter argues the models are "not uniquely good" and China's are "only months behind," and the EU Commission warned the curbs "should not be discriminatory" (<a href="https://www.euronews.com/my-europe/2026/06/14/us-export-controls-on-anthropic-should-not-be-discriminatory-eu-commission-warns">Euronews</a>). No parallel directive against OpenAI or Google has surfaced.</div>
-      <p class="sowhat">Every US frontier lab now has a worked example of a cabinet-level model suspension — and a stated claim that the power is permanent. War-game a national-security shutoff this quarter and document your nationality-gating capability regardless of how the Anthropic case ends.</p>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Bloomberg reframes the action: Commerce isn't just holding one model offline, it's asserting a standing authority to police deployed frontier models — a precedent that outlasts the Anthropic case. No parallel order against OpenAI/Google yet.</div>
+      <div class="body">Twelve days in, the Jun 12 order is an established precedent — and, per <a href="https://www.bloomberg.com/news/articles/2026-06-19/lutnick-s-anthropic-crackdown-claims-new-power-over-ai-models">Bloomberg</a>, an institutionalized one. It sits atop the Jun 2 EO <a href="https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/">"Promoting Advanced AI Innovation and Security."</a> Lutnick's on-record rationale is feared diversion to military intelligence in China/Russia (<a href="https://www.usnews.com/news/top-news/articles/2026-06-15/anthropic-and-us-officials-meeting-monday-to-resolve-dispute-over-export-curbs-administration-official-says">US News</a>); a 76-signatory letter opposes it and the EU warns it "should not be discriminatory" (<a href="https://www.euronews.com/my-europe/2026/06/14/us-export-controls-on-anthropic-should-not-be-discriminatory-eu-commission-warns">Euronews</a>).</div>
+      <p class="sowhat">Every US lab now has a worked example of a cabinet-level model suspension framed as a permanent power — war-game a national-security shutoff and document nationality-gating this quarter.</p>
       <div><span class="chip arc">ARC: REG-CLOCK · D14</span><span class="chip">2x SRC</span></div>
-      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-06-19/lutnick-s-anthropic-crackdown-claims-new-power-over-ai-models">Bloomberg</a> · <a href="https://www.usnews.com/news/top-news/articles/2026-06-15/anthropic-and-us-officials-meeting-monday-to-resolve-dispute-over-export-curbs-administration-official-says">US News</a> · <a href="https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/">White House EO</a> · <a href="https://www.euronews.com/my-europe/2026/06/14/us-export-controls-on-anthropic-should-not-be-discriminatory-eu-commission-warns">Euronews</a></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-06-19/lutnick-s-anthropic-crackdown-claims-new-power-over-ai-models">Bloomberg</a> · <a href="https://www.usnews.com/news/top-news/articles/2026-06-15/anthropic-and-us-officials-meeting-monday-to-resolve-dispute-over-export-curbs-administration-official-says">US News</a> · <a href="https://www.euronews.com/my-europe/2026/06/14/us-export-controls-on-anthropic-should-not-be-discriminatory-eu-commission-warns">Euronews</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="business" data-story-id="spacex-cursor">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">D3</span> <span class="cat">BUSINESS · M&amp;A</span></div>
+      <h4>SpaceX's $60B all-stock deal for Cursor parent Anysphere — ~15x as ARR nears $4B</h4>
+      <div class="delta-line nochange"><span class="dl-tag">NO CHANGE</span> No new developments since the Jun 16 signing; close still expected Q3 on SpaceX's seven-day VWAP. Held as Developing for its structural weight; demotes to Tracking if quiet next edition.</div>
+      <div class="body">SpaceX's merger to acquire Anysphere (Cursor) values it at <strong>$60B</strong>, all stock; Cursor's reported ~<strong>$4B</strong> ARR puts the price near ~15x rather than ~60x (<a href="https://www.tradingkey.com/analysis/stocks/us-stocks/261970297-spacex-spcx-cursor-arr-acquire-tradingkey">TradingKey</a>). With xAI already inside SpaceX, the public entity now owns model, app and the developer layer (<a href="https://www.cnbc.com/2026/06/16/spacex-spcx-cursor-acquisition-ipo.html">CNBC</a>).</div>
+      <p class="sowhat">If your stack rides Cursor, map exposure to SpaceX/xAI governance and pricing before the Q3 close.</p>
+      <div><span class="chip arc">ARC: CONSOLIDATION · D7</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/06/16/spacex-spcx-cursor-acquisition-ipo.html">CNBC</a> · <a href="https://www.tradingkey.com/analysis/stocks/us-stocks/261970297-spacex-spcx-cursor-arr-acquire-tradingkey">TradingKey (ARR ~$4B)</a></div>
     </article>
 
     <article class="card w3 note" data-cat="models" data-story-id="openai-gpt56">
-      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#4</span> <span class="cat">MODELS · RUMOR</span></div>
-      <h4>GPT-5.6's release window is now open — Jun 22–28, with chatter some Pro users may already be on it</h4>
-      <div class="body"><span class="chip rumor">RUMOR-FLAG</span> The closest model event to landing. The <a href="https://polymarket.com/event/gpt-5pt6-released-by">Polymarket</a> window OpenAI is tracked against — <strong>Jun 22–28, ~83%</strong> — is now live, and the chatter sharpened over the weekend: power users report visibly better ChatGPT outputs, an AI researcher suggested some Pro subscribers may already be receiving GPT-5.6 responses, and <strong>Jun 25</strong> is floated as a possible public date (<a href="https://true-tech.net/openai-gpt-5-6-launch-report/">true-tech</a>, <a href="https://memeburn.com/what-is-gpt-5-6-openais-next-ai-model-is-already-being-tested-inside-chatgpt/">Memeburn</a>). The substance is still leak-based: chief scientist Jakub Pachocki reportedly called it a "meaningful improvement" over GPT-5.5 (<a href="https://www.techtimes.com/articles/318492/20260616/gpt-56-openai-chief-scientist-calls-it-meaningful-leap-june-launch-nears.htm">TechTimes</a>); leaks point to a ~1.5M-token context (up from 1M), a reasoning-effort budget raised 768→960, sharper agentic coding and faster Codex responses, with the model surfacing in OpenAI's own Codex logs (<a href="https://wavespeed.ai/blog/posts/gpt-5-6-canary-leak-what-we-know/">WaveSpeed</a>). OpenAI has still issued <strong>no formal announcement, system card or API string</strong> — but the timing is conspicuous, a cheaper Mythos-substitute landing while Anthropic's flagships stay dark.</div>
-      <p class="sowhat">If you lost Fable/Mythos access, GPT-5.6 is the most likely near-term landing spot and its window is open now — stand up an eval harness this week, but hold any migration until a system card and API string actually exist.</p>
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">D4</span> <span class="cat">MODELS · RUMOR</span></div>
+      <h4>GPT-5.6's release window is now open — Jun 22–28, chatter of early Pro access</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Escalated: the Polymarket window opened Jun 22; weekend chatter says some Pro users may already be seeing GPT-5.6 and Jun 25 is floated as a public date. Still no system card or API string.</div>
+      <div class="body"><span class="chip rumor">RUMOR-FLAG</span> The closest model event to landing. Chief scientist Pachocki reportedly called it a "meaningful improvement" over GPT-5.5 (<a href="https://www.techtimes.com/articles/318492/20260616/gpt-56-openai-chief-scientist-calls-it-meaningful-leap-june-launch-nears.htm">TechTimes</a>); leaks point to ~1.5M context, a reasoning budget raised 768→960, and the model surfacing in OpenAI's Codex logs (<a href="https://wavespeed.ai/blog/posts/gpt-5-6-canary-leak-what-we-know/">WaveSpeed</a>). <a href="https://polymarket.com/event/gpt-5pt6-released-by">Polymarket</a> prices the Jun 22–28 window ~83%.</div>
+      <p class="sowhat">If you lost Fable/Mythos, GPT-5.6 is a likely landing spot and its window is open — stand up an eval harness now, but hold migration until a system card exists.</p>
       <div><span class="chip arc">ARC: MODEL-WAVE · D14</span><span class="chip rumor">RUMOR-FLAG</span></div>
-      <div class="src"><a href="https://www.techtimes.com/articles/318492/20260616/gpt-56-openai-chief-scientist-calls-it-meaningful-leap-june-launch-nears.htm">TechTimes</a> · <a href="https://wavespeed.ai/blog/posts/gpt-5-6-canary-leak-what-we-know/">WaveSpeed (Codex leak)</a> · <a href="https://true-tech.net/openai-gpt-5-6-launch-report/">true-tech</a> · <a href="https://polymarket.com/event/gpt-5pt6-released-by">Polymarket</a></div>
-    </article>
-
-    <article class="card w3 note" data-cat="research" data-story-id="jumper-talent">
-      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#5</span> <span class="cat">RESEARCH · TALENT</span></div>
-      <h4>Nobel laureate John Jumper's move to Anthropic confirmed — DeepMind→Anthropic departures reported near 11:1</h4>
-      <div class="body">A marquee defection, now settled. <strong>John Jumper</strong> — DeepMind VP, co-creator of AlphaFold and 2024 Nobel laureate in chemistry — is leaving Google DeepMind after nearly nine years to join <strong>Anthropic</strong>, confirmed across outlets after his Jun 19 announcement (<a href="https://www.bloomberg.com/news/articles/2026-06-19/nobel-winner-john-jumper-to-leave-google-deepmind-for-anthropic">Bloomberg</a>, <a href="https://www.cnbc.com/2026/06/19/john-jumper-to-leave-google-deepmind-for-anthropic.html">CNBC</a>, <a href="https://techcrunch.com/2026/06/20/nobel-laureate-john-jumper-is-leaving-deepmind-for-rival-anthropic/">TechCrunch</a>). The move fits Anthropic's life-sciences push — it paid ~$400M in stock for stealth biotech Coefficient Bio in April — and the broader pull is striking: industry analyses cited in the coverage put DeepMind→Anthropic engineering departures at nearly <strong>11 to 1</strong>. It follows Gemini co-lead Noam Shazeer's reported move to OpenAI days earlier, a rough stretch of senior losses for Google's AI core even as Gemini 3.5 Pro nears GA. Jumper's exact Anthropic role is still undisclosed.</div>
-      <p class="sowhat">Top-tier researchers are voting with their feet toward the labs building science-grade infrastructure — read an 11:1 outflow as a leading indicator of where frontier bio/science capability concentrates next, not a one-off.</p>
-      <div><span class="chip arc">ARC: TALENT · D3</span><span class="chip">2x SRC</span></div>
-      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-06-19/nobel-winner-john-jumper-to-leave-google-deepmind-for-anthropic">Bloomberg</a> · <a href="https://www.cnbc.com/2026/06/19/john-jumper-to-leave-google-deepmind-for-anthropic.html">CNBC</a> · <a href="https://techcrunch.com/2026/06/20/nobel-laureate-john-jumper-is-leaving-deepmind-for-rival-anthropic/">TechCrunch</a></div>
-    </article>
-
-    <article class="card w2 note" data-cat="enterprise" data-story-id="anthropic-seoul-korea">
-      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#6</span> <span class="cat">ENTERPRISE · DISTRIBUTION</span></div>
-      <h4>Anthropic's Seoul office and Samsung / LG / NAVER deployments carry — in a market its top models can't serve</h4>
-      <div class="body">The sharpest split-screen of the blackout holds. On Jun 17 Anthropic opened its Seoul office — its third in Asia-Pacific after Tokyo and Bengaluru, led by former Snowflake Korea GM KiYoung Choi — and announced a wave of enterprise deployments: <strong>NAVER</strong> (Claude Code), <strong>Samsung SDS</strong> (Claude Cowork and Claude Code across Samsung Electronics), <strong>LG CNS</strong> (Claude across LG Group), <strong>Nexon</strong>, <strong>Hanwha Solutions</strong> (via AWS Bedrock) and <strong>Channel Corp</strong> (Channel Talk, 230,000+ businesses), plus a research tie-in with KAIST, Korea University, Yonsei and POSTECH (<a href="https://www.anthropic.com/news/seoul-office-partnerships-korean-ai-ecosystem">Anthropic</a>, <a href="https://www.koreatimes.co.kr/amp/business/tech-science/20260618/anthropic-opens-seoul-office-to-expand-ties-with-korean-ai-ecosystem">Korea Times</a>). The optics are unavoidable: Anthropic is committing to Korea even as the US export ban cuts Korean access to Fable 5 and Mythos 5 — analysts read it as a pre-IPO growth signal (<a href="https://www.benzinga.com/markets/tech/26/06/53267847/anthropic-eyes-south-korea-expansion-ahead-of-ipo-with-seoul-office-and-partnerships">Benzinga</a>).</div>
-      <p class="sowhat">The land-grab continues on the older Claude line while the flagships sit dark — if you're a Korea-based buyer, the deployments are real but your access tier is capped at Opus-class until the blackout lifts; plan procurement around that gap.</p>
-      <div><span class="chip arc">ARC: DISTRIBUTION · D4</span><span class="chip">2x SRC</span></div>
-      <div class="src"><a href="https://www.anthropic.com/news/seoul-office-partnerships-korean-ai-ecosystem">Anthropic</a> · <a href="https://www.koreatimes.co.kr/amp/business/tech-science/20260618/anthropic-opens-seoul-office-to-expand-ties-with-korean-ai-ecosystem">Korea Times</a> · <a href="https://www.benzinga.com/markets/tech/26/06/53267847/anthropic-eyes-south-korea-expansion-ahead-of-ipo-with-seoul-office-and-partnerships">Benzinga</a></div>
+      <div class="src"><a href="https://www.techtimes.com/articles/318492/20260616/gpt-56-openai-chief-scientist-calls-it-meaningful-leap-june-launch-nears.htm">TechTimes</a> · <a href="https://wavespeed.ai/blog/posts/gpt-5-6-canary-leak-what-we-know/">WaveSpeed</a> · <a href="https://polymarket.com/event/gpt-5pt6-released-by">Polymarket</a></div>
     </article>
 
     <article class="card w2 note" data-cat="business" data-story-id="spcx-pricing">
-      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#7</span> <span class="cat">BUSINESS · IPO</span></div>
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D5</span> <span class="cat">BUSINESS · IPO</span></div>
       <h4>SPCX slides to ~$165.78 / ~$2.1T — the bounce reverses</h4>
-      <div class="body">The rebound didn't hold. SpaceX traded around <strong>$165.78</strong> on Jun 22, down from a <strong>$185</strong> prior close — roughly an 11% session give-back — for a market value near <strong>$2.1T</strong> (<a href="https://finance.yahoo.com/quote/SPCX/">Yahoo Finance</a>, <a href="https://www.investing.com/equities/spacex">Investing.com</a>). It's still up ~23% from the $135 IPO price, but the tape since the Jun 12 debut stays violent in both directions: +19% day one, a surge past Amazon, a ~$2.94T peak, and a 52-week range already spanning <strong>$135–$225.64</strong> (<a href="https://www.cnbc.com/2026/06/12/spacex-ipo-spcx-live-updates.html">CNBC</a>). Analyst sentiment is split — average 12-month target ~$188 (a Buy), but estimates span $62 to $310 (<a href="https://www.tradingview.com/symbols/NASDAQ-SPCX/">TradingView</a>). With xAI inside, SPCX remains the first public-market mark touching a frontier lab — and the live bellwether for the 2026 AI/space listing pipeline, OpenAI included.</div>
-      <p class="sowhat">The whipsaw is the signal: a stock that can shed ~11% in a session is trading on sentiment, not fundamentals — size any SPCX exposure for volatility and read it as the real-time gauge of AI-IPO risk appetite as OpenAI eyes the same window.</p>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Down ~11% in a session: ~$165.78 on Jun 22 from a $185 prior close, ~$2.1T; 52-week range now $135–$225.64.</div>
+      <div class="body">The rebound didn't hold (<a href="https://finance.yahoo.com/quote/SPCX/">Yahoo Finance</a>, <a href="https://www.investing.com/equities/spacex">Investing.com</a>). Still up ~23% from the $135 IPO, but the tape stays violent (debut +19%, ~$2.94T peak). Analyst avg target ~$188 (Buy), range $62–$310 (<a href="https://www.tradingview.com/symbols/NASDAQ-SPCX/">TradingView</a>). With xAI inside, SPCX is the live bellwether for the AI-IPO pipeline.</div>
+      <p class="sowhat">A stock that sheds ~11% in a session is trading on sentiment — read it as the real-time gauge of AI-IPO appetite as OpenAI eyes the same window.</p>
       <div><span class="chip arc">ARC: IPO-WAVE · D14</span><span class="chip">2x SRC</span></div>
-      <div class="src"><a href="https://finance.yahoo.com/quote/SPCX/">Yahoo Finance</a> · <a href="https://www.investing.com/equities/spacex">Investing.com</a> · <a href="https://www.tradingview.com/symbols/NASDAQ-SPCX/">TradingView</a> · <a href="https://www.cnbc.com/2026/06/12/spacex-ipo-spcx-live-updates.html">CNBC (debut)</a></div>
+      <div class="src"><a href="https://finance.yahoo.com/quote/SPCX/">Yahoo Finance</a> · <a href="https://www.investing.com/equities/spacex">Investing.com</a> · <a href="https://www.tradingview.com/symbols/NASDAQ-SPCX/">TradingView</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="deepseek-raise">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D6</span> <span class="cat">BUSINESS · FUNDING</span></div>
+      <h4>DeepSeek's ~$7.4B round digesting — V4.1 expected, Huawei-Ascend co-design</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Product threads attach: DeepSeek reported lining up a V4.1 release this month, and V4 was co-designed with Huawei's Ascend 950DT chip (day-zero optimization) — a domestic-silicon hedge.</div>
+      <div class="body">DeepSeek closed its first external round (>$7.4B, >50B yuan) at >$50B — Liang ~20B, Tencent ~10B, CATL ~5B, plus the National AI Industry Investment Fund — into a Liang-managed LP where commercial investors get no votes (<a href="https://pandaily.com/deepseek-51-billion-series-a-funding-jun2026">Pandaily</a>, <a href="https://www.trendingtopics.eu/deepseek-raises-7-4-billion-only-the-chinese-state-gets-voting-rights/">Trending Topics</a>). It pairs with the permanent V4-Pro 75% price cut (<a href="https://www.infoworld.com/article/4176709/deepseeks-steep-v4-pro-price-cut-escalates-ai-pricing-war.html">InfoWorld</a>).</div>
+      <p class="sowhat">State-anchored capital + Huawei silicon + a price floor is China's supply-side answer to US export pressure — watch the V4.1 drop and the margin squeeze it sustains.</p>
+      <div><span class="chip arc">ARC: CAPITAL-WAVE · D12</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://pandaily.com/deepseek-51-billion-series-a-funding-jun2026">Pandaily</a> · <a href="https://www.trendingtopics.eu/deepseek-raises-7-4-billion-only-the-chinese-state-gets-voting-rights/">Trending Topics</a> · <a href="https://www.infoworld.com/article/4176709/deepseeks-steep-v4-pro-price-cut-escalates-ai-pricing-war.html">InfoWorld</a></div>
     </article>
 
     <article class="card w2 note" data-cat="business" data-story-id="openai-s1">
-      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#8</span> <span class="cat">BUSINESS · IPO</span></div>
-      <h4>OpenAI S-1 quiet — $1T target, but the company says timing "may be a while"</h4>
-      <div class="body">No new filings; the standing picture holds — confidential draft S-1 (confirmed Jun 8), with Goldman, Morgan Stanley and JPMorgan leading, and a debut floated as early as September into Q4. OpenAI itself has cautioned it has "not decided on timing" and a listing "may be a while." The headline target is up to <strong>$1 trillion</strong> if growth holds; pre-IPO marks sit lower, in the <strong>$730B–$852B</strong> range, with the official number set only at the roadshow (<a href="https://cryptobriefing.com/openai-ipo-filing-trillion-valuation/">Crypto Briefing</a>, <a href="https://www.indmoney.com/blog/us-stocks/openai-ipo-valuation-financials-risks">INDmoney</a>). The competitive twist: rival <strong>Anthropic</strong>'s late-May <strong>$65B</strong> round priced it near <strong>$965B</strong> — reportedly the first private mark to top OpenAI (<a href="https://www.indmoney.com/blog/us-stocks/openai-ipo-valuation-financials-risks">INDmoney</a>). Bloomberg pegs the combined AI-IPO pipeline near <strong>$3.6T</strong> (<a href="https://www.investing.com/analysis/the-trilliondollar-ipo-test-spacex-and-openai-face-public-markets-200680688">Investing.com</a>). The financials underline the gamble: a >$25B annualized run rate against a large forecast 2026 loss; SPCX's volatile tape is the live comp.</div>
-      <p class="sowhat">A fresh flagship is the bull case for flipping the S-1 public this fall — but OpenAI is signaling patience, and SPCX's ~11% slide just reminded the pipeline how unforgiving the public window can be.</p>
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D7</span> <span class="cat">BUSINESS · IPO</span></div>
+      <h4>OpenAI S-1 quiet — $1T target, but timing "may be a while"</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> New context: rival Anthropic's late-May $65B round priced it ~$965B — reportedly the first private mark to top OpenAI; OpenAI reiterates timing "may be a while."</div>
+      <div class="body">Confidential draft S-1 (confirmed Jun 8); Goldman/Morgan Stanley/JPMorgan leading; ~$1T target above ~$730–852B marks, official number set at the roadshow (<a href="https://cryptobriefing.com/openai-ipo-filing-trillion-valuation/">Crypto Briefing</a>, <a href="https://www.indmoney.com/blog/us-stocks/openai-ipo-valuation-financials-risks">INDmoney</a>). Combined AI-IPO pipeline ~$3.6T (<a href="https://www.investing.com/analysis/the-trilliondollar-ipo-test-spacex-and-openai-face-public-markets-200680688">Investing.com</a>).</div>
+      <p class="sowhat">OpenAI is signaling patience, and SPCX's slide just reminded the pipeline how unforgiving the public window can be.</p>
       <div><span class="chip arc">ARC: IPO-WAVE · D14</span><span class="chip">2x SRC</span></div>
       <div class="src"><a href="https://cryptobriefing.com/openai-ipo-filing-trillion-valuation/">Crypto Briefing</a> · <a href="https://www.indmoney.com/blog/us-stocks/openai-ipo-valuation-financials-risks">INDmoney</a> · <a href="https://www.investing.com/analysis/the-trilliondollar-ipo-test-spacex-and-openai-face-public-markets-200680688">Investing.com</a></div>
     </article>
 
-    <article class="card w2 note" data-cat="business" data-story-id="deepseek-raise">
-      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#9</span> <span class="cat">BUSINESS · FUNDING</span></div>
-      <h4>DeepSeek's ~$7.4B round digesting — V4.1 expected this month, Huawei-Ascend co-design surfaces</h4>
-      <div class="body">Settled, and being put to work. DeepSeek closed its first-ever external round Jun 16, raising more than <strong>$7.4B</strong> (over 50B yuan) at a valuation above <strong>$50B</strong> — China's most valuable AI startup. Founder Liang Wenfeng put in ~20B yuan, Tencent ~10B yuan, battery giant <strong>CATL</strong> ~5B yuan, with China's National AI Industry Investment Fund also participating. The structure is the story: capital flows into a Liang-managed limited partnership with a state-anchored control design — commercial investors get no votes (<a href="https://www.trendingtopics.eu/deepseek-raises-7-4-billion-only-the-chinese-state-gets-voting-rights/">Trending Topics</a>, <a href="https://pandaily.com/deepseek-51-billion-series-a-funding-jun2026">Pandaily</a>). Two product threads now attach: DeepSeek is reported to be lining up a <strong>V4.1</strong> release this month as it lifts cadence, and coverage says V4 was co-designed with Huawei's <strong>Ascend 950DT</strong> chip with day-zero optimization access — a domestic-silicon hedge against US export pressure. It pairs with the permanent V4-Pro <strong>75% price cut</strong> (~$0.87/M output) undercutting GPT-5, Gemini and Claude (<a href="https://www.infoworld.com/article/4176709/deepseeks-steep-v4-pro-price-cut-escalates-ai-pricing-war.html">InfoWorld</a>).</div>
-      <p class="sowhat">State-anchored capital, a Huawei-silicon path and a permanent price floor are the supply-side counter to US export pressure — watch a V4.1 drop and the pricing war it sustains squeeze Western margins.</p>
-      <div><span class="chip arc">ARC: CAPITAL-WAVE · D12</span><span class="chip">2x SRC</span></div>
-      <div class="src"><a href="https://pandaily.com/deepseek-51-billion-series-a-funding-jun2026">Pandaily</a> · <a href="https://www.trendingtopics.eu/deepseek-raises-7-4-billion-only-the-chinese-state-gets-voting-rights/">Trending Topics</a> · <a href="https://www.infoworld.com/article/4176709/deepseeks-steep-v4-pro-price-cut-escalates-ai-pricing-war.html">InfoWorld (price cut)</a></div>
-    </article>
-
-    <article class="card w3 note" data-cat="policy" data-story-id="eu-labelling-cop">
-      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#10</span> <span class="cat">POLICY · EU</span></div>
+    <article class="card w2 note" data-cat="policy" data-story-id="eu-labelling-cop">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D8</span> <span class="cat">POLICY · EU</span></div>
       <h4>EU clock: 40 days to Aug 2 transparency + GPAI enforcement</h4>
-      <div class="body">Near steady state, calendar ticking. From <strong>Aug 2</strong> the AI Act brings Article 50 transparency duties (disclosure when users interact with AI; labelling of synthetic media) plus the start of the Commission's GPAI enforcement powers — documentation/information requests, model evaluations, compliance/risk-mitigation measures, and fines up to the greater of €15M or 3% of global turnover (<a href="https://www.lw.com/en/insights/eu-ai-act-gpai-model-obligations-in-force-and-final-gpai-code-of-practice-in-place">Latham</a>, <a href="https://artificialintelligenceact.eu/">artificialintelligenceact.eu</a>). The GPAI Code of Practice (transparency, copyright, safety &amp; security) is the practical compliance tool; signing carries a "presumption of conformity." The safety chapter binds only the ~5–15 systemic-risk providers above 10^25 FLOP; ~24 firms (Anthropic, Google, Microsoft, Mistral, OpenAI and others) have signed. A separate Digital Omnibus postponement of some high-risk obligations remains provisionally agreed, not yet formally adopted — Aug 2 transparency and GPAI enforcement still stand.</div>
-      <p class="sowhat">The Aug 2 enforcement switch is 40 days out — if your synthetic-media labelling and Article 50 transparency workstreams aren't staffed, they're late.</p>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Calendar only: 42→40 days. Article 50 transparency + GPAI enforcement powers (fines up to €15M/3% turnover) still switch on Aug 2; Digital Omnibus high-risk postponement still provisional.</div>
+      <div class="body">From Aug 2 the AI Act brings synthetic-media labelling, AI-interaction disclosure and the Commission's GPAI enforcement (<a href="https://www.lw.com/en/insights/eu-ai-act-gpai-model-obligations-in-force-and-final-gpai-code-of-practice-in-place">Latham</a>, <a href="https://artificialintelligenceact.eu/">artificialintelligenceact.eu</a>). The GPAI Code (signing = presumption of conformity) is the practical tool; the safety chapter binds only ~5–15 systemic-risk providers (&gt;10^25 FLOP); ~24 firms have signed.</div>
+      <p class="sowhat">40 days out — if your Article 50 labelling and transparency workstreams aren't staffed, they're late.</p>
       <div><span class="chip arc">ARC: REG-CLOCK · D14</span><span class="chip">2x SRC</span></div>
       <div class="src"><a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai">EU Digital Strategy</a> · <a href="https://artificialintelligenceact.eu/">artificialintelligenceact.eu</a> · <a href="https://www.lw.com/en/insights/eu-ai-act-gpai-model-obligations-in-force-and-final-gpai-code-of-practice-in-place">Latham</a></div>
     </article>
 
-    <article class="card w2 mon" data-cat="business" data-story-id="anthropic-sub-split">
-      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#11</span> <span class="cat">BUSINESS · PRICING</span></div>
-      <h4>Anthropic's Agent SDK credit split: the first billing cycle keeps running</h4>
-      <div class="body">Operational steady state. Since Jun 15, Agent SDK calls, claude -p, Claude Code GitHub Actions and third-party agents draw from a dedicated monthly credit billed at standard API list prices — $20 (Pro), $100 (Max 5x), $200 (Max 20x), non-rollover and per-user. Interactive Claude Code, Cowork and chat stay on subscription limits; Claude 4 retired the same day. Once a pool runs dry, automated requests stop unless overflow billing is on — no auto-fallback. Several days in, the surprises land as teams watch their first pools draw down: a $20 Pro pool covers only ~30–50 medium agent tasks/month at Sonnet 4.6 rates (<a href="https://thenewstack.io/anthropic-agent-sdk-credits/">The New Stack</a>).</div>
-      <p class="sowhat">At API rates a small pool can evaporate in one busy CI day — finish auditing which automations ride your subscription and enable overflow only where you can afford it.</p>
-      <div><span class="chip arc">ARC: DISTRIBUTION · D14</span><span class="chip">2x SRC</span></div>
-      <div class="src"><a href="https://thenewstack.io/anthropic-agent-sdk-credits/">The New Stack</a> · <a href="https://codersera.com/blog/anthropic-june-2026-billing-change-claude-code/">Codersera</a></div>
-    </article>
-
-    <article class="card w2 mon" data-cat="models" data-story-id="gemini-35-pro-watch">
-      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#12</span> <span class="cat">MODELS · WATCH</span></div>
-      <h4>Gemini 3.5 Pro watch: late June still the line — no GA date</h4>
-      <div class="body">Nothing new in 24h; the watch holds. The shape is unchanged from the May 19 I/O preview: a 2M-token context window, "Deep Think" reasoning, frontier multimodality, pricing expected near $15/$60 per M tokens; Flash already shipped as the default, and Pro is in limited Vertex preview pending GA (<a href="https://www.techtimes.com/articles/317919/20260606/google-gemini-35-pro-nears-june-launch-2-million-token-context-deep-think-reasoning.htm">TechTimes</a>). Pichai's "give us until next month" guidance still points to a June GA with no committed date — Polymarket prices a release by Jun 30 near 50–55%. With Apple's Siri now riding a custom Gemini model and Anthropic's flagships dark into a second week, Google's distribution position keeps strengthening — even as it loses senior researchers (today's #4) before Pro lands.</div>
-      <p class="sowhat">Holding large Pro-tier migration decisions another fortnight remains the cheap option — the supply landscape just got more volatile, not less.</p>
-      <div><span class="chip arc">ARC: MODEL-WAVE · D14</span><span class="chip">2x SRC</span></div>
-      <div class="src"><a href="https://www.techtimes.com/articles/317919/20260606/google-gemini-35-pro-nears-june-launch-2-million-token-context-deep-think-reasoning.htm">TechTimes</a> · <a href="https://wavespeed.ai/blog/posts/gemini-3-5-pro-coming-next-month/">WaveSpeed</a> · <a href="https://codersera.com/blog/gemini-3-5-pro-launch-guide-2026/">Codersera</a></div>
-    </article>
-
-    <article class="card w2 mon" data-cat="models" data-story-id="grok5-rumor">
-      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#13</span> <span class="cat">MODELS · RUMOR</span></div>
-      <h4>Grok V9-Medium reportedly arriving; Grok 5 still undated (~33% by Jun 30)</h4>
-      <div class="body"><span class="chip rumor">RUMOR-FLAG</span> Holding — and newly resonant given SpaceX's Cursor buy. The 1.5T "Grok V9-Medium" — explicitly Cursor-trained to chase a coding lead — finished training in late May with a "mid-June" window now open; some coverage reports it arriving alongside the Cursor deal, though xAI has issued no formal launch note in this scan (<a href="https://www.techtimes.com/articles/318495/20260616/grok-v9-medium-arrives-spacex-seals-cursor-developers-face-model-choice-risk.htm">TechTimes</a>). The flagship ~6T-parameter Grok 5 keeps training on Colossus 2 in Memphis, with no official date; Polymarket gives it roughly a one-in-three chance of shipping by Jun 30. Already live per xAI: Grok 4.3 now GA on Amazon Bedrock (1M context, configurable reasoning), plus Grok Imagine Video 1.5. SpaceX's acquisition of Cursor's parent now puts that training pipeline in-house.</div>
-      <p class="sowhat">Don't reserve eval bandwidth on Grok 5 timing — V9-Medium is the realistic near-term drop; if it lands this week, benchmark its coding claims against your incumbent before committing.</p>
-      <div><span class="chip arc">ARC: MODEL-WAVE · D14</span><span class="chip rumor">RUMOR-FLAG</span></div>
-      <div class="src"><a href="https://www.techtimes.com/articles/318495/20260616/grok-v9-medium-arrives-spacex-seals-cursor-developers-face-model-choice-risk.htm">TechTimes</a> · <a href="https://releasebot.io/updates/xai">Releasebot (xAI)</a> · <a href="https://felloai.com/all-we-know-so-far-about-grok-5/">FelloAI (Grok 5)</a></div>
-    </article>
-
-    <article class="card w2 mon" data-cat="enterprise" data-story-id="wwdc-siri-extensions">
-      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#14</span> <span class="cat">PLATFORMS · DISTRIBUTION</span></div>
-      <h4>WWDC's Gemini-Siri and iOS 27 Extensions remain in developers' hands</h4>
-      <div class="body">Day 13, holding: no new developments, the action is in betas. Siri's cloud intelligence now runs on a ~1.2T-parameter custom Google Gemini model (a multi-year deal reported near $1B/yr), with on-device models handling simple queries; iOS/iPadOS/macOS 27 add an "Extensions" system to swap Claude, ChatGPT or Gemini across Apple Intelligence. Developer betas opened Jun 9; public betas mid-July; ships in the fall. It was Tim Cook's final keynote before he becomes chairman Sep 1. The optics sharpen by the day: Apple leaned on Gemini just as a US lab's flagship went dark (<a href="https://www.macrumors.com/2026/06/08/apple-reveals-new-ai-architecture/">MacRumors</a>).</div>
-      <p class="sowhat">If you build an assistant, treat the July public beta as your Extensions integration deadline — distribution is consolidating around Google and Apple.</p>
-      <div><span class="chip arc">ARC: DISTRIBUTION · D15</span><span class="chip">2x SRC</span></div>
-      <div class="src"><a href="https://www.macrumors.com/2026/06/08/apple-reveals-new-ai-architecture/">MacRumors</a> · <a href="https://www.techtimes.com/articles/317985/20260608/apple-wwdc-2026-siri-rebuilt-gemini-homeos-previewed-cook-farewell-keynote.htm">TechTimes</a></div>
-    </article>
-
-    <article class="card w2 mon" data-cat="policy" data-story-id="us-preemption">
-      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#15</span> <span class="cat">POLICY · US</span></div>
-      <h4>Great American AI Act quiet — overshadowed by the export-control fight</h4>
-      <div class="body">Holding, and overshadowed. The Obernolte–Trahan draft saw no new developments in 24h — the week's policy oxygen went to the export-control action, the 76-name security revolt and the Jun 2 executive order. The standing picture holds: the opposition wall (ACLU letter, unions, House Democratic commission) stands; law-firm analyses (DLA Piper, Fisher Phillips) and the Future of Privacy Forum continue to unpack the three-year development-law preemption against state frontier-AI statutes. The deployment-law carve-out remains the load-bearing distinction. No hearing is scheduled.</div>
-      <p class="sowhat">Still a draft with hostile arithmetic — keep building to the strictest applicable state law while the lobbying runs.</p>
-      <div><span class="chip arc">ARC: REG-CLOCK · D14</span><span class="chip">2x SRC</span></div>
-      <div class="src"><a href="https://www.dlapiper.com/en-us/insights/publications/2026/06/unpacking-the-great-american-ai-act">DLA Piper</a> · <a href="https://fpf.org/blog/frontier-ai-goes-federal-how-the-great-american-ai-act-compares-to-state-laws/">FPF</a></div>
-    </article>
-
   </div>
+</section>
+
+<!-- ══════════ STILL TRACKING ══════════ -->
+<section>
+  <div class="sec-head">Still Tracking <small>LONG-RUNNERS WITH NO MOVEMENT THIS EDITION</small></div>
+  <div class="tracking-strip" id="tracking-strip"></div>
 </section>
 
 <!-- ══════════ RESOLVED ══════════ -->
@@ -361,10 +429,10 @@
 <!-- ══════════ FOOTER ══════════ -->
 <footer>
   <div class="wrap">
-    <p><strong>AI DAILY SIGNAL · EDITION 013 · 2026-06-23 (IST)</strong></p>
-    <p>METHOD: 12 web searches across frontier models, business/funding/IPO/M&amp;A, regulation (EU/US/India), research, open-source and enterprise adoption; primary 24h window widened to 72h because no edition ran on Jun 22 (covers Jun 21–23). Aggregator claims cross-checked against ≥2 outlets where possible; single-source and rumor items are chip-flagged. Impact /10 = breadth of who must act. Tiers: CRITICAL act this week · NOTABLE informs this month · MONITOR trajectory.</p>
-    <p>KNOWN SCAN GAPS THIS EDITION: an incremental window with no fresh frontier launch — no edition ran Jun 22, so this covers Jun 21–23. The Anthropic blackout remains the dominant story: Fable 5 and Mythos 5 are still disabled worldwide on Day 12, with no signed deal and no formal lifting; restoration probability rests on prediction-market pricing (Kalshi ~57% before Jul 1, ~67% before Jul 10). Bloomberg's framing that Commerce has "claimed a new power over AI models" is its characterization of the precedent, not a separately announced authority; the "trusted partner" framework is attributed to G7 diplomatic sources, is reported-not-agreed, and is not confirmed by Commerce — treat it as soft. SPCX's ~$165.78/~$2.1T rests on Jun 22 market data (Yahoo Finance, Investing.com, TradingView); the figure is volatile, trackers diverge, and it is not re-checked at IST close (the 52-week range $135–$225.64 reflects the intraday swings). GPT-5.6 stays RUMOR-FLAGGED: no formal OpenAI announcement, system card or API string; the Jun 22–28 window and Jun 25 date are leak/Polymarket-based, and the "some Pro users already on it" and Codex-log claims are unverified power-user reports. OpenAI's $1T target sits above its ~$730–852B pre-IPO marks and OpenAI has said timing "may be a while"; Anthropic's ~$965B late-May mark and the reported 11:1 DeepMind→Anthropic outflow are from secondary coverage, not primary filings. The $60B SpaceX–Anysphere/Cursor deal and Cursor's reported ~$4B ARR (TradingKey) carry unchanged with no new 24h developments. DeepSeek's ~$7.4B round is reported closed; the V4.1 timing and Huawei Ascend 950DT co-design are from trade/regional outlets and pre-audit. Gemini 3.5 Pro and Grok 5 remain undated (Polymarket ~50–55% / ~33% by Jun 30); Grok V9-Medium is reported arriving but lacks a formal xAI launch note. Also in window but stale: DeepSeek's late-May price cut, Microsoft's seven MAI models (Build, Jun 2), June megarounds (Ramp $750M/$44B, Supabase $500M/$10.5B, Bezos-backed Flourish $500M) noted as context only. India regulatory window quiet (RBI Jul 1 dark-pattern Directions on the radar; MeitY synthetic-content labelling rules in force since Feb 20; DPDP consent rules due later in 2026). Meta, Mistral and Qwen had no qualifying new frontier announcement in this scan (Qwen3.7 Plus noted in trackers but undated here); no standalone frontier research paper broke inside the window.</p>
-    <p>NOTE: Links point to sources found during the scan; where only an outlet root was available it is labelled as such. Nothing here is investment advice.</p>
+    <p><strong>AI DAILY SIGNAL · EDITION 013 · 2026-06-23 (IST) · FORMAT v2</strong></p>
+    <p>METHOD: 22 web searches across frontier models, open-source/open-weight, agents &amp; tooling, AI security, hardware/compute, research (arXiv/Nature), business/funding/IPO/M&amp;A, regulation (EU/US/India) and vertical AI (health). v2 format splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING (long-runners with no movement). Hero = biggest new item unless a developing thread had a major escalation. Target ≥10 new items; thin days fall back to "quiet day." Aggregator claims cross-checked against ≥2 outlets where possible; single-source and rumor items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+    <p>KNOWN SCAN GAPS THIS EDITION: this is the first v2 run and a catch-up edition — the broadened beat surfaced ten items the prior narrow scan had missed, several dated earlier in June (MiniMax M3 Jun 1, GLM-5.2 June, NVIDIA RTX Spark/Computex Jun 1, Microsoft Agent 365, Sarvam Jun 15, Robin/Nature May, June megarounds) rather than strictly within 24h; they qualify as NEW because their ids were absent from prior editions, and dates are labelled. Open-weight benchmark figures (MiniMax M3 59.0% / GLM-5.2 62.1% SWE-Bench Pro) come from open-weight roundups and coding leaderboards (Hugging Face, Kilo), not independently re-run here; "edges GPT-5.5" is benchmark-specific. Microsoft Agent 365 GA and the NVIDIA agent platform rest partly on single vendor/analyst sources (Futurum, NVIDIA newsroom) and are chip-flagged. The agent-security items (Help Net, TechTimes, Microsoft Security) describe a trajectory, not a new single incident on Jun 23. Developing threads: Anthropic blackout Day 12 with no signed deal (Bloomberg's "new power" is its framing, the "trusted partner" idea is G7-sourced and not agreed); GPT-5.6 stays RUMOR-FLAGGED (no system card/API string); SPCX ~$165.78/$2.1T is volatile Jun 22 data not re-checked at IST close; OpenAI ~$1T target above ~$730–852B marks; DeepSeek V4.1 timing and Huawei Ascend co-design are trade/regional reports, pre-audit. India: Sarvam unicorn confirmed (TechCrunch); RBI Jul 1 dark-pattern Directions on the radar; MeitY synthetic-content rules in force since Feb 20; DPDP consent rules due later 2026. Still Tracking holds Jumper→Anthropic (settled), Anthropic Seoul deployments, Gemini 3.5 Pro watch, Grok V9-Medium/Grok 5, WWDC Gemini-Siri, Agent SDK credit-split and the Great American AI Act — all without material movement this edition.</p>
+    <p>NOTE: Links point to sources found during the scan; where only an outlet root or roundup was available it is labelled as such. Nothing here is investment advice.</p>
   </div>
 </footer>
 
@@ -374,39 +442,62 @@
   "edition": 13,
   "date": "2026-06-23",
   "tz": "Asia/Kolkata",
-  "scanCount": 12,
-  "tiers": {"critical": 3, "notable": 7, "monitor": 5},
+  "format": "v2",
+  "scanCount": 22,
+  "counts": {"new": 10, "developing": 8, "tracking": 7},
+  "tiers": {"critical": 5, "notable": 11, "monitor": 2},
   "stories": [
-    {"id":"anthropic-fable-mythos","rank":1,"title":"Day 12 of the blackout: Fable 5 & Mythos 5 still disabled worldwide; no signed deal, directive not lifted; deal track grinds on (Lutnick on regular calls, staff meeting Commerce nearly daily); Bloomberg frames the crackdown as Commerce claiming a new power over deployed AI models; G7 sources say allies floated a 'trusted partner' access lane (reported, not agreed); Kalshi ~57% restored before Jul 1 (8 days out), ~67% before Jul 10; ban 'further strains alliances' (Al Jazeera)","tier":"critical","impact":10,"delta":"carry","arc":"model-wave","arcDay":14,"confidence":"2x src","new24h":false,"category":"models"},
-    {"id":"spacex-cursor","rank":2,"title":"SpaceX's $60B all-stock Anysphere/Cursor deal (Jun 16) holds, recast as Cursor ARR reported ~$4B (up from ~$1B+ at signing) — ~15x rather than ~60x; X67 Inc. merges into Anysphere, share count on SpaceX seven-day VWAP, close Q3; with xAI inside, captures model + app + developer layer; no new 24h developments","tier":"critical","impact":9,"delta":"carry","arc":"consolidation","arcDay":7,"confidence":"2x src","new24h":false,"category":"business"},
-    {"id":"us-export-controls","rank":3,"title":"Model-level export-control precedent hardens: Bloomberg reports Commerce has claimed a standing authority to police deployed frontier models (not just chips), a power that outlasts the Anthropic case; directive still in force at Day 12; sits atop the Jun 2 EO 'Promoting Advanced AI Innovation and Security'; on-record rationale (Lutnick feared diversion to military intelligence in China/Russia); 76-signatory defenders' letter; EU warns curbs 'should not be discriminatory'; still no parallel OpenAI/Google order","tier":"critical","impact":8,"delta":"carry","arc":"reg-clock","arcDay":14,"confidence":"2x src","new24h":false,"category":"policy"},
-    {"id":"openai-gpt56","rank":4,"title":"GPT-5.6 release window now OPEN (Jun 22-28, Polymarket ~83%); weekend chatter says some Pro users may already be receiving GPT-5.6 responses and Jun 25 is floated as a public date; chief scientist Pachocki reportedly called it a 'meaningful improvement' over GPT-5.5; leaks point to ~1.5M context (up from 1M), reasoning-effort budget 768->960, stronger agentic coding, model surfacing in OpenAI Codex logs; still no formal announcement, system card or API string","tier":"notable","impact":8,"delta":"escalated","arc":"model-wave","arcDay":14,"confidence":"Rumor-flag","new24h":true,"category":"models"},
-    {"id":"jumper-talent","rank":5,"title":"Nobel laureate John Jumper (AlphaFold co-creator, 2024 Chemistry) confirmed leaving Google DeepMind after ~9 years for Anthropic (Bloomberg, CNBC, TechCrunch); fits Anthropic's life-sciences push (Coefficient Bio ~$400M acqui-hire in April); coverage cites DeepMind->Anthropic engineering departures near 11:1; follows Gemini co-lead Noam Shazeer's reported move to OpenAI; Jumper's exact role undisclosed","tier":"notable","impact":7,"delta":"carry","arc":"talent","arcDay":3,"confidence":"2x src","new24h":false,"category":"research"},
-    {"id":"anthropic-seoul-korea","rank":6,"title":"Anthropic Seoul office (Jun 17, third APAC after Tokyo/Bengaluru, led by KiYoung Choi) + enterprise deployments — NAVER (Claude Code), Samsung SDS (Cowork+Code across Samsung Electronics), LG CNS (LG Group), Nexon, Hanwha Solutions (via AWS Bedrock), Channel Corp (Channel Talk, 230,000+ businesses); + research tie-in (KAIST/Korea Univ/Yonsei/POSTECH) — committing to a market its top models can't serve under the export ban; read as pre-IPO growth signal","tier":"notable","impact":7,"delta":"carry","arc":"distribution","arcDay":4,"confidence":"2x src","new24h":false,"category":"enterprise"},
-    {"id":"spcx-pricing","rank":7,"title":"SPCX slides to ~$165.78 on Jun 22 from a $185 prior close (~11% session give-back) for ~$2.1T, still up ~23% from the $135 IPO; bounce reverses; 52-week range $135-$225.64; tape remains violent (debut +19%, ~$2.94T peak); analyst avg target ~$188 (Buy), range $62-$310; first public-market mark touching a frontier lab (xAI inside) and AI-IPO bellwether","tier":"notable","impact":6,"delta":"carry","arc":"ipo-wave","arcDay":14,"confidence":"2x src","new24h":true,"category":"business"},
-    {"id":"openai-s1","rank":8,"title":"OpenAI S-1 quiet; confidential draft (confirmed Jun 8), Goldman/Morgan Stanley/JPMorgan leading; ~$1T target if growth holds, above ~$730-852B pre-IPO marks; OpenAI cautions timing 'may be a while'; rival Anthropic's late-May $65B round priced it ~$965B, reportedly first private mark to top OpenAI; Bloomberg pegs combined AI-IPO pipeline ~$3.6T; debut floated Sept into Q4","tier":"notable","impact":6,"delta":"carry","arc":"ipo-wave","arcDay":14,"confidence":"2x src","new24h":false,"category":"business"},
-    {"id":"deepseek-raise","rank":9,"title":"DeepSeek's ~$7.4B maiden round (closed Jun 16, >50B yuan) at >$50B digesting — China's most valuable AI startup; Liang ~20B yuan, Tencent ~10B yuan, CATL ~5B yuan, National AI Industry Investment Fund also in; Liang-managed LP, state-anchored control (no votes for commercial investors); V4.1 reported expected this month; V4 co-designed with Huawei Ascend 950DT (day-zero optimization); pairs with permanent V4-Pro 75% price cut (~$0.87/M output)","tier":"notable","impact":6,"delta":"carry","arc":"capital-wave","arcDay":12,"confidence":"2x src","new24h":false,"category":"business"},
-    {"id":"eu-labelling-cop","rank":10,"title":"EU clock: 40 days to Aug 2 Article 50 transparency + GPAI enforcement + sandboxes; penalties up to €15M/3% turnover; signing the GPAI Code gives a 'presumption of conformity'; safety chapter binds only ~5-15 systemic-risk providers (>10^25 FLOP); ~24 firms signed; Digital Omnibus high-risk postponement provisionally agreed, not yet formally adopted","tier":"notable","impact":6,"delta":"carry","arc":"reg-clock","arcDay":14,"confidence":"2x src","new24h":false,"category":"policy"},
-    {"id":"anthropic-sub-split","rank":11,"title":"Anthropic Agent SDK credit split: first billing cycle running (since Jun 15) — $20/$100/$200 non-rollover pools at API rates; Claude 4 retired same day; no auto-fallback once credit runs dry; a $20 Pro pool covers only ~30-50 medium agent tasks/month","tier":"monitor","impact":6,"delta":"carry","arc":"distribution","arcDay":14,"confidence":"2x src","new24h":false,"category":"business"},
-    {"id":"gemini-35-pro-watch","rank":12,"title":"Gemini 3.5 Pro watch: late June GA still the line, limited Vertex preview as of Jun 19 (not in consumer app/AI Studio), Polymarket ~50-55% by Jun 30, no committed date; 2M context, Deep Think, ~$15/$60 expected; Siri-Gemini win + Fable/Mythos blackout strengthen Google's hand even as it loses Jumper/Shazeer","tier":"monitor","impact":5,"delta":"carry","arc":"model-wave","arcDay":14,"confidence":"2x src","new24h":false,"category":"models"},
-    {"id":"grok5-rumor","rank":13,"title":"Grok V9-Medium (1.5T, Cursor-trained) reported arriving but no formal xAI launch note this scan; Grok 5 undated (~33% by Jun 30, ~6T params training on Colossus 2); Grok 4.3 GA on Amazon Bedrock + Imagine Video 1.5 live; SpaceX (which absorbed xAI in Feb) now puts the Cursor training pipeline in-house","tier":"monitor","impact":5,"delta":"carry","arc":"model-wave","arcDay":14,"confidence":"Rumor-flag","new24h":false,"category":"models"},
-    {"id":"wwdc-siri-extensions","rank":14,"title":"WWDC Gemini-Siri (~1.2T custom Gemini, ~$1B/yr) + iOS 27 Extensions in developer betas; public beta mid-July, ships fall; Cook's final keynote","tier":"monitor","impact":5,"delta":"carry","arc":"distribution","arcDay":15,"confidence":"2x src","new24h":false,"category":"enterprise"},
-    {"id":"us-preemption","rank":15,"title":"Great American AI Act quiet: no hearing scheduled, no new motion this window; preemption fight stands, eclipsed by the export-control action, the security revolt and the Jun 2 executive order","tier":"monitor","impact":4,"delta":"carry","arc":"reg-clock","arcDay":14,"confidence":"2x src","new24h":false,"category":"policy"}
+    {"id":"open-weight-surge","section":"new","rank":1,"title":"Open weights reach the closed frontier: MiniMax M3 (Jun 1, 59.0% SWE-Bench Pro, 1M context, multimodal) and Z.AI GLM-5.2 (753B/40B, 1M context, 62.1% SWE-Bench Pro, 81.0% Terminal-Bench 2.1) top open-weight coding and edge GPT-5.5 (~58.6%); self-hostable on Hugging Face; lands as the US restricts Anthropic's flagships abroad","tier":"critical","impact":9,"delta":"new","arc":"open-weight","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-06-23","lastUpdate":"2026-06-23","category":"models"},
+    {"id":"agent-security","section":"new","rank":2,"title":"Agent-security reckoning: prompt injection now OWASP's #1 agentic threat (6 of 10 categories), increasingly framed as a permanent flaw not a patchable bug; LiteLLM supply-chain backdoor (~47K downloads in 3h), Microsoft Semantic Kernel prompt->host RCE; 'lethal trifecta' live in production","tier":"critical","impact":8,"delta":"new","arc":"agent-security","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-06-23","lastUpdate":"2026-06-23","category":"policy"},
+    {"id":"ms-agent365","section":"new","rank":3,"title":"Microsoft Agent 365 hits GA — control plane to discover/govern/secure agents across Microsoft, AWS and Google Cloud; Defender context-mapping this month maps agent-device-identity-resource relationships; turns shadow AI into a governed asset class","tier":"notable","impact":7,"delta":"new","arc":"agent-layer","arcDay":1,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-06-23","lastUpdate":"2026-06-23","category":"enterprise"},
+    {"id":"nvidia-rubin-spark","section":"new","rank":4,"title":"NVIDIA RTX Spark 'AI PC' superchip (CPU+GPU with MediaTek; Dell/HP/Lenovo/ASUS/Surface/MSI this fall) + Vera data-center CPUs in full production ('new major growth driver', early customers Anthropic/OpenAI/SpaceXAI) + next-gen Rubin platform; Computex Jun 1","tier":"notable","impact":7,"delta":"new","arc":"compute","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-06-23","lastUpdate":"2026-06-23","category":"hardware"},
+    {"id":"sarvam-unicorn","section":"new","rank":5,"title":"Sarvam AI becomes India's newest AI unicorn: $234M Series B first close at $1.5B post-money (Jun 15), HCLTech-led ($150M for >10%), Bessemer/Khosla/Peak XV; $300M target; funds next frontier model in agentic AI/coding/cybersecurity + India-scale compute","tier":"notable","impact":6,"delta":"new","arc":"capital-wave","arcDay":12,"confidence":"2x src","new24h":false,"firstSeen":"2026-06-23","lastUpdate":"2026-06-23","category":"business"},
+    {"id":"robin-drug","section":"new","rank":6,"title":"'Robin' AI drug-discovery system (Nature, May 2026) repurposed glaucoma drug ripasudil for dry age-related macular degeneration and confirmed efficacy in lab; NVIDIA BioNeMo adds Clara open models + GPU cheminformatics; 200+ AI-discovered drugs in clinical dev (94 P1/56 P2/15 P3), zero FDA approvals","tier":"notable","impact":6,"delta":"new","arc":"ai-science","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-06-23","lastUpdate":"2026-06-23","category":"research"},
+    {"id":"megarounds","section":"new","rank":7,"title":"June megarounds widen beyond labs: Ramp $750M at $44B; Supabase $500M at $10.5B; Flourish (brain-inspired AI) $500M from Jeff Bezos/Lux/GV; atop record Q1 2026 (~$300B into ~6,000 startups, AI-led)","tier":"notable","impact":6,"delta":"new","arc":"capital-wave","arcDay":12,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-06-23","lastUpdate":"2026-06-23","category":"business"},
+    {"id":"nvidia-agent-stack","section":"new","rank":8,"title":"NVIDIA opens an enterprise Agent Toolkit/development platform; Adobe, Atlassian, Box, Cadence, Cisco, CrowdStrike, Dassault, IQVIA, Red Hat, SAP, Salesforce, Siemens, ServiceNow, Synopsys building agents on it; agent layer consolidating into a vendor-backed category (with Microsoft Agent 365, OpenAI enterprise)","tier":"notable","impact":6,"delta":"new","arc":"agent-layer","arcDay":1,"confidence":"Primary","new24h":false,"firstSeen":"2026-06-23","lastUpdate":"2026-06-23","category":"enterprise"},
+    {"id":"agent-research","section":"new","rank":9,"title":"Agent-reliability research: AgileThinker (concurrent reactive head + deep planner to stay correct AND on time under time pressure) and AgentHallu (693-trajectory benchmark across 7 frameworks/5 domains for step-level hallucination attribution); June arXiv","tier":"monitor","impact":5,"delta":"new","arc":"agent-security","arcDay":1,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-06-23","lastUpdate":"2026-06-23","category":"research"},
+    {"id":"openai-enterprise","section":"new","rank":10,"title":"OpenAI publishes 'the next phase of enterprise AI', leaning into deployed/governed agents as the unit of enterprise value — same thesis as Microsoft Agent 365 and NVIDIA Agent Toolkit; dovetails with the IPO run-up and GPT-5.6 window","tier":"monitor","impact":5,"delta":"new","arc":"agent-layer","arcDay":1,"confidence":"Primary","new24h":false,"firstSeen":"2026-06-23","lastUpdate":"2026-06-23","category":"enterprise"},
+    {"id":"anthropic-fable-mythos","section":"developing","rank":1,"title":"Day 12: Fable 5 & Mythos 5 still disabled worldwide; no signed deal, directive stands; Bloomberg frames Commerce as claiming a standing power over deployed models; G7 sources say allies floated a 'trusted partner' lane (not agreed); Kalshi ~57% before Jul 1 (8 days out), ~67% before Jul 10","tier":"critical","impact":10,"delta":"carry","arc":"model-wave","arcDay":14,"confidence":"2x src","new24h":false,"update":"Clock moved not the situation; Bloomberg 'new power' framing; trusted-partner idea reported not agreed; Jul 1 window 8 days out","firstSeen":"2026-06-12","lastUpdate":"2026-06-23","category":"models"},
+    {"id":"us-export-controls","section":"developing","rank":2,"title":"Model-level export-control precedent hardens: Bloomberg reports Commerce has claimed a standing authority to police deployed frontier models, a precedent beyond the Anthropic case; sits atop the Jun 2 EO; Lutnick rationale (military-intel diversion); 76-signatory letter; EU 'should not be discriminatory'; no parallel OpenAI/Google order","tier":"critical","impact":8,"delta":"carry","arc":"reg-clock","arcDay":14,"confidence":"2x src","new24h":false,"update":"Bloomberg reframes the action as a claimed standing federal power over deployed models","firstSeen":"2026-06-12","lastUpdate":"2026-06-23","category":"policy"},
+    {"id":"spacex-cursor","section":"developing","rank":3,"title":"SpaceX's $60B all-stock Anysphere/Cursor deal (Jun 16) holds, ~15x as Cursor ARR reported ~$4B; close Q3 on SpaceX seven-day VWAP; with xAI inside, captures model+app+developer layer","tier":"critical","impact":9,"delta":"carry","arc":"consolidation","arcDay":7,"confidence":"2x src","new24h":false,"update":"No new developments since Jun 16 signing; held for structural weight, demotes to Tracking if quiet next edition","firstSeen":"2026-06-16","lastUpdate":"2026-06-21","category":"business"},
+    {"id":"openai-gpt56","section":"developing","rank":4,"title":"GPT-5.6 release window now OPEN (Jun 22-28, Polymarket ~83%); chatter some Pro users may already be on it, Jun 25 floated; Pachocki 'meaningful improvement'; leaks: ~1.5M context, reasoning budget 768->960, Codex-log sightings; still no system card or API string","tier":"notable","impact":8,"delta":"escalated","arc":"model-wave","arcDay":14,"confidence":"Rumor-flag","new24h":true,"update":"Escalated: window opened Jun 22; early-access chatter and Jun 25 floated date","firstSeen":"2026-06-11","lastUpdate":"2026-06-23","category":"models"},
+    {"id":"spcx-pricing","section":"developing","rank":5,"title":"SPCX slides to ~$165.78 on Jun 22 from a $185 prior close (~11% session drop), ~$2.1T, up ~23% from the $135 IPO; 52-week range $135-$225.64; analyst avg target ~$188 (Buy), range $62-$310; AI-IPO bellwether","tier":"notable","impact":6,"delta":"carry","arc":"ipo-wave","arcDay":14,"confidence":"2x src","new24h":true,"update":"Bounce reversed: ~$165.78, down ~11% in a session to ~$2.1T","firstSeen":"2026-06-12","lastUpdate":"2026-06-23","category":"business"},
+    {"id":"deepseek-raise","section":"developing","rank":6,"title":"DeepSeek's ~$7.4B maiden round (closed Jun 16, >50B yuan) at >$50B digesting; Liang ~20B/Tencent ~10B/CATL ~5B + National AI Fund; Liang-managed LP, no votes for commercial investors; V4.1 reported expected this month; V4 co-designed with Huawei Ascend 950DT; permanent V4-Pro 75% price cut","tier":"notable","impact":6,"delta":"carry","arc":"capital-wave","arcDay":12,"confidence":"2x src","new24h":false,"update":"V4.1 reported expected this month; Huawei Ascend 950DT co-design surfaces (day-zero optimization)","firstSeen":"2026-06-16","lastUpdate":"2026-06-23","category":"business"},
+    {"id":"openai-s1","section":"developing","rank":7,"title":"OpenAI S-1 quiet; confidential draft (confirmed Jun 8); ~$1T target above ~$730-852B marks; OpenAI says timing 'may be a while'; rival Anthropic's late-May $65B round priced it ~$965B (reportedly first to top OpenAI); pipeline ~$3.6T","tier":"notable","impact":6,"delta":"carry","arc":"ipo-wave","arcDay":14,"confidence":"2x src","new24h":false,"update":"Anthropic's ~$965B late-May mark surfaces as the first private valuation to top OpenAI; timing 'may be a while'","firstSeen":"2026-06-08","lastUpdate":"2026-06-23","category":"business"},
+    {"id":"eu-labelling-cop","section":"developing","rank":8,"title":"EU clock: 40 days to Aug 2 Article 50 transparency + GPAI enforcement (fines up to €15M/3% turnover) + sandboxes; GPAI Code signing = presumption of conformity; safety chapter binds ~5-15 systemic-risk providers; Digital Omnibus high-risk postponement still provisional","tier":"notable","impact":6,"delta":"carry","arc":"reg-clock","arcDay":14,"confidence":"2x src","new24h":false,"update":"Calendar only: 42->40 days to Aug 2","firstSeen":"2026-06-11","lastUpdate":"2026-06-23","category":"policy"}
+  ],
+  "tracking": [
+    {"id":"jumper-talent","label":"John Jumper (AlphaFold) -> Anthropic confirmed; DeepMind->Anthropic departures reported ~11:1; role undisclosed (settled, no movement)","arc":"talent","arcDay":3},
+    {"id":"anthropic-seoul-korea","label":"Anthropic Seoul office + Samsung SDS/LG CNS/NAVER/Nexon/Hanwha/Channel Corp deployments carry under the export ban (no movement)","arc":"distribution","arcDay":4},
+    {"id":"gemini-35-pro-watch","label":"Gemini 3.5 Pro still limited Vertex preview, late-June GA line, Polymarket ~50-55% by Jun 30, no committed date (no movement)","arc":"model-wave","arcDay":14},
+    {"id":"grok5-rumor","label":"Grok V9-Medium (1.5T, Cursor-trained) reported arriving, no formal xAI note; Grok 5 ~33% by Jun 30; Grok 4.3 GA on Bedrock (no movement)","arc":"model-wave","arcDay":14},
+    {"id":"wwdc-siri-extensions","label":"WWDC Gemini-Siri (~1.2T custom Gemini) + iOS 27 Extensions in dev betas; public beta mid-July (no movement)","arc":"distribution","arcDay":15},
+    {"id":"anthropic-sub-split","label":"Anthropic Agent SDK credit split (since Jun 15): $20/$100/$200 non-rollover pools at API rates, no auto-fallback (no movement)","arc":"distribution","arcDay":14},
+    {"id":"us-preemption","label":"Great American AI Act quiet: no hearing scheduled; preemption fight stands, eclipsed by export-control action (no movement)","arc":"reg-clock","arcDay":14}
+  ],
+  "movers": [
+    {"dir":"up","text":"GPT-5.6 — release window opened (Jun 22-28, ~83%); early-access chatter"},
+    {"dir":"down","text":"SPCX — slid ~11% to ~$165.78 (Jun 22) from a $185 close"}
   ],
   "arcs": {
-    "ipo-wave": {"day": 14, "note": "SPCX's Jun 19 bounce reverses — slides to ~$165.78 on Jun 22 from a $185 close (~11% session drop), ~$2.1T, 52-week range $135-$225.64; OpenAI S-1 quiet with the company saying timing 'may be a while', ~$1T target above ~$730-852B marks; Anthropic's late-May $65B round priced it ~$965B, reportedly first to top OpenAI; pipeline ~$3.6T"},
-    "reg-clock": {"day": 14, "note": "Export-control precedent now framed by Bloomberg as Commerce claiming a standing power over deployed models; directive not lifted at Day 12; allies' reported 'trusted partner' idea not agreed; on-record rationale (Lutnick: military-intelligence diversion); EU warns curbs 'should not be discriminatory'; EU Aug 2 (40d); GAAIA quiet; India quiet (RBI Jul 1, MeitY synthetic-content rules in force since Feb 20, DPDP consent rules later 2026)"},
-    "model-wave": {"day": 14, "note": "Fable 5 + Mythos 5 still dark Day 12, no signed deal; GPT-5.6 window now open (Jun 22-28, ~83%) with early-access chatter and Jun 25 floated but no system card; Gemini 3.5 Pro late June, limited Vertex preview (~50-55% by Jun 30); Grok V9-Medium reported arriving, Grok 5 ~33% by Jun 30"},
-    "distribution": {"day": 14, "note": "Anthropic's Seoul office + Samsung SDS/LG CNS/NAVER/Nexon/Hanwha/Channel Corp deployments carry amid the export ban; Agent SDK credit-split first billing cycle running; WWDC Gemini-Siri/Extensions in dev betas, public beta mid-July; SpaceX-Cursor folds the developer-tooling layer into the SpaceX/xAI stack"},
-    "consolidation": {"day": 7, "note": "SpaceX's $60B all-stock Anysphere/Cursor merger (signed Jun 16) holds, recast as Cursor ARR ~$4B (TradingKey) puts the price near ~15x rather than ~60x; with xAI inside, captures model + app + developer-distribution layer; close expected Q3; no new 24h developments"},
-    "talent": {"day": 3, "note": "John Jumper's (AlphaFold) move from Google DeepMind to Anthropic confirmed across outlets; fits Anthropic's life-sciences build-out (Coefficient Bio ~$400M in April); coverage cites DeepMind->Anthropic departures near 11:1; follows Gemini co-lead Noam Shazeer's reported move to OpenAI — a talent drain from Google's AI core amid the Gemini 3.5 Pro run-up"},
-    "liability": {"day": 1, "note": "Dormant — no qualifying reliability story"},
-    "capital-wave": {"day": 12, "note": "DeepSeek's ~$7.4B maiden round (closed Jun 16) at >$50B digesting, Liang-managed LP with state-anchored control; V4.1 reported expected this month and V4 co-designed with Huawei's Ascend 950DT (day-zero optimization) — a domestic-silicon hedge; pairs with a permanent V4-Pro 75% price cut undercutting Western labs; CATL's entry signals energy+model convergence"}
+    "open-weight": {"day": 1, "note": "New arc: open-weight models reach closed-frontier coding — MiniMax M3 (59.0% SWE-Bench Pro) and Z.AI GLM-5.2 (62.1%) edge GPT-5.5, self-hostable on Hugging Face, landing as the US restricts Anthropic's flagships abroad"},
+    "agent-security": {"day": 1, "note": "New arc: prompt injection framed as a permanent flaw (OWASP #1 agentic threat); LiteLLM supply-chain backdoor + Semantic Kernel prompt-to-RCE; AgileThinker/AgentHallu reliability benchmarks emerge"},
+    "agent-layer": {"day": 1, "note": "New arc: agents consolidate into a vendor-backed enterprise category — Microsoft Agent 365 GA, NVIDIA Agent Toolkit (15+ ISVs), OpenAI 'next phase of enterprise AI'"},
+    "compute": {"day": 1, "note": "New arc: NVIDIA RTX Spark 'AI PC' superchip + Vera CPUs in full production (Anthropic/OpenAI/SpaceXAI customers) + Rubin — local-first agent inference becomes a hardware product"},
+    "ai-science": {"day": 1, "note": "New arc: AI-native drug discovery closes the loop — Robin (Nature) repurposes ripasudil for dAMD; BioNeMo expands; 200+ AI-discovered drugs in clinic, zero FDA approvals yet"},
+    "model-wave": {"day": 14, "note": "Fable 5 + Mythos 5 still dark Day 12, no signed deal; GPT-5.6 window open (Jun 22-28, ~83%) with early-access chatter; Gemini 3.5 Pro late June; Grok V9-Medium reported, Grok 5 ~33%"},
+    "reg-clock": {"day": 14, "note": "Export-control precedent reframed by Bloomberg as a claimed standing federal power over deployed models; trusted-partner idea not agreed; EU Aug 2 (40d); India quiet (RBI Jul 1, MeitY synthetic-content rules in force since Feb 20)"},
+    "ipo-wave": {"day": 14, "note": "SPCX reverses to ~$165.78/$2.1T (down ~11%); OpenAI S-1 quiet, 'may be a while', ~$1T target; Anthropic's ~$965B late-May mark reportedly tops OpenAI; pipeline ~$3.6T"},
+    "consolidation": {"day": 7, "note": "SpaceX's $60B Anysphere/Cursor merger holds, ~15x as ARR ~$4B; close Q3; no new developments — demotes to Tracking if quiet next edition"},
+    "capital-wave": {"day": 12, "note": "DeepSeek ~$7.4B digesting (V4.1 expected, Huawei Ascend co-design); Sarvam unicorn ($234M/$1.5B, India); June megarounds (Ramp/Supabase/Flourish) — capital rotating to the app/infra layer"},
+    "distribution": {"day": 14, "note": "Anthropic Seoul deployments, Agent SDK credit-split, WWDC Gemini-Siri betas — all carried to Tracking with no movement this edition"},
+    "talent": {"day": 3, "note": "Jumper->Anthropic settled (~11:1 DeepMind outflow); tracked, no movement"},
+    "liability": {"day": 1, "note": "Folded into the new agent-security arc — prompt injection as a permanent, production-grade liability"}
   },
   "resolved": [
-    "GPT-5.6 window (yesterday's Jun 22 radar tile): the Jun 22-28 window opened on schedule; OpenAI has still shipped nothing official (no announcement, system card or API string), but weekend chatter says some Pro users may already be seeing GPT-5.6 responses and Jun 25 is now floated as a public date (true-tech, Memeburn). Continues as today's #4, escalated to impact 8.",
-    "SPCX (yesterday's #7): the Jun 19 bounce reversed — the stock slid to ~$165.78 on Jun 22 from a $185 close, an ~11% session give-back to ~$2.1T (Yahoo Finance, TradingView). Continues as today's #7.",
-    "Trump's 'not now a threat' remark (yesterday's lead signal): produced no formal action this window — the directive stands at Day 12 with no signed deal; the freshest reg development is Bloomberg's framing that Commerce has claimed a standing power over deployed models. Folds into today's #1 and #3."
+    "GPT-5.6 window (prior Jun 22 radar tile): the Jun 22-28 window opened on schedule; OpenAI has shipped nothing official, but weekend chatter says some Pro users may already be seeing GPT-5.6 and Jun 25 is floated. Continues as Developing D4, escalated to impact 8.",
+    "SPCX (prior #7): the Jun 19 bounce reversed — slid to ~$165.78 on Jun 22 from a $185 close (~11% session drop) to ~$2.1T (Yahoo Finance, TradingView). Continues as Developing D5.",
+    "Format: edition 013 introduces v2 — a broadened scan surfaced 10 items the prior narrow beat had missed (open-weight models, agent security, NVIDIA Rubin/Spark, Microsoft Agent 365, Sarvam, Robin drug-discovery, agent-reliability research, June megarounds), now separated into New on the Wire vs Developing vs Still Tracking."
   ],
   "deadlines": [
     {"date": "2026-06-25", "label": "GPT-5.6 floated public date (leak-based); Jun 22-28 window open, Polymarket ~83%; chatter some Pro users already on it — no system card", "severity": "medium"},
@@ -458,12 +549,31 @@
     radar.appendChild(t);
   });
 
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
   // ── resolved strip from state ──
-  if(state.resolved.length){
+  if(state.resolved && state.resolved.length){
     document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
   }
 
-  // ── category tabs ──
+  // ── category tabs (filter all cards across New + Developing) ──
   document.querySelectorAll('.tab').forEach(function(tab){
     tab.addEventListener('click', function(){
       document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });

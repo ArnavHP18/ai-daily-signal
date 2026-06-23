@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 001 — 11 June 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+
+  /* resolved + footer */
+  .resolved-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>ANTHROPIC</b> ships Claude Fable 5, gated Mythos 5 (Jun 9) &nbsp;◆&nbsp; <b>OPENAI</b> confirms confidential S-1; Altman tells staff: public "within the next year" &nbsp;◆&nbsp; <b>SPCX</b> IPO prices TODAY at fixed $135 — $1.77T — Nasdaq debut Jun 12 &nbsp;◆&nbsp; <b>EU</b> publishes final Code of Practice on AI-content labelling ahead of Aug 2 wave &nbsp;◆&nbsp; <b>US</b> Obernolte–Trahan bill would preempt state laws on frontier development for 3 years &nbsp;◆&nbsp; <b>MINIMAX M3</b> open-weights rollout continues — 59.0% SWE-Bench Pro (self-reported) &nbsp;◆&nbsp; <b>GEMINI</b> outage Jun 10 mitigated; Gemini 3.5 Pro confirmed for June window &nbsp;◆&nbsp; <b>KPMG×MICROSOFT</b> global Agent 365 + Copilot rollout &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>001</b></span>
+    <span>THURSDAY, 11 JUNE 2026</span>
+    <span>CRITICAL <b>3</b> / NOTABLE 6 / MONITOR 5</span>
+    <span>SCAN: 18 SEARCHES · 24–72H WINDOW</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="anthropic-fable-mythos">
+  <div>
+    <div class="kicker">■ Critical · Frontier Models · Rank 1</div>
+    <h2>Anthropic splits the frontier: Fable 5 goes public, Mythos 5 stays behind glass</h2>
+    <p class="dek">Anthropic on June 9 released <strong>Claude Fable 5</strong>, the first generally available model in its new Mythos-class tier above Opus. Fable 5 leads on software engineering, knowledge work and vision — but enforces hard safety limits in cybersecurity, biology, chemistry and model-distillation domains, where it blocks and falls back to Claude Opus 4.8. The unrestricted twin, <strong>Claude Mythos 5</strong>, is limited to vetted organizations via Project Glasswing, which expanded to roughly 150 new organizations alongside the launch.</p>
+    <p class="sowhat">So what: a two-track frontier — open capability with classifiers vs. gated raw capability — is now a live commercial model, and Congress noticed: Rep. Trahan joined the Obernolte preemption bill citing concern about Mythos. Model-selection, procurement and policy teams all have homework this week.</p>
+    <span class="chip arc">ARC: MODEL-WAVE · D1</span><span class="chip">CONFIDENCE: 2x SRC</span><span class="badge b-new">NEW</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://techcrunch.com/2026/06/09/anthropics-claude-fable-5-is-a-version-of-mythos-the-public-can-access-today/">TechCrunch</a> ·
+      <a href="https://finance.yahoo.com/markets/crypto/articles/anthropic-claude-mythos-launches-today-142844796.html">Yahoo Finance</a> ·
+      <a href="https://www.anthropic.com/news">Anthropic newsroom (root — deep link not captured in scan)</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What shipped.</strong> Claude Fable 5 launched June 9 across Anthropic's surfaces. Per TechCrunch, it is "a version of Mythos the public can access today," released days after Anthropic's own warnings that frontier AI is becoming dangerous in narrow domains. In flagged high-risk areas the model refuses and routes to Claude Opus 4.8 rather than answering.</p>
+      <p><strong>The gated twin.</strong> Claude Mythos 5 shares the same underlying capabilities without the safety classifiers and is distributed only through Project Glasswing, Anthropic's vetted-access program, which expanded to ~150 additional organizations and added a "Claude Security" codebase-scanning offering at launch.</p>
+      <p><strong>Business backdrop.</strong> The launch lands two weeks after Anthropic's <a href="https://www.anthropic.com/news/series-h">$65B Series H at a $965B post-money valuation</a> (May 28 — <a href="https://www.cnbc.com/2026/05/28/anthropic-open-ai-startup-value.html">CNBC</a>), which made it the most valuable private AI company, above OpenAI, on a reported ~$47B run-rate.</p>
+      <p><strong>Policy ripple.</strong> The model is already shaping legislation: per the <a href="https://www.csmonitor.com/USA/Politics/2026/0610/artificial-intelligence-regulation-trump-congress">Christian Science Monitor</a>, Rep. Lori Trahan (D-MA) joined Rep. Jay Obernolte's (R-CA) AI bill after expressing concern about Mythos; the bill centers on pre-release review of frontier models.</p>
+      <p><strong>Watch next.</strong> Competitive responses are queued: Google has confirmed Gemini 3.5 Pro for June, and Grok 5 is rumored (unconfirmed) for later this month. Expect rapid benchmark and pricing comparisons against Fable 5 within days.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>Launch</dt><dd>June 9, 2026 (Fable 5 GA)</dd>
+      <dt>Tier</dt><dd>Mythos-class — above Opus 4.8</dd>
+      <dt>Safety design</dt><dd>Hard blocks in cyber / bio / chem / distillation; falls back to Opus 4.8</dd>
+      <dt>Mythos 5 access</dt><dd>Project Glasswing only; ~150 orgs added</dd>
+      <dt>Company backdrop</dt><dd>$65B Series H @ $965B post-money (May 28); ~$47B run-rate</dd>
+      <dt>Policy ripple</dt><dd>Cited in Obernolte–Trahan frontier-review bill</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">9</b>/10 — every model-selection and AI-governance team</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE CRITICALS</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="anthropic-fable-mythos">
+      <div class="num">1</div>
+      <h4>Fable 5 out, Mythos 5 gated</h4>
+      <p>Anthropic's new frontier tier ships with a two-track access model: classifiers for everyone, raw capability for vetted orgs. Evaluate this week; the policy world already is.</p>
+    </article>
+    <article class="trip" data-story-id="openai-s1">
+      <div class="num">2</div>
+      <h4>OpenAI files confidential S-1</h4>
+      <p>OpenAI confirmed a draft S-1 with the SEC; Altman told staff to expect an IPO "within the next year." The largest private AI company has started the public-markets clock.</p>
+    </article>
+    <article class="trip" data-story-id="spcx-pricing">
+      <div class="num">3</div>
+      <h4>SpaceX prices today, lists tomorrow</h4>
+      <p>Fixed $135/share — ~$1.77T valuation — final pricing today, Nasdaq debut June 12. The biggest listing ever doubles as a referendum on AI-adjacent megacap appetite.</p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>BEHIND THE FOLD:</strong> EU publishes final AI-content labelling Code of Practice ahead of the Aug 2 wave · Trump's June 4 AI executive order meets a bipartisan preemption bill · MiniMax M3's open-weights rollout continues · KPMG×Microsoft scale Agent 365 globally · Microsoft's $10B Japan AI build · Anthropic splits subscription compute June 15 · xAI ships Connectors + image-to-video preview · Gemini's June 10 outage · Gemini 3.5 Pro June window · CVPR 2026 honors D4RT · Grok 5 rumor-watch.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOSAIC FEED ══════════ -->
+<section>
+  <div class="sec-head">The Feed <small>14 STORIES · RANKED</small></div>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (14)</button>
+    <button class="tab" data-cat="models">MODELS (4)</button>
+    <button class="tab" data-cat="business">BUSINESS (4)</button>
+    <button class="tab" data-cat="policy">POLICY (2)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (3)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+  </div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="models" data-story-id="anthropic-fable-mythos">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">#1</span> <span class="cat">MODELS · FRONTIER</span></div>
+      <h4>Anthropic ships Claude Fable 5; Mythos 5 limited to Project Glasswing</h4>
+      <div class="body">New Mythos-class tier above Opus. Fable 5 is GA with hard safety blocks (cyber/bio/chem/distillation, falling back to Opus 4.8); Mythos 5 is the unclassifier'd twin for ~150-org vetted access. Launch also added legal MCP connectors and a Claude Security scanning product. Full brief above.</div>
+      <p class="sowhat">The capability bar and the access-control bar moved on the same day — recalibrate both your eval suite and your governance docs.</p>
+      <div><span class="chip arc">ARC: MODEL-WAVE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/06/09/anthropics-claude-fable-5-is-a-version-of-mythos-the-public-can-access-today/">TechCrunch</a> · <a href="https://finance.yahoo.com/markets/crypto/articles/anthropic-claude-mythos-launches-today-142844796.html">Yahoo Finance</a> · <a href="https://www.anthropic.com/news">Anthropic (root)</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="business" data-story-id="openai-s1">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">#2</span> <span class="cat">BUSINESS · IPO</span></div>
+      <h4>OpenAI confirms confidential S-1; Altman tells staff IPO is "within the next year"</h4>
+      <div class="body">OpenAI publicly announced its confidential draft S-1 submission to the SEC (saying it expected the news to leak). Per PYMNTS (Jun 10), Altman told employees filing now "gives us optionality" on timing; an executive also teased an upcoming model launch. Al Jazeera covered the filing Jun 8.</div>
+      <p class="sowhat">The IPO wave is no longer hypothetical — OpenAI's disclosure cadence, financials and governance will become public artifacts everyone in the industry prices against.</p>
+      <div><span class="chip arc">ARC: IPO-WAVE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://openai.com/index/openai-submits-confidential-s-1/">OpenAI</a> · <a href="https://www.aljazeera.com/economy/2026/6/8/tech-giant-openai-files-for-us-initial-public-offering">Al Jazeera</a> · <a href="https://www.pymnts.com/artificial-intelligence-2/2026/openai-ceo-tells-staff-to-expect-ipo-within-the-next-year/">PYMNTS</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="business" data-story-id="spcx-pricing">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#3</span> <span class="cat">BUSINESS · IPO</span></div>
+      <h4>SpaceX IPO prices today at fixed $135; Nasdaq debut tomorrow at ~$1.77T</h4>
+      <div class="body">Final pricing is set for today (Jun 11), with SPCX shares to begin trading on Nasdaq Jun 12. SpaceX took the unusual route of a fixed $135/share price rather than a range, implying ~$1.77T valuation (assuming the EchoStar spectrum and reported Cursor transactions close, per coverage). Retail access ran via Fidelity since the Jun 4 roadshow launch.</div>
+      <p class="sowhat">The largest listing in history is the demand gauge for the entire 2026 AI-adjacent IPO pipeline — including OpenAI's.</p>
+      <div><span class="chip arc">ARC: IPO-WAVE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/06/03/spacex-ipo-stock-price-roadshow-musk.html">CNBC</a> · <a href="https://coinpedia.org/news/spacex-ipo-2026-date-price-valuation-and-how-indian-investors-can-buy-after-june-12-listing/">Coinpedia (India access angle)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="eu-labelling-cop">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#4</span> <span class="cat">POLICY · EU</span></div>
+      <h4>EU publishes final Code of Practice for marking and labelling AI-generated content</h4>
+      <div class="body">The Commission's final voluntary Code (Jun 10) operationalizes AI Act Article 50: machine-readable marking for AI audio/image/video/text, plus a standard icon set for deepfakes, fully-AI and partially-AI content. Transparency obligations apply from Aug 2, 2026; the content-labelling piece has a deferral to Dec 2, 2026.</div>
+      <p class="sowhat">If you generate or distribute synthetic content touching the EU, this Code is the de facto compliance playbook — adopting it early is cheaper than retrofitting in November.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D1</span><span class="chip">PRIMARY</span></div>
+      <div class="src"><a href="https://ec.europa.eu/commission/presscorner/detail/en/ip_26_1328">EU Commission</a> · <a href="https://digital-strategy.ec.europa.eu/en/news/commission-publishes-code-practice-marking-and-labelling-ai-generated-content">Digital Strategy</a> · <a href="https://agenceurope.eu/en/bulletin/article/13885/7/european-commission-publishes-final-voluntary-code-of-practice-to-help-label-content-generated-by-ai">Agence Europe</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="us-preemption">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#5</span> <span class="cat">POLICY · US</span></div>
+      <h4>US pivot: Trump's June 4 AI order meets bipartisan Obernolte–Trahan frontier bill</h4>
+      <div class="body">The Monitor (Jun 10) maps a converging Washington agenda: a Jun 4 executive order, and a bill from Reps. Obernolte (R-CA) and Trahan (D-MA) that would ban for three years state/local laws targeting AI <em>development</em> (not deployment) while creating pre-release review for frontier models. Trahan joined after raising concerns about Anthropic's Mythos. States push back: Colorado's SB 205 rewrite and New York's amended RAISE Act continue.</div>
+      <p class="sowhat">US compliance planning now has two clocks — state laws in force vs. a federal preemption that could freeze them; build for the stricter one until Congress actually votes.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D1</span><span class="chip">PRIMARY</span></div>
+      <div class="src"><a href="https://www.csmonitor.com/USA/Politics/2026/0610/artificial-intelligence-regulation-trump-congress">CS Monitor</a> · <a href="https://www.governing.com/artificial-intelligence/states-plan-to-continue-regulating-ai-despite-trumps-order">Governing</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="models" data-story-id="minimax-m3">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#6</span> <span class="cat">MODELS · OPEN</span></div>
+      <h4>MiniMax M3 open-weights rollout: 1M context, 59.0% SWE-Bench Pro (self-reported)</h4>
+      <div class="body">Launched Jun 1 with weights releasing over ~10 days (i.e., through this week). Self-reported 59.0% SWE-Bench Pro beats GPT-5.5 (58.6%) and Gemini 3.1 Pro (54.2%), trailing Opus 4.8 (69.2%). New MSA sparse attention; natively multimodal. Benchmarks await the technical report — treat as vendor-claimed.</div>
+      <p class="sowhat">Frontier-adjacent coding at 5–10% of the cost resets the open-weights baseline for self-hosters.</p>
+      <div><span class="chip arc">ARC: MODEL-WAVE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.minimax.io/blog/minimax-m3">MiniMax</a> · <a href="https://the-decoder.com/minimax-m3-open-weight-model-with-a-million-token-context-challenges-proprietary-leaders/">The Decoder</a> · <a href="https://venturebeat.com/technology/minimax-m3-debuts-eclipsing-gpt-5-5-and-gemini-3-1-pro-on-key-benchmark-performance-for-just-5-10-of-the-cost">VentureBeat</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="enterprise" data-story-id="kpmg-msft">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#7</span> <span class="cat">ENTERPRISE · AGENTS</span></div>
+      <h4>KPMG and Microsoft scale enterprise AI agents globally via Agent 365 + Copilot</h4>
+      <div class="body">Expanded global pact (Jun 9): KPMG embeds Microsoft Agent 365 into its Trusted AI framework to manage, monitor and secure client agent fleets, and deploys Microsoft 365 Copilot across its worldwide workforce.</div>
+      <p class="sowhat">Agent governance is becoming a Big Four service line — expect your auditors to arrive with opinions about your agents.</p>
+      <div><span class="chip arc">ARC: DISTRIBUTION · D1</span><span class="chip">PRIMARY</span></div>
+      <div class="src"><a href="https://news.microsoft.com/source/2026/06/09/kpmg-and-microsoft-scale-trusted-enterprise-ai-agents-globally-through-deployment-of-agent-365-and-copilot/">Microsoft Source</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="msft-japan">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#8</span> <span class="cat">BUSINESS · INFRA</span></div>
+      <h4>Microsoft commits $10B to Japan: AI datacenters, security pact, 1M engineers</h4>
+      <div class="body">Four-year investment (2026–2029) covering AI datacenter expansion with SoftBank and Sakura Internet, cybersecurity cooperation with the Japanese government, and training one million engineers by 2030. Reported via aggregator; deep primary link not captured in scan.</div>
+      <p class="sowhat">Sovereign-AI capex is now table stakes in every major market — Japan joins the list of national-scale hyperscaler bets.</p>
+      <div><span class="chip arc">ARC: DISTRIBUTION · D1</span><span class="chip">AGG 1x</span></div>
+      <div class="src"><a href="https://www.crescendo.ai/news/latest-ai-news-and-updates">Crescendo AI news (aggregator root — deep link unavailable)</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="anthropic-sub-split">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#9</span> <span class="cat">BUSINESS · PRICING</span></div>
+      <h4>Anthropic splits subscriptions: programmatic usage moves to separate credit pool Jun 15</h4>
+      <div class="body">From Jun 15, programmatic/Agent-SDK usage under Claude subscription plans draws from a separate monthly credit pool rather than the chat allowance. Reported by developer-tool trackers; verify exact terms against Anthropic's official notice before the cutover.</div>
+      <p class="sowhat">If your automation rides a Claude subscription, audit usage before Monday or budget for the new pool.</p>
+      <div><span class="chip arc">ARC: DISTRIBUTION · D1</span><span class="chip">AGG 1x</span></div>
+      <div class="src"><a href="https://devtoolpicks.com/blog/anthropic-splits-claude-subscriptions-agent-sdk-credit-june-2026">DevToolPicks</a> · <a href="https://releasebot.io/updates/anthropic">Releasebot</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="enterprise" data-story-id="xai-connectors">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#10</span> <span class="cat">ENTERPRISE · TOOLING</span></div>
+      <h4>xAI pushes Grok toward work: Connectors for SharePoint/Workspace/GitHub + image-to-video preview</h4>
+      <div class="body">Grok Web gained Connectors (SharePoint, Outlook, OneDrive, Google Workspace, Notion, GitHub, Linear, custom MCP servers), and the API added grok-imagine-video-1.5-preview — image-to-video up to 720p with natural-language motion control.</div>
+      <p class="sowhat">Every assistant is converging on the same enterprise connector set; switching costs are about to be defined by data plumbing, not model quality.</p>
+      <div><span class="chip arc">ARC: DISTRIBUTION · D1</span><span class="chip">PRIMARY</span></div>
+      <div class="src"><a href="https://x.ai/news">xAI news (root — deep link unavailable)</a> · <a href="https://releasebot.io/updates/xai">Releasebot</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="enterprise" data-story-id="gemini-outage">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#11</span> <span class="cat">ENTERPRISE · RELIABILITY</span></div>
+      <h4>Gemini outage hits users Jun 10; Google mitigates "error 1099" backend conflict</h4>
+      <div class="body">A server-side session-conflict / context-overflow issue (surfacing as "error 1099", often during analysis-phase processing) disrupted Gemini before mitigations landed; Google said most users were clear by 10:30 PDT Jun 10. Notable a day after Gemini became default across more Google surfaces.</div>
+      <p class="sowhat">As assistants become the default interface, their outages become productivity outages — multi-provider failover is moving from paranoia to policy.</p>
+      <div><span class="chip arc">ARC: LIABILITY · D1</span><span class="chip">PRIMARY</span></div>
+      <div class="src"><a href="https://www.tomsguide.com/news/live/gemini-outage-june-10-live-updates">Tom's Guide (live coverage)</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="models" data-story-id="gemini-35-pro-watch">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#12</span> <span class="cat">MODELS · WATCH</span></div>
+      <h4>Gemini 3.5 Pro confirmed for a June window after Flash's strong I/O debut</h4>
+      <div class="body">Google confirmed Gemini 3.5 Pro lands in June, following Gemini 3.5 Flash (May 19, I/O) — the first Flash-tier model to beat its own Pro predecessor on coding/agentic benchmarks, at tripled pricing ($1.50/$9.00 per M tokens).</div>
+      <p class="sowhat">Hold large migration decisions a couple of weeks if Pro-tier quality is what you're buying.</p>
+      <div><span class="chip arc">ARC: MODEL-WAVE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5/">Google blog</a> · <a href="https://simonwillison.net/2026/May/19/gemini-35-flash/">Simon Willison</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="research" data-story-id="cvpr-d4rt">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#13</span> <span class="cat">RESEARCH · CVPR</span></div>
+      <h4>CVPR 2026 honors D4RT: dynamic 4D scene reconstruction from video</h4>
+      <div class="body">DeepMind/UCL/Oxford's D4RT — reconstructing geometry and motion of dynamic scenes from ordinary video — took top-paper honors at CVPR 2026; other honored work spans efficiency (Google's TurboQuant KV-cache compression at ICLR) and physics-informed nets.</div>
+      <p class="sowhat">4D scene understanding is the substrate for robotics and world models — watch for productization within a year.</p>
+      <div><span class="chip arc">ARC: MODEL-WAVE · D1</span><span class="chip">PRIMARY</span></div>
+      <div class="src"><a href="https://www.newswise.com/articles/cvpr-2026-honors-the-year-s-most-innovative-computer-vision-and-ai-research">Newswise</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="models" data-story-id="grok5-rumor">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#14</span> <span class="cat">MODELS · RUMOR</span></div>
+      <h4>Grok 5 rumored for later this month</h4>
+      <div class="body"><span class="chip rumor">RUMOR-FLAG</span> Aggregator trackers list Grok 5 among frontier launches "rumored or scheduled" for late June, alongside the confirmed Gemini 3.5 Pro. Evidence base: a single aggregator (llm-stats); no xAI confirmation found in scan. Treat as unconfirmed.</div>
+      <p class="sowhat">If real, three frontier releases inside one month — plan eval bandwidth accordingly.</p>
+      <div><span class="chip arc">ARC: MODEL-WAVE · D1</span><span class="chip rumor">RUMOR-FLAG</span></div>
+      <div class="src"><a href="https://llm-stats.com/llm-updates">llm-stats (aggregator)</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ RESOLVED ══════════ -->
+<section>
+  <div class="sec-head">Resolved <small>YESTERDAY'S OPEN THREADS, CLOSED</small></div>
+  <div class="resolved-strip" id="resolved-strip">First edition — no prior threads to resolve. The SPCX pricing (today) and debut (Jun 12) are tomorrow's first resolution candidates.</div>
+</section>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 001 · 2026-06-11 (IST)</strong></p>
+    <p>METHOD: 18 web searches across frontier models, business/funding/IPO, regulation (EU/US/India), research, open-source and enterprise adoption; 24h window widened to 72h for context items. Aggregator claims cross-checked against ≥2 outlets where possible; single-source and rumor items are chip-flagged. Impact /10 = breadth of who must act. Tiers: CRITICAL act this week · NOTABLE informs this month · MONITOR trajectory.</p>
+    <p>KNOWN SCAN GAPS THIS EDITION: no India-specific regulatory development inside the 24h window (RBI/MeitY/SEBI quiet; Feb 2026 SGI labelling rules remain the live compliance item); Meta and Mistral had no qualifying announcements in window; Microsoft–Japan story rests on one aggregator.</p>
+    <p>Links point to sources found during the scan; where only an outlet root was available it is labelled as such. Nothing here is investment advice.</p>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 1,
+  "date": "2026-06-11",
+  "tz": "Asia/Kolkata",
+  "scanCount": 18,
+  "tiers": {"critical": 3, "notable": 6, "monitor": 5},
+  "stories": [
+    {"id":"anthropic-fable-mythos","rank":1,"title":"Anthropic ships Claude Fable 5; Mythos 5 gated via Project Glasswing","tier":"critical","impact":9,"delta":"new","arc":"model-wave","arcDay":1,"confidence":"2x src","new24h":false,"category":"models"},
+    {"id":"openai-s1","rank":2,"title":"OpenAI confirms confidential S-1; Altman: public within the next year","tier":"critical","impact":9,"delta":"new","arc":"ipo-wave","arcDay":1,"confidence":"2x src","new24h":true,"category":"business"},
+    {"id":"spcx-pricing","rank":3,"title":"SpaceX IPO prices Jun 11 at fixed $135 (~$1.77T); Nasdaq debut Jun 12","tier":"critical","impact":8,"delta":"new","arc":"ipo-wave","arcDay":1,"confidence":"2x src","new24h":true,"category":"business"},
+    {"id":"eu-labelling-cop","rank":4,"title":"EU final Code of Practice on marking/labelling AI-generated content","tier":"notable","impact":8,"delta":"new","arc":"reg-clock","arcDay":1,"confidence":"Primary","new24h":true,"category":"policy"},
+    {"id":"us-preemption","rank":5,"title":"Trump AI EO + Obernolte-Trahan bill: 3-yr state preemption on development, frontier review","tier":"notable","impact":7,"delta":"new","arc":"reg-clock","arcDay":1,"confidence":"Primary","new24h":true,"category":"policy"},
+    {"id":"minimax-m3","rank":6,"title":"MiniMax M3 open-weights rollout: 1M context, 59.0% SWE-Bench Pro self-reported","tier":"notable","impact":7,"delta":"new","arc":"model-wave","arcDay":1,"confidence":"2x src","new24h":false,"category":"models"},
+    {"id":"kpmg-msft","rank":7,"title":"KPMG x Microsoft global Agent 365 + Copilot deployment","tier":"notable","impact":6,"delta":"new","arc":"distribution","arcDay":1,"confidence":"Primary","new24h":false,"category":"enterprise"},
+    {"id":"msft-japan","rank":8,"title":"Microsoft $10B Japan AI investment 2026-2029","tier":"notable","impact":6,"delta":"new","arc":"distribution","arcDay":1,"confidence":"Agg 1x","new24h":false,"category":"business"},
+    {"id":"anthropic-sub-split","rank":9,"title":"Anthropic subscription split: programmatic usage to separate credit pool Jun 15","tier":"notable","impact":6,"delta":"new","arc":"distribution","arcDay":1,"confidence":"Agg 1x","new24h":false,"category":"business"},
+    {"id":"xai-connectors","rank":10,"title":"xAI Grok Connectors + grok-imagine-video-1.5-preview","tier":"monitor","impact":5,"delta":"new","arc":"distribution","arcDay":1,"confidence":"Primary","new24h":false,"category":"enterprise"},
+    {"id":"gemini-outage","rank":11,"title":"Gemini Jun 10 outage (error 1099) mitigated","tier":"monitor","impact":5,"delta":"new","arc":"liability","arcDay":1,"confidence":"Primary","new24h":true,"category":"enterprise"},
+    {"id":"gemini-35-pro-watch","rank":12,"title":"Gemini 3.5 Pro confirmed for June window","tier":"monitor","impact":5,"delta":"new","arc":"model-wave","arcDay":1,"confidence":"2x src","new24h":false,"category":"models"},
+    {"id":"cvpr-d4rt","rank":13,"title":"CVPR 2026 honors D4RT 4D scene reconstruction","tier":"monitor","impact":5,"delta":"new","arc":"model-wave","arcDay":1,"confidence":"Primary","new24h":false,"category":"research"},
+    {"id":"grok5-rumor","rank":14,"title":"Grok 5 rumored for late June","tier":"monitor","impact":4,"delta":"new","arc":"model-wave","arcDay":1,"confidence":"Rumor-flag","new24h":false,"category":"models"}
+  ],
+  "arcs": {
+    "ipo-wave": {"day": 1, "note": "OpenAI S-1 + SPCX pricing/debut; backdrop: Anthropic $965B Series H (May 28)"},
+    "reg-clock": {"day": 1, "note": "EU Aug 2 wave (CoP published); US preemption push vs state laws; India SGI rules in force"},
+    "model-wave": {"day": 1, "note": "Fable/Mythos shipped; MiniMax M3 weights dropping; Gemini 3.5 Pro June; Grok 5 rumored"},
+    "distribution": {"day": 1, "note": "Agents into enterprise: KPMG/Microsoft, xAI connectors, subscription compute splits"},
+    "liability": {"day": 1, "note": "Reliability/accountability: Gemini outage as assistants become default interface"}
+  },
+  "resolved": [],
+  "deadlines": [
+    {"date": "2026-06-11", "label": "SpaceX IPO final pricing — fixed $135/share", "severity": "high"},
+    {"date": "2026-06-12", "label": "SPCX Nasdaq debut", "severity": "high"},
+    {"date": "2026-06-15", "label": "Anthropic subscription credit-pool split takes effect", "severity": "medium"},
+    {"date": "2026-06-30", "label": "Colorado SB 205 enforcement date (rewrite pending)", "severity": "medium"},
+    {"date": "2026-08-02", "label": "EU AI Act: transparency obligations, GPAI enforcement, national sandboxes", "severity": "high"},
+    {"date": "2026-12-02", "label": "EU AI-content labelling deferral ends (Art. 50)", "severity": "low"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── resolved strip from state ──
+  if(state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── category tabs ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
