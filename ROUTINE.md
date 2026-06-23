@@ -22,28 +22,60 @@ split into three explicit buckets, and the routine is tuned to surface genuinely
   reduced to one-liners.
 
 ## 1. SCAN (broaden + rotate — this is the anti-rigidity step)
-Run **18–24** web searches across the last 24h (widen to 72h only to confirm or
-when <10 usable NEW findings). Do NOT just re-ping the same eight company names.
-Cover, every run:
+Run **20–28** web searches across the last 24h (widen to 72h only to confirm or
+when <10 usable NEW findings). Do NOT just re-ping the same eight company names,
+and do NOT make this only about models and deep tech. Aim for a roughly even
+split across the three buckets below — at least a few searches in EACH every run.
+
+### A. Models & core technology
 - Frontier model releases/announcements (OpenAI, Anthropic, Google, Meta, xAI,
   Mistral, DeepSeek, Qwen).
 - **Open-weight / open-source** releases & leaderboards (Hugging Face trending,
   SWE-Bench / Terminal-Bench, GLM/Qwen/MiniMax/Llama/Mistral).
 - **Agents & tooling** (frameworks, orchestration, enterprise agent platforms).
-- **AI security & incidents** (prompt injection, supply-chain, CVEs, breaches).
 - **Hardware & compute** (NVIDIA/AMD/Google TPU/inference, AI PCs, data centers).
 - **Research** (arXiv cs.AI/cs.LG, Nature/Science, notable benchmarks).
-- **Vertical AI** (health/bio, legal, finance, coding, robotics).
-- Business/funding/M&A/IPO (include sub-$1B rounds, not only mega-labs).
-- Regulation (EU AI Act, US federal/state, India: RBI/MeitY/SEBI/IRDAI/DPDP).
-- **Deep beat of the day:** rotate one extra under-covered area per edition
-  (e.g. Mon=research, Tue=open-source, Wed=security, Thu=hardware, Fri=vertical,
-  Sat=regional/India+China, Sun=funding) and dig 2–3 searches deep there.
+- **AI security & incidents** (prompt injection, supply-chain, CVEs, breaches).
 
-Cross-check aggregator claims against ≥2 outlets. Never fabricate URLs; if a deep
-link is unavailable, link the outlet root and say so. Mark unconfirmed items
-RUMOR-FLAG with the evidence base named. Record each source's publish date so
-carried items never cite week-old links as if they broke today.
+### B. Applied AI — what companies, builders & people are actually doing
+This is the anti-rigidity heart of the scan. Don't just cover who *built* a model
+— cover who is *using* AI and how:
+- **Enterprise adoption & deployments** — named companies (banks, retailers,
+  telcos, manufacturers, airlines, healthcare, govt) rolling AI into real
+  workflows; case studies; ROI/productivity results; failures and rollbacks.
+- **Products & features** — notable app/feature/consumer launches that aren't
+  new frontier models (Copilots, assistants, creator tools, devices, robotics).
+- **Startups & new ideas** — newly launched or emerged startups, accelerator
+  batches (YC etc.), novel product categories, "first-of-its-kind" approaches,
+  unusual bets, indie/builder launches, what problems people are newly attacking.
+- **Partnerships & integrations** — model-into-product deals, channel/distribution
+  tie-ups, big-tech ↔ enterprise alliances.
+- **Vertical AI** (health/bio, legal, finance, coding, robotics, defense, climate).
+- **Money** — funding/M&A/IPO incl. sub-$1B rounds; also revenue milestones,
+  enterprise AI spend, big-tech capex, and notable down-rounds/shutdowns.
+
+### C. People, policy & society
+- **Workforce & labor** — AI-driven hiring/layoffs/reorg, jobs displaced or
+  created, wages, education and skilling, union/worker responses.
+- **Talent moves** — notable hires, departures, lab-to-lab migrations.
+- **Culture & society** — media, creators, elections/disinfo, public sentiment,
+  notable controversies and ethics stories.
+- **Regulation & government** — EU AI Act, US federal/state, India
+  (RBI/MeitY/SEBI/IRDAI/DPDP), other jurisdictions; public-sector AI use.
+
+### Deep beat of the day
+Rotate one extra under-covered area per edition and dig 2–3 searches deep:
+Mon=research · Tue=open-source/models · Wed=AI security · Thu=hardware/compute ·
+Fri=vertical & applied/enterprise · Sat=regional (India + China + EU) ·
+Sun=money, startups & new ideas. Shift the rotation if a beat has run dry lately.
+
+Cross-check aggregator claims against ≥2 outlets. Widen sources beyond AI-trade
+blogs: use mainstream/business press (Reuters, Bloomberg, FT, CNBC, WSJ), regional
+outlets, company/government primary posts, and earnings/filings where relevant.
+Never fabricate URLs; if a deep link is unavailable, link the outlet root and say
+so. Mark unconfirmed items RUMOR-FLAG with the evidence base named. Record each
+source's publish date so carried items never cite week-old links as if they broke
+today.
 
 ## 2. SCORE (novelty matters, not just breadth)
 - **Impact /10** = breadth of who must act (unchanged).
@@ -141,3 +173,15 @@ The renderer keys off `section`, `delta`, `new24h`, `movers`, `tracking`,
 ## Categories & tabs
 `models · business · policy · enterprise · research · hardware`. Add a tab only
 when a category has ≥1 card; keep ALL count = total cards across both mosaics.
+
+Map the broadened beats onto these tabs (add a new tab only if a theme clearly
+recurs across editions):
+- **enterprise** — applied AI / adoption / deployments / products / partnerships /
+  agent platforms.
+- **business** — startups, new ideas, funding/M&A/IPO, revenue, capex, shutdowns.
+- **policy** — regulation/government AND workforce/labor/society/culture stories.
+- **research** — papers, benchmarks, AI-for-science. **hardware** — chips/compute.
+- **models** — frontier + open-weight model releases.
+
+If applied/startup/society coverage becomes a large recurring share, promote a
+dedicated tab (e.g. `applied` or `society`) and update the renderer's tab list.
