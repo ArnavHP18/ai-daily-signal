@@ -57,6 +57,15 @@ This is the anti-rigidity heart of the scan. Don't just cover who *built* a mode
 ### C. People, policy & society
 - **Workforce & labor** — AI-driven hiring/layoffs/reorg, jobs displaced or
   created, wages, education and skilling, union/worker responses.
+- **AI jobs market & hiring hotspots** — where AI roles are booming, by geography:
+  **India** (Bengaluru, Hyderabad, Pune, NCR; GCCs/IT services), **US** (Bay Area,
+  NYC, Seattle, Austin), **UK** (London), **UAE/Dubai & Abu Dhabi**, plus EU
+  (Berlin/Paris), Singapore, Canada, Saudi. Track: hiring surges and freezes,
+  in-demand roles (ML/AI eng, prompt/agent eng, AI product, data, AI safety),
+  salary benchmarks, visa/immigration shifts, GCC and big-tech hiring drives,
+  and which sectors/cities are adding vs cutting AI headcount. Sources: LinkedIn
+  Economic Graph, Indeed/Naukri/Hired reports, Levels.fyi, Robert Half/Michael
+  Page, government labor data, and regional business press.
 - **Talent moves** — notable hires, departures, lab-to-lab migrations.
 - **Culture & society** — media, creators, elections/disinfo, public sentiment,
   notable controversies and ethics stories.
@@ -66,8 +75,9 @@ This is the anti-rigidity heart of the scan. Don't just cover who *built* a mode
 ### Deep beat of the day
 Rotate one extra under-covered area per edition and dig 2–3 searches deep:
 Mon=research · Tue=open-source/models · Wed=AI security · Thu=hardware/compute ·
-Fri=vertical & applied/enterprise · Sat=regional (India + China + EU) ·
-Sun=money, startups & new ideas. Shift the rotation if a beat has run dry lately.
+Fri=vertical & applied/enterprise · Sat=regional + AI jobs hotspots (India · US ·
+UK · UAE/Dubai · EU · Singapore) · Sun=money, startups & new ideas. Shift the
+rotation if a beat has run dry lately.
 
 Cross-check aggregator claims against ≥2 outlets. Widen sources beyond AI-trade
 blogs: use mainstream/business press (Reuters, Bloomberg, FT, CNBC, WSJ), regional
