@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 017 — 27 June 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>OPENAI</b> GPT-5.6 ships (Sol / Terra / Luna) in limited preview — but the White House gates access to ~20 government-vetted customers, approved "customer by customer" &nbsp;◆&nbsp; <b>EXPORT NET</b> The model-level control regime jumps from one lab to two — Anthropic's Fable/Mythos, now OpenAI's GPT-5.6 &nbsp;◆&nbsp; <b>ANTHROPIC</b> Day 16 — Fable 5 / Mythos 5 still dark; restoration odds cool ~16pts in 24h to ~41%; Jun 26 congressional deadline passes unanswered &nbsp;◆&nbsp; <b>JOBS</b> Saturday beat — India ~350K new AI openings, Tier-2 cities surge; Dubai AI Week hiring +40-60%; US 2026 cuts pass 185K (56% cite AI) &nbsp;◆&nbsp; <b>FUNDING</b> Production-AI wave: Baseten $1.5B, Assort Health $120M/$1.2B, Taktile $110M &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>017</b></span>
+    <span>SATURDAY, 27 JUNE 2026</span>
+    <span class="seg">NEW <b>6</b> · DEVELOPING <b>6</b> · TRACKING <b>14</b></span>
+    <span>CRITICAL <b>3</b> / NOTABLE 7 / MONITOR 2</span>
+    <span>SCAN: 28 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="openai-gpt56">
+  <div>
+    <div class="kicker">■ Today's Lead · Developing · Major Escalation · Day 17 of the model-wave arc</div>
+    <h2>OpenAI ships GPT-5.6 — but only to ~20 customers the government approves one by one</h2>
+    <p class="dek">The export-control net just widened from one lab to two. OpenAI released <strong>GPT-5.6</strong> on Jun 25–26 — a three-model family (<strong>Sol</strong>, its strongest model yet; <strong>Terra</strong>, GPT-5.5-class quality at ~2× cheaper; <strong>Luna</strong>, its cheapest) — but only in a <strong>limited preview</strong> after the White House asked OpenAI to restrict initial access to roughly <strong>20 government-vetted partners</strong>, with CEO Sam Altman telling staff the administration would approve access <strong>"customer by customer"</strong> during the preview (<a href="https://www.macrumors.com/2026/06/26/openai-gpt-5-6-sol/">MacRumors</a>, <a href="https://www.cnn.com/2026/06/25/tech/openai-limit-release-white-house">CNN</a>, <a href="https://www.engadget.com/2202129/openai-will-initially-only-release-chatgpt-5-6-to-government-approved-customers/">Engadget</a>). The request came from the Office of the National Cyber Director and OSTP; Commerce Secretary Lutnick reportedly advised against launching without cross-agency sign-off — the exact playbook used two weeks ago to dark Anthropic's Fable 5 / Mythos 5. Sol leads on agentic coding, biology and cyber, adds "max"/"ultra" reasoning modes, and is the first OpenAI model trained with a redesigned pipeline that audits for the cross-persona reward leakage blamed for GPT-5.5's alignment failure. Broader rollout is floated "a couple of weeks" out, contingent on the customer-by-customer process.</p>
+    <p class="sowhat">So what: the question is no longer "which lab gets restricted" — it's that frontier launches now ship through a federal approval gate. If you were counting on GPT-5.6 as your Fable/Mythos fallback, your access is now a government decision; keep an open-weight Plan C live and assume gated, US-first availability.</p>
+    <span class="chip arc">ARC: MODEL-WAVE · D17</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://www.macrumors.com/2026/06/26/openai-gpt-5-6-sol/">MacRumors (Sol/Terra/Luna)</a> ·
+      <a href="https://www.cnn.com/2026/06/25/tech/openai-limit-release-white-house">CNN (White House request)</a> ·
+      <a href="https://www.engadget.com/2202129/openai-will-initially-only-release-chatgpt-5-6-to-government-approved-customers/">Engadget</a> ·
+      <a href="https://letsdatascience.com/news/openai-limits-us-rollout-of-new-gpt-56-model-4cac209c">Let's Data Science</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What shipped.</strong> After a June release window that looked lapsed (Polymarket's Jun 22–28 odds had collapsed ~83%→~18%), OpenAI quietly launched <strong>GPT-5.6</strong> in a limited preview on Jun 25–26: <strong>Sol</strong> (flagship — "most robust safety stack to date," agentic gains in coding/biology/cybersecurity, new "max" reasoning effort and an "ultra" sub-agent mode), <strong>Terra</strong> (GPT-5.5-class quality at ~2× lower cost) and <strong>Luna</strong> (lowest price). Leaks long pointed to a ~1.5M-token context; the headline is governance, not specs (<a href="https://www.macrumors.com/2026/06/26/openai-gpt-5-6-sol/">MacRumors</a>).</p>
+      <p><strong>Why it's the lead.</strong> This is the decisive event that escalates the whole export-control arc: a <em>second</em> US lab now ships its best model through a government approval gate. The White House — via the Office of the National Cyber Director and OSTP — asked OpenAI to limit GPT-5.6 to ~20 vetted partners because of its capabilities; Altman framed the approvals as happening "customer by customer" (<a href="https://www.cnn.com/2026/06/25/tech/openai-limit-release-white-house">CNN</a>). It directly follows the Anthropic precedent and turns a one-off into a pattern (see Developing #2).</p>
+      <p><strong>The caveats.</strong> "~20 partners" and the "customer by customer" line are reported from internal remarks; OpenAI has not published a model card or pricing page for the gated tier as of this edition. The alignment-pipeline claim (cross-persona reward-leakage audit) is OpenAI's own framing of a GPT-5.5 fix, not independently verified. The "couple of weeks" broader-rollout timeline is contingent and unconfirmed.</p>
+      <p><strong>Watch next.</strong> Whether a public model card and pricing appear; how many customers clear the gate and how fast; whether Google (Gemini 3.5 Pro, slipping to July) faces the same ask; and whether Congress folds GPT-5.6 into its open questions about the Anthropic action.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>What</dt><dd>GPT-5.6 family: Sol (flagship), Terra (~2× cheaper than 5.5), Luna (cheapest)</dd>
+      <dt>When</dt><dd>Limited preview Jun 25–26, 2026</dd>
+      <dt>The gate</dt><dd>White House asked OpenAI to limit to ~20 gov-vetted partners; access approved "customer by customer" (Altman to staff)</dd>
+      <dt>Who asked</dt><dd>Office of the National Cyber Director + OSTP; Lutnick advised against launching without cross-agency sign-off</dd>
+      <dt>Precedent</dt><dd>Same model-level control used on Anthropic's Fable 5 / Mythos 5 (Jun 12)</dd>
+      <dt>Caveat</dt><dd>No public model card/pricing for the gated tier; "~20" and timeline are reported, not confirmed</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">9</b>/10 — every enterprise planning a frontier-model migration or fallback</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="openai-gpt56">
+      <div class="num">1</div>
+      <h4>GPT-5.6 ships — through a government gate</h4>
+      <p>OpenAI launches Sol/Terra/Luna in limited preview, but the White House caps access at ~20 vetted partners, approved "customer by customer." The Anthropic playbook, now applied to a second lab. <strong>ESCALATED.</strong></p>
+    </article>
+    <article class="trip" data-story-id="anthropic-fable-mythos">
+      <div class="num">2</div>
+      <h4>Anthropic Day 16 — odds cool</h4>
+      <p>Fable 5 &amp; Mythos 5 still dark, zero traffic. Polymarket restoration odds slid ~16pts in 24h to ~41% (Jun 30 ~41.5%, Jul 1 ~43%); the Jun 26 congressional deadline passed with no public DOC rationale. <strong>DE-ESCALATED.</strong></p>
+    </article>
+    <article class="trip" data-story-id="ai-jobs-hotspots">
+      <div class="num">3</div>
+      <h4>The AI jobs map splits (Saturday beat)</h4>
+      <p>India ~350K new AI openings, hiring shifting to Tier-2 cities; Dubai AI Week drives a 40–60% hiring spike; US 2026 cuts pass 185K (56% cite AI) with an entry-level squeeze. Adding and cutting at once. <strong>NEW.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>WHY THIS EDITION:</strong> an <strong>escalation-led day</strong>, not a flood of new items — the dominant story is a Developing thread, not a New one. GPT-5.6 actually shipped, but the headline is that a <em>second</em> US lab now distributes its best model through a federal approval gate, escalating the export-control arc to "this is a pattern." Alongside it: <strong>6 genuinely new items</strong> — the Saturday AI-jobs-hotspots map (India / Dubai / US / Singapore), a production-AI funding wave (Baseten $1.5B, Assort Health $120M/$1.2B, Taktile $110M), fresh agent CVEs (ModelScope, Cursor), the agent layer spreading across clouds (AWS Amazon Quick + Salesforce Agentforce 360 for AWS), Karpathy→Anthropic (dated honestly to May 19), and a June arXiv research beat (ScaleSWE, DeonticBench). Developing threads carry below with explicit change-lines; Anthropic's restoration odds <em>retreated</em> from yesterday's spike.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (12)</button>
+    <button class="tab" data-cat="models">MODELS (3)</button>
+    <button class="tab" data-cat="policy">POLICY (4)</button>
+    <button class="tab" data-cat="business">BUSINESS (2)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (2)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>6 ITEMS · BROKE / SURFACED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 note" data-cat="policy" data-story-id="ai-jobs-hotspots">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#1</span> <span class="cat">POLICY · AI JOBS (SATURDAY BEAT)</span></div>
+      <h4>The AI jobs map splits by geography: India and the Gulf add as the US cuts</h4>
+      <div class="body">Saturday's regional deep dive finds the labor story diverging sharply. <strong>India</strong> is projected to open <strong>~350,000 (3.5 lakh) new AI roles in 2026</strong>, with ~32% of openings now in Tier-2 cities (Jaipur, Indore, Coimbatore, Kochi, Mysuru) as GCC and salary pressure pushes hiring out of Bengaluru; the AI talent pool is set to roughly double to <strong>~1.25M by 2027</strong> (<a href="https://www.careerindia.com/news/ai-jobs-in-india-2026-3-5-lakh-new-openings-top-roles-hiring-trends-011-61295.html">CareerIndia</a>). <strong>Dubai/UAE</strong>: Dubai AI Week 2026 (10,000 delegates, 120 countries) is expected to drive a <strong>40–60% post-event hiring spike</strong>, with G42, Emirates, AWS and government entities leading; entry AI engineers earn ~AED 180–250K (<a href="https://hiredeveloper.ae/employer-blog/dubai-ai-week-2026-tech-hiring-surge">HireDeveloper.ae</a>). Meanwhile <strong>US 2026 layoffs pass ~185,894 across 267 events</strong> (56% cite AI), with the sharpest pain in junior/entry-level hiring (<a href="https://techcrunch.com/2026/06/22/the-running-list-major-tech-layoffs-in-2026-where-employers-cited-ai/">TechCrunch</a>, <a href="https://www.cbsnews.com/news/ai-layoffs-hiring-entry-level-workers/">CBS News</a>).</div>
+      <p class="sowhat">If you're hiring, the cheap-and-deep AI talent is increasingly in Indian Tier-2 cities and the Gulf, not the Bay Area — and if you're early-career in US tech, the entry rung is the one AI is removing first.</p>
+      <div><span class="chip arc">ARC: WORKFORCE · D4</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.careerindia.com/news/ai-jobs-in-india-2026-3-5-lakh-new-openings-top-roles-hiring-trends-011-61295.html">CareerIndia</a> · <a href="https://hiredeveloper.ae/employer-blog/dubai-ai-week-2026-tech-hiring-surge">HireDeveloper.ae</a> · <a href="https://www.cbsnews.com/news/ai-layoffs-hiring-entry-level-workers/">CBS News</a> · <a href="https://skillsyncer.com/layoffs-tracker">Layoffs Tracker</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="production-ai-funding">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#2</span> <span class="cat">BUSINESS · FUNDING</span></div>
+      <h4>The capital rotates to "production AI" — Baseten, Assort Health and Taktile raise mid-week</h4>
+      <div class="body">June 24–25's funding wave clustered on systems that make real decisions in production. <strong>Baseten</strong> (AI inference infrastructure) raised <strong>$1.5B Series F</strong> — its fourth raise in 18 months (<a href="https://news.crunchbase.com/venture/biggest-funding-rounds-ai-marketing-robotics-baseten/">Crunchbase</a>). <strong>Assort Health</strong> (healthcare voice AI) took <strong>$120M Series C</strong> at a <strong>$1.2B</strong> valuation (Menlo, Lightspeed, Felicis), past $222M total raised. <strong>Taktile</strong> (AI decisioning for banks/fintechs) landed <strong>$110M Series C</strong> led by Goldman Sachs (<a href="https://techstartups.com/2026/06/24/venture-capital-startup-funding-roundup-june-24-2026/">Tech Startups</a>). Nine of the week's ten biggest rounds had a direct AI angle — money moving to decisioning, routing, governance and infra, not just model labs.</div>
+      <p class="sowhat">The defensible bets are shifting from "build a model" to "run AI that touches money or patients" — watch valuations on decisioning, voice and inference infra, where real budgets and hard-to-rip-out workflows live.</p>
+      <div><span class="chip arc">ARC: CAPITAL-WAVE · D16</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techstartups.com/2026/06/24/venture-capital-startup-funding-roundup-june-24-2026/">Tech Startups (Jun 24)</a> · <a href="https://news.crunchbase.com/venture/biggest-funding-rounds-ai-marketing-robotics-baseten/">Crunchbase</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="policy" data-story-id="agent-cves">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#3</span> <span class="cat">POLICY · SECURITY</span></div>
+      <h4>Agent security gets CVE numbers: ModelScope and Cursor command-execution flaws</h4>
+      <div class="body">The prompt-injection trajectory now has concrete catalogued vulnerabilities. <strong>CVE-2026-2256</strong> is a command-injection flaw in ModelScope's MS-Agent where the shell tool fails to sanitize input and the "dangerous command" denylist can be bypassed by obfuscation. <strong>CVE-2026-22708</strong> against <strong>Cursor</strong> lets an attacker poison the agent's execution environment so allow-listed commands (e.g. <code>git branch</code>) deliver arbitrary payloads — the allowlist auto-approving exactly what the attacker needs (<a href="https://blueradius.io/ai-cybersecurity-incident-report-2026">BlueRadius incident report</a>). OWASP's State of Agentic AI Security v2.01 now catalogs CVEs and breach reports rather than hypotheticals; prompt injection stays the OWASP #1 LLM risk (+340% YoY) (<a href="https://www.helpnetsecurity.com/2026/06/11/owasp-prompt-injection-ai-security-failures/">Help Net Security</a>).</div>
+      <p class="sowhat">Allow-lists are not a control if the allowed command can be hijacked — audit every agent tool that shells out, and pin/patch ModelScope and Cursor now.</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D5</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://blueradius.io/ai-cybersecurity-incident-report-2026">BlueRadius</a> · <a href="https://www.helpnetsecurity.com/2026/06/11/owasp-prompt-injection-ai-security-failures/">Help Net Security</a> · <a href="https://blog.cyberdesserts.com/ai-agent-security-risks/">Cyber Desserts</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="enterprise" data-story-id="enterprise-agent-cloud">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#4</span> <span class="cat">ENTERPRISE · AGENTS</span></div>
+      <h4>The agent layer spreads across clouds: AWS Amazon Quick + Agentforce 360 for AWS</h4>
+      <div class="body">The cross-cloud agent build-out keeps widening. AWS launched <strong>Amazon Quick</strong>, a desktop AI assistant that works across apps and data (Google Workspace, Microsoft 365, Salesforce, Slack/Teams, ServiceNow, Jira), and expanded Amazon Connect into four agentic solutions (supply chain, hiring, CX, healthcare) (<a href="https://www.aboutamazon.com/news/aws/amazon-quick-desktop-ai-assistant">About Amazon</a>). <strong>Salesforce + AWS</strong> introduced <strong>Agentforce 360 for AWS</strong>, running on AWS infra with foundation models via Bedrock (<a href="https://www.salesforce.com/news/stories/agentforce-360-for-aws-announcement/">Salesforce</a>), while OpenAI's models (GPT-5.5, Codex) reached Bedrock after OpenAI ended Microsoft cloud exclusivity (<a href="https://www.cnbc.com/2026/04/28/openai-brings-models-to-aws-after-ending-exclusivity-with-microsoft.html">CNBC</a>). The agent control plane is becoming a multi-vendor, multi-cloud category alongside Microsoft Agent 365.</div>
+      <p class="sowhat">Your agents will straddle clouds whether you plan it or not — pick a portable control/identity layer before each team standardizes on a different vendor's stack.</p>
+      <div><span class="chip arc">ARC: AGENT-LAYER · D5</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://www.aboutamazon.com/news/aws/amazon-quick-desktop-ai-assistant">About Amazon</a> · <a href="https://www.salesforce.com/news/stories/agentforce-360-for-aws-announcement/">Salesforce</a> · <a href="https://www.cnbc.com/2026/04/28/openai-brings-models-to-aws-after-ending-exclusivity-with-microsoft.html">CNBC</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="models" data-story-id="karpathy-anthropic">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#5</span> <span class="cat">MODELS · TALENT</span></div>
+      <h4>Karpathy → Anthropic: a marquee hire surfaces in the talent ledger (May 19)</h4>
+      <div class="body">Catching up an item our narrower scans had not carried: OpenAI co-founder and ex-Tesla AI lead <strong>Andrej Karpathy</strong> joined <strong>Anthropic</strong> on <strong>May 19, 2026</strong>, on the pre-training team — specifically to launch a group using Claude itself to accelerate pretraining research (<a href="https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/">TechCrunch</a>, <a href="https://www.cnbc.com/2026/05/19/anthropic-hires-openai-cofounder-andrej-karpathy-former-tesla-ai-lead.html">CNBC</a>). It stacks onto the DeepMind exodus (Shazeer→OpenAI, Nobel laureate Jumper→Anthropic) — Anthropic is increasingly the magnet for marquee technical talent even as Washington keeps its flagships dark.</div>
+      <p class="sowhat">Talent gravity is a leading indicator: the lab under the heaviest US restriction is the one pulling the biggest names — read it against where the next frontier capability actually ships.</p>
+      <div><span class="chip arc">ARC: TALENT · D8</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/">TechCrunch</a> · <a href="https://www.cnbc.com/2026/05/19/anthropic-hires-openai-cofounder-andrej-karpathy-former-tesla-ai-lead.html">CNBC</a> · <a href="https://www.axios.com/2026/05/19/anthropic-openai-karpathy-andrej-claude">Axios</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="research" data-story-id="ai-research-beat">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#6</span> <span class="cat">RESEARCH · ARXIV</span></div>
+      <h4>June research beat: cheap coding agents from PR mining, and rules-reasoning benchmarks</h4>
+      <div class="body">Two threads worth a builder's eye. <strong>ScaleSWE</strong> mines millions of real GitHub pull requests to synthesize training data, then fine-tunes a small open model — taking a <strong>Qwen-30B to 64% on SWE-bench Verified</strong>, evidence that data pipelines, not just scale, can mint competitive coding agents (<a href="https://www.buildthisnow.com/blog/guide/mechanics/ai-research-june-2026">Build This Now</a>). <strong>DeonticBench</strong> tests reasoning over obligations/permissions/prohibitions — the rules logic agents need to act safely in regulated workflows (<a href="https://arxiv.org/pdf/2604.04443">arXiv</a>). The broader June pattern: layering structured/symbolic reasoning on neural models collapses the compute (and cost) of planning-heavy agentic tasks (<a href="https://arxiv.org/list/cs.AI/current">arXiv cs.AI</a>).</div>
+      <p class="sowhat">A 30B model at 64% SWE-bench Verified means a self-hostable coding agent is now a data-engineering problem — and rules-reasoning benchmarks are the eval to add before you let agents touch compliance.</p>
+      <div><span class="chip arc">ARC: AI-RESEARCH · D1</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://www.buildthisnow.com/blog/guide/mechanics/ai-research-june-2026">Build This Now</a> · <a href="https://arxiv.org/pdf/2604.04443">DeonticBench (arXiv)</a> · <a href="https://arxiv.org/list/cs.AI/current">arXiv cs.AI</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="models" data-story-id="openai-gpt56">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">D1</span> <span class="cat">MODELS · NATIONAL SECURITY</span></div>
+      <h4>GPT-5.6 ships in limited preview — gated to ~20 government-vetted customers</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Decisive: after the June window looked lapsed (~83%→~18%), GPT-5.6 (Sol/Terra/Luna) actually shipped Jun 25–26 — but the White House capped it at ~20 gov-vetted partners, approved "customer by customer." Re-escalated from monitor to critical; this is today's lead, in full above.</div>
+      <div class="body">The hero, in full above. <strong>Sol</strong> (flagship, agentic coding/biology/cyber, "max"/"ultra" reasoning), <strong>Terra</strong> (~2× cheaper than GPT-5.5) and <strong>Luna</strong> (cheapest) launched in a limited preview after the Office of the National Cyber Director and OSTP asked OpenAI to restrict access (<a href="https://www.cnn.com/2026/06/25/tech/openai-limit-release-white-house">CNN</a>, <a href="https://www.macrumors.com/2026/06/26/openai-gpt-5-6-sol/">MacRumors</a>). Broader rollout floated "a couple of weeks" out, contingent on the approval process. No public model card or pricing for the gated tier yet.</div>
+      <p class="sowhat">Your GPT-5.6 access is now a federal decision — keep an open-weight Plan C live and assume US-first, gated availability.</p>
+      <div><span class="chip arc">ARC: MODEL-WAVE · D17</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnn.com/2026/06/25/tech/openai-limit-release-white-house">CNN</a> · <a href="https://www.macrumors.com/2026/06/26/openai-gpt-5-6-sol/">MacRumors</a> · <a href="https://www.engadget.com/2202129/openai-will-initially-only-release-chatgpt-5-6-to-government-approved-customers/">Engadget</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="us-export-controls">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">D2</span> <span class="cat">POLICY · US</span></div>
+      <h4>The export-control precedent becomes a pattern — now binding a second lab</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Escalated: the model-level control regime is no longer about one lab. The same federal gate that darked Anthropic's Fable/Mythos now governs OpenAI's GPT-5.6 (~20 vetted customers). Separately, the Jun 26 congressional deadline for Commerce's written rationale passed with no public response.</div>
+      <div class="body">Two weeks after the Jun 12 Anthropic directive, the precedent has institutionalized into a launch-time approval gate applied to a second frontier lab (<a href="https://www.cnn.com/2026/06/25/tech/openai-limit-release-white-house">CNN</a>). It still sits atop the Jun 2 EO; the covered-frontier-model framework lands ~Aug 1. The bipartisan demand that Commerce justify the Anthropic suspension in writing by Jun 26 went unanswered publicly — Bloomberg has published Lutnick's Jun 16 letter (threatening criminal/civil penalties), but the requested legal rationale stays undisclosed (<a href="https://www.bloomberg.com/news/articles/2026-06-16/read-the-lutnick-letter-that-led-anthropic-to-disable-mythos">Bloomberg</a>).</div>
+      <p class="sowhat">A launch-time federal approval gate is now the working assumption for any US frontier release — war-game it into your model-procurement and continuity plans this quarter.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D17</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnn.com/2026/06/25/tech/openai-limit-release-white-house">CNN</a> · <a href="https://www.bloomberg.com/news/articles/2026-06-16/read-the-lutnick-letter-that-led-anthropic-to-disable-mythos">Bloomberg</a> · <a href="https://www.theglobeandmail.com/business/article-anthropic-trump-officials-deal-restore-fable-5-mythos-5/">Globe and Mail</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="models" data-story-id="anthropic-fable-mythos">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">D3</span> <span class="cat">MODELS · NATIONAL SECURITY</span></div>
+      <h4>Day 16: Fable 5 &amp; Mythos 5 still dark — restoration odds cool</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> De-escalated: yesterday's optimism reversed. Polymarket's restoration odds fell ~16pts in 24h to ~41% (Jun 30 ~41.5%, Jul 1 ~43%); the Jun 26 congressional deadline passed unanswered. Brown &amp; Heck have submitted a proposal to Lutnick committing to fix the flagged vulnerabilities; still zero traffic served.</div>
+      <div class="body">Both flagships remain disabled worldwide with zero traffic; all other Claude models are up (<a href="https://www.anthropic.com/news/fable-mythos-access">Anthropic</a>, <a href="https://explainx.ai/blog/is-fable-5-back-2026">explainx</a>). Co-founder/chief compute officer <strong>Tom Brown</strong> and policy head <strong>Sarah Heck</strong> lead the talks and have put a remediation proposal to Commerce. But the market that spiked toward ~60% on the negotiator swap has retraced: Polymarket now prices ~41% by late June, ~43% by Jul 1 (<a href="https://www.odaily.news/en/newsflash/492722">Odaily</a>, <a href="https://finance.yahoo.com/markets/crypto/articles/prediction-market-bets-fable-5-102900668.html">Yahoo Finance</a>).</div>
+      <p class="sowhat">The "back next week" trade just got marked down — keep your Fable/Mythos fallback live and don't assume a clean, near-term restart.</p>
+      <div><span class="chip arc">ARC: MODEL-WAVE · D17</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.odaily.news/en/newsflash/492722">Odaily (Polymarket)</a> · <a href="https://finance.yahoo.com/markets/crypto/articles/prediction-market-bets-fable-5-102900668.html">Yahoo Finance</a> · <a href="https://www.anthropic.com/news/fable-mythos-access">Anthropic</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="humanoid-robotics">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D4</span> <span class="cat">ENTERPRISE · ROBOTICS</span></div>
+      <h4>Physical AI: Morgan Stanley doubles its China humanoid forecast; Unitree nears IPO</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Movement: Morgan Stanley lifted its 2026 China humanoid-shipment forecast from 28,000 to 50,000 units (446,000 by 2030); Unitree cleared the Shanghai exchange listing-committee review (Jun 1) and awaits CSRC registration — the sector's first major humanoid IPO.</div>
+      <div class="body">The production ramp keeps hardening. <strong>Figure</strong> holds ~1 robot/hour at BotQ (Figure 02 contributed to 30,000+ BMW vehicles, 1,250+ runtime hours); <strong>Tesla Optimus Gen 3</strong> targets low-volume production at Fremont this summer, with GigaShanghai floated as a future build site. China is the swing factor: Morgan Stanley's upgraded forecast and Unitree's pending listing signal an early-commercialization catalyst phase (<a href="https://finance.biggo.com/news/cba1aa5c-4279-40d3-88dc-a64032a31283">BigGo/Morgan Stanley</a>, <a href="https://newmarketpitch.com/blogs/news/humanoid-robotics-optimus-deployment-tracker">Optimus tracker</a>).</div>
+      <p class="sowhat">Humanoids are crossing from demo to shipment forecasts and IPO filings — if your sector touches manufacturing or logistics, the labor-substitution timeline just pulled forward.</p>
+      <div><span class="chip arc">ARC: PHYSICAL-AI · D2</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://finance.biggo.com/news/cba1aa5c-4279-40d3-88dc-a64032a31283">BigGo (Morgan Stanley)</a> · <a href="https://newmarketpitch.com/blogs/news/humanoid-robotics-optimus-deployment-tracker">New Market Pitch</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="spcx-pricing">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D5</span> <span class="cat">BUSINESS · IPO</span></div>
+      <h4>SPCX steadies near its low — ~$152, $25B bond ~$89B oversubscribed</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Calmer tape: ~$152.15 on Jun 26 (intraday $148.51–$158.40), ~$2.01T — flat-to-firmer vs Jun 25's ~$152.91, holding just above the $147.11 ATL (Jun 23), ~33% below the $225.64 ATH.</div>
+      <div class="body">The slide has flattened near the all-time low (<a href="https://finance.yahoo.com/quote/SPCX/">Yahoo Finance</a>, <a href="https://www.tradingview.com/symbols/NASDAQ-SPCX/">TradingView</a>). The credit-vs-equity split persists: a <strong>$25B bond offering reportedly drew ~$89B in demand</strong> — strong credit appetite against soft equity sentiment, with analysts asking whether the selloff is overdone at ~$156 (<a href="https://www.tradingkey.com/analysis/stocks/us-stocks/261986935-spcx-stock-analysis-bond-demand-june-2026-tradingkey">TradingKey</a>). Still the live AI-IPO bellwether ahead of OpenAI's window.</div>
+      <p class="sowhat">Bondholders are buying what equity holders are selling — read SPCX as the real-time gauge of how unforgiving the public AI-IPO window remains.</p>
+      <div><span class="chip arc">ARC: IPO-WAVE · D18</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://finance.yahoo.com/quote/SPCX/">Yahoo Finance</a> · <a href="https://www.tradingkey.com/analysis/stocks/us-stocks/261986935-spcx-stock-analysis-bond-demand-june-2026-tradingkey">TradingKey</a> · <a href="https://www.tradingview.com/symbols/NASDAQ-SPCX/">TradingView</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="policy" data-story-id="eu-labelling-cop">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D6</span> <span class="cat">POLICY · EU</span></div>
+      <h4>EU clock: 36 days to Aug 2 transparency + GPAI enforcement</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Calendar plus a clarification: 37→36 days to Aug 2. The Commission's May 8 draft transparency guidance confirms Article 50 applies with no legacy carve-out — systems deployed before the rules took force must still comply.</div>
+      <div class="body">From Aug 2 the AI Act switches on synthetic-media labelling, AI-interaction disclosure and the Commission's GPAI enforcement powers (fines up to €15M/3% turnover) (<a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai">EU Digital Strategy</a>, <a href="https://artificialintelligenceact.eu/implementation-timeline/">artificialintelligenceact.eu</a>). GPAI models on market before Aug 2 2025 have until Aug 2 2027; the May 7 Digital Omnibus high-risk (Annex III) deferral to Dec 2 2027 stands; deepfake-labelling breaches reach up to 6% of global revenue.</div>
+      <p class="sowhat">No legacy carve-out means your already-shipped AI features are in scope too — if Article 50 labelling isn't staffed, you're now inside the 36-day window.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D17</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai">EU Digital Strategy</a> · <a href="https://artificialintelligenceact.eu/implementation-timeline/">artificialintelligenceact.eu</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING ══════════ -->
+<section>
+  <div class="sec-head">Still Tracking <small>LONG-RUNNERS WITH NO MOVEMENT THIS EDITION</small></div>
+  <div class="tracking-strip" id="tracking-strip"></div>
+</section>
+
+<!-- ══════════ RESOLVED ══════════ -->
+<section>
+  <div class="sec-head">Resolved <small>YESTERDAY'S OPEN THREADS, CLOSED</small></div>
+  <div class="resolved-strip" id="resolved-strip"></div>
+</section>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 017 · 2026-06-27 (IST) · FORMAT v2</strong></p>
+    <p>METHOD: 28 web searches, roughly even across Models &amp; core tech (GPT-5.6, Gemini, open-weight, China models, hardware, arXiv, AI security), Applied AI (enterprise deployments, funding roundups, robotics, cross-cloud agents, products) and People/policy (Anthropic, export controls, EU AI Act, India regulation, and the Saturday AI-jobs deep beat across India / US / UK / UAE-Dubai / Singapore). Deep beat of the day = regional + AI jobs hotspots. v2 format splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING (long-runners, no movement). Hero = biggest new item UNLESS a Developing thread had a major escalation — today GPT-5.6's gated launch is that decisive event, so the hero is a Developing thread. Aggregator claims cross-checked against ≥2 outlets where possible; single-source items chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+    <p>KNOWN SCAN GAPS THIS EDITION: this is an escalation-led day — the dominant story is a carried thread (GPT-5.6), not a flood of new items; 6 genuinely new ids shipped rather than padding to 10. GPT-5.6's "~20 vetted partners" and the "customer by customer" line come from reported internal remarks (CNN/Engadget/MacRumors); OpenAI has not published a model card or pricing for the gated tier, and the "couple of weeks" broader-rollout timeline is contingent. The Anthropic restoration odds are prediction-market snapshots (Polymarket via Odaily/Yahoo) that move intraday; "Jun 26 congressional deadline passed unanswered" reflects no PUBLIC Commerce rationale as of this edition, not a confirmed absence of any private response. The AI-jobs map blends a 2026 India forecast (CareerIndia: ~350K openings), a Dubai AI Week hiring-trend estimate (HireDeveloper.ae, employer blog — Agg) and a live US layoffs tracker (Skillsyncer/TechCrunch/CBS); figures are point-in-time. Karpathy→Anthropic is honestly dated May 19 and flagged NOT new24h (surfaced now, not broken in 24h). The enterprise-agent-cloud item (AWS Amazon Quick, Agentforce 360 for AWS, OpenAI-on-Bedrock) rests partly on vendor posts and event coverage whose exact dates were not all pinned to the 24h window — chip-flagged Agg 1x. Research items (ScaleSWE, DeonticBench) are from a June roundup + arXiv listings, not independently re-run. SPCX ~$152.15 is Jun 26 data, not re-checked at IST close; the $25B bond / ~$89B demand figure is a single trade-press source. Auto-retirements: oracle-ai-layoffs folds into the new AI-jobs item; the generic agent-security tracker is superseded by the CVE-numbered agent-cves item; suno-round, openai-s1, us-state-preemption, spacex-cursor, pew-ai-survey and the gpt55-cyber / ai-supply-chain trackers were retired or condensed for space with no material movement.</p>
+    <p>NOTE: Links point to sources found during the scan; where only an outlet root or roundup was available it is labelled as such. Nothing here is investment advice.</p>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 17,
+  "date": "2026-06-27",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 28,
+  "counts": {"new": 6, "developing": 6, "tracking": 14},
+  "tiers": {"critical": 3, "notable": 7, "monitor": 2},
+  "stories": [
+    {"id":"ai-jobs-hotspots","section":"new","rank":1,"title":"Saturday AI-jobs deep beat — the labor map splits: India projects ~350K (3.5 lakh) new AI roles in 2026 with ~32% of openings in Tier-2 cities and the talent pool doubling to ~1.25M by 2027; Dubai AI Week 2026 (10K delegates/120 countries) drives a 40-60% hiring spike (G42/Emirates/AWS); US 2026 layoffs pass ~185,894 across 267 events (56% cite AI) with the sharpest pain in entry-level hiring; Singapore data-science pay ~SGD75-140K","tier":"notable","impact":7,"delta":"new","arc":"workforce","arcDay":4,"confidence":"2x src","new24h":false,"firstSeen":"2026-06-27","lastUpdate":"2026-06-27","category":"policy"},
+    {"id":"production-ai-funding","section":"new","rank":2,"title":"Production-AI funding wave (Jun 24-25): Baseten $1.5B Series F (inference infra, 4th raise in 18 months); Assort Health $120M Series C at $1.2B (healthcare voice AI; Menlo/Lightspeed/Felicis, >$222M total); Taktile $110M Series C led by Goldman Sachs (AI decisioning for banks/fintechs); nine of the week's ten biggest rounds had a direct AI angle","tier":"notable","impact":6,"delta":"new","arc":"capital-wave","arcDay":16,"confidence":"2x src","new24h":false,"firstSeen":"2026-06-27","lastUpdate":"2026-06-27","category":"business"},
+    {"id":"agent-cves","section":"new","rank":3,"title":"Agent security gets CVE numbers: CVE-2026-2256 (ModelScope MS-Agent command injection; denylist bypass via obfuscation) and CVE-2026-22708 (Cursor execution-environment poisoning so allow-listed commands like 'git branch' deliver arbitrary payloads); OWASP State of Agentic AI Security v2.01 now catalogs CVEs/breaches, prompt injection still #1 (+340% YoY)","tier":"notable","impact":6,"delta":"new","arc":"agent-security","arcDay":5,"confidence":"2x src","new24h":false,"firstSeen":"2026-06-27","lastUpdate":"2026-06-27","category":"policy"},
+    {"id":"enterprise-agent-cloud","section":"new","rank":4,"title":"Agent layer spreads across clouds: AWS launches Amazon Quick (desktop AI assistant across Google Workspace/M365/Salesforce/Slack/Teams/ServiceNow/Jira) + four agentic Amazon Connect solutions; Salesforce + AWS introduce Agentforce 360 for AWS (foundation models via Bedrock); OpenAI's GPT-5.5/Codex on Bedrock after ending Microsoft cloud exclusivity — multi-vendor control plane alongside Microsoft Agent 365","tier":"notable","impact":6,"delta":"new","arc":"agent-layer","arcDay":5,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-06-27","lastUpdate":"2026-06-27","category":"enterprise"},
+    {"id":"karpathy-anthropic","section":"new","rank":5,"title":"Andrej Karpathy (OpenAI co-founder, ex-Tesla AI lead) joined Anthropic on May 19, 2026 on the pre-training team, launching a group that uses Claude itself to accelerate pretraining research; stacks onto the DeepMind exodus (Shazeer->OpenAI, Jumper->Anthropic) — Anthropic the talent magnet even under US restriction (surfaced now, dated honestly)","tier":"monitor","impact":5,"delta":"new","arc":"talent","arcDay":8,"confidence":"2x src","new24h":false,"firstSeen":"2026-06-27","lastUpdate":"2026-06-27","category":"models"},
+    {"id":"ai-research-beat","section":"new","rank":6,"title":"June arXiv research beat: ScaleSWE mines millions of real GitHub PRs to synthesize training data and fine-tunes Qwen-30B to 64% on SWE-bench Verified (data pipelines, not just scale, mint coding agents); DeonticBench tests reasoning over obligations/permissions/prohibitions for safe action in regulated workflows; broader pattern — structured/symbolic reasoning on neural models collapses agentic compute/cost","tier":"monitor","impact":5,"delta":"new","arc":"ai-research","arcDay":1,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-06-27","lastUpdate":"2026-06-27","category":"research"},
+    {"id":"openai-gpt56","section":"developing","rank":1,"title":"GPT-5.6 ships in limited preview (Jun 25-26): Sol (flagship; agentic coding/biology/cyber, 'max'/'ultra' reasoning, redesigned alignment pipeline auditing cross-persona reward leakage), Terra (~2x cheaper than GPT-5.5) and Luna (cheapest) — but the White House (Office of National Cyber Director + OSTP) asked OpenAI to limit access to ~20 government-vetted partners, approved 'customer by customer'; broader rollout floated ~2 weeks out; no public model card/pricing for the gated tier","tier":"critical","impact":9,"delta":"escalated","arc":"model-wave","arcDay":17,"confidence":"2x src","new24h":true,"update":"Decisive: after the June window looked lapsed (~83%->~18%), GPT-5.6 actually shipped Jun 25-26 — but gated to ~20 gov-vetted customers, approved customer-by-customer; re-escalated monitor->critical, now the lead","firstSeen":"2026-06-11","lastUpdate":"2026-06-27","category":"models"},
+    {"id":"us-export-controls","section":"developing","rank":2,"title":"Model-level export-control regime becomes a pattern: the same federal gate that darked Anthropic's Fable/Mythos now governs OpenAI's GPT-5.6 (~20 vetted customers) — a launch-time approval gate applied to a second frontier lab; sits atop the Jun 2 EO (covered-model framework ~Aug 1); the Jun 26 bipartisan deadline for Commerce's written rationale passed with no public response (Bloomberg published Lutnick's Jun 16 penalty letter, but the legal justification stays undisclosed)","tier":"critical","impact":9,"delta":"escalated","arc":"reg-clock","arcDay":17,"confidence":"2x src","new24h":false,"update":"Escalated: regime now binds a SECOND lab (OpenAI GPT-5.6); Jun 26 congressional written-rationale deadline passed unanswered publicly","firstSeen":"2026-06-12","lastUpdate":"2026-06-27","category":"policy"},
+    {"id":"anthropic-fable-mythos","section":"developing","rank":3,"title":"Day 16: Fable 5 & Mythos 5 still dark worldwide and zero traffic; restoration odds COOL — Polymarket fell ~16pts in 24h to ~41% (Jun 30 ~41.5%, Jul 1 ~43%) after the negotiator-swap spike; Tom Brown (chief compute officer) + Sarah Heck have submitted a remediation proposal to Lutnick; Jun 26 congressional deadline passed unanswered; reported Jul 8 gov ID-verification still read as the likely US-first restoration path","tier":"critical","impact":9,"delta":"deescalated","arc":"model-wave","arcDay":17,"confidence":"2x src","new24h":false,"update":"De-escalated: yesterday's optimism reversed — Polymarket restoration odds fell ~16pts in 24h to ~41%; Brown/Heck proposal submitted; still zero traffic","firstSeen":"2026-06-12","lastUpdate":"2026-06-27","category":"models"},
+    {"id":"humanoid-robotics","section":"developing","rank":4,"title":"Physical AI: Morgan Stanley lifts its 2026 China humanoid-shipment forecast from 28,000 to 50,000 units (446,000 by 2030); Unitree cleared the Shanghai exchange listing-committee review (Jun 1) and awaits CSRC registration — the sector's first major humanoid IPO; Figure holds ~1 robot/hour at BotQ (Figure 02 on 30,000+ BMW vehicles, 1,250+ runtime hrs); Tesla Optimus Gen 3 low-volume at Fremont this summer","tier":"notable","impact":7,"delta":"carry","arc":"physical-ai","arcDay":2,"confidence":"2x src","new24h":false,"update":"Morgan Stanley nearly doubles its 2026 China humanoid forecast (28K->50K); Unitree nears the sector's first major humanoid IPO","firstSeen":"2026-06-26","lastUpdate":"2026-06-27","category":"enterprise"},
+    {"id":"spcx-pricing","section":"developing","rank":5,"title":"SPCX steadies near its low: ~$152.15 on Jun 26 (intraday $148.51-$158.40), ~$2.01T, flat-to-firmer vs Jun 25's ~$152.91, holding just above the $147.11 ATL (Jun 23), ~33% below the $225.64 ATH; a $25B bond reportedly drew ~$89B demand — strong credit appetite vs soft equity; live AI-IPO bellwether ahead of OpenAI's window","tier":"notable","impact":6,"delta":"carry","arc":"ipo-wave","arcDay":18,"confidence":"2x src","new24h":false,"update":"Slide flattens near the ATL (~$152.15); $25B bond reportedly ~$89B oversubscribed (credit firm, equity soft)","firstSeen":"2026-06-12","lastUpdate":"2026-06-27","category":"business"},
+    {"id":"eu-labelling-cop","section":"developing","rank":6,"title":"EU clock: 36 days to Aug 2 Article 50 transparency + GPAI enforcement (fines up to €15M/3% turnover); the Commission's May 8 draft transparency guidance confirms NO legacy carve-out — systems deployed before the rules took force must comply; GPAI models on market before Aug 2 2025 have until Aug 2 2027; May 7 Digital Omnibus high-risk (Annex III) deferral to Dec 2 2027 stands; deepfake-labelling breaches up to 6% of global revenue","tier":"notable","impact":6,"delta":"carry","arc":"reg-clock","arcDay":17,"confidence":"2x src","new24h":false,"update":"Calendar (37->36 days) plus a clarification: May 8 guidance confirms Article 50 has no legacy carve-out","firstSeen":"2026-06-11","lastUpdate":"2026-06-27","category":"policy"}
+  ],
+  "tracking": [
+    {"id":"openai-broadcom-chip","label":"OpenAI + Broadcom 'Jalapeño' custom inference ASIC (taped out in ~9 months, Celestica-built, deploying at gigawatt scale from end-2026) — a bid to own inference and cut NVIDIA dependence (no fresh movement)","arc":"compute","arcDay":7},
+    {"id":"agent-spend-gartner","label":"Gartner: AI-agent software spend ~$206.5B in 2026 (+139%), ~$376.3B in 2027, but >40% of agentic projects expected cancelled by end-2027 on cost/value/risk; only ~17% of orgs have deployed agents (no movement)","arc":"agent-layer","arcDay":5},
+    {"id":"microsoft-mai-models","label":"Microsoft MAI-Code-1-Flash + MAI-Thinking-1 (35B active, from-scratch reasoning, no third-party distillation) — first-party models to cut OpenAI reliance, claimed GPT-5.5-beating quality at ~10x cost efficiency (no movement)","arc":"model-diversify","arcDay":2},
+    {"id":"harvey-legal","label":"Legal AI: Harvey at $300M ARR (from $195M end-2025), Singapore office; survey finds 68% of firms deploying Harvey agents, 21% running 50+ in production, ~11 hrs/week saved; Legora $5.6B keeps the category hot (no movement)","arc":"vertical-ai","arcDay":2},
+    {"id":"india-ai-workforce","label":"Quess India AI Workforce 2026: ~920K AI professionals (257K core + 663K embedded); GCCs drive 30-35% of AI hiring; Bengaluru ~35-39% of GCC activity across 2,117 GCCs — now contextualized by the new AI-jobs-hotspots map (no fresh movement)","arc":"workforce","arcDay":4},
+    {"id":"cursor-spacex-model","label":"Cursor's first post-$60B-SpaceX-deal output: a 1.5T-parameter coding model trained from scratch on Colossus + 'Origin' code-custody platform; Cursor ~$4B ARR, used by 64% of the Fortune 500; merger close Q3 on seven-day VWAP (no movement)","arc":"consolidation","arcDay":12},
+    {"id":"ai-drug-clinical","label":"AI-discovered drugs reach Phase 3 (Insilico rentosertib, Relay zovegalisib) but FDA-approval count still zero; 200+ AI-discovered drugs in the clinic; FDA AI guidance expected to finalize 2026 (no movement)","arc":"ai-science","arcDay":3},
+    {"id":"open-weight-surge","label":"Open-weight surge digesting: Z.ai GLM-5.2 (Jun 13, ~744-753B/40B, MIT) still leads the open Artificial Analysis Intelligence Index ahead of MiniMax M3 / DeepSeek V4-Pro; no new open model since Jun 13 (no movement)","arc":"open-weight","arcDay":5},
+    {"id":"sk-hynix-hbm4","label":"HBM4 rationed: SK Hynix slows its HBM4 ramp to chase ~90%-margin DDR5 (volume slips to 3Q26) while Samsung leads early HBM4 revenue; NVIDIA certified Samsung/SK Hynix/Micron for Vera Rubin — memory the binding 2026 compute constraint (no movement)","arc":"hbm-supply","arcDay":3},
+    {"id":"hyperscaler-capex","label":"Big Four 2026 AI capex guidance ~$630B (+62% over 2025's $388B); TrendForce puts top-nine CSP capex ~$830B and global DC capex above $1T — the demand backstop the HBM4 pinch must fulfill (no movement)","arc":"compute","arcDay":5},
+    {"id":"grok5-rumor","label":"Grok 5 (~6T-10T MoE) still training on Colossus 2 (~33% release by Jun 30); Grok V9-Medium (1.5T, Cursor-trained) shipped via the SpaceX/Cursor stack; no formal Grok 5 date (no movement)","arc":"model-wave","arcDay":17},
+    {"id":"deepseek-raise","label":"DeepSeek's ~$7.4B maiden round (closed Jun 16) at >$50B digesting; V4.1 reported expected this month; V4 co-designed with Huawei Ascend 950DT; permanent V4-Pro 75% price cut ($3.48/1M out, V4-Flash $0.28) (no movement)","arc":"capital-wave","arcDay":16},
+    {"id":"deepmind-exodus","label":"Gemini 3.5 Pro (2M context, Deep Think) reportedly slips to July, tied to the DeepMind exodus (Shazeer->OpenAI, Jumper->Anthropic); Polymarket ~50-55% for GA by Jun 30 — demoted from Developing, no new movement (now joined by Karpathy->Anthropic as a New item)","arc":"talent","arcDay":8},
+    {"id":"reflection-spacex","label":"SpaceX/Reflection AI compute deal (~$6.3B, $150M/mo for NVIDIA GB300 at Colossus 2, payments from Jul 1 through 2029) — Jul 1 payment start approaching (no movement)","arc":"compute","arcDay":5}
+  ],
+  "movers": [
+    {"dir":"up","text":"OPENAI — GPT-5.6 (Sol/Terra/Luna) ships, but gated to ~20 gov-vetted customers approved 'customer by customer'"},
+    {"dir":"down","text":"ANTHROPIC — Fable 5 restoration odds cool ~16pts in 24h to ~41% (Jun 30 ~41.5%, Jul 1 ~43%); Jun 26 congressional deadline passes unanswered"},
+    {"dir":"up","text":"CHINA HUMANOIDS — Morgan Stanley lifts 2026 shipment forecast 28K->50K units (446K by 2030); Unitree nears IPO"},
+    {"dir":"up","text":"GPT-5.6 TERRA — GPT-5.5-class quality at ~2x lower cost — fresh downward pressure on inference pricing"},
+    {"dir":"down","text":"SPCX — ~$152.15 (Jun 26), holding just off the $147.11 ATL; $25B bond ~$89B oversubscribed"}
+  ],
+  "arcs": {
+    "model-wave": {"day": 17, "note": "Export gate, not just a blackout: GPT-5.6 (Sol/Terra/Luna) ships but is capped at ~20 gov-vetted customers; Anthropic's Fable/Mythos still dark Day 16 with restoration odds cooling to ~41%; Gemini 3.5 Pro slips to July; Grok 5 ~33% by Jun 30"},
+    "reg-clock": {"day": 17, "note": "Model-level control becomes a pattern — the federal approval gate now binds a second lab (OpenAI GPT-5.6) after Anthropic; Jun 26 congressional written-rationale deadline passed unanswered; covered-model EO framework ~Aug 1; EU Aug 2 (36d) transparency+GPAI, no legacy carve-out, high-risk deferred to Dec 2027"},
+    "workforce": {"day": 4, "note": "The AI labor map splits by geography: India ~350K new AI roles (Tier-2 shift, pool doubling to ~1.25M by 2027) and Dubai AI Week's 40-60% hiring spike add, while US 2026 layoffs pass ~185,894 (56% cite AI) and gut the entry-level rung"},
+    "capital-wave": {"day": 16, "note": "Capital rotates to production AI: Baseten $1.5B (inference), Assort Health $120M/$1.2B (healthcare voice), Taktile $110M (decisioning); DeepSeek $7.4B digesting; nine of ten top weekly rounds AI-linked"},
+    "agent-security": {"day": 5, "note": "Agent security gets CVE numbers: ModelScope MS-Agent (CVE-2026-2256) command injection and Cursor (CVE-2026-22708) execution-env poisoning; OWASP v2.01 catalogs real CVEs/breaches; prompt injection still #1 (+340% YoY)"},
+    "agent-layer": {"day": 5, "note": "The agent control plane goes multi-cloud: AWS Amazon Quick + four agentic Amazon Connect solutions, Salesforce Agentforce 360 for AWS, OpenAI on Bedrock — alongside Microsoft Agent 365 and the Gartner $206.5B agent-spend backdrop"},
+    "physical-ai": {"day": 2, "note": "Embodied AI moves from demo to forecasts and IPOs: Morgan Stanley nearly doubles its 2026 China humanoid forecast (28K->50K), Unitree nears the first major humanoid IPO, Figure holds ~1 robot/hour, Tesla Optimus Gen 3 low-volume this summer"},
+    "talent": {"day": 8, "note": "Anthropic the talent magnet: Karpathy->Anthropic (May 19, pre-training, using Claude to accelerate pretraining) stacks onto the DeepMind exodus (Shazeer->OpenAI, Jumper->Anthropic) and the reported Gemini 3.5 Pro slip"},
+    "ipo-wave": {"day": 18, "note": "SPCX steadies near its ATL (~$152.15) with a $25B bond ~$89B oversubscribed — strong credit, soft equity; OpenAI S-1 quiet (~$1T, ~Sept); Anthropic also reportedly filed"},
+    "ai-research": {"day": 1, "note": "New arc: June arXiv — ScaleSWE fine-tunes Qwen-30B to 64% SWE-bench Verified from mined GitHub PRs; DeonticBench tests rules-reasoning for safe agent action; symbolic-on-neural reasoning collapses agentic compute"},
+    "consolidation": {"day": 12, "note": "SpaceX's $60B Anysphere/Cursor merger producing vertically-integrated infra (Cursor 1.5T model + 'Origin'); close Q3 — tracked, no movement"},
+    "vertical-ai": {"day": 2, "note": "Vertical AI proven in legal (Harvey $300M ARR, 68% of surveyed firms deploying) — tracked, no movement"},
+    "open-weight": {"day": 5, "note": "Open-weight surge digesting: GLM-5.2 still leads the open Artificial Analysis Intelligence Index; no new open model since Jun 13 — tracked, no movement"},
+    "model-diversify": {"day": 2, "note": "Hyperscalers build first-party models to cut supplier reliance — Microsoft MAI-Code-1-Flash + MAI-Thinking-1 — tracked, no movement"},
+    "compute": {"day": 7, "note": "Labs move to own the stack: OpenAI's Jalapeño inference ASIC (deploy end-2026), Big Four capex ~$630B, Reflection/SpaceX Colossus 2 payments start Jul 1 — tracked, no movement"},
+    "hbm-supply": {"day": 3, "note": "HBM4 rationed: SK Hynix slows ramp for DDR5 margins (volume to 3Q26); NVIDIA certifies Samsung/SK Hynix/Micron for Vera Rubin — tracked, no movement"},
+    "ai-science": {"day": 3, "note": "AI-native drug discovery reaches Phase 3 (Insilico, Relay) but FDA-approval count still zero — tracked, no movement"}
+  },
+  "resolved": [
+    "GPT-5.6 (prior Developing D6, de-escalated to monitor): the release uncertainty is resolved — it SHIPPED Jun 25-26 (Sol/Terra/Luna) in limited preview, but gated to ~20 government-vetted customers approved 'customer by customer'; re-escalated to the hero/critical and the model-level control precedent now binds a second lab.",
+    "Congressional deadline (prior Jun 26 radar tile): the bipartisan written-rationale demand to Commerce passed Jun 26 with no public response; Bloomberg published Lutnick's Jun 16 penalty letter, but the requested legal justification stays undisclosed — folded into us-export-controls.",
+    "Agent-security (prior Tracking): crystallized into concrete, CVE-numbered flaws (ModelScope MS-Agent CVE-2026-2256, Cursor CVE-2026-22708) — promoted to New on the Wire as 'agent-cves'; the generic agent-security tracker retired.",
+    "Anthropic odds (prior Mover up, ~15%->~60% on the negotiator swap): reversed — Polymarket restoration odds cooled ~16pts in 24h to ~41% (Jun 30 ~41.5%, Jul 1 ~43%); Anthropic thread de-escalated.",
+    "Space-saving retirements with no material movement: suno-round, openai-s1, us-state-preemption, spacex-cursor (merger), pew-ai-survey, gpt55-cyber and ai-supply-chain condensed/retired; oracle-ai-layoffs folded into the new AI-jobs-hotspots map."
+  ],
+  "deadlines": [
+    {"date": "2026-06-30", "label": "Colorado AI Act effective; Gemini 3.5 Pro GA (reportedly slipping to July) + Grok 5 (~33%) windows lapse if no ship; Polymarket Fable 5 restoration ~41.5% by today", "severity": "high"},
+    {"date": "2026-07-01", "label": "Reflection AI -> SpaceX compute payments begin ($150M/mo); RBI dark-pattern Directions effective (India); Polymarket Fable 5 / Mythos 5 restoration ~43% by today", "severity": "high"},
+    {"date": "2026-07-08", "label": "Reported government ID-verification milestone — read as the likely US-first restoration path for Fable 5 / Mythos 5 (reported, not confirmed by Commerce)", "severity": "medium"},
+    {"date": "2026-07-10", "label": "GPT-5.6 broader-rollout window (~2 weeks after the limited preview), contingent on the customer-by-customer government approval process — approximate", "severity": "medium"},
+    {"date": "2026-08-01", "label": "Jun 2 EO covered-frontier-model framework expected to land (~Aug 1) — the standing basis for model-level approval gates", "severity": "high"},
+    {"date": "2026-08-02", "label": "EU AI Act: Article 50 transparency + GPAI enforcement (fines up to €15M/3% turnover) — 36 days; no legacy carve-out; high-risk (Annex III) deferred to Dec 2 2027", "severity": "high"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
