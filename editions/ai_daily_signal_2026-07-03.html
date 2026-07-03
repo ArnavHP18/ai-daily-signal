@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 022 — 3 July 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>ANTHROPIC</b> Fable 5 restored worldwide (Jul 1) after US Commerce lifts the Jun 12 export-control order — the 21-day blackout ends; Mythos 5 also cleared &nbsp;◆&nbsp; <b>ENTERPRISE</b> Microsoft launches a $2.5B "Frontier" forward-deployed AI unit — 6,000 engineers to embed in customers (LSEG, Unilever, Novo Nordisk) &nbsp;◆&nbsp; <b>SECURITY</b> "DuneSlide" — two CVSS 9.8 zero-click prompt-injection RCE flaws in Cursor IDE (Cato Labs); every version before 3.0 affected &nbsp;◆&nbsp; <b>MONEY</b> Together AI raises $800M at $8.3B (Aramco-led); TwelveLabs $100M for "video superintelligence" &nbsp;◆&nbsp; <b>CLOUD</b> Meta reportedly building "Meta Compute" to rent excess GPUs — shares +~9%, CoreWeave −~14% &nbsp;◆&nbsp; <b>GOV</b> California signs a first-of-its-kind statewide Claude deal — all executive agencies at 50% off &nbsp;◆&nbsp; <b>TALENT</b> Anthropic hires UC Berkeley CS-division chair Jelani Nelson &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>022</b></span>
+    <span>FRIDAY, 3 JULY 2026</span>
+    <span class="seg">NEW <b>12</b> · DEVELOPING <b>3</b> · TRACKING <b>16</b></span>
+    <span>CRITICAL <b>2</b> / NOTABLE 7 / MONITOR 6</span>
+    <span>SCAN: 28 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="anthropic-fable-mythos">
+  <div>
+    <div class="kicker">■ Today's Lead · Developing · Models · The blackout ends — Day 22</div>
+    <h2>Washington turned Anthropic's flagship back on: Fable 5 is live again worldwide after the export ban is lifted.</h2>
+    <p class="dek">The 21-day standoff that has led this briefing since June 12 is over. The US Commerce Department / BIS <strong>withdrew the June 12 export-control order</strong> (dated ~Jun 30), and Anthropic began <strong>redeploying Fable 5 globally on July 1</strong> across the Claude Platform, Claude.ai, Claude Code and Cowork; <strong>Mythos 5</strong> — earlier cleared only for ~100 vetted US critical-infrastructure orgs — was cleared too (<a href="https://www.cnbc.com/2026/06/30/anthropic-says-trump-admin-has-lifted-export-controls-on-claude-fable-5-and-mythos-5.html">CNBC</a>, <a href="https://www.axios.com/2026/07/01/anthropic-fable-5-back-online-trump-export-controls-lifted">Axios</a>, <a href="https://www.anthropic.com/news/redeploying-fable-5">Anthropic</a>). In exchange Anthropic agreed to proactively detect and report security risks and help develop model-safety standards; it says it shipped an updated classifier that blocks the Amazon-reported jailbreak — the software-vulnerability finding that triggered the June 12 suspension — in <strong>&gt;99%</strong> of cases, routing blocked prompts to Opus 4.8. The restoration is <strong>staged</strong>, not instantaneous: Fable 5 counts toward up to ~50% of weekly usage limits through <strong>Jul 7</strong> for Pro/Max/Team, and a separate <strong>government-ID / age-verification gate</strong> (via vendor Persona) begins <strong>Jul 8</strong> for consumer plans (API/Team/Enterprise exempt).</p>
+    <p class="sowhat">So what: the acute crisis is resolved, but the precedent isn't. A cabinet-level, model-specific on/off switch was used and then released in three weeks — build that contingency into every frontier-dependent plan, keep the open-weight fallback you qualified during the blackout, and read the Jul 8 ID gate as the new cost of consumer access.</p>
+    <span class="chip arc">ARC: MODEL-WAVE · D22</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://www.cnbc.com/2026/06/30/anthropic-says-trump-admin-has-lifted-export-controls-on-claude-fable-5-and-mythos-5.html">CNBC</a> ·
+      <a href="https://www.axios.com/2026/07/01/anthropic-fable-5-back-online-trump-export-controls-lifted">Axios</a> ·
+      <a href="https://www.anthropic.com/news/redeploying-fable-5">Anthropic</a> ·
+      <a href="https://www.nbcnews.com/business/business-news/commerce-department-gives-green-light-anthropic-bring-back-fable-5-rcna352501">NBC News</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What changed.</strong> On June 12 the administration invoked export-control authority to switch off Anthropic's two most capable models — Fable 5 (the general-purpose flagship millions used) and Mythos 5 (its strongest cyber model) — worldwide, after an Amazon researcher's report of a jailbreak that surfaced software vulnerabilities. A June 26 letter first restored Mythos 5 for ~100 Annex-A US critical-infrastructure organizations (Project Glasswing). Then, around June 30, Commerce withdrew the order entirely; Anthropic re-enabled Fable 5 for all users starting July 1 (<a href="https://www.cnbc.com/2026/06/30/anthropic-says-trump-admin-has-lifted-export-controls-on-claude-fable-5-and-mythos-5.html">CNBC</a>, <a href="https://www.cnn.com/2026/06/30/tech/anthropic-export-control-ban-lifted-white-house">CNN Business</a>, <a href="https://www.aljazeera.com/economy/2026/7/1/us-lifts-restrictions-on-powerful-ai-models-fable-mythos-anthropic-says">Al Jazeera</a>).</p>
+      <p><strong>The terms.</strong> Reporting describes reciprocal commitments: Anthropic will give the government proactive security testing and reporting, contribute to model-safety standards, and has trained a classifier that it says blocks the specific jailbreak in &gt;99% of cases (redirecting to Opus 4.8). Consumer access now carries an identity cost — the Jul 8 Persona government-ID / age check, first flagged in late June, proceeds on schedule; API and enterprise customers are exempt.</p>
+      <p><strong>Why it's the lead.</strong> This is the decisive event the feed has tracked for 22 arc-days — a resolution, not another holding pattern — and it resets the strategic picture: the immediate export exposure on Anthropic is gone, but the June 2 EO's voluntary early-access framework (Developing #2) and the EU's binding Aug 2 clock (Developing #3) still define the regime the industry now ships under.</p>
+      <p><strong>Caveats &amp; watch next.</strong> The restoration is staged (50% weekly-usage weighting through Jul 7) and details rest on trade/business press plus Anthropic's own posts (anthropic.com returned 403 to our fetcher; cross-checked via CNBC/Axios/CNN/NBC). One low-authority aggregator claims restored Fable 5 "retakes the coding crown at 80.3% SWE-Bench Pro" — treated here as UNCONFIRMED and not run. Watch the Jul 8 ID rollout, any user pushback on biometric verification, and whether Commerce codifies a standing model-suspension power despite releasing this one.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>What</dt><dd>US lifts the Jun 12 export-control order; Fable 5 restored globally</dd>
+      <dt>When</dt><dd>Order withdrawn ~Jun 30; Fable 5 redeployed from Jul 1</dd>
+      <dt>Also cleared</dt><dd>Mythos 5 (was limited to ~100 US critical-infra orgs Jun 26)</dd>
+      <dt>The deal</dt><dd>Anthropic: proactive security testing/reporting + classifier blocking the reported jailbreak &gt;99%</dd>
+      <dt>Staged</dt><dd>Fable 5 ≤~50% of weekly usage through Jul 7; Jul 8 gov-ID / age check (consumer plans; API/Team exempt)</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">9</b>/10 — every enterprise, developer and consumer cut off since Jun 12, and every frontier-dependent contingency plan</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="anthropic-fable-mythos">
+      <div class="num">1</div>
+      <h4>The Anthropic blackout is over — Fable 5 is back worldwide</h4>
+      <p>Commerce withdrew the Jun 12 export order (~Jun 30); Anthropic redeployed Fable 5 globally from Jul 1, with Mythos 5 also cleared, in exchange for proactive security testing and a jailbreak-blocking classifier. Staged rollout; Jul 8 ID gate. <strong>DEVELOPING.</strong></p>
+    </article>
+    <article class="trip" data-story-id="microsoft-frontier-co">
+      <div class="num">2</div>
+      <h4>Microsoft puts $2.5B behind its own "forward-deployed" army</h4>
+      <p>Two days after AWS's $1B FDE org, Microsoft launched the "Frontier" company — $2.5B and ~6,000 engineers embedded inside customers (LSEG, Unilever, Novo Nordisk) to design and run AI. The integration land-grab is now a big-tech arms race. <strong>NEW.24H.</strong></p>
+    </article>
+    <article class="trip" data-story-id="cursor-duneslide">
+      <div class="num">3</div>
+      <h4>"DuneSlide" — a zero-click RCE in the coding IDE half the Fortune 500 uses</h4>
+      <p>Cato Labs disclosed two CVSS 9.8 sandbox-escape bugs in Cursor: a single injected instruction in an MCP response or web-search result runs arbitrary code with no click. Patched in 3.0; every prior version affected. The agent-security bill keeps arriving. <strong>NEW.24H.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>FRIDAY · VERTICAL &amp; APPLIED DEEP BEAT · THE BLACKOUT RESOLVES:</strong> the saga that led this feed for three weeks ends — the US lifted the export ban and <strong>Fable 5 is live again worldwide</strong> (hero, Developing). Around it, <strong>12 items are new to this feed</strong> and <strong>4 broke within 24h</strong> (Microsoft Frontier, Cursor DuneSlide, Z.ai's ZCode, the Jelani Nelson hire). Applied AI dominates the Friday beat: <strong>Microsoft's $2.5B Frontier</strong> forward-deployed unit, <strong>Claude GA on Microsoft Foundry</strong> (first on NVIDIA GB300), a <strong>first-of-its-kind California statewide Claude</strong> deal, an <strong>Overland AI Marine Corps</strong> autonomous-vehicle contract, and <strong>Klaviyo</strong> multi-agent retail AI. Money is loud — <strong>Together AI $800M/$8.3B</strong>, <strong>TwelveLabs $100M</strong>, <strong>Omen AI $31M</strong> — while <strong>Meta reportedly builds a GPU-rental cloud</strong> (shares +~9%, CoreWeave −~14%). Talent flips direction: Anthropic hires <strong>UC Berkeley CS-division chair Jelani Nelson</strong>. Developing threads (the US Aug 1 voluntary framework, EU Aug 2 — now ~30 days) carry below. Honesty note: the prior edition's "Jul 8 Pentagon/NSA sign-off" framing is corrected — Jul 8 is a consumer ID-verification gate, not a defense sign-off.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (15)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (4)</button>
+    <button class="tab" data-cat="business">BUSINESS (4)</button>
+    <button class="tab" data-cat="policy">POLICY (4)</button>
+    <button class="tab" data-cat="models">MODELS (2)</button>
+    <button class="tab" data-cat="security">SECURITY (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>12 ITEMS · SURFACED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="microsoft-frontier-co">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#1</span> <span class="cat">ENTERPRISE · AI SERVICES</span></div>
+      <h4>Microsoft launches a $2.5B "Frontier" company to embed AI engineers in customers</h4>
+      <div class="body">Microsoft unveiled the <strong>Microsoft Frontier</strong> company (Jul 2), committing <strong>$2.5B</strong> and <strong>~6,000 employees</strong> to embed engineers inside enterprise customers to design, deploy and run AI systems — the Palantir-style forward-deployed model, led by ex-Microsoft-Asia president Rodrigo Kede Lima. Early named customers: <strong>LSEG, Land O'Lakes, Unilever, Novo Nordisk</strong>; launch partners Accenture, Capgemini and EY (<a href="https://www.geekwire.com/2026/microsoft-announces-2-5b-frontier-company-to-embed-ai-engineers-inside-customers/">GeekWire</a>, <a href="https://www.cnbc.com/2026/07/02/microsoft-commits-2point5-billion-6000-employees-ai-implementation-unit.html">CNBC</a>, <a href="https://techcrunch.com/2026/07/02/microsoft-launches-its-own-ai-deployment-company-with-2-5-billion-commitment/">TechCrunch</a>). It lands two days after AWS's $1B FDE org.</div>
+      <p class="sowhat">Every hyperscaler is now buying integration with headcount — "we'll build it in your shop" is becoming the default enterprise AI sale. Use the competition as leverage, but demand the denominator behind any productivity claim.</p>
+      <div><span class="chip arc">ARC: FDE-PLAYBOOK · D3</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.geekwire.com/2026/microsoft-announces-2-5b-frontier-company-to-embed-ai-engineers-inside-customers/">GeekWire</a> · <a href="https://www.cnbc.com/2026/07/02/microsoft-commits-2point5-billion-6000-employees-ai-implementation-unit.html">CNBC</a> · <a href="https://techcrunch.com/2026/07/02/microsoft-launches-its-own-ai-deployment-company-with-2-5-billion-commitment/">TechCrunch</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="security" data-story-id="cursor-duneslide">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#2</span> <span class="cat">SECURITY · AGENTS</span></div>
+      <h4>"DuneSlide": two CVSS 9.8 zero-click RCE flaws in the Cursor IDE</h4>
+      <div class="body"><strong>Cato AI Labs</strong> disclosed <strong>CVE-2026-50548</strong> and <strong>CVE-2026-50549</strong> — sandbox-escape bugs in Cursor's <code>run_terminal_cmd</code> tool that let a single injected instruction in an <strong>MCP response or web-search result</strong> escape the terminal sandbox and run <strong>arbitrary code with no click</strong>. Patched in Cursor 3.0 (Apr 2); every prior version is affected; Cursor's maker says &gt;half the Fortune 500 use it (<a href="https://thehackernews.com/2026/07/critical-cursor-flaws-could-let-prompt.html">The Hacker News</a>, <a href="https://www.catonetworks.com/blog/duneslide-two-critical-rce-vulnerabilities/">Cato Networks</a>, <a href="https://www.csoonline.com/article/4191923/sandbox-bypass-flaws-in-cursor-ide-highlight-prompt-injection-as-an-rce-vector.html">CSO Online</a>).</div>
+      <p class="sowhat">Prompt injection is now a first-class RCE vector against dev tools, not just chatbots — force-upgrade Cursor to ≥3.0, audit which MCP servers and web-search tools your agents can reach, and treat tool output as untrusted input.</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D11</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://thehackernews.com/2026/07/critical-cursor-flaws-could-let-prompt.html">The Hacker News</a> · <a href="https://www.catonetworks.com/blog/duneslide-two-critical-rce-vulnerabilities/">Cato Networks</a> · <a href="https://www.csoonline.com/article/4191923/sandbox-bypass-flaws-in-cursor-ide-highlight-prompt-injection-as-an-rce-vector.html">CSO Online</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="policy" data-story-id="california-claude">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#3</span> <span class="cat">POLICY · PUBLIC SECTOR</span></div>
+      <h4>California signs a first-of-its-kind statewide Claude deal</h4>
+      <div class="body">Gov. Newsom announced a statewide agreement (Jun 29) making <strong>Claude available to all California executive-branch agencies</strong> (DMV, CalTrans, DHCS and more) plus cities and counties at a <strong>50% discount</strong>, with free workforce training and Anthropic developer support — billed as the largest government-wide AI platform commitment by any US state (<a href="https://www.gov.ca.gov/2026/06/29/governor-newsom-announces-a-first-of-its-kind-partnership-providing-anthropic-tools-to-state-agencies-and-improving-services-for-californians/">CA Governor</a>, <a href="https://techcrunch.com/2026/06/29/anthropic-and-gov-newsom-forge-deal-allowing-california-government-to-use-claude-at-half-price/">TechCrunch</a>, <a href="https://www.cbsnews.com/sacramento/news/california-claude-deal-gavin-newsom/">CBS Sacramento</a>).</div>
+      <p class="sowhat">Public-sector procurement is becoming a frontier-lab battleground — a whole-of-state standardization on one vendor is a distribution moat. Watch which model other states standardize on next.</p>
+      <div><span class="chip arc">ARC: APPLIED-ADOPTION · D3</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.gov.ca.gov/2026/06/29/governor-newsom-announces-a-first-of-its-kind-partnership-providing-anthropic-tools-to-state-agencies-and-improving-services-for-californians/">CA Governor</a> · <a href="https://techcrunch.com/2026/06/29/anthropic-and-gov-newsom-forge-deal-allowing-california-government-to-use-claude-at-half-price/">TechCrunch</a> · <a href="https://www.cbsnews.com/sacramento/news/california-claude-deal-gavin-newsom/">CBS Sacramento</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="together-ai-raise">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#4</span> <span class="cat">BUSINESS · FUNDING</span></div>
+      <h4>Together AI raises $800M at an $8.3B valuation, Aramco-led</h4>
+      <div class="body">Open-source-model-infra "neocloud" <strong>Together AI</strong> raised <strong>$800M</strong> led by <strong>Aramco Ventures</strong> (NVIDIA, General Catalyst, Vista, Emergence, March Capital, Pegatron participating), more than doubling its $3.3B Series B mark from ~16 months earlier to <strong>$8.3B</strong>; annual bookings are said to cross <strong>$1.15B</strong> with 500+ MW of compute committed (<a href="https://techcrunch.com/2026/07/01/neocloud-together-ai-raises-800m-leaps-to-8-3b-valuation/">TechCrunch</a>, <a href="https://finance.yahoo.com/technology/ai/articles/together-ai-raises-800-million-180132872.html">Yahoo/Reuters</a>, <a href="https://www.finsmes.com/2026/07/together-ai-raises-800m-in-series-c-at-8-3-billion-valuation.html">FinSMEs</a>).</div>
+      <p class="sowhat">Capital is still pouring into the open-model / inference layer, now with Gulf sovereign money leading — the neocloud tier is consolidating into a credible alternative to the big three clouds for AI workloads.</p>
+      <div><span class="chip arc">ARC: CAPITAL-WAVE · D16</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/01/neocloud-together-ai-raises-800m-leaps-to-8-3b-valuation/">TechCrunch</a> · <a href="https://finance.yahoo.com/technology/ai/articles/together-ai-raises-800-million-180132872.html">Yahoo/Reuters</a> · <a href="https://www.finsmes.com/2026/07/together-ai-raises-800m-in-series-c-at-8-3-billion-valuation.html">FinSMEs</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="enterprise" data-story-id="claude-foundry-ga">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#5</span> <span class="cat">ENTERPRISE · CLOUD</span></div>
+      <h4>Claude hits GA on Microsoft Foundry — first on NVIDIA GB300 Blackwell Ultra</h4>
+      <div class="body">Anthropic's <strong>Claude</strong> models reached <strong>general availability on Microsoft Foundry</strong> (~Jun 29) — the first Claude deployment on <strong>NVIDIA GB300 Blackwell Ultra</strong> GPUs with Quantum-X800 InfiniBand, offering a 1M-token context in Azure East US, West Europe and Southeast Asia, with more regions through Q3 (<a href="https://azure.microsoft.com/en-us/blog/claude-in-microsoft-foundry-is-now-generally-available/">Microsoft Azure</a>, <a href="https://blogs.nvidia.com/blog/anthropic-nvidia-gb300-blackwell-ultra-microsoft-azure/">NVIDIA</a>, <a href="https://techafricanews.com/2026/07/01/microsoft-nvidia-and-anthropic-deepen-ai-collaboration-with-claude-general-availability/">TechAfrica</a>).</div>
+      <p class="sowhat">Anthropic keeps widening distribution across clouds even as its export exposure eases — for buyers, Claude-on-Azure is now a first-class, GB300-backed option to price against Bedrock and the API.</p>
+      <div><span class="chip arc">ARC: APPLIED-ADOPTION · D3</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://azure.microsoft.com/en-us/blog/claude-in-microsoft-foundry-is-now-generally-available/">Microsoft Azure</a> · <a href="https://blogs.nvidia.com/blog/anthropic-nvidia-gb300-blackwell-ultra-microsoft-azure/">NVIDIA</a> · <a href="https://techafricanews.com/2026/07/01/microsoft-nvidia-and-anthropic-deepen-ai-collaboration-with-claude-general-availability/">TechAfrica</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="meta-compute-cloud">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#6</span> <span class="cat">BUSINESS · CLOUD</span></div>
+      <h4>Meta reportedly building a cloud to rent out excess GPUs — shares jump ~9%</h4>
+      <div class="body"><span class="chip rumor">RUMOR-FLAG</span> <strong>Bloomberg</strong> reported (Jul 1) that Meta is building a cloud business to <strong>rent out surplus AI compute</strong> and its Llama models — its most direct challenge yet to AWS/Azure/Google Cloud. The report sent <strong>Meta shares up ~8.8%</strong> while neoclouds fell — <strong>CoreWeave −~13.9%</strong>, <strong>Nebius −~17%</strong>; Meta guides up to ~$145B capex this year (<a href="https://www.bloomberg.com/news/articles/2026-07-01/meta-is-building-a-cloud-business-to-sell-excess-ai-compute">Bloomberg</a>, <a href="https://siliconangle.com/2026/07/01/meta-shares-jump-9-reported-plan-offer-ai-infrastructure-services/">SiliconANGLE</a>). Sourced to unnamed people; not officially confirmed by Meta.</div>
+      <p class="sowhat">If the largest buyer of GPUs becomes a seller, the neocloud thesis wobbles — watch for a Meta confirmation and reprice any dependency on CoreWeave/Nebius-class capacity.</p>
+      <div><span class="chip arc">ARC: CLOUD-WARS · D1</span><span class="chip rumor">RUMOR-FLAG</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-07-01/meta-is-building-a-cloud-business-to-sell-excess-ai-compute">Bloomberg</a> · <a href="https://siliconangle.com/2026/07/01/meta-shares-jump-9-reported-plan-offer-ai-infrastructure-services/">SiliconANGLE</a> · <a href="https://www.cloudcomputing-news.net/news/meta-ai-cloud-business-excess-compute/">CloudComputing-News</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="policy" data-story-id="jelani-nelson-anthropic">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#7</span> <span class="cat">POLICY · TALENT</span></div>
+      <h4>Anthropic hires UC Berkeley's CS-division chair, Jelani Nelson</h4>
+      <div class="body"><strong>Jelani Nelson</strong> — chair of UC Berkeley EECS's CS Division and a leading theoretical computer scientist (streaming-algorithm lower bounds) — is taking leave from Berkeley to join <strong>Anthropic</strong> as a Member of Technical Staff, start date <strong>July 1</strong>, which he confirmed himself on X (<a href="https://www.techtimes.com/articles/319500/20260702/anthropic-hires-berkeley-cs-chair-jelani-nelson-signaling-new-phase-ai-race.htm">TechTimes</a>, <a href="https://cryptobriefing.com/jelani-nelson-berkeley-anthropic/">Crypto Briefing</a>, <a href="https://addisinsight.net/2026/07/01/prof-jelani-nelson-takes-leave-from-uc-berkeley-to-join-ai-giant-anthropic/">Addis Insight</a>). A marker of talent flowing from top academia into the labs — the reverse of the DeepMind-exodus thread.</div>
+      <p class="sowhat">The labs are now draining senior academic leadership, not just poaching each other — expect the university-to-lab pipeline (and the research-capacity question it raises) to become its own policy story.</p>
+      <div><span class="chip arc">ARC: TALENT · D14</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.techtimes.com/articles/319500/20260702/anthropic-hires-berkeley-cs-chair-jelani-nelson-signaling-new-phase-ai-race.htm">TechTimes</a> · <a href="https://cryptobriefing.com/jelani-nelson-berkeley-anthropic/">Crypto Briefing</a> · <a href="https://addisinsight.net/2026/07/01/prof-jelani-nelson-takes-leave-from-uc-berkeley-to-join-ai-giant-anthropic/">Addis Insight</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="models" data-story-id="zai-zcode">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#8</span> <span class="cat">MODELS · OPEN-WEIGHT</span></div>
+      <h4>Z.ai ships "ZCode" — an agentic coding IDE built on GLM-5.2</h4>
+      <div class="body">Beijing lab <strong>Z.ai</strong> (formerly Zhipu) launched <strong>ZCode</strong> (Jul 2), an "Agentic Development Environment" for macOS/Windows/Linux purpose-built for its open-weight <strong>GLM-5.2</strong> — undercutting Western rivals with coding-plan tiers from <strong>~$16.20 to $144/month</strong>, BYOK support, MIT-licensed weights for self-hosting, and remote task steering via WeChat/Feishu/Telegram; positioned against Cursor, Claude Code, Copilot and Google Antigravity (<a href="https://venturebeat.com/technology/z-ai-launches-zcode-to-challenge-cursor-claude-code-and-github-copilot-in-ai-coding">VentureBeat</a>, <a href="https://www.techmeme.com/260702/p19">Techmeme</a>, <a href="https://devops.com/z-ai-debuts-zcode-to-compete-with-github-copilot-cursor-and-anthropic/">DevOps.com</a>).</div>
+      <p class="sowhat">Open-weight labs are now shipping the whole coding stack — model plus IDE plus price war — as a self-hostable bundle. For teams weighing export risk or vendor lock-in, that's a credible full-stack alternative to eval.</p>
+      <div><span class="chip arc">ARC: OPEN-WEIGHT · D11</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://venturebeat.com/technology/z-ai-launches-zcode-to-challenge-cursor-claude-code-and-github-copilot-in-ai-coding">VentureBeat</a> · <a href="https://www.techmeme.com/260702/p19">Techmeme</a> · <a href="https://devops.com/z-ai-debuts-zcode-to-compete-with-github-copilot-cursor-and-anthropic/">DevOps.com</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="overland-ai-marines">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#9</span> <span class="cat">ENTERPRISE · DEFENSE</span></div>
+      <h4>Overland AI wins a Marine Corps autonomous-ground-vehicle production contract</h4>
+      <div class="body">The Pentagon (APFIT / R&amp;E) awarded <strong>Overland AI</strong> a ~<strong>$20M</strong> production contract for <strong>autonomous ground vehicles</strong> to resupply Marine Air Defense Integrated Systems, with first deliveries ~9 months post-award (<a href="https://defensescoop.com/2026/06/29/autonomous-ground-vehicle-marine-corps-overland-ai-contract/">DefenseScoop</a>, <a href="https://interestingengineering.com/military/marine-corps-autonomous-ground-vehicles">Interesting Engineering</a>). Physical AI moving from demo to defense procurement.</div>
+      <p class="sowhat">Defense is quietly becoming one of the first production buyers of embodied autonomy — a durable, budget-backed demand signal for the physical-AI stack that consumer robotics can't yet match.</p>
+      <div><span class="chip arc">ARC: PHYSICAL-AI · D8</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://defensescoop.com/2026/06/29/autonomous-ground-vehicle-marine-corps-overland-ai-contract/">DefenseScoop</a> · <a href="https://interestingengineering.com/military/marine-corps-autonomous-ground-vehicles">Interesting Engineering</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="business" data-story-id="twelvelabs-raise">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#10</span> <span class="cat">BUSINESS · FUNDING</span></div>
+      <h4>TwelveLabs raises $100M for "video superintelligence" — plus an AWS Trainium deal</h4>
+      <div class="body">Video-understanding startup <strong>TwelveLabs</strong> (SF/Seoul) raised a <strong>$100M Series B</strong> co-led by <strong>NEA and NAVER Ventures</strong> (Amazon, Radical, Index, Korea Investment Partners, Red Bull Ventures participating), taking total funding to ~$150M; it paired the round with an <strong>AWS Trainium</strong> deal and is opening NY and London offices, shipping its Marengo 3.0 / Pegasus 1.5 models (<a href="https://www.globenewswire.com/news-release/2026/07/01/3320545/0/en/twelvelabs-raises-100-million-in-series-b-funding-to-build-video-superintelligence.html">GlobeNewswire</a>, <a href="https://www.finsmes.com/2026/07/twelvelabs-raises-100m-in-series-b-funding.html">FinSMEs</a>).</div>
+      <p class="sowhat">Video understanding is emerging as its own foundation-model vertical, and the Trainium tie-up shows AWS courting the next model layer onto its silicon — a category to watch for media, security and robotics use cases.</p>
+      <div><span class="chip arc">ARC: CAPITAL-WAVE · D16</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.globenewswire.com/news-release/2026/07/01/3320545/0/en/twelvelabs-raises-100-million-in-series-b-funding-to-build-video-superintelligence.html">GlobeNewswire</a> · <a href="https://finance.yahoo.com/technology/ai/articles/twelvelabs-raises-100-million-180132872.html">Yahoo/Reuters</a> · <a href="https://www.finsmes.com/2026/07/twelvelabs-raises-100m-in-series-b-funding.html">FinSMEs</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="klaviyo-agents">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#11</span> <span class="cat">ENTERPRISE · RETAIL</span></div>
+      <h4>Klaviyo ships multi-agent AI for consumer brands</h4>
+      <div class="body">Marketing/CRM platform <strong>Klaviyo</strong> (NYSE: KVYO) moved its <strong>Composer</strong> AI marketing agent to public beta and expanded its <strong>Customer Agent</strong> into a full AI service platform (Jun 30) — agents that build cross-channel campaigns and complete service actions (process returns, apply loyalty points) using data from ~<strong>200,000 brands</strong> (<a href="https://www.businesswire.com/news/home/20260630493754/en/Klaviyo-Launches-AI-Agents-that-Work-Together-to-Drive-Revenue-for-Consumer-Brands">Business Wire</a>, <a href="https://www.digitalcommerce360.com/2026/07/01/klaviyo-launches-beta-for-marketing-ai-agents/">Digital Commerce 360</a>, <a href="https://www.cxtoday.com/crm/klaviyo-embeds-ai-agents-in-its-crm-to-deliver-shared-customer-context/">CX Today</a>).</div>
+      <p class="sowhat">Vertical SaaS is embedding task-completing agents on top of its proprietary data — the defensible AI play isn't the model, it's the shared customer context the agent runs on.</p>
+      <div><span class="chip arc">ARC: AGENT-LAYER · D11</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.businesswire.com/news/home/20260630493754/en/Klaviyo-Launches-AI-Agents-that-Work-Together-to-Drive-Revenue-for-Consumer-Brands">Business Wire</a> · <a href="https://www.digitalcommerce360.com/2026/07/01/klaviyo-launches-beta-for-marketing-ai-agents/">Digital Commerce 360</a> · <a href="https://www.cxtoday.com/crm/klaviyo-embeds-ai-agents-in-its-crm-to-deliver-shared-customer-context/">CX Today</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="business" data-story-id="omen-ai-raise">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#12</span> <span class="cat">BUSINESS · INFRA</span></div>
+      <h4>Omen AI raises $31M to watch the water inside AI data centers</h4>
+      <div class="body"><strong>Omen AI</strong> raised a <strong>$31M Series A</strong> led by Nava Ventures (Sheryl Sandberg and CRV participating), ~$41.5M total, for <strong>spectroscopic sensors</strong> that continuously monitor coolant/fluid health in liquid-cooled GPU data centers and industrial machines; cited customers include data centers repping ~$200B in assets (10–14 GW) and Carolina CAT (<a href="https://techcrunch.com/2026/06/29/omen-ais-plan-to-optimize-data-centers-is-all-wet/">TechCrunch</a>, <a href="https://thenextweb.com/news/omen-ai-raises-31m-to-watch-the-water-inside-ai-data-centres">The Next Web</a>, <a href="https://www.finsmes.com/2026/06/omen-ai-raises-31m-in-series-a-funding.html">FinSMEs</a>).</div>
+      <p class="sowhat">As data centers go liquid-cooled for AI density, reliability plumbing becomes a fundable "picks-and-shovels" category — the unglamorous infrastructure that keeps GPU fleets from failing.</p>
+      <div><span class="chip arc">ARC: CAPITAL-WAVE · D16</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/06/29/omen-ais-plan-to-optimize-data-centers-is-all-wet/">TechCrunch</a> · <a href="https://thenextweb.com/news/omen-ai-raises-31m-to-watch-the-water-inside-ai-data-centres">The Next Web</a> · <a href="https://www.finsmes.com/2026/06/omen-ai-raises-31m-in-series-a-funding.html">FinSMEs</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="models" data-story-id="anthropic-fable-mythos">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">D1</span> <span class="cat">MODELS · NATIONAL SECURITY</span></div>
+      <h4>Day 22: the blackout resolves — Fable 5 restored globally, ban lifted</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Decisive event: US Commerce <strong>withdrew the Jun 12 export order</strong> (~Jun 30) and Anthropic <strong>redeployed Fable 5 worldwide from Jul 1</strong> (Mythos 5 also cleared) — the resolution the feed has tracked for three weeks. In exchange Anthropic committed to proactive security testing/reporting and a classifier blocking the reported jailbreak (&gt;99%). Full brief in the hero above.</div>
+      <div class="body">Restoration is staged: Fable 5 counts toward up to ~50% of weekly usage through <strong>Jul 7</strong>, and a <strong>Jul 8 government-ID / age-verification gate</strong> (via Persona) applies to consumer plans (API/Team/Enterprise exempt) (<a href="https://www.cnbc.com/2026/06/30/anthropic-says-trump-admin-has-lifted-export-controls-on-claude-fable-5-and-mythos-5.html">CNBC</a>, <a href="https://www.axios.com/2026/07/01/anthropic-fable-5-back-online-trump-export-controls-lifted">Axios</a>, <a href="https://www.anthropic.com/news/redeploying-fable-5">Anthropic</a>). Held in Developing (not yet fully Resolved) while the staged rollout and ID gate play out; demotes to a one-line Tracking/Resolved entry once complete.</div>
+      <p class="sowhat">The switch flipped back — but a cabinet-level model kill-switch is now a proven tool. Keep the open-weight fallback qualified and treat frontier access as revocable, not guaranteed.</p>
+      <div><span class="chip arc">ARC: MODEL-WAVE · D22</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/06/30/anthropic-says-trump-admin-has-lifted-export-controls-on-claude-fable-5-and-mythos-5.html">CNBC</a> · <a href="https://www.axios.com/2026/07/01/anthropic-fable-5-back-online-trump-export-controls-lifted">Axios</a> · <a href="https://www.anthropic.com/news/redeploying-fable-5">Anthropic</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="us-export-controls">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D2</span> <span class="cat">POLICY · US</span></div>
+      <h4>With the ban lifted, the voluntary early-access framework is the regime that remains</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> De-escalated: the acute model-suspension is over, but the structural regime persists — the Jun 2 EO still directs agencies to design a <strong>voluntary</strong> frontier early-access framework (up to ~30 days pre-release access, "trusted partners"; no mandatory licensing) by <strong>~Aug 1</strong>. No fresh federal action today.</div>
+      <div class="body">The Jun 2 EO <a href="https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/">"Promoting Advanced AI Innovation and Security"</a> sets up classified benchmarking to designate "covered frontier models" and a voluntary — explicitly non-licensing — early-access lane (<a href="https://www.nortonrosefulbright.com/en-us/knowledge/publications/900af3cf/executive-order-establishes-voluntary-early-access-framework-to-frontier-ai-models">Norton Rose Fulbright</a>, <a href="https://www.skadden.com/insights/publications/2026/06/new-ai-executive-order">Skadden</a>). The Anthropic episode showed the government will use export authority when it wants; the Aug 1 framework is the peacetime version.</div>
+      <p class="sowhat">The crisis is over but the rulebook isn't — build pre-release federal review and partner-gating into launch plans, and read the Aug 1 framework design as the shape of things to come.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D22</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/">White House EO</a> · <a href="https://www.nortonrosefulbright.com/en-us/knowledge/publications/900af3cf/executive-order-establishes-voluntary-early-access-framework-to-frontier-ai-models">Norton Rose Fulbright</a> · <a href="https://www.skadden.com/insights/publications/2026/06/new-ai-executive-order">Skadden</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="eu-labelling-cop">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D3</span> <span class="cat">POLICY · EU</span></div>
+      <h4>EU clock: ~30 days to Aug 2 — transparency + GPAI enforcement, no delay</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Calendar (32→~30 days) plus a sharper read of the May "Digital Omnibus" split: the <strong>Aug 2 date holds</strong> for Article 50 transparency and GPAI enforcement; only <strong>high-risk (Annex III)</strong> duties were deferred (to Dec 2027), with AI-content labelling given a shorter deferral. No fresh pushback in early July.</div>
+      <div class="body">From Aug 2 the Commission can begin enforcement against GPAI providers (RFIs, evaluations, recalls; fines up to €15M/3% turnover), and Article 50 transparency (synthetic-media labelling, AI-interaction disclosure) applies broadly (<a href="https://artificialintelligenceact.eu/implementation-timeline/">artificialintelligenceact.eu</a>, <a href="https://www.lw.com/en/insights/ai-act-update-eu-resolves-to-change-rules-and-extend-deadlines">Latham &amp; Watkins</a>, <a href="https://compliancehub.wiki/eu-ai-act-article-50-transparency-digital-omnibus-2026/">ComplianceHub</a>). The GPAI Code of Practice remains the practical route to presumed conformity.</div>
+      <p class="sowhat">Aug 2 is real and the transparency/enforcement piece was not delayed — if your Article 50 labelling and GPAI documentation workstreams aren't staffed, they're ~30 days from a hard deadline.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D22</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://artificialintelligenceact.eu/implementation-timeline/">artificialintelligenceact.eu</a> · <a href="https://www.lw.com/en/insights/ai-act-update-eu-resolves-to-change-rules-and-extend-deadlines">Latham &amp; Watkins</a> · <a href="https://compliancehub.wiki/eu-ai-act-article-50-transparency-digital-omnibus-2026/">ComplianceHub</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING ══════════ -->
+<section>
+  <div class="sec-head">Still Tracking <small>LONG-RUNNERS WITH NO MOVEMENT THIS EDITION</small></div>
+  <div class="tracking-strip" id="tracking-strip"></div>
+</section>
+
+<!-- ══════════ RESOLVED ══════════ -->
+<section>
+  <div class="sec-head">Resolved <small>YESTERDAY'S OPEN THREADS, CLOSED</small></div>
+  <div class="resolved-strip" id="resolved-strip"></div>
+</section>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 022 · 2026-07-03 (IST) · FORMAT v2</strong></p>
+    <p>METHOD: 28 web searches across four scouts, evenly split — Models &amp; core tech (frontier/open-weight/hardware/security), Applied AI (adoption/products/startups/money), People &amp; policy (workforce/regulation/talent), and the Friday <strong>vertical &amp; applied/enterprise deep beat</strong> (public-sector, defense, retail, finance) plus carried-thread verification. v2 splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with a change-line) and STILL TRACKING (quiet long-runners). Hero = biggest new item unless a Developing thread had a major escalation — today a Developing thread <em>did</em> (the Anthropic blackout resolved), so it leads. Target ≥10 new items met (12). Aggregator claims cross-checked against ≥2 outlets where possible; single-source/rumor items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+    <p>KNOWN SCAN GAPS / HONESTY NOTES: <strong>4 items broke within the strict last 24h</strong> — Microsoft Frontier (Jul 2), Cursor DuneSlide (public disclosure ~Jul 1–2), Z.ai ZCode (Jul 2) and the Jelani Nelson hire (Jul 1–2) — so NEW.24H badges are issued for those four; other NEW items are honestly dated earlier (Together AI/TwelveLabs/Meta-cloud Jul 1; Claude-on-Foundry/California/Overland AI Jun 29; Klaviyo/Omen Jun 30) and are <em>new to this feed</em> but not new24h. <strong>Hero note:</strong> the Fable 5 restoration broke ~Jun 30–Jul 1 (not within 24h), so it carries no NEW.24H badge; it leads as a Developing thread on the strength of the decisive event. <strong>Correction vs prior edition:</strong> edition 021 (Jul 1) framed a "Jul 8 Pentagon/NSA sign-off" as the next gate — that is retired as UNCONFIRMED; the verifiable Jul 8 milestone is a consumer government-ID / age-verification gate via Persona (API/Team/Enterprise exempt), not a defense sign-off. Anthropic's own posts (anthropic.com) returned 403 to the fetcher; Fable/Mythos details are cross-checked via CNBC/Axios/CNN/NBC/Al Jazeera. <strong>RUMOR-flagged:</strong> Meta's "Meta Compute" cloud is a Bloomberg report sourced to unnamed people, not confirmed by Meta; a separate aggregator claim that restored Fable 5 scores "80.3% SWE-Bench Pro" is single-low-authority and NOT run. A reported OpenAI "DeployCo" applied-AI subsidiary surfaced only in aggregator roundups (llm-stats/dentro.de) and is held out pending a tier-1 outlet. <strong>Colorado AI Act:</strong> trackers now conflict — some list SB 24-205 effective Jun 30 2026, others the SB 189 delay to Jan 1 2027; unreconciled, held in Tracking with the conflict flagged. GPT-5.6 (still gated to ~20 partners; Sol to run on Cerebras ~750 tps in July) and Gemini 3.5 Pro (still preview; Gemini image models shipped ~Jun 30) remain pre-GA and sit in Tracking. Research beat was thin this Friday (rotates to Monday); the day's security research (Cato's DuneSlide) is carried as New #2 rather than as a separate research card. India IT headcounts (TCS −23,460 FY26 vs ~40K FY27 fresher hiring) and the PwC AI-wage-premium figures are folded into the workforce tracker as color. Nothing here is investment advice.</p>
+    <p>NOTE: Links point to sources found during the scan; where only an outlet root or roundup was available it is labelled as such.</p>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 22,
+  "date": "2026-07-03",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 28,
+  "counts": {"new": 12, "developing": 3, "tracking": 16},
+  "tiers": {"critical": 2, "notable": 7, "monitor": 6},
+  "stories": [
+    {"id":"microsoft-frontier-co","section":"new","rank":1,"title":"Microsoft launches the 'Frontier' company (Jul 2): $2.5B and ~6,000 employees to embed engineers inside enterprise customers to design/deploy/run AI (Palantir-style forward-deployed model), led by ex-Microsoft-Asia president Rodrigo Kede Lima; early customers LSEG/Land O'Lakes/Unilever/Novo Nordisk; partners Accenture/Capgemini/EY; lands two days after AWS's $1B FDE org","tier":"notable","impact":7,"delta":"new","arc":"fde-playbook","arcDay":3,"confidence":"2x src","new24h":true,"firstSeen":"2026-07-03","lastUpdate":"2026-07-03","category":"enterprise"},
+    {"id":"cursor-duneslide","section":"new","rank":2,"title":"Cato AI Labs discloses 'DuneSlide' — CVE-2026-50548 and CVE-2026-50549 (CVSS 9.8), sandbox-escape bugs in Cursor's run_terminal_cmd tool where a single injected instruction in an MCP response or web-search result escapes the terminal sandbox and runs arbitrary code with no click; patched in Cursor 3.0 (Apr 2), every prior version affected; maker says >half the Fortune 500 use it","tier":"critical","impact":7,"delta":"new","arc":"agent-security","arcDay":11,"confidence":"2x src","new24h":true,"firstSeen":"2026-07-03","lastUpdate":"2026-07-03","category":"security"},
+    {"id":"california-claude","section":"new","rank":3,"title":"California signs a first-of-its-kind statewide Claude deal (Jun 29): Claude available to all executive-branch agencies (DMV/CalTrans/DHCS) plus cities/counties at a 50% discount with free workforce training and Anthropic developer support; billed as the largest government-wide AI platform commitment by any US state","tier":"notable","impact":6,"delta":"new","arc":"applied-adoption","arcDay":3,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-03","lastUpdate":"2026-07-03","category":"policy"},
+    {"id":"together-ai-raise","section":"new","rank":4,"title":"Together AI raises $800M at an $8.3B valuation (Jul 1), led by Aramco Ventures (NVIDIA/General Catalyst/Vista/Emergence/March/Pegatron); more than doubles its $3.3B Series B mark; annual bookings said to cross $1.15B, 500+ MW compute committed — the open-model/inference 'neocloud' tier scaling","tier":"notable","impact":6,"delta":"new","arc":"capital-wave","arcDay":16,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-03","lastUpdate":"2026-07-03","category":"business"},
+    {"id":"claude-foundry-ga","section":"new","rank":5,"title":"Claude reaches general availability on Microsoft Foundry (~Jun 29) — the first Claude deployment on NVIDIA GB300 Blackwell Ultra GPUs with Quantum-X800 InfiniBand; 1M-token context in Azure East US/West Europe/Southeast Asia, more regions through Q3; Anthropic widens cross-cloud distribution as export exposure eases","tier":"notable","impact":6,"delta":"new","arc":"applied-adoption","arcDay":3,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-03","lastUpdate":"2026-07-03","category":"enterprise"},
+    {"id":"meta-compute-cloud","section":"new","rank":6,"title":"Bloomberg reports (Jul 1) Meta is building a cloud to rent out surplus AI compute and Llama models — its most direct challenge yet to AWS/Azure/Google Cloud; report sent Meta shares up ~8.8% while CoreWeave fell ~13.9% and Nebius ~17%; Meta guides up to ~$145B capex this year; sourced to unnamed people, not confirmed by Meta (RUMOR-FLAG)","tier":"notable","impact":6,"delta":"new","arc":"cloud-wars","arcDay":1,"confidence":"Rumor-flag","new24h":false,"firstSeen":"2026-07-03","lastUpdate":"2026-07-03","category":"business"},
+    {"id":"jelani-nelson-anthropic","section":"new","rank":7,"title":"Anthropic hires Jelani Nelson — chair of UC Berkeley EECS's CS Division and a leading theoretical computer scientist — as a Member of Technical Staff, start date Jul 1 (confirmed by Nelson on X); a marker of senior academic leadership flowing into the labs, the reverse of the DeepMind-exodus thread","tier":"monitor","impact":5,"delta":"new","arc":"talent","arcDay":14,"confidence":"2x src","new24h":true,"firstSeen":"2026-07-03","lastUpdate":"2026-07-03","category":"policy"},
+    {"id":"zai-zcode","section":"new","rank":8,"title":"Z.ai (formerly Zhipu) launches ZCode (Jul 2), an agentic development environment for macOS/Windows/Linux purpose-built for open-weight GLM-5.2; coding-plan tiers ~$16.20–$144/month, BYOK, MIT-licensed weights for self-hosting, remote task steering via WeChat/Feishu/Telegram; positioned against Cursor/Claude Code/Copilot/Google Antigravity","tier":"monitor","impact":5,"delta":"new","arc":"open-weight","arcDay":11,"confidence":"2x src","new24h":true,"firstSeen":"2026-07-03","lastUpdate":"2026-07-03","category":"models"},
+    {"id":"overland-ai-marines","section":"new","rank":9,"title":"The Pentagon (APFIT/R&E) awards Overland AI a ~$20M production contract for autonomous ground vehicles to resupply Marine Air Defense Integrated Systems, first deliveries ~9 months post-award (~Jun 29); physical AI moving from demo to defense procurement","tier":"monitor","impact":5,"delta":"new","arc":"physical-ai","arcDay":8,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-03","lastUpdate":"2026-07-03","category":"enterprise"},
+    {"id":"twelvelabs-raise","section":"new","rank":10,"title":"TwelveLabs (SF/Seoul) raises a $100M Series B (Jul 1) co-led by NEA and NAVER Ventures (Amazon/Radical/Index/KIP/Red Bull participating), ~$150M total, for 'video superintelligence'; paired with an AWS Trainium deal, opening NY/London offices, shipping Marengo 3.0 / Pegasus 1.5","tier":"monitor","impact":5,"delta":"new","arc":"capital-wave","arcDay":16,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-03","lastUpdate":"2026-07-03","category":"business"},
+    {"id":"klaviyo-agents","section":"new","rank":11,"title":"Klaviyo (NYSE: KVYO) moves its Composer AI marketing agent to public beta and expands Customer Agent into a full AI service platform (Jun 30) — agents that build cross-channel campaigns and complete service actions (returns, loyalty points) using data from ~200,000 brands; vertical/retail-martech applied launch","tier":"monitor","impact":5,"delta":"new","arc":"agent-layer","arcDay":11,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-03","lastUpdate":"2026-07-03","category":"enterprise"},
+    {"id":"omen-ai-raise","section":"new","rank":12,"title":"Omen AI raises a $31M Series A (~Jun 29-30) led by Nava Ventures (Sheryl Sandberg/CRV), ~$41.5M total, for spectroscopic sensors that continuously monitor coolant/fluid health in liquid-cooled GPU data centers and industrial machines; cited customers rep ~$200B in data-center assets (10-14 GW) and Carolina CAT — a novel data-center-reliability 'picks-and-shovels' category","tier":"monitor","impact":4,"delta":"new","arc":"capital-wave","arcDay":16,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-03","lastUpdate":"2026-07-03","category":"business"},
+    {"id":"anthropic-fable-mythos","section":"developing","rank":1,"title":"Day 22 — RESOLUTION: US Commerce withdrew the Jun 12 export-control order (~Jun 30) and Anthropic redeployed Fable 5 globally from Jul 1 (Mythos 5 also cleared), ending the 21-day blackout; in exchange Anthropic committed to proactive security testing/reporting and a classifier blocking the Amazon-reported jailbreak in >99% of cases; staged rollout (Fable 5 <=~50% of weekly usage through Jul 7) with a Jul 8 government-ID/age-verification gate via Persona for consumer plans (API/Team/Enterprise exempt)","tier":"critical","impact":9,"delta":"deescalated","arc":"model-wave","arcDay":22,"confidence":"2x src","new24h":false,"update":"Decisive event: export ban lifted (~Jun 30), Fable 5 restored worldwide from Jul 1, Mythos 5 cleared; staged rollout + Jul 8 ID gate; held in Developing until rollout completes, then Resolved","firstSeen":"2026-06-12","lastUpdate":"2026-07-03","category":"models"},
+    {"id":"us-export-controls","section":"developing","rank":2,"title":"With the Anthropic ban lifted, the structural regime that remains is the Jun 2 EO's VOLUNTARY early-access framework (up to ~30 days pre-release access, developer+govt 'trusted partners', explicitly no mandatory licensing/pre-clearance), with agencies directed to design it by ~Aug 1 and classified benchmarking to designate 'covered frontier models'; no fresh federal action today","tier":"notable","impact":7,"delta":"deescalated","arc":"reg-clock","arcDay":22,"confidence":"2x src","new24h":false,"update":"De-escalated: acute model suspension over; the voluntary (non-licensing) ~Aug 1 framework is the peacetime regime that persists","firstSeen":"2026-06-12","lastUpdate":"2026-07-03","category":"policy"},
+    {"id":"eu-labelling-cop","section":"developing","rank":3,"title":"EU clock: ~30 days to Aug 2 — Article 50 transparency obligations and the Commission's GPAI enforcement powers (RFIs, evaluations, recalls; fines up to €15M/3% turnover) switch on and were NOT delayed by the May 'Digital Omnibus' (which deferred only high-risk/Annex III duties to Dec 2027, with a shorter deferral for AI-content labelling); no fresh pushback in early July; GPAI Code of Practice the route to presumed conformity","tier":"notable","impact":6,"delta":"carry","arc":"reg-clock","arcDay":22,"confidence":"2x src","new24h":false,"update":"Calendar (32->~30 days) plus sharper Digital Omnibus read: transparency + GPAI enforcement hold for Aug 2; only high-risk deferred","firstSeen":"2026-06-11","lastUpdate":"2026-07-03","category":"policy"}
+  ],
+  "tracking": [
+    {"id":"openai-gpt56","label":"GPT-5.6 Sol/Terra/Luna still gated to ~20 government-approved partners via API/Codex, not in ChatGPT; OpenAI reiterates broader GA 'in coming weeks' (~Jul 10 window). FRESH DETAIL: OpenAI says GPT-5.6 Sol will run on Cerebras hardware at up to ~750 tps in July; pricing unchanged (Sol $5/$30, Terra $2.50/$15, Luna $1/$6 per 1M tok) (no GA movement)","arc":"model-wave","arcDay":22},
+    {"id":"gemini35-pro-slip","label":"Google Gemini 3.5 Pro still not GA in early July — remains a limited Vertex AI preview (2M context, Deep Think), GA 'expected in July', unconfirmed by Google; separately Google shipped two image models ~Jun 30 (Gemini 3.1 Flash Image $0.50/$3.00; Gemini 3 Pro Image $2.00/$12.00 per 1M tok — verify pricing vs Google primary) (no GA movement)","arc":"gemini-wave","arcDay":4},
+    {"id":"open-weight-surge","label":"Open-weight coding race: GLM-5.2 (~744B, 40B active, MIT) leads the open SWE-Bench Pro aggregate at 62.1%; on SWE-Bench Verified DeepSeek-V4-Pro-Max ~80.6% / MiniMax M3 ~80.5% / Qwen3.7 Max ~80.4%; Z.ai now ships the ZCode IDE on GLM-5.2 (New #8). A single aggregator's 'restored Fable 5 = 80.3% SWE-Bench Pro' claim is UNCONFIRMED (no movement on the leaderboard)","arc":"open-weight","arcDay":11},
+    {"id":"workforce-map","label":"Global AI labor map: US 2026 tech layoffs ~185,894 YTD across ~267 events, 56% cite AI (~Jul 2 tracker; ~50K attributed directly to AI); India TCS shed ~23,460 in FY26 yet plans ~40,000 FY27 fresher hires (Infosys/Cognizant ~20K each), GCCs still out-hiring IT services; PwC 2026 barometer puts the AI-skills wage premium at ~62% (no fresh single event)","arc":"workforce","arcDay":9},
+    {"id":"deepmind-exodus","label":"DeepMind talent drain: Shazeer->OpenAI, Jumper+Adler+Pritzel->Anthropic, Denny Zhou+Dawn Song (Jun 25)->Meta Superintelligence Labs; Alphabet dipped on the news. Counter-flow this edition: Anthropic hires UC Berkeley CS-chair Jelani Nelson (New #7) (no fresh single defection today)","arc":"talent","arcDay":14},
+    {"id":"enterprise-agent-platforms","label":"Governed-agent category: ServiceNow Autonomous Workforce + AI Control Tower, SAP Autonomous Enterprise (Claude-powered Joule) and Microsoft Agent 365; Microsoft Copilot Cowork GA with paid billing from Jul 1 (no fresh platform movement)","arc":"agent-layer","arcDay":11},
+    {"id":"supply-chain-ai-security","label":"Standing AI-supply-chain tracker: GuardFall (Bash-dequoting guardrail bypass, 10/11 open-source agents), the Jun 24 CVE cluster (Flowise 9.9, Crawl4AI 9.8, actively-exploited Langflow), the malicious Perplexity look-alike extension, and OWASP/EchoLeak/Copilot history. This edition's fresh incident is Cursor 'DuneSlide' (New #2)","arc":"agent-security","arcDay":11},
+    {"id":"enterprise-agent-adoption","label":"Agentic deployment reality: Gartner projects 40% of enterprise apps embed task-specific agents by end-2026, ~171% avg ROI claims, yet a May 2026 study found ~74% of AI customer-service agents rolled back (81% at 'mature-guardrail' firms) and >40% of agentic projects still expected cancelled by 2027 (no fresh data today)","arc":"agent-layer","arcDay":11},
+    {"id":"samsung-hbm4-invest","label":"Memory/packaging the AI bottleneck: Samsung HBM4 past $1B with a reported ~90T-won decade build-out; NVIDIA Vera Rubin (288GB HBM4) in the pipeline; SK Hynix reportedly retooling some HBM4 lines to DDR5 (single-outlet, held) (no fresh HBM movement)","arc":"hbm-supply","arcDay":7},
+    {"id":"ipo-wave","label":"Listings pipeline: Anthropic draft S-1 after a ~$965B mark (~$44B run-rate); OpenAI confidential S-1 ~Sept ($730-850B+); SPCX the live AI-IPO appetite gauge — not re-checked at IST close (no fresh movement)","arc":"ipo-wave","arcDay":22},
+    {"id":"humanoid-robotics","label":"Physical AI at production scale: Figure 03 ~1 robot/hour at BotQ (BMW fleet); Boston Dynamics electric Atlas shipping to Hyundai/DeepMind; Agility Digit at Toyota; Germany's Neura Robotics raised up to $1.4B. Defense angle escalates via Overland AI's Marine Corps AGV contract (New #9) (no fresh humanoid movement)","arc":"physical-ai","arcDay":8},
+    {"id":"india-synthetic-content","label":"India governance stack: RBI floated (June) draft AI/ML model-governance guidelines for banks/regulated entities; MeitY IT Amendment Rules (Feb 10) impose a 3-hour takedown for unlawful synthetic content (2h for non-consensual deepfakes) + provenance labelling, coordinated via the AI Governance Group; sits inside DPDP + RBI/SEBI/IRDAI (no fresh rule movement)","arc":"india-reg","arcDay":5},
+    {"id":"harvey-hsbc","label":"Vertical/legal + FDE playbook: HSBC x Harvey ($11B legal AI); the forward-deployed-engineer motion now runs big-tech end to end — AWS's $1B org, and this edition Microsoft's $2.5B Frontier (New #1) and FIS x Anthropic's financial-crimes agent as vertical color (no fresh Harvey movement)","arc":"vertical-ai","arcDay":6},
+    {"id":"microsoft-superapp","label":"Microsoft consolidates Copilot into one coding super-app (GitHub Copilot + chat + Cowork + 'Autopilot' agents); Copilot Cowork reached GA with paid billing from Jul 1 (>half the Fortune 500 in preview) (no fresh super-app movement)","arc":"ms-platform","arcDay":3},
+    {"id":"colorado-ai-delay","label":"US state AI regulation — effective-date CONFLICT unresolved: some legal trackers now list Colorado SB 24-205 as effective Jun 30 2026 (delayed from Feb 1), others hold the SB 189 delay to Jan 1 2027 stripping the duty of care to disclosure/transparency; flagged, awaiting reconciliation (no fresh movement)","arc":"us-reg","arcDay":2},
+    {"id":"rbi-ai-hiring","label":"India state AI capacity-building: RBI hiring 12 Young Professionals in AI/Quantum/Cyber/Climate-Risk at Mumbai (₹1.5 lakh/mo, up to 5 yrs); application deadline Jul 6 (no fresh movement)","arc":"india-reg","arcDay":5}
+  ],
+  "movers": [
+    {"dir":"up","text":"ANTHROPIC — Fable 5 restored worldwide (Jul 1) after US Commerce lifts the Jun 12 export order; Mythos 5 also cleared; 21-day blackout ends"},
+    {"dir":"up","text":"MICROSOFT — launches a $2.5B 'Frontier' forward-deployed AI unit (~6,000 engineers embedded in customers), two days after AWS's $1B FDE org"},
+    {"dir":"up","text":"META — reported to be building a cloud to rent excess GPUs (Bloomberg); shares +~8.8%"},
+    {"dir":"down","text":"COREWEAVE / NEBIUS — fell ~13.9% / ~17% on the Meta GPU-cloud report"},
+    {"dir":"up","text":"TOGETHER AI — raises $800M at $8.3B (Aramco-led), more than doubling its Series B mark"},
+    {"dir":"down","text":"CURSOR — 'DuneSlide' zero-click RCE (CVSS 9.8) disclosed; every version before 3.0 affected"}
+  ],
+  "arcs": {
+    "model-wave": {"day": 22, "note": "RESOLUTION: US lifts the Jun 12 export order (~Jun 30), Anthropic redeploys Fable 5 worldwide from Jul 1, Mythos 5 cleared; staged rollout + Jul 8 ID gate. GPT-5.6 still gated (Cerebras ~750 tps in July); Gemini 3.5 Pro still preview — both tracked"},
+    "reg-clock": {"day": 22, "note": "Acute crisis over: the Jun 2 EO's voluntary (non-licensing) frontier early-access framework is the regime that remains, due ~Aug 1; EU Aug 2 (~30d) transparency + GPAI enforcement hold, not delayed by the Digital Omnibus (only high-risk deferred)"},
+    "fde-playbook": {"day": 3, "note": "The forward-deployed-engineer motion becomes a big-tech arms race: after AWS's $1B org, Microsoft launches the $2.5B Frontier company (~6,000 engineers) to embed AI teams inside customers"},
+    "agent-security": {"day": 11, "note": "Prompt injection keeps landing as RCE: Cato's 'DuneSlide' turns an MCP/web-search response into zero-click code execution in Cursor (CVSS 9.8, patched in 3.0); GuardFall/Flowise/Crawl4AI/Langflow now the standing tracker"},
+    "applied-adoption": {"day": 3, "note": "Deployment converts and widens: California standardizes its executive branch on Claude at 50% off; Claude hits GA on Microsoft Foundry (first on NVIDIA GB300); HP's Frontier rollout carried"},
+    "capital-wave": {"day": 16, "note": "Capital keeps rotating to the infra/application layer: Together AI $800M/$8.3B (Aramco-led), TwelveLabs $100M for video superintelligence + AWS Trainium, Omen AI $31M for data-center coolant sensing"},
+    "cloud-wars": {"day": 1, "note": "New arc: Bloomberg reports Meta building a cloud to rent excess GPUs + Llama — Meta +~9%, CoreWeave/Nebius sharply lower; RUMOR (unnamed sources, unconfirmed by Meta)"},
+    "talent": {"day": 14, "note": "Talent flows both ways: DeepMind exodus (Shazeer/Jumper/Denny Zhou/Dawn Song) continues, but Anthropic now hires UC Berkeley CS-chair Jelani Nelson — academia-to-lab drain"},
+    "open-weight": {"day": 11, "note": "Open-weight full stack: Z.ai ships the ZCode agentic IDE on GLM-5.2 (the open SWE-Bench Pro leader at 62.1%); DeepSeek-V4-Pro/MiniMax M3/Qwen3.7 Max cluster near 80% SWE-Bench Verified — tracked"},
+    "physical-ai": {"day": 8, "note": "Physical AI reaches defense procurement: Overland AI wins a ~$20M Marine Corps autonomous-ground-vehicle contract; humanoid production (Figure/Boston Dynamics/Agility/Neura) carried"},
+    "agent-layer": {"day": 11, "note": "Agents embed into vertical SaaS: Klaviyo ships multi-agent marketing/service AI on its ~200K-brand data; governed-agent platforms (ServiceNow/SAP/Agent 365) and the ~74% rollback counter-data tracked"},
+    "vertical-ai": {"day": 6, "note": "Vertical + FDE: HSBC x Harvey and now Microsoft's $2.5B Frontier / FIS x Anthropic financial-crimes agent — tracked, no fresh Harvey movement"},
+    "workforce": {"day": 9, "note": "Labor map: US 2026 tech layoffs ~185,894 YTD (56% cite AI); India TCS -23,460 FY26 vs ~40K FY27 fresher hiring; PwC AI-skills wage premium ~62% — tracked"},
+    "ipo-wave": {"day": 22, "note": "Listings pipeline: Anthropic S-1 (~$965B), OpenAI confidential S-1 ~Sept, SPCX the live gauge — tracked, not re-checked at IST close"},
+    "hbm-supply": {"day": 7, "note": "Memory/packaging the bottleneck: Samsung HBM4 past $1B, NVIDIA Vera Rubin (288GB HBM4); SK Hynix HBM4->DDR5 retooling single-outlet — tracked"},
+    "gemini-wave": {"day": 4, "note": "Google's flagship tier still slipping: Gemini 3.5 Pro not GA in early July (preview, July window unconfirmed); two Gemini image models shipped ~Jun 30 — tracked"},
+    "ms-platform": {"day": 3, "note": "Microsoft Copilot super-app + 'Autopilots'; Copilot Cowork GA with paid billing from Jul 1 — tracked"},
+    "india-reg": {"day": 5, "note": "India governance: RBI June draft AI-model-governance guidelines for banks; MeitY synthetic-content takedown/labelling; RBI Young Professionals apply-by Jul 6 — tracked"},
+    "us-reg": {"day": 2, "note": "US state AI law effective-date conflict: Colorado SB 24-205 listed effective Jun 30 2026 by some trackers vs the SB 189 Jan 1 2027 delay by others — unreconciled, tracked"}
+  },
+  "resolved": [
+    "THE BLACKOUT ENDS: the US Commerce Department withdrew the Jun 12 export-control order (~Jun 30) and Anthropic redeployed Fable 5 globally from Jul 1 (Mythos 5 also cleared), in exchange for proactive security testing/reporting and a classifier that blocks the Amazon-reported jailbreak in >99% of cases — the resolution the feed has led since Jun 12. Continues as Developing D22 for the staged rollout (50% weekly-usage weighting through Jul 7) and the Jul 8 ID gate, then moves to a one-line closure.",
+    "Correction to edition 021: the prior 'Jul 8 Pentagon/NSA sign-off' framing is retired as UNCONFIRMED — the verifiable Jul 8 milestone is a consumer government-ID / age-verification gate via vendor Persona for Fable 5 (API/Team/Enterprise exempt), not a defense sign-off.",
+    "Edition 021 New items with no fresh movement -> folded to Tracking: guardfall-coding-agents, ai-tooling-cves and perplexity-malicious-ext into supply-chain-ai-security; aws-fde-org into vertical-ai/fde-playbook (superseded as the lead by Microsoft's $2.5B Frontier, New #1); hp-openai-frontier and (new) California/Foundry into applied-adoption; qualcomm-modular into capital-wave; servicenow-ai-layoffs into workforce-map; ai-agent-rollbacks into enterprise-agent-adoption; neura-robotics into humanoid-robotics.",
+    "Auto-retired / folded (~3 editions no movement): vigil-agent-security (June arXiv defense item) folds into the standing supply-chain-ai-security tracker; the research beat was quiet this Friday (rotates to Monday).",
+    "RUMOR held out pending a tier-1 outlet: a reported OpenAI 'DeployCo' applied-AI subsidiary appeared only in aggregator roundups (llm-stats/dentro.de) and is not run this edition; Meta's 'Meta Compute' cloud is run as New #6 but chip-flagged RUMOR (Bloomberg, unnamed sources).",
+    "Colorado AI Act effective-date conflict UNRESOLVED and re-flagged: trackers split between a Jun 30 2026 effective date (SB 24-205) and the SB 189 delay to Jan 1 2027; held in Tracking until reconciled."
+  ],
+  "deadlines": [
+    {"date": "2026-07-06", "label": "RBI Young Professionals (AI / Quantum / Cyber / Climate-Risk) application deadline — India central-bank AI capacity-building", "severity": "low"},
+    {"date": "2026-07-08", "label": "Anthropic government-ID / age-verification gate begins (via Persona) for consumer Claude plans wanting full Fable 5 access; API/Team/Enterprise exempt — NOT a Pentagon/NSA sign-off", "severity": "medium"},
+    {"date": "2026-07-10", "label": "GPT-5.6 broader-rollout window — OpenAI says GA 'in coming weeks' beyond the ~20 gated partners; Sol to run on Cerebras (~750 tps) in July (approximate)", "severity": "medium"},
+    {"date": "2026-07-15", "label": "Gemini 3.5 Pro reported July GA window (2M context, Deep Think) — reported, not confirmed by Google", "severity": "medium"},
+    {"date": "2026-08-01", "label": "US: agencies to design the Jun 2 EO's voluntary frontier early-access framework (up to ~30-day pre-release access; no mandatory licensing)", "severity": "high"},
+    {"date": "2026-08-02", "label": "EU AI Act: Article 50 transparency + GPAI enforcement begins (RFIs, model access, recalls; fines up to €15M/3% turnover) — ~30 days; not delayed by the Digital Omnibus", "severity": "high"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
