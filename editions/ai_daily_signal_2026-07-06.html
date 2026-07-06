@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 025 — 06 July 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>OWNERSHIP</b> OpenAI proposes handing Washington a 5% stake (~$42.6B) to defuse political pressure — and floats Anthropic/Google/Meta ceding the same via a sovereign fund &nbsp;◆&nbsp; <b>AI-FOR-SCIENCE</b> Nobel laureate John Jumper — AlphaFold's architect — leaves DeepMind for Anthropic, opening a third competitive front &nbsp;◆&nbsp; <b>SILICON</b> OpenAI + Broadcom unveil "Jalapeño," OpenAI's first custom inference chip — taped out in nine months &nbsp;◆&nbsp; <b>MONEY</b> Ex-DeepMind poker-AI trio's EquiLibre raises Creandum's largest-ever single check at a ~$500M valuation &nbsp;◆&nbsp; <b>GOV</b> UN's first Global Dialogue on AI Governance opens in Geneva today; SPCX joins the Nasdaq-100 tomorrow &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>025</b></span>
+    <span>MONDAY, 06 JULY 2026</span>
+    <span class="seg">NEW <b>8</b> · DEVELOPING <b>4</b> · TRACKING <b>18</b></span>
+    <span>CRITICAL <b>2</b> / NOTABLE 5 / MONITOR 5</span>
+    <span>SCAN: 28 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="openai-govt-stake">
+  <div>
+    <div class="kicker">■ Today's Lead · New · Policy · Government &amp; the frontier</div>
+    <h2>OpenAI wants to make Washington a shareholder — and it's inviting the rest of the frontier to follow</h2>
+    <p class="dek">On July 2, OpenAI proposed handing the <strong>US government a 5% equity stake</strong> in the company — worth roughly <strong>$42.6B</strong> at its recent <strong>$852B</strong> valuation — as it seeks to defuse mounting political pressure in Washington, according to reporting first surfaced by the FT (<a href="https://www.cnbc.com/2026/07/02/openai-proposes-us-government-own-5percent-stake-to-address-political-blowback.html">CNBC</a>, <a href="https://www.cnn.com/2026/07/02/business/openai-trump-stake-intl">CNN</a>, <a href="https://www.bloomberg.com/news/articles/2026-07-02/openai-proposes-giving-the-us-government-a-5-stake-ft-says">Bloomberg/FT</a>). Sam Altman frames it as the best way to give the public "the upside of AI." The consequential part isn't the number — it's the structure: OpenAI's proposal reportedly <strong>envisions other US labs, including Anthropic, Google and Meta, ceding similar stakes</strong> to the government through a sovereign-wealth-fund vehicle. For 25 editions this feed has tracked Washington gating the frontier on <em>access</em> grounds — export controls, managed-access previews, a cabinet switching models off. A government equity stake is a different lever entirely: <strong>ownership, not gatekeeping</strong>.</p>
+    <p class="sowhat">So what: the relationship between the US state and its frontier labs is being renegotiated from "who may use the model" to "who owns the company." If you sit in policy, legal or IR at any frontier lab — or you're a public-market investor sizing the Anthropic/OpenAI IPO windows — model a partial-government-ownership scenario now, because OpenAI just made it the reference proposal.</p>
+    <span class="chip arc">ARC: GOVT-EQUITY · D1</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://www.cnbc.com/2026/07/02/openai-proposes-us-government-own-5percent-stake-to-address-political-blowback.html">CNBC</a> ·
+      <a href="https://www.cnn.com/2026/07/02/business/openai-trump-stake-intl">CNN</a> ·
+      <a href="https://www.bloomberg.com/news/articles/2026-07-02/openai-proposes-giving-the-us-government-a-5-stake-ft-says">Bloomberg/FT</a> ·
+      <a href="https://www.forbes.com/sites/siladityaray/2026/07/02/openai-reportedly-pitches-granting-us-government-5-stake/">Forbes</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What was proposed.</strong> Per FT reporting carried by CNBC, CNN, Bloomberg and Forbes (all Jul 2), OpenAI has pitched giving the US government a ~5% ownership stake — about $42.6B against its ~$852B valuation — to address political blowback over its restructuring, government compute ties and the perception that a strategically vital technology sits in private hands. Altman first floated the concept to the Trump administration in early 2025; Trump has publicly called a US ownership stake in AI giants "a beautiful thing."</p>
+      <p><strong>Why it's the lead.</strong> The breadth of who must act. The proposal reportedly does not stop at OpenAI — it imagines Anthropic, Google and Meta ceding comparable stakes through a sovereign-wealth-fund vehicle, which would make partial government ownership an industry-wide template rather than a one-company concession. That folds directly into the reg-clock this briefing has tracked since edition 003 (export gating, the Jun 2 EO, the voluntary covered-frontier framework) and into the IPO wave (SPCX, Anthropic's ~October window, OpenAI's slip toward 2027).</p>
+      <p><strong>The caveats.</strong> This is a <em>proposal</em>, not a deal. It is unclear whether Anthropic, Google or Meta would agree — none has signed on — and the mechanism, governance rights, and whether any stake would carry votes or be purely economic are all unspecified. Sourcing traces to the FT and is single-origin even as four tier-1 outlets carry it; treat the 5% / $42.6B figures as the reported pitch, not settled terms.</p>
+      <p><strong>Watch next.</strong> Whether any peer lab publicly responds; whether the White House's voluntary covered-frontier framework (expected within days, ahead of the ~Aug 1 design deadline) references equity as well as access; and whether IPO prospectuses start pricing a government-ownership contingency.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>The proposal (Jul 2)</dt><dd>OpenAI pitches the US government a ~5% equity stake — ~$42.6B at a ~$852B valuation</dd>
+      <dt>Rationale</dt><dd>Altman: give the public "the upside of AI"; defuse political pressure over OpenAI's restructuring &amp; gov ties</dd>
+      <dt>The template</dt><dd>Reportedly envisions Anthropic, Google &amp; Meta ceding similar stakes via a sovereign-wealth-fund vehicle</dd>
+      <dt>Why it matters</dt><dd>Shifts the US↔frontier-lab relationship from access-gating to ownership — an industry-wide precedent if it lands</dd>
+      <dt>Caveat</dt><dd>A proposal, not a deal; no peer lab has agreed; FT-origin, terms/governance unspecified</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">8</b>/10 — every frontier lab's policy/legal/IR desk and every public-market AI investor</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="openai-govt-stake">
+      <div class="num">1</div>
+      <h4>OpenAI offers Washington a 5% stake</h4>
+      <p>OpenAI proposes giving the US government ~5% equity (~$42.6B) to defuse political pressure — and reportedly imagines Anthropic, Google and Meta doing the same via a sovereign fund. Ownership, not access-gating, is the new lever. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="jumper-anthropic">
+      <div class="num">2</div>
+      <h4>AlphaFold's architect joins Anthropic</h4>
+      <p>Nobel laureate John Jumper is leaving Google DeepMind after nine years for Anthropic. Recruiting the co-inventor of AlphaFold signals Anthropic is opening a third front — AI-for-science — and deepens DeepMind's talent drain. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="openai-jalapeno">
+      <div class="num">3</div>
+      <h4>OpenAI ships its own inference chip</h4>
+      <p>OpenAI and Broadcom unveiled "Jalapeño," OpenAI's first custom inference ASIC — a reticle-sized chip taped out in nine months, promising far better perf-per-watt and cutting OpenAI's near-total dependence on Nvidia. <strong>NEW.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>QUIET-DAY NOTE (POST-HOLIDAY MONDAY):</strong> The strict 24-hour window (Jul 5–6) was again nearly dead after the US holiday weekend — essentially <strong>nothing broke Jul 5–6</strong>, so there are <strong>no NEW.24H badges</strong> and every date is labelled honestly. The substance clustered <strong>Jun 19 – Jul 3</strong>: <strong>8 genuinely new items</strong> (ids absent from edition 024) surfaced, led by OpenAI's government-stake proposal (Jul 2), Nobel laureate John Jumper's jump to Anthropic (Jun 19) and OpenAI's first custom chip (Jun 24). Also New: ex-DeepMind EquiLibre's record Creandum round · the "Agentic Science" research wave (Monday deep beat) · Square's ChatGPT/Claude agentic-commerce launch · Anthropic's Claude Enterprise admin/spend controls · Grok 5 slipping past Q3. Developing threads (US voluntary framework, SPCX's Nasdaq-100 entry tomorrow, GPT-5.6 still gated, the UN Geneva Dialogue opening today) carry below with change-lines. We deliberately did <strong>not</strong> re-list the April "Anthropic overtakes OpenAI on revenue" figures as New (a date-trap), and demoted edition-024's now-static New items to Tracking rather than pad.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (12)</button>
+    <button class="tab" data-cat="models">MODELS (2)</button>
+    <button class="tab" data-cat="business">BUSINESS (2)</button>
+    <button class="tab" data-cat="policy">POLICY (3)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (2)</button>
+    <button class="tab" data-cat="research">RESEARCH (2)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>8 ITEMS · BROKE / SURFACED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="openai-govt-stake">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#1</span> <span class="cat">POLICY · GOVERNMENT</span></div>
+      <h4>OpenAI pitches Washington a 5% stake — and invites the frontier to follow</h4>
+      <div class="body">The lead, in full above. On <strong>Jul 2</strong>, OpenAI proposed giving the <strong>US government ~5% equity</strong> (~<strong>$42.6B</strong> at its ~$852B valuation) to defuse political pressure, per FT reporting. Altman frames it as sharing "the upside of AI"; the proposal reportedly <strong>imagines Anthropic, Google and Meta ceding similar stakes</strong> via a sovereign-wealth-fund vehicle (<a href="https://www.cnbc.com/2026/07/02/openai-proposes-us-government-own-5percent-stake-to-address-political-blowback.html">CNBC</a>, <a href="https://www.cnn.com/2026/07/02/business/openai-trump-stake-intl">CNN</a>, <a href="https://www.bloomberg.com/news/articles/2026-07-02/openai-proposes-giving-the-us-government-a-5-stake-ft-says">Bloomberg/FT</a>). No peer lab has agreed.</div>
+      <p class="sowhat">The US↔frontier-lab relationship is moving from access-gating to ownership — model a partial-government-ownership scenario before it becomes the industry template.</p>
+      <div><span class="chip arc">ARC: GOVT-EQUITY · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/07/02/openai-proposes-us-government-own-5percent-stake-to-address-political-blowback.html">CNBC</a> · <a href="https://www.cnn.com/2026/07/02/business/openai-trump-stake-intl">CNN</a> · <a href="https://www.forbes.com/sites/siladityaray/2026/07/02/openai-reportedly-pitches-granting-us-government-5-stake/">Forbes</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="research" data-story-id="jumper-anthropic">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#2</span> <span class="cat">RESEARCH · AI-FOR-SCIENCE</span></div>
+      <h4>AlphaFold's Nobel-winning architect leaves DeepMind for Anthropic</h4>
+      <div class="body"><strong>John Jumper</strong> — who shared the <strong>2024 Nobel Prize in Chemistry</strong> with Demis Hassabis for AlphaFold — announced (<strong>Jun 19</strong>) he is leaving Google DeepMind after nearly nine years to join <strong>Anthropic</strong> (<a href="https://x.com/JohnJumperSci/status/2068001285173834106">his own post</a>, <a href="https://www.bloomberg.com/news/articles/2026-06-19/nobel-winner-john-jumper-to-leave-google-deepmind-for-anthropic">Bloomberg</a>, <a href="https://aimagazine.com/news/nobel-laureate-john-jumper-quits-deepmind-for-anthropic">AI Magazine</a>). Recruiting the co-inventor of the model that reshaped structural biology signals Anthropic is opening a <strong>third competitive front — AI-for-science</strong> — pairing with its Claude Science launch and in-house drug program. It also deepens DeepMind's talent drain (Shazeer→OpenAI, now Jumper→Anthropic).</div>
+      <p class="sowhat">The frontier race is widening from chat and coding into scientific discovery — if AI-for-science is on your roadmap, the talent and the labs backing it just re-sorted.</p>
+      <div><span class="chip arc">ARC: AI-SCIENCE · D4</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://x.com/JohnJumperSci/status/2068001285173834106">John Jumper (X)</a> · <a href="https://www.bloomberg.com/news/articles/2026-06-19/nobel-winner-john-jumper-to-leave-google-deepmind-for-anthropic">Bloomberg</a> · <a href="https://fortune.com/2026/06/23/google-deepmind-ai-researcher-departures-raise-doubts-about-ability-to-win-the-ai-race-shazeer-jumper-eye-on-ai/">Fortune</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="hardware" data-story-id="openai-jalapeno">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#3</span> <span class="cat">HARDWARE · CUSTOM SILICON</span></div>
+      <h4>OpenAI unveils "Jalapeño," its first custom inference chip, with Broadcom</h4>
+      <div class="body"><strong>OpenAI</strong> and <strong>Broadcom</strong> unveiled (<strong>Jun 24</strong>) <strong>Jalapeño</strong>, OpenAI's first "Intelligence Processor" — a <strong>reticle-sized inference ASIC</strong> architected around LLM serving patterns and <strong>taped out in just nine months</strong>, with OpenAI's own models used to accelerate the design (<a href="https://openai.com/index/openai-broadcom-jalapeno-inference-chip/">OpenAI</a>, <a href="https://techcrunch.com/2026/06/24/openai-unveils-its-first-custom-chip-built-by-broadcom/">TechCrunch</a>, <a href="https://www.cnbc.com/2026/06/24/openai-and-broadcom-reveal-jalapeno-first-ai-chip-in-partnership.html">CNBC</a>). OpenAI says perf-per-watt is "substantially better" than current SOTA, with gigawatt-scale deployment (incl. Microsoft) beginning in 2026 — its most significant step to cut near-total Nvidia dependence.</div>
+      <p class="sowhat">The largest buyers are now designing around Nvidia, not just buying from it — if your inference roadmap assumes a GPU monoculture, price in first-party ASICs from your own model vendors.</p>
+      <div><span class="chip arc">ARC: CUSTOM-SILICON · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://openai.com/index/openai-broadcom-jalapeno-inference-chip/">OpenAI</a> · <a href="https://techcrunch.com/2026/06/24/openai-unveils-its-first-custom-chip-built-by-broadcom/">TechCrunch</a> · <a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/broadcom-and-openai-unveil-custom-built-jalapeno-inference-processor-openais-first-chip-is-a-massive-reticle-sized-asic-built-in-an-ultra-fast-nine-month-development-cycle">Tom's Hardware</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="business" data-story-id="equilibre-series-a">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#4</span> <span class="cat">BUSINESS · FUNDING</span></div>
+      <h4>Ex-DeepMind poker-AI trio lands Creandum's largest-ever single check</h4>
+      <div class="body"><strong>EquiLibre Technologies</strong> — a Prague lab founded by the DeepMind researchers who built <strong>DeepStack</strong>, the first AI to beat pros at no-limit poker — closed a <strong>Series A at a ~$500M (€438M) valuation</strong> led by <strong>Creandum</strong>, which called it the largest single investment the firm "has ever made in one go" (<a href="https://techcrunch.com/2026/06/30/the-deepmind-trio-who-built-a-poker-ai-are-now-making-money-for-quant-hedge-funds/">TechCrunch</a>, <a href="https://tech.eu/2026/07/01/ex-deepmind-researchers-land-record-creandum-funding-to-scale-ai-agents-for-nasdaq">Tech.eu</a>). Its <strong>reinforcement-learning agents trade billions daily</strong> on the S&amp;P/Nasdaq and reportedly "never had a negative month"; Turing Award winner <strong>Rich Sutton</strong> advises.</div>
+      <p class="sowhat">Frontier-lab RL is leaking into quant trading — the same self-play methods that cracked games are now a fundable, revenue-generating category outside the mega-labs.</p>
+      <div><span class="chip arc">ARC: AI-MONEY · D3</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/06/30/the-deepmind-trio-who-built-a-poker-ai-are-now-making-money-for-quant-hedge-funds/">TechCrunch</a> · <a href="https://tech.eu/2026/07/01/ex-deepmind-researchers-land-record-creandum-funding-to-scale-ai-agents-for-nasdaq">Tech.eu</a> · <a href="https://www.finsmes.com/2026/07/equilibre-technologies-closes-series-a-funding-at-over-500m-valuation.html">FinSMEs</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="research" data-story-id="autonomous-science">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#5</span> <span class="cat">RESEARCH · DEEP BEAT</span></div>
+      <h4>Monday deep beat: the "Agentic Science" wave takes shape</h4>
+      <div class="body">The research beat this week is a cluster, not a single paper: autonomous <strong>research agents</strong> that run the full loop — hypothesis, experiment, code, write-up. <strong>SciResearcher</strong> (an 8B agent) sets a new SOTA at its parameter scale on frontier bio/chem reasoning (HLE-Bio/Chem-Gold), beating several larger proprietary agents (<a href="https://arxiv.org/abs/2605.01489">arXiv</a>); companion frameworks <strong>Mimosa</strong> (evolving multi-agent science, <a href="https://arxiv.org/abs/2603.28986">arXiv</a>) and <strong>EvoMaster</strong> (<a href="https://arxiv.org/abs/2604.17406">arXiv</a>) push the "agentic science at scale" thesis. Papers cluster late-May–June; no single fresh arXiv drop broke in the strict window.</div>
+      <p class="sowhat">"AI that does science" is consolidating from demos into benchmarked systems — pair this with Jumper→Anthropic (New #2): the AI-for-science front is arriving on two tracks at once.</p>
+      <div><span class="chip arc">ARC: AGENTIC-SCIENCE · D1</span><span class="chip">Primary (arXiv)</span></div>
+      <div class="src"><a href="https://arxiv.org/abs/2605.01489">SciResearcher</a> · <a href="https://arxiv.org/abs/2603.28986">Mimosa</a> · <a href="https://arxiv.org/abs/2604.17406">EvoMaster</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="square-commerce">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#6</span> <span class="cat">ENTERPRISE · PRODUCTS</span></div>
+      <h4>Square puts sellers inside ChatGPT and Claude — agentic commerce goes live</h4>
+      <div class="body"><strong>Square</strong> launched (<strong>Jul 1</strong>) a <strong>ChatGPT app and Claude plugin</strong>: US food-and-beverage sellers with Square Online Ordering can now be discovered and <strong>take orders placed directly from inside ChatGPT and Claude</strong>, routed into their existing POS/Kitchen Display — with <strong>no new fees or marketplace commissions</strong> and eligible sellers auto-opted-in (<a href="https://squareup.com/us/en/press/claude-chatgpt-integrations">Square</a>, <a href="https://venturebeat.com/technology/restaurants-can-now-accept-orders-placed-directly-from-chatgpt-and-claude-thanks-to-squares-new-low-fee-no-setup-integration">VentureBeat</a>). An Amazon Alexa+ tie-up is next.</div>
+      <p class="sowhat">The assistant is becoming a storefront — if you sell anything, "can a customer transact without leaving ChatGPT?" is now a distribution question, not a science project.</p>
+      <div><span class="chip arc">ARC: AGENT-COMMERCE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://squareup.com/us/en/press/claude-chatgpt-integrations">Square (primary)</a> · <a href="https://venturebeat.com/technology/restaurants-can-now-accept-orders-placed-directly-from-chatgpt-and-claude-thanks-to-squares-new-low-fee-no-setup-integration">VentureBeat</a> · <a href="https://www.pymnts.com/news/artificial-intelligence/2026/square-intros-chatgpt-and-claude-integrations-for-sellers/">PYMNTS</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="anthropic-enterprise-admin">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#7</span> <span class="cat">ENTERPRISE · GOVERNANCE</span></div>
+      <h4>Anthropic gives Claude Enterprise admins spend alerts and model entitlements</h4>
+      <div class="body">On <strong>Jul 3</strong>, Anthropic shipped enhanced <strong>Claude Enterprise admin controls</strong> — richer usage analytics, <strong>model-level entitlements</strong> and <strong>spend alerts</strong> — giving admins visibility into how Claude is used and levers to cap cost "as Claude takes on increasingly complex agentic work" (<a href="https://www.anthropic.com/news">Anthropic</a>). It mirrors the governance layer Microsoft/GitHub added (edition-024 Copilot item): assistants becoming <strong>priced, governed line items</strong> across every vendor.</div>
+      <p class="sowhat">Agent spend is the new cloud bill — get model-level entitlements and spend alerts switched on before an autonomous workload runs up an invoice nobody approved.</p>
+      <div><span class="chip arc">ARC: AGENT-LAYER · D11</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://www.anthropic.com/news">Anthropic Newsroom</a> · <a href="https://releasebot.io/updates/anthropic">Releasebot (Anthropic updates)</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="models" data-story-id="grok-5-delayed">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#8</span> <span class="cat">MODELS · XAI</span></div>
+      <h4>Grok 5 slips past Q3 — Polymarket prices a July release near zero</h4>
+      <div class="body"><span class="chip rumor">RUMOR-FLAG</span> Per weekend trade coverage, <strong>Grok 5</strong> — reportedly still training on xAI's <strong>Colossus 2</strong> cluster at ~<strong>1.5GW</strong> — is <strong>not coming in Q3</strong>, with Polymarket closing its June-30 contracts at a <strong>~3% probability</strong> of a near-term release (<a href="https://www.buildfastwithai.com/blogs/ai-news-today-july-3-2026">Build Fast with AI</a>, <a href="https://polymarket.com/event/gpt-5pt6-released-by">Polymarket</a>). It sits alongside Grok 4.5, still in private beta at SpaceX/Tesla with no public model card.</div>
+      <p class="sowhat">xAI keeps slipping while rivals ship — don't pencil Grok 5 into a mid-2026 eval plan; treat it as unscheduled until a model card exists.</p>
+      <div><span class="chip arc">ARC: XAI · D3</span><span class="chip rumor">Agg 1x</span></div>
+      <div class="src"><a href="https://www.buildfastwithai.com/blogs/ai-news-today-july-3-2026">Build Fast with AI (Jul 3 roundup)</a> · Polymarket (release odds)</div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="us-export-controls">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D1</span> <span class="cat">POLICY · US</span></div>
+      <h4>US frontier regime: access framework imminent — as ownership enters the frame</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The voluntary covered-frontier <em>early-access/broad-release framework</em> is now reported in draft and expected within days, ahead of the ~Aug 1 design deadline. Newly adjacent: OpenAI's proposal to hand Washington a 5% equity stake (New #1) reframes the state↔lab relationship from access-gating to ownership. GPT-5.6 remains the last frontier set behind managed access.</div>
+      <div class="body">The Jun 2 EO "<a href="https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/">Promoting Advanced AI Innovation and Security</a>" governs the live question — how the voluntary regime (up to 30-day pre-release federal access, jointly-selected trusted partners, expressly <em>not</em> a licence) is designed. One full gate-then-release cycle has run (Anthropic exited via CAISI re-validation); the EO reaffirms no mandatory federal licensing of model development.</div>
+      <p class="sowhat">The precedent — a cabinet can gate then re-open a deployed model, and may soon hold equity too — is hardening; war-game both a national-security shutoff and a partial-ownership scenario this quarter.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D27</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/">White House EO</a> · <a href="https://www.whitehouse.gov/fact-sheets/2026/06/fact-sheet-president-donald-j-trump-promotes-advanced-artificial-intelligence-innovation-and-security/">Fact sheet</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="spcx-nasdaq">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D2</span> <span class="cat">BUSINESS · IPO</span></div>
+      <h4>SPCX enters the Nasdaq-100 tomorrow — the forced-flow event lands</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The clock ran down: SpaceX (SPCX, ~$162) enters the Nasdaq-100 <strong>effective tomorrow, Jul 7</strong> — the first user of Nasdaq's 15-day fast-track, just 15 trading days after its Jun 12 IPO. JPMorgan still sees ~$4.3B in forced passive inflows against short interest of ~31% of free float (~196M shares, Ortex) — an index-buy-meets-squeeze setup goes live.</div>
+      <div class="body">The AI-IPO bellwether's index entry is now a same-week event (<a href="https://seekingalpha.com/news/4607865-spacex-to-join-nasdaq-100-effective-july-7-2026">Seeking Alpha</a>, <a href="https://www.cnbc.com/2026/06/26/spacex-added-to-nasdaq-100.html">CNBC</a>). Behind it, Anthropic (S-1 Jun 1) still eyes an ~October listing and OpenAI slips toward 2027 at ~$1T — now with a government-equity question hanging over the whole cohort (Hero).</div>
+      <p class="sowhat">Read Jul 7 as a forced-flow event, not a fundamentals verdict — but the tape is the live read on public AI appetite ahead of the Anthropic window.</p>
+      <div><span class="chip arc">ARC: IPO-WAVE · D25</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://seekingalpha.com/news/4607865-spacex-to-join-nasdaq-100-effective-july-7-2026">Seeking Alpha</a> · <a href="https://www.cnbc.com/2026/06/26/spacex-added-to-nasdaq-100.html">CNBC</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="openai-gpt56">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D3</span> <span class="cat">MODELS · OPENAI</span></div>
+      <h4>GPT-5.6 stays gated — the "July-7 broad push" now looks unlikely</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> De-escalated rumor: last edition's rumored Jul-7 broad launch is <strong>not materialising</strong> — as of today GPT-5.6 Sol/Terra/Luna remain limited to ~20 government-vetted orgs with broad access framed only as "in the coming weeks / mid-July," pending the government cybersecurity review. Preview details firmed: Sol is placed at Terminal-Bench 2.1 SOTA, Terra ~GPT-5.5 at ~2x lower cost. Still no full system card.</div>
+      <div class="body"><span class="chip rumor">RUMOR-FLAG</span> Sol/Terra/Luna are the last frontier set behind managed access (<a href="https://openai.com/index/previewing-gpt-5-6-sol/">OpenAI preview</a>, <a href="https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/">TechCrunch</a>). The gating persists on cyber/bio-capability grounds; the exact broad-release date is not OpenAI-confirmed.</div>
+      <p class="sowhat">Keep a GPT-5.6 eval harness warm but don't plan a migration around a specific July date — the release is review-gated, not calendar-gated.</p>
+      <div><span class="chip arc">ARC: MODEL-WAVE · D27</span><span class="chip rumor">RUMOR-FLAG</span></div>
+      <div class="src"><a href="https://openai.com/index/previewing-gpt-5-6-sol/">OpenAI (preview — no full system card)</a> · <a href="https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/">TechCrunch</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="global-gov">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">D4</span> <span class="cat">POLICY · GLOBAL</span></div>
+      <h4>The UN's first Global Dialogue on AI Governance opens in Geneva today</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Now live: the inaugural <strong>UN Global Dialogue on AI Governance</strong> opens in Geneva (Palexpo) <strong>today, Jul 6–7</strong>, co-chaired by El Salvador and Estonia, alongside the ITU AI for Good Summit (Jul 7–10). UN News frames the moment around warnings of "catastrophic harm" and the Scientific Panel's finding that there are "no known technical guarantees" agent systems follow instructions.</div>
+      <div class="body">The first standing multilateral forum with all 193 member states convenes as national regimes diverge — EU Aug 2, the US voluntary EO (and now an equity proposal), India's bespoke-law track (<a href="https://news.un.org/en/story/2026/07/1167862">UN News</a>, <a href="https://www.un.org/global-dialogue-ai-governance/en">UN (Dialogue)</a>). Early-stage and non-binding, but the whole membership is finally at one table.</div>
+      <p class="sowhat">Watch whether Geneva produces any shared baseline on agentic-AI control — the science panel just told governments the guarantees don't yet exist.</p>
+      <div><span class="chip arc">ARC: GLOBAL-GOV · D3</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://news.un.org/en/story/2026/07/1167862">UN News</a> · <a href="https://www.un.org/global-dialogue-ai-governance/en">UN (Global Dialogue)</a> · <a href="https://www.unesco.org/en/articles/global-dialogue-ai-governance-geneva-6-7-july">UNESCO</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING ══════════ -->
+<section>
+  <div class="sec-head">Still Tracking <small>LONG-RUNNERS WITH NO MOVEMENT THIS EDITION</small></div>
+  <div class="tracking-strip" id="tracking-strip"></div>
+</section>
+
+<!-- ══════════ RESOLVED ══════════ -->
+<section>
+  <div class="sec-head">Resolved <small>YESTERDAY'S OPEN THREADS, CLOSED &amp; FOLDED</small></div>
+  <div class="resolved-strip" id="resolved-strip"></div>
+</section>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 025 · 2026-07-06 (IST) · FORMAT v2</strong></p>
+    <p>METHOD: 28 web searches across three parallel beats — Models &amp; core technology, Applied AI (enterprise/products/partnerships/money), People/policy/society — plus the Monday deep beat (research: autonomous-science agents). v2 splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING (long-runners with no movement). Hero = biggest new item unless a developing thread had a major escalation; today the biggest new item (OpenAI's government-equity proposal) leads. Aggregator claims cross-checked against ≥2 outlets where possible; single-source and rumor items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+    <p>KNOWN SCAN GAPS THIS EDITION: QUIET POST-HOLIDAY MONDAY. The strict 24-hour window (Jul 5–6) produced essentially no fresh announcements — so there are NO NEW.24H badges and every item is dated honestly to when it actually broke (Jun 19 – Jul 3). We shipped 8 genuinely-new items rather than pad to a 10-target. RESEARCH BEAT (Monday deep beat) is represented via the "Agentic Science" cluster (SciResearcher/Mimosa/EvoMaster, arXiv, late-May–June) and the Jumper→Anthropic AI-for-science move; no single fresh arXiv/Nature paper broke in-window. Deliberately EXCLUDED to avoid recycling/date-traps: the "Anthropic overtakes OpenAI on revenue / $965B valuation / $47B run-rate" framing traces to an April overtake at a ~$30B run-rate and was carried, not re-listed as New; edition-024's OpenAI-IPO $122B/$852B figure (Mar 31 close) is used only to size the Hero stake, not as News. RUMOR-FLAGGED: Grok 5 Q3 slip (trade-blog + Polymarket, no xAI confirmation); GPT-5.6 broad-release timing (review-gated, not OpenAI-dated); Meta "Watermelon" (Tracking, single-sourced). SINGLE-SOURCE / secondary: Anthropic Enterprise admin dates (primary newsroom + Releasebot); EquiLibre valuation reported as ~$500M / €438M across outlets. The OpenAI government-stake proposal is FT-origin (single reporting source) even though four tier-1 outlets carry it — treated as a reported proposal, not a deal. Several aggregator roundups (buildfastwithai, aitoolsrecap) were used to surface leads and then cross-checked to primaries where possible.</p>
+    <p>NOTE: Links point to sources found during the scan; where only an outlet/press root was available it is labelled as such. Nothing here is investment advice.</p>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 25,
+  "date": "2026-07-06",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 28,
+  "counts": {"new": 8, "developing": 4, "tracking": 18},
+  "tiers": {"critical": 2, "notable": 5, "monitor": 5},
+  "stories": [
+    {"id":"openai-govt-stake","section":"new","rank":1,"title":"OpenAI proposed (Jul 2) handing the US government a ~5% equity stake — ~$42.6B at its ~$852B valuation — to defuse political pressure, per FT reporting carried by CNBC/CNN/Bloomberg/Forbes; Altman frames it as sharing 'the upside of AI'; the proposal reportedly envisions Anthropic, Google and Meta ceding similar stakes via a sovereign-wealth-fund vehicle, which would make partial government ownership an industry template rather than a one-company concession; no peer lab has agreed and terms/governance are unspecified — a reported proposal, not a deal, shifting the US↔frontier-lab relationship from access-gating to ownership","tier":"critical","impact":8,"delta":"new","arc":"govt-equity","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-06","lastUpdate":"2026-07-06","category":"policy"},
+    {"id":"jumper-anthropic","section":"new","rank":2,"title":"John Jumper — 2024 Nobel Chemistry laureate and architect of AlphaFold — announced (Jun 19) he is leaving Google DeepMind after ~9 years to join Anthropic; recruiting the co-inventor of the model that reshaped structural biology signals Anthropic is opening a third competitive front (AI-for-science), pairing with its Claude Science launch and in-house drug program, and deepens DeepMind's talent drain (Shazeer->OpenAI, now Jumper->Anthropic); dated Jun 19 so new but not new24h — the research/talent beat anchor for this Monday","tier":"notable","impact":7,"delta":"new","arc":"ai-science","arcDay":4,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-06","lastUpdate":"2026-07-06","category":"research"},
+    {"id":"openai-jalapeno","section":"new","rank":3,"title":"OpenAI and Broadcom unveiled (Jun 24) 'Jalapeno', OpenAI's first custom inference ASIC — a reticle-sized 'Intelligence Processor' architected around LLM serving patterns and taped out in ~9 months (OpenAI's own models used to accelerate the design); OpenAI claims perf-per-watt 'substantially better' than current SOTA, with gigawatt-scale deployment (incl. Microsoft) beginning 2026 — its most significant step to cut near-total Nvidia dependence; dated Jun 24, new (first coverage) but not new24h","tier":"notable","impact":6,"delta":"new","arc":"custom-silicon","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-06","lastUpdate":"2026-07-06","category":"hardware"},
+    {"id":"equilibre-series-a","section":"new","rank":4,"title":"EquiLibre Technologies — a Prague lab founded by the DeepMind researchers who built DeepStack (first AI to beat pros at no-limit poker) — closed a Series A at a ~$500M (€438M) valuation led by Creandum, described as the largest single investment the firm has 'ever made in one go'; its reinforcement-learning agents trade billions daily on the S&P/Nasdaq and reportedly 'never had a negative month'; Turing Award winner Rich Sutton advises; frontier-lab RL leaking into fundable quant-trading (Jun 30-Jul 2)","tier":"monitor","impact":5,"delta":"new","arc":"ai-money","arcDay":3,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-06","lastUpdate":"2026-07-06","category":"business"},
+    {"id":"autonomous-science","section":"new","rank":5,"title":"Monday research deep beat: the 'Agentic Science' wave — autonomous research agents running the full loop (hypothesis/experiment/code/write-up) consolidating from demos into benchmarked systems; SciResearcher (an 8B agent) sets a new SOTA at its parameter scale on frontier bio/chem reasoning (HLE-Bio/Chem-Gold), beating several larger proprietary agents, with companion frameworks Mimosa (evolving multi-agent science) and EvoMaster; papers cluster late-May–June, no single fresh arXiv drop in the strict window — keeps the research beat represented and pairs thematically with Jumper->Anthropic","tier":"monitor","impact":5,"delta":"new","arc":"agentic-science","arcDay":1,"confidence":"Primary","new24h":false,"firstSeen":"2026-07-06","lastUpdate":"2026-07-06","category":"research"},
+    {"id":"square-commerce","section":"new","rank":6,"title":"Square launched (Jul 1) a ChatGPT app and Claude plugin: US food-and-beverage sellers with an active Square Online Ordering profile can be discovered and take orders placed directly from inside ChatGPT and Claude, routed into existing POS/Kitchen Display, with no new fees or marketplace commissions and eligible sellers auto-opted-in; an Amazon Alexa+ voice-commerce tie-up is next — the assistant becoming a storefront (agentic commerce goes live at retail scale)","tier":"monitor","impact":5,"delta":"new","arc":"agent-commerce","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-06","lastUpdate":"2026-07-06","category":"enterprise"},
+    {"id":"anthropic-enterprise-admin","section":"new","rank":7,"title":"Anthropic shipped (Jul 3) enhanced Claude Enterprise admin controls — richer usage analytics, model-level entitlements and spend alerts — giving admins visibility into Claude usage and cost levers 'as Claude takes on increasingly complex agentic work'; mirrors the governance layer Microsoft/GitHub added (edition-024 Copilot item): assistants becoming priced, governed line items across every vendor; primary-sourced (Anthropic newsroom)","tier":"monitor","impact":4,"delta":"new","arc":"agent-layer","arcDay":11,"confidence":"Primary","new24h":false,"firstSeen":"2026-07-06","lastUpdate":"2026-07-06","category":"enterprise"},
+    {"id":"grok-5-delayed","section":"new","rank":8,"title":"RUMOR: per weekend trade coverage, Grok 5 — reportedly still training on xAI's Colossus 2 cluster at ~1.5GW — is not coming in Q3, with Polymarket closing its Jun-30 contracts at ~3% probability of a near-term release; sits alongside Grok 4.5, still in private beta at SpaceX/Tesla with no public model card; aggregator/prediction-market sourced, no xAI confirmation — xAI keeps slipping while rivals ship","tier":"monitor","impact":4,"delta":"new","arc":"xai","arcDay":3,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-07-06","lastUpdate":"2026-07-06","category":"models"},
+    {"id":"us-export-controls","section":"developing","rank":1,"title":"US frontier-access regime: the voluntary covered-frontier early-access/broad-release framework is reported in draft and expected within days, ahead of the ~Aug 1 design deadline; the Jun 2 EO reaffirms no mandatory federal licensing of model development/release; one full gate-then-release cycle has run (Anthropic exited via CAISI re-validation) and GPT-5.6 is the last frontier set behind managed access — newly adjacent, OpenAI's government-equity proposal (New #1) reframes the state↔lab relationship from access-gating to ownership","tier":"critical","impact":7,"delta":"carry","arc":"reg-clock","arcDay":27,"confidence":"2x src","new24h":false,"update":"Access framework imminent (draft reported early July, expected within days) ahead of ~Aug 1; ownership enters the frame via OpenAI's 5%-stake proposal (New #1); EO reaffirms no mandatory licensing","firstSeen":"2026-06-12","lastUpdate":"2026-07-06","category":"policy"},
+    {"id":"spcx-nasdaq","section":"developing","rank":2,"title":"SpaceX (SPCX, ~$162) enters the Nasdaq-100 effective tomorrow, Jul 7 — first user of Nasdaq's 15-day fast-track, 15 trading days after its Jun 12 IPO; JPMorgan sees ~$4.3B forced passive inflows against short interest ~31% of free float (~196M shares, Ortex) — an index-buy-meets-squeeze setup goes live; behind it Anthropic (S-1 Jun 1) eyes ~October and OpenAI slips toward 2027 at ~$1T, now under a government-equity question (Hero)","tier":"notable","impact":6,"delta":"carry","arc":"ipo-wave","arcDay":25,"confidence":"2x src","new24h":false,"update":"Clock ran down: Nasdaq-100 entry is now tomorrow (Jul 7); ~$4.3B JPMorgan-estimated passive inflows vs ~31%-of-float short interest — the forced-flow event lands this week","firstSeen":"2026-06-12","lastUpdate":"2026-07-06","category":"business"},
+    {"id":"openai-gpt56","section":"developing","rank":3,"title":"GPT-5.6 (Sol/Terra/Luna) stays limited to ~20 government-vetted orgs; last edition's rumored Jul-7 broad launch is not materialising — broad access framed only as 'in the coming weeks / mid-July', pending the government cybersecurity review; preview details firmed (Sol placed at Terminal-Bench 2.1 SOTA, Terra ~GPT-5.5 at ~2x lower cost) but still no full system card; the last frontier set behind managed access","tier":"notable","impact":6,"delta":"deescalated","arc":"model-wave","arcDay":27,"confidence":"Rumor-flag","new24h":false,"update":"De-escalated rumor: the Jul-7 broad-push did not land; still ~20 orgs, broad access now 'coming weeks/mid-July' and review-gated not calendar-gated; preview specs firmed, still no system card","firstSeen":"2026-06-11","lastUpdate":"2026-07-06","category":"models"},
+    {"id":"global-gov","section":"developing","rank":4,"title":"The inaugural UN Global Dialogue on AI Governance opens in Geneva (Palexpo) today, Jul 6-7, co-chaired by El Salvador (Egriselda Lopez) and Estonia (Rein Tammsaar), alongside the ITU AI for Good Summit (Jul 7-10); UN News frames it around warnings of 'catastrophic harm' and the Independent Scientific Panel's finding that there are 'no known technical guarantees' agent systems follow instructions; first standing multilateral forum with all 193 member states, non-binding","tier":"notable","impact":5,"delta":"escalated","arc":"global-gov","arcDay":3,"confidence":"2x src","new24h":false,"update":"Now live: the Dialogue opens today (Jul 6-7) with all 193 states, co-chaired by El Salvador + Estonia, alongside ITU AI for Good; UN News centres 'catastrophic harm' warnings and the panel's 'no known guarantees' finding","firstSeen":"2026-07-04","lastUpdate":"2026-07-06","category":"policy"}
+  ],
+  "tracking": [
+    {"id":"longcat-open-weight","label":"Open-weight leaderboard: China-led — GLM-5.2 (744B MoE, MIT; SWE-Bench Pro ~62.1, Terminal-Bench 2.1 ~81), MiniMax M3 (tops open SWE-Bench Pro ~59), Kimi K2.5 (SWE-Bench Verified ~76.8), Qwen3-Coder, DeepSeek, Nemotron — joined at the top by Meituan's LongCat-2.0 (1.6T, edition-024 lead); no fresh open release in-window","arc":"open-weight","arcDay":11},
+    {"id":"ai-infra","label":"AI-power build-out: National Grid's $1.75B into Joulent (2.67GW West Texas gas for a Microsoft campus, 20-yr PPA) + Crusoe's reported ~$3B stranded-energy raise — megawatts/permits, not just GPUs, the binding constraint (edition-024 New, no fresh single break)","arc":"ai-infra","arcDay":3},
+    {"id":"workforce-boomerang","label":"The AI-layoff boomerang: Ford/CBA/IBM reverse AI-cited cuts (Orgvue 55% regret, Robert Half 32% rehired) even as global tech layoffs top ~168K in H1 2026 (56% cite AI); market narrows to AI-skilled while over-automation reverses (edition-024 New, no fresh movement)","arc":"workforce","arcDay":10},
+    {"id":"infra-security","label":"General-infra security bleeding into the AI stack: CVE-2026-45659 (SharePoint deserialization RCE, CVSS 8.8) added to CISA KEV after active exploitation, FCEB patch by Jul 4 — SharePoint underpins many enterprise RAG/Copilot deployments (edition-024 New, no fresh CVE)","arc":"infra-security","arcDay":2},
+    {"id":"meta-watermelon","label":"RUMOR: Meta's Alexandr Wang reportedly told staff 'Watermelon' matched GPT-5.5 on internal benchmarks mid-training with ~10x the compute of Avocado/Muse Spark; single-sourced (Business Insider), benchmarks unspecified, no ship date (no fresh confirmation)","arc":"frontier-race","arcDay":2},
+    {"id":"palantir-nvidia-sovereign","label":"Open weights as the sovereign/classified default: Palantir + Nvidia deploy Nemotron open models inside air-gapped US-gov with agencies retaining weights; PLTR rose ~7.8% into Jul 1 (edition-024 New, no fresh movement)","arc":"sovereign-ai","arcDay":2},
+    {"id":"claude-sonnet-5","label":"Anthropic's Claude Sonnet 5 ($2/$10 through Aug 31, native 1M context, beats Opus 4.8 on Terminal-Bench 2.1) remains the default for Free/Pro and in Claude Code — the cost-per-agent-run play; no fresh movement","arc":"model-efficiency","arcDay":3},
+    {"id":"gemini35-pro-slip","label":"Google's Gemini 3.5 Pro (2M context, Deep Think) still a limited Vertex AI preview, GA 'expected July' but not yet shipped; Flash GA since May at up to 1/3 the price — wins on price-performance, trails on flagship timing (no fresh movement)","arc":"google-models","arcDay":7},
+    {"id":"copilot-commercialization","label":"Assistants become priced line items: Microsoft made M365 'with Copilot' permanent SMB SKUs; GitHub added per-cost-center AI credit pools — now paired with Anthropic's new Claude Enterprise spend controls (New #7)","arc":"agent-layer","arcDay":11},
+    {"id":"deepmind-exodus","label":"Talent drain from Google DeepMind: Jumper->Anthropic (now New #2) and Shazeer->OpenAI head a ~six-researcher exodus + Meta's Thinking Machines raid (Tulloch reported ~$1.5B/6-yr); Denny Zhou->Meta — analysts ask if DeepMind can stay in the lead pack","arc":"talent","arcDay":16},
+    {"id":"india-gcc-ai-jobs","label":"India GCC hiring toward a ~5.1-lakh 2026 peak (64% of new roles need AI/data skills); July tech openings ~106,000, down 8% YoY but up 14% MoM; Bengaluru ~24,000 (+20% MoM), ~2,27,991 GCC hires to June (+11% YoY) (no fresh rule change)","arc":"workforce","arcDay":3},
+    {"id":"samsung-hbm4-invest","label":"HBM4 ramp / compute: Samsung past a $1B HBM4 revenue milestone; SK Hynix ~50-55% share; AMD MI455X 12-stack; Meta's expanded Nvidia deal (millions of chips incl. standalone CPUs + Vera Rubin); Vera Rubin design-issue rumors — tracked, no fresh single break","arc":"hbm-supply","arcDay":10},
+    {"id":"humanoid-robotics","label":"Physical AI: Tesla Optimus V3 (22-DoF hands, AI5 chip) enters low-volume production at Fremont this summer; Figure 02 built 30,000+ BMW X3, expanding to Leipzig; XPENG's VLA 2.0 world-model at mass production (no material movement)","arc":"physical-ai","arcDay":8},
+    {"id":"supply-chain-ai-security","label":"AI agent attack surface: prompt injection OWASP #1 (+340% YoY); critical CVEs in Microsoft Copilot / GitHub Copilot / Cursor (CVE-2026-22708) / Semantic Kernel (CVE-2026-25592) — 'when prompts become shells'; no fresh agent incident in-window","arc":"agent-security","arcDay":11},
+    {"id":"enterprise-agent-platforms","label":"Governed agents inside SaaS incumbents: ServiceNow (NVIDIA 'Project Arc' self-evolving desktop agent), Salesforce (Agentforce), Snowflake, SAP and Oracle Fusion ship task-specific agents; Gartner sees 40% of apps embedding agents by end-2026 but >40% of projects cancelled by end-2027","arc":"agent-layer","arcDay":11},
+    {"id":"vertical-ai","label":"Legal/vertical AI: HSBC on Harvey (~$300M ARR, 68% of firms deploying agents); Legora ($5.6B) keeps the category hot; California's Jun 29 Claude-for-state-agencies deal (50% discount, ~230K employees) sits here too (no fresh movement)","arc":"vertical-ai","arcDay":7},
+    {"id":"eu-labelling-cop","label":"EU Digital Omnibus is FINAL (Council Jun 29): high-risk Annex III obligations defer to Dec 2 2027 (embedded to Aug 2 2028), but Aug 2 2026 Article 50 transparency + GPAI enforcement (fines up to €15M/3%) is unchanged — now 27 days out (demoted from Developing, no fresh movement)","arc":"reg-clock","arcDay":27},
+    {"id":"india-reg","label":"India: IT-Rules synthetic-content labelling in force; the AI (Ethics & Accountability) Bill 2025 (statutory ethics committee, mandatory reviews) pending in the Lok Sabha; MeitY's IndiaAI Governance Guidelines the reference — no fresh rule change","arc":"india-reg","arcDay":6}
+  ],
+  "movers": [
+    {"dir":"up","text":"OPENAI — proposes the US government own ~5% (~$42.6B at $852B) to defuse political pressure; reportedly envisions Anthropic/Google/Meta ceding similar via a sovereign fund"},
+    {"dir":"up","text":"ANTHROPIC — recruits Nobel laureate John Jumper (AlphaFold architect) from DeepMind, opening a third front: AI-for-science"},
+    {"dir":"up","text":"OPENAI / BROADCOM — unveil 'Jalapeño', OpenAI's first custom inference ASIC (reticle-sized, ~9-month tape-out); step to cut Nvidia dependence"},
+    {"dir":"up","text":"EQUILIBRE — ex-DeepMind poker-AI trio's Series A at ~$500M (€438M) is Creandum's largest-ever single check; RL agents trade billions daily"},
+    {"dir":"down","text":"XAI — Grok 5 slips past Q3 (Polymarket ~3% for a near-term release); still training on Colossus 2 at ~1.5GW, no model card (RUMOR)"},
+    {"dir":"down","text":"GOOGLE DEEPMIND — talent drain continues (Jumper->Anthropic, Shazeer->OpenAI); analysts question whether it can stay in the lead pack"}
+  ],
+  "arcs": {
+    "govt-equity": {"day": 1, "note": "New arc: OpenAI proposes handing Washington a ~5% stake (~$42.6B at $852B) to defuse political pressure, reportedly envisioning Anthropic/Google/Meta ceding similar via a sovereign fund — shifts the US↔frontier-lab relationship from access-gating to ownership; a reported FT-origin proposal, no peer lab has agreed"},
+    "ai-science": {"day": 4, "note": "AI-for-science becomes a competitive front: Anthropic recruits Nobel laureate John Jumper (AlphaFold architect) from DeepMind (Jun 19), pairing with Claude Science + its in-house drug program; the frontier race widens from chat/coding into scientific discovery"},
+    "custom-silicon": {"day": 1, "note": "New arc: OpenAI + Broadcom unveil 'Jalapeño', OpenAI's first custom inference ASIC (reticle-sized, ~9-month tape-out, perf/watt 'substantially better'), gigawatt-scale from 2026 incl. Microsoft — the largest buyers now design around Nvidia, not just buy from it"},
+    "ai-money": {"day": 3, "note": "Frontier-lab RL leaks into fundable categories: ex-DeepMind DeepStack trio's EquiLibre raises Creandum's largest-ever single check at ~$500M (€438M) for RL trading agents that move billions daily; Rich Sutton advises"},
+    "agentic-science": {"day": 1, "note": "New research arc (Monday deep beat): 'Agentic Science' consolidates from demos into benchmarked systems — SciResearcher (8B) sets SOTA at its scale on frontier bio/chem reasoning, with Mimosa/EvoMaster evolving multi-agent frameworks; papers late-May–June, no in-window drop"},
+    "agent-commerce": {"day": 1, "note": "New arc: Square puts sellers inside ChatGPT and Claude — F&B merchants take orders placed directly in the assistants, routed into existing POS, no new fees/commissions, auto-opted-in; Amazon Alexa+ next — the assistant becomes a storefront"},
+    "agent-layer": {"day": 11, "note": "Assistants become priced, governed line items: Anthropic ships Claude Enterprise admin analytics / model-level entitlements / spend alerts (New #7), joining Microsoft's permanent Copilot SKUs and GitHub's per-cost-center credit pools"},
+    "xai": {"day": 3, "note": "Grok 5 slips past Q3 (Polymarket ~3% near-term; still training on Colossus 2 at ~1.5GW, no model card); Grok 4.5 stays private beta at SpaceX/Tesla — xAI keeps slipping while rivals ship (RUMOR)"},
+    "reg-clock": {"day": 27, "note": "US: voluntary covered-frontier framework reported in draft, expected within days ahead of ~Aug 1; EO reaffirms no mandatory licensing; ownership enters the frame via OpenAI's 5%-stake proposal. EU: Digital Omnibus FINAL — high-risk to Dec 2 2027 but Aug 2 (27d) Article 50/GPAI enforcement unchanged"},
+    "ipo-wave": {"day": 25, "note": "SPCX enters the Nasdaq-100 tomorrow (Jul 7) via a 15-day fast-track — ~$4.3B JPMorgan-estimated passive inflows vs ~31%-of-float short interest; Anthropic (S-1 Jun 1) eyes ~October, OpenAI slips toward 2027 at ~$1T, now under a government-equity question"},
+    "model-wave": {"day": 27, "note": "GPT-5.6 stays gated to ~20 orgs; the rumored Jul-7 broad push did not land — broad access now 'coming weeks/mid-July', review-gated not calendar-gated; preview specs firmed (Sol Terminal-Bench 2.1 SOTA), still no system card"},
+    "global-gov": {"day": 3, "note": "The inaugural UN Global Dialogue on AI Governance opens in Geneva today (Jul 6-7, all 193 states, co-chaired by El Salvador + Estonia) alongside ITU AI for Good; UN News centres 'catastrophic harm' warnings and the Scientific Panel's 'no known guarantees' finding — non-binding"},
+    "open-weight": {"day": 11, "note": "Open-weight top table is China-led — GLM-5.2 / MiniMax M3 / Kimi K2.5 / Qwen3-Coder / DeepSeek / Nemotron + Meituan LongCat-2.0 (edition-024 lead); tracked, no fresh open release in-window"},
+    "ai-infra": {"day": 3, "note": "Compute is a power story: National Grid's $1.75B into Joulent (2.67GW for a Microsoft campus) + Crusoe's ~$3B stranded-energy raise — megawatts/permits the binding constraint; tracked, no fresh break"},
+    "workforce": {"day": 10, "note": "The AI-layoff boomerang (Ford/CBA/IBM reverse AI-cited cuts) even as global tech layoffs top ~168K in H1 2026 (56% cite AI); India GCC hiring toward ~5.1 lakh, 64% of roles need AI skills — tracked, no fresh single break"},
+    "infra-security": {"day": 2, "note": "CVE-2026-45659 (SharePoint RCE, CVSS 8.8) in CISA KEV after active exploitation; SharePoint underpins many enterprise RAG/Copilot stacks — tracked, no fresh CVE in-window"},
+    "frontier-race": {"day": 2, "note": "RUMOR: Meta's 'Watermelon' reportedly matched GPT-5.5 mid-training (Wang town hall, single-sourced, no ship date) — tracked, no fresh confirmation"},
+    "sovereign-ai": {"day": 2, "note": "Open weights as the classified default: Palantir + Nvidia put Nemotron inside air-gapped US-gov with agencies retaining weights; PLTR +7.8% into Jul 1 — tracked, no fresh movement"},
+    "model-efficiency": {"day": 3, "note": "Claude Sonnet 5 ($2/$10 through Aug 31, native 1M context, beats Opus 4.8 on Terminal-Bench 2.1) holds as the cost-per-agent-run default — tracked, no fresh movement"},
+    "google-models": {"day": 7, "note": "Gemini 3.5 Pro (2M context, Deep Think) still a Vertex preview, GA 'expected July' but unshipped; Flash GA since May at up to 1/3 the price — tracked, no fresh movement"},
+    "talent": {"day": 16, "note": "DeepMind talent drain: Jumper->Anthropic (New #2) + Shazeer->OpenAI head a ~six-researcher exodus; Meta's Thinking Machines raid (Tulloch ~$1.5B/6-yr); Denny Zhou->Meta — analysts question DeepMind's lead"},
+    "hbm-supply": {"day": 10, "note": "HBM4 ramp: Samsung past $1B HBM4 revenue; SK Hynix ~50-55%; AMD MI455X; Meta's expanded Nvidia deal (millions of chips incl. CPUs + Vera Rubin); Vera Rubin design-issue rumors — tracked, no fresh break"},
+    "physical-ai": {"day": 8, "note": "Humanoids/physical AI: Tesla Optimus V3 low-volume production this summer; Figure 02 built 30,000+ BMW X3; XPENG VLA 2.0 at mass production — tracked, no material movement"},
+    "agent-security": {"day": 11, "note": "Prompt injection OWASP #1 (+340% YoY); critical CVEs across Copilot/Cursor/Semantic Kernel — 'when prompts become shells' (Microsoft) — tracked, no fresh agent incident in-window"},
+    "vertical-ai": {"day": 7, "note": "Legal/vertical AI: HSBC on Harvey (~$300M ARR); Legora ($5.6B); California's Jun 29 Claude-for-state-agencies deal folds here — tracked, no fresh movement"},
+    "india-reg": {"day": 6, "note": "India: IT-Rules synthetic-content labelling in force; AI (Ethics & Accountability) Bill 2025 pending in the Lok Sabha; MeitY's IndiaAI Governance Guidelines the reference — tracked, no fresh rule change"}
+  },
+  "resolved": [
+    "global-gov (edition-024 Developing -> live event): the UN Global Dialogue on AI Governance opened in Geneva today (Jul 6-7) with all 193 member states, co-chaired by El Salvador and Estonia, alongside the ITU AI for Good Summit; UN News centres 'catastrophic harm' warnings and the Scientific Panel's finding that there are 'no known technical guarantees' agent systems follow instructions.",
+    "openai-gpt56 (Developing): edition-024's rumored Jul-7 broad launch did NOT materialise — GPT-5.6 remains limited to ~20 government-vetted orgs, with broad access now framed as 'coming weeks / mid-July' and explicitly review-gated rather than calendar-gated; preview specs firmed (Sol at Terminal-Bench 2.1 SOTA) but still no full system card.",
+    "eu-labelling-cop (Developing -> Tracking): no fresh movement since the Council's Jun 29 FINAL approval of the Digital Omnibus; high-risk Annex III obligations defer to Dec 2 2027, but Aug 2 2026 Article 50 transparency + GPAI enforcement remains the live date (now 27 days out) — demoted to a Tracking one-liner.",
+    "Auto-retire / fold: edition-024 New items with no fresh 24h movement demote to Tracking — longcat-2 -> open-weight roundup; joulent-power -> ai-infra arc; ai-layoff-reversal -> workforce; sharepoint-cve -> infra-security; meta-watermelon -> frontier-race (rumor); palantir-nvidia-sovereign -> sovereign-ai; ai-money-weekend superseded by the fresher EquiLibre round (New #4); copilot-commercialization -> agent-layer (paired with Anthropic's new Claude Enterprise admin controls, New #7). claude-science folds into the AI-for-science front now anchored by Jumper->Anthropic (New #2). The RBI Young Professionals AI application deadline (Jul 6) passes today.",
+    "Scan-integrity (date traps excluded, not padded as New): the recurring 'Anthropic overtakes OpenAI on revenue / $965B valuation / $47B run-rate' framing traces to an April overtake at a ~$30B run-rate (Epoch/Trendingtopics) and was carried, not re-listed as New; OpenAI's $122B/$852B round closed Mar 31 and is used only to size the Hero's 5% stake, not as News."
+  ],
+  "deadlines": [
+    {"date": "2026-07-06", "label": "UN Global Dialogue on AI Governance opens in Geneva (Palexpo, Jul 6-7) — first standing multilateral forum with all 193 member states", "severity": "medium"},
+    {"date": "2026-07-07", "label": "SPCX enters the Nasdaq-100 via a 15-day fast-track (first user of the new rule); JPMorgan sees ~$4.3B passive inflows against ~31%-of-float short interest", "severity": "high"},
+    {"date": "2026-07-07", "label": "ITU AI for Good Global Summit opens in Geneva (Jul 7-10), alongside Dialogue day 2 — the world's AI-governance week", "severity": "low"},
+    {"date": "2026-07-08", "label": "Anthropic government-ID / age-verification gate (via Persona) begins for restored Fable 5 / Mythos 5 access", "severity": "medium"},
+    {"date": "2026-08-01", "label": "US: agencies to design the Jun 2 EO's voluntary covered-frontier early-access framework (30-day pre-release access, jointly-selected trusted partners)", "severity": "high"},
+    {"date": "2026-08-02", "label": "EU AI Act: Article 50 transparency + GPAI enforcement (fines up to €15M/3% turnover) — 27 days; Annex III high-risk now deferred to Dec 2 2027 (final)", "severity": "high"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
