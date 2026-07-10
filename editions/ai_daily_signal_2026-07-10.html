@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 028 — 10 July 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>META</b> ships Muse Spark 1.1 — its first paid agentic coding model — in US public preview, entering the category driving Anthropic's revenue &nbsp;◆&nbsp; <b>OPENAI</b> GPT-5.6 (Sol/Terra/Luna) now fully GA worldwide with public pricing; GPT-Live full-duplex voice ships too &nbsp;◆&nbsp; <b>GOOGLE</b> Nano Banana 2 Lite (4-sec images) + Gemini Omni Flash (any-to-any video) reach developers &nbsp;◆&nbsp; <b>TOGETHER AI</b> raises $800M at $8.3B (Aramco-led) as open-source inference bookings top $1.15B &nbsp;◆&nbsp; <b>HCLTECH</b> lands a $1.14B AI digital-workplace deal with a European Fortune Global 50 firm &nbsp;◆&nbsp; <b>UPDOC</b> debuts the first FDA-cleared patient-facing clinical LLM &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>028</b></span>
+    <span>FRIDAY, 10 JULY 2026</span>
+    <span class="seg">NEW <b>8</b> · DEVELOPING <b>3</b> · TRACKING <b>21</b></span>
+    <span>CRITICAL <b>3</b> / NOTABLE 6 / MONITOR 2</span>
+    <span>SCAN: 28 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="meta-muse-spark">
+  <div>
+    <div class="kicker">■ Today's Lead · New on the Wire · Models · Meta · Day 1 of the meta-models arc</div>
+    <h2>The fourth US frontier lab finally enters the coding market — Meta ships a paid agent</h2>
+    <p class="dek">On <strong>Jul 9</strong>, Meta Superintelligence Labs released <strong>Muse Spark 1.1</strong>, a multimodal reasoning model built for <strong>agentic coding</strong>, into public preview on the <strong>Meta Model API</strong> for US developers — and, notably, as Meta's <strong>first paid agent model</strong>, priced at <strong>$1.25 / $4.25 per million input/output tokens</strong> (<a href="https://techcrunch.com/2026/07/09/meta-enters-the-crowded-ai-coding-battle-with-muse-spark-1-1/">TechCrunch</a>, <a href="https://www.cnbc.com/2026/07/09/meta-jumps-into-ai-coding-market-to-chase-anthropic-and-openai.html">CNBC</a>, <a href="https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/">Meta</a>). The model can write and debug code, use software and external tools, understand text/images/video, and run multi-step tasks with less human intervention; Meta says it <strong>leads the tool-use and tool-augmented-reasoning rows</strong> and places <strong>third on coding and multimodal</strong> (<a href="https://www.marktechpost.com/2026/07/09/meta-superintelligence-labs-releases-muse-spark-1-1/">MarkTechPost</a>, <a href="https://fortune.com/2026/07/09/meta-muse-spark-1-1-release-alexandr-wang-superintelligence-labs-mark-zuckerberg/">Fortune</a>). It arrives the same day OpenAI's GPT-5.6 went fully GA (Developing) — the culmination of a week in which all four US frontier labs shipped.</p>
+    <p class="sowhat">So what: Meta is charging money to attack the exact category — agentic coding — that is powering Anthropic's ~$47B run-rate. A fourth credible, metered coding model resets the buyer's shortlist (Claude Code / GPT-5.6-Codex / Gemini / now Muse Spark) and hands developers real pricing leverage. But it is US-only public preview, not global GA, and ranks third on raw coding — evaluate it as a price/tool-use option, not yet a Claude replacement.</p>
+    <span class="chip arc">ARC: META-MODELS · D1</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://techcrunch.com/2026/07/09/meta-enters-the-crowded-ai-coding-battle-with-muse-spark-1-1/">TechCrunch</a> ·
+      <a href="https://www.cnbc.com/2026/07/09/meta-jumps-into-ai-coding-market-to-chase-anthropic-and-openai.html">CNBC</a> ·
+      <a href="https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/">Meta (primary)</a> ·
+      <a href="https://fortune.com/2026/07/09/meta-muse-spark-1-1-release-alexandr-wang-superintelligence-labs-mark-zuckerberg/">Fortune</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What happened.</strong> Meta Superintelligence Labs (under Alexandr Wang) launched Muse Spark 1.1 on Jul 9 in public preview on the Meta Model API, restricted for now to developers in the United States. The first version of Muse Spark was announced in April; 1.1 is positioned as a multimodal, tool-using agentic model that can manage digital workflows and deploy features in enterprise systems. Crucially, it is Meta's first model with a public per-token price — $1.25 in / $4.25 out per million tokens — a break from Meta's open-weight Llama posture and a direct move into the paid API market Anthropic and OpenAI dominate.</p>
+      <p><strong>Why it's the lead.</strong> This is the biggest genuinely new item on the wire and a structural shift: the one major US lab that had ceded frontier coding is now selling into it. Agentic coding is the single fastest-growing software category of 2025–26 and the engine of Anthropic's revenue; a fourth metered entrant widens the competitive field, pressures pricing, and gives enterprises another vendor to pit against Claude Code and GPT-5.6-Codex. It also partially answers a thread this feed has tracked for weeks (the "will Meta ship a frontier model / Watermelon" question) — Meta shipped something real and charged for it.</p>
+      <p><strong>The caveats — read them.</strong> It is US-only public preview, not global GA. On Meta's own scorecard it leads tool-use but is only third on coding and multimodal — i.e., strong for agent orchestration, not (yet) the top raw coder. Benchmarks are self-reported at launch; independent evals (SWE-Bench, Terminal-Bench) have not landed. And this is "1.1," an incremental release atop April's Spark 1.0, not a from-scratch flagship — the rumored higher-compute "Watermelon" frontier model remains unconfirmed and unshipped.</p>
+      <p><strong>Watch next.</strong> Independent coding/agent benchmarks vs Claude, GPT-5.6 and GLM-5.2; whether the preview opens beyond the US and to enterprise tiers; how aggressively Meta prices against Anthropic's metered Fable 5 (Deadline Radar, Jul 12) and Together AI's open-inference economics (New); and whether "Watermelon" ever materialises above Spark.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>What (Jul 9, Meta)</dt><dd>Muse Spark 1.1 — multimodal agentic-coding model — public preview on Meta Model API</dd>
+      <dt>Access</dt><dd>US developers only, public preview (not global GA)</dd>
+      <dt>Price (a first for Meta)</dt><dd>$1.25 in / $4.25 out per million tokens — Meta's first paid agent model</dd>
+      <dt>Benchmarks (self-reported)</dt><dd>Leads tool-use / tool-augmented reasoning; 3rd on coding and multimodal</dd>
+      <dt>Why it matters</dt><dd>4th US lab enters agentic coding — the category driving Anthropic's ~$47B run-rate</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">7</b>/10 — every team choosing a coding/agent model; resets the vendor shortlist</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="meta-muse-spark">
+      <div class="num">1</div>
+      <h4>Meta enters the coding market with a paid agent</h4>
+      <p>Muse Spark 1.1 ships in US public preview at $1.25/$4.25 per Mtok — Meta's first paid agent model, aimed squarely at Anthropic's and OpenAI's coding franchise. Leads tool-use, third on raw coding. <strong>NEW.24H.</strong></p>
+    </article>
+    <article class="trip" data-story-id="openai-gpt56">
+      <div class="num">2</div>
+      <h4>GPT-5.6 is now fully GA worldwide</h4>
+      <p>The saga this feed carried since June 11 closes its access chapter: as of Jul 9 Sol/Terra/Luna are generally available across ChatGPT, Codex and the API with public pricing ($5/$30, $2.50/$15, $1/$6). <strong>DEVELOPING.</strong></p>
+    </article>
+    <article class="trip" data-story-id="gpt-live">
+      <div class="num">3</div>
+      <h4>OpenAI makes voice full-duplex with GPT-Live</h4>
+      <p>GPT-Live-1 / mini can listen and speak at once, backchannel ("mhmm"), and delegate hard questions to a frontier model — positioning voice as the interface for agentic work. Default for paid users. <strong>NEW.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>FRIDAY, VERTICAL/APPLIED DEEP BEAT — A MODEL-RELEASE-HEAVY 48H, HEALTHY NEW FLOW:</strong> the wire is dominated by the frontier labs all shipping at once — <strong>Meta's Muse Spark 1.1</strong> (today's Hero, a paid agentic coder), <strong>GPT-5.6 going fully GA</strong>, OpenAI's <strong>GPT-Live</strong> full-duplex voice, and Google's <strong>Nano Banana 2 Lite / Gemini Omni Flash</strong> media models. We ship <strong>8 NEW items</strong> (ids absent from edition 027). Genuine <strong>NEW.24H</strong> is thin — only Meta's Muse Spark 1.1 and GPT-5.6's full-GA flip broke inside 24h; the other releases (GPT-Live Jul 8, Google Omni Jun 30) are <strong>new to the feed but honestly older</strong>. On the Friday vertical/applied deep beat: <strong>UpDoc's first FDA-cleared patient-facing clinical LLM</strong> (insulin titration), <strong>HCLTech's $1.14B AI digital-workplace deal</strong> (Europe Fortune Global 50, likely Mercedes-Benz), <strong>Together AI's $800M open-inference round</strong>, and a VC wave into agentic-finance (Taktile) and private AI (Venice). <strong>Excluded as date-traps</strong> (see Resolved): Anthropic's ~$1T secondary valuation over OpenAI (Apr 24 / May 28) and Jeff Bezos's Project Prometheus ($12B, Jun 11) resurfaced in Jul 10 roundups but are older — carried as Tracking context, not re-listed as fresh New.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (11)</button>
+    <button class="tab" data-cat="models">MODELS (4)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (3)</button>
+    <button class="tab" data-cat="business">BUSINESS (2)</button>
+    <button class="tab" data-cat="policy">POLICY (1)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>8 ITEMS · BROKE / SURFACED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="models" data-story-id="meta-muse-spark">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#1</span> <span class="cat">MODELS · META</span></div>
+      <h4>Meta ships a paid agentic coder — Muse Spark 1.1</h4>
+      <div class="body">Today's Hero: <strong>Meta Superintelligence Labs</strong> released <strong>Muse Spark 1.1</strong> (Jul 9) into <strong>US public preview</strong> on the Meta Model API — its <strong>first paid agent model</strong> at <strong>$1.25 / $4.25</strong> per Mtok (<a href="https://techcrunch.com/2026/07/09/meta-enters-the-crowded-ai-coding-battle-with-muse-spark-1-1/">TechCrunch</a>, <a href="https://www.cnbc.com/2026/07/09/meta-jumps-into-ai-coding-market-to-chase-anthropic-and-openai.html">CNBC</a>). The multimodal model writes/debugs code, uses tools and software, and runs multi-step tasks; Meta says it <strong>leads tool-use</strong> but sits <strong>third on raw coding</strong> (<a href="https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/">Meta</a>, <a href="https://www.marktechpost.com/2026/07/09/meta-superintelligence-labs-releases-muse-spark-1-1/">MarkTechPost</a>). It marks a break from Meta's open-weight Llama posture and a direct push into the paid API market.</div>
+      <p class="sowhat">A fourth metered US coding model resets the buyer shortlist and hands developers pricing leverage against Claude Code and GPT-5.6-Codex — but it's US-only preview and self-benchmarked; wait for independent SWE-Bench/Terminal-Bench numbers.</p>
+      <div><span class="chip arc">ARC: META-MODELS · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/09/meta-enters-the-crowded-ai-coding-battle-with-muse-spark-1-1/">TechCrunch</a> · <a href="https://www.cnbc.com/2026/07/09/meta-jumps-into-ai-coding-market-to-chase-anthropic-and-openai.html">CNBC</a> · <a href="https://fortune.com/2026/07/09/meta-muse-spark-1-1-release-alexandr-wang-superintelligence-labs-mark-zuckerberg/">Fortune</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="gpt-live">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#2</span> <span class="cat">MODELS · OPENAI</span></div>
+      <h4>OpenAI makes voice full-duplex with GPT-Live</h4>
+      <div class="body">On <strong>Jul 8</strong>, OpenAI introduced <strong>GPT-Live</strong>, a new generation of voice models built on a <strong>full-duplex</strong> architecture that can <strong>listen and speak at the same time</strong> — backchanneling ("mhmm"), interrupting, or staying quiet (<a href="https://openai.com/index/introducing-gpt-live/">OpenAI</a>, <a href="https://techcrunch.com/2026/07/08/openai-releases-new-voice-models-for-more-natural-live-conversations/">TechCrunch</a>). For harder queries it <strong>delegates to a frontier model</strong> behind the scenes (GPT-5.5 at launch) and brings the result back mid-conversation. Two versions roll out globally — <strong>GPT-Live-1</strong> (default for paid) and <strong>GPT-Live-1 mini</strong> (free tier), positioning voice as the interface for agentic work (<a href="https://theaiinsider.tech/2026/07/09/openai-launches-gpt-live-1-voice-models-positioning-voice-as-future-interface-for-ai-agentic-work/">The AI Insider</a>).</div>
+      <p class="sowhat">Full-duplex + frontier delegation is the template every voice-agent builder will now chase; if you ship voice, re-baseline latency and turn-taking expectations against GPT-Live before committing to a stack.</p>
+      <div><span class="chip arc">ARC: GPT-LIVE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://openai.com/index/introducing-gpt-live/">OpenAI (primary)</a> · <a href="https://techcrunch.com/2026/07/08/openai-releases-new-voice-models-for-more-natural-live-conversations/">TechCrunch</a> · <a href="https://theaiinsider.tech/2026/07/09/openai-launches-gpt-live-1-voice-models-positioning-voice-as-future-interface-for-ai-agentic-work/">The AI Insider</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="google-omni-flash">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#3</span> <span class="cat">MODELS · GOOGLE</span></div>
+      <h4>Google's cheap media stack: Nano Banana 2 Lite + Gemini Omni Flash</h4>
+      <div class="body">New to the feed (surfaced <strong>Jun 30</strong>, honestly not 24h): Google shipped <strong>Nano Banana 2 Lite</strong> — its fastest/cheapest image model (Gemini 3.1 Flash Lite Image), generating images in <strong>~4 seconds at $0.034 / 1K images</strong> — and <strong>Gemini Omni Flash</strong>, the first of its <strong>any-to-any Omni family</strong>, which creates and edits <strong>video up to 10 seconds</strong> from text/image/video via conversational multi-turn editing at <strong>$0.10/sec</strong> (<a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni-flash-nano-banana-2-lite/">Google</a>, <a href="https://techcrunch.com/2026/06/30/google-introduces-a-faster-cheaper-image-generator-with-nano-banana-2-lite/">TechCrunch</a>). Both are live via AI Studio, the Gemini API and the Gemini Enterprise Agent Platform (<a href="https://cloud.google.com/blog/products/ai-machine-learning/nano-banana-2-lite-and-gemini-omni-flash-available">Google Cloud</a>).</div>
+      <p class="sowhat">Google is racing the cost floor down on generative media and folding it into its enterprise agent platform — if you generate images/video at scale, re-price against Nano Banana 2 Lite and Omni Flash before renewing incumbent tools.</p>
+      <div><span class="chip arc">ARC: GOOGLE-OMNI · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni-flash-nano-banana-2-lite/">Google (primary)</a> · <a href="https://techcrunch.com/2026/06/30/google-introduces-a-faster-cheaper-image-generator-with-nano-banana-2-lite/">TechCrunch</a> · <a href="https://cloud.google.com/blog/products/ai-machine-learning/nano-banana-2-lite-and-gemini-omni-flash-available">Google Cloud</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="research" data-story-id="updoc-fda-llm">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#4</span> <span class="cat">RESEARCH · HEALTH</span></div>
+      <h4>The first FDA-cleared patient-facing clinical LLM</h4>
+      <div class="body">The Friday vertical deep beat's health anchor: <strong>UpDoc</strong> (a Palo Alto company spun out of Stanford in 2023) announced <strong>Jun 25</strong> the first <strong>FDA-cleared agentic clinical-AI platform using a patient-facing LLM</strong> — <strong>510(k) K253281</strong>, a prescription device where adults with <strong>type-2 diabetes</strong> interact by voice or text for <strong>insulin-titration guidance</strong> (<a href="https://www.statnews.com/2026/07/02/fda-clearance-raises-questions-updoc-use-generative-ai-diabetes-treatment/">STAT</a>, <a href="https://hlth.com/insights/news/updoc-debuts-first-fda-cleared-patient-facing-clinical-llm-for-insulin-management">HLTH</a>). Cleared via a drug-dose-calculator predicate and a Stanford titration trial; UpDoc also disclosed <strong>$18M seed</strong> and deployments at four health systems (<a href="https://www.mcguirewoods.com/client-resources/alerts/2026/7/a-pathway-for-clinical-ai-developers-opens-fda-clears-first-software-as-a-medical-device-with-patient-facing-llm/">McGuireWoods</a>).</div>
+      <p class="sowhat">This reframes the debate from "can a patient-facing LLM be authorized" to "how narrowly must it be scoped" — the regulatory path for clinical-AI is opening one tightly-bounded indication at a time, not via broad chatbots.</p>
+      <div><span class="chip arc">ARC: CLINICAL-AI · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.statnews.com/2026/07/02/fda-clearance-raises-questions-updoc-use-generative-ai-diabetes-treatment/">STAT</a> · <a href="https://hlth.com/insights/news/updoc-debuts-first-fda-cleared-patient-facing-clinical-llm-for-insulin-management">HLTH</a> · <a href="https://www.mcguirewoods.com/client-resources/alerts/2026/7/a-pathway-for-clinical-ai-developers-opens-fda-clears-first-software-as-a-medical-device-with-patient-facing-llm/">McGuireWoods</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="hcl-mercedes-ai">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#5</span> <span class="cat">ENTERPRISE · IT SERVICES</span></div>
+      <h4>HCLTech lands a $1.14B AI digital-workplace deal in Europe</h4>
+      <div class="body">On <strong>Jul 3</strong>, <strong>HCLTech</strong> signed a <strong>$1.14B</strong> strategic partnership with a <strong>European Fortune Global 50 firm</strong> (multiple reports point to <strong>Mercedes-Benz</strong>) to deploy an <strong>AI-driven operating model</strong> for Global Digital Workplace and Enterprise Networks — <strong>entirely net-new business</strong>, running <strong>Jul 2026 → Dec 2031</strong> with a five-year extension option (<a href="https://www.business-standard.com/companies/news/hcltech-1-14-billion-deal-european-client-ai-workplace-networks-126070300215_1.html">Business Standard</a>, <a href="https://www.outlookbusiness.com/corporate/hcltech-signs-114-bn-ai-deal-with-europe-based-fortune-global-50-firm">Outlook Business</a>). It is one of the largest single AI-services contracts of the year and lands as the labs' own deployment arms (Developing, edition 027) chase the same money.</div>
+      <p class="sowhat">The enterprise-AI land-grab isn't only Microsoft Frontier and OpenAI Frontier — the Indian IT-services majors are converting it into billion-dollar multi-year contracts; watch HCL/TCS/Infosys deal flow as a real gauge of applied-AI spend.</p>
+      <div><span class="chip arc">ARC: IT-SERVICES-AI · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.business-standard.com/companies/news/hcltech-1-14-billion-deal-european-client-ai-workplace-networks-126070300215_1.html">Business Standard</a> · <a href="https://www.outlookbusiness.com/corporate/hcltech-signs-114-bn-ai-deal-with-europe-based-fortune-global-50-firm">Outlook Business</a> · <a href="https://www.cxodigitalpulse.com/hcltech-announces-1-14-billion-ai-partnership-with-european-fortune-global-50-firm/">CXO Digital Pulse</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="together-ai-neocloud">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#6</span> <span class="cat">BUSINESS · FUNDING</span></div>
+      <h4>Open-inference economics: Together AI raises $800M at $8.3B, Aramco-led</h4>
+      <div class="body">On <strong>Jul 1</strong>, neocloud <strong>Together AI</strong> closed an <strong>$800M Series C</strong>, more than doubling its valuation to <strong>$8.3B</strong>, led by <strong>Aramco Ventures</strong> with Nvidia, Vista, General Catalyst, Salesforce Ventures and others (<a href="https://techcrunch.com/2026/07/01/neocloud-together-ai-raises-800m-leaps-to-8-3b-valuation/">TechCrunch</a>, <a href="https://www.businesswire.com/news/home/20260701243402/en/Together-AI-Raises-$800-Million-at-$8.3-Billion-Valuation-to-Make-Frontier-AI-Accessible-to-All">BusinessWire</a>). Together runs open models (DeepSeek, MiniMax, Kimi) so businesses can train/deploy for less than closed APIs; it reported <strong>bookings above $1.15B</strong> last quarter (<a href="https://thenextweb.com/news/together-ai-800m-series-c-aramco-ventures">The Next Web</a>). Gulf capital is now anchoring the open-source inference layer.</div>
+      <p class="sowhat">The money says open-weight inference is a durable business, not a hobby — as Fable 5 goes metered and Meta starts charging, the cheap-open-model serving layer (Together, and rivals) is where cost-sensitive workloads migrate.</p>
+      <div><span class="chip arc">ARC: OPEN-INFERENCE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/01/neocloud-together-ai-raises-800m-leaps-to-8-3b-valuation/">TechCrunch</a> · <a href="https://www.businesswire.com/news/home/20260701243402/en/Together-AI-Raises-$800-Million-at-$8.3-Billion-Valuation-to-Make-Frontier-AI-Accessible-to-All">BusinessWire</a> · <a href="https://thenextweb.com/news/together-ai-800m-series-c-aramco-ventures">The Next Web</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="taktile-finagents">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#7</span> <span class="cat">ENTERPRISE · FINANCE</span></div>
+      <h4>VC funds the agentic-finance layer: Taktile $110M, LinqAlpha $22M</h4>
+      <div class="body">The demand side from edition 027 (Goldman/Claude, Oracle FS) now gets a funded supply side. <strong>Taktile</strong> (New York) raised a <strong>$110M Series C</strong> led by <strong>Goldman Sachs Alternatives</strong> for an <strong>agentic decision platform for banks and insurers</strong>; days earlier <strong>LinqAlpha</strong> raised <strong>$22M Series A</strong> for agents that process filings, transcripts and news for hedge funds (70+ financial-institution customers) — both in the early-July VC roundup (<a href="https://techstartups.com/2026/07/06/venture-capital-startup-funding-roundup-july-6-2026/">Tech Startups</a>, <a href="https://gravity.fast/blog/ai-agent-funding-tracker-q3-2026/">AI Agent Funding Tracker</a>).</div>
+      <p class="sowhat">Regulated finance is where agentic AI is being productised and capitalised at once — the pattern to watch is domain-specific decisioning agents, not general chatbots, winning the BFSI budget.</p>
+      <div><span class="chip arc">ARC: FIN-AGENTS-VC · D1</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://techstartups.com/2026/07/06/venture-capital-startup-funding-roundup-july-6-2026/">Tech Startups (roundup)</a> · <a href="https://gravity.fast/blog/ai-agent-funding-tracker-q3-2026/">AI Agent Funding Tracker</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="business" data-story-id="venice-private-ai">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#8</span> <span class="cat">BUSINESS · STARTUPS</span></div>
+      <h4>A $1B bet on private, surveillance-free AI: Venice</h4>
+      <div class="body">A newer product category gets a unicorn: <strong>Venice</strong> — a platform for <strong>private, surveillance-free access</strong> to a wide range of AI models — secured a <strong>$65M Series A</strong> led by <strong>Dragonfly</strong>, setting a <strong>$1B valuation</strong>, in the early-July funding roundup (<a href="https://techstartups.com/2026/07/06/venture-capital-startup-funding-roundup-july-6-2026/">Tech Startups</a>). It rides the same provider-independent / privacy demand as the sovereign-AI thread (Tracking), aimed at users and firms that want model access without data capture.</div>
+      <p class="sowhat">Privacy-preserving, provider-independent AI access is emerging as its own venture category — a signal that "who sees your prompts" is becoming a purchasing criterion, not just a compliance footnote.</p>
+      <div><span class="chip arc">ARC: PRIVATE-AI · D1</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://techstartups.com/2026/07/06/venture-capital-startup-funding-roundup-july-6-2026/">Tech Startups (roundup)</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="models" data-story-id="openai-gpt56">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D1</span> <span class="cat">MODELS · OPENAI</span></div>
+      <h4>GPT-5.6 is fully GA — the access saga's terminal milestone</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Yesterday's Hero closes its access chapter: as of <strong>Jul 9</strong>, GPT-5.6 <strong>Sol/Terra/Luna</strong> are <strong>generally available</strong> across ChatGPT, ChatGPT Work, Codex and the API, with a global rollout continuing — and <strong>public pricing</strong> now set: <strong>$5/$30</strong> (Sol), <strong>$2.50/$15</strong> (Terra), <strong>$1/$6</strong> (Luna) per Mtok. The market-implied Jul 9 date is not just company-confirmed but shipped.</div>
+      <div class="body">The Trump administration cleared the wider release after additional testing — the first model through the new US pre-release review process (<a href="https://www.cnbc.com/2026/07/08/openai-expanding-gpt-5point6-ai-model-release-ending-government-limits.html">CNBC</a>, <a href="https://www.engadget.com/2210308/openai-rolls-out-gpt5-6-july-9/">Engadget</a>). Terra is pitched at GPT-5.5 quality for ~2× less; access still varies by plan, surface and region (<a href="https://www.digitalapplied.com/blog/gpt-5-6-sol-terra-luna-public-ga">Digital Applied</a>). The arc now shifts from access-gate to adoption, pricing and the still-missing full public system card.</div>
+      <p class="sowhat">The eval window is fully open and priced — run Terra against your GPT-5.5 workloads for the ~2× cost cut, but hold production cutover until independent benchmarks and a full system card land.</p>
+      <div><span class="chip arc">ARC: MODEL-WAVE · D31</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/07/08/openai-expanding-gpt-5point6-ai-model-release-ending-government-limits.html">CNBC</a> · <a href="https://www.engadget.com/2210308/openai-rolls-out-gpt5-6-july-9/">Engadget</a> · <a href="https://www.digitalapplied.com/blog/gpt-5-6-sol-terra-luna-public-ga">Digital Applied</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="us-export-controls">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D2</span> <span class="cat">POLICY · US</span></div>
+      <h4>The gate cleared its model — but the standing framework is now overdue</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The gate-then-clear cycle completed end-to-end: GPT-5.6 went from vetted-orgs preview to <strong>full GA</strong> (D1) after Commerce sign-off. But the <strong>voluntary covered-frontier framework</strong> — reported for the <strong>week of Jul 7</strong> — has <strong>still not been announced</strong>, and that window has now passed. Meanwhile Meta shipped Muse Spark 1.1 (Hero) to US-only preview with no publicised gate.</div>
+      <div class="body">The Jun 2 EO "<a href="https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/">Promoting Advanced AI Innovation and Security</a>" grants up to 30 days of pre-release federal access (not a licence) and orders a classified cyber-capability benchmark to define "covered" models. Two clearances have now run (Fable 5, GPT-5.6), yet the standing rules that would generalise them remain unwritten (<a href="https://www.nextgov.com/artificial-intelligence/2026/07/openais-advanced-gpt-56-models-be-available-public/414651/">Nextgov/FCW</a>).</div>
+      <p class="sowhat">The paradigm works case-by-case but hasn't been codified — the ~Aug 1 design deadline is the real test of whether "government reviews frontier releases" becomes standing policy or stays ad hoc.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D31</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/">White House EO</a> · <a href="https://www.nextgov.com/artificial-intelligence/2026/07/openais-advanced-gpt-56-models-be-available-public/414651/">Nextgov/FCW</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="finserv-agents">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">D3</span> <span class="cat">ENTERPRISE · FINANCE</span></div>
+      <h4>The named-bank agentic wave grows a funded infrastructure layer</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Yesterday's demand side (Goldman testing Claude agents; Oracle FS shipping hundreds) now has a <strong>capitalised supply side</strong>: <strong>Taktile's $110M Series C</strong> (Goldman-led) for bank/insurer <strong>agentic decisioning</strong> and <strong>LinqAlpha's $22M</strong> for hedge-fund agents (both New #7) turn the thread from "banks pilot agents" into "VCs fund the agent platforms banks buy."</div>
+      <div class="body">Financial services remains the sector furthest into production agents (~47% of banking/insurance firms run at least one), and the money is now flowing to the decisioning/orchestration layer beneath the pilots (<a href="https://www.fintechfutures.com/ai-in-fintech/banking-in-2026-production-scale-ai-agents">FinTech Futures</a>, <a href="https://techstartups.com/2026/07/06/venture-capital-startup-funding-roundup-july-6-2026/">Tech Startups</a>). Gartner still projects &gt;40% of agent projects cancelled by end-2027 — execution, not appetite, is the risk.</div>
+      <p class="sowhat">Watch which BFSI pilots convert to production on a funded platform (Taktile-style) vs stall — the winners set the cost floor for regulated back-office finance.</p>
+      <div><span class="chip arc">ARC: FINSERV-AGENTS · D2</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.fintechfutures.com/ai-in-fintech/banking-in-2026-production-scale-ai-agents">FinTech Futures</a> · <a href="https://techstartups.com/2026/07/06/venture-capital-startup-funding-roundup-july-6-2026/">Tech Startups</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING ══════════ -->
+<section>
+  <div class="sec-head">Still Tracking <small>LONG-RUNNERS WITH NO MOVEMENT THIS EDITION</small></div>
+  <div class="tracking-strip" id="tracking-strip"></div>
+</section>
+
+<!-- ══════════ RESOLVED ══════════ -->
+<section>
+  <div class="sec-head">Resolved <small>YESTERDAY'S OPEN THREADS, CLOSED &amp; FOLDED</small></div>
+  <div class="resolved-strip" id="resolved-strip"></div>
+</section>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 028 · 2026-07-10 (IST) · FORMAT v2</strong></p>
+    <p>METHOD: 28 web searches across three parallel beats — Models &amp; core technology, Applied AI (enterprise/products/partnerships/money), People/policy/society — plus the Friday deep beat (vertical &amp; applied/enterprise: UpDoc's FDA-cleared clinical LLM, HCLTech's $1.14B AI-services deal, agentic-finance VC). v2 splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING (long-runners with no movement). Hero = biggest new item UNLESS a developing thread had a major escalation; today no carried thread had a fresh major escalation (GPT-5.6's escalation was yesterday), so the Hero is the biggest NEW item — Meta's Muse Spark 1.1. Aggregator claims cross-checked against ≥2 outlets where possible; single-source and rumor items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+    <p>KNOWN SCAN GAPS / INTEGRITY NOTES THIS EDITION: A MODEL-RELEASE-HEAVY 48H with a healthy new count — the four US frontier labs all shipped within a week. We shipped 8 genuinely NEW items (ids absent from edition 027). NEW.24H is deliberately restricted to what broke inside 24h: only Meta's Muse Spark 1.1 (Jul 9) and GPT-5.6's full-GA flip (Jul 9) qualify; GPT-Live (Jul 8), Google's Nano Banana 2 Lite / Omni Flash (Jun 30), UpDoc (Jun 25), HCLTech (Jul 3), Together AI (Jul 1) and the VC items (early Jul) are NEW to the feed but honestly dated and NOT new24h. CONFIDENCE: Taktile/LinqAlpha and Venice rest on a single early-July VC roundup (chip-flagged Agg 1x) and were bundled rather than split into thin cards to avoid padding. DATE-TRAPS EXCLUDED (see Resolved), not padded as New: Anthropic's ~$1T secondary-market valuation over OpenAI (Forge Global, first Apr 24; primary $965B round May 28) and Jeff Bezos's Project Prometheus ($12B at $41B, Jun 11) resurfaced in Jul 10 roundups but are older — carried as Tracking context. HCLTech's Fortune-Global-50 counterparty is unconfirmed (reports point to Mercedes-Benz) and labelled as such. AUTO-RETIREMENTS: two edition-027 Developing threads with no fresh movement demote to Tracking — fable-access (Jul 12 metered-credit switch still pending) and deployment-arms (no fresh MS/OpenAI/AWS movement; the IT-services flank surfaces instead as HCL's New deal). RESEARCH/VERTICAL BEAT represented via UpDoc's FDA-cleared clinical LLM (New #4). DEEP-BEAT ROTATION: Friday = vertical &amp; applied/enterprise.</p>
+    <p>NOTE: Links point to sources found during the scan; where only an outlet/press root was available it is labelled as such. Nothing here is investment advice.</p>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 28,
+  "date": "2026-07-10",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 28,
+  "counts": {"new": 8, "developing": 3, "tracking": 21},
+  "tiers": {"critical": 3, "notable": 6, "monitor": 2},
+  "stories": [
+    {"id":"meta-muse-spark","section":"new","rank":1,"title":"Meta Superintelligence Labs released Muse Spark 1.1 (Jul 9) into US public preview on the Meta Model API — its first PAID agent model at $1.25 in / $4.25 out per Mtok; a multimodal reasoning model for agentic coding that writes/debugs code, uses tools and software, and runs multi-step tasks; Meta says it leads tool-use / tool-augmented-reasoning but ranks 3rd on raw coding and multimodal; marks a break from Meta's open-weight Llama posture and a direct entry into the paid coding-API market driving Anthropic's ~$47B run-rate; the first Muse Spark was announced in April; the rumored higher-compute 'Watermelon' frontier model remains unconfirmed","tier":"critical","impact":7,"delta":"new","arc":"meta-models","arcDay":1,"confidence":"2x src","new24h":true,"firstSeen":"2026-07-10","lastUpdate":"2026-07-10","category":"models"},
+    {"id":"gpt-live","section":"new","rank":2,"title":"OpenAI introduced GPT-Live (Jul 8), a new generation of voice models on a full-duplex architecture that can listen and speak at the same time (backchannel 'mhmm', interrupt, or stay quiet) and delegate harder queries to a frontier model behind the scenes (GPT-5.5 at launch); two versions roll out globally — GPT-Live-1 (default for paid users) and GPT-Live-1 mini (free tier) — positioning voice as the interface for agentic work","tier":"notable","impact":5,"delta":"new","arc":"gpt-live","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-10","lastUpdate":"2026-07-10","category":"models"},
+    {"id":"google-omni-flash","section":"new","rank":3,"title":"Google shipped (Jun 30) Nano Banana 2 Lite (Gemini 3.1 Flash Lite Image) — its fastest/cheapest image model, ~4-second images at $0.034 per 1K — and Gemini Omni Flash, the first of its any-to-any Omni family, which creates and edits video up to 10 seconds from text/image/video via conversational multi-turn editing at $0.10/sec; both live via AI Studio, the Gemini API and the Gemini Enterprise Agent Platform; new to the feed but honestly dated Jun 30, not within 24h","tier":"notable","impact":5,"delta":"new","arc":"google-omni","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-10","lastUpdate":"2026-07-10","category":"models"},
+    {"id":"updoc-fda-llm","section":"new","rank":4,"title":"UpDoc (a Palo Alto company spun out of Stanford in 2023) announced Jun 25 the first FDA-cleared agentic clinical-AI platform using a patient-facing LLM — 510(k) K253281, a prescription device where adults with type-2 diabetes interact by voice or text for insulin-titration guidance; cleared via a drug-dose-calculator predicate and a Stanford titration trial; UpDoc also disclosed $18M seed and deployments at four health systems; reframes the debate from whether patient-facing LLMs can be authorized to how narrowly they must be scoped","tier":"notable","impact":5,"delta":"new","arc":"clinical-ai","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-10","lastUpdate":"2026-07-10","category":"research"},
+    {"id":"hcl-mercedes-ai","section":"new","rank":5,"title":"HCLTech signed (Jul 3) a $1.14B strategic partnership with a European Fortune Global 50 firm (multiple reports point to Mercedes-Benz, unconfirmed) to deploy an AI-driven operating model for Global Digital Workplace and Enterprise Networks; entirely net-new business running Jul 2026 to Dec 2031 with a five-year extension option; one of the largest single AI-services contracts of the year, showing the Indian IT-services majors converting the enterprise-AI land-grab into billion-dollar multi-year deals alongside the labs' own deployment arms","tier":"notable","impact":5,"delta":"new","arc":"it-services-ai","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-10","lastUpdate":"2026-07-10","category":"enterprise"},
+    {"id":"together-ai-neocloud","section":"new","rank":6,"title":"Neocloud Together AI closed an $800M Series C (Jul 1), more than doubling its valuation to $8.3B, led by Aramco Ventures with Nvidia, Vista, General Catalyst, Salesforce Ventures and others; Together runs open models (DeepSeek, MiniMax, Kimi) so businesses can train/deploy for less than closed APIs, and reported bookings above $1.15B last quarter; Gulf capital anchoring the open-source inference layer as Fable 5 goes metered and Meta starts charging","tier":"notable","impact":5,"delta":"new","arc":"open-inference","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-10","lastUpdate":"2026-07-10","category":"business"},
+    {"id":"taktile-finagents","section":"new","rank":7,"title":"VC funds the agentic-finance layer: Taktile (New York) raised a $110M Series C led by Goldman Sachs Alternatives for an agentic decision platform for banks and insurers; days earlier LinqAlpha raised a $22M Series A for agents that process filings/transcripts/news for hedge funds (70+ financial-institution customers); both in the early-July VC roundup — the funded supply side beneath edition 027's Goldman/Claude, Oracle FS demand wave","tier":"monitor","impact":4,"delta":"new","arc":"fin-agents-vc","arcDay":1,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-07-10","lastUpdate":"2026-07-10","category":"enterprise"},
+    {"id":"venice-private-ai","section":"new","rank":8,"title":"Venice — a platform for private, surveillance-free access to a wide range of AI models — secured a $65M Series A led by Dragonfly, setting a $1B valuation, in the early-July funding roundup; rides the same provider-independent/privacy demand as the sovereign-AI thread, aimed at users and firms that want model access without data capture; emerging privacy-preserving AI access as its own venture category","tier":"monitor","impact":4,"delta":"new","arc":"private-ai","arcDay":1,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-07-10","lastUpdate":"2026-07-10","category":"business"},
+    {"id":"openai-gpt56","section":"developing","rank":1,"title":"GPT-5.6 Sol/Terra/Luna are now generally available across ChatGPT, ChatGPT Work, Codex and the API as of Jul 9, with a global rollout continuing and public pricing set ($5/$30 Sol, $2.50/$15 Terra, $1/$6 Luna per Mtok); the Trump administration cleared the wider release after additional testing — the first model through the new US pre-release review process; Terra pitched at GPT-5.5 quality for ~2x less; access varies by plan/surface/region; full public system card still missing; the arc shifts from access-gate to adoption/pricing","tier":"critical","impact":7,"delta":"carry","arc":"model-wave","arcDay":31,"confidence":"2x src","new24h":true,"update":"The access saga's terminal milestone: as of Jul 9 GPT-5.6 is fully GA across ChatGPT/ChatGPT Work/Codex/API with public pricing now set ($5/$30, $2.50/$15, $1/$6); the market-implied Jul 9 date is not just confirmed but shipped; arc shifts from gate to adoption/pricing, full public system card still missing","firstSeen":"2026-06-11","lastUpdate":"2026-07-10","category":"models"},
+    {"id":"us-export-controls","section":"developing","rank":2,"title":"The June gate-then-clear cycle completed end-to-end as GPT-5.6 went from vetted-orgs preview to full GA (D1) after Commerce sign-off, but the voluntary covered-frontier framework — reported for the week of Jul 7 — has still not been announced and that window has now passed; Meta shipped Muse Spark 1.1 (Hero) to US-only preview with no publicised gate; the Jun 2 EO grants up to 30 days pre-release federal access (not a licence) and orders a classified cyber-capability benchmark to define 'covered' models; two clearances (Fable 5, GPT-5.6) have run but the standing rules remain unwritten ahead of the ~Aug 1 design deadline","tier":"critical","impact":7,"delta":"carry","arc":"reg-clock","arcDay":31,"confidence":"2x src","new24h":false,"update":"The gate cleared GPT-5.6 to full GA (D1), completing a second full cycle after Fable 5 — but the standing voluntary covered-frontier framework, reported for the week of Jul 7, is now overdue and unannounced; Meta's Muse Spark 1.1 shipped to US preview with no publicised gate; ~Aug 1 design deadline is the real test","firstSeen":"2026-06-12","lastUpdate":"2026-07-10","category":"policy"},
+    {"id":"finserv-agents","section":"developing","rank":3,"title":"The named-bank agentic wave grows a funded infrastructure layer: yesterday's demand side (Goldman testing Claude agents; Oracle FS shipping hundreds) now has a capitalised supply side — Taktile's $110M Series C (Goldman-led) for bank/insurer agentic decisioning and LinqAlpha's $22M for hedge-fund agents (both New #7) turn the thread from 'banks pilot agents' into 'VCs fund the agent platforms banks buy'; financial services remains furthest into production agents (~47% of banking/insurance firms run at least one); Gartner still projects >40% of agent projects cancelled by end-2027","tier":"notable","impact":5,"delta":"escalated","arc":"finserv-agents","arcDay":2,"confidence":"2x src","new24h":false,"update":"The finserv-agents thread gains a funded supply side: Taktile's $110M Series C (Goldman-led) for bank/insurer agentic decisioning and LinqAlpha's $22M for hedge-fund agents (New #7) capitalise the layer beneath edition 027's Goldman/Claude, Oracle FS demand wave","firstSeen":"2026-07-09","lastUpdate":"2026-07-10","category":"enterprise"}
+  ],
+  "tracking": [
+    {"id":"faro","label":"Google's 'A Pragmatic Approach to AI Governance in America' (Jul 7) proposing an industry-funded Frontier AI Regulatory Organisation (FARO) for cyber/CBRN benchmarks still feeds the design debate for the (now overdue) US covered-frontier framework — no fresh movement","arc":"faro","arcDay":2},
+    {"id":"india-reg","label":"India still weighing a graded, risk-based AI law (ET, Jul 6): low-risk chatbots/productivity vs high-risk banking/finance/health/critical-infra, with mooted emergency shut-off and disclosure powers; no draft Bill, consultation paper or timeline yet; IT-Rules synthetic-content labelling remains in force","arc":"india-reg","arcDay":10},
+    {"id":"memory-antitrust","label":"Samsung/SK Hynix/Micron's US DRAM price-fixing class action (filed Jun 25, Sherman Act Section 1; alleges consumer memory spiked up to 700% as wafers shifted to AI's HBM) sees no fresh ruling; allegations unproven, makers warn shortages may last to 2027","arc":"memory-antitrust","arcDay":2},
+    {"id":"hbm-supply","label":"Compute/HBM crunch: Microsoft attributes ~$25B of its raised 2026 capex to rising memory/component costs; HBM heading toward ~25% of DRAM wafers; Vera Rubin H2 2026 full production, HBM4 22 TB/s; Samsung past $1B HBM4 revenue, SK Hynix ~50-55% share","arc":"hbm-supply","arcDay":14},
+    {"id":"open-weight","label":"Open-weight top table stays China-led — GLM-5.2 (744B, MIT; leads the open Intelligence Index), MiniMax M3, Kimi K2.7, Qwen, DeepSeek V4; Together AI's $800M round (New #6) underscores the open-inference economics; no fresh single open frontier release this window","arc":"open-weight","arcDay":14},
+    {"id":"govt-equity","label":"OpenAI's Jul 2 proposal to hand Washington a ~5% stake (~$42.6B) via a public wealth fund still has no fresh movement — a source says the administration and Anthropic have NOT discussed a stake; sits alongside the covered-frontier framework, unresolved","arc":"govt-equity","arcDay":5},
+    {"id":"talent","label":"Lab talent war continues: Shazeer left Google for OpenAI, Jumper and Nelson to Anthropic; Jeff Bezos's Project Prometheus ($12B at $41B, Jun 11) is poaching ~100 engineers/researchers (incl. xAI co-founder Kyle Kosic) for an 'artificial general engineer'; senior-researcher packages past $5M/yr","arc":"talent","arcDay":20},
+    {"id":"india-jobs","label":"India's GCC hiring crosses a 5-lakh peak (510,452 projected for 2026; 227,991 hires to June, +11% YoY); AI/data/analytics is the fastest-growing function (+38% YoY) and drives ~64% of new GCC roles; Bengaluru holds ~30% of GCC hiring though Tier-2 cities grow fastest (~23%)","arc":"india-jobs","arcDay":7},
+    {"id":"agent-security","label":"Prompt injection stays OWASP LLM01 (~340% YoY surge, no complete fix): Cursor sandbox-escape CVE-2026-22708 and the Reprompt Copilot exfil (CVE-2026-24307) in the reference set; a new SEO-poisoning + hidden-HTML vector is tricking AI agents into fraudulent payments","arc":"agent-security","arcDay":14},
+    {"id":"agent-layer","label":"Governed agents inside SaaS incumbents (ServiceNow, Salesforce Agentforce/Fin, Snowflake, SAP, Oracle Fusion & Financial Services); Taktile (New #7) is the VC-funded decisioning layer beneath them — Gartner still sees >40% of agent projects cancelled by end-2027","arc":"agent-layer","arcDay":15},
+    {"id":"vertical-ai","label":"Legal/vertical AI: Harvey (~$300M ARR) and Legora ($5.6B) keep legal hot; health advances not via drug approvals but regulatory clearance — UpDoc's FDA-cleared patient-facing clinical LLM (New #4) is the sharp end; AI-for-bio still shows >$7B committed to Insilico, zero approved","arc":"vertical-ai","arcDay":11},
+    {"id":"physical-ai","label":"Physical AI: Figure 03 at BMW Spartanburg (~$25/robot-hour); Tesla Optimus V3 low-volume Fremont production slips to late Jul/Aug; Unitree shipped >5,500 humanoids in 2025 (20,000 target 2026); Chinese robotics capital keeps flowing (Zeroth $73.6M/Ant Group, Yingzhi XBOT $56M); robotics market ~$38B (+34% YoY)","arc":"physical-ai","arcDay":12},
+    {"id":"eu-labelling","label":"EU AI Act: Aug 2 2026 Article 50 transparency + GPAI enforcement (fines up to €15M/3%) now 23 days out; the Digital Omnibus (FINAL) defers stand-alone high-risk Annex III to Dec 2 2027 and embedded high-risk to Aug 2 2028; the Jul cyber+AI action plan carries no new law","arc":"eu-labelling","arcDay":31},
+    {"id":"model-efficiency","label":"Anthropic's Claude Sonnet 5 ($2/$10 through Aug 31, native 1M context, beats Opus 4.8 on Terminal-Bench 2.1) holds as the default for Free/Pro and in Claude Code; Anthropic's Claude Code run-rate (~$47B) fuels a ~$1T secondary valuation that crossed OpenAI (Forge, Apr 24; primary $965B, May 28)","arc":"model-efficiency","arcDay":7},
+    {"id":"ai-infra","label":"Big-tech AI capex heads to ~$725B in 2026 (Amazon ~$200B, Google ~$185B, Meta ~$125B, Microsoft ~$190B), up ~77% YoY, with 2027 estimates topping $1T; OpenAI-Oracle Stargate ~7GW / >$400B; megawatts, permits and memory the binding constraints","arc":"ai-infra","arcDay":7},
+    {"id":"custom-silicon","label":"Hyperscalers design around Nvidia: Google's 8th-gen TPU 8t/8i on TSMC 2nm (part of a reported ~$46B Broadcom-Google program); OpenAI + Broadcom's 'Jalapeño' inference ASIC targets gigawatt-scale from 2026; AMD teases MI500 (claimed up to ~1,000x MI300X) — tracked, no fresh single break","arc":"custom-silicon","arcDay":5},
+    {"id":"xai","label":"xAI shipped consumer/dev product (Grok 4.1 GA, Voice Agent Builder beta, 21 new voices); Grok 4.5 reportedly reached public availability Jul 9 (single-aggregator); flagship Grok 5 (~10T params, 7 models in training) still slips past Q3 with no model card — surface area grows while the frontier lags","arc":"xai","arcDay":7},
+    {"id":"sovereign-ai","label":"Sovereign/provider-independent AI: the UAE's Federal AI & Data Authority (June) and MBZUAI's K2 Think V2; Palantir+Nvidia put Nemotron inside air-gapped US-gov; Together AI's Aramco-led round and Venice's private-AI unicorn (New #8) add capital to the provider-independent thesis","arc":"sovereign-ai","arcDay":6},
+    {"id":"frontier-race","label":"PARTLY RESOLVED: the 'will Meta ship a frontier model' question is answered — Meta released Muse Spark 1.1 (today's Hero, New #1), a paid agentic coder; but the separate rumored higher-compute 'Watermelon' frontier model remains single-sourced and unconfirmed with no ship date","arc":"frontier-race","arcDay":6},
+    {"id":"gemini-35-pro","label":"Google's Gemini 3.5 Pro (2M-token context, Deep Think) remains a limited Vertex AI preview — no confirmed GA date, benchmarks or final pricing; unveiled at I/O (May 19), it has missed May/June/July windows; Google shipped Nano Banana 2 Lite / Omni Flash (New #3) instead as Gemini 3.5 Flash carries production","arc":"google-models","arcDay":11},
+    {"id":"workforce-ai-layoffs","label":"2026 tech layoffs reach ~185,894 workers across 267 events (through Jul 9), with 56% of events citing AI/automation; AI specifically cited in ~87,714 cuts (22% of the total, already past all of 2025); Mews cut 15% 'proactively'; reduced junior/entry-level hiring the quieter signal","arc":"workforce","arcDay":14}
+  ],
+  "movers": [
+    {"dir":"up","text":"META — ships Muse Spark 1.1 (Jul 9), its first paid agentic coding model, in US public preview at $1.25/$4.25 per Mtok — entering the category driving Anthropic's ~$47B run-rate"},
+    {"dir":"up","text":"OPENAI — GPT-5.6 (Sol/Terra/Luna) now fully GA worldwide with public pricing ($5/$30, $2.50/$15, $1/$6); GPT-Live full-duplex voice ships alongside"},
+    {"dir":"up","text":"GOOGLE — Nano Banana 2 Lite (~4-sec images, $0.034/1K) + Gemini Omni Flash (any-to-any video, $0.10/sec) reach developers via AI Studio and the Gemini API"},
+    {"dir":"up","text":"TOGETHER AI — raises $800M at an $8.3B valuation (Aramco-led) as open-source inference bookings top $1.15B — Gulf capital anchors the open-inference layer"},
+    {"dir":"up","text":"HCLTECH — lands a $1.14B AI digital-workplace deal with a European Fortune Global 50 firm (likely Mercedes-Benz) — the IT-services flank of the enterprise-AI land-grab"},
+    {"dir":"up","text":"UPDOC — wins the first FDA clearance for a patient-facing clinical LLM (insulin titration for type-2 diabetes; 510(k) K253281)"},
+    {"dir":"down","text":"WORKFORCE — 2026 tech layoffs pass ~185,894 workers (267 events, 56% cite AI); Mews cuts 15% 'proactively' as junior hiring stays soft"}
+  ],
+  "arcs": {
+    "meta-models": {"day": 1, "note": "HERO / new arc: Meta Superintelligence Labs shipped Muse Spark 1.1 (Jul 9) into US public preview — its first paid agent model ($1.25/$4.25 per Mtok), a multimodal agentic coder that leads tool-use but ranks 3rd on raw coding; the fourth US frontier lab enters the paid coding market; 'Watermelon' frontier model still unconfirmed"},
+    "gpt-live": {"day": 1, "note": "New arc: OpenAI's GPT-Live (Jul 8) — full-duplex voice models (GPT-Live-1 / mini) that listen and speak at once, backchannel, and delegate hard queries to a frontier model (GPT-5.5 backend); default voice for paid users; positions voice as the interface for agentic work"},
+    "google-omni": {"day": 1, "note": "New arc: Google's Nano Banana 2 Lite (~4-sec images at $0.034/1K) + Gemini Omni Flash (first any-to-any Omni model; video to 10s at $0.10/sec, conversational editing), Jun 30 — cheap generative media folded into the Gemini Enterprise Agent Platform; new to feed but honestly dated"},
+    "clinical-ai": {"day": 1, "note": "New arc (Friday vertical/health deep beat): UpDoc's Jun 25 announcement of the first FDA-cleared patient-facing clinical LLM — 510(k) K253281, insulin titration for type-2 diabetes, cleared via a drug-dose-calculator predicate and a Stanford trial; $18M seed, four health-system deployments; reframes clinical-AI approval around narrow scoping"},
+    "it-services-ai": {"day": 1, "note": "New arc: HCLTech's $1.14B AI digital-workplace deal (Jul 3) with a European Fortune Global 50 firm (likely Mercedes-Benz) running to Dec 2031 — the Indian IT-services majors convert the enterprise-AI land-grab into billion-dollar multi-year contracts alongside the labs' deployment arms"},
+    "open-inference": {"day": 1, "note": "New arc: Together AI's $800M Series C at $8.3B (Aramco-led, Jul 1), bookings >$1.15B — open-model (DeepSeek/MiniMax/Kimi) inference as a durable business; Gulf capital anchors the cheap-serving layer as Fable 5 goes metered and Meta starts charging"},
+    "fin-agents-vc": {"day": 1, "note": "New arc: VC funds the agentic-finance layer — Taktile's $110M Series C (Goldman-led) for bank/insurer agentic decisioning and LinqAlpha's $22M for hedge-fund agents; the funded supply side beneath the named-bank demand wave (Goldman/Claude, Oracle FS)"},
+    "private-ai": {"day": 1, "note": "New arc: Venice's $65M Series A (Dragonfly-led) at a $1B valuation for private, surveillance-free access to a wide range of AI models — privacy-preserving, provider-independent AI access emerging as its own venture category"},
+    "model-wave": {"day": 31, "note": "GPT-5.6's access saga reaches its terminal milestone: fully GA worldwide as of Jul 9 across ChatGPT/ChatGPT Work/Codex/API with public pricing set ($5/$30, $2.50/$15, $1/$6); the market-implied Jul 9 date is not just confirmed but shipped; arc shifts from access-gate to adoption/pricing; full public system card still missing"},
+    "reg-clock": {"day": 31, "note": "The gate-then-clear cycle completed a second time (Fable 5, then GPT-5.6 to full GA), but the standing voluntary covered-frontier framework reported for the week of Jul 7 is now overdue and unannounced; Meta's Muse Spark 1.1 shipped to US preview with no publicised gate; ~Aug 1 design deadline is the real test; EU Aug 2 enforcement 23 days out"},
+    "finserv-agents": {"day": 2, "note": "The named-bank agentic wave gains a funded supply side: Taktile's $110M Series C (Goldman-led) for bank/insurer agentic decisioning and LinqAlpha's $22M for hedge-fund agents capitalise the decisioning layer beneath edition 027's Goldman/Claude, Oracle FS demand; Gartner still sees >40% of agent projects cancelled by end-2027"},
+    "faro": {"day": 2, "note": "Google's FARO frontier-regulator proposal (Jul 7) still feeds the design debate for the overdue US covered-frontier framework — no fresh movement"},
+    "india-reg": {"day": 10, "note": "India still weighing a graded, risk-based AI law (ET, Jul 6); no draft/timeline yet; IT-Rules synthetic-content labelling in force"},
+    "memory-antitrust": {"day": 2, "note": "Samsung/SK Hynix/Micron DRAM price-fixing class action (filed Jun 25) sees no fresh ruling; allegations unproven, makers warn shortages to 2027"},
+    "hbm-supply": {"day": 14, "note": "Microsoft attributes ~$25B of raised 2026 capex to memory/component costs; HBM toward ~25% of DRAM wafers; Samsung past $1B HBM4 revenue, SK Hynix ~50-55% share"},
+    "open-weight": {"day": 14, "note": "China-led open table holds (GLM-5.2/MiniMax M3/Kimi K2.7/Qwen/DeepSeek V4); Together AI's $800M (New) underscores open-inference economics; no fresh single open frontier release"},
+    "govt-equity": {"day": 5, "note": "OpenAI's ~5%-stake proposal still quiet; administration and Anthropic reportedly have NOT discussed a stake; unresolved"},
+    "talent": {"day": 20, "note": "Shazeer→OpenAI, Jumper/Nelson→Anthropic; Bezos's Project Prometheus ($12B/$41B, Jun 11) poaching ~100 incl. Kyle Kosic; senior packages past $5M/yr"},
+    "india-jobs": {"day": 7, "note": "India GCC hiring crosses a 5-lakh peak (510,452 projected 2026; 227,991 to June, +11%); AI/data drives ~64% of new roles (+38% YoY); Bengaluru ~30% of hiring, Tier-2 fastest-growing"},
+    "agent-security": {"day": 14, "note": "Prompt injection stays OWASP LLM01 (~340% YoY, no complete fix); Cursor CVE-2026-22708, Reprompt CVE-2026-24307; new SEO-poisoning vector tricks agents into fraudulent payments"},
+    "agent-layer": {"day": 15, "note": "Governed agents inside SaaS incumbents (ServiceNow/Salesforce/Snowflake/SAP/Oracle FS); Taktile (New) the VC-funded decisioning layer; Gartner sees >40% of projects cancelled by end-2027"},
+    "vertical-ai": {"day": 11, "note": "Legal (Harvey ~$300M ARR, Legora $5.6B); health advances via regulatory clearance not approvals — UpDoc's FDA-cleared patient-facing clinical LLM (New #4) the sharp end; AI-for-bio >$7B committed, zero approved"},
+    "physical-ai": {"day": 12, "note": "Figure 03 at BMW (~$25/robot-hr); Tesla Optimus production slips to late Jul/Aug; Unitree >5,500 shipped 2025 (20k target); Chinese robotics capital (Zeroth $73.6M/Ant, XBOT $56M); market ~$38B (+34%)"},
+    "eu-labelling": {"day": 31, "note": "EU AI Act Aug 2 Article 50/GPAI enforcement now 23 days out; Digital Omnibus defers high-risk to Dec 2 2027 (embedded to Aug 2 2028)"},
+    "model-efficiency": {"day": 7, "note": "Claude Sonnet 5 ($2/$10 through Aug 31, 1M context) holds as the cost-per-agent-run default; Anthropic's ~$47B Claude Code run-rate fuels a ~$1T secondary valuation that crossed OpenAI (Forge Apr 24; primary $965B May 28)"},
+    "ai-infra": {"day": 7, "note": "Big-tech AI capex ~$725B in 2026 (Amazon $200B/Google $185B/Meta $125B/Microsoft $190B), +77% YoY; 2027 estimates top $1T; Stargate ~7GW/>$400B; megawatts, permits and memory the binding constraints"},
+    "custom-silicon": {"day": 5, "note": "Google TPU 8t/8i on TSMC 2nm (~$46B Broadcom-Google program); OpenAI+Broadcom 'Jalapeño' inference ASIC gigawatt-scale from 2026; AMD teases MI500 (claimed up to ~1,000x MI300X)"},
+    "xai": {"day": 7, "note": "xAI shipped Grok 4.1 GA + Voice Agent Builder; Grok 4.5 reportedly public Jul 9 (single-aggregator); flagship Grok 5 (~10T params) still slips past Q3 with no model card"},
+    "sovereign-ai": {"day": 6, "note": "UAE Federal AI & Data Authority + MBZUAI K2 Think V2; Palantir+Nvidia Nemotron air-gapped in US-gov; Together AI's Aramco round and Venice's private-AI unicorn (New #8) add capital to the provider-independent thesis"},
+    "frontier-race": {"day": 6, "note": "Partly resolved: Meta actually shipped (Muse Spark 1.1, Hero/New #1), a paid agentic coder; the separate rumored higher-compute 'Watermelon' frontier model remains single-sourced, unconfirmed, no ship date"},
+    "google-models": {"day": 11, "note": "Gemini 3.5 Pro still a limited Vertex preview (no GA/benchmarks/pricing; missed May/June/July); Google shipped Nano Banana 2 Lite / Omni Flash (New #3) instead; Flash carries production"},
+    "workforce": {"day": 14, "note": "2026 tech layoffs ~185,894 workers across 267 events (through Jul 9), 56% cite AI; AI cited in ~87,714 cuts (past all of 2025); Mews cut 15%; junior hiring soft"}
+  },
+  "resolved": [
+    "model-wave terminal milestone (arc continues as adoption): the GPT-5.6 access saga this feed has carried since June 11 closes its access chapter — as of Jul 9 Sol/Terra/Luna are fully GA worldwide across ChatGPT/ChatGPT Work/Codex/API with public pricing set ($5/$30, $2.50/$15, $1/$6). The June export gate-then-clear cycle has now run end-to-end on a US lab; the thread shifts from access-gate to adoption/pricing/system-card and carries as Developing #1.",
+    "frontier-race partial closure: the standing 'will Meta ship a frontier model' question is answered — Meta released Muse Spark 1.1 (today's Hero, New #1), a paid agentic coder. The separate 'Watermelon' higher-compute frontier-model rumor remains single-sourced and unconfirmed, and carries in Tracking.",
+    "Auto-retire / demote: two edition-027 Developing threads drop to Tracking with no fresh movement — fable-access (still counting down to the Jul 12 metered-credit switch; see Deadline Radar) and deployment-arms (no fresh Microsoft Frontier / OpenAI Frontier / AWS FDE movement; the IT-services flank surfaces instead as HCLTech's New $1.14B deal).",
+    "Scan-integrity (date-traps excluded, not padded as New): Anthropic's ~$1T secondary-market valuation overtaking OpenAI (Forge Global, first Apr 24; primary $965B round May 28) and Jeff Bezos's Project Prometheus ($12B at $41B, Jun 11) both resurfaced in Jul 10 aggregator roundups but are older items already in the record — carried as Tracking context (model-efficiency, talent), NOT re-listed as fresh New.",
+    "The ITU AI for Good Global Summit (Geneva, Jul 7-10) closes as scheduled and drops off the Deadline Radar; the global-governance thread continues in general coverage."
+  ],
+  "deadlines": [
+    {"date": "2026-07-12", "label": "Anthropic Fable 5 included-subscription access ends (extended from Jul 7); Pro/Max/Team move to prepaid usage credits ($10 in / $50 out per Mtok)", "severity": "medium"},
+    {"date": "2026-07-31", "label": "Tesla Optimus V3 low-volume Fremont production start (pushed to late Jul/Aug)", "severity": "low"},
+    {"date": "2026-08-01", "label": "US: agencies to finalize the Jun 2 EO's voluntary covered-frontier framework (30-day pre-release access; classified cyber-benchmarking) — now overdue vs the reported week-of-Jul-7 announcement", "severity": "high"},
+    {"date": "2026-08-02", "label": "EU AI Act: Article 50 transparency + GPAI enforcement (fines up to €15M/3% turnover) — now 23 days; Annex III high-risk deferred to Dec 2 2027", "severity": "high"},
+    {"date": "2026-08-31", "label": "Anthropic Claude Sonnet 5 promotional pricing ($2/$10 per Mtok) ends — the cost baseline for agent runs resets", "severity": "low"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
