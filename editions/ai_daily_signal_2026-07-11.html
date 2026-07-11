@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 029 — 11 July 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>OPENAI</b> folds Codex + ChatGPT into one desktop app and makes its ChatGPT Work agent free on every plan &nbsp;◆&nbsp; <b>ANTHROPIC</b> takes Claude Cowork to mobile + web — 90%+ of use is non-coding business ops &nbsp;◆&nbsp; <b>XAI</b> Grok 4.5 goes public, lands #4 on the Artificial Analysis Intelligence Index &nbsp;◆&nbsp; <b>PRIME INTELLECT</b> raises $130M at a $1B valuation to let enterprises train their own agents &nbsp;◆&nbsp; <b>NORM AI</b> hits unicorn ($120M / $1.2B) as agentic law starts supervising other AI agents &nbsp;◆&nbsp; <b>MGX</b> closes a record $49B AI fund out of Abu Dhabi &nbsp;◆&nbsp; <b>OLLAMA</b> raises $65M — 8.9M monthly devs &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>029</b></span>
+    <span>SATURDAY, 11 JULY 2026</span>
+    <span class="seg">NEW <b>11</b> · DEVELOPING <b>4</b> · TRACKING <b>21</b></span>
+    <span>CRITICAL <b>3</b> / NOTABLE 8 / MONITOR 4</span>
+    <span>SCAN: 34 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="openai-chatgpt-work">
+  <div>
+    <div class="kicker">■ Today's Lead · New on the Wire · Enterprise · OpenAI · Day 1 of the openai-product arc</div>
+    <h2>The product, not the model: OpenAI puts an agent in front of every ChatGPT user</h2>
+    <p class="dek">On <strong>Jul 9</strong>, OpenAI merged its <strong>Codex</strong> coding app into a single unified <strong>ChatGPT desktop app</strong> (Mac + Windows) and launched <strong>ChatGPT Work</strong> — an agent that "takes an outcome, gathers information across your apps and workflows, and stays with complex projects for hours," returning finished sheets, slides, docs and shareable web apps (<a href="https://www.neowin.net/news/openai-launches-chatgpt-work-and-unveils-unified-desktop-app-with-codex-built-in/">Neowin</a>, <a href="https://cryptobriefing.com/chatgpt-work-launches-with-gpt-5-6-as-openai-merges-codex-into-desktop-app/">Crypto Briefing</a>). The new app has <strong>Chat, Work and Codex in one place</strong> — and, crucially, <strong>all three are available on every plan, including Free</strong> (<a href="https://www.techtimes.com/articles/320087/20260710/chatgpt-work-free-every-plan-what-openais-codex-merger-changes-you.htm">TechTimes</a>). The old desktop app becomes "ChatGPT Classic." It lands two days after <strong>Anthropic took Claude Cowork to mobile and web</strong> (New #2) — the two leading labs shipping the same move within 48 hours: the agent, not the model, as the thing you actually buy.</p>
+    <p class="sowhat">So what: this is a distribution event, not a benchmark. Putting a project-scale agent (powered by GPT-5.6) in front of every free ChatGPT user — and collapsing the coding tool into the same surface — resets what "an AI assistant" means for hundreds of millions of people and pressures every standalone copilot and agent startup. Evaluate ChatGPT Work against your real multi-step workflows, but note it's a consolidation of existing pieces (GPT-5.6 + Codex + Work), not a new capability tier.</p>
+    <span class="chip arc">ARC: OPENAI-PRODUCT · D1</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://www.neowin.net/news/openai-launches-chatgpt-work-and-unveils-unified-desktop-app-with-codex-built-in/">Neowin</a> ·
+      <a href="https://cryptobriefing.com/chatgpt-work-launches-with-gpt-5-6-as-openai-merges-codex-into-desktop-app/">Crypto Briefing</a> ·
+      <a href="https://openai.com/news/product-releases/">OpenAI (product newsroom)</a> ·
+      <a href="https://www.techtimes.com/articles/320087/20260710/chatgpt-work-free-every-plan-what-openais-codex-merger-changes-you.htm">TechTimes</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What happened.</strong> OpenAI shipped a rebuilt ChatGPT desktop app for macOS and Windows on Jul 9 that folds the standalone Codex coding app inside it. The app now surfaces three modes — Chat (conversational), Work (a long-horizon agent) and Codex (a dedicated coding experience, with inline diff editing and pull-request review moved in-app). ChatGPT Work runs on GPT-5.6, breaks an objective into steps, works across connected apps for hours, and returns finished materials. OpenAI put Chat, Work and Codex on every plan, including Free; the previous desktop client is renamed ChatGPT Classic (<a href="https://www.neowin.net/news/openai-launches-chatgpt-work-and-unveils-unified-desktop-app-with-codex-built-in/">Neowin</a>, <a href="https://cryptobriefing.com/chatgpt-work-launches-with-gpt-5-6-as-openai-merges-codex-into-desktop-app/">Crypto Briefing</a>).</p>
+      <p><strong>Why it's the lead.</strong> Yesterday's OpenAI story was the model (GPT-5.6 reaching worldwide GA, now Tracking). Today's is the <em>product</em>: the biggest genuinely new item on the wire is a distribution shift that puts an autonomous, project-scale agent in front of OpenAI's entire user base at no added tier cost. Coupled with Anthropic's Cowork-to-mobile move (New #2), it marks the week the "coding agent wars" spilled into general office work — Anthropic's own data shows 90%+ of Cowork usage is non-coding business ops. The competitive front is shifting from "whose model scores highest" to "whose agent ships finished work where you already are."</p>
+      <p><strong>The caveats — read them.</strong> This is packaging and reach, not a new capability tier: ChatGPT Work is GPT-5.6 plus Codex plus a task loop, surfaced together. "Free on every plan" will be rate-limited in practice, and an agent that "works for hours across your apps" raises the same governance, data-access and prompt-injection questions the agent-security thread (Tracking) keeps flagging. Independent evaluations of ChatGPT Work's reliability on real multi-step tasks have not landed.</p>
+      <p><strong>Watch next.</strong> Whether ChatGPT Work's free-tier limits make the agent genuinely usable or a teaser; independent task-completion evals vs Claude Cowork and Gemini Enterprise agents; how standalone agent/copilot startups reprice against a free, bundled OpenAI agent; and enterprise controls for an agent with broad app access.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>What (Jul 9, OpenAI)</dt><dd>Unified ChatGPT desktop app (Mac/Win) with Chat + Work + Codex; new ChatGPT Work agent</dd>
+      <dt>Access</dt><dd>All three modes on every plan, incl. Free; old app → "ChatGPT Classic"</dd>
+      <dt>Engine</dt><dd>ChatGPT Work runs on GPT-5.6; returns finished sheets/slides/docs/web apps</dd>
+      <dt>Context</dt><dd>Lands 2 days after Anthropic's Claude Cowork went mobile + web (New #2)</dd>
+      <dt>Why it matters</dt><dd>Distribution event — a project-scale agent in front of OpenAI's full user base</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">7</b>/10 — every ChatGPT user + every standalone copilot/agent vendor</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="openai-chatgpt-work">
+      <div class="num">1</div>
+      <h4>OpenAI makes its ChatGPT Work agent free on every plan</h4>
+      <p>The Codex app folds into one ChatGPT desktop app (Chat + Work + Codex), and the project-scale Work agent ships to every tier including Free — a distribution move, not a new model. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="claude-cowork-mobile">
+      <div class="num">2</div>
+      <h4>Claude Cowork goes mobile + web</h4>
+      <p>Anthropic takes its Cowork agent off the desktop: start a task at your desk, track it on your phone, pick up the output later. 90%+ of 1.2M sessions are non-coding business ops. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="prime-intellect">
+      <div class="num">3</div>
+      <h4>Prime Intellect raises $130M to train agents without the labs</h4>
+      <p>Decentralized-training startup hits a $1B valuation ($100M ARR, 6k customers), backed by Radical, NVIDIA and Intel — capital for enterprises that want their own agents, not a frontier API. <strong>NEW.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>SATURDAY, REGIONAL + AI-JOBS DEEP BEAT — A CONSOLIDATION DAY, NO 24H BREAK:</strong> after a model-heavy week, the wire turns to <strong>products and money</strong>: OpenAI's <strong>ChatGPT Work</strong> super-app (Hero) and Anthropic's <strong>Cowork-to-mobile</strong> both make the agent the product; the funding layer keeps compounding — <strong>Prime Intellect $130M/$1B</strong>, <strong>Norm AI $120M unicorn</strong>, <strong>Ollama $65M</strong>, and Abu Dhabi's <strong>MGX closing a record $49B AI fund</strong>. We ship <strong>11 NEW items</strong> (ids absent from edition 028) — but <strong>none broke inside 24h</strong>, so <strong>nothing carries a NEW.24H badge</strong> today (honest: the week's biggest moves landed Jul 7–9). On the Saturday regional/jobs beat: <strong>India's AI-jobs paradox</strong> (AI hiring +16% while IT hiring falls; a projected 14-lakh talent shortfall — Developing), Singapore's <strong>NCS Sunshine.AI + Alibaba/Qwen</strong> sovereign push, and the UAE's record MGX fund. <strong>Excluded as a date-trap</strong> (see Resolved): SpaceX's <strong>$60B acquisition of Cursor/Anysphere</strong> resurfaced via Grok 4.5's "Cursor-trained" framing but is dated <strong>Jun 16</strong> — old news, not New.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (15)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (6)</button>
+    <button class="tab" data-cat="business">BUSINESS (3)</button>
+    <button class="tab" data-cat="policy">POLICY (3)</button>
+    <button class="tab" data-cat="models">MODELS (2)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>11 ITEMS · SURFACED SINCE LAST EDITION · NO 24H BREAK TODAY</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="enterprise" data-story-id="openai-chatgpt-work">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#1</span> <span class="cat">ENTERPRISE · OPENAI</span></div>
+      <h4>OpenAI ships a super-app and frees its ChatGPT Work agent</h4>
+      <div class="body">Today's Hero: on <strong>Jul 9</strong>, OpenAI merged the <strong>Codex</strong> app into one unified <strong>ChatGPT desktop app</strong> (Mac/Win) and launched <strong>ChatGPT Work</strong> — a GPT-5.6-powered agent that runs multi-step projects for hours and returns finished sheets, slides, docs and web apps (<a href="https://www.neowin.net/news/openai-launches-chatgpt-work-and-unveils-unified-desktop-app-with-codex-built-in/">Neowin</a>, <a href="https://cryptobriefing.com/chatgpt-work-launches-with-gpt-5-6-as-openai-merges-codex-into-desktop-app/">Crypto Briefing</a>). Chat, Work and Codex now sit in one app — and <strong>all three ship on every plan, including Free</strong> (<a href="https://www.techtimes.com/articles/320087/20260710/chatgpt-work-free-every-plan-what-openais-codex-merger-changes-you.htm">TechTimes</a>). The old client becomes "ChatGPT Classic."</div>
+      <p class="sowhat">A distribution event, not a benchmark: an autonomous project-scale agent now sits in front of OpenAI's entire user base at no added tier — pressure on every standalone copilot and agent startup, and a governance question for an agent with broad app access.</p>
+      <div><span class="chip arc">ARC: OPENAI-PRODUCT · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.neowin.net/news/openai-launches-chatgpt-work-and-unveils-unified-desktop-app-with-codex-built-in/">Neowin</a> · <a href="https://cryptobriefing.com/chatgpt-work-launches-with-gpt-5-6-as-openai-merges-codex-into-desktop-app/">Crypto Briefing</a> · <a href="https://www.techtimes.com/articles/320087/20260710/chatgpt-work-free-every-plan-what-openais-codex-merger-changes-you.htm">TechTimes</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="claude-cowork-mobile">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#2</span> <span class="cat">ENTERPRISE · ANTHROPIC</span></div>
+      <h4>Claude Cowork spills off the desktop — onto mobile and web</h4>
+      <div class="body">On <strong>Jul 7</strong>, Anthropic expanded <strong>Claude Cowork</strong> from the desktop app to <strong>web and mobile</strong>, starting as a beta on the Max plan with more tiers to follow (<a href="https://techcrunch.com/2026/07/07/the-coding-agent-wars-are-spilling-into-the-rest-of-the-office-claude-cowork/">TechCrunch</a>, <a href="https://9to5mac.com/2026/07/07/anthropic-expanding-claude-cowork-to-mobile-and-web-details-here/">9to5Mac</a>). New cloud-based background processing lets scheduled tasks and reports keep running even when your devices are offline — start a task at your desk, get updates on your phone, collect the output later (<a href="https://www.pymnts.com/news/artificial-intelligence/2026/anthropic-launches-mobile-access-for-claude-cowork/">PYMNTS</a>). Anthropic's data from 1.2M sessions: <strong>90%+ of Cowork usage isn't coding</strong> — business ops (33%) and content (16%) lead.</div>
+      <p class="sowhat">Anthropic and OpenAI made the same move in 48 hours — the agent is now a cross-device product, not a coder's tool. If you evaluate assistants, the axis is shifting from model quality to "does the agent finish real business work where I already am."</p>
+      <div><span class="chip arc">ARC: CLAUDE-COWORK · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/07/the-coding-agent-wars-are-spilling-into-the-rest-of-the-office-claude-cowork/">TechCrunch</a> · <a href="https://9to5mac.com/2026/07/07/anthropic-expanding-claude-cowork-to-mobile-and-web-details-here/">9to5Mac</a> · <a href="https://www.pymnts.com/news/artificial-intelligence/2026/anthropic-launches-mobile-access-for-claude-cowork/">PYMNTS</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="prime-intellect">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#3</span> <span class="cat">BUSINESS · FUNDING</span></div>
+      <h4>Prime Intellect raises $130M at $1B to train agents without the labs</h4>
+      <div class="body">On <strong>Jul 8</strong>, <strong>Prime Intellect</strong> — a San Francisco builder of open-source <strong>decentralized AI training</strong> and RL infrastructure — raised a <strong>$130M Series A</strong> at a <strong>$1B valuation</strong>, led by <strong>Radical Ventures</strong> with NVIDIA Ventures, Intel Capital and Dell Technologies Capital (<a href="https://techcrunch.com/2026/07/08/prime-intellect-raises-130m-series-a-to-help-enterprises-build-their-own-ai-agents/">TechCrunch</a>, <a href="https://siliconangle.com/2026/07/08/prime-intellect-raises-130m-1b-valuation-ai-training-platform/">SiliconANGLE</a>). Its pitch: give organizations the ability to <strong>train their own agentic systems</strong> without relying on frontier labs. Prime Intellect reports 6,000 customers and $100M annualized revenue (<a href="https://www.pymnts.com/news/investment-tracker/2026/prime-intellect-raises-130-million-to-help-companies-train-ai-agents/">PYMNTS</a>).</div>
+      <p class="sowhat">The "own your model/agent" thesis is now venture-scale — capital is flowing to the layer that lets enterprises train and control agents in-house, the demand-side mirror of the sovereign-AI and open-inference threads.</p>
+      <div><span class="chip arc">ARC: PRIME-INTELLECT · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/08/prime-intellect-raises-130m-series-a-to-help-enterprises-build-their-own-ai-agents/">TechCrunch</a> · <a href="https://siliconangle.com/2026/07/08/prime-intellect-raises-130m-1b-valuation-ai-training-platform/">SiliconANGLE</a> · <a href="https://www.pymnts.com/news/investment-tracker/2026/prime-intellect-raises-130-million-to-help-companies-train-ai-agents/">PYMNTS</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="norm-ai">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#4</span> <span class="cat">ENTERPRISE · LEGAL</span></div>
+      <h4>Agentic law hits unicorn status — and starts supervising other agents</h4>
+      <div class="body">On <strong>Jul 7</strong>, <strong>Norm Ai</strong> raised a <strong>$120M Series C</strong> at a <strong>$1.2B valuation</strong>, led by <strong>Khosla Ventures</strong> with Blackstone, Bain Capital Ventures, Coatue and Fenwick (<a href="https://techcrunch.com/2026/07/07/ai-law-startup-norm-raises-120m-hits-unicorn-valuation/">TechCrunch</a>, <a href="https://www.prnewswire.com/news-releases/norm-ai-raises-120-million-at-a-1-2-billion-valuation-led-by-khosla-ventures-to-deliver-the-full-stack-model-for-legal-ai-302819152.html">PRNewswire</a>). Norm embeds law into AI agents and already serves institutions managing more than <strong>$30 trillion</strong>; notably, its technology is <strong>increasingly deployed to supervise other AI agents</strong> operating in regulated environments (<a href="https://www.lawnext.com/2026/07/norm-ai-hits-unicorn-status-with-120m-series-c-at-1-2-billion-valuation.html">LawSites</a>).</div>
+      <p class="sowhat">As enterprises deploy agents into high-stakes roles, a new category emerges: agents that police other agents for compliance. Watch "supervisory AI" become a required layer for regulated agent deployments — the governance backstop the agent-layer thread has been missing.</p>
+      <div><span class="chip arc">ARC: NORM-AI · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/07/ai-law-startup-norm-raises-120m-hits-unicorn-valuation/">TechCrunch</a> · <a href="https://www.prnewswire.com/news-releases/norm-ai-raises-120-million-at-a-1-2-billion-valuation-led-by-khosla-ventures-to-deliver-the-full-stack-model-for-legal-ai-302819152.html">PRNewswire</a> · <a href="https://www.lawnext.com/2026/07/norm-ai-hits-unicorn-status-with-120m-series-c-at-1-2-billion-valuation.html">LawSites</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="mgx-fund">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#5</span> <span class="cat">BUSINESS · UAE</span></div>
+      <h4>Abu Dhabi's MGX closes a record $49B AI fund</h4>
+      <div class="body">Surfaced on the Saturday regional beat (dated <strong>Jul 1</strong>, not 24h): <strong>MGX</strong> — the Abu Dhabi vehicle backed by <strong>Mubadala</strong> and <strong>G42</strong> — closed its inaugural AI fund at <strong>$49B</strong>, above a $45B target, the <strong>biggest dedicated AI fund ever</strong> (<a href="https://www.cnbc.com/2026/07/01/mgx-ai-fund-uae-49-billion.html">CNBC</a>, <a href="https://www.thenationalnews.com/business/markets/2026/07/01/abu-dhabis-ai-investment-firm-mgx-raises-49bn-for-new-fund/">The National</a>). Its portfolio already spans <strong>Anthropic, OpenAI</strong> and a $40B data-centre consortium (Aligned); the strategy covers the full stack from semiconductors to applications (<a href="https://www.bloomberg.com/news/articles/2026-07-01/uae-abu-dhabi-s-mgx-raises-49-billion-for-one-of-the-biggest-ai-funds-ever">Bloomberg</a>).</div>
+      <p class="sowhat">Gulf sovereign capital is now the indispensable financier of the AI buildout — a $49B pool that will shape which labs, clouds and data-centre projects clear. The center of AI capital keeps shifting toward Abu Dhabi and Riyadh (cf. Together AI's Aramco round).</p>
+      <div><span class="chip arc">ARC: MGX-FUND · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/07/01/mgx-ai-fund-uae-49-billion.html">CNBC</a> · <a href="https://www.thenationalnews.com/business/markets/2026/07/01/abu-dhabis-ai-investment-firm-mgx-raises-49bn-for-new-fund/">The National</a> · <a href="https://www.bloomberg.com/news/articles/2026-07-01/uae-abu-dhabi-s-mgx-raises-49-billion-for-one-of-the-biggest-ai-funds-ever">Bloomberg</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="accenture-google-midmarket">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#6</span> <span class="cat">ENTERPRISE · PARTNERSHIP</span></div>
+      <h4>Accenture Edge + Google Cloud take agentic AI down-market</h4>
+      <div class="body">On <strong>Jul 7</strong>, Accenture's newly launched <strong>Accenture Edge</strong> and <strong>Google Cloud</strong> announced a suite of agentic solutions aimed squarely at <strong>mid-market firms with $300M–$3B in revenue</strong> (<a href="https://newsroom.accenture.com/news/2026/accenture-edge-and-google-cloud-bring-scalable-agentic-ai-solutions-to-mid-market-companies">Accenture</a>, <a href="https://www.googlecloudpresscorner.com/2026-07-07-Accenture-Edge-and-Google-Cloud-Bring-Scalable-Agentic-AI-Solutions-to-Mid-Market-Companies">Google Cloud</a>). Built on the <strong>Gemini Enterprise Agent Platform</strong> and delivered with Accenture's forward-deployed engineers, the tools span six areas — customer intelligence, CX, cybersecurity, agentic operations, industry apps and workforce enablement (<a href="https://finance.yahoo.com/technology/ai/articles/accenture-google-cloud-launch-agentic-105956932.html">Yahoo Finance</a>).</div>
+      <p class="sowhat">The enterprise-AI land-grab is moving beyond the Fortune 500: the mid-market — too big for DIY, too small for bespoke SI engagements — is the next battleground, and FDE-plus-platform is the delivery model everyone is copying.</p>
+      <div><span class="chip arc">ARC: MIDMARKET-AGENTS · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://newsroom.accenture.com/news/2026/accenture-edge-and-google-cloud-bring-scalable-agentic-ai-solutions-to-mid-market-companies">Accenture (primary)</a> · <a href="https://www.googlecloudpresscorner.com/2026-07-07-Accenture-Edge-and-Google-Cloud-Bring-Scalable-Agentic-AI-Solutions-to-Mid-Market-Companies">Google Cloud</a> · <a href="https://finance.yahoo.com/technology/ai/articles/accenture-google-cloud-launch-agentic-105956932.html">Yahoo Finance</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="ollama">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#7</span> <span class="cat">BUSINESS · OPEN SOURCE</span></div>
+      <h4>Ollama raises $65M — local open models go mainstream</h4>
+      <div class="body">On <strong>Jul 9</strong>, <strong>Ollama</strong> — the platform for running open LLMs locally — closed a <strong>$65M Series B</strong> led by <strong>Theory Ventures</strong> with Benchmark and Y Combinator (<a href="https://www.hpcwire.com/aiwire/2026/07/09/ollama-raises-65m-series-b-funding-to-grow-its-open-source-ai-platform/">AIwire</a>, <a href="https://www.finsmes.com/2026/07/ollama-raises-65m-in-series-b-funding.html">FinSMEs</a>). It now has <strong>8.9M monthly developers</strong> (doubled since January), 67,000+ community integrations, and is used inside <strong>85% of the Fortune 500</strong>, including government, healthcare and finance (<a href="https://www.citybiz.co/article/872201/ollama-closes-65m-series-b-to-advance-open-source-ai-platform/">citybiz</a>).</div>
+      <p class="sowhat">Local, private open-model deployment is a real enterprise line item now, not a hobbyist niche — the same privacy/control demand powering sovereign AI, at the developer edge.</p>
+      <div><span class="chip arc">ARC: OLLAMA · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.hpcwire.com/aiwire/2026/07/09/ollama-raises-65m-series-b-funding-to-grow-its-open-source-ai-platform/">AIwire</a> · <a href="https://www.finsmes.com/2026/07/ollama-raises-65m-in-series-b-funding.html">FinSMEs</a> · <a href="https://www.citybiz.co/article/872201/ollama-closes-65m-series-b-to-advance-open-source-ai-platform/">citybiz</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="models" data-story-id="seedream-5">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#8</span> <span class="cat">MODELS · BYTEDANCE</span></div>
+      <h4>ByteDance ships a reasoning image model — Seedream 5.0 Pro</h4>
+      <div class="body">On <strong>Jul 8–9</strong>, ByteDance launched <strong>Seedream 5.0 Pro</strong>, a professional multimodal image model that adds <strong>deep-thinking prompt reasoning</strong> and web search before it draws, with layer separation, high-density infographics, <strong>10+ language</strong> text rendering and up-to-2K output (<a href="https://www.testingcatalog.com/bytedance-debuts-seedream-5-0-pro-with-advanced-reasoning/">TestingCatalog</a>, <a href="https://cryptobriefing.com/bytedance-seedream-5-pro-rivals-gpt-image-2/">Crypto Briefing</a>). It's positioned against GPT-Image 2 and is available via Dreamina and APIs on Volcano Engine, BytePlus and fal.ai (<a href="https://alternativeto.net/news/2026/7/bytedance-introduces-seedream-5-0-pro-its-new-advanced-multimodal-image-creation-model/">AlternativeTo</a>).</div>
+      <p class="sowhat">Chinese labs keep pushing the generative-media cost/quality floor for production design work — reprice creative pipelines against Seedream 5.0 Pro and Google's Nano Banana 2 Lite before renewing.</p>
+      <div><span class="chip arc">ARC: SEEDREAM · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.testingcatalog.com/bytedance-debuts-seedream-5-0-pro-with-advanced-reasoning/">TestingCatalog</a> · <a href="https://cryptobriefing.com/bytedance-seedream-5-pro-rivals-gpt-image-2/">Crypto Briefing</a> · <a href="https://alternativeto.net/news/2026/7/bytedance-introduces-seedream-5-0-pro-its-new-advanced-multimodal-image-creation-model/">AlternativeTo</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="ncs-sunshine-ai">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#9</span> <span class="cat">ENTERPRISE · SINGAPORE</span></div>
+      <h4>Singapore's NCS expands sovereign AI on Alibaba's Qwen</h4>
+      <div class="body">On <strong>Jul 9</strong>, Singapore's <strong>NCS</strong> expanded its <strong>Sunshine.AI</strong> suite of sovereign, enterprise-grade AI platforms and partnered with <strong>Alibaba Cloud</strong> to bring <strong>Qwen</strong> foundation models to regional customers under NCS governance and security (<a href="https://www.prnewswire.com/apac/news-releases/ncs-launches-enterprise-ai-platforms-and-products-deepens-partnerships-to-accelerate-ai-driven-business-transformation-302821334.html">PRNewswire</a>, <a href="https://itbrief.asia/story/ncs-expands-sunshine-ai-with-sector-deals-hiring">IT Brief Asia</a>). NCS notes Chinese open models are <strong>gaining ground in Singapore</strong> as sovereign deployment (data/governance kept in-house) becomes a buyer priority (<a href="https://www.computerweekly.com/news/366645792/NCS-Chinese-open-AI-models-gaining-ground-in-Singapore">Computer Weekly</a>).</div>
+      <p class="sowhat">Southeast Asia's public-sector and enterprise buyers are standardizing on sovereign stacks built atop Chinese open weights — a concrete channel for Qwen/DeepSeek to win regulated regional workloads.</p>
+      <div><span class="chip arc">ARC: NCS-SOVEREIGN · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.prnewswire.com/apac/news-releases/ncs-launches-enterprise-ai-platforms-and-products-deepens-partnerships-to-accelerate-ai-driven-business-transformation-302821334.html">PRNewswire</a> · <a href="https://itbrief.asia/story/ncs-expands-sunshine-ai-with-sector-deals-hiring">IT Brief Asia</a> · <a href="https://www.computerweekly.com/news/366645792/NCS-Chinese-open-AI-models-gaining-ground-in-Singapore">Computer Weekly</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="hyperexponential">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#10</span> <span class="cat">ENTERPRISE · INSURANCE</span></div>
+      <h4>The first agentic underwriting workbench for commercial P&amp;C</h4>
+      <div class="body">On <strong>Jul 8</strong>, London-based <strong>hyperexponential</strong> launched <strong>hyperoperator</strong>, billed as the <strong>first end-to-end agentic underwriting agent</strong> for commercial P&amp;C — taking a broker email to a fully priced, quoted risk inside each carrier's pricing models, appetite and delegated-authority controls (<a href="https://www.reinsurancene.ws/hyperexponential-launches-hyperoperator-to-automate-commercial-pc-underwriting-workflows/">Reinsurance News</a>, <a href="https://www.manilatimes.net/2026/07/08/tmt-newswire/globenewswire/hyperexponential-introduces-hyperoperator-the-unified-agent-for-underwriting-work/2380806">GlobeNewswire</a>). Early results: Hiscox cut London-market specialty quote cycle time by <strong>99.4%</strong> (three days to ~three minutes), underwriter still in control (<a href="https://www.postonline.co.uk/commercial/7960733/hyperexponential-to-launch-agentic-ai-underwriting-tool">Insurance Post</a>).</div>
+      <p class="sowhat">Insurance underwriting joins finance and legal as a vertical where domain-scoped agents ship inside existing controls — the pattern that actually reaches production is "agent within the guardrails," not a general chatbot.</p>
+      <div><span class="chip arc">ARC: INSURE-AGENTS · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.reinsurancene.ws/hyperexponential-launches-hyperoperator-to-automate-commercial-pc-underwriting-workflows/">Reinsurance News</a> · <a href="https://www.manilatimes.net/2026/07/08/tmt-newswire/globenewswire/hyperexponential-introduces-hyperoperator-the-unified-agent-for-underwriting-work/2380806">GlobeNewswire</a> · <a href="https://www.postonline.co.uk/commercial/7960733/hyperexponential-to-launch-agentic-ai-underwriting-tool">Insurance Post</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="research" data-story-id="ai-science-monoculture">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#11</span> <span class="cat">RESEARCH · AI-FOR-SCIENCE</span></div>
+      <h4>Nature: AI supercharges output — but narrows science</h4>
+      <div class="body">The Saturday research beat: Nature's <strong>Jul 9</strong> issue carries analysis on AI-augmented science alongside two multi-agent discovery systems (Google DeepMind's Co-Scientist, FutureHouse's Robin) (<a href="https://www.nature.com/articles/d41586-026-01954-2">Nature</a>, <a href="https://www.nature.com/nature/volumes/655/issues/8122">vol 655/8122</a>). The striking finding: scientists using AI published <strong>~3× more papers</strong> and drew <strong>~5× more citations</strong> — but AI use was linked to a <strong>5% narrower range of topics</strong> and a <strong>22% drop in collaboration</strong> (<a href="https://www.nature.com/articles/d41586-026-01596-4">Nature</a>).</div>
+      <p class="sowhat">AI is becoming scientific infrastructure, not just a tool — but the same systems that boost individual output may push the field toward a monoculture. A governance signal for research funders, not only labs.</p>
+      <div><span class="chip arc">ARC: AI-SCIENCE · D1</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://www.nature.com/articles/d41586-026-01954-2">Nature (analysis)</a> · <a href="https://www.nature.com/articles/d41586-026-01596-4">Nature (agents)</a> · <a href="https://www.nature.com/nature/volumes/655/issues/8122">Nature vol 655/8122</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 note" data-cat="models" data-story-id="xai">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D1</span> <span class="cat">MODELS · XAI</span></div>
+      <h4>Grok 4.5 goes public — and finally gets benchmarked</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Yesterday this was a single-aggregator rumor; now it's confirmed. <strong>Grok 4.5</strong> went <strong>public (Jul 8)</strong> as a cheap, Cursor-trained coding model, and its first days in the wild produced <strong>independent benchmarks</strong>: <strong>#4 on the Artificial Analysis Intelligence Index (score 54)</strong>, behind Fable 5 (#1), GPT-5.5 (#2) and Opus 4.8 (#3), plus a <strong>token-efficiency claim</strong> that changes the cost math for high-volume agentic workloads.</div>
+      <div class="body">The launch also reignited a political-bias debate around the model (<a href="https://www.buildfastwithai.com/blogs/ai-news-today-july-10-2026">BuildFastWithAI</a>, <a href="https://felloai.com/best-ai-models/">Fello AI</a>, <a href="https://llm-stats.com/llm-updates">LLM Stats</a>). Grok 4.5's coding lineage traces to the Cursor/Composer stack now inside SpaceX (see Resolved). xAI's surface area keeps growing while the flagship <strong>Grok 5</strong> (~10T params) still has no model card.</div>
+      <p class="sowhat">A cheap #4 model with a real token-efficiency edge is a genuine option for cost-sensitive, high-volume agent runs — but weigh the recurring bias controversy and the missing Grok 5 before betting a stack on xAI.</p>
+      <div><span class="chip arc">ARC: XAI · D8</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.buildfastwithai.com/blogs/ai-news-today-july-10-2026">BuildFastWithAI</a> · <a href="https://felloai.com/best-ai-models/">Fello AI</a> · <a href="https://llm-stats.com/llm-updates">LLM Stats</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="workforce">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D2</span> <span class="cat">POLICY · WORKFORCE</span></div>
+      <h4>The AI layoff wave gets named: Microsoft, Intuit, Oracle</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The workforce thread moves from an aggregate count to <strong>named, dated cuts</strong> newly surfaced in our scan: <strong>Microsoft</strong> cut <strong>~4,800 jobs (~2.1%, Jul 6)</strong> amid a $190B AI-capex year, Xbox hit hardest; <strong>Intuit</strong> is eliminating <strong>~3,000</strong> in an AI-centered restructuring; <strong>Oracle</strong> has cut <strong>~21,000 (~13%)</strong> over the past year, explicitly citing AI adoption.</div>
+      <div class="body">2026 tech layoffs stand at ~185,894 workers across 267 events, ~56% citing AI (<a href="https://techcrunch.com/2026/07/06/the-running-list-major-tech-layoffs-in-2026-where-employers-cited-ai/">TechCrunch</a>, <a href="https://www.cnbc.com/2026/07/06/microsoft-cuts-2point1percent-of-employees-as-xbox-unit-plans-to-spin-studios.html">CNBC</a>). But Deutsche Bank analysts warn of <strong>"AI redundancy washing"</strong> — firms over-attributing cost cuts to AI when overhiring and weak revenue are the real drivers (<a href="https://www.forbes.com/sites/maryroeloffs/2026/06/23/ai-cost-21000-jobs-at-oracle-this-year-and-more-layoffs-could-be-coming/">Forbes</a>).</div>
+      <p class="sowhat">The labor story now has named companies and a credibility caveat: "AI" is both a real driver of cuts and a convenient cover. Read layoff rationales skeptically, but treat softening junior/entry-level hiring as the durable signal.</p>
+      <div><span class="chip arc">ARC: WORKFORCE · D15</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/06/the-running-list-major-tech-layoffs-in-2026-where-employers-cited-ai/">TechCrunch</a> · <a href="https://www.cnbc.com/2026/07/06/microsoft-cuts-2point1percent-of-employees-as-xbox-unit-plans-to-spin-studios.html">CNBC</a> · <a href="https://www.forbes.com/sites/maryroeloffs/2026/06/23/ai-cost-21000-jobs-at-oracle-this-year-and-more-layoffs-could-be-coming/">Forbes</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="india-jobs">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">D3</span> <span class="cat">POLICY · INDIA</span></div>
+      <h4>India's AI-jobs paradox: hiring surges as a talent chasm opens</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The Saturday India-jobs beat sharpens with fresh <strong>Naukri data (Jul 3)</strong>: <strong>AI-specific hiring rose 16%</strong> even as overall IT hiring fell ~3% YoY; AI roles are now <strong>16% of all vacancies</strong> (2.9% in Jan 2023). But a NASSCOM/McKinsey/NITI Aayog estimate warns India could face a <strong>14-lakh (1.4M) AI-talent shortfall by end-2026</strong> without rapid upskilling.</div>
+      <div class="body">The paradox: India is <strong>second only to the US</strong> in H1-2026 tech layoffs (7.16% of the global total), concentrated in EdTech and FinTech, even as AI/data becomes the fastest-growing function and drives ~64% of new GCC roles (<a href="https://www.etvbharat.com/en/technology/indias-ai-jobs-paradox-second-highest-tech-layoffs-but-ai-hiring-surges-as-skills-gap-widens-enn26070604931">ETV Bharat</a>, <a href="https://www.cioandleader.com/ai-hiring-is-surging-across-india-but-a-skills-crisis-is-emerging-beneath-it/">CIO&amp;Leader</a>, <a href="https://www.outlookbusiness.com/in-depth/indias-ai-talent-paradox-companies-ready-to-pay-more-but-few-skilled-hands-available">Outlook Business</a>).</div>
+      <p class="sowhat">India's AI labor market is bifurcating fast: routine IT roles shrink while specialist AI demand outstrips supply — the reskilling gap, not headcount, is now the binding constraint on India's AI-services growth story.</p>
+      <div><span class="chip arc">ARC: INDIA-JOBS · D8</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.etvbharat.com/en/technology/indias-ai-jobs-paradox-second-highest-tech-layoffs-but-ai-hiring-surges-as-skills-gap-widens-enn26070604931">ETV Bharat</a> · <a href="https://www.cioandleader.com/ai-hiring-is-surging-across-india-but-a-skills-crisis-is-emerging-beneath-it/">CIO&amp;Leader</a> · <a href="https://www.outlookbusiness.com/in-depth/indias-ai-talent-paradox-companies-ready-to-pay-more-but-few-skilled-hands-available">Outlook Business</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="us-export-controls">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D4</span> <span class="cat">POLICY · US</span></div>
+      <h4>The US covered-frontier framework is now overdue</h4>
+      <div class="delta-line nochange"><span class="dl-tag">HOLDING</span> No fresh movement, but the clock is the story: the voluntary <strong>covered-frontier framework</strong> reported for the <strong>week of Jul 7</strong> remains <strong>unannounced</strong>, and that window has passed. Two case-by-case clearances have run (Fable 5, then GPT-5.6 to full GA) — but the standing rules that would generalize them are still unwritten, with the <strong>~Aug 1 design deadline</strong> now three weeks out.</div>
+      <div class="body">The Jun 2 EO grants up to 30 days of pre-release federal access (not a licence) and orders a classified cyber-capability benchmark to define "covered" models (<a href="https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/">White House EO</a>). Google's industry-funded FARO regulator proposal still feeds the design debate; meanwhile Meta shipped Muse Spark 1.1 to US preview with no publicised gate — the paradigm works ad hoc but isn't codified.</div>
+      <p class="sowhat">Whether "government reviews frontier releases" becomes standing policy or stays case-by-case will be decided in the next three weeks — the single most consequential open question for how US models ship.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D32</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/">White House EO</a> · <a href="https://www.nextgov.com/artificial-intelligence/2026/07/openais-advanced-gpt-56-models-be-available-public/414651/">Nextgov/FCW</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING ══════════ -->
+<section>
+  <div class="sec-head">Still Tracking <small>LONG-RUNNERS WITH NO MOVEMENT THIS EDITION</small></div>
+  <div class="tracking-strip" id="tracking-strip"></div>
+</section>
+
+<!-- ══════════ RESOLVED ══════════ -->
+<section>
+  <div class="sec-head">Resolved <small>YESTERDAY'S OPEN THREADS, CLOSED &amp; FOLDED</small></div>
+  <div class="resolved-strip" id="resolved-strip"></div>
+</section>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 029 · 2026-07-11 (IST) · FORMAT v2</strong></p>
+    <p>METHOD: 34 web searches across three parallel beats — Models &amp; core technology, Applied AI (enterprise/products/partnerships/money), People/policy/society — plus the Saturday deep beat (regional + AI-jobs hotspots: India, UAE/Abu Dhabi, Singapore, UK). v2 splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING (long-runners with no movement). Hero = biggest new item UNLESS a developing thread had a major escalation; today no carried thread had a tier-jump (Grok 4.5's move was notable, not a jump), so the Hero is the biggest NEW item — OpenAI's ChatGPT Work super-app. Aggregator claims cross-checked against ≥2 outlets; single-source and rumor items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+    <p>KNOWN SCAN GAPS / INTEGRITY NOTES THIS EDITION: A CONSOLIDATION DAY — the week's biggest moves (OpenAI ChatGPT Work + Anthropic Cowork mobile, Jul 7/9; Grok 4.5 public Jul 8) all landed 1–4 days ago. We shipped 11 genuinely NEW items (ids absent from edition 028), but NONE broke inside 24h, so NO item carries a NEW.24H badge today — an honest reflection of the news flow, not a miss. NEW-BUT-OLDER items are dated in-text (MGX $49B fund Jul 1; India-jobs Naukri data Jul 3). DATE-TRAP EXCLUDED (see Resolved), not padded as New: SpaceX's $60B acquisition of Anysphere/Cursor — the largest startup acquisition ever — is dated Jun 16 and resurfaced only via Grok 4.5's "Cursor-trained" framing; carried as context under xai (Developing), NOT re-listed as fresh New. CONFIDENCE: Grok 4.5's benchmark placement rests on aggregator roundups citing the Artificial Analysis Intelligence Index (chip 2x SRC). AUTO-RETIREMENTS: yesterday's model-wave/openai-gpt56 access saga resolved (GPT-5.6 GA worldwide) and demotes to Tracking as the OpenAI arc continues as a product story (today's Hero); edition-028's other New items (Muse Spark, GPT-Live, Google Omni, UpDoc, HCLTech, Together AI, Taktile, Venice) drop to Tracking one-liners with no fresh movement; finserv-agents demotes from Developing to Tracking; govt-equity and memory-antitrust silently retire from Tracking (no fresh movement). RESEARCH BEAT represented via Nature's AI-for-science analysis (New #11). AGENT-SECURITY: Semantic Kernel RCE CVEs (CVE-2026-25592 / CVE-2026-26030, CVSS 9.8; May disclosure, patched) folded into Tracking, not re-listed as new. DEEP-BEAT ROTATION: Saturday = regional + AI-jobs hotspots (India paradox, Singapore NCS/Qwen, UAE MGX).</p>
+    <p>NOTE: Links point to sources found during the scan; where only an outlet/press root was available it is labelled as such. Nothing here is investment advice.</p>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 29,
+  "date": "2026-07-11",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 34,
+  "counts": {"new": 11, "developing": 4, "tracking": 21},
+  "tiers": {"critical": 3, "notable": 8, "monitor": 4},
+  "stories": [
+    {"id":"openai-chatgpt-work","section":"new","rank":1,"title":"OpenAI merged its Codex coding app into a single unified ChatGPT desktop app (Mac/Windows) and launched ChatGPT Work (Jul 9) — a GPT-5.6-powered agent that takes an outcome, works across connected apps for hours, and returns finished sheets, slides, docs and shareable web apps; Chat, Work and Codex now sit in one app and all three ship on EVERY plan including Free; the old client is renamed ChatGPT Classic; lands two days after Anthropic took Claude Cowork to mobile/web — the two leading labs making the agent, not the model, the product; a distribution event bundling existing pieces rather than a new capability tier","tier":"critical","impact":7,"delta":"new","arc":"openai-product","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-11","lastUpdate":"2026-07-11","category":"enterprise"},
+    {"id":"claude-cowork-mobile","section":"new","rank":2,"title":"Anthropic expanded Claude Cowork from desktop to web and mobile (Jul 7), starting as a beta on the Max plan with more tiers to follow; new cloud-based background processing keeps scheduled tasks and reports running while devices are offline — start a task at your desk, get updates on your phone, collect output later; Anthropic's data from 1.2M sessions shows 90%+ of Cowork usage is non-coding (business ops 33%, content 16%); with OpenAI's ChatGPT Work it marks the week the coding-agent wars spilled into general office work","tier":"notable","impact":6,"delta":"new","arc":"claude-cowork","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-11","lastUpdate":"2026-07-11","category":"enterprise"},
+    {"id":"prime-intellect","section":"new","rank":3,"title":"Prime Intellect (San Francisco), a builder of open-source decentralized AI training and RL infrastructure, raised a $130M Series A at a $1B valuation (Jul 8) led by Radical Ventures with NVIDIA Ventures, Intel Capital and Dell Technologies Capital; its pitch is to let organizations train their own agentic systems without relying on frontier labs; reports 6,000 customers and $100M annualized revenue; the venture-scale expression of the own-your-model thesis, mirroring the sovereign-AI and open-inference threads","tier":"notable","impact":6,"delta":"new","arc":"prime-intellect","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-11","lastUpdate":"2026-07-11","category":"business"},
+    {"id":"norm-ai","section":"new","rank":4,"title":"Norm Ai raised a $120M Series C at a $1.2B valuation (Jul 7) led by Khosla Ventures with Blackstone, Bain Capital Ventures, Coatue and Fenwick, reaching unicorn status; Norm embeds law into AI agents ('agentic law') and already serves institutions managing more than $30 trillion; notably its technology is increasingly deployed to SUPERVISE other AI agents operating in regulated environments — the emergence of supervisory AI as a required layer for regulated agent deployments","tier":"notable","impact":5,"delta":"new","arc":"norm-ai","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-11","lastUpdate":"2026-07-11","category":"enterprise"},
+    {"id":"mgx-fund","section":"new","rank":5,"title":"Abu Dhabi's MGX (backed by Mubadala and G42) closed its inaugural AI fund at $49B (Jul 1), above a $45B target — the biggest dedicated AI fund ever; the portfolio already spans Anthropic, OpenAI and a $40B data-centre consortium (Aligned), with a full-stack strategy from semiconductors to applications; new to the feed on the Saturday regional beat but honestly dated Jul 1, not within 24h; Gulf sovereign capital anchoring the AI buildout alongside Together AI's Aramco round","tier":"notable","impact":6,"delta":"new","arc":"mgx-fund","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-11","lastUpdate":"2026-07-11","category":"business"},
+    {"id":"accenture-google-midmarket","section":"new","rank":6,"title":"Accenture's newly launched Accenture Edge and Google Cloud announced a suite of agentic AI solutions (Jul 7) aimed at mid-market firms with $300M-$3B in revenue, built on the Gemini Enterprise Agent Platform and delivered with Accenture's forward-deployed engineers; six solution areas span customer intelligence, CX, cybersecurity, agentic operations, industry apps and workforce enablement; the enterprise-AI land-grab moves beyond the Fortune 500 into the mid-market via an FDE-plus-platform delivery model","tier":"notable","impact":5,"delta":"new","arc":"midmarket-agents","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-11","lastUpdate":"2026-07-11","category":"enterprise"},
+    {"id":"ollama","section":"new","rank":7,"title":"Ollama, the platform for running open LLMs locally, closed a $65M Series B (Jul 9) led by Theory Ventures with Benchmark and Y Combinator, bringing total funding to $88M; it now has 8.9M monthly developers (doubled since January), 67,000+ community integrations, and is used inside 85% of the Fortune 500 including government, healthcare and finance; local private open-model deployment is now an enterprise line item, the developer-edge expression of the privacy/control demand powering sovereign AI","tier":"notable","impact":5,"delta":"new","arc":"ollama","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-11","lastUpdate":"2026-07-11","category":"business"},
+    {"id":"seedream-5","section":"new","rank":8,"title":"ByteDance launched Seedream 5.0 Pro (Jul 8-9), a professional multimodal image model that adds deep-thinking prompt reasoning and web search before drawing, with layer separation, high-density infographics, native 10+ language text rendering and up-to-2K output; positioned against GPT-Image 2 and available via Dreamina and APIs on Volcano Engine, BytePlus and fal.ai; Chinese labs keep pushing the generative-media cost/quality floor for production design work","tier":"monitor","impact":4,"delta":"new","arc":"seedream","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-11","lastUpdate":"2026-07-11","category":"models"},
+    {"id":"ncs-sunshine-ai","section":"new","rank":9,"title":"Singapore's NCS expanded its Sunshine.AI suite of sovereign, enterprise-grade AI platforms and partnered with Alibaba Cloud (Jul 9) to bring Qwen foundation models to regional customers under NCS governance and security; NCS notes Chinese open models are gaining ground in Singapore as sovereign deployment (data/governance kept in-house) becomes a buyer priority; a concrete channel for Chinese open weights to win regulated Southeast-Asian public-sector and enterprise workloads","tier":"monitor","impact":4,"delta":"new","arc":"ncs-sovereign","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-11","lastUpdate":"2026-07-11","category":"enterprise"},
+    {"id":"hyperexponential","section":"new","rank":10,"title":"London-based hyperexponential launched hyperoperator (Jul 8), billed as the first end-to-end agentic underwriting agent for commercial P&C — taking a broker email to a fully priced, quoted risk inside each carrier's pricing models, appetite and delegated-authority controls; early results include Hiscox cutting London-market specialty quote cycle time by 99.4% (three days to ~three minutes) with the underwriter still in control; insurance underwriting joins finance and legal as a vertical where domain-scoped agents ship inside existing guardrails","tier":"monitor","impact":4,"delta":"new","arc":"insure-agents","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-11","lastUpdate":"2026-07-11","category":"enterprise"},
+    {"id":"ai-science-monoculture","section":"new","rank":11,"title":"Nature's Jul 9 issue (vol 655, issue 8122) carries analysis on AI-augmented science alongside two multi-agent discovery systems (Google DeepMind's Co-Scientist, FutureHouse's Robin); the striking finding: scientists using AI published ~3x more papers and drew ~5x more citations, but AI use was linked to a 5% narrower range of topics studied and a 22% drop in collaboration — AI is becoming scientific infrastructure while risking a research monoculture; a governance signal for research funders","tier":"monitor","impact":4,"delta":"new","arc":"ai-science","arcDay":1,"confidence":"Primary","new24h":false,"firstSeen":"2026-07-11","lastUpdate":"2026-07-11","category":"research"},
+    {"id":"xai","section":"developing","rank":1,"title":"Grok 4.5 went public (Jul 8) as a cheap, Cursor-trained coding model, and its first days in the wild produced independent benchmarks — #4 on the Artificial Analysis Intelligence Index (score 54), behind Fable 5 (#1), GPT-5.5 (#2) and Opus 4.8 (#3) — plus a token-efficiency claim that changes the cost math for high-volume agentic workloads; the launch reignited a political-bias debate; xAI's surface area keeps growing while the flagship Grok 5 (~10T params) still has no model card","tier":"notable","impact":6,"delta":"escalated","arc":"xai","arcDay":8,"confidence":"2x src","new24h":false,"update":"Yesterday's single-aggregator rumor is confirmed: Grok 4.5 is publicly available (Jul 8) and independently benchmarked at #4 on the Artificial Analysis Intelligence Index (54) with a notable token-efficiency claim; a political-bias debate reignited on launch; coding lineage traces to the Cursor/Composer stack now inside SpaceX","firstSeen":"2026-07-04","lastUpdate":"2026-07-11","category":"models"},
+    {"id":"workforce","section":"developing","rank":2,"title":"The 2026 AI-layoff wave gains named, dated cuts newly surfaced in our scan: Microsoft cut ~4,800 jobs (~2.1%, Jul 6) amid a $190B AI-capex year with Xbox hit hardest; Intuit is eliminating ~3,000 in an AI-centered restructuring; Oracle has cut ~21,000 (~13%) over the past year explicitly citing AI adoption; 2026 tech layoffs stand at ~185,894 across 267 events (~56% cite AI); but Deutsche Bank warns of 'AI redundancy washing' — firms over-attributing cost cuts to AI when overhiring and weak revenue are the real drivers","tier":"critical","impact":7,"delta":"escalated","arc":"workforce","arcDay":15,"confidence":"2x src","new24h":false,"update":"Moves from an aggregate count to named cuts: Microsoft ~4,800 (Jul 6), Intuit ~3,000, Oracle ~21,000/yr, all citing AI/efficiency — while Deutsche Bank flags 'AI redundancy washing' as firms over-attribute cost cuts to AI; softening junior/entry-level hiring remains the durable signal","firstSeen":"2026-06-27","lastUpdate":"2026-07-11","category":"policy"},
+    {"id":"india-jobs","section":"developing","rank":3,"title":"India's AI-jobs paradox sharpens on fresh Naukri data (Jul 3): AI-specific hiring rose 16% even as overall IT hiring fell ~3% YoY, and AI roles are now 16% of all vacancies (2.9% in Jan 2023); yet a NASSCOM/McKinsey/NITI Aayog estimate warns India could face a 14-lakh (1.4M) AI-talent shortfall by end-2026 without rapid upskilling; India is second only to the US in H1-2026 tech layoffs (7.16% of the global total, concentrated in EdTech and FinTech) even as AI/data becomes the fastest-growing function driving ~64% of new GCC roles","tier":"notable","impact":5,"delta":"escalated","arc":"india-jobs","arcDay":8,"confidence":"2x src","new24h":false,"update":"Fresh Naukri data (Jul 3): AI hiring +16% while IT hiring -3% YoY; AI now 16% of vacancies; NASSCOM/McKinsey/NITI Aayog project a 14-lakh AI-talent shortfall by end-2026; India second only to the US in H1 layoffs — the reskilling gap, not headcount, is the binding constraint","firstSeen":"2026-07-04","lastUpdate":"2026-07-11","category":"policy"},
+    {"id":"us-export-controls","section":"developing","rank":4,"title":"No fresh movement, but the clock is the story: the voluntary covered-frontier framework reported for the week of Jul 7 remains unannounced and that window has passed; two case-by-case clearances have run (Fable 5, then GPT-5.6 to full GA) but the standing rules that would generalize them are still unwritten, with the ~Aug 1 design deadline now three weeks out; the Jun 2 EO grants up to 30 days pre-release federal access (not a licence) and orders a classified cyber-capability benchmark to define 'covered' models; Meta shipped Muse Spark 1.1 to US preview with no publicised gate","tier":"critical","impact":7,"delta":"carry","arc":"reg-clock","arcDay":32,"confidence":"Primary","new24h":false,"update":"Holding, no fresh movement: the covered-frontier framework reported for the week of Jul 7 is overdue and unannounced; the paradigm works case-by-case (Fable 5, GPT-5.6) but remains uncodified with the ~Aug 1 design deadline three weeks out","firstSeen":"2026-06-12","lastUpdate":"2026-07-11","category":"policy"}
+  ],
+  "tracking": [
+    {"id":"openai-gpt56","label":"The GPT-5.6 access saga (carried since Jun 11) has resolved — Sol/Terra/Luna are GA worldwide with public pricing ($5/$30, $2.50/$15, $1/$6); the OpenAI arc now continues as a product story (ChatGPT Work super-app, New Hero), and the full public system card is still missing","arc":"model-wave","arcDay":32},
+    {"id":"meta-muse-spark","label":"Meta's Muse Spark 1.1 (Jul 9 paid agentic coder, US preview) sees no fresh movement; the rumored higher-compute 'Watermelon' frontier model remains single-sourced and unconfirmed with no ship date","arc":"meta-models","arcDay":2},
+    {"id":"gpt-live","label":"OpenAI's GPT-Live full-duplex voice models (GPT-Live-1 / mini, Jul 8) — listen and speak at once, delegate hard queries to a frontier backend — no fresh movement this window","arc":"gpt-live","arcDay":2},
+    {"id":"google-models","label":"Gemini 3.5 Pro (2M context, Deep Think) still a limited Vertex preview (no GA/benchmarks/pricing; missed May/June/July); Google shipped Nano Banana 2 Lite / Omni Flash instead, and its Co-Scientist (Gemini) features in Nature's AI-for-science analysis (New #11)","arc":"google-models","arcDay":12},
+    {"id":"open-weight","label":"Open-weight table stays China-led (GLM-5.2 744B MIT, MiniMax M3, Kimi K2.7, Qwen, DeepSeek V4); Ollama's $65M and Prime Intellect's $130M (both New) underscore open-model economics; ByteDance's Seedream 5.0 Pro (New #8) is closed but China-built","arc":"open-weight","arcDay":15},
+    {"id":"model-efficiency","label":"Anthropic's Claude Sonnet 5 ($2/$10 through Aug 31, native 1M context) holds as the cost-per-agent-run default in Claude Code; the ~$47B Claude Code run-rate fuels a ~$1T secondary valuation that crossed OpenAI (Forge, Apr 24; primary $965B, May 28)","arc":"model-efficiency","arcDay":8},
+    {"id":"open-inference","label":"Together AI's $800M Series C at $8.3B (Aramco-led, Jul 1), bookings >$1.15B — open-model (DeepSeek/MiniMax/Kimi) inference as a durable business; no fresh movement, but MGX's $49B fund (New #5) and Prime Intellect (New #3) extend the open/independent capital thesis","arc":"open-inference","arcDay":2},
+    {"id":"it-services-ai","label":"HCLTech's $1.14B AI digital-workplace deal (Jul 3, European Fortune Global 50, likely Mercedes-Benz) running to Dec 2031 — Indian IT-services majors converting the enterprise-AI land-grab into billion-dollar contracts; watch HCL/TCS/Infosys deal flow","arc":"it-services-ai","arcDay":2},
+    {"id":"sovereign-ai","label":"Sovereign/provider-independent AI keeps compounding: Abu Dhabi's MGX $49B fund and Singapore's NCS Sunshine.AI on Qwen (both New) join the UAE Federal AI & Data Authority, MBZUAI K2 Think V2, Venice's private-AI unicorn and Palantir+Nvidia's air-gapped Nemotron","arc":"sovereign-ai","arcDay":7},
+    {"id":"finserv-agents","label":"Demoted from Developing: Taktile's $110M (Goldman-led) and LinqAlpha's $22M capitalise bank/insurer agentic decisioning atop the Goldman/Claude, Oracle FS demand wave; no fresh movement this edition; Gartner still sees >40% of agent projects cancelled by end-2027","arc":"finserv-agents","arcDay":3},
+    {"id":"clinical-ai","label":"UpDoc's first FDA-cleared patient-facing clinical LLM (510(k) K253281, insulin titration for type-2 diabetes; $18M seed, four health-system deployments) sees no fresh movement — the regulatory path opens one narrowly-scoped indication at a time","arc":"clinical-ai","arcDay":2},
+    {"id":"vertical-ai","label":"Vertical AI keeps funding: legal (Harvey ~$300M ARR, Legora $5.6B, and Norm Ai's $120M unicorn — New #4) and insurance (hyperexponential's agentic underwriting — New #10) advance; health via clearance not approvals (UpDoc); AI-for-bio >$7B committed, zero approved","arc":"vertical-ai","arcDay":12},
+    {"id":"agent-layer","label":"Governed agents inside SaaS incumbents (ServiceNow, Salesforce Agentforce/Fin, Snowflake, SAP, Oracle Fusion & FS); Norm Ai's supervisory agents (New #4) emerge as the compliance layer over other agents; Gartner still sees >40% of agent projects cancelled by end-2027","arc":"agent-layer","arcDay":16},
+    {"id":"agent-security","label":"Prompt injection stays OWASP LLM01 (~340% YoY, no complete fix); newly folded in: Microsoft Semantic Kernel RCE via prompt injection (CVE-2026-25592 .NET / CVE-2026-26030 Python, CVSS 9.8; patched in 1.71.0 / 1.39.4); Cursor CVE-2026-22708 and Reprompt CVE-2026-24307 remain in the reference set","arc":"agent-security","arcDay":15},
+    {"id":"physical-ai","label":"Physical AI: Figure 03 at BMW Spartanburg (~$25/robot-hour); Tesla Optimus V3 low-volume Fremont production slips to late Jul/Aug; Unitree shipped >5,500 humanoids in 2025 (20,000 target 2026); Chinese robotics capital keeps flowing; robotics market ~$38B (+34% YoY)","arc":"physical-ai","arcDay":13},
+    {"id":"custom-silicon","label":"Hyperscalers design around Nvidia: Google TPU 8t/8i on TSMC 2nm (~$46B Broadcom-Google program); OpenAI+Broadcom 'Jalapeño' inference ASIC from 2026; AMD's MI450 landed a 5-year OpenAI supply deal and MI500 is teased ahead of Advancing AI 2026 (Jul 22-23, San Francisco)","arc":"custom-silicon","arcDay":6},
+    {"id":"ai-infra","label":"Big-tech AI capex heads to ~$725B in 2026 (Amazon ~$200B, Google ~$185B, Meta ~$125B, Microsoft ~$190B), up ~77% YoY, 2027 estimates topping $1T; OpenAI-Oracle Stargate ~7GW / >$400B; megawatts, permits and memory the binding constraints","arc":"ai-infra","arcDay":8},
+    {"id":"hbm-supply","label":"Compute/HBM crunch: Microsoft attributes ~$25B of raised 2026 capex to memory/component costs; HBM heading toward ~25% of DRAM wafers; Samsung past $1B HBM4 revenue, SK Hynix ~50-55% share; makers warn shortages may last to 2027","arc":"hbm-supply","arcDay":15},
+    {"id":"eu-labelling","label":"EU AI Act: Aug 2 2026 Article 50 transparency + GPAI enforcement (fines up to €15M/3%) now 22 days out; the Digital Omnibus (FINAL) defers stand-alone high-risk Annex III to Dec 2 2027 and embedded high-risk to Aug 2 2028; the Jul cyber+AI action plan carries no new law","arc":"eu-labelling","arcDay":32},
+    {"id":"india-reg","label":"India still weighing a graded, risk-based AI law (ET, Jul 6): low-risk chatbots/productivity vs high-risk banking/finance/health/critical-infra; no draft Bill, consultation paper or timeline yet; IT-Rules synthetic-content labelling remains in force","arc":"india-reg","arcDay":11},
+    {"id":"talent","label":"Lab talent war continues: Shazeer→OpenAI; Jumper (AlphaFold Nobel), Jelani Nelson (Berkeley) and ex-Workday CTO Peter Bailis→Anthropic; Jeff Bezos's Project Prometheus ($12B at $41B) still poaching ~100 for an 'artificial general engineer'; senior packages past $5M/yr","arc":"talent","arcDay":21}
+  ],
+  "movers": [
+    {"dir":"up","text":"OPENAI — folds Codex + ChatGPT into one desktop app and makes its ChatGPT Work agent free on every plan incl. Free (Jul 9)"},
+    {"dir":"up","text":"ANTHROPIC — Claude Cowork goes mobile + web (Jul 7); 90%+ of 1.2M sessions are non-coding business ops"},
+    {"dir":"up","text":"XAI — Grok 4.5 public (Jul 8), lands #4 on the Artificial Analysis Intelligence Index (54); token-efficiency claim cuts high-volume agent cost"},
+    {"dir":"up","text":"PRIME INTELLECT — $130M Series A at a $1B valuation (Jul 8); decentralized training, $100M ARR, 6,000 customers"},
+    {"dir":"up","text":"NORM AI — $120M Series C, $1.2B unicorn (Jul 7); agentic law now supervising other AI agents in regulated environments"},
+    {"dir":"up","text":"OLLAMA — $65M Series B (Jul 9); 8.9M monthly developers, inside 85% of the Fortune 500"},
+    {"dir":"up","text":"MGX — closes a record $49B AI fund (Jul 1); Abu Dhabi anchors the buildout (Anthropic, OpenAI, Aligned data centres)"},
+    {"dir":"down","text":"MICROSOFT — cuts ~4,800 jobs (~2.1%, Jul 6) amid a $190B AI-capex year, Xbox hit hardest; Intuit ~3,000, Oracle ~21,000/yr"},
+    {"dir":"down","text":"WORKFORCE — Deutsche Bank flags 'AI redundancy washing' as firms over-attribute cost cuts to AI; junior hiring stays soft"}
+  ],
+  "arcs": {
+    "openai-product": {"day": 1, "note": "HERO / new arc: OpenAI merged Codex into a unified ChatGPT desktop app and launched ChatGPT Work (Jul 9), a GPT-5.6 agent that ships finished work, free on every plan incl. Free — a distribution event putting a project-scale agent in front of OpenAI's full user base; the OpenAI arc shifts from model access to product/distribution"},
+    "claude-cowork": {"day": 1, "note": "New arc: Anthropic took Claude Cowork to mobile + web (Jul 7) with cloud background processing; 90%+ of 1.2M sessions are non-coding business ops — the coding-agent wars spill into general office work, alongside OpenAI's ChatGPT Work"},
+    "prime-intellect": {"day": 1, "note": "New arc: Prime Intellect's $130M Series A at $1B (Jul 8, Radical/NVIDIA/Intel) for open decentralized training/RL — capital for enterprises that want to train their own agents without frontier labs; $100M ARR, 6k customers"},
+    "norm-ai": {"day": 1, "note": "New arc: Norm Ai's $120M Series C at $1.2B (Jul 7, Khosla-led) — agentic law serving institutions managing >$30T, increasingly deployed to supervise other AI agents; supervisory AI as a compliance layer for regulated agent deployments"},
+    "mgx-fund": {"day": 1, "note": "New arc (Saturday regional/UAE beat): MGX's $49B AI fund close (Jul 1, above $45B target), the biggest ever; Mubadala + G42; portfolio spans Anthropic, OpenAI, a $40B data-centre consortium; Gulf sovereign capital anchors the buildout"},
+    "midmarket-agents": {"day": 1, "note": "New arc: Accenture Edge + Google Cloud agentic solutions for mid-market firms ($300M-$3B revenue, Jul 7) on the Gemini Enterprise Agent Platform with FDEs — the enterprise-AI land-grab moves beyond the Fortune 500"},
+    "ollama": {"day": 1, "note": "New arc: Ollama's $65M Series B (Jul 9, Theory-led); 8.9M monthly devs (doubled since Jan), inside 85% of the Fortune 500 — local open-model deployment as an enterprise line item"},
+    "seedream": {"day": 1, "note": "New arc: ByteDance's Seedream 5.0 Pro (Jul 8-9) — a reasoning image model with layer editing, high-density infographics and 10+ language rendering; positioned vs GPT-Image 2; Chinese labs push the generative-media cost/quality floor"},
+    "ncs-sovereign": {"day": 1, "note": "New arc (Saturday regional/Singapore beat): NCS expanded Sunshine.AI and partnered Alibaba Cloud to bring Qwen to regional customers under NCS governance (Jul 9) — Chinese open models winning sovereign Southeast-Asian workloads"},
+    "insure-agents": {"day": 1, "note": "New arc: hyperexponential's hyperoperator (Jul 8), the first agentic underwriting agent for commercial P&C; Hiscox cut specialty quote cycle time 99.4%; insurance joins finance/legal as a vertical shipping domain-scoped agents inside guardrails"},
+    "ai-science": {"day": 1, "note": "New arc (Saturday research beat): Nature's Jul 9 issue (vol 655/8122) — AI-augmented scientists publish ~3x more papers / ~5x citations but study 5% fewer topics and collaborate 22% less; AI as scientific infrastructure with monoculture risk"},
+    "xai": {"day": 8, "note": "Escalated: Grok 4.5 confirmed public (Jul 8), independently benchmarked #4 on the Artificial Analysis Intelligence Index (54) with a token-efficiency claim; political-bias debate reignited; Cursor-trained lineage now inside SpaceX; Grok 5 (~10T) still no model card"},
+    "workforce": {"day": 15, "note": "Escalated: named cuts newly surfaced — Microsoft ~4,800 (Jul 6), Intuit ~3,000, Oracle ~21,000/yr, all citing AI/efficiency; 2026 tech layoffs ~185,894 across 267 events (56% cite AI); Deutsche Bank flags 'AI redundancy washing'"},
+    "india-jobs": {"day": 8, "note": "Escalated (Saturday India beat): Naukri data (Jul 3) — AI hiring +16% vs IT -3% YoY; AI now 16% of vacancies; NASSCOM/McKinsey/NITI project a 14-lakh AI-talent shortfall by end-2026; India 2nd only to the US in H1 layoffs; reskilling gap is the constraint"},
+    "reg-clock": {"day": 32, "note": "Holding, no fresh movement: the voluntary covered-frontier framework reported for the week of Jul 7 is overdue; two clearances have run (Fable 5, GPT-5.6) but the standing rules stay unwritten; ~Aug 1 design deadline three weeks out; EU Aug 2 enforcement 22 days out"},
+    "model-wave": {"day": 32, "note": "Resolved to Tracking: GPT-5.6 GA worldwide with public pricing; the OpenAI arc continues as a product story (ChatGPT Work, New Hero); full public system card still missing"},
+    "meta-models": {"day": 2, "note": "Tracking: Muse Spark 1.1 (Jul 9 paid coder, US preview) no fresh movement; 'Watermelon' frontier model unconfirmed"},
+    "sovereign-ai": {"day": 7, "note": "Tracking: MGX $49B fund and NCS/Qwen (both New) join UAE FAIDA, MBZUAI K2 Think V2, Venice, and Palantir+Nvidia air-gapped Nemotron on the provider-independent thesis"},
+    "open-weight": {"day": 15, "note": "Tracking: China-led open table holds; Ollama and Prime Intellect (New) underscore open economics; Seedream 5.0 Pro (New) closed but China-built"},
+    "agent-security": {"day": 15, "note": "Tracking: prompt injection stays OWASP LLM01; Semantic Kernel RCE CVE-2026-25592/26030 (CVSS 9.8, patched) folded in; Cursor and Reprompt CVEs in the reference set"},
+    "talent": {"day": 21, "note": "Tracking: Shazeer→OpenAI; Jumper, Nelson and Bailis→Anthropic; Bezos's Project Prometheus poaching ~100; senior packages past $5M/yr"}
+  },
+  "resolved": [
+    "DATE-TRAP EXCLUDED (not padded as New): SpaceX's $60B all-stock acquisition of Anysphere (maker of Cursor) — the largest venture-backed startup acquisition ever — is dated Jun 16 2026 and expected to close in Q3; it resurfaced this week only via Grok 4.5's 'Cursor-trained' framing (xAI/SpaceX now hold the Composer coding stack). Old news, carried as context under xai (Developing), NOT listed as fresh New.",
+    "model-wave / openai-gpt56 access saga RESOLVED and demoted to Tracking: GPT-5.6 Sol/Terra/Luna are GA worldwide with public pricing; the export gate-then-clear cycle has run end-to-end twice (Fable 5, GPT-5.6). The OpenAI arc now continues as a product story — today's Hero, ChatGPT Work (New #1) — not a fresh access event.",
+    "Auto-retire / demote: edition-028's New items with no fresh movement drop to Tracking one-liners (meta-muse-spark, gpt-live, google-omni→google-models, updoc→clinical-ai, hcl-mercedes→it-services-ai, together-ai→open-inference; taktile/venice fold into finserv-agents & sovereign-ai). finserv-agents demotes from Developing to Tracking.",
+    "Auto-retire (silent, no fresh movement): govt-equity (OpenAI's ~5% public-stake proposal still quiet) and memory-antitrust (Samsung/SK Hynix/Micron DRAM price-fixing suit, no fresh ruling) drop off Tracking.",
+    "NO NEW.24H THIS EDITION: 11 genuinely new items shipped, but none broke within 24h (the week's biggest moves landed Jul 7–9) — so no item carries the NEW.24H badge, honestly reflecting the news flow. Semantic Kernel RCE CVEs (CVE-2026-25592/26030, May disclosure, patched) folded into agent-security Tracking, not re-listed as new."
+  ],
+  "deadlines": [
+    {"date": "2026-07-12", "label": "Anthropic Fable 5 included-subscription access ends (extended from Jul 7); Pro/Max/Team move to prepaid usage credits ($10 in / $50 out per Mtok) — tomorrow", "severity": "medium"},
+    {"date": "2026-07-22", "label": "AMD Advancing AI 2026 (Jul 22-23, San Francisco): expected next-gen chip, MI450/MI500 and enterprise-partnership updates", "severity": "low"},
+    {"date": "2026-07-31", "label": "Tesla Optimus V3 low-volume Fremont production start (pushed to late Jul/Aug)", "severity": "low"},
+    {"date": "2026-08-01", "label": "US: agencies to finalize the Jun 2 EO's voluntary covered-frontier framework (30-day pre-release access; classified cyber-benchmarking) — now overdue vs the reported week-of-Jul-7 announcement", "severity": "high"},
+    {"date": "2026-08-02", "label": "EU AI Act: Article 50 transparency + GPAI enforcement (fines up to €15M/3% turnover) — now 22 days; Annex III high-risk deferred to Dec 2 2027", "severity": "high"},
+    {"date": "2026-08-31", "label": "Anthropic Claude Sonnet 5 promotional pricing ($2/$10 per Mtok) ends — the cost baseline for agent runs resets", "severity": "low"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
