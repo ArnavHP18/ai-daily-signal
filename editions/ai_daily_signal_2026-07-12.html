@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 030 — 12 July 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>APPLE</b> sues OpenAI for trade-secret theft over its AI hardware — the talent war reaches the courtroom &nbsp;◆&nbsp; <b>SK HYNIX</b> jumps 13% in a $26.5B Nasdaq debut, the 2nd-largest US share sale ever &nbsp;◆&nbsp; <b>MICROSOFT</b> launches a $2.5B Frontier Company with 6,000 embedded experts &nbsp;◆&nbsp; <b>VC</b> global startup funding hits a record $510B in H1 2026 — OpenAI + Anthropic alone take 43% &nbsp;◆&nbsp; <b>FED</b> puts Andreessen on a new task force studying AI's hit to jobs &nbsp;◆&nbsp; <b>EVEN REALITIES</b> smart glasses hit a $1B valuation &nbsp;◆&nbsp; <b>ANT GROUP</b> leads $73.6M into humanoid startup Zeroth &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>030</b></span>
+    <span>SUNDAY, 12 JULY 2026</span>
+    <span class="seg">NEW <b>10</b> · DEVELOPING <b>2</b> · TRACKING <b>21</b></span>
+    <span>CRITICAL <b>2</b> / NOTABLE 8 / MONITOR 2</span>
+    <span>SCAN: 28 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="apple-openai-lawsuit">
+  <div>
+    <div class="kicker">■ Today's Lead · New on the Wire · Business/Legal · Apple v. OpenAI · Day 1 of the apple-openai arc</div>
+    <h2>The talent war reaches the courtroom: Apple sues OpenAI over its AI hardware</h2>
+    <p class="dek">On <strong>Jul 10</strong>, <strong>Apple sued OpenAI</strong> in the US District Court for the Northern District of California, alleging trade-secret theft "<strong>at every level</strong>" as OpenAI races to build consumer AI hardware (<a href="https://www.cnbc.com/2026/07/10/apple-openai-lawsuit-trade-secrets.html">CNBC</a>, <a href="https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/">TechCrunch</a>, <a href="https://www.bloomberg.com/news/articles/2026-07-10/apple-sues-openai-for-trade-secret-theft-in-blockbuster-case">Bloomberg</a>). The complaint centers on <strong>Tang Tan</strong> — OpenAI's chief hardware officer, who spent 24 years at Apple as VP of product design for the iPhone and Apple Watch — whom Apple accuses of directing job candidates <em>still employed at Apple</em> to bring "<strong>actual parts</strong>" from unreleased products to interviews for "show and tell" sessions. Apple also names former engineer <strong>Chang Liu</strong> as a defendant (alleging he took an Apple laptop) and says OpenAI "coached departing Apple employees" on evading exit-security processes (<a href="https://www.washingtonpost.com/technology/2026/07/10/apple-sues-openai-alleging-ai-company-stole-trade-secrets/">Washington Post</a>, <a href="https://www.cnn.com/2026/07/10/tech/apple-openai-devices-lawsuit">CNN</a>).</p>
+    <p class="sowhat">So what: the lab talent war — until now fought with $5M packages and quiet poaching — just opened a courtroom front, and the stakes are OpenAI's io/Jony Ive consumer-hardware ambitions. A win for Apple could slow or reshape OpenAI's device roadmap; either way, every AI lab's aggressive hire-from-the-incumbent playbook has acquired real legal risk overnight.</p>
+    <span class="chip arc">ARC: APPLE-OPENAI · D1</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://www.cnbc.com/2026/07/10/apple-openai-lawsuit-trade-secrets.html">CNBC</a> ·
+      <a href="https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/">TechCrunch</a> ·
+      <a href="https://www.bloomberg.com/news/articles/2026-07-10/apple-sues-openai-for-trade-secret-theft-in-blockbuster-case">Bloomberg</a> ·
+      <a href="https://www.washingtonpost.com/technology/2026/07/10/apple-sues-openai-alleging-ai-company-stole-trade-secrets/">Washington Post</a> ·
+      <a href="https://www.axios.com/2026/07/10/apple-sues-openai-trade-secret-theft">Axios</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What happened.</strong> Apple filed suit against OpenAI on Jul 10 in the Northern District of California, alleging OpenAI ran a coordinated scheme to acquire Apple trade secrets in order to develop its own consumer AI devices. The complaint says the conduct ran "at every level, from members of its Technical Staff to its Chief Hardware Officer, and in coordination with business partners." Its central figure is Tang Tan, who left Apple after 24 years — most recently VP of product design for iPhone and Apple Watch — to lead hardware at OpenAI; Apple alleges Tan told candidates still at Apple to bring "actual parts" from unreleased iPhone/Watch products to OpenAI interviews. Former Apple employee Chang Liu is named as a defendant over an allegedly stolen Apple laptop (<a href="https://www.cnbc.com/2026/07/10/apple-openai-lawsuit-trade-secrets.html">CNBC</a>, <a href="https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/">TechCrunch</a>).</p>
+      <p><strong>Why it's the lead.</strong> It is the biggest genuinely new item on the wire and the broadest in "who must act." Two giants are now in open legal conflict over the next hardware platform for AI, and the suit puts a spotlight on the entire industry's practice of hiring aggressively from incumbents. OpenAI's move into devices (its io acquisition and Jony Ive collaboration) is the target; a discovery process could expose both companies' unreleased roadmaps. On a quiet Sunday, this is the story with the longest tail.</p>
+      <p><strong>The caveats — read them.</strong> These are allegations in a civil complaint; OpenAI has not answered them in court, and trade-secret suits between departing-employee hubs are notoriously fact-intensive and slow. "At every level" is Apple's framing. Nothing here has been proven, and the practical impact on OpenAI's device timeline is unknown until the court sets a schedule or the parties settle.</p>
+      <p><strong>Watch next.</strong> OpenAI's response and any counterclaims; whether the court grants expedited discovery or a protective order over unreleased-product materials; knock-on effects on lab hiring practices and non-compete/trade-secret hygiene across the industry; and whether this delays OpenAI's first consumer AI device.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>What (Jul 10)</dt><dd>Apple sues OpenAI (N.D. Cal.) alleging trade-secret theft over AI hardware</dd>
+      <dt>Named</dt><dd>Tang Tan (OpenAI hardware chief, ex-Apple VP, 24 yrs); Chang Liu (ex-Apple eng., defendant)</dd>
+      <dt>Core allegation</dt><dd>Candidates told to bring "actual parts" from unreleased Apple products to interviews</dd>
+      <dt>Stakes</dt><dd>OpenAI's consumer AI-device push (io / Jony Ive)</dd>
+      <dt>Apple's framing</dt><dd>Theft "at every level, from Technical Staff to Chief Hardware Officer"</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">8</b>/10 — every AI lab's poaching playbook + OpenAI's hardware roadmap</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="apple-openai-lawsuit">
+      <div class="num">1</div>
+      <h4>Apple sues OpenAI over its AI hardware</h4>
+      <p>Trade-secret theft "at every level," Apple alleges — the suit names OpenAI hardware chief (and ex-Apple VP) Tang Tan and targets OpenAI's consumer-device push. The talent war goes to court. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="sk-hynix-ipo">
+      <div class="num">2</div>
+      <h4>SK Hynix's $26.5B Nasdaq debut jumps 13%</h4>
+      <p>The memory maker that feeds Nvidia's AI chips listed in the US (Jul 10), closing at $168.01 near a $1T cap — the second-largest US share sale ever, 7× oversubscribed. The AI-infra supply chain gets a public pure-play. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="vc-record-h1">
+      <div class="num">3</div>
+      <h4>Global startup funding hits a record $510B in H1</h4>
+      <p>Crunchbase: H1 2026 beat all of 2025's $440B; OpenAI + Anthropic alone took $217B (43%), >70% of Q2 capital went to AI, and Q2 logged 24 billion-dollar exits. The Sunday money beat, in one number. <strong>NEW.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>SUNDAY — MONEY, STARTUPS &amp; NEW IDEAS DEEP BEAT · A QUIET WEEKEND, NO 24H BREAK:</strong> after a model-heavy week the wire turns to <strong>money and litigation</strong>. The two biggest genuinely-new breaks both landed <strong>Jul 10</strong> — <strong>Apple v OpenAI</strong> (Hero) and <strong>SK Hynix's record Nasdaq debut</strong> — so both are <strong>NEW but not NEW.24H</strong>. On the Sunday deep beat, the funding layer keeps compounding: a record <strong>$510B H1</strong>, <strong>Even Realities</strong>' smart-glasses unicorn ($150M/$1B), and <strong>Ant Group</strong>'s $73.6M into humanoid startup <strong>Zeroth</strong>. Enterprise: <strong>Microsoft's $2.5B Frontier Company</strong> (6,000 embedded experts) and <strong>Quiq</strong>'s agent control-layer. Policy: the <strong>Fed</strong> seats an AI-and-jobs task force, and China's <strong>companion-AI rules</strong> take effect Jul 15. Research beat held via the DOE <strong>Genesis Mission</strong>. We ship <strong>10 NEW</strong> items (ids absent from edition 029) — but <strong>none broke inside 24h</strong>, so <strong>no NEW.24H badge</strong> today (honest to the flow). <strong>Excluded as date-traps</strong> (see Resolved): the "<strong>humans&amp;</strong>" $480M seed (dated <strong>Jan 20</strong>) and Meta's 8,000 layoffs (<strong>May 20</strong>) — old news, not padded as New.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (12)</button>
+    <button class="tab" data-cat="business">BUSINESS (4)</button>
+    <button class="tab" data-cat="policy">POLICY (4)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (2)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (1)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>10 ITEMS · SURFACED SINCE LAST EDITION · NO 24H BREAK TODAY</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="business" data-story-id="apple-openai-lawsuit">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#1</span> <span class="cat">BUSINESS · LEGAL</span></div>
+      <h4>Apple sues OpenAI over trade secrets for its AI hardware</h4>
+      <div class="body">Today's Hero: on <strong>Jul 10</strong>, <strong>Apple</strong> sued <strong>OpenAI</strong> (N.D. Cal.) alleging trade-secret theft "at every level" as OpenAI builds consumer AI devices (<a href="https://www.cnbc.com/2026/07/10/apple-openai-lawsuit-trade-secrets.html">CNBC</a>, <a href="https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/">TechCrunch</a>). The complaint targets <strong>Tang Tan</strong> — OpenAI's hardware chief and a 24-year Apple VP for iPhone/Watch design — whom Apple says told candidates <em>still at Apple</em> to bring "actual parts" from unreleased products to interviews; ex-engineer <strong>Chang Liu</strong> is a named defendant (<a href="https://www.bloomberg.com/news/articles/2026-07-10/apple-sues-openai-for-trade-secret-theft-in-blockbuster-case">Bloomberg</a>).</div>
+      <p class="sowhat">The talent war now has a courtroom front, and the target is OpenAI's io/Jony Ive device push. Every lab's hire-from-the-incumbent playbook just acquired real legal risk — and discovery could expose both roadmaps. Allegations only, unproven.</p>
+      <div><span class="chip arc">ARC: APPLE-OPENAI · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/07/10/apple-openai-lawsuit-trade-secrets.html">CNBC</a> · <a href="https://techcrunch.com/2026/07/10/apple-sues-openai-over-alleged-trade-secret-theft/">TechCrunch</a> · <a href="https://www.bloomberg.com/news/articles/2026-07-10/apple-sues-openai-for-trade-secret-theft-in-blockbuster-case">Bloomberg</a> · <a href="https://www.cnn.com/2026/07/10/tech/apple-openai-devices-lawsuit">CNN</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="hardware" data-story-id="sk-hynix-ipo">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#2</span> <span class="cat">HARDWARE · SEMICONDUCTORS</span></div>
+      <h4>SK Hynix's $26.5B Nasdaq debut jumps 13%</h4>
+      <div class="body">On <strong>Jul 10</strong>, <strong>SK Hynix</strong> — the leader in the high-bandwidth memory that feeds Nvidia's AI accelerators — made its US debut, pricing ADRs at $149 to raise <strong>$26.5B</strong> and closing up <strong>~13% at $168.01</strong>, near a <strong>$1 trillion</strong> market cap (<a href="https://www.cnbc.com/2026/07/10/sk-hynix-skhy-stock-nasdaq.html">CNBC</a>, <a href="https://fortune.com/2026/07/11/sk-hynix-us-stock-listing-nasdaq-second-largest-us-share-sale-ai-boom-hbw-memory/">Fortune</a>). It is the <strong>second-largest US share sale ever</strong> and the biggest first-time US listing by a foreign company; demand ran <strong>~7× the shares</strong> on offer (<a href="https://finance.yahoo.com/technology/article/sk-hynix-ipo-to-give-us-investors-bigger-bite-of-the-memory-pie-as-shortages-persist-193700352.html">Yahoo Finance</a>).</div>
+      <p class="sowhat">The memory shortage that's been raising everyone's AI-capex bill now has a public pure-play. SK Hynix's listing hands the AI-infrastructure supply chain a trillion-dollar balance sheet to fund HBM expansion — and a daily price for the tightest constraint in the stack.</p>
+      <div><span class="chip arc">ARC: SK-HYNIX-IPO · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/07/10/sk-hynix-skhy-stock-nasdaq.html">CNBC</a> · <a href="https://fortune.com/2026/07/11/sk-hynix-us-stock-listing-nasdaq-second-largest-us-share-sale-ai-boom-hbw-memory/">Fortune</a> · <a href="https://finance.yahoo.com/technology/article/sk-hynix-ipo-to-give-us-investors-bigger-bite-of-the-memory-pie-as-shortages-persist-193700352.html">Yahoo Finance</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="microsoft-frontier-company">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#3</span> <span class="cat">ENTERPRISE · MICROSOFT</span></div>
+      <h4>Microsoft builds a $2.5B deployment arm to embed inside customers</h4>
+      <div class="body">On <strong>Jul 2</strong>, Microsoft launched <strong>Microsoft Frontier Company</strong> — a $2.5B operating business that <strong>embeds 6,000 industry and engineering experts</strong> inside customers to co-design, deploy and continuously improve AI systems against measurable outcomes, led by president Rodrigo Kede Lima (<a href="https://techcrunch.com/2026/07/02/microsoft-launches-its-own-ai-deployment-company-with-2-5-billion-commitment/">TechCrunch</a>, <a href="https://blogs.microsoft.com/blog/2026/07/02/microsoft-frontier-company-ai-engineering-that-amplifies-and-protects-your-intelligence/">Microsoft</a>). Early clients include <strong>LSEG, Land O'Lakes, Unilever and Novo Nordisk</strong>; AWS committed ~$1B to its own deployment venture two days earlier (<a href="https://www.hpcwire.com/bigdatawire/2026/07/06/microsoft-launches-new-2-5b-ai-initiative-with-6000-experts-to-help-enterprises-deploy-a/">BigDATAwire</a>).</div>
+      <p class="sowhat">The bottleneck isn't models, it's deployment — and the hyperscalers are now bringing the forward-deployed-engineer model in-house, competing with the SIs (Accenture, Capgemini, the Indian majors) for the "make the pilot actually work" budget.</p>
+      <div><span class="chip arc">ARC: DEPLOY-VENTURES · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/02/microsoft-launches-its-own-ai-deployment-company-with-2-5-billion-commitment/">TechCrunch</a> · <a href="https://blogs.microsoft.com/blog/2026/07/02/microsoft-frontier-company-ai-engineering-that-amplifies-and-protects-your-intelligence/">Microsoft (primary)</a> · <a href="https://www.hpcwire.com/bigdatawire/2026/07/06/microsoft-launches-new-2-5b-ai-initiative-with-6000-experts-to-help-enterprises-deploy-a/">BigDATAwire</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="fed-ai-taskforce">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#4</span> <span class="cat">POLICY · US · WORKFORCE</span></div>
+      <h4>The Fed puts AI's jobs impact on its policy agenda</h4>
+      <div class="body">On <strong>Jul 9</strong>, new Fed Chair <strong>Kevin Warsh</strong> named five external task forces to review US monetary policy — and put a16z's <strong>Marc Andreessen</strong>, Stanford economist <strong>Charles I. Jones</strong> and Microsoft EVP <strong>Asha Sharma</strong> on a <strong>Productivity &amp; Jobs</strong> panel charged with assessing how AI reshapes employment, productivity and growth, reporting <strong>by year-end</strong> (<a href="https://www.washingtonpost.com/business/2026/07/09/federal-reserve-enlists-marc-andreessen-advise-ai-under-warsh/">Washington Post</a>, <a href="https://www.axios.com/2026/07/09/fed-warsh-task-force-andreessen">Axios</a>). Other panels seat Mervyn King, Raghuram Rajan, Greg Mankiw and Thomas Sargent (<a href="https://www.benzinga.com/markets/tech/26/07/60375922/fed-chair-kevin-warsh-bets-on-ai-taps-marc-andreessen-and-xbox-ceo-asha-sharma-to-help-inform-future-f">Benzinga</a>).</div>
+      <p class="sowhat">When the central bank formally studies whether AI is changing productivity and the labor market, the "is this a real macro shift?" question moves from op-eds to policy — with implications for how the Fed reads employment data. A tech-investor co-lead will draw scrutiny.</p>
+      <div><span class="chip arc">ARC: FED-AI · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.washingtonpost.com/business/2026/07/09/federal-reserve-enlists-marc-andreessen-advise-ai-under-warsh/">Washington Post</a> · <a href="https://www.axios.com/2026/07/09/fed-warsh-task-force-andreessen">Axios</a> · <a href="https://www.benzinga.com/markets/tech/26/07/60375922/fed-chair-kevin-warsh-bets-on-ai-taps-marc-andreessen-and-xbox-ceo-asha-sharma-to-help-inform-future-f">Benzinga</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="vc-record-h1">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#5</span> <span class="cat">BUSINESS · MONEY</span></div>
+      <h4>Global startup funding hits a record $510B in H1 — AI takes most of it</h4>
+      <div class="body">The Sunday money beat's centerpiece: Crunchbase data shows global venture funding reached a record <strong>$510B in H1 2026</strong>, surpassing all of 2025's $440B (<a href="https://news.crunchbase.com/venture/global-startup-exits-ipo-ma-soar-ai-q2-h1-2026/">Crunchbase</a>, <a href="https://mlq.ai/news/global-startup-funding-hits-record-510b-in-first-half-of-2026-crunchbase-data-shows/">MLQ</a>). The concentration is the story: <strong>OpenAI + Anthropic alone took $217B (43%)</strong> of all H1 startup funding, and <strong>&gt;70% of Q2 capital</strong> went to AI (up from &lt;50% a year earlier); Q2 also logged <strong>24 billion-dollar exits</strong> worth $113B, a record (<a href="https://aiweekly.co/alerts/openai-and-anthropic-take-43-of-h1-2026-venture-funding">AI Weekly</a>).</div>
+      <p class="sowhat">The headline is a boom; the substance is concentration. Two labs are absorbing nearly half of global venture dollars — a barbell market where a handful of frontier names and a long tail of applied startups split the pool, and "AI funding" is increasingly a proxy for OpenAI + Anthropic.</p>
+      <div><span class="chip arc">ARC: VC-RECORD · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://news.crunchbase.com/venture/global-startup-exits-ipo-ma-soar-ai-q2-h1-2026/">Crunchbase</a> · <a href="https://mlq.ai/news/global-startup-funding-hits-record-510b-in-first-half-of-2026-crunchbase-data-shows/">MLQ</a> · <a href="https://aiweekly.co/alerts/openai-and-anthropic-take-43-of-h1-2026-venture-funding">AI Weekly</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="research" data-story-id="genesis-mission">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#6</span> <span class="cat">RESEARCH · AI-FOR-SCIENCE</span></div>
+      <h4>The US bets its national labs on an AI-for-science platform</h4>
+      <div class="body">On the Sunday research beat: the DOE's <strong>Genesis Mission</strong> (launched by a Nov 2025 executive order) is now standing up — the Department of Energy announced <strong>collaboration agreements with 24 organizations</strong>, including <strong>Anthropic, Oracle and NVIDIA</strong>, to build an integrated AI-discovery platform across its <strong>17 national laboratories</strong>, with 26 science-and-technology challenges and a ~$294M funding call (<a href="https://www.energy.gov/articles/energy-department-announces-collaboration-agreements-24-organizations-advance-genesis">DOE</a>). Google DeepMind separately partnered with DOE on Genesis (energy, life sciences, research productivity) (<a href="https://deepmind.google/blog/google-deepmind-supports-us-department-of-energy-on-genesis/">DeepMind</a>). It lands against Nature's Jul 9 finding that AI-augmented scientists publish ~3× more but study 5% fewer topics — infrastructure with a monoculture risk.</div>
+      <p class="sowhat">AI-for-science is becoming state industrial policy: the US is wiring its supercomputers, datasets and foundation models into one discovery platform and inviting the frontier labs in. Watch which labs anchor which mission areas — it's a durable, sovereign-tinged compute-and-data commitment.</p>
+      <div><span class="chip arc">ARC: GENESIS · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.energy.gov/articles/energy-department-announces-collaboration-agreements-24-organizations-advance-genesis">DOE (primary)</a> · <a href="https://deepmind.google/blog/google-deepmind-supports-us-department-of-energy-on-genesis/">DeepMind</a> · <a href="https://www.whitehouse.gov/presidential-actions/2025/11/launching-the-genesis-mission/">White House EO</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="even-realities">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#7</span> <span class="cat">BUSINESS · WEARABLES</span></div>
+      <h4>A camera-free smart-glasses maker becomes a unicorn</h4>
+      <div class="body">On <strong>Jul 6</strong>, <strong>Even Realities</strong> raised <strong>$150M</strong> at a <strong>$1B valuation</strong>, led by <strong>Meituan and Tencent</strong> (<a href="https://techcrunch.com/2026/07/06/smart-glasses-maker-even-realities-hits-1b-valuation-with-150m-funding-led-by-meituan-tencent/">TechCrunch</a>, <a href="https://www.cnbc.com/2026/07/06/apple-veteran-takes-on-meta-with-1-billion-smart-glasses-maker.html">CNBC</a>). Founded by ex-Apple engineer <strong>Will Wang</strong>, its $599 G2 glasses ship <strong>no camera</strong> — betting on privacy vs Meta's Ray-Ban line — with a heads-up display for notifications, navigation and live translation; more than half its users are in the US (<a href="https://siliconangle.com/2026/07/06/smart-glasses-startup-even-realities-raises-150m/">SiliconANGLE</a>).</div>
+      <p class="sowhat">AI wearables are drawing serious capital, and privacy is emerging as a wedge against Meta: no-camera glasses sidestep the "who are you filming?" backlash while still putting an AI display on your face.</p>
+      <div><span class="chip arc">ARC: AI-WEARABLES · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/06/smart-glasses-maker-even-realities-hits-1b-valuation-with-150m-funding-led-by-meituan-tencent/">TechCrunch</a> · <a href="https://www.cnbc.com/2026/07/06/apple-veteran-takes-on-meta-with-1-billion-smart-glasses-maker.html">CNBC</a> · <a href="https://siliconangle.com/2026/07/06/smart-glasses-startup-even-realities-raises-150m/">SiliconANGLE</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="policy" data-story-id="china-companion-ai">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#8</span> <span class="cat">POLICY · CHINA</span></div>
+      <h4>China's companion-AI rules take effect Jul 15</h4>
+      <div class="body">China's <strong>Interim Measures for Anthropomorphic AI Interaction Services</strong> — issued <strong>Apr 10</strong> by five agencies (CAC, NDRC, MIIT, MPS, SAMR) — <strong>take effect Jul 15</strong> (<a href="https://www.twobirds.com/en/insights/2026/china/china's-new-regulations-on-ai-anthropomorphic-interactive-services">Bird &amp; Bird</a>, <a href="https://www.hunton.com/privacy-and-cybersecurity-law-blog/chinas-first-regulatory-framework-for-virtual-companions-soon-to-take-effect">Hunton</a>). They govern AI that simulates a person for ongoing emotional interaction — banning virtual partners for minors, mandating addiction-detection, prohibiting content that induces emotional dependence, and requiring security filings above 1M users. ByteDance and Alibaba are already disabling companion features to comply (<a href="https://qz.com/bytedance-alibaba-ai-companion-chatbot-china-rules-070626">Quartz</a>).</div>
+      <p class="sowhat">The first binding regime for AI companions arrives just as capital floods companion robots (see Zeroth, #9). China is drawing an early line on emotional-dependency AI — a template other regulators worried about chatbot harms will study.</p>
+      <div><span class="chip arc">ARC: CHINA-COMPANION · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.twobirds.com/en/insights/2026/china/china's-new-regulations-on-ai-anthropomorphic-interactive-services">Bird &amp; Bird</a> · <a href="https://www.hunton.com/privacy-and-cybersecurity-law-blog/chinas-first-regulatory-framework-for-virtual-companions-soon-to-take-effect">Hunton</a> · <a href="https://qz.com/bytedance-alibaba-ai-companion-chatbot-china-rules-070626">Quartz</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="business" data-story-id="zeroth-robotics">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#9</span> <span class="cat">BUSINESS · ROBOTICS</span></div>
+      <h4>Ant Group leads $73.6M into humanoid startup Zeroth</h4>
+      <div class="body">In early <strong>July</strong>, <strong>Ant Group</strong> led a <strong>500M yuan ($73.6M)</strong> pre-Series A into humanoid-robot maker <strong>Zeroth</strong> (Suzhou JoyIn), with Monolith, Geely Capital and others — Ant's <strong>12th humanoid deal in 18 months</strong> (<a href="https://www.cnbc.com/2026/07/01/alibaba-affiliate-ant-group-enters-the-humanoid-robot-market-with-12-deals.html">CNBC</a>, <a href="https://theaiinsider.tech/2026/07/08/chinas-humanoid-robot-maker-zeroth-announces-74m-in-pre-series-a-funding/">The AI Insider</a>). Zeroth builds companionship robots for elderly and pet care; it claims <strong>&gt;30,000 unit orders</strong> and H1 revenue up ~600%, with North America/Europe sales planned this fall (<a href="https://seekingalpha.com/news/4609516-alibabas-ant-group-backs-zeroth-robotics-in-latest-ai-venture">Seeking Alpha</a>).</div>
+      <p class="sowhat">China's physical-AI capital machine keeps running: a strategic backer is assembling a humanoid portfolio the way it once did fintech. Watch whether "companionship" robots clear Western compliance — and how China's new companion-AI rules (#8) touch them.</p>
+      <div><span class="chip arc">ARC: PHYSICAL-AI-CAPITAL · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/07/01/alibaba-affiliate-ant-group-enters-the-humanoid-robot-market-with-12-deals.html">CNBC</a> · <a href="https://theaiinsider.tech/2026/07/08/chinas-humanoid-robot-maker-zeroth-announces-74m-in-pre-series-a-funding/">The AI Insider</a> · <a href="https://seekingalpha.com/news/4609516-alibabas-ant-group-backs-zeroth-robotics-in-latest-ai-venture">Seeking Alpha</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="quiq-verified">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#10</span> <span class="cat">ENTERPRISE · AGENTS</span></div>
+      <h4>Quiq ships a control layer for enterprise agents</h4>
+      <div class="body">On <strong>Jul 8</strong>, <strong>Quiq</strong> launched <strong>Verified Intelligence</strong>, a three-part control layer for enterprise agentic AI — <strong>guardrails</strong> (a "Verify Claim" accuracy check before any answer reaches a customer), <strong>simulations</strong> (hundreds of multi-turn test conversations run as regression tests before launch), and <strong>step-by-step visibility</strong> (100% of agent decisions auditable) (<a href="https://www.prnewswire.com/news-releases/quiq-launches-verified-intelligence-to-give-enterprise-brands-full-control-over-agentic-ai-302820082.html">PRNewswire</a>, <a href="https://finance.yahoo.com/technology/ai/articles/quiq-launches-verified-intelligence-enterprise-141500394.html">Yahoo Finance</a>). It's live now across Quiq's platform (<a href="https://itbrief.co.uk/story/quiq-launches-verified-intelligence-for-enterprise-ai">IT Brief</a>).</div>
+      <p class="sowhat">With 88% of orgs reporting agent incidents, the emerging category isn't the agent — it's the layer that verifies, simulates and audits it. Guardrails-as-a-product (Quiq, Norm Ai's supervisory agents) is how governed agents actually reach production.</p>
+      <div><span class="chip arc">ARC: AGENT-CONTROL · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.prnewswire.com/news-releases/quiq-launches-verified-intelligence-to-give-enterprise-brands-full-control-over-agentic-ai-302820082.html">PRNewswire</a> · <a href="https://finance.yahoo.com/technology/ai/articles/quiq-launches-verified-intelligence-enterprise-141500394.html">Yahoo Finance</a> · <a href="https://itbrief.co.uk/story/quiq-launches-verified-intelligence-for-enterprise-ai">IT Brief</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="us-export-controls">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D1</span> <span class="cat">POLICY · US</span></div>
+      <h4>The US covered-frontier framework stays overdue — Aug 1 nears</h4>
+      <div class="delta-line nochange"><span class="dl-tag">HOLDING (3RD ED.)</span> Still no fresh movement: the voluntary <strong>covered-frontier framework</strong> remains unannounced, the AI-cybersecurity <strong>clearinghouse due Jul 2</strong> has no public stand-up, and the <strong>~Aug 1 design deadline</strong> is now three weeks out. Two case-by-case clearances have run (Fable 5, GPT-5.6) but the standing rules are still unwritten. Held for structural weight; auto-retires to Tracking next edition absent movement.</div>
+      <div class="body">The Jun 2 EO ("Promoting Advanced AI Innovation and Security") grants up to 30 days of voluntary pre-release federal access — not a licence — and orders the NSA to run a classified process defining "covered" models via cyber-capability benchmarking, with deliverables due Aug 1 (<a href="https://www.whitehouse.gov/presidential-actions/2025/11/launching-the-genesis-mission/">White House</a>, <a href="https://www.nortonrosefulbright.com/en/knowledge/publications/900af3cf/executive-order-establishes-voluntary-early-access-framework-to-frontier-ai-models">Norton Rose Fulbright</a>).</div>
+      <p class="sowhat">Whether "government reviews frontier releases" becomes standing policy or stays ad hoc will be decided in the next three weeks — the single most consequential open question for how US models ship. The clock, not an event, is the story.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D33</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://www.nortonrosefulbright.com/en/knowledge/publications/900af3cf/executive-order-establishes-voluntary-early-access-framework-to-frontier-ai-models">Norton Rose Fulbright</a> · <a href="https://federalnewsnetwork.com/cybersecurity/2026/06/ai-executive-order-sets-stage-for-new-cybersecurity-directives/">Federal News Network</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="workforce">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D2</span> <span class="cat">POLICY · WORKFORCE</span></div>
+      <h4>The AI-layoff narrative gets a credibility check</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The counting sharpens rather than the toll: 2026 now has <strong>267 layoff events / ~185,894 workers</strong>, but only <strong>~50,000 cuts (~17%)</strong> explicitly name AI — AI is the single largest <em>cited</em> factor, not the majority driver (<a href="https://techcrunch.com/2026/07/06/the-running-list-major-tech-layoffs-in-2026-where-employers-cited-ai/">TechCrunch</a>). New nuance: <strong>Gallup finds non-AI-users are <em>more</em> likely to be laid off</strong> than adopters, complicating the "AI takes jobs" story (<a href="https://www.foxbusiness.com/economy/ai-adoption-job-security">Fox Business</a>).</div>
+      <div class="body">The named cuts still stand (Microsoft ~4,800, Oracle ~21,000/yr, Intuit ~3,000; Meta's 8,000 date to May with ~7,000 redeployed to AI), but Deutsche Bank's "AI redundancy washing" flag now has company: the data increasingly reads as <strong>overhiring correction + AI cover</strong>, with adoption correlated to job <em>security</em>, not loss. The Fed's new jobs task force (New #4) will adjudicate exactly this.</div>
+      <p class="sowhat">"AI" is both a real driver and a convenient scapegoat. The durable signal isn't the headline count — it's softening entry-level hiring and a widening gap between AI-fluent and AI-absent workers.</p>
+      <div><span class="chip arc">ARC: WORKFORCE · D16</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/06/the-running-list-major-tech-layoffs-in-2026-where-employers-cited-ai/">TechCrunch</a> · <a href="https://www.cbsnews.com/news/ai-layoffs-hiring-entry-level-workers/">CBS News</a> · <a href="https://www.foxbusiness.com/economy/ai-adoption-job-security">Fox Business</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING ══════════ -->
+<section>
+  <div class="sec-head">Still Tracking <small>LONG-RUNNERS WITH NO MOVEMENT THIS EDITION</small></div>
+  <div class="tracking-strip" id="tracking-strip"></div>
+</section>
+
+<!-- ══════════ RESOLVED ══════════ -->
+<section>
+  <div class="sec-head">Resolved <small>YESTERDAY'S OPEN THREADS, CLOSED &amp; FOLDED</small></div>
+  <div class="resolved-strip" id="resolved-strip"></div>
+</section>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 030 · 2026-07-12 (IST) · FORMAT v2</strong></p>
+    <p>METHOD: 28 web searches across three parallel beats — Models &amp; core technology, Applied AI (enterprise/products/partnerships/money), People/policy/society — plus the Sunday deep beat (money, startups &amp; new ideas). v2 splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING (long-runners with no movement). Hero = biggest new item UNLESS a developing thread had a major escalation; today no carried thread escalated, so the Hero is the biggest NEW item — Apple's trade-secret suit against OpenAI. Aggregator claims cross-checked against ≥2 outlets; single-source/rumor items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+    <p>KNOWN SCAN GAPS / INTEGRITY NOTES THIS EDITION: A QUIET SUNDAY — the two biggest genuinely-new breaks (Apple v OpenAI + SK Hynix's Nasdaq debut) both landed Jul 10, and the rest surfaced Jul 2–9, so NONE broke inside 24h: NO item carries a NEW.24H badge today — an honest reflection of the flow, not a miss. NEW-BUT-OLDER items are dated in-text (Microsoft Frontier Co Jul 2; Even Realities Jul 6; China companion-AI rules issued Apr 10 / effective Jul 15; DOE Genesis EO Nov 2025 with 2026 agreements). DATE-TRAPS EXCLUDED, not padded as New: (1) "humans&amp;", the human-centric AI lab's $480M seed at a $4.48B valuation, is dated JAN 20 2026 and merely resurfaced via H1-2026 VC-record roundups; (2) Labcorp's OpenAI-powered MyLabcorp app is dated MAY 20 and folds into vertical-ai Tracking; (3) Meta's 8,000 layoffs are MAY 20, carried as context in the workforce thread. MODELS TAB EMPTY: no new frontier/open-weight model broke in the 24–72h window (the week's releases — GPT-5.6, Grok 4.5, Muse Spark 1.1, Seedream 5.0 Pro — all shipped Jul 8–9 and are in prior editions/Tracking); open-weight and model threads carry in Tracking. CONFIDENCE: SK Hynix figures ($26.5B raised, $168.01 close, ~$1T cap) are from CNBC/Fortune/Yahoo Finance; the Fed panel from WaPo/Axios/Benzinga; China's companion-AI rules from Bird &amp; Bird/Hunton/Quartz. AUTO-RETIREMENTS: edition-029's 11 New items with no fresh movement demote to Tracking one-liners (openai-chatgpt-work→openai-product, claude-cowork-mobile→claude-cowork, prime-intellect/ollama→open-inference/open-weight, norm-ai→agent-layer, mgx-fund/ncs-sunshine-ai→sovereign-ai, accenture-google-midmarket→agent-layer, seedream-5→open-weight, hyperexponential→vertical-ai, ai-science-monoculture folds into DOE Genesis, New #6); xai (Grok 4.5) and india-jobs demote from Developing to Tracking (no fresh movement). RESEARCH BEAT represented via the DOE Genesis Mission (New #6). DEEP-BEAT ROTATION: Sunday = money, startups &amp; new ideas (VC-record $510B, Even Realities unicorn, Zeroth/Ant Group, SK Hynix IPO).</p>
+    <p>NOTE: Links point to sources found during the scan; where only an outlet/press root was available it is labelled as such. Nothing here is investment advice.</p>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 30,
+  "date": "2026-07-12",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 28,
+  "counts": {"new": 10, "developing": 2, "tracking": 21},
+  "tiers": {"critical": 2, "notable": 8, "monitor": 2},
+  "stories": [
+    {"id":"apple-openai-lawsuit","section":"new","rank":1,"title":"Apple sued OpenAI in the US District Court for the Northern District of California (Jul 10), alleging trade-secret theft 'at every level' as OpenAI builds consumer AI hardware; the complaint centers on Tang Tan — OpenAI's chief hardware officer and a 24-year Apple VP for iPhone/Watch design — whom Apple accuses of directing candidates still employed at Apple to bring 'actual parts' from unreleased products to interviews for 'show and tell'; ex-engineer Chang Liu is a named defendant over an allegedly stolen Apple laptop; Apple says OpenAI 'coached departing Apple employees' on evading exit security; the lab talent war reaches the courtroom, with OpenAI's io/Jony Ive device push as the target — allegations only, unproven","tier":"critical","impact":8,"delta":"new","arc":"apple-openai","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-12","lastUpdate":"2026-07-12","category":"business"},
+    {"id":"sk-hynix-ipo","section":"new","rank":2,"title":"SK Hynix — the leader in the high-bandwidth memory that feeds Nvidia's AI accelerators — made its US debut on Nasdaq (Jul 10), pricing ADRs at $149 to raise $26.5B and closing up ~13% at $168.01 near a $1 trillion market cap; it is the second-largest US share sale ever and the biggest first-time US listing by a foreign company, with demand ~7x the shares on offer; the AI-infrastructure supply chain gets a public pure-play and a daily price for its tightest constraint (HBM), and a trillion-dollar balance sheet to fund memory expansion","tier":"notable","impact":7,"delta":"new","arc":"sk-hynix-ipo","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-12","lastUpdate":"2026-07-12","category":"hardware"},
+    {"id":"microsoft-frontier-company","section":"new","rank":3,"title":"Microsoft launched Microsoft Frontier Company (Jul 2), a $2.5B operating business that embeds 6,000 industry and engineering experts inside customers to co-design, deploy and continuously improve AI systems against measurable outcomes, led by president Rodrigo Kede Lima; early clients include LSEG, Land O'Lakes, Unilever and Novo Nordisk; AWS committed ~$1B to its own deployment venture two days earlier; the hyperscalers bring the forward-deployed-engineer model in-house, competing with the SIs for the 'make the pilot work' budget","tier":"notable","impact":6,"delta":"new","arc":"deploy-ventures","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-12","lastUpdate":"2026-07-12","category":"enterprise"},
+    {"id":"fed-ai-taskforce","section":"new","rank":4,"title":"New Fed Chair Kevin Warsh named five external task forces to review US monetary policy (Jul 9) and put a16z's Marc Andreessen, Stanford economist Charles I. Jones and Microsoft EVP Asha Sharma on a Productivity & Jobs panel charged with assessing how AI reshapes employment, productivity and growth, reporting by year-end; other panels seat Mervyn King, Raghuram Rajan, Greg Mankiw and Thomas Sargent; the central bank formally studying AI's macro/labor impact moves the 'is this a real shift?' question from op-eds to policy — a tech-investor co-lead will draw scrutiny","tier":"notable","impact":6,"delta":"new","arc":"fed-ai","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-12","lastUpdate":"2026-07-12","category":"policy"},
+    {"id":"vc-record-h1","section":"new","rank":5,"title":"Crunchbase data shows global venture funding reached a record $510B in H1 2026, surpassing all of 2025's $440B; the concentration is the story — OpenAI + Anthropic alone took $217B (43%) of all H1 startup funding, and >70% of Q2 capital went to AI (up from <50% a year earlier); Q2 also logged 24 billion-dollar exits worth $113B, a record, with SpaceX's $75B IPO leading; the Sunday money beat's centerpiece: a barbell market where a few frontier names and a long tail of applied startups split the pool","tier":"notable","impact":6,"delta":"new","arc":"vc-record","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-12","lastUpdate":"2026-07-12","category":"business"},
+    {"id":"genesis-mission","section":"new","rank":6,"title":"The DOE's Genesis Mission (launched by a Nov 2025 executive order) is standing up: the Department of Energy announced collaboration agreements with 24 organizations — including Anthropic, Oracle and NVIDIA — to build an integrated AI-discovery platform across its 17 national laboratories, with 26 science-and-technology challenges and a ~$294M funding call; Google DeepMind separately partnered with DOE on Genesis (energy, life sciences, research productivity); AI-for-science becomes state industrial policy, landing against Nature's Jul 9 finding that AI-augmented scientists publish ~3x more but study 5% fewer topics (monoculture risk)","tier":"notable","impact":6,"delta":"new","arc":"genesis","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-12","lastUpdate":"2026-07-12","category":"research"},
+    {"id":"even-realities","section":"new","rank":7,"title":"Even Realities raised $150M at a $1B valuation (Jul 6), led by Meituan and Tencent; founded by ex-Apple engineer Will Wang, its $599 G2 glasses ship with NO camera — betting on privacy vs Meta's Ray-Ban line — delivering notifications, navigation and live translation via a heads-up display; more than half its users are in the US; AI wearables draw serious capital and privacy emerges as a wedge against Meta's camera-equipped devices","tier":"notable","impact":5,"delta":"new","arc":"ai-wearables","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-12","lastUpdate":"2026-07-12","category":"business"},
+    {"id":"china-companion-ai","section":"new","rank":8,"title":"China's Interim Measures for Anthropomorphic AI Interaction Services — issued Apr 10 by five agencies (CAC, NDRC, MIIT, MPS, SAMR) — take effect Jul 15; they govern AI that simulates a person for ongoing emotional interaction, banning virtual partners for minors, mandating addiction-detection, prohibiting content that induces emotional dependence, and requiring security filings above 1M users; ByteDance and Alibaba are already disabling companion features to comply; the first binding regime for AI companions, arriving as capital floods companion robots","tier":"notable","impact":5,"delta":"new","arc":"china-companion","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-12","lastUpdate":"2026-07-12","category":"policy"},
+    {"id":"zeroth-robotics","section":"new","rank":9,"title":"Ant Group led a 500M yuan ($73.6M) pre-Series A into humanoid-robot maker Zeroth (Suzhou JoyIn) in early July, with Monolith, Geely Capital and others — Ant's 12th humanoid deal in 18 months; Zeroth builds companionship robots for elderly and pet care, claims >30,000 unit orders and H1 revenue up ~600%, with North America/Europe sales planned this fall; China's physical-AI capital machine keeps running, a strategic backer assembling a humanoid portfolio","tier":"monitor","impact":4,"delta":"new","arc":"physical-ai-capital","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-12","lastUpdate":"2026-07-12","category":"business"},
+    {"id":"quiq-verified","section":"new","rank":10,"title":"Quiq launched Verified Intelligence (Jul 8), a three-part control layer for enterprise agentic AI — guardrails (a 'Verify Claim' accuracy check before any answer reaches a customer), simulations (hundreds of multi-turn test conversations run as regression tests before launch), and step-by-step visibility (100% of agent decisions auditable); live now across Quiq's platform; with 88% of orgs reporting agent incidents, the emerging category is the layer that verifies, simulates and audits the agent — guardrails-as-a-product alongside Norm Ai's supervisory agents","tier":"monitor","impact":4,"delta":"new","arc":"agent-control","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-12","lastUpdate":"2026-07-12","category":"enterprise"},
+    {"id":"us-export-controls","section":"developing","rank":1,"title":"Still no fresh movement, but the clock is the story: the voluntary covered-frontier framework remains unannounced, the AI-cybersecurity clearinghouse due Jul 2 has no public stand-up, and the ~Aug 1 design deadline is now three weeks out; two case-by-case clearances have run (Fable 5, GPT-5.6) but the standing rules are still unwritten; the Jun 2 EO grants up to 30 days voluntary pre-release federal access (not a licence) and orders a classified NSA process defining 'covered' models via cyber-capability benchmarking, deliverables due Aug 1; held for structural weight, auto-retires to Tracking next edition absent movement","tier":"critical","impact":7,"delta":"carry","arc":"reg-clock","arcDay":33,"confidence":"Primary","new24h":false,"update":"Holding a third edition with no fresh movement: covered-frontier framework still unannounced; Jul-2 clearinghouse not publicly stood up; ~Aug 1 design deadline three weeks out; EU Aug 2 enforcement three weeks out","firstSeen":"2026-06-12","lastUpdate":"2026-07-12","category":"policy"},
+    {"id":"workforce","section":"developing","rank":2,"title":"The AI-layoff narrative gets a credibility check: 2026 now has 267 layoff events / ~185,894 workers, but only ~50,000 cuts (~17%) explicitly name AI — AI is the single largest cited factor, not the majority driver; Gallup finds non-AI-users are MORE likely to be laid off than adopters, complicating the 'AI takes jobs' story; the named cuts still stand (Microsoft ~4,800, Oracle ~21,000/yr, Intuit ~3,000; Meta's 8,000 date to May with ~7,000 redeployed to AI), but Deutsche Bank's 'AI redundancy washing' flag now reads as overhiring correction + AI cover; the Fed's new jobs task force (New #4) will adjudicate this","tier":"notable","impact":6,"delta":"carry","arc":"workforce","arcDay":16,"confidence":"2x src","new24h":false,"update":"The counting sharpens rather than the toll: only ~50k of ~186k 2026 layoffs (~17%) explicitly cite AI; Gallup finds non-AI-users MORE exposed to layoffs; the narrative softens toward 'overhiring correction + AI cover' as the Fed seats a jobs task force","firstSeen":"2026-06-27","lastUpdate":"2026-07-12","category":"policy"}
+  ],
+  "tracking": [
+    {"id":"openai-product","label":"OpenAI's ChatGPT Work super-app (Jul 9 — merged Codex into one desktop app, Work agent free on every plan) confirmed live across plans by Jul 11; no fresh movement — the agent-as-product thesis now shipping, full public GPT-5.6 system card still missing","arc":"openai-product","arcDay":2},
+    {"id":"claude-cowork","label":"Anthropic's Claude Cowork on mobile + web (Jul 7, cloud background processing) holds; 90%+ of 1.2M sessions are non-coding business ops; no fresh movement this window","arc":"claude-cowork","arcDay":2},
+    {"id":"xai","label":"Demoted from Developing: Grok 4.5 public (Jul 8), #4 on the Artificial Analysis Intelligence Index (54) with a token-efficiency edge; no fresh movement Jul 10-12; flagship Grok 5 (~10T params) still has no model card","arc":"xai","arcDay":9},
+    {"id":"india-jobs","label":"Demoted from Developing: India's AI-jobs paradox holds on Naukri data (Jul 3) — AI hiring +16% vs IT -3% YoY, AI now 16% of vacancies, a projected 14-lakh talent shortfall by end-2026; no fresh data this Sunday (money beat)","arc":"india-jobs","arcDay":9},
+    {"id":"google-models","label":"Gemini 3.5 Pro GA now community/leak-dated for Jul 17 (2M context, Deep Think); still no official benchmarks/pricing (missed May/June); Google's Co-Scientist features in the DOE Genesis push (New #6)","arc":"google-models","arcDay":13},
+    {"id":"openai-gpt56","label":"GPT-5.6 Sol/Terra/Luna GA worldwide with public pricing; the OpenAI arc continues as a product story (ChatGPT Work); full public system card still missing","arc":"model-wave","arcDay":33},
+    {"id":"open-weight","label":"Open-weight table stays China-led (GLM-5.2 744B MIT, MiniMax M3, Kimi K2.7, Qwen 3.6, DeepSeek V4 Pro); no new open release this window; ByteDance's Seedream 5.0 Pro (prior New) is closed but China-built","arc":"open-weight","arcDay":16},
+    {"id":"sovereign-ai","label":"Sovereign/provider-independent AI compounds: MGX's $49B fund, Singapore NCS/Qwen, UAE FAIDA, MBZUAI K2 Think V2; SK Hynix's US listing (New #2) hands the memory supply chain a public balance sheet","arc":"sovereign-ai","arcDay":8},
+    {"id":"open-inference","label":"Together AI's $800M/$8.3B (Aramco), Prime Intellect's $130M and Ollama's $65M (all prior New) keep open-model economics compounding; no fresh movement","arc":"open-inference","arcDay":3},
+    {"id":"it-services-ai","label":"HCLTech's $1.14B AI workplace deal; Microsoft's Frontier Company (New #3) + AWS's ~$1B venture pull FDE delivery in-house, pressuring the SI majors (Accenture, Capgemini, TCS/Infosys)","arc":"it-services-ai","arcDay":3},
+    {"id":"vertical-ai","label":"Legal (Harvey, Legora, Norm Ai unicorn), insurance (hyperexponential's agentic underwriting), health via clearance (UpDoc); Labcorp's OpenAI-powered MyLabcorp app (May 20) folds in as consumer lab-result AI; AI-for-bio >$7B committed, zero approved","arc":"vertical-ai","arcDay":13},
+    {"id":"agent-layer","label":"Governed agents inside SaaS incumbents (ServiceNow, Salesforce Agentforce, Snowflake, SAP, Oracle); Quiq's Verified Intelligence (New #10), Norm Ai's supervisory agents and Accenture Edge/Google mid-market agents mark a control-layer category forming; Gartner still sees >40% of agent projects cancelled by end-2027","arc":"agent-layer","arcDay":17},
+    {"id":"agent-security","label":"Prompt injection stays OWASP LLM01 (~340% YoY; 88% of orgs report agent incidents, no complete fix); Semantic Kernel RCE (CVE-2026-25592/26030), Cursor CVE-2026-22708 and Reprompt CVE-2026-24307 remain in the reference set","arc":"agent-security","arcDay":16},
+    {"id":"physical-ai","label":"Physical AI: Ant Group's Zeroth round (New #9) is its 12th humanoid deal in 18 months; Figure 03 at BMW Spartanburg; Tesla Optimus V3 slips to late Jul/Aug; Unitree scaling; China robotics capital keeps flowing","arc":"physical-ai","arcDay":14},
+    {"id":"custom-silicon","label":"Hyperscalers design around Nvidia: Google TPU 8t/8i (TSMC 2nm, ~$46B Broadcom program); OpenAI+Broadcom 'Jalapeño' inference ASIC; AMD MI450 (5-yr OpenAI deal) / MI500 teased ahead of Advancing AI 2026 (Jul 22-23)","arc":"custom-silicon","arcDay":7},
+    {"id":"ai-infra","label":"Big-tech AI capex heads to ~$725B in 2026 (2027 estimates topping $1T); OpenAI-Oracle Stargate ~7GW / >$400B; megawatts, permits and memory the binding constraints — SK Hynix's IPO (New #2) is the memory tell","arc":"ai-infra","arcDay":9},
+    {"id":"hbm-supply","label":"HBM crunch persists (heading toward ~25% of DRAM wafers; makers warn shortages may last to 2027); SK Hynix (~50-55% share) just raised $26.5B on Nasdaq (New #2) to fund expansion; Samsung past $1B HBM4 revenue","arc":"hbm-supply","arcDay":16},
+    {"id":"eu-labelling","label":"EU AI Act: Aug 2 Article 50 transparency + GPAI enforcement (fines up to €15M/3%) now three weeks out; the Digital Omnibus (FINAL) defers stand-alone high-risk Annex III to Dec 2 2027 and embedded high-risk to Aug 2 2028; new CSAM/nude-image bans land Dec 2026","arc":"eu-labelling","arcDay":33},
+    {"id":"india-reg","label":"India still weighing a graded, risk-based approach; a Private Member's AI (Ethics & Accountability) Bill (Dec 2025) proposes penalties up to ₹5 crore; MeitY's IndiaAI Governance Guidelines (Nov 2025) stay voluntary; IT-Rules synthetic-content labelling remains in force","arc":"india-reg","arcDay":12},
+    {"id":"talent","label":"Lab talent war now litigated (Apple v OpenAI, Hero); Shazeer→OpenAI; Jumper, Nelson, Bailis→Anthropic; Anthropic retains 80% of two-year hires vs OpenAI's 67%; Bezos's Prometheus poaching ~100; senior packages past $5M/yr","arc":"talent","arcDay":22},
+    {"id":"model-efficiency","label":"Anthropic's Claude Sonnet 5 ($2/$10 through Aug 31, native 1M context) holds as the cost-per-agent-run default; the ~$47B Claude Code run-rate fuels a ~$1T secondary valuation that crossed OpenAI","arc":"model-efficiency","arcDay":9}
+  ],
+  "movers": [
+    {"dir":"up","text":"SK HYNIX — Nasdaq debut +13% to $168.01; raised $26.5B (2nd-largest US share sale ever), ~$1T cap, ~7x oversubscribed (Jul 10)"},
+    {"dir":"down","text":"OPENAI — Apple sues for trade-secret theft over its AI hardware (Jul 10); names hardware chief Tang Tan and ex-Apple engineer Chang Liu"},
+    {"dir":"up","text":"MICROSOFT — launches $2.5B Frontier Company, 6,000 embedded experts (Jul 2); AWS commits ~$1B to its own deployment venture"},
+    {"dir":"up","text":"EVEN REALITIES — smart-glasses unicorn, $150M at $1B (Jul 6, Meituan/Tencent-led); camera-free G2 takes on Meta"},
+    {"dir":"up","text":"ANT GROUP — leads $73.6M into humanoid startup Zeroth (Jul), its 12th humanoid deal in 18 months; >30,000 unit orders"},
+    {"dir":"up","text":"VC MARKET — global startup funding hits a record $510B in H1 2026; OpenAI + Anthropic alone take 43%"},
+    {"dir":"up","text":"FED — new Chair Warsh names Andreessen, Charles Jones and Microsoft's Asha Sharma to a Productivity & Jobs task force on AI (Jul 9)"}
+  ],
+  "arcs": {
+    "apple-openai": {"day": 1, "note": "HERO / new arc: Apple sued OpenAI (Jul 10, N.D. Cal.) alleging trade-secret theft 'at every level' over OpenAI's AI-hardware push; targets hardware chief Tang Tan (ex-Apple VP) and ex-engineer Chang Liu; the lab talent war reaches the courtroom — allegations only, unproven"},
+    "sk-hynix-ipo": {"day": 1, "note": "New arc (Sunday money beat): SK Hynix's Nasdaq debut (Jul 10) raised $26.5B, closed +13% at $168.01, ~$1T cap, 2nd-largest US share sale ever; the AI-infra/HBM supply chain gets a public pure-play"},
+    "deploy-ventures": {"day": 1, "note": "New arc: Microsoft Frontier Company (Jul 2, $2.5B, 6,000 embedded experts; LSEG/Land O'Lakes/Unilever/Novo Nordisk) + AWS's ~$1B venture — hyperscalers bring the FDE deployment model in-house vs the SIs"},
+    "fed-ai": {"day": 1, "note": "New arc: Fed Chair Warsh seats a Productivity & Jobs task force (Jul 9) with Andreessen, Charles Jones and Microsoft's Asha Sharma to study AI's labor/productivity impact, reporting by year-end"},
+    "vc-record": {"day": 1, "note": "New arc (Sunday money beat): Crunchbase — global VC hit a record $510B in H1 2026 (> all of 2025); OpenAI + Anthropic took 43% ($217B); >70% of Q2 capital to AI; 24 billion-dollar exits in Q2"},
+    "genesis": {"day": 1, "note": "New arc (Sunday research beat): DOE Genesis Mission stands up — 24 collaboration agreements (Anthropic, Oracle, NVIDIA + DeepMind), 26 S&T challenges, 17 national labs; AI-for-science as state industrial policy"},
+    "ai-wearables": {"day": 1, "note": "New arc: Even Realities' $150M at $1B (Jul 6, Meituan/Tencent); ex-Apple founder, camera-free $599 G2 glasses betting on privacy vs Meta Ray-Ban; AI wearables draw serious capital"},
+    "china-companion": {"day": 1, "note": "New arc: China's Interim Measures for Anthropomorphic AI Interaction Services (issued Apr 10, effective Jul 15) — bans virtual partners for minors, mandates addiction-detection; ByteDance/Alibaba disabling companion features; first binding companion-AI regime"},
+    "physical-ai-capital": {"day": 1, "note": "New arc: Ant Group leads $73.6M into humanoid startup Zeroth (Jul), its 12th humanoid deal in 18 months; companionship robots, >30k orders; China's physical-AI capital machine"},
+    "agent-control": {"day": 1, "note": "New arc: Quiq's Verified Intelligence (Jul 8) — guardrails + simulations + step-by-step visibility for enterprise agents; the verify/audit control-layer category forming alongside Norm Ai supervisory agents"},
+    "reg-clock": {"day": 33, "note": "Holding a third edition, no fresh movement: covered-frontier framework unannounced; Jul-2 clearinghouse not publicly stood up; ~Aug 1 design deadline and EU Aug 2 enforcement both three weeks out; auto-retires to Tracking next edition absent movement"},
+    "workforce": {"day": 16, "note": "Carry: counting sharpens — only ~50k of ~186k 2026 layoffs (~17%) explicitly cite AI; Gallup finds non-AI-users MORE layoff-exposed; narrative softens to 'overhiring correction + AI cover' as the Fed seats a jobs task force (New #4)"},
+    "openai-product": {"day": 2, "note": "Tracking: ChatGPT Work super-app confirmed live across plans by Jul 11; no fresh movement; GPT-5.6 system card still missing"},
+    "xai": {"day": 9, "note": "Demoted to Tracking: Grok 4.5 public (Jul 8), #4 on the Artificial Analysis Index (54); no fresh movement Jul 10-12; Grok 5 (~10T) still no model card"},
+    "talent": {"day": 22, "note": "Tracking: the talent war is now litigated (Apple v OpenAI, Hero); Shazeer→OpenAI; Jumper/Nelson/Bailis→Anthropic; senior packages past $5M/yr"},
+    "hbm-supply": {"day": 16, "note": "Tracking: HBM crunch persists; SK Hynix (~50-55% share) raised $26.5B on Nasdaq (New #2) to fund expansion; shortages may last to 2027"}
+  },
+  "resolved": [
+    "DATE-TRAP EXCLUDED (not padded as New): 'humans&' — the human-centric AI lab's $480M seed at a $4.48B valuation (2nd-largest seed round ever; founders Andi Peng (ex-Anthropic), Georges Harik (Google #7), ex-xAI/Google researchers; backers Nvidia, Bezos, SV Angel) — is dated JAN 20 2026 and merely resurfaced via H1-2026 VC-record roundups (New #5). Old news, NOT listed as fresh New.",
+    "DATE-TRAPS NOTED: Meta's 8,000 layoffs (~10%, with ~7,000 redeployed to AI teams) are dated MAY 20 2026 — carried as context in the workforce thread (Developing), NOT re-listed as a fresh cut. Labcorp's OpenAI-powered MyLabcorp app is dated MAY 20 and folds into vertical-ai Tracking, not shipped as New.",
+    "Auto-retire / demote: edition-029's 11 New items with no fresh movement drop to Tracking one-liners — openai-chatgpt-work→openai-product, claude-cowork-mobile→claude-cowork, prime-intellect+ollama→open-inference/open-weight, norm-ai→agent-layer, mgx-fund+ncs-sunshine-ai→sovereign-ai, accenture-google-midmarket→agent-layer, seedream-5→open-weight, hyperexponential→vertical-ai; ai-science-monoculture folds into the DOE Genesis item (New #6).",
+    "Demoted from Developing to Tracking (no fresh movement this window): xai (Grok 4.5 public Jul 8, #4 on the Artificial Analysis Index — no move Jul 10-12) and india-jobs (Naukri Jul-3 data holds; Sunday beat is money, not jobs).",
+    "NO NEW.24H THIS EDITION: a genuinely quiet Sunday — the biggest genuinely-new breaks (SK Hynix Nasdaq debut and Apple v OpenAI, both Jul 10; Fed AI task force Jul 9; Microsoft Frontier Co Jul 2; Even Realities/Zeroth Jul 6-8) all landed >24h ago, so NO item carries the NEW.24H badge — honest to the flow, not a miss. China's companion-AI rules (New #8) were issued Apr 10 and take effect Jul 15; dated honestly, not badged 24h."
+  ],
+  "deadlines": [
+    {"date": "2026-07-15", "label": "China's Interim Measures for Anthropomorphic AI Interaction Services take effect (CAC + 4 agencies): companion-AI rules — bans virtual partners for minors, mandates addiction-detection — 3 days", "severity": "medium"},
+    {"date": "2026-07-17", "label": "Gemini 3.5 Pro GA (2M context, Deep Think) — community/leak-dated; still no official benchmarks or pricing", "severity": "low"},
+    {"date": "2026-07-22", "label": "AMD Advancing AI 2026 (Jul 22-23, San Francisco): expected MI450/MI500 and enterprise-partnership updates", "severity": "low"},
+    {"date": "2026-08-01", "label": "US: agencies to finalize the Jun 2 EO's voluntary covered-frontier framework (30-day pre-release access; classified cyber-benchmarking); the Jul-2 clearinghouse is already overdue — 3 weeks", "severity": "high"},
+    {"date": "2026-08-02", "label": "EU AI Act: Article 50 transparency + GPAI enforcement (fines up to €15M/3% turnover) — 3 weeks; Annex III high-risk deferred to Dec 2 2027", "severity": "high"},
+    {"date": "2026-08-31", "label": "Anthropic Claude Sonnet 5 promotional pricing ($2/$10 per Mtok) ends — the cost baseline for agent runs resets", "severity": "low"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
