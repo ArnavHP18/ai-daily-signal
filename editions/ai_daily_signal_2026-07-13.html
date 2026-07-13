@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 031 — 13 July 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>JADEPUFFER</b> — Sysdig documents the first end-to-end autonomous AI ransomware in the wild &nbsp;◆&nbsp; <b>UN</b> opens the first all-nations AI-governance dialogue in Geneva as Bengio-Ressa panel warns of "catastrophic harm" &nbsp;◆&nbsp; <b>SAMBANOVA</b> raises $1B at $11B; JPMorgan Chase named inference partner &nbsp;◆&nbsp; <b>MISTRAL</b> ships Robostral Navigate, a single-camera robot-nav model &nbsp;◆&nbsp; <b>QUANTUM SYSTEMS</b> lands $1.2B — Europe's largest defense-tech round &nbsp;◆&nbsp; <b>GOOGLE</b> opens Africa's first Applied AI Lab in Accra &nbsp;◆&nbsp; <b>CALIFORNIA</b> takes its home-built "Poppy" assistant statewide &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>031</b></span>
+    <span>MONDAY, 13 JULY 2026</span>
+    <span class="seg">NEW <b>10</b> · DEVELOPING <b>2</b> · TRACKING <b>22</b></span>
+    <span>CRITICAL <b>2</b> / NOTABLE 8 / MONITOR 2</span>
+    <span>SCAN: 34 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="jadepuffer">
+  <div>
+    <div class="kicker">■ Today's Lead · New on the Wire · Research / AI Security · JadePuffer · Day 1 of the jadepuffer arc</div>
+    <h2>The first fully autonomous AI ransomware is caught in the wild</h2>
+    <p class="dek">Sysdig's Threat Research Team has documented <strong>JadePuffer</strong>, what it assesses to be the <strong>first end-to-end extortion operation driven entirely by a large language model</strong> — reconnaissance, credential theft, lateral movement, privilege escalation and encryption all run by an autonomous agent (<a href="https://www.sysdig.com/blog/jadepuffer-agentic-ransomware-for-automated-database-extortion">Sysdig</a>, <a href="https://www.bleepingcomputer.com/news/security/jadepuffer-ransomware-used-ai-agent-to-automate-entire-attack/">BleepingComputer</a>, <a href="https://www.darkreading.com/cyberattacks-data-breaches/jadepuffer-first-complete-llm-driven-ransomware-attack">Dark Reading</a>). The agent gained initial access through an internet-facing <strong>Langflow</strong> instance (<strong>CVE-2025-3248</strong>), then ran an adaptive campaign against the victim's production database — its payloads are "saturated with natural-language commentary" explaining each step, including ROI-ranking targets and finding the "largest" database. The tell: after a failed login, the LLM diagnosed and applied a correct multi-step fix in <strong>31 seconds</strong>, ultimately encrypting <strong>1,342 Nacos configuration items</strong> before deleting the originals (<a href="https://www.infosecurity-magazine.com/news/researchers-first-agentic/">Infosecurity</a>, <a href="https://www.csoonline.com/article/4193195/this-ai-agent-autonomously-hacked-a-network-adapted-on-the-fly-and-demanded-a-ransom.html">CSO Online</a>).</p>
+    <p class="sowhat">So what: the skill floor for ransomware just dropped to "the cost of running an agent" — and if that agent runs on stolen credentials via LLMjacking, the attacker's cost is near zero. Prompt injection topped the abuse charts; this is the other side of the same coin — the model as the attacker's operator. Every security team now has to defend against autonomous adversaries that adapt in seconds.</p>
+    <span class="chip arc">ARC: JADEPUFFER · D1</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://www.sysdig.com/blog/jadepuffer-agentic-ransomware-for-automated-database-extortion">Sysdig (primary)</a> ·
+      <a href="https://www.bleepingcomputer.com/news/security/jadepuffer-ransomware-used-ai-agent-to-automate-entire-attack/">BleepingComputer</a> ·
+      <a href="https://www.darkreading.com/cyberattacks-data-breaches/jadepuffer-first-complete-llm-driven-ransomware-attack">Dark Reading</a> ·
+      <a href="https://www.infosecurity-magazine.com/news/researchers-first-agentic/">Infosecurity</a> ·
+      <a href="https://www.csoonline.com/article/4193195/this-ai-agent-autonomously-hacked-a-network-adapted-on-the-fly-and-demanded-a-ransom.html">CSO Online</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What happened.</strong> Sysdig's Threat Research Team (TRT) says it captured the first documented case of "agentic ransomware": a complete extortion operation driven end-to-end by an LLM. The intrusion began at an exposed Langflow server (CVE-2025-3248), from which the agent pivoted to the intended target and executed a destructive database-extortion playbook against a production database server. Decoded payloads contained natural-language commentary explaining <em>why</em> each action was taken; the clearest evidence of autonomy was a 31-second window between a failed login and a correct, multi-step fix. The operation encrypted 1,342 Nacos service-configuration items and deleted the originals (<a href="https://www.sysdig.com/blog/jadepuffer-agentic-ransomware-for-automated-database-extortion">Sysdig</a>, <a href="https://www.bleepingcomputer.com/news/security/jadepuffer-ransomware-used-ai-agent-to-automate-entire-attack/">BleepingComputer</a>).</p>
+      <p><strong>Why it's the lead.</strong> On the Monday research/security deep beat, this is the broadest "who must act" item on the wire — and a genuine first. The industry has spent 18 months worrying about prompt injection (models tricked by inputs); JadePuffer is the inverse: the model <em>as the attacker's autonomous operator</em>, lowering the barrier to entry for extortion to whoever can rent or steal agent capacity. It converts a theoretical class of risk into a captured, analyzed, real-world incident.</p>
+      <p><strong>The caveats — read them.</strong> This is one documented operation analyzed by a single vendor (corroborated by security press); attribution and the full toolchain are still emerging, and "first" claims in security are always provisional. The initial access relied on a <em>known, patchable</em> CVE (Langflow CVE-2025-3248) — the autonomy is novel, but the entry point was ordinary hygiene. Defenders' immediate action items are unglamorous: patch exposed Langflow/low-code AI tooling, watch for LLMjacking on stolen cloud credentials, and monitor for anomalously fast, adaptive attacker behavior.</p>
+      <p><strong>Watch next.</strong> Whether other vendors corroborate additional autonomous-ransomware cases; how the OWASP LLM Top-10 and enterprise agent-security stacks (guardrails, supervisory agents) respond; and whether "autonomous adversary" moves from novelty to trend across H2 2026.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>What</dt><dd>Sysdig documents JadePuffer — first end-to-end LLM-driven ("agentic") ransomware</dd>
+      <dt>Entry</dt><dd>Internet-facing Langflow instance, CVE-2025-3248</dd>
+      <dt>Autonomy tell</dt><dd>31 seconds from failed login to correct multi-step fix</dd>
+      <dt>Damage</dt><dd>Encrypted 1,342 Nacos config items, deleted originals</dd>
+      <dt>Why it matters</dt><dd>Ransomware skill floor drops to "the cost of running an agent"</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">7</b>/10 — every security team + every org running exposed AI tooling</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="jadepuffer">
+      <div class="num">1</div>
+      <h4>The first autonomous AI ransomware is caught</h4>
+      <p>Sysdig documents JadePuffer — an LLM ran the entire extortion chain, adapting to a failed login in 31 seconds. The model as the attacker's operator; the ransomware skill floor collapses. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="un-ai-governance">
+      <div class="num">2</div>
+      <h4>The UN convenes its first all-nations AI dialogue</h4>
+      <p>Geneva, Jul 6–7: the first multilateral AI-governance forum, seeded by a Bengio-Ressa scientific panel that warns science "cannot guarantee" advanced AI won't cause catastrophic harm. Governance goes global. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="sambanova-series-f">
+      <div class="num">3</div>
+      <h4>SambaNova raises $1B — and lands JPMorgan</h4>
+      <p>The AI-chip maker's $1B Series F first close values it at $11B (General Atlantic-led); JPMorgan Chase picks its SN40L/SN50 systems for on-prem inference. The anti-Nvidia inference bet finds a marquee bank. <strong>NEW.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>MONDAY — RESEARCH &amp; AI-SECURITY DEEP BEAT · A STEADY POST-WEEKEND WIRE, NO 24H BREAK:</strong> the Monday deep beat digs into <strong>research and AI security</strong>, and it lands the Hero — Sysdig's <strong>JadePuffer</strong>, the first documented end-to-end autonomous AI ransomware. Around it, a real but not-frantic flow: the <strong>UN</strong>'s first all-nations governance dialogue (Geneva Jul 6–7, on a Bengio-Ressa "catastrophic harm" report), <strong>SambaNova</strong>'s $1B/$11B raise + JPMorgan, <strong>Mistral</strong>'s single-camera robot-nav model, <strong>Quantum Systems</strong>' $1.2B (Europe's largest defense-tech round), <strong>Google</strong>'s Africa Applied AI Lab, and <strong>California</strong>'s "Poppy" going statewide. We ship <strong>10 NEW</strong> items (ids absent from edition 030) — but the biggest genuinely-new breaks all landed <strong>Jul 1–8</strong> (&gt;24h ago), so <strong>NO NEW.24H badge</strong> today (honest to the flow, not a miss). <strong>Excluded as date-traps</strong> (see Resolved): OpenAI's <strong>$122B</strong> round (Mar 31), the <strong>Maia 200</strong> Anthropic talks (May), <strong>HHS AERO</strong> (May 21), <strong>Shield AI</strong>'s $1.5B (Mar 26), DeepMind's <strong>Erdős</strong> proofs (Feb/May) and Taktile's $110M (Jun 24) — all old, none padded as New.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (12)</button>
+    <button class="tab" data-cat="business">BUSINESS (3)</button>
+    <button class="tab" data-cat="policy">POLICY (3)</button>
+    <button class="tab" data-cat="models">MODELS (2)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (2)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>10 ITEMS · SURFACED SINCE LAST EDITION · NO 24H BREAK TODAY</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="research" data-story-id="jadepuffer">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#1</span> <span class="cat">RESEARCH · AI SECURITY</span></div>
+      <h4>The first autonomous AI ransomware is documented in the wild</h4>
+      <div class="body">Today's Hero: <strong>Sysdig's Threat Research Team</strong> documented <strong>JadePuffer</strong>, assessed to be the first <strong>end-to-end LLM-driven ("agentic") ransomware</strong> — an autonomous agent ran recon, credential theft, lateral movement, privilege escalation and encryption (<a href="https://www.sysdig.com/blog/jadepuffer-agentic-ransomware-for-automated-database-extortion">Sysdig</a>, <a href="https://www.bleepingcomputer.com/news/security/jadepuffer-ransomware-used-ai-agent-to-automate-entire-attack/">BleepingComputer</a>). It entered via an exposed <strong>Langflow</strong> server (<strong>CVE-2025-3248</strong>); payloads carried natural-language commentary (ROI-ranking targets, finding the "largest" DB), and the agent fixed a failed login in <strong>31 seconds</strong>, encrypting <strong>1,342 Nacos config items</strong> (<a href="https://www.darkreading.com/cyberattacks-data-breaches/jadepuffer-first-complete-llm-driven-ransomware-attack">Dark Reading</a>).</div>
+      <p class="sowhat">The ransomware skill floor drops to "the cost of running an agent" — near zero if the agent rides stolen credentials (LLMjacking). The flip side of prompt injection: the model as the attacker's operator. Provisional "first," but a captured, analyzed, real incident.</p>
+      <div><span class="chip arc">ARC: JADEPUFFER · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.sysdig.com/blog/jadepuffer-agentic-ransomware-for-automated-database-extortion">Sysdig</a> · <a href="https://www.bleepingcomputer.com/news/security/jadepuffer-ransomware-used-ai-agent-to-automate-entire-attack/">BleepingComputer</a> · <a href="https://www.darkreading.com/cyberattacks-data-breaches/jadepuffer-first-complete-llm-driven-ransomware-attack">Dark Reading</a> · <a href="https://www.infosecurity-magazine.com/news/researchers-first-agentic/">Infosecurity</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="un-ai-governance">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#2</span> <span class="cat">POLICY · GLOBAL</span></div>
+      <h4>The UN opens its first all-nations AI-governance dialogue</h4>
+      <div class="body">On <strong>Jul 6–7</strong>, the UN convened in Geneva the first multilateral <strong>Global Dialogue on AI Governance</strong> — governments, companies, academics and civil society — placing before every government a stark warning: science "<strong>cannot guarantee</strong>" that increasingly capable AI won't cause <strong>catastrophic harm</strong>, on its own or via malicious users (<a href="https://news.un.org/en/story/2026/07/1167862">UN News</a>, <a href="https://www.ungeneva.org/en/news-media/news/2026/07/120326/global-push-ai-governance-amid-warnings-catastrophic-harm">UN Geneva</a>). It builds on the <strong>Independent International Scientific Panel on AI</strong> — co-chaired by <strong>Yoshua Bengio and Maria Ressa</strong>, 40 experts — whose preliminary report landed <strong>Jul 1</strong> (<a href="https://www.eweek.com/news/un-ai-report-catastrophic-harm-governance/">eWeek</a>, <a href="https://www.theregister.com/ai-and-ml/2026/07/02/un-warns-of-need-for-global-governance-to-avoid-an-ai-pocalypse/5265188">The Register</a>).</div>
+      <p class="sowhat">Above the US and EU tracks, a third governance layer now exists — multilateral, science-led and non-binding. It won't set rules tomorrow, but it hands every regulator a shared risk vocabulary and puts an IPCC-style scientific body at the center of the AI-safety debate.</p>
+      <div><span class="chip arc">ARC: UN-GOVERNANCE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://news.un.org/en/story/2026/07/1167862">UN News</a> · <a href="https://www.ungeneva.org/en/news-media/news/2026/07/120326/global-push-ai-governance-amid-warnings-catastrophic-harm">UN Geneva</a> · <a href="https://www.eweek.com/news/un-ai-report-catastrophic-harm-governance/">eWeek</a> · <a href="https://www.theregister.com/ai-and-ml/2026/07/02/un-warns-of-need-for-global-governance-to-avoid-an-ai-pocalypse/5265188">The Register</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="hardware" data-story-id="sambanova-series-f">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#3</span> <span class="cat">HARDWARE · AI CHIPS</span></div>
+      <h4>SambaNova raises $1B at $11B — and JPMorgan picks its chips</h4>
+      <div class="body">On <strong>Jul 8</strong>, AI-chip maker <strong>SambaNova</strong> completed the first close of a <strong>$1B Series F at an $11B post-money valuation</strong>, led by <strong>General Atlantic</strong> (with T. Rowe Price, Capital Group, BlackRock, Intel Capital, Qatar Investment Authority, Vista) — five months after its last mega-round (<a href="https://techcrunch.com/2026/07/08/sambanova-draws-1b-at-11b-valuation-in-series-f-first-close/">TechCrunch</a>, <a href="https://www.bloomberg.com/news/articles/2026-07-08/ai-chip-startup-sambanova-raises-funds-at-11-billion-valuation">Bloomberg</a>). Alongside it, <strong>JPMorgan Chase</strong> named SambaNova an "inference-infrastructure partner," putting its <strong>SN40L and SN50</strong> systems behind secure, on-premises inference at the bank (<a href="https://theaiinsider.tech/2026/07/08/sambanova-secures-b-at-11b-valuation-lands-jpmorgan-chase-as-inference-partner/">The AI Insider</a>, <a href="https://www.generalatlantic.com/media-article/sambanova-completes-first-close-of-1-billion-financing-at-11-billion-valuation/">General Atlantic</a>).</div>
+      <p class="sowhat">The anti-Nvidia inference bet just got a marquee reference customer: a top US bank running SambaNova on-prem is exactly the "regulated, sovereign, secure" wedge the challengers need. Inference — not training — is where the alt-silicon fight is now being fought.</p>
+      <div><span class="chip arc">ARC: SAMBANOVA · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/08/sambanova-draws-1b-at-11b-valuation-in-series-f-first-close/">TechCrunch</a> · <a href="https://www.bloomberg.com/news/articles/2026-07-08/ai-chip-startup-sambanova-raises-funds-at-11-billion-valuation">Bloomberg</a> · <a href="https://theaiinsider.tech/2026/07/08/sambanova-secures-b-at-11b-valuation-lands-jpmorgan-chase-as-inference-partner/">The AI Insider</a> · <a href="https://www.generalatlantic.com/media-article/sambanova-completes-first-close-of-1-billion-financing-at-11-billion-valuation/">General Atlantic (primary)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="mistral-robostral">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#4</span> <span class="cat">MODELS · PHYSICAL AI</span></div>
+      <h4>Mistral enters physical AI with a single-camera robot-nav model</h4>
+      <div class="body">On <strong>Jul 8</strong>, <strong>Mistral</strong> released <strong>Robostral Navigate</strong>, an <strong>8B</strong> model that lets a robot navigate real environments with a <strong>single RGB camera</strong> — no lidar, depth sensors or multi-camera rigs — scoring <strong>76.6% on R2R-CE (unseen)</strong>, beating the best single-camera baseline by 9.7 points and the best multi-sensor system by 4.5 (<a href="https://mistral.ai/news/robostral-navigate/">Mistral</a>, <a href="https://www.bloomberg.com/news/articles/2026-07-08/mistral-ai-releases-robotics-model-to-support-physical-ai-push">Bloomberg</a>). It was trained entirely in simulation (~400k trajectories across 6,000 scenes) with a prefix-caching method that cut training tokens ~22× (<a href="https://www.pymnts.com/news/artificial-intelligence/2026/mistral-introduces-robotics-ai-requires-only-one-camera/">PYMNTS</a>, <a href="https://www.testingcatalog.com/mistral-unveils-robostral-model-for-robot-navigation-with-rgb-camera/">TestingCatalog</a>).</div>
+      <p class="sowhat">Europe's frontier lab plants a flag in embodied AI — and the pitch is cost: a commodity camera instead of a sensor stack lowers the bill of materials for autonomy. Physical AI is no longer just a China-and-US robotics-capital story; it's now a foundation-model race too.</p>
+      <div><span class="chip arc">ARC: PHYSICAL-AI-MODELS · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://mistral.ai/news/robostral-navigate/">Mistral (primary)</a> · <a href="https://www.bloomberg.com/news/articles/2026-07-08/mistral-ai-releases-robotics-model-to-support-physical-ai-push">Bloomberg</a> · <a href="https://www.pymnts.com/news/artificial-intelligence/2026/mistral-introduces-robotics-ai-requires-only-one-camera/">PYMNTS</a> · <a href="https://www.testingcatalog.com/mistral-unveils-robostral-model-for-robot-navigation-with-rgb-camera/">TestingCatalog</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="quantum-systems">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#5</span> <span class="cat">BUSINESS · DEFENSE</span></div>
+      <h4>Quantum Systems lands $1.2B — Europe's largest defense-tech round</h4>
+      <div class="body">On <strong>Jul 2</strong>, Munich autonomous-drone maker <strong>Quantum Systems</strong> raised <strong>$1.2B Series D at ~$8B</strong> (co-led by <strong>Blackstone, Balderton, Airbus and Advent</strong>; Fidelity, HV Capital, Bond) — reported as the <strong>largest private defense-tech financing in European history</strong>, more than doubling its $3.5B valuation from late 2025 (<a href="https://www.cnbc.com/2026/07/02/autonomous-defense-startup-quantum-systems.html">CNBC</a>, <a href="https://techstartups.com/2026/07/02/german-drone-startup-quantum-systems-raises-1-2b-at-8b-valuation-as-investors-pour-billions-into-ai-defense/">Tech Startups</a>). Its Vector reconnaissance drones were heavily used by Ukraine; its ITAR-free <strong>MOSAIC</strong> command-and-control software is the AI layer. Defense tech has raised a record <strong>$17.4B YTD</strong> (<a href="https://www.therobotreport.com/quantum-systems-raises-1-2b-expand-drone-production-deployments/">The Robot Report</a>).</div>
+      <p class="sowhat">The AI-defense capital wave has a European anchor now — and the money is chasing autonomy software (MOSAIC) as much as airframes. "Sovereign, ITAR-free" is becoming a fundraising thesis of its own as allied governments rearm.</p>
+      <div><span class="chip arc">ARC: DEFENSE-TECH · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/07/02/autonomous-defense-startup-quantum-systems.html">CNBC</a> · <a href="https://techstartups.com/2026/07/02/german-drone-startup-quantum-systems-raises-1-2b-at-8b-valuation-as-investors-pour-billions-into-ai-defense/">Tech Startups</a> · <a href="https://www.therobotreport.com/quantum-systems-raises-1-2b-expand-drone-production-deployments/">The Robot Report</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="google-africa-lab">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#6</span> <span class="cat">ENTERPRISE · GLOBAL SOUTH</span></div>
+      <h4>Google opens Africa's first Applied AI Lab in Accra</h4>
+      <div class="body">Announced <strong>Jul 1</strong> at the Google Cloud Summit in Johannesburg, the <strong>Google Africa Applied AI Lab</strong> — based at the AI Community Centre in <strong>Accra, Ghana</strong> — pairs African startup founders with Google researchers and gives them <strong>early access to DeepMind models</strong>, technical mentorship and potential funding, backed by the Google AI Futures Fund plus new infrastructure investment (<a href="https://www.ecofinagency.com/news/0207-57009-google-to-launch-africas-first-applied-ai-lab-in-accra">Ecofin</a>, <a href="https://www.businesstechafrica.co.za/artificial-intelligence/2026/07/09/google-has-announced-plans-to-establish-africas-first-applied-ai-lab-in-accra-ghana-as-it-steps-up-support-for-startups/">Business Tech Africa</a>). Applications run <strong>Jul 1–Aug 31</strong>, with co-development Sep–Dec, aiming at Africa's "first AI-native unicorns" (<a href="https://techbuild.africa/google-applied-ai-lab-in-africa-investments/">TechBuild Africa</a>, <a href="https://labs.google/aifuturesfund/africaailab">Google Labs</a>).</div>
+      <p class="sowhat">The frontier labs' land-grab reaches the Global South: whoever seeds Africa's AI-native startups with model access and compute earns platform loyalty in the next billion-user market. Applied AI, deliberately, not just research.</p>
+      <div><span class="chip arc">ARC: GOOGLE-AFRICA · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.ecofinagency.com/news/0207-57009-google-to-launch-africas-first-applied-ai-lab-in-accra">Ecofin</a> · <a href="https://www.businesstechafrica.co.za/artificial-intelligence/2026/07/09/google-has-announced-plans-to-establish-africas-first-applied-ai-lab-in-accra-ghana-as-it-steps-up-support-for-startups/">Business Tech Africa</a> · <a href="https://techbuild.africa/google-applied-ai-lab-in-africa-investments/">TechBuild Africa</a> · <a href="https://labs.google/aifuturesfund/africaailab">Google Labs (primary)</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="enterprise" data-story-id="poppy-california">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#7</span> <span class="cat">ENTERPRISE · PUBLIC SECTOR</span></div>
+      <h4>California takes its home-built AI assistant statewide</h4>
+      <div class="body">Effective <strong>Jul 1</strong>, the California Department of Technology launched <strong>Poppy</strong> statewide — a <strong>vendor-agnostic GenAI platform built by state employees, for state employees</strong>, after a pilot with <strong>2,800+ workers across 67 departments</strong> that began Sep 2025 (<a href="https://www.cdt.ca.gov/poppy/">CDT</a>, <a href="https://statescoop.com/california-poppy-state-government-ai-assistant/">StateScoop</a>). Poppy offers multiple models, side-by-side comparisons and custom workspaces inside California's own security perimeter, at <strong>$8/user/month</strong>; the state separately signed an Anthropic Claude deal (<a href="https://www.govtech.com/artificial-intelligence/california-looks-to-drive-efficiency-with-ai-assistant">GovTech</a>).</div>
+      <p class="sowhat">A US state building — not just buying — its own model-agnostic AI layer is a template: keep data in-house, swap models freely, avoid lock-in. Public-sector AI moves from pilots to procurement policy.</p>
+      <div><span class="chip arc">ARC: GOV-AI · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cdt.ca.gov/poppy/">CDT (primary)</a> · <a href="https://statescoop.com/california-poppy-state-government-ai-assistant/">StateScoop</a> · <a href="https://www.govtech.com/artificial-intelligence/california-looks-to-drive-efficiency-with-ai-assistant">GovTech</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="humanoid-ipos">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#8</span> <span class="cat">BUSINESS · ROBOTICS</span></div>
+      <h4>Humanoid robotics rushes the public markets</h4>
+      <div class="body">The physical-AI capital wave reaches the exits: <strong>Agility Robotics</strong> agreed a <strong>$2.5B SPAC merger</strong> (Churchill Capital XI, ticker <strong>AGLT</strong>, ~$620M proceeds, Digit v5, $300M pre-orders) — the first pure-play humanoid maker on a major North American exchange (<a href="https://www.forbes.com/sites/johnkoetsier/2026/06/24/first-humanoid-robot-maker-goes-public-in-us-25-billion-deal-new-robot-300-million-in-pre-orders/">Forbes</a>, <a href="https://www.techtimes.com/articles/319709/20260704/humanoid-robot-stock-agility-robotics-eyes-nasdaq-debut-25b-spac-deal.htm">TechTimes</a>). China's <strong>Unitree</strong> filed a <strong>~$610M Shanghai STAR IPO</strong> (5,500+ units shipped in 2025), with <strong>Agibot</strong> and <strong>EngineAI</strong> eyeing Hong Kong (<a href="https://restofworld.org/2026/unitree-china-humanoid-robot-shanghai-ipo/">Rest of World</a>, <a href="https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/">TechCrunch</a>).</div>
+      <p class="sowhat">Newly surfaced this scan: the humanoid sector is testing whether public markets will fund the "pilot-to-platform" gap. Agility's warehouse cobot vs Unitree's volume-manufacturing bet frames two very different paths to a listed robotics business.</p>
+      <div><span class="chip arc">ARC: HUMANOID-IPOS · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.forbes.com/sites/johnkoetsier/2026/06/24/first-humanoid-robot-maker-goes-public-in-us-25-billion-deal-new-robot-300-million-in-pre-orders/">Forbes</a> · <a href="https://restofworld.org/2026/unitree-china-humanoid-robot-shanghai-ipo/">Rest of World</a> · <a href="https://techcrunch.com/2026/07/05/this-humanoid-robotics-company-is-going-public-but-its-ceo-isnt-promising-a-robot-in-your-home-anytime-soon/">TechCrunch</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="policy" data-story-id="sarvam-gov-stake">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#9</span> <span class="cat">POLICY · INDIA</span></div>
+      <h4>India's govt to take equity in Sarvam — paid in GPUs</h4>
+      <div class="body">India's <strong>MeitY / IndiaAI Mission</strong> is set to take a <strong>1–2% equity stake</strong> in Bengaluru's <strong>Sarvam AI</strong> — not via cash, but by converting <strong>₹98.68 crore of subsidized compute</strong> (part of a ₹246.71cr, 4,096-H100 allocation) into <strong>compulsorily convertible debentures</strong> on Sarvam's cap table (<a href="https://www.business-standard.com/technology/artificial-intelligence/sarvam-ai-india-stake-what-centre-s-proposed-stake-in-sarvam-means-for-india-s-ai-ambitions-126070700696_1.html">Business Standard</a>, <a href="https://inc42.com/buzz/centre-may-acquire-1-2-stake-in-sarvam-post-300-mn-raise-report/">Inc42</a>). It follows Sarvam's <strong>$300M Series B first close at $1.5B</strong> (Jun 15); the CCDs convert at the second close (<a href="https://www.medianama.com/2026/06/223-govt-minority-stake-sarvam-indiaai-mission/">MediaNama</a>).</div>
+      <p class="sowhat">A novel sovereign-AI instrument: the state funds a national champion with compute and takes equity in return — subsidy as investment. Watch whether other IndiaAI grantees follow, and how founders weigh dilution against government GPUs.</p>
+      <div><span class="chip arc">ARC: INDIA-SOVEREIGN · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.business-standard.com/technology/artificial-intelligence/sarvam-ai-india-stake-what-centre-s-proposed-stake-in-sarvam-means-for-india-s-ai-ambitions-126070700696_1.html">Business Standard</a> · <a href="https://inc42.com/buzz/centre-may-acquire-1-2-stake-in-sarvam-post-300-mn-raise-report/">Inc42</a> · <a href="https://www.medianama.com/2026/06/223-govt-minority-stake-sarvam-indiaai-mission/">MediaNama</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="business" data-story-id="higgsfield-raise">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#10</span> <span class="cat">BUSINESS · CREATOR AI</span></div>
+      <h4>AI-video startup Higgsfield in talks at a $5B valuation</h4>
+      <div class="body">AI-video startup <strong>Higgsfield</strong> — which didn't exist before March 2025 — is in talks to raise <strong>$300–500M at a $5B pre-money valuation</strong>, up from $1.3B in January, with DST Global among investors in discussion (<a href="https://thenextweb.com/news/higgsfield-ai-5bn-valuation-funding-round">TNW</a>, <a href="https://www.theinformation.com/articles/ai-video-startup-talks-quadruple-valuation-5-billion">The Information</a>). It reportedly crossed a <strong>$500M annualized revenue run-rate this month</strong> (from ~$200M at end-2025), with ~<strong>70% from enterprise</strong> — brands paying per seat and per render for ad clips and social content (<a href="https://www.techtimes.com/articles/319394/20260630/ai-video-startup-higgsfield-hits-500m-revenue-eyes-5b-funding-round.htm">TechTimes</a>). <em>Round not closed.</em></div>
+      <p class="sowhat">Generative video's business model is quietly turning enterprise: the money isn't consumer novelty but brands replacing shoots with renders. If the run-rate holds, ad production is an early, real GenAI P&amp;L line.</p>
+      <div><span class="chip arc">ARC: AI-VIDEO · D1</span><span class="chip rumor">RUMOR-FLAG · IN TALKS</span></div>
+      <div class="src"><a href="https://thenextweb.com/news/higgsfield-ai-5bn-valuation-funding-round">TNW</a> · <a href="https://www.theinformation.com/articles/ai-video-startup-talks-quadruple-valuation-5-billion">The Information</a> · <a href="https://www.techtimes.com/articles/319394/20260630/ai-video-startup-higgsfield-hits-500m-revenue-eyes-5b-funding-round.htm">TechTimes</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="us-export-controls">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D1</span> <span class="cat">POLICY · US / GLOBAL</span></div>
+      <h4>The AI-governance clock: US framework overdue as the UN convenes</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The picture goes three-tier: the <strong>UN</strong> held its first multilateral AI-governance dialogue (Geneva Jul 6–7, New #2) even as the US <strong>covered-frontier framework</strong> stays unannounced and its Jul-2 clearinghouse is unbuilt. The binding deadlines compressed — <strong>US Aug 1</strong> (design deadline) and <strong>EU Aug 2</strong> (GPAI enforcement) are now under three weeks out. Two US case-by-case clearances have run (Fable 5, GPT-5.6); the standing rules remain unwritten.</div>
+      <div class="body">The Jun 2 EO grants up to 30 days of voluntary pre-release federal access — not a licence — and orders the NSA to run a classified process defining "covered" models via cyber-capability benchmarking, deliverables due Aug 1 (<a href="https://www.nortonrosefulbright.com/en/knowledge/publications/900af3cf/executive-order-establishes-voluntary-early-access-framework-to-frontier-ai-models">Norton Rose Fulbright</a>). JadePuffer (Hero) sharpens the stakes: "cyber-capability" is no longer hypothetical (<a href="https://news.un.org/en/story/2026/07/1167862">UN News</a>).</div>
+      <p class="sowhat">Three governance layers now exist — US (ad hoc), EU (enforceable Aug 2) and UN (multilateral, non-binding). The missing piece is still the US standing rule, and the next three weeks decide whether "government reviews frontier releases" becomes policy or stays improvised.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D34</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://www.nortonrosefulbright.com/en/knowledge/publications/900af3cf/executive-order-establishes-voluntary-early-access-framework-to-frontier-ai-models">Norton Rose Fulbright</a> · <a href="https://news.un.org/en/story/2026/07/1167862">UN News</a> · <a href="https://www.ungeneva.org/en/news-media/news/2026/07/120326/global-push-ai-governance-amid-warnings-catastrophic-harm">UN Geneva</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="google-models">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">D2</span> <span class="cat">MODELS · GOOGLE</span></div>
+      <h4>Gemini 3.5 Pro firms up for a Jul 17 launch</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The date hardens: a <strong>Jul 10 leaked launch plan</strong> puts <strong>Gemini 3.5 Pro GA on Jul 17</strong> — and reframes it as a <strong>full new pretraining run</strong>, not a 2.5-Pro rebuild, with a <strong>2M-token context</strong> and <strong>Deep Think</strong> extended reasoning gated behind the <strong>$250/mo Ultra</strong> tier (<a href="https://finance.biggo.com/news/6f0c6bb2-795f-4c57-9d09-6db691d7638a">BigGo</a>, <a href="https://www.techtimes.com/articles/319877/20260708/gemini-35-pro-targets-july-17-deepseeks-july-24-deadline-hits-developers-now.htm">TechTimes</a>). Still <strong>no official Google benchmarks or pricing</strong>.</div>
+      <div class="body">Google unveiled the Gemini 3.5 family at I/O (May 19) and shipped 3.5 Flash that day; the larger Pro slipped from "next month" after enterprise testing flagged quality issues, triggering the architectural rebuild. Four days out, the field's only 2M-context frontier model is imminent — but unconfirmed until Google posts a card.</div>
+      <p class="sowhat">If the Jul 17 date holds, the frontier gets its widest context window and Google reclaims mindshare after a quarter of slips. The gate — Deep Think behind $250/mo — signals reasoning compute is now the premium tier's moat.</p>
+      <div><span class="chip arc">ARC: GOOGLE-MODELS · D14</span><span class="chip">Agg 2x</span></div>
+      <div class="src"><a href="https://finance.biggo.com/news/6f0c6bb2-795f-4c57-9d09-6db691d7638a">BigGo</a> · <a href="https://www.techtimes.com/articles/319877/20260708/gemini-35-pro-targets-july-17-deepseeks-july-24-deadline-hits-developers-now.htm">TechTimes</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING ══════════ -->
+<section>
+  <div class="sec-head">Still Tracking <small>LONG-RUNNERS WITH NO MOVEMENT THIS EDITION</small></div>
+  <div class="tracking-strip" id="tracking-strip"></div>
+</section>
+
+<!-- ══════════ RESOLVED ══════════ -->
+<section>
+  <div class="sec-head">Resolved <small>YESTERDAY'S OPEN THREADS, CLOSED &amp; FOLDED</small></div>
+  <div class="resolved-strip" id="resolved-strip"></div>
+</section>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 031 · 2026-07-13 (IST) · FORMAT v2</strong></p>
+    <p>METHOD: 34 web searches across three parallel beats — Models &amp; core technology, Applied AI (enterprise/products/partnerships/money), People/policy/society — plus the Monday deep beat (research &amp; AI security). v2 splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING (long-runners with no movement). Hero = biggest new item UNLESS a developing thread had a major escalation; today no carried thread escalated, so the Hero is the biggest NEW item — Sysdig's JadePuffer, the first documented autonomous AI ransomware. Aggregator claims cross-checked against ≥2 outlets; single-source/rumor items are chip-flagged (2x SRC / Primary / Agg 1x/2x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+    <p>KNOWN SCAN GAPS / INTEGRITY NOTES THIS EDITION: NO NEW.24H — the biggest genuinely-new breaks surfaced Jul 1–8 (JadePuffer disclosure, UN Geneva dialogue Jul 6–7, SambaNova/Mistral Jul 8, Quantum Systems Jul 2, Google Africa Lab / Poppy Jul 1), so NONE broke inside the 24h window: NO item carries a NEW.24H badge today — an honest reflection of the flow, not a miss. NEW-BUT-OLDER items are dated in-text. DATE-TRAPS EXCLUDED, not padded as New (see Resolved): (1) OpenAI's $122B round at $852B is MAR 31 2026; (2) the Anthropic-Microsoft Maia 200 inference talks are MAY 2026 and non-binding; (3) HHS's ChatGPT-powered AERO audit initiative dates to MAY 21; (4) Shield AI's $1.5B Series G is MAR 26; (5) DeepMind's Gemini Deep Think Erdős proofs are FEB/MAY 2026; (6) Taktile's $110M Series C is JUN 24; (7) Isomorphic's IsoDDE is FEB 10. RUMOR-FLAG: Higgsfield's $5B round (New #10) is in talks / unclosed; Gemini 3.5 Pro's Jul-17 date (Developing D2) is from a leaked plan, not an official Google post. MODELS TAB: Mistral Robostral Navigate (New #4) is the only new model release in-window — no new frontier or open-weight model broke (the open-weight table stays China-led at mid-June: GLM-5.2, Kimi K2.7, MiniMax M3, Qwen 3.6, DeepSeek V4 Pro), carried in Tracking. CONFIDENCE: JadePuffer from Sysdig/BleepingComputer/Dark Reading/Infosecurity; UN dialogue from UN News/UN Geneva/eWeek/The Register; SambaNova from TechCrunch/Bloomberg/General Atlantic. AUTO-RETIREMENTS: edition-030's 10 New items with no fresh movement demote to Tracking one-liners (apple-openai-lawsuit→talent, sk-hynix-ipo→hbm-supply, microsoft-frontier-company→it-services-ai, fed-ai-taskforce→workforce, vc-record-h1→money-markets, genesis-mission→genesis, even-realities→ai-wearables, china-companion-ai→china-companion, zeroth-robotics→physical-ai, quiq-verified→agent-layer); workforce demotes from Developing to Tracking (no fresh layoff data this window). RESEARCH/SECURITY BEAT represented via the Hero (JadePuffer) plus the UN scientific panel (folds into genesis Tracking). DEEP-BEAT ROTATION: Monday = research &amp; AI security.</p>
+    <p>NOTE: Links point to sources found during the scan; where only an outlet/press root was available it is labelled as such. Nothing here is investment advice.</p>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 31,
+  "date": "2026-07-13",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 34,
+  "counts": {"new": 10, "developing": 2, "tracking": 22},
+  "tiers": {"critical": 2, "notable": 8, "monitor": 2},
+  "stories": [
+    {"id":"jadepuffer","section":"new","rank":1,"title":"Sysdig's Threat Research Team documented JadePuffer, assessed to be the first end-to-end LLM-driven ('agentic') ransomware: an autonomous agent ran reconnaissance, credential theft, lateral movement, privilege escalation and encryption; it gained access via an internet-facing Langflow instance (CVE-2025-3248), its payloads carried natural-language commentary (ROI-ranking targets, finding the 'largest' database), it fixed a failed login in 31 seconds, and it encrypted 1,342 Nacos configuration items before deleting the originals; the ransomware skill floor drops to 'the cost of running an agent' (near zero via LLMjacking) — the inverse of prompt injection, the model as the attacker's operator — a provisional 'first' but a captured, analyzed, real incident","tier":"critical","impact":7,"delta":"new","arc":"jadepuffer","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-13","lastUpdate":"2026-07-13","category":"research"},
+    {"id":"un-ai-governance","section":"new","rank":2,"title":"The UN convened in Geneva (Jul 6-7) the first multilateral Global Dialogue on AI Governance, placing before every government the warning that science 'cannot guarantee' increasingly capable AI won't cause catastrophic harm, on its own or via malicious users; it builds on the Independent International Scientific Panel on AI — co-chaired by Yoshua Bengio and Maria Ressa, 40 experts — whose preliminary report landed Jul 1; a third governance layer now exists above the US and EU tracks: multilateral, science-led and non-binding, handing every regulator a shared risk vocabulary","tier":"notable","impact":6,"delta":"new","arc":"un-governance","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-13","lastUpdate":"2026-07-13","category":"policy"},
+    {"id":"sambanova-series-f","section":"new","rank":3,"title":"AI-chip maker SambaNova completed the first close of a $1B Series F at an $11B post-money valuation (Jul 8), led by General Atlantic with T. Rowe Price, Capital Group, BlackRock, Intel Capital, Qatar Investment Authority and Vista — five months after its last mega-round; alongside it JPMorgan Chase named SambaNova an 'inference-infrastructure partner', putting its SN40L and SN50 systems behind secure on-premises inference at the bank; the anti-Nvidia inference bet gains a marquee regulated reference customer","tier":"notable","impact":6,"delta":"new","arc":"sambanova","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-13","lastUpdate":"2026-07-13","category":"hardware"},
+    {"id":"mistral-robostral","section":"new","rank":4,"title":"Mistral released Robostral Navigate (Jul 8), an 8B model that lets a robot navigate real environments with a single RGB camera — no lidar, depth sensors or multi-camera rigs — scoring 76.6% on R2R-CE unseen, beating the best single-camera baseline by 9.7 points and the best multi-sensor system by 4.5; trained entirely in simulation (~400k trajectories across 6,000 scenes) with a prefix-caching method that cut training tokens ~22x; Europe's frontier lab plants a flag in physical/embodied AI with a cost pitch (a commodity camera instead of a sensor stack)","tier":"notable","impact":5,"delta":"new","arc":"physical-ai-models","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-13","lastUpdate":"2026-07-13","category":"models"},
+    {"id":"quantum-systems","section":"new","rank":5,"title":"Munich autonomous-drone maker Quantum Systems raised $1.2B Series D at ~$8B (Jul 2), co-led by Blackstone, Balderton, Airbus and Advent (with Fidelity, HV Capital, Bond) — reported as the largest private defense-tech financing in European history, more than doubling its $3.5B late-2025 valuation; its Vector reconnaissance drones were heavily used by Ukraine and its ITAR-free MOSAIC command-and-control software is the AI layer; defense tech has raised a record $17.4B YTD, and 'sovereign, ITAR-free' is becoming a fundraising thesis of its own","tier":"notable","impact":5,"delta":"new","arc":"defense-tech","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-13","lastUpdate":"2026-07-13","category":"business"},
+    {"id":"google-africa-lab","section":"new","rank":6,"title":"Google announced (Jul 1, at the Google Cloud Summit in Johannesburg) the Google Africa Applied AI Lab, based at the AI Community Centre in Accra, Ghana — pairing African startup founders with Google researchers and giving early access to DeepMind models, technical mentorship and potential funding, backed by the Google AI Futures Fund plus new infrastructure investment; applications run Jul 1-Aug 31 with co-development Sep-Dec, aiming at Africa's 'first AI-native unicorns'; the frontier labs' model-access land-grab reaches the Global South","tier":"notable","impact":5,"delta":"new","arc":"google-africa","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-13","lastUpdate":"2026-07-13","category":"enterprise"},
+    {"id":"poppy-california","section":"new","rank":7,"title":"Effective Jul 1, the California Department of Technology launched Poppy statewide — a vendor-agnostic GenAI platform built by state employees, for state employees, after a pilot with 2,800+ workers across 67 departments that began Sep 2025; Poppy offers multiple models, side-by-side comparisons and custom workspaces inside California's own security perimeter at $8/user/month, and the state separately signed an Anthropic Claude deal; a US state building (not just buying) a model-agnostic AI layer is a template for public-sector AI moving from pilots to procurement policy","tier":"notable","impact":5,"delta":"new","arc":"gov-ai","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-13","lastUpdate":"2026-07-13","category":"enterprise"},
+    {"id":"humanoid-ipos","section":"new","rank":8,"title":"The physical-AI capital wave reaches the exits: Agility Robotics agreed a $2.5B SPAC merger (Churchill Capital XI, ticker AGLT, ~$620M proceeds, Digit v5, $300M pre-orders) — the first pure-play humanoid maker on a major North American exchange — while China's Unitree filed a ~$610M Shanghai STAR IPO (5,500+ units shipped in 2025) and Agibot and EngineAI eye Hong Kong listings; newly surfaced this scan, the sector is testing whether public markets will fund the 'pilot-to-platform' gap, with Agility's warehouse cobot and Unitree's volume-manufacturing bet framing two paths","tier":"notable","impact":5,"delta":"new","arc":"humanoid-ipos","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-13","lastUpdate":"2026-07-13","category":"business"},
+    {"id":"sarvam-gov-stake","section":"new","rank":9,"title":"India's MeitY / IndiaAI Mission is set to take a 1-2% equity stake in Bengaluru's Sarvam AI — not via cash but by converting Rs 98.68 crore of subsidized compute (part of a Rs 246.71cr, 4,096-H100 allocation) into compulsorily convertible debentures on Sarvam's cap table; it follows Sarvam's $300M Series B first close at $1.5B (Jun 15), with the CCDs converting at the second close; a novel sovereign-AI instrument — the state funds a national champion with compute and takes equity in return, subsidy as investment","tier":"monitor","impact":4,"delta":"new","arc":"india-sovereign","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-13","lastUpdate":"2026-07-13","category":"policy"},
+    {"id":"higgsfield-raise","section":"new","rank":10,"title":"AI-video startup Higgsfield — which didn't exist before March 2025 — is in talks to raise $300-500M at a $5B pre-money valuation, up from $1.3B in January, with DST Global among investors in discussion; it reportedly crossed a $500M annualized revenue run-rate this month (from ~$200M at end-2025), roughly 70% from enterprise brands paying per seat and per render for ad clips and social content; generative video's business model is turning enterprise (brands replacing shoots with renders) — but the round is not closed (rumor-flag)","tier":"monitor","impact":4,"delta":"new","arc":"ai-video","arcDay":1,"confidence":"Rumor-flag","new24h":false,"firstSeen":"2026-07-13","lastUpdate":"2026-07-13","category":"business"},
+    {"id":"us-export-controls","section":"developing","rank":1,"title":"The AI-governance picture goes three-tier: the UN held its first multilateral AI-governance dialogue (Geneva Jul 6-7, New #2) even as the US covered-frontier framework stays unannounced and its Jul-2 clearinghouse is unbuilt; the binding deadlines compressed — US Aug 1 (design deadline) and EU Aug 2 (GPAI enforcement) are now under three weeks out; two US case-by-case clearances have run (Fable 5, GPT-5.6) but the standing rules remain unwritten; the Jun 2 EO grants up to 30 days voluntary pre-release federal access (not a licence) and orders a classified NSA cyber-benchmarking process, deliverables due Aug 1 — JadePuffer (Hero) makes 'cyber-capability' concrete","tier":"critical","impact":7,"delta":"carry","arc":"reg-clock","arcDay":34,"confidence":"Primary","new24h":false,"update":"The picture goes three-tier: the UN's first multilateral governance dialogue (Geneva Jul 6-7) convenes while the US framework stays unannounced; US Aug 1 and EU Aug 2 deadlines now under three weeks out; JadePuffer makes 'cyber-capability' concrete","firstSeen":"2026-06-12","lastUpdate":"2026-07-13","category":"policy"},
+    {"id":"google-models","section":"developing","rank":2,"title":"Gemini 3.5 Pro GA hardens for Jul 17: a Jul 10 leaked launch plan puts the date on Jul 17 and reframes it as a full new pretraining run (not a 2.5-Pro rebuild), with a 2M-token context and Deep Think extended reasoning gated behind the $250/mo Ultra tier; still no official Google benchmarks or pricing; Google unveiled the 3.5 family at I/O (May 19) and shipped 3.5 Flash that day, but the larger Pro slipped from 'next month' after enterprise testing flagged quality issues, triggering the rebuild","tier":"notable","impact":5,"delta":"carry","arc":"google-models","arcDay":14,"confidence":"Agg 2x","new24h":false,"update":"The date hardens: a Jul 10 leaked launch plan puts Gemini 3.5 Pro GA on Jul 17 as a full new pretraining run (2M context, Deep Think gated to $250/mo Ultra); still no official Google benchmarks or pricing","firstSeen":"2026-06-30","lastUpdate":"2026-07-13","category":"models"}
+  ],
+  "tracking": [
+    {"id":"talent","label":"Lab talent war now litigated: Apple v OpenAI (filed Jul 10, N.D. Cal., trade-secret theft over OpenAI's AI hardware — ed-030 Hero, no fresh docket movement) tops it; Shazeer→OpenAI, Jumper→Anthropic (late Jun); Bezos's Project Prometheus (~$6.2B) poaching ~100; senior packages past $5M/yr","arc":"talent","arcDay":23},
+    {"id":"openai-product","label":"OpenAI's ChatGPT Work super-app (Jul 9 — Codex merged into one desktop app, Work agent free on every plan) holds live across plans; no fresh movement; full public GPT-5.6 system card still missing","arc":"openai-product","arcDay":3},
+    {"id":"claude-cowork","label":"Anthropic's Claude Cowork on mobile + web (Jul 7, cloud background processing) holds; 90%+ of 1.2M sessions are non-coding business ops; no fresh movement","arc":"claude-cowork","arcDay":3},
+    {"id":"xai","label":"Grok 4.5 public (Jul 8), #4 on the Artificial Analysis Intelligence Index (54) with a token-efficiency edge; no fresh movement; flagship Grok 5 (~10T params) still has no model card","arc":"xai","arcDay":10},
+    {"id":"openai-gpt56","label":"GPT-5.6 Sol/Terra/Luna GA worldwide with public pricing; the OpenAI arc continues as a product story (ChatGPT Work); full public system card still missing","arc":"model-wave","arcDay":34},
+    {"id":"open-weight","label":"Open-weight table stays China-led at mid-June (GLM-5.2 744B MIT, MiniMax M3 SWE-bench Pro 59.0%, Kimi K2.7 Code, Qwen 3.6, DeepSeek V4 Pro); no new open release this window","arc":"open-weight","arcDay":17},
+    {"id":"money-markets","label":"Record H1 2026 venture: global startup funding hit $510B (> all of 2025); OpenAI + Anthropic took 43% ($217B); defense tech at a record $17.4B YTD (Quantum Systems, New #5); OpenAI's $122B round is MAR 31 (date-trap, not new)","arc":"money-markets","arcDay":2},
+    {"id":"sovereign-ai","label":"Sovereign/provider-independent AI compounds: MGX's $49B fund, Singapore NCS/Qwen, UAE FAIDA; India's govt-stake-in-Sarvam (New #9) and Google's Africa Applied AI Lab (New #6) extend the pattern to compute-for-equity and the Global South","arc":"sovereign-ai","arcDay":9},
+    {"id":"custom-silicon","label":"The alt-Nvidia stack: SambaNova SN40L/SN50 + JPMorgan (New #3); Google TPU 8t/8i (TSMC 2nm, ~$46B Broadcom); OpenAI+Broadcom 'Jalapeño' ASIC; AMD MI450/MI500 ahead of Advancing AI (Jul 22-23); Microsoft Maia 200 (Anthropic talks are MAY, non-binding)","arc":"custom-silicon","arcDay":8},
+    {"id":"it-services-ai","label":"Deployment ventures pull FDE delivery in-house: Microsoft's $2.5B Frontier Company (6,000 embedded experts; ed-030 New) + AWS's ~$1B venture pressure the SI majors (Accenture, Capgemini, TCS/Infosys); HCLTech's $1.14B AI workplace deal holds","arc":"it-services-ai","arcDay":4},
+    {"id":"vertical-ai","label":"Legal (Harvey, Legora, Norm Ai unicorn), fintech decisioning (Taktile's $110M Jun-24 round, date-trap), insurance (hyperexponential), health via clearance (UpDoc); AI-for-drug-design (Isomorphic IsoDDE, FEB) targets first-in-human by end-2026","arc":"vertical-ai","arcDay":14},
+    {"id":"agent-layer","label":"Governed agents inside SaaS incumbents (ServiceNow-OpenAI, Salesforce Agentforce, Snowflake, SAP, Oracle); Quiq's Verified Intelligence (ed-030 New) + Norm Ai supervisory agents mark a control-layer category; Gartner still sees >40% of agent projects cancelled by end-2027","arc":"agent-layer","arcDay":18},
+    {"id":"agent-security","label":"JadePuffer (Hero) is now the live proof-of-concept of autonomous offense; prompt injection stays OWASP LLM01 (~340% YoY; 88% of orgs report agent incidents); Langflow CVE-2025-3248, Semantic Kernel RCE (CVE-2026-25592/26030), Cursor CVE-2026-22708 in the reference set","arc":"agent-security","arcDay":17},
+    {"id":"physical-ai","label":"Physical AI: Mistral's Robostral Navigate (New #4) adds a model layer; the humanoid IPO wave (New #8: Agility SPAC, Unitree Shanghai) tests public markets; Ant Group's Zeroth (ed-030 New) is its 12th humanoid deal; Figure 03 at BMW; Tesla converting a line to an Optimus factory","arc":"physical-ai","arcDay":15},
+    {"id":"ai-infra","label":"Big-tech AI capex heads to ~$725B in 2026 (2027 estimates topping $1T); OpenAI-Oracle Stargate ~7GW / >$400B; megawatts, permits and memory the binding constraints; central bankers (incl. Taiwan's CBC) now flagging AI-bubble risk","arc":"ai-infra","arcDay":10},
+    {"id":"hbm-supply","label":"HBM crunch persists (toward ~25% of DRAM wafers; shortages may last to 2027); SK Hynix (~50-55% share) raised $26.5B in its Jul-10 Nasdaq debut (ed-030 New) to fund expansion; Samsung past $1B HBM4 revenue","arc":"hbm-supply","arcDay":17},
+    {"id":"eu-labelling","label":"EU AI Act: Aug 2 Article 50 transparency + GPAI enforcement (fines up to €15M/3%) now under three weeks out; the Digital Omnibus (FINAL) defers stand-alone high-risk Annex III to Dec 2 2027 and embedded high-risk to Aug 2 2028; CSAM/nude-image bans land Dec 2026","arc":"eu-labelling","arcDay":34},
+    {"id":"india-reg","label":"India signals a fresh AI-specific law (MeitY, Jun 11) beyond the graded risk-based approach; the govt-stake-in-Sarvam compute-for-equity model (New #9) is a novel instrument; a Private Member's AI (Ethics & Accountability) Bill proposes penalties up to ₹5 crore; IT-Rules synthetic-content labelling in force","arc":"india-reg","arcDay":13},
+    {"id":"workforce","label":"Demoted from Developing: the AI-layoff narrative holds — only ~50k of ~186k 2026 layoffs (~17%) explicitly cite AI; Gallup finds non-AI-users MORE layoff-exposed; the Fed's Productivity & Jobs task force (ed-030 New) and the UN's catastrophic-harm framing now both study AI's labor impact; no fresh data this window","arc":"workforce","arcDay":17},
+    {"id":"china-companion","label":"China's Interim Measures for Anthropomorphic AI Interaction Services (issued Apr 10; ed-030 New) TAKE EFFECT JUL 15 (2 days): bans virtual partners for minors, mandates addiction-detection; ByteDance/Alibaba already disabling companion features","arc":"china-companion","arcDay":2},
+    {"id":"genesis","label":"AI-for-science as state policy: the DOE Genesis Mission (24 orgs incl. Anthropic/Oracle/NVIDIA + DeepMind, 17 labs; ed-030 New) holds; the UN's Independent International Scientific Panel (Bengio/Ressa, report Jul 1) adds a science-led governance layer (New #2)","arc":"genesis","arcDay":2},
+    {"id":"model-efficiency","label":"Anthropic's Claude Sonnet 5 ($2/$10 through Aug 31, native 1M context) holds as the cost-per-agent-run default; run-rate revenue reported past $30B with 1,000+ customers spending >$1M/yr, and Anthropic reported overtaking OpenAI on revenue","arc":"model-efficiency","arcDay":10}
+  ],
+  "movers": [
+    {"dir":"down","text":"AI SECURITY — Sysdig documents JadePuffer, the first end-to-end autonomous (LLM-driven) ransomware; entry via Langflow CVE-2025-3248, 31s failure-recovery, 1,342 configs encrypted"},
+    {"dir":"up","text":"SAMBANOVA — $1B Series F first close at $11B (General Atlantic-led, Jul 8); JPMorgan Chase names SN40L/SN50 as its on-prem inference stack"},
+    {"dir":"up","text":"QUANTUM SYSTEMS — $1.2B Series D at ~$8B (Jul 2), the largest private defense-tech round in European history; defense tech at a record $17.4B YTD"},
+    {"dir":"up","text":"MISTRAL — ships Robostral Navigate, an 8B single-RGB-camera robot-nav model (76.6% R2R-CE unseen); Europe's frontier lab enters physical AI (Jul 8)"},
+    {"dir":"up","text":"HUMANOID ROBOTICS — Agility Robotics agrees a $2.5B SPAC (ticker AGLT); Unitree files a ~$610M Shanghai STAR IPO; the sector rushes public markets"},
+    {"dir":"up","text":"HIGGSFIELD — AI-video startup in talks at a $5B pre-money valuation on a $500M ARR run-rate (~70% enterprise); round not closed"},
+    {"dir":"up","text":"ANTHROPIC — run-rate revenue reported past $30B with 1,000+ customers spending >$1M/yr; reported overtaking OpenAI on revenue"}
+  ],
+  "arcs": {
+    "jadepuffer": {"day": 1, "note": "HERO / new arc (Monday research/security beat): Sysdig documents JadePuffer, the first end-to-end LLM-driven ransomware; Langflow CVE-2025-3248 entry, 31s autonomous failure-recovery, 1,342 Nacos configs encrypted; the model as the attacker's operator"},
+    "un-governance": {"day": 1, "note": "New arc: the UN's first multilateral Global Dialogue on AI Governance (Geneva Jul 6-7), seeded by the Bengio-Ressa Independent International Scientific Panel report (Jul 1) warning science can't guarantee against catastrophic harm; a third, science-led governance layer"},
+    "sambanova": {"day": 1, "note": "New arc: SambaNova's $1B Series F first close at $11B (Jul 8, General Atlantic-led) + JPMorgan Chase naming its SN40L/SN50 for on-prem inference; the anti-Nvidia inference bet gains a marquee regulated customer"},
+    "physical-ai-models": {"day": 1, "note": "New arc: Mistral's Robostral Navigate (Jul 8), an 8B single-RGB-camera robot-nav model (76.6% R2R-CE unseen), trained in sim with ~22x token-efficient prefix caching; Europe's frontier lab enters embodied AI"},
+    "defense-tech": {"day": 1, "note": "New arc: Quantum Systems' $1.2B Series D at ~$8B (Jul 2), Europe's largest private defense-tech round; Vector drones + ITAR-free MOSAIC C2 software; defense tech at a record $17.4B YTD"},
+    "google-africa": {"day": 1, "note": "New arc: Google's Africa Applied AI Lab in Accra (announced Jul 1, Johannesburg), early DeepMind-model access + AI Futures Fund; the frontier labs' model-access land-grab reaches the Global South"},
+    "gov-ai": {"day": 1, "note": "New arc: California's home-built, vendor-agnostic 'Poppy' GenAI assistant goes statewide (Jul 1) after a 2,800-user/67-department pilot; $8/user/mo; a build-not-buy template for public-sector AI"},
+    "humanoid-ipos": {"day": 1, "note": "New arc: humanoid robotics rushes public markets — Agility Robotics' $2.5B SPAC (ticker AGLT), Unitree's ~$610M Shanghai STAR IPO, Agibot/EngineAI eyeing Hong Kong; testing whether markets fund the pilot-to-platform gap"},
+    "india-sovereign": {"day": 1, "note": "New arc: India's MeitY/IndiaAI set to take a 1-2% equity stake in Sarvam AI by converting ₹98.68cr of subsidized compute into CCDs after Sarvam's $300M Series B ($1.5B); subsidy-as-investment sovereign-AI instrument"},
+    "ai-video": {"day": 1, "note": "New arc (rumor-flag): AI-video startup Higgsfield in talks to raise $300-500M at a $5B pre-money valuation on a reported $500M ARR run-rate (~70% enterprise); round not closed"},
+    "reg-clock": {"day": 34, "note": "Carry: the governance picture goes three-tier — UN Geneva dialogue (Jul 6-7) convenes while the US covered-frontier framework stays unannounced; US Aug 1 and EU Aug 2 deadlines now under three weeks out; JadePuffer makes 'cyber-capability' concrete"},
+    "google-models": {"day": 14, "note": "Carry: a Jul 10 leaked launch plan hardens Gemini 3.5 Pro GA for Jul 17 as a full new pretraining run (2M context, Deep Think gated to $250/mo Ultra); still no official Google benchmarks or pricing"},
+    "talent": {"day": 23, "note": "Tracking: talent war litigated (Apple v OpenAI, ed-030 Hero, no fresh docket movement); Shazeer→OpenAI, Jumper→Anthropic; Bezos's Prometheus poaching ~100"},
+    "physical-ai": {"day": 15, "note": "Tracking: Mistral Robostral (New #4) + the humanoid IPO wave (New #8) + Ant Group's Zeroth (ed-030 New); Tesla converting a line to an Optimus factory"},
+    "china-companion": {"day": 2, "note": "Tracking: China's companion-AI rules (ed-030 New) take effect Jul 15 (2 days); ByteDance/Alibaba disabling companion features"},
+    "genesis": {"day": 2, "note": "Tracking: DOE Genesis Mission (ed-030 New) holds; the UN's Bengio-Ressa scientific panel (Jul 1) adds a science-led governance layer"}
+  },
+  "resolved": [
+    "DATE-TRAP EXCLUDED (not padded as New): OpenAI's $122B funding round at an $852B valuation (Amazon $50B / Nvidia $30B / SoftBank $30B; AWS exclusive third-party cloud) is dated MAR 31 2026 and merely resurfaced via H1-2026 funding roundups — old news, NOT listed as fresh New.",
+    "DATE-TRAPS EXCLUDED: (1) the Anthropic-Microsoft Maia 200 inference talks are MAY 2026 and non-binding; (2) HHS's ChatGPT-powered AERO audit initiative dates to MAY 21; (3) Shield AI's $1.5B Series G at $12.7B is MAR 26; (4) DeepMind's Gemini Deep Think Erdős proofs are FEB/MAY 2026; (5) Taktile's $110M Series C (Goldman-led) is JUN 24; (6) Isomorphic Labs' IsoDDE drug-design engine is FEB 10 — none listed as fresh New.",
+    "Auto-retire / demote: edition-030's 10 New items with no fresh movement drop to Tracking one-liners — apple-openai-lawsuit→talent, sk-hynix-ipo→hbm-supply, microsoft-frontier-company→it-services-ai, fed-ai-taskforce→workforce, vc-record-h1→money-markets, genesis-mission→genesis, even-realities→ai-wearables (folded), china-companion-ai→china-companion, zeroth-robotics→physical-ai, quiq-verified→agent-layer.",
+    "Demoted from Developing to Tracking (no fresh movement this window): workforce (no new layoff data; the Fed jobs task force and UN catastrophic-harm framing now carry the thread as context). reg-clock stays Developing because it genuinely moved — the UN multilateral dialogue convened and the Aug 1 / Aug 2 deadlines compressed.",
+    "NO NEW.24H THIS EDITION: a steady post-weekend Monday — the biggest genuinely-new breaks (JadePuffer disclosure; UN Geneva dialogue Jul 6-7; SambaNova/Mistral Jul 8; Quantum Systems Jul 2; Google Africa Lab / Poppy Jul 1) all landed >24h ago, so NO item carries the NEW.24H badge — honest to the flow, not a miss."
+  ],
+  "deadlines": [
+    {"date": "2026-07-15", "label": "China's Interim Measures for Anthropomorphic AI Interaction Services take effect (CAC + 4 agencies): companion-AI rules — bans virtual partners for minors, mandates addiction-detection — 2 days", "severity": "medium"},
+    {"date": "2026-07-17", "label": "Gemini 3.5 Pro GA (full new pretraining run, 2M context, Deep Think gated to $250/mo Ultra) — leaked-plan date; still no official Google benchmarks or pricing — 4 days", "severity": "medium"},
+    {"date": "2026-07-22", "label": "AMD Advancing AI 2026 (Jul 22-23, San Francisco): expected MI450/MI500 and enterprise-partnership updates", "severity": "low"},
+    {"date": "2026-08-01", "label": "US: agencies to finalize the Jun 2 EO's voluntary covered-frontier framework (30-day pre-release access; classified cyber-benchmarking); the Jul-2 clearinghouse is already overdue — under 3 weeks", "severity": "high"},
+    {"date": "2026-08-02", "label": "EU AI Act: Article 50 transparency + GPAI enforcement (fines up to €15M/3% turnover) — under 3 weeks; Annex III high-risk deferred to Dec 2 2027", "severity": "high"},
+    {"date": "2026-08-31", "label": "Google Africa Applied AI Lab applications close (Accra co-development Sep-Dec); Anthropic Claude Sonnet 5 promotional pricing ($2/$10 per Mtok) also ends this day", "severity": "low"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
