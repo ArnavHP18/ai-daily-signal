@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 033 — 16 July 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>ANTHROPIC</b> Blackstone + Hellman &amp; Friedman + Goldman launch Ode with Anthropic — a $1.5B enterprise-AI services firm; the labs now all sell implementation, not just models &nbsp;◆&nbsp; <b>META</b> Hyperion expands to 5GW / &gt;$50B in Louisiana as 2026 hyperscaler capex tops $650B &nbsp;◆&nbsp; <b>AMD</b> MI450 (432GB HBM4) sampling to lead customers ahead of Advancing AI, Jul 22-23 &nbsp;◆&nbsp; <b>3M×MICROSOFT</b> Azure becomes first hyperscaler to deploy 3M's Expanded Beam Optical fiber &nbsp;◆&nbsp; <b>NVIDIA</b> first (trivial) H200 units clear to China under US license &nbsp;◆&nbsp; <b>GOOGLE</b> Gemini 3.5 Pro GA target is TOMORROW (Jul 17) — still no model card &nbsp;◆&nbsp; <b>JOBS</b> 2026 layoffs pass 201k; 54% of events cite AI &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>033</b></span>
+    <span>THURSDAY, 16 JULY 2026</span>
+    <span class="seg">NEW <b>10</b> · DEVELOPING <b>3</b> · TRACKING <b>15</b></span>
+    <span>CRITICAL <b>2</b> / NOTABLE 7 / MONITOR 4</span>
+    <span>SCAN: 28 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="ode-anthropic">
+  <div>
+    <div class="kicker">■ Today's Lead · New · Enterprise · The implementation economy</div>
+    <h2>Anthropic builds its own services arm — Ode launches as a $1.5B firm to <em>deploy</em> AI, not just sell it</h2>
+    <p class="dek"><strong>Anthropic, Blackstone and Hellman &amp; Friedman</strong> on Jul 15 introduced <strong>Ode with Anthropic</strong>, a standalone <strong>$1.5B enterprise-AI services firm</strong> that pairs Anthropic's frontier models with forward-deployed engineers who embed inside customers to build the systems that put AI into production (<a href="https://techcrunch.com/2026/07/15/anthropic-blackstone-bet-the-next-trillion-dollar-ai-business-is-implementation-not-models/">TechCrunch</a>, <a href="https://www.hpcwire.com/aiwire/2026/07/15/anthropic-blackstone-and-hellman-friedman-introduce-ode-with-anthropic-an-enterprise-ai-services-firm/">AIwire</a>). Anthropic, Blackstone and H&amp;F each put in roughly <strong>$300M</strong>, with <strong>Goldman Sachs</strong> adding ~$150M as a fourth anchor and General Atlantic, Leonard Green, Apollo, GIC and Sequoia in the syndicate. Ode is built on <strong>Fractional AI</strong> — the applied-AI shop Anthropic acquired in May — and is led by CEO Chris Taylor and CTO Eddie Siegel. It is the clearest signal yet that the frontier labs believe the next trillion-dollar layer is <em>getting AI adopted</em>, the same bet behind Microsoft's $2.5B Frontier company, AWS's ~$1B deployment venture, and OpenAI's Deployment Company (which bought Northslope and Tomoro).</p>
+    <p class="sowhat">So what: the model vendor is now also the systems integrator. If your AI-adoption plan runs through Accenture/TCS/Infosys, expect the lab itself — Anthropic via Ode, OpenAI via its Deployment Co, Microsoft via Frontier — to be the competing (and model-native) bid on your next engagement.</p>
+    <span class="chip arc">ARC: IT-SERVICES-AI · D7</span><span class="chip">2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://techcrunch.com/2026/07/15/anthropic-blackstone-bet-the-next-trillion-dollar-ai-business-is-implementation-not-models/">TechCrunch</a> ·
+      <a href="https://www.hpcwire.com/aiwire/2026/07/15/anthropic-blackstone-and-hellman-friedman-introduce-ode-with-anthropic-an-enterprise-ai-services-firm/">AIwire</a> ·
+      <a href="https://seekingalpha.com/news/4614119-blackstone-anthropic-hellman-friedmans-ai-firm-launches-under-ode-with-anthropic-name">Seeking Alpha</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What launched.</strong> Ode with Anthropic is a standalone company combining Anthropic's frontier models, a team of AI engineers and operators, and a heavyweight investor consortium. Anthropic, Blackstone and Hellman &amp; Friedman each contributed ~$300M of the $1.5B base; Goldman Sachs added ~$150M as a fourth anchor, with General Atlantic, Leonard Green &amp; Partners, Apollo Global Management, GIC and Sequoia Capital also participating. The operational core comes from Fractional AI, acquired in May 2026, whose founders Chris Taylor (CEO) and Eddie Siegel (CTO) now run Ode.</p>
+      <p><strong>Why it's the lead.</strong> It closes the loop on a thread this briefing has tracked for two weeks: "the next battle is deployment, not models." Microsoft stood up its $2.5B Frontier company (6,000 experts; LSEG, Unilever, Land O'Lakes, Accenture as early partners); AWS committed ~$1B to its own forward-deployed-engineer venture; OpenAI's Deployment Company bought Northslope and Tomoro. With Ode, Anthropic now has a branded, separately-capitalised services arm too — every major US lab is buying or building an implementation business, and private equity is underwriting it as a category.</p>
+      <p><strong>The caveats.</strong> Ode is new; there is no revenue track record, and "labs-as-SI" collides directly with the incumbents (Accenture, Deloitte, TCS, Infosys, Cognizant) that also resell the same models. Whether a model-native services firm out-executes a 700,000-person SI on change management is unproven — the structure is the signal, not yet the outcome.</p>
+      <p><strong>Watch next.</strong> Named Ode client wins and vertical focus; whether OpenAI/Google respond with their own branded services raises; and how the big SIs (Cognizant just deepened its Google Cloud tie, see New #7) reprice against a lab that shows up with both the model and the engineers.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>Announced</dt><dd>Jul 15 2026 (TechCrunch, AIwire, Seeking Alpha, Las Vegas Sun)</dd>
+      <dt>What</dt><dd>Ode with Anthropic — standalone enterprise-AI services firm</dd>
+      <dt>Size</dt><dd>$1.5B base — Anthropic / Blackstone / H&amp;F ~$300M each, Goldman ~$150M</dd>
+      <dt>Backers</dt><dd>+ General Atlantic, Leonard Green, Apollo, GIC, Sequoia</dd>
+      <dt>Built on</dt><dd>Fractional AI (acq. May 2026); CEO Chris Taylor, CTO Eddie Siegel</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">7</b>/10 — every enterprise whose AI rollout runs through an SI</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="ode-anthropic">
+      <div class="num">1</div>
+      <h4>Anthropic + Blackstone launch Ode, a $1.5B AI services firm</h4>
+      <p>Every US lab now sells implementation, not just models — after Microsoft's Frontier ($2.5B), AWS (~$1B) and OpenAI's Deployment Co, Anthropic gets a branded, PE-backed forward-deployed-engineer arm. The SIs' moat just met a model-native bidder. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="us-export-controls">
+      <div class="num">2</div>
+      <h4>The reg clock bites: US Aug 1, EU Aug 2 — under 3 weeks</h4>
+      <p>The US covered-frontier framework is still unannounced; EU Article 50 + GPAI enforcement (fines to €15M/3%) switches on Aug 2. China's companion-AI rules just took effect Jul 15, and the first H200 units cleared to China — the three-power squeeze tightens on schedule. <strong>DEVELOPING.</strong></p>
+    </article>
+    <article class="trip" data-story-id="meta-hyperion">
+      <div class="num">3</div>
+      <h4>Meta's Hyperion balloons to 5GW / &gt;$50B</h4>
+      <p>Meta pushed its Louisiana AI supercluster to a 5-gigawatt / $50B+ buildout (Jul 13), $27B of it off-balance-sheet via Blue Owl — as combined 2026 capex across the five biggest tech firms tops $650B. The compute arms race has no ceiling in sight. <strong>NEW.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>A BUSY THURSDAY, HARDWARE-TILTED (deep beat = hardware/compute):</strong> two items broke inside 24h — <strong>Ode with Anthropic</strong> (Jul 15) and <strong>3M×Microsoft</strong> (Jul 15) — and carry the <strong>NEW.24H</strong> badge. The rest are genuinely new (ids absent last edition) but dated earlier this week and honestly labelled: Meta Hyperion's 5GW expansion (Jul 13), AMD's MI450 sampling ahead of Advancing AI (Jul 22-23), Nvidia's first trivial H200 shipments to China (Jul 14), India's shift toward a risk-based AI law (Jul 6), Cognizant×Google Cloud (Jul 7), plus video-AI raises (Twelve Labs, PixVerse) and an AI-drug-discovery market marker. Three threads carry with change-lines — the reg clock (deadlines now under three weeks + China rules live), Gemini 3.5 Pro (GA target is tomorrow, still no model card), and the workforce picture (2026 cuts pass 201k). Grok 4.5, Muse Spark 1.1 and OpenAI's proposed 5% government stake were already covered — excluded as date-traps, not padded as New.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (13)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (4)</button>
+    <button class="tab" data-cat="policy">POLICY (3)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (2)</button>
+    <button class="tab" data-cat="business">BUSINESS (2)</button>
+    <button class="tab" data-cat="models">MODELS (1)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>10 ITEMS · BROKE / SURFACED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="enterprise" data-story-id="ode-anthropic">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#1</span> <span class="cat">ENTERPRISE · ANTHROPIC</span></div>
+      <h4>Anthropic + Blackstone launch Ode — a $1.5B AI services firm</h4>
+      <div class="body">The lead, in full above. <strong>Anthropic, Blackstone and Hellman &amp; Friedman</strong> introduced <strong>Ode with Anthropic</strong> (Jul 15), a standalone <strong>$1.5B</strong> enterprise-AI services firm — each anchor ~$300M, <strong>Goldman</strong> ~$150M, with Apollo/GIC/Sequoia/General Atlantic/Leonard Green in (<a href="https://techcrunch.com/2026/07/15/anthropic-blackstone-bet-the-next-trillion-dollar-ai-business-is-implementation-not-models/">TechCrunch</a>, <a href="https://www.hpcwire.com/aiwire/2026/07/15/anthropic-blackstone-and-hellman-friedman-introduce-ode-with-anthropic-an-enterprise-ai-services-firm/">AIwire</a>). Built on Fractional AI (acquired May), it embeds forward-deployed engineers inside customers — the same "implementation, not models" bet as Microsoft Frontier ($2.5B), AWS (~$1B) and OpenAI's Deployment Company.</div>
+      <p class="sowhat">The model vendor is now the SI. Add the labs' own services arms to your bake-off list; the incumbent integrators no longer have the model-adjacency moat to themselves.</p>
+      <div><span class="chip arc">ARC: IT-SERVICES-AI · D7</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/15/anthropic-blackstone-bet-the-next-trillion-dollar-ai-business-is-implementation-not-models/">TechCrunch</a> · <a href="https://www.hpcwire.com/aiwire/2026/07/15/anthropic-blackstone-and-hellman-friedman-introduce-ode-with-anthropic-an-enterprise-ai-services-firm/">AIwire</a> · <a href="https://seekingalpha.com/news/4614119-blackstone-anthropic-hellman-friedmans-ai-firm-launches-under-ode-with-anthropic-name">Seeking Alpha</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="hardware" data-story-id="meta-hyperion">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#2</span> <span class="cat">HARDWARE · CAPEX</span></div>
+      <h4>Meta expands Hyperion to 5GW / $50B+ — the compute race has no ceiling</h4>
+      <div class="body"><strong>Meta</strong> said (Jul 13) its <strong>Hyperion</strong> AI supercluster in Richland Parish, Louisiana will grow to a <strong>5-gigawatt</strong> facility with investment topping <strong>$50B</strong> across ~3,200 acres, plus &gt;$1B in local infrastructure (<a href="https://www.cnbc.com/2026/07/13/meta-louisiana-data-center-investment-reaches-50-billion-amid-ai-push.html">CNBC</a>, <a href="https://www.tomshardware.com/tech-industry/data-centers/meta-expands-colossal-hyperion-ai-supercluster-plans-to-5gw-pushes-louisiana-investment-past-usd50-billion-as-ai-race-accelerates-says-it-plans-to-invest-over-usd1-billion-in-local-infrastructure-improvements">Tom's Hardware</a>). Roughly $27B is financed off-balance-sheet via <strong>Blue Owl</strong>; Meta guides 2026 capex to $125–145B, part of a top-5 tech capex pool now tracking past <strong>$650B</strong> this year.</div>
+      <p class="sowhat">Frontier training is now a power-and-land problem. If you depend on cloud GPU capacity, this is where the next two years of supply is being poured — and who your provider is racing to serve.</p>
+      <div><span class="chip arc">ARC: COMPUTE-BUILDOUT · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/07/13/meta-louisiana-data-center-investment-reaches-50-billion-amid-ai-push.html">CNBC</a> · <a href="https://www.tomshardware.com/tech-industry/data-centers/meta-expands-colossal-hyperion-ai-supercluster-plans-to-5gw-pushes-louisiana-investment-past-usd50-billion-as-ai-race-accelerates-says-it-plans-to-invest-over-usd1-billion-in-local-infrastructure-improvements">Tom's Hardware</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="hardware" data-story-id="amd-mi450">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#3</span> <span class="cat">HARDWARE · AMD</span></div>
+      <h4>AMD's MI450 samples to lead customers ahead of Advancing AI (Jul 22-23)</h4>
+      <div class="body">Ahead of <strong>Advancing AI 2026</strong> (Jul 22-23, Moscone SF), AMD has begun <strong>sampling MI450 GPUs</strong> — up to <strong>432GB HBM4</strong> and ~20TB/s bandwidth — to lead customers and is already engaging on the next-gen <strong>MI500</strong>, with the largest deployments earmarked for inference (<a href="https://wccftech.com/amd-sampling-mi450-gpus-engaged-with-customers-on-mi500-largest-ai-deployments-are-for-inference/">Wccftech</a>, <a href="https://www.amd.com/en/newsroom/press-releases/2026-4-28-amd-announces-advancing-ai-2026-.html">AMD</a>). The event is expected to detail MI450, Zen6 <strong>EPYC Venice</strong>, ROCm and the <strong>Helios</strong> rack — the platform behind OpenAI's 6GW AMD commitment, first 1GW of MI450 shipping H2 2026.</div>
+      <p class="sowhat">The credible #2 to Nvidia is now sampling silicon with a real hyperscale customer (OpenAI). If you're locked to CUDA, Jul 22-23 is the checkpoint for whether an AMD inference lane is worth a 2027 eval.</p>
+      <div><span class="chip arc">ARC: CUSTOM-SILICON · D11</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://wccftech.com/amd-sampling-mi450-gpus-engaged-with-customers-on-mi500-largest-ai-deployments-are-for-inference/">Wccftech</a> · <a href="https://www.amd.com/en/newsroom/press-releases/2026-4-28-amd-announces-advancing-ai-2026-.html">AMD newsroom</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="hardware" data-story-id="3m-microsoft">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#4</span> <span class="cat">HARDWARE · DATA CENTERS</span></div>
+      <h4>Microsoft taps 3M's Expanded Beam Optical to speed Azure AI builds</h4>
+      <div class="body"><strong>3M and Microsoft</strong> announced (Jul 15) a strategic partnership: Azure becomes the <strong>first hyperscaler</strong> to deploy 3M's <strong>Expanded Beam Optical (EBO)</strong> fiber — an expanded-beam interface (vs direct-contact connectors) that is more contamination-tolerant, faster to install and easier to maintain in dense builds, shortening deployment timelines (<a href="https://news.microsoft.com/source/2026/07/15/3m-and-microsoft-announce-strategic-partnership-to-advance-ai-data-center-infrastructure-and-enterprise-transformation/">Microsoft</a>, <a href="https://www.prnewswire.com/news-releases/3m-and-microsoft-announce-strategic-partnership-to-advance-ai-data-center-infrastructure-and-enterprise-transformation-302825813.html">PR Newswire</a>). 3M will also run its own enterprise transformation on Microsoft AI platforms.</div>
+      <p class="sowhat">The AI-buildout bottleneck is increasingly physical — optics, cooling, power. Materials-science suppliers are now strategic AI vendors; watch the interconnect layer, not just the GPU.</p>
+      <div><span class="chip arc">ARC: DC-INFRA · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://news.microsoft.com/source/2026/07/15/3m-and-microsoft-announce-strategic-partnership-to-advance-ai-data-center-infrastructure-and-enterprise-transformation/">Microsoft Source</a> · <a href="https://www.prnewswire.com/news-releases/3m-and-microsoft-announce-strategic-partnership-to-advance-ai-data-center-infrastructure-and-enterprise-transformation-302825813.html">PR Newswire</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="hardware" data-story-id="nvidia-h200-china">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#5</span> <span class="cat">HARDWARE · EXPORT</span></div>
+      <h4>First — trivial — Nvidia H200 units clear to China under US license</h4>
+      <div class="body">A <strong>small</strong> number of Nvidia <strong>H200</strong> AI chips have shipped to customers in China after winning US approval, per a Jul 14 report — but the volume is described as "<strong>trivial</strong>" (<a href="https://www.bloomberg.com/news/articles/2026-07-14/small-amount-of-nvidia-ai-chips-shipped-to-china-with-us-license">Bloomberg</a>, <a href="https://www.scmp.com/news/china/diplomacy/article/3339797/us-government-approves-nvidia-h200-chip-exports-china">SCMP</a>). Washington had licensed sales to ~10 Chinese firms, but Chinese authorities discouraged buying on security grounds and demand stayed thin — the mirror to Beijing's own weighed curbs on exporting its best open-weight models.</div>
+      <p class="sowhat">Chip flows both ways are now politically gated and commercially thin. Don't model China H200 supply as a real capacity lever — it's a diplomatic signal more than a procurement path.</p>
+      <div><span class="chip arc">ARC: CHINA-EXPORT · D3</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-07-14/small-amount-of-nvidia-ai-chips-shipped-to-china-with-us-license">Bloomberg</a> · <a href="https://www.scmp.com/news/china/diplomacy/article/3339797/us-government-approves-nvidia-h200-chip-exports-china">SCMP</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="policy" data-story-id="india-ai-law">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#6</span> <span class="cat">POLICY · INDIA</span></div>
+      <h4>India signals a shift: a risk-based AI law, sectoral regulators to set rules</h4>
+      <div class="body">India is weighing a dedicated <strong>risk-based AI law</strong> that would classify systems and impose graded duties — light rules for low-risk, stricter obligations for high-risk uses in <strong>banking, finance and health</strong> — a shift from MeitY's Nov-2025 line that no separate law was needed (<a href="https://iapp.org/news/a/notes-from-the-asia-pacific-region-india-signals-shift-on-ai-regulation">IAPP</a>, <a href="https://startupfeed.in/new-ai-law-india-risk-based-rules-2026/">reporting per ET, Jul 6</a>). Crucially it would let sectoral regulators — <strong>RBI, SEBI, IRDAI</strong> — write their own AI rules, building on RBI's Jun directive for board-approved frontier-AI cyber gap assessments.</div>
+      <p class="sowhat">If you run AI in Indian financial services or health, plan for RBI/SEBI/IRDAI-specific obligations on top of a horizontal law — the compliance surface is about to fragment by sector.</p>
+      <div><span class="chip arc">ARC: INDIA-REG · D1</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://iapp.org/news/a/notes-from-the-asia-pacific-region-india-signals-shift-on-ai-regulation">IAPP</a> · <a href="https://startupfeed.in/new-ai-law-india-risk-based-rules-2026/">StartupFeed (per ET)</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="cognizant-google">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#7</span> <span class="cat">ENTERPRISE · SI</span></div>
+      <h4>Cognizant deepens its Google Cloud tie around Gemini Enterprise</h4>
+      <div class="body"><strong>Cognizant</strong> expanded its partnership with <strong>Google Cloud</strong> (Jul 7) to push <strong>Gemini Enterprise</strong> and Google Workspace to clients and to deepen its own internal use of the tools (<a href="https://news.cognizant.com/2026-07-07-Cognizant-expands-partnership-with-Google-Cloud-to-accelerate-enterprise-AI-adoption-with-Gemini-Enterprise-and-Google-Workspace">Cognizant</a>). The timing is the story: as the labs stand up their own services arms (Ode, New #1), the classic SIs are locking tighter to a single hyperscaler's enterprise stack to defend the adoption business.</div>
+      <p class="sowhat">The SI-vs-lab contest is now explicit. Read a big-SI ↔ hyperscaler deepening as defensive positioning against model-native services — and price both sides when you buy adoption help.</p>
+      <div><span class="chip arc">ARC: IT-SERVICES-AI · D7</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://news.cognizant.com/2026-07-07-Cognizant-expands-partnership-with-Google-Cloud-to-accelerate-enterprise-AI-adoption-with-Gemini-Enterprise-and-Google-Workspace">Cognizant newsroom</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="business" data-story-id="twelve-labs-raise">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#8</span> <span class="cat">BUSINESS · VIDEO AI</span></div>
+      <h4>Twelve Labs raises $100M to make video archives searchable by AI</h4>
+      <div class="body"><strong>Twelve Labs</strong> raised a <strong>$100M Series B</strong> for AI trained on video archives — understanding, search and reasoning over footage — co-led by <strong>New Enterprise Associates and Naver Ventures</strong> (<a href="https://techstartups.com/2026/07/06/venture-capital-startup-funding-roundup-july-6-2026/">Tech Startups funding roundup</a>). It lands in a busy week for video-AI capital alongside PixVerse (New #9), as the modality moves from generation into <em>comprehension</em> of the world's largest untapped data type.</div>
+      <p class="sowhat">Video understanding (not just generation) is drawing real money — if you sit on a large video corpus, search/indexing over it is now a fundable, buildable capability.</p>
+      <div><span class="chip arc">ARC: VIDEO-AI · D1</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://techstartups.com/2026/07/06/venture-capital-startup-funding-roundup-july-6-2026/">Tech Startups (funding roundup)</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="business" data-story-id="pixverse-raise">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#9</span> <span class="cat">BUSINESS · VIDEO AI</span></div>
+      <h4>PixVerse's $439M extension lifts the Singapore video-AI startup past $2B</h4>
+      <div class="body"><strong>PixVerse</strong>, a Singapore-based generative-video startup, closed a <strong>$439M Series C extension</strong> that pushes its valuation above <strong>$2B</strong> (<a href="https://techstartups.com/2026/07/14/venture-capital-startup-funding-roundup-july-14-2026-blackstone-general-catalyst-index-ventures-kleiner-perkins-lightspeed-sequoia/">Tech Startups funding roundup, Jul 14</a>). It extends a generative-media capital theme that has run through this feed — Higgsfield's mooted $5B raise, Tripo AI's 3D round — and adds an Asia-based video champion to a field that had been US/China-centric.</div>
+      <p class="sowhat">Generative video is consolidating into a few well-funded platforms across three regions — if video is on your roadmap, the build-vs-buy math now favours an established API over rolling your own.</p>
+      <div><span class="chip arc">ARC: GENAI-MEDIA · D1</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://techstartups.com/2026/07/14/venture-capital-startup-funding-roundup-july-14-2026-blackstone-general-catalyst-index-ventures-kleiner-perkins-lightspeed-sequoia/">Tech Startups (funding roundup)</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="research" data-story-id="ai-drug-discovery">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#10</span> <span class="cat">RESEARCH · AI-FOR-SCIENCE</span></div>
+      <h4>AI-for-drug-discovery crosses from support tool to core method</h4>
+      <div class="body">Fresh mid-July market markers put AI-driven drug-discovery investment above <strong>$2B</strong> in the recent window, with vendors claiming timelines compressed <strong>~70%</strong> (from 4–5 years to 12–18 months for the discovery phase) and R&amp;D costs down 30–40% (<a href="https://www.globenewswire.com/news-release/2026/07/14/3327157/0/en/AI-Drug-Discovery-Investment-Surges-to-2-Billion-as-Technology-Cuts-Development-Timelines-by-70-Driven-by-Breakthrough-Clinical-Success-Rates.html">GlobeNewswire</a>, <a href="https://www.drugtargetreview.com/2026-the-year-ai-stops-being-optional-in-drug-discovery/682243.article">Drug Target Review</a>). The framing shift: in-silico target selection before wet-lab validation is becoming the default, not the experiment — AI moving from data-retrieval to scientific discovery.</div>
+      <p class="sowhat">The research beat's signal this week is vertical: AI-for-science is monetising in pharma. Treat these speed/cost figures as vendor-aggregate claims, but the direction — AI as core method — is real.</p>
+      <div><span class="chip arc">ARC: AI-FOR-SCIENCE · D1</span><span class="chip">Agg 2x</span></div>
+      <div class="src"><a href="https://www.globenewswire.com/news-release/2026/07/14/3327157/0/en/AI-Drug-Discovery-Investment-Surges-to-2-Billion-as-Technology-Cuts-Development-Timelines-by-70-Driven-by-Breakthrough-Clinical-Success-Rates.html">GlobeNewswire</a> · <a href="https://www.drugtargetreview.com/2026-the-year-ai-stops-being-optional-in-drug-discovery/682243.article">Drug Target Review</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="us-export-controls">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D1</span> <span class="cat">POLICY · GLOBAL</span></div>
+      <h4>The reg clock turns real — China rules live, US/EU deadlines under three weeks</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> China's <strong>companion-AI ("anthropomorphic interaction") rules took effect Jul 15</strong> — the first of the three tracks to move from deadline to enforcement. The first <strong>trivial H200 units cleared to China</strong> (Jul 14, New #5). The US covered-frontier framework is still unannounced with its <strong>Aug 1</strong> design deadline ~16 days out; the EU's <strong>Aug 2</strong> Article 50 + GPAI enforcement (fines to €15M/3%) is <strong>17 days</strong> away; the EU also issued a July action plan on Cybersecurity and AI.</div>
+      <div class="body">Governance is a three-body problem in motion: US (the Jun 2 EO plus a still-unbuilt clearinghouse; <a href="https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/">White House</a>), EU (Aug 2 enforcement; the Council gave final green light to the streamlining package Jun 29, deferring stand-alone high-risk Annex III to Dec 2 2027 — <a href="https://www.consilium.europa.eu/en/press/press-releases/2026/06/29/artificial-intelligence-council-gives-final-green-light-to-simplify-and-streamline-rules/">Consilium</a>, <a href="https://artificialintelligenceact.eu/">AI Act tracker</a>), and China (companion-AI rules now in force; MOFCOM still weighing model-export curbs). "Who ships, and to whom" is hardening on three sides at once.</div>
+      <p class="sowhat">Staff the EU Aug 2 workstreams now, and treat the China track as live rather than hypothetical — one of the three regimes just moved from calendar to enforcement.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D37</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/">White House EO</a> · <a href="https://artificialintelligenceact.eu/">EU AI Act tracker</a> · <a href="https://www.consilium.europa.eu/en/press/press-releases/2026/06/29/artificial-intelligence-council-gives-final-green-light-to-simplify-and-streamline-rules/">Consilium</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="google-models">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">D2</span> <span class="cat">MODELS · GOOGLE</span></div>
+      <h4>Gemini 3.5 Pro's GA target is tomorrow — and still no model card</h4>
+      <div class="delta-line nochange"><span class="dl-tag">NO CHANGE</span> The date is now <strong>T-1</strong> (Jul 17, tomorrow) after the full architectural rebuild, with a teased "Nano Banana Pro" image model and Fable-driven audio — but there is still <strong>no model card, no pricing page and no gemini-3.5-pro API listing</strong>. Every spec (2M context, Deep Think) remains a leak until Google publishes.</div>
+      <div class="body">Google slipped 3.5 Pro to <strong>Jul 17</strong> after scrapping the 2.5-Pro base and rebuilding — engineers reportedly found structural failures in recursive tool-calling and SVG generation (<a href="https://www.techtimes.com/articles/320308/20260713/gemini-35-pro-targets-july-17-after-full-rebuild-every-spec-remains-unconfirmed.htm">TechTimes</a>, <a href="https://finance.biggo.com/news/6f0c6bb2-795f-4c57-9d09-6db691d7638a">BigGo</a>). It would be a notable exception — a major frontier model shipping without US covered-frontier friction — but the date has moved before, and nothing is official until the card lands.</div>
+      <p class="sowhat">Have the eval harness ready for a Jul 17 drop, but gate any migration on a real model card + pricing — treat tomorrow as "maybe," not "confirmed."</p>
+      <div><span class="chip arc">ARC: GOOGLE-MODELS · D17</span><span class="chip">Agg 2x</span></div>
+      <div class="src"><a href="https://www.techtimes.com/articles/320308/20260713/gemini-35-pro-targets-july-17-after-full-rebuild-every-spec-remains-unconfirmed.htm">TechTimes</a> · <a href="https://finance.biggo.com/news/6f0c6bb2-795f-4c57-9d09-6db691d7638a">BigGo</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="workforce">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">D3</span> <span class="cat">POLICY · WORKFORCE</span></div>
+      <h4>2026's AI-cited layoffs pass 201,000 across 302 events</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The running tally advanced: as of Jul 15, 2026 has logged <strong>302 layoff events / 201,754 workers</strong>, with <strong>54%</strong> of events citing AI/automation (~<strong>168,770</strong> workers). Fresh July events: Microsoft ran another ~4% round; hotel-SaaS <strong>Mews</strong> cut 15% explicitly to let AI lift productivity; Oracle's AI-linked cuts reached ~21,000 YTD.</div>
+      <div class="body">The pattern holds — record revenues alongside headcount cuts, with AI named as both the growth engine and the reason (<a href="https://techcrunch.com/2026/07/06/the-running-list-major-tech-layoffs-in-2026-where-employers-cited-ai/">TechCrunch running list</a>, <a href="https://www.forbes.com/sites/maryroeloffs/2026/06/23/ai-cost-21000-jobs-at-oracle-this-year-and-more-layoffs-could-be-coming/">Forbes</a>). The quieter signal remains the junior-role hiring freeze; India's GCCs run the other way, with GenAI demand +300% against a ~53% skill deficit and a projected shortfall of ~1M AI professionals by year-end.</div>
+      <p class="sowhat">Two labour markets are diverging: shrinking Western junior pipelines vs a Global-South AI-eng build-out. Plan hiring/skilling for both realities, not one headline.</p>
+      <div><span class="chip arc">ARC: WORKFORCE · D20</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/06/the-running-list-major-tech-layoffs-in-2026-where-employers-cited-ai/">TechCrunch</a> · <a href="https://www.forbes.com/sites/maryroeloffs/2026/06/23/ai-cost-21000-jobs-at-oracle-this-year-and-more-layoffs-could-be-coming/">Forbes</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING ══════════ -->
+<section>
+  <div class="sec-head">Still Tracking <small>LONG-RUNNERS WITH NO MOVEMENT THIS EDITION</small></div>
+  <div class="tracking-strip" id="tracking-strip"></div>
+</section>
+
+<!-- ══════════ RESOLVED ══════════ -->
+<section>
+  <div class="sec-head">Resolved <small>YESTERDAY'S OPEN THREADS, CLOSED</small></div>
+  <div class="resolved-strip" id="resolved-strip"></div>
+</section>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 033 · 2026-07-16 (IST) · FORMAT v2</strong></p>
+    <p>METHOD: 28 web searches across frontier + open-weight models, hardware/compute (Thursday deep beat), agents &amp; tooling, AI security, business/funding/M&amp;A, enterprise deployment, workforce/labor, regional AI jobs (India) and regulation (US/EU/India/China). v2 splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with a change-line) and STILL TRACKING (quiet long-runners). Hero = biggest new item unless a developing thread had a major escalation. Aggregator claims cross-checked against ≥2 outlets where possible; single-source/aggregator items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+    <p>KNOWN SCAN GAPS &amp; CAVEATS THIS EDITION: NEW.24H applies to two items only — Ode with Anthropic and 3M×Microsoft, both announced Jul 15, within 24h of the Jul 16 IST run. Everything else in New is genuinely new (id absent last edition) but dated earlier and labelled honestly: Meta Hyperion expansion Jul 13; Nvidia H200-to-China Jul 14; AMD MI450 sampling (event Jul 22-23); India AI-law reporting Jul 6; Cognizant×Google Jul 7; Twelve Labs and PixVerse via funding roundups; AI-drug-discovery a mid-July market marker. The Ode figures ($1.5B, ~$300M-per-anchor, Goldman ~$150M, Fractional-AI base) are 2x-sourced (TechCrunch + AIwire/press). Meta Hyperion, 3M×Microsoft and Nvidia H200 are 2x-sourced (incl. company/primary). AMD's MI450-sampling and MI500-engagement detail rests on Wccftech reporting plus AMD's own event notice; specific MI450 specs (432GB HBM4, 20TB/s) are AMD-published targets, not shipping benchmarks. India's AI-law is a single-outlet read of an ET report (chip Agg 1x). Twelve Labs ($100M) and PixVerse ($439M) rest on Tech Startups funding roundups (Agg 1x). The AI-drug-discovery speed/cost figures (~70% faster, 30-40% cheaper, &gt;$2B) are vendor/market-report aggregates (GlobeNewswire PR wire + Drug Target Review) — direction is solid, the percentages are claims. DATE-TRAPS EXCLUDED (not padded as New, already covered in prior editions): Grok 4.5 (Jul 8), Meta Muse Spark 1.1 (Jul 9), OpenAI's proposed 5% US-government stake (Jul 2 FT), Venice $65M, Together AI $800M (ed-032), Taktile $110M (JUN 24). DEVELOPING: reg-clock genuinely moved (China companion-AI rules now in force + compressed Aug 1/Aug 2 deadlines + first H200 to China); workforce moved on fresh aggregate data (302 events / 201,754 workers, 54% cite AI); Gemini 3.5 Pro is held Developing on a live T-1 countdown but flagged NO-CHANGE (no model card/pricing/API). Edition-032's ten New items with no fresh movement auto-retire to Tracking one-liners; china-model-export folds into reg-clock/china-export; microsoft-layoffs folds into the workforce Developing card.</p>
+    <p>NOTE: Links point to sources found during the scan; where only an outlet root or roundup was available it is labelled as such. Nothing here is investment advice.</p>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 33,
+  "date": "2026-07-16",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 28,
+  "counts": {"new": 10, "developing": 3, "tracking": 15},
+  "tiers": {"critical": 2, "notable": 7, "monitor": 4},
+  "stories": [
+    {"id":"ode-anthropic","section":"new","rank":1,"title":"Anthropic, Blackstone and Hellman & Friedman introduced Ode with Anthropic (Jul 15), a standalone $1.5B enterprise-AI services firm pairing Anthropic's frontier models with forward-deployed engineers embedded inside customers; each anchor ~$300M, Goldman Sachs ~$150M, with General Atlantic/Leonard Green/Apollo/GIC/Sequoia in; built on Fractional AI (acquired May 2026), CEO Chris Taylor, CTO Eddie Siegel — the clearest sign yet the labs believe implementation, not models, is the next trillion-dollar layer (after Microsoft Frontier $2.5B, AWS ~$1B, OpenAI's Deployment Company)","tier":"critical","impact":7,"delta":"new","arc":"it-services-ai","arcDay":7,"confidence":"2x src","new24h":true,"firstSeen":"2026-07-16","lastUpdate":"2026-07-16","category":"enterprise"},
+    {"id":"meta-hyperion","section":"new","rank":2,"title":"Meta said (Jul 13) its Hyperion AI supercluster in Richland Parish, Louisiana will expand to a 5-gigawatt facility with investment topping $50B across ~3,200 acres, plus >$1B in local infrastructure; ~$27B financed off-balance-sheet via Blue Owl; Meta guides 2026 capex to $125-145B, part of a top-5 tech capex pool tracking past $650B this year","tier":"notable","impact":6,"delta":"new","arc":"compute-buildout","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-16","lastUpdate":"2026-07-16","category":"hardware"},
+    {"id":"amd-mi450","section":"new","rank":3,"title":"Ahead of Advancing AI 2026 (Jul 22-23, Moscone SF), AMD has begun sampling MI450 GPUs (up to 432GB HBM4, ~20TB/s) to lead customers and is engaging on next-gen MI500, with the largest deployments earmarked for inference; the event is expected to detail MI450, Zen6 EPYC Venice, ROCm and the Helios rack — the platform behind OpenAI's 6GW AMD commitment, first 1GW of MI450 shipping H2 2026","tier":"notable","impact":6,"delta":"new","arc":"custom-silicon","arcDay":11,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-16","lastUpdate":"2026-07-16","category":"hardware"},
+    {"id":"3m-microsoft","section":"new","rank":4,"title":"3M and Microsoft announced (Jul 15) a strategic partnership: Azure becomes the first hyperscaler to deploy 3M's Expanded Beam Optical (EBO) fiber — an expanded-beam interface (vs direct-contact connectors) that is more contamination-tolerant, faster to install and easier to maintain in dense builds, shortening deployment timelines; 3M will also run its own enterprise transformation on Microsoft AI platforms","tier":"notable","impact":5,"delta":"new","arc":"dc-infra","arcDay":1,"confidence":"2x src","new24h":true,"firstSeen":"2026-07-16","lastUpdate":"2026-07-16","category":"hardware"},
+    {"id":"nvidia-h200-china","section":"new","rank":5,"title":"A small ('trivial') number of Nvidia H200 AI chips shipped to customers in China after winning US approval, per a Jul 14 report (Bloomberg/SCMP); Washington had licensed sales to ~10 Chinese firms, but Chinese authorities discouraged buying on security grounds and demand stayed thin — the mirror to Beijing's own weighed curbs on exporting its best open-weight models","tier":"notable","impact":5,"delta":"new","arc":"china-export","arcDay":3,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-16","lastUpdate":"2026-07-16","category":"hardware"},
+    {"id":"india-ai-law","section":"new","rank":6,"title":"India is weighing a dedicated risk-based AI law that would classify systems and impose graded duties (light for low-risk, stricter for high-risk uses in banking/finance/health) — a shift from MeitY's Nov-2025 line that no separate law was needed (per an ET report, Jul 6); it would let sectoral regulators RBI/SEBI/IRDAI write their own AI rules, building on RBI's Jun directive for board-approved frontier-AI cyber gap assessments","tier":"notable","impact":5,"delta":"new","arc":"india-reg","arcDay":1,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-07-16","lastUpdate":"2026-07-16","category":"policy"},
+    {"id":"cognizant-google","section":"new","rank":7,"title":"Cognizant expanded its partnership with Google Cloud (Jul 7) to push Gemini Enterprise and Google Workspace to clients and deepen its own internal use; as the labs stand up their own services arms (Ode), the classic SIs are locking tighter to a single hyperscaler's enterprise stack to defend the adoption business","tier":"monitor","impact":4,"delta":"new","arc":"it-services-ai","arcDay":7,"confidence":"Primary","new24h":false,"firstSeen":"2026-07-16","lastUpdate":"2026-07-16","category":"enterprise"},
+    {"id":"twelve-labs-raise","section":"new","rank":8,"title":"Twelve Labs raised a $100M Series B for AI trained on video archives (understanding, search and reasoning over footage), co-led by New Enterprise Associates and Naver Ventures (Tech Startups funding roundup); lands in a busy week for video-AI capital alongside PixVerse as the modality moves from generation into comprehension","tier":"monitor","impact":4,"delta":"new","arc":"video-ai","arcDay":1,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-07-16","lastUpdate":"2026-07-16","category":"business"},
+    {"id":"pixverse-raise","section":"new","rank":9,"title":"PixVerse, a Singapore-based generative-video startup, closed a $439M Series C extension pushing its valuation above $2B (Tech Startups funding roundup, Jul 14); extends the generative-media capital theme (Higgsfield, Tripo AI) and adds an Asia-based video champion to a US/China-centric field","tier":"monitor","impact":4,"delta":"new","arc":"genai-media","arcDay":1,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-07-16","lastUpdate":"2026-07-16","category":"business"},
+    {"id":"ai-drug-discovery","section":"new","rank":10,"title":"Mid-July market markers put AI-driven drug-discovery investment above $2B in the recent window, with vendors claiming timelines compressed ~70% (4-5yr to 12-18mo for discovery) and R&D costs down 30-40% (GlobeNewswire, Drug Target Review); the framing shift is in-silico target selection before wet-lab validation becoming default — AI moving from data-retrieval to scientific discovery","tier":"monitor","impact":4,"delta":"new","arc":"ai-for-science","arcDay":1,"confidence":"Agg 2x","new24h":false,"firstSeen":"2026-07-16","lastUpdate":"2026-07-16","category":"research"},
+    {"id":"us-export-controls","section":"developing","rank":1,"title":"The AI-governance clock turns real: China's companion-AI ('anthropomorphic interaction') rules took effect Jul 15 — the first of the three tracks to move from deadline to enforcement; first trivial H200 units cleared to China (Jul 14); the US covered-frontier framework stays unannounced (Aug 1 design deadline ~16 days out, clearinghouse still unbuilt) and the EU's Aug 2 Article 50 + GPAI enforcement (fines to €15M/3%) is 17 days away; the Council gave final green light to the streamlining package Jun 29 (Annex III deferred to Dec 2 2027); EU also issued a July action plan on Cybersecurity and AI","tier":"critical","impact":7,"delta":"escalated","arc":"reg-clock","arcDay":37,"confidence":"Primary","new24h":false,"update":"China companion-AI rules now IN FORCE (Jul 15) — first track to move from calendar to enforcement; first trivial H200 units cleared to China (Jul 14); US Aug 1 and EU Aug 2 deadlines now under three weeks","firstSeen":"2026-06-12","lastUpdate":"2026-07-16","category":"policy"},
+    {"id":"google-models","section":"developing","rank":2,"title":"Gemini 3.5 Pro's GA target is now T-1 (Jul 17, tomorrow) after a full architectural rebuild that scrapped the 2.5-Pro base over recursive tool-calling and SVG failures, with a teased 'Nano Banana Pro' image model and Fable-driven audio — but there is still NO model card, NO pricing page and NO gemini-3.5-pro API listing; all specs (2M context, Deep Think) remain leaks; would be a notable exception as a frontier model shipping without US covered-frontier friction","tier":"notable","impact":5,"delta":"carry","arc":"google-models","arcDay":17,"confidence":"Agg 2x","new24h":false,"update":"No change to the facts, only the clock: target now T-1 (Jul 17, tomorrow); still no model card, pricing or API listing","firstSeen":"2026-06-30","lastUpdate":"2026-07-16","category":"models"},
+    {"id":"workforce","section":"developing","rank":3,"title":"2026's layoff tally advanced to 302 events / 201,754 workers as of Jul 15, with 54% of events citing AI/automation (~168,770 workers); fresh July events include Microsoft's ~4% round, hotel-SaaS Mews cutting 15% explicitly to let AI lift productivity, and Oracle's AI-linked cuts reaching ~21,000 YTD; the junior-hiring freeze persists in the West while India's GCCs run the other way (GenAI demand +300%, ~53% skill deficit, ~1M-professional shortfall projected)","tier":"notable","impact":5,"delta":"carry","arc":"workforce","arcDay":20,"confidence":"2x src","new24h":false,"update":"Fresh aggregate: 302 layoff events / 201,754 workers YTD (54% cite AI, ~168,770); new July cuts at Microsoft (~4%), Mews (15%) and Oracle (~21,000 YTD)","firstSeen":"2026-06-26","lastUpdate":"2026-07-16","category":"policy"}
+  ],
+  "tracking": [
+    {"id":"openai-deploy","label":"OpenAI's Deployment Company (Northslope + Tomoro buys, ~$4B war chest; ed-032 New) holds as the OpenAI leg of the labs-as-SI move; Ode with Anthropic (New #1/Hero) is the fresh escalation of the same thesis; no OpenAI docket movement this window","arc":"it-services-ai","arcDay":7},
+    {"id":"open-inference","label":"Together AI's $800M Series C at $8.3B (Aramco-led, Jul 1; ed-032 New) holds as validation of the open-weight serving/inference layer; bookings >$1.15B, ~50x infra build-out; no fresh movement","arc":"open-inference","arcDay":3},
+    {"id":"voice-ai","label":"OpenAI's GPT-Live (GPT-Live-1 + mini, Jul 8; ed-032 New) full-duplex voice for ChatGPT worldwide holds as real-time voice becoming an interaction default; API access still promised 'soon'; no fresh movement","arc":"voice-ai","arcDay":3},
+    {"id":"deepseek","label":"DeepSeek V4's formal mid-July GA with peak-hour API pricing + 1M context (ed-032 New) holds; the Jul 24 legacy-alias retirement (deepseek-chat/reasoner -> errors) is now 8 days out and sits on the Deadline Radar; repoint to deepseek-v4-pro/-flash","arc":"deepseek","arcDay":3},
+    {"id":"open-weight","label":"Open-weight table stays China-led (GLM-5.2 leader on Artificial Analysis, MiniMax M3 1M-context, Kimi K2.7 Code, Qwen 3.6, DeepSeek V4); Grok 4.5 (Jul 8) and Meta Muse Spark 1.1 (Jul 9) are the fresh GA closed/paid entrants; the China-export threat overhangs the whole tier","arc":"open-weight","arcDay":20},
+    {"id":"custom-silicon","label":"Alt-Nvidia stack: AMD MI450 now sampling to lead customers (New #3, Advancing AI Jul 22-23); Nvidia Vera Rubin ramps to full production (supply chain ~2x Grace Blackwell); Google TPU 8t/8i, SambaNova SN40L/SN50 + JPMorgan; OpenAI-Broadcom Jalapeno inference chip carries","arc":"custom-silicon","arcDay":11},
+    {"id":"physical-ai","label":"Physical-AI capital compounds: Paris UMA humanoid + Real-Time Learning (ed-032 New), robotics $55.8B YTD (Dealroom), China's Zeroth $74M pre-Series A, Mistral Robostral single-camera nav, the humanoid-IPO wave (Agility/Unitree); no fresh movement","arc":"physical-ai","arcDay":18},
+    {"id":"agent-eval","label":"Agent-evaluation research (HAL leaderboard, PaperBench, AgenticPay, MAS-Orchestra/MASBench; ed-032 New) holds as reproducible harnesses maturing faster than deployment headlines; ResearcherBench adds a deep-research-agent bench; no fresh movement","arc":"agent-eval","arcDay":3},
+    {"id":"agent-security","label":"JadePuffer remains the live autonomous-offense PoC; prompt injection stays OWASP LLM01 (~340% YoY); the reference set carries LiteLLM's 3-hour PyPI supply-chain backdoor (~47k downloads), Semantic Kernel prompt-to-RCE, Cursor and Langflow CVEs; no fresh forensic update","arc":"agent-security","arcDay":20},
+    {"id":"genai-media","label":"Generative media capital theme: PixVerse's $439M (New #9) and Twelve Labs' $100M (New #8) this window; Tripo AI's ~$147M 3D round and Higgsfield's mooted $5B video raise carry; the modality spreads across generation, understanding and 3D","arc":"genai-media","arcDay":1},
+    {"id":"china-export","label":"China's MOFCOM still weighing curbs on overseas access to its most advanced AI models — incl. open-weight — mirroring the US Anthropic ban (ed-032 Hero); a reported plan, not final policy; the first trivial H200 units to China (New #5) are the inverse leg; folded under reg-clock","arc":"china-export","arcDay":3},
+    {"id":"talent","label":"Lab talent war: Apple v OpenAI (trade-secret suit over AI hardware) unresolved; Shazeer->OpenAI and Jumper->Anthropic among a wave of DeepMind departures; Anthropic and OpenAI both sit on confidential draft S-1s (Jun); senior packages past $5M/yr; no docket movement","arc":"talent","arcDay":26},
+    {"id":"money-markets","label":"Record H1 2026 venture ~$510B (Crunchbase; >70% of Q2 to AI, ~40 AI unicorns); OpenAI's proposed 5% US-government stake (~$42.6B, Jul 2 FT) and an Alaska-style all-labs fund remain conceptual; Twelve Labs and PixVerse (New) this window; no fresh close","arc":"money-markets","arcDay":5},
+    {"id":"sovereign-ai","label":"Sovereign/provider-independent AI compounds: MGX's $49B fund, Singapore NCS/Qwen, UAE FAIDA, India Sarvam compute-for-equity, Google Africa Applied AI Lab; India's move toward a risk-based AI law (New #6) is the sharpest fresh signal; no other movement","arc":"sovereign-ai","arcDay":12},
+    {"id":"un-ai-governance","label":"The UN's first Global Dialogue on AI Governance (Geneva Jul 6-7) and the Bengio-Ressa Independent International Scientific Panel report (Jul 1) hold as the third, science-led governance layer above the US/EU/China tracks; no fresh movement","arc":"genesis","arcDay":5}
+  ],
+  "movers": [
+    {"dir":"up","text":"ANTHROPIC/BLACKSTONE — Ode with Anthropic launches as a $1.5B enterprise-AI services firm (Goldman, H&F, Apollo, Sequoia, GIC in); built on Fractional AI"},
+    {"dir":"up","text":"META — Hyperion expands to 5GW / >$50B in Louisiana ($27B off-balance-sheet via Blue Owl); 2026 capex guided to $125-145B"},
+    {"dir":"up","text":"AMD — MI450 (432GB HBM4) sampling to lead customers, MI500 engaged; Advancing AI Jul 22-23 (Helios rack, EPYC Venice)"},
+    {"dir":"up","text":"3M / MICROSOFT — Azure becomes first hyperscaler to deploy 3M's Expanded Beam Optical fiber to speed AI data-center builds"},
+    {"dir":"up","text":"NVIDIA — first (trivial) H200 units clear to China under US license (Bloomberg/SCMP, Jul 14); demand thin amid Beijing's security warnings"},
+    {"dir":"up","text":"PIXVERSE — $439M Series C extension lifts the Singapore video-AI startup past $2B; Twelve Labs adds a $100M Series B"},
+    {"dir":"down","text":"WORKFORCE — 2026 layoffs pass 201,754 across 302 events; 54% cite AI (~168,770 workers); Mews cuts 15%, Oracle ~21k YTD"},
+    {"dir":"down","text":"CHINA — companion-AI ('anthropomorphic interaction') rules take effect Jul 15; bans virtual partners for minors, mandates addiction-detection"}
+  ],
+  "arcs": {
+    "it-services-ai": {"day": 7, "note": "HERO / escalation: Anthropic + Blackstone + H&F launch Ode with Anthropic, a $1.5B enterprise-AI services firm — every US lab now sells implementation (Microsoft Frontier $2.5B, AWS ~$1B, OpenAI Deployment Co); Cognizant deepens its Google Cloud tie in response"},
+    "compute-buildout": {"day": 1, "note": "New arc (Thursday hardware deep beat): Meta expands Hyperion to 5GW / >$50B in Louisiana ($27B off-balance-sheet via Blue Owl); top-5 tech 2026 capex tracking past $650B"},
+    "custom-silicon": {"day": 11, "note": "Hardware deep beat: AMD MI450 (432GB HBM4) sampling to lead customers ahead of Advancing AI (Jul 22-23), MI500 engaged; Nvidia Vera Rubin at full production; Google TPU 8t/8i; OpenAI-Broadcom Jalapeno"},
+    "dc-infra": {"day": 1, "note": "New arc: 3M x Microsoft — Azure becomes first hyperscaler to deploy 3M's Expanded Beam Optical fiber; the AI-buildout bottleneck is increasingly physical (optics, cooling, power)"},
+    "china-export": {"day": 3, "note": "Carry: China MOFCOM still weighing curbs on overseas access to its best (incl. open-weight) models; first trivial Nvidia H200 units cleared to China under US license (Jul 14) is the inverse leg"},
+    "india-reg": {"day": 1, "note": "New arc: India signals a risk-based AI law with sectoral regulators (RBI/SEBI/IRDAI) writing their own rules — a shift from MeitY's Nov-2025 no-separate-law line"},
+    "video-ai": {"day": 1, "note": "New arc: Twelve Labs' $100M Series B for video-archive understanding + PixVerse's $439M for generative video — the video modality drawing real capital across generation and comprehension"},
+    "genai-media": {"day": 1, "note": "Carry: generative-media capital compounds — PixVerse $439M (>$2B), Twelve Labs $100M, Tripo AI ~$147M 3D, Higgsfield mooted $5B video"},
+    "ai-for-science": {"day": 1, "note": "New arc (research beat): AI-for-drug-discovery investment tops $2B with claimed ~70% faster timelines and 30-40% lower R&D cost; AI moving from data-retrieval to core scientific method"},
+    "reg-clock": {"day": 37, "note": "Escalated: China companion-AI rules now IN FORCE (Jul 15) — first of three tracks to move to enforcement; US Aug 1 and EU Aug 2 deadlines under three weeks; first H200 units to China"},
+    "google-models": {"day": 17, "note": "Carry/no-change: Gemini 3.5 Pro GA target now T-1 (Jul 17) after a full rebuild, with teased Nano Banana Pro + Fable audio — still no model card, pricing or API listing"},
+    "workforce": {"day": 20, "note": "Developing: 2026 layoffs pass 201,754 across 302 events (54% cite AI); Microsoft ~4% round, Mews 15%, Oracle ~21k YTD; India GCCs run the other way with +300% GenAI demand"},
+    "open-weight": {"day": 20, "note": "Tracking: China-led open-weight table (GLM-5.2, Qwen, DeepSeek V4, Kimi K2.7, MiniMax); Grok 4.5 (Jul 8) and Muse Spark 1.1 (Jul 9) are the fresh paid GA entrants; China-export threat overhangs"},
+    "talent": {"day": 26, "note": "Tracking: Apple v OpenAI unresolved; Shazeer->OpenAI, Jumper->Anthropic amid DeepMind departures; Anthropic + OpenAI both on confidential draft S-1s"},
+    "money-markets": {"day": 5, "note": "Tracking: record H1 2026 ~$510B; OpenAI's proposed 5% US-government stake (~$42.6B) + Alaska-style all-labs fund still conceptual; Twelve Labs/PixVerse this window"},
+    "genesis": {"day": 5, "note": "Tracking: UN Geneva dialogue (Jul 6-7) + Bengio-Ressa panel (Jul 1) hold as the science-led governance layer above US/EU/China tracks"},
+    "open-inference": {"day": 3, "note": "Tracking: Together AI's $800M Series C at $8.3B (Aramco-led) validates the open-weight serving/inference layer; bookings >$1.15B"},
+    "voice-ai": {"day": 3, "note": "Tracking: OpenAI's GPT-Live full-duplex voice for ChatGPT worldwide; API access still promised 'soon'"},
+    "deepseek": {"day": 3, "note": "Tracking: DeepSeek V4 formal GA + peak-hour pricing + 1M context; Jul 24 legacy-alias retirement (deepseek-chat/reasoner) now 8 days out"},
+    "physical-ai": {"day": 18, "note": "Tracking: Paris UMA humanoid, robotics $55.8B YTD, Zeroth $74M, Mistral Robostral, humanoid-IPO wave (Agility/Unitree)"},
+    "agent-eval": {"day": 3, "note": "Tracking: agent-evaluation research (HAL, PaperBench, AgenticPay, MAS-Orchestra; ResearcherBench) — reproducible harnesses maturing fast"},
+    "agent-security": {"day": 20, "note": "Tracking: JadePuffer live PoC; prompt injection OWASP LLM01 (~340% YoY); LiteLLM supply-chain backdoor, Semantic Kernel RCE, Cursor/Langflow CVEs"},
+    "sovereign-ai": {"day": 12, "note": "Tracking: MGX $49B, Singapore NCS/Qwen, UAE FAIDA, India Sarvam compute-for-equity, Google Africa Lab; India's risk-based AI-law move (New #6) is the fresh signal"}
+  },
+  "resolved": [
+    "China's Interim Measures for Anthropomorphic AI Interaction Services (companion-AI rules — bans virtual partners for minors, mandates addiction-detection) TOOK EFFECT Jul 15; retired from the Deadline Radar as the date arrived, folded into the reg-clock Developing card as the first of the three governance tracks to reach enforcement.",
+    "AUTO-RETIRE / DEMOTE: edition-032's ten New items with no fresh movement drop to Tracking one-liners — together-ai-raise->open-inference, openai-northslope->it-services-ai/openai-deploy, gpt-live->voice-ai, deepseek-v4-ga->deepseek (Jul 24 deadline live), uma-robotics->physical-ai, agent-eval-research->agent-eval, leapxpert-raise->vertical-ai, tripo-ai-raise->genai-media, china-model-export->china-export, microsoft-layoffs->folded into the workforce Developing card.",
+    "DATE-TRAPS EXCLUDED (not padded as New — already covered in prior editions): Grok 4.5 (Jul 8, ed-030/031), Meta Muse Spark 1.1 (Jul 9, ed-030/031), OpenAI's proposed 5% US-government stake (~$42.6B, Jul 2 FT — carried under money-markets), Venice $65M private-AI (ed-029/030), Together AI $800M (ed-032), Taktile $110M (JUN 24).",
+    "NEW.24H THIS EDITION: only Ode with Anthropic (Jul 15) and 3M x Microsoft (Jul 15) broke within 24h of the Jul 16 IST run and carry the badge; Meta Hyperion (Jul 13), Nvidia H200-to-China (Jul 14), AMD MI450 sampling, India AI-law (Jul 6), Cognizant x Google (Jul 7), Twelve Labs, PixVerse and AI-drug-discovery are `new` (id absent last edition) but dated earlier — honest labels, no 24h badge."
+  ],
+  "deadlines": [
+    {"date": "2026-07-17", "label": "Gemini 3.5 Pro GA target (full rebuild; leaked 2M context + Deep Think, teased Nano Banana Pro) — TOMORROW, still no official model card, pricing or API listing", "severity": "high"},
+    {"date": "2026-07-22", "label": "AMD Advancing AI 2026 (Jul 22-23, Moscone SF): expected MI450 (432GB HBM4), Zen6 EPYC Venice, ROCm updates and the Helios rack-scale system — 6 days", "severity": "medium"},
+    {"date": "2026-07-24", "label": "DeepSeek legacy API retirement: deepseek-chat and deepseek-reasoner aliases return errors (15:59 UTC) — repoint to deepseek-v4-pro/-flash; V4 peak-hour pricing live — 8 days", "severity": "high"},
+    {"date": "2026-08-01", "label": "US: agencies to finalize the Jun 2 EO's voluntary covered-frontier framework (30-day pre-release access; classified cyber-benchmarking); clearinghouse already overdue — 16 days", "severity": "high"},
+    {"date": "2026-08-02", "label": "EU AI Act: Article 50 transparency + GPAI enforcement (fines up to €15M/3% turnover) — 17 days; stand-alone high-risk Annex III deferred to Dec 2 2027", "severity": "high"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
