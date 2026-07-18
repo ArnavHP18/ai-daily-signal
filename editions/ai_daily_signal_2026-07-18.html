@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 035 — 18 July 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>MOONSHOT</b> Kimi K3 lands — a ~2.8T-param open-weight model that testers prefer over Fable 5 and GPT-5.6 Sol for front-end coding; weights Jul 27 &nbsp;◆&nbsp; <b>FIREWORKS</b> $1.5B Series D at $17.5B; crosses $1B ARR, 40T tokens/day &nbsp;◆&nbsp; <b>TSMC</b> record Q2 ($40.2B rev, net +77%); N3 &amp; CoWoS sold out through 2026 &nbsp;◆&nbsp; <b>THINKING MACHINES</b> Murati ships Inkling — a 975B open-weight MoE under Apache 2.0 &nbsp;◆&nbsp; <b>WONDER</b> $650M Series D at $9B; eyes 2027 IPO &nbsp;◆&nbsp; <b>16 NOBEL LAUREATES</b> "We Must Act Now" on AI's economy &nbsp;◆&nbsp; <b>MICROSOFT</b> arms sales teams to pitch Copilot against OpenAI &amp; Anthropic &nbsp;◆&nbsp; <b>INDIA GCCs</b> on track for 510k hires, 64% AI-skilled &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>035</b></span>
+    <span>SATURDAY, 18 JULY 2026</span>
+    <span class="seg">NEW <b>10</b> · DEVELOPING <b>2</b> · TRACKING <b>17</b></span>
+    <span>CRITICAL <b>3</b> / NOTABLE 7 / MONITOR 2</span>
+    <span>SCAN: 27 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="kimi-k3">
+  <div>
+    <div class="kicker">■ Today's Lead · New · Models / Open-Weight · The frontier goes open — and Chinese</div>
+    <h2>China's Kimi K3 opens the frontier — a ~2.8-trillion-parameter model that testers pick over Fable 5 and GPT-5.6 Sol</h2>
+    <p class="dek">Beijing-based <strong>Moonshot AI</strong> unveiled <strong>Kimi K3</strong>, a roughly <strong>2.7–2.8-trillion-parameter</strong> open-weight model — one of the largest ever — with a <strong>1M-token context</strong> and native text-plus-image input (<a href="https://www.axios.com/2026/07/16/moonshot-kimi-ai-china-model-openai-anthropic">Axios</a>, <a href="https://fortune.com/2026/07/16/moonshots-kimi-k3-pushes-chinese-ai-into-fable-level-territory/">Fortune</a>, <a href="http://en.people.cn/n3/2026/0717/c90000-20478901.html">People's Daily</a>). In blind <strong>Arena</strong> testing, developers preferred K3 over <em>every</em> leading US model for front-end coding — including Anthropic's <strong>Fable 5</strong> and OpenAI's <strong>GPT-5.6 Sol</strong> — and in the broader text ranking it out-scored the standard <strong>Opus 4.8</strong> and tied Sol. Unusually for a Chinese release, it is <em>not</em> a bargain: API access runs ~<strong>$12 per million tokens</strong>, closer to US mid-tier pricing than Moonshot's past discounts. The catch: <strong>weights don't ship until Jul 27</strong>, so for now no one can independently inspect or self-host it (<a href="https://finance.yahoo.com/technology/ai/articles/moonshot-ai-kimi-k3-launch-122826603.html">Yahoo Finance</a>).</p>
+    <p class="sowhat">So what: the open-vs-closed gap at the very top now reads as roughly <strong>one model generation, not several</strong>. When the weights land Jul 27, enterprises get a near-frontier model they can run on their own hardware — reshaping build-vs-buy, and pouring fuel on the US export-control and "adversarial distillation" fights (Developing D1).</p>
+    <span class="chip arc">ARC: OPEN-FRONTIER · D1</span><span class="chip">2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://www.axios.com/2026/07/16/moonshot-kimi-ai-china-model-openai-anthropic">Axios</a> ·
+      <a href="https://fortune.com/2026/07/16/moonshots-kimi-k3-pushes-chinese-ai-into-fable-level-territory/">Fortune</a> ·
+      <a href="http://en.people.cn/n3/2026/0717/c90000-20478901.html">People's Daily</a> ·
+      <a href="https://finance.yahoo.com/technology/ai/articles/moonshot-ai-kimi-k3-launch-122826603.html">Yahoo Finance</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What launched.</strong> Moonshot AI announced Kimi K3 around Jul 16 (Chinese state media carried it Jul 17): a Mixture-of-Experts model reported at ~2.7–2.8T total parameters — the largest open-weight model to date — with a 1M-token context window and multimodal (text + image) input. API/hosted access is live now; the downloadable weights are slated for <strong>Jul 27</strong>.</p>
+      <p><strong>Why it's the lead.</strong> This is the biggest genuinely-new item on the wire and the clearest evidence yet that the open frontier is being set from China. On blind Arena leaderboards K3 was preferred over Fable 5 and GPT-5.6 Sol for front-end coding and edged Opus 4.8 in text — the first time an <em>open-weight</em> model has sat at the very top of a general ranking. Reporting also tied its debut to a dip in rival AI-exposed equities.</p>
+      <p><strong>The caveats.</strong> Parameter count varies by source (2.7T vs 2.8T); the "beats US models" claims rest on Arena preference tests, not a full independent benchmark suite; and the weights are not out until Jul 27, so today's model is effectively a closed API preview. Pricing (~$12/M) is Moonshot's own; treat throughput and real-world coding quality as unverified until the weights are in hand.</p>
+      <p><strong>Watch next.</strong> The Jul 27 weight drop (and whether the open license carries usage limits); how Fable 5, GPT-5.6 and Gemini respond on price; and the policy blowback — the same week the US sharpened its stance on "adversarial distillation" of US models by Chinese labs (Moonshot among the named), K3 became the poster child for why Washington cares.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>Announced</dt><dd>~Jul 16 2026 (Axios, Fortune, People's Daily, Yahoo)</dd>
+      <dt>What</dt><dd>Kimi K3 — ~2.7–2.8T-param open-weight MoE, 1M context, multimodal</dd>
+      <dt>Maker</dt><dd>Moonshot AI (China)</dd>
+      <dt>Bench</dt><dd>Preferred over Fable 5 &amp; GPT-5.6 Sol (Arena front-end coding); edged Opus 4.8 in text</dd>
+      <dt>Access</dt><dd>API now ~$12/M tokens; open weights Jul 27</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">8</b>/10 — open-vs-closed gap now ~1 generation</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="kimi-k3">
+      <div class="num">1</div>
+      <h4>An open-weight model tops the frontier — and it's Chinese</h4>
+      <p>Moonshot's Kimi K3 (~2.8T params, 1M context) is preferred over Fable 5 and GPT-5.6 Sol in blind coding tests. Weights land Jul 27, handing enterprises a self-hostable near-frontier model. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="tsmc-earnings">
+      <div class="num">2</div>
+      <h4>TSMC's record quarter — and a sold-out fab</h4>
+      <p>Q2 revenue hit a record $40.2B (net income +77% YoY) as HPC/AI reached 66% of wafer sales. N3 and CoWoS advanced packaging are booked out through 2026, with lead times into 2027 — the physical ceiling on everyone's AI plans. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="us-export-controls">
+      <div class="num">3</div>
+      <h4>The reg clock: US Aug 1, EU Aug 2 — two weeks out</h4>
+      <p>The US covered-frontier framework deadline (Aug 1) and the EU AI Act's GPAI enforcement (Aug 2) are now inside two weeks, and Washington opened a new front on "adversarial distillation" of US models by Chinese labs. <strong>DEVELOPING ▲.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>A MODELS-AND-MONEY SATURDAY (deep beat = regional &amp; AI-jobs hotspots):</strong> today's wire is unusually full of items that are genuinely new to this feed but broke earlier in the week — a narrow Friday deep-beat scan missed them. <strong>None broke inside the last 24h</strong>, so there are <strong>no NEW.24H badges</strong> this edition; dates are labelled honestly. The open-weight wave dominates: <strong>Kimi K3</strong> (Moonshot, ~Jul 16) leads and <strong>Inkling</strong> (Mira Murati's Thinking Machines, Jul 15, Apache 2.0) follows. The money print is loud — <strong>Fireworks</strong> $1.5B at $17.5B and <strong>Wonder</strong> $650M at $9B (both Jul 16) — while <strong>TSMC</strong>'s record Q2 (Jul 16) shows the compute floor sold out. On people &amp; policy: <strong>16 Nobel laureates</strong> plus 200+ economists say "we must act now" (Jul 13); the <strong>FLI AI Safety Index</strong> gives no lab above a C+ (Jul 7); and <strong>Microsoft</strong> is coaching its salesforce to sell Copilot against OpenAI and Anthropic (Jul 15). The Saturday deep beat lands two regional-jobs cards — <strong>India's GCCs</strong> (510k hires, 64% AI-skilled) and a <strong>Singapore/UK/UAE</strong> hotspot read. Two threads carry: the reg clock (▲) and Gemini 3.5 Pro (▼ — its Jul 17 target passed with still no model card). Anthropic-Samsung's custom chip (Jul 2), Microsoft Frontier / OpenAI Deployment Co (early July) and the MiniMax M3 / Huawei Atlas 950 WAIC showcases were excluded as date-traps, folded into Tracking.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (12)</button>
+    <button class="tab" data-cat="models">MODELS (3)</button>
+    <button class="tab" data-cat="policy">POLICY (3)</button>
+    <button class="tab" data-cat="business">BUSINESS (2)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (2)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (1)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>10 ITEMS · SURFACED SINCE LAST EDITION · NONE BROKE &lt;24H</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="models" data-story-id="kimi-k3">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#1</span> <span class="cat">MODELS · OPEN-WEIGHT</span></div>
+      <h4>Moonshot's Kimi K3 tops the frontier as an open-weight model</h4>
+      <div class="body">The lead, in full above. <strong>Moonshot AI</strong>'s <strong>Kimi K3</strong> (~2.7–2.8T params, 1M context, multimodal) was preferred over <strong>Fable 5</strong> and <strong>GPT-5.6 Sol</strong> in blind Arena front-end-coding tests and edged <strong>Opus 4.8</strong> in text (<a href="https://www.axios.com/2026/07/16/moonshot-kimi-ai-china-model-openai-anthropic">Axios</a>, <a href="https://fortune.com/2026/07/16/moonshots-kimi-k3-pushes-chinese-ai-into-fable-level-territory/">Fortune</a>). API access ~$12/M; <strong>open weights ship Jul 27</strong>.</div>
+      <p class="sowhat">The best open model is now Chinese and near-frontier. From Jul 27, self-hosting a top-tier model becomes a real enterprise option — and a live policy problem.</p>
+      <div><span class="chip arc">ARC: OPEN-FRONTIER · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.axios.com/2026/07/16/moonshot-kimi-ai-china-model-openai-anthropic">Axios</a> · <a href="http://en.people.cn/n3/2026/0717/c90000-20478901.html">People's Daily</a> · <a href="https://finance.yahoo.com/technology/ai/articles/moonshot-ai-kimi-k3-launch-122826603.html">Yahoo Finance</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="hardware" data-story-id="tsmc-earnings">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#2</span> <span class="cat">HARDWARE · COMPUTE SUPPLY</span></div>
+      <h4>TSMC posts a record quarter — and its AI nodes are sold out</h4>
+      <div class="body"><strong>TSMC</strong> reported record Q2 2026 revenue of <strong>~$40.2B</strong> (NT$1.27T, +36% YoY) with net income up <strong>77% YoY</strong>, a fifth straight record, as HPC/AI hit <strong>66%</strong> of wafer revenue (<a href="https://finance.yahoo.com/markets/stocks/articles/tsmc-q2-2026-earnings-record-112109987.html">Yahoo Finance</a>, <a href="https://www.techpowerup.com/350807/tsmc-reports-record-q2-2026-earning-results">TechPowerUp</a>). Its <strong>N3 (3nm)</strong> node and <strong>CoWoS</strong> advanced packaging are reported sold out through end-2026, with lead times into 2027; it lifted full-year growth guidance past 40%.</div>
+      <p class="sowhat">The bottleneck isn't demand — it's fab capacity. If your 2026-27 AI plan assumes cheap, available leading-edge silicon, TSMC just told you to re-check the assumption.</p>
+      <div><span class="chip arc">ARC: COMPUTE-SUPPLY · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://finance.yahoo.com/markets/stocks/articles/tsmc-q2-2026-earnings-record-112109987.html">Yahoo Finance</a> · <a href="https://www.techtimes.com/articles/320696/20260716/tsmc-posts-record-quarter-ai-chip-demand-pushes-full-year-growth-outlook-past-40.htm">TechTimes</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="fireworks-raise">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#3</span> <span class="cat">BUSINESS · AI INFRA</span></div>
+      <h4>Fireworks raises $1.5B at $17.5B for specialized-model infrastructure</h4>
+      <div class="body"><strong>Fireworks AI</strong> closed a <strong>$1.505B Series D</strong> at a <strong>$17.5B</strong> valuation (Jul 16), led by Atreides, Index and TCV with Nvidia, Lightspeed, Bessemer and others (<a href="https://www.businesswire.com/news/home/20260716264405/en/Fireworks-Raises-a-$1.5-Billion-Series-D-to-Lead-the-Specialized-Intelligence-Revolution">BusinessWire</a>, <a href="https://siliconangle.com/2026/07/16/ai-infrastructure-startup-fireworks-closes-1-5b-round-17-5b-valuation/">SiliconANGLE</a>). It crossed <strong>$1B ARR</strong> (5x YoY) and serves <strong>40T tokens/day</strong>, 95%+ from models fine-tuned on customers' own data.</div>
+      <p class="sowhat">The money is flowing to the layer that turns open weights (see the hero) into production. "Specialized intelligence" — many tuned small models, not one giant — is now a $17.5B thesis.</p>
+      <div><span class="chip arc">ARC: AI-INFRA-CAPITAL · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.businesswire.com/news/home/20260716264405/en/Fireworks-Raises-a-$1.5-Billion-Series-D-to-Lead-the-Specialized-Intelligence-Revolution">BusinessWire</a> · <a href="https://qz.com/fireworks-ai-series-d-fundraise-valuation-open-source-071626">Quartz</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="models" data-story-id="inkling-tm">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#4</span> <span class="cat">MODELS · OPEN-WEIGHT</span></div>
+      <h4>Murati's Thinking Machines ships Inkling — a 975B open MoE under Apache 2.0</h4>
+      <div class="body"><strong>Thinking Machines Lab</strong>, founded by ex-OpenAI CTO <strong>Mira Murati</strong>, released its first model, <strong>Inkling</strong> (Jul 15): a <strong>975B-param MoE</strong> (41B active), multimodal (text/image/audio in), 1M context, pretrained on 45T tokens, under a permissive <strong>Apache 2.0</strong> license (<a href="https://techcrunch.com/2026/07/15/thinking-machines-amps-up-its-bet-against-one-size-fits-all-ai-with-its-first-open-model-inkling/">TechCrunch</a>, <a href="https://thinkingmachines.ai/news/introducing-inkling/">company</a>). Weights are on Hugging Face; hosted via Together, Fireworks, Databricks and others.</div>
+      <p class="sowhat">A second frontier-adjacent open-weight drop in one week — this one American and truly open. The counter-argument to the hero: the US open-weight bench isn't empty.</p>
+      <div><span class="chip arc">ARC: OPEN-FRONTIER · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/15/thinking-machines-amps-up-its-bet-against-one-size-fits-all-ai-with-its-first-open-model-inkling/">TechCrunch</a> · <a href="https://fortune.com/2026/07/15/what-is-mira-murati-thinking-machines-first-ai-model-inkling/">Fortune</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="policy" data-story-id="nobel-ai-economy">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#5</span> <span class="cat">POLICY · ECONOMY</span></div>
+      <h4>16 Nobel laureates and 200+ economists: "We must act now" on AI</h4>
+      <div class="body">A Stanford Digital Economy Lab statement, <strong>"We Must Act Now,"</strong> signed by <strong>16 Nobel laureates</strong> and 200+ economists/AI researchers (now nearing 2,000 signatories), warns AI could reshape the economy on a scale "larger than the Industrial Revolution" but far faster (<a href="https://www.washingtonpost.com/technology/2026/07/13/nobel-economists-tech-leaders-warn-how-ai-could-threaten-jobs/">Washington Post</a>, <a href="https://digitaleconomy.stanford.edu/news/wemustactnow/">Stanford</a>). Notably, <strong>Acemoglu and Johnson</strong> — long AI-displacement skeptics — signed on.</div>
+      <p class="sowhat">When the skeptics flip, the Overton window moves. Expect this cited in every 2026-27 AI-and-labor policy debate — including India's and the EU's.</p>
+      <div><span class="chip arc">ARC: AI-ECON-WARNING · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.washingtonpost.com/technology/2026/07/13/nobel-economists-tech-leaders-warn-how-ai-could-threaten-jobs/">Washington Post</a> · <a href="https://www.axios.com/2026/07/15/ai-economy-nobel">Axios</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="enterprise" data-story-id="msft-copilot-compete">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#6</span> <span class="cat">ENTERPRISE · PLATFORM WARS</span></div>
+      <h4>Microsoft coaches its salesforce to sell Copilot against OpenAI and Anthropic</h4>
+      <div class="body">In an FY27 planning session (~Jul 14-15), Microsoft told sales staff to position <strong>Copilot + its own MAI models</strong> as a cheaper, more secure end-to-end alternative to rivals — with side-by-side decks casting Claude as "slower, less accurate" (<a href="https://techcrunch.com/2026/07/15/microsoft-is-reportedly-training-salespeople-to-talk-down-openai-and-anthropic/">TechCrunch</a>, <a href="https://www.pymnts.com/news/artificial-intelligence/2026/microsoft-coaches-sales-staff-challenge-openai-anthropic-costs-security/">PYMNTS</a>). It is already routing Excel/Outlook Copilot to MAI; <strong>Unilever</strong> reportedly swapped to a cheaper Microsoft model to save ~$300M.</div>
+      <p class="sowhat">OpenAI's biggest backer is now openly selling against it. For buyers, the pitch shifts from "best model" to "lowest total cost of ownership" — a tell that models are commoditizing.</p>
+      <div><span class="chip arc">ARC: PLATFORM-WARS · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/15/microsoft-is-reportedly-training-salespeople-to-talk-down-openai-and-anthropic/">TechCrunch</a> · <a href="https://www.pymnts.com/news/artificial-intelligence/2026/microsoft-coaches-sales-staff-challenge-openai-anthropic-costs-security/">PYMNTS</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="wonder-raise">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#7</span> <span class="cat">BUSINESS · AI COMMERCE</span></div>
+      <h4>Wonder raises $650M at a $9B valuation, eyeing a 2027 IPO</h4>
+      <div class="body">Marc Lore's food-tech platform <strong>Wonder</strong> announced a <strong>$650M Series D</strong> at a <strong>$9B</strong> pre-money valuation (Jul 16), backed by Accel, GV, NEA, ARK Invest and others (<a href="https://www.prnewswire.com/news-releases/wonder-announces-650-million-series-d-round-at-a-9-billion-pre-money-valuation-302827208.html">PR Newswire</a>, <a href="https://fortune.com/2026/07/16/exclusive-marc-lore-says-wonder-is-gearing-up-for-an-ipo-650-million-9-billion-valuation-cathie-wood-grubhub-food-delivery/">Fortune</a>). Its footprint tripled to ~140 locations; funds go to robotics, AI and its automated "Infinite Kitchen." Lore says it will be IPO-ready in early 2027.</div>
+      <p class="sowhat">AI-plus-robotics is moving into everyday physical commerce. The interesting bet isn't a chatbot — it's an automated kitchen that could test public markets next year.</p>
+      <div><span class="chip arc">ARC: AI-COMMERCE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.prnewswire.com/news-releases/wonder-announces-650-million-series-d-round-at-a-9-billion-pre-money-valuation-302827208.html">PR Newswire</a> · <a href="https://www.restaurantdive.com/news/wonder-valuation-9-billion-latest-650m-funding/825417/">Restaurant Dive</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="enterprise" data-story-id="india-gcc-jobs">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#8</span> <span class="cat">ENTERPRISE · INDIA JOBS</span></div>
+      <h4>India's GCCs on track for 510k hires — 64% of new roles need AI skills</h4>
+      <div class="body">Saturday deep beat. India's Global Capability Centres are set to hire <strong>~510,000</strong> people in 2026, with <strong>64%</strong> of new roles requiring AI/data skills and AI/data-science the fastest-growing function (+38% YoY) — even as overall Indian white-collar hiring fell ~5-9% (<a href="https://swarajyamag.com/amp/story/economy/ai-data-skills-now-drive-two-in-three-new-gcc-jobs-in-india-as-hiring-rises-11-per-cent">Swarajya</a>, <a href="https://news.outsourceaccelerator.com/india-gcc-hiring-peak/">Outsource Accelerator</a>). <strong>Bengaluru</strong> holds ~30-39% share, Hyderabad ~20%, with a Tier-2 breakout; GenAI demand is up ~300% and India faces a ~53% skill deficit.</div>
+      <p class="sowhat">The other side of the Western layoffs story: global firms are building owned AI capability inside India, not buying IT-services contracts. The jobs are real — the skilled people aren't there yet.</p>
+      <div><span class="chip arc">ARC: REGIONAL-JOBS · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://swarajyamag.com/amp/story/economy/ai-data-skills-now-drive-two-in-three-new-gcc-jobs-in-india-as-hiring-rises-11-per-cent">Swarajya</a> · <a href="https://news.outsourceaccelerator.com/india-gcc-hiring-peak/">Outsource Accelerator</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="research" data-story-id="fli-safety-index">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#9</span> <span class="cat">RESEARCH · AI SAFETY</span></div>
+      <h4>FLI's 2026 AI Safety Index: nobody scores above a C+</h4>
+      <div class="body">The <strong>Future of Life Institute</strong>'s Summer 2026 AI Safety Index (evidence through Jun 3) ranks nine labs and gives no company above a <strong>C+</strong>: <strong>Anthropic</strong> tops at C+ (2.66), <strong>OpenAI</strong> C (2.28), <strong>Google DeepMind</strong> C (2.01), Meta D+, and xAI/DeepSeek/Mistral effectively failing (<a href="https://futureoflife.org/ai-safety-index-summer-2026/">FLI</a>, <a href="https://time.com/article/2026/07/07/ai-safety-rankings-openai-anthropic-meta/">TIME</a>). Reviewers flag that several labs have <strong>weakened or voided</strong> earlier "pause if redlines are hit" pledges — a "moving goalposts" pattern.</div>
+      <p class="sowhat">A rare apples-to-apples safety scorecard for procurement and policy. The signal isn't the ranking order — it's that <em>no one</em> clears a B, and existential-safety scores are D-or-below industry-wide.</p>
+      <div><span class="chip arc">ARC: AI-SAFETY-EVAL · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://futureoflife.org/ai-safety-index-summer-2026/">Future of Life Institute</a> · <a href="https://www.mitsloanme.com/article/anthropic-tops-2026-ai-safety-index-but-no-ai-firm-earns-above-a-c/">MIT Sloan ME</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="policy" data-story-id="global-ai-jobs">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#10</span> <span class="cat">POLICY · GLOBAL JOBS</span></div>
+      <h4>AI-jobs hotspots: Singapore, UK and the Gulf all short of talent</h4>
+      <div class="body">Saturday deep beat, continued. <strong>UK</strong>: PwC's 2026 Barometer puts specialist-AI postings up ~61% YoY with an average AI-skills wage premium of <strong>34%</strong>; London holds 59% of a £1.2T sector (<a href="https://www.pwc.co.uk/press-room/press-releases/research-commentary/2026/ai-jobs-barometer-2026.html">PwC UK</a>). <strong>Singapore</strong>: <strong>95%</strong> of employers report tech-hiring difficulty; Budget 2026 adds a 400% AI-spend tax deduction (<a href="https://www.robertwalters.com.sg/insights/hiring-advice/blog/hiring-in-singapore-guide-and-trends-2026.html">Robert Walters</a>). <strong>UAE</strong>: Dubai/Abu Dhabi list 300+ live AI roles across ADIA Lab, telcos and Careem (<a href="https://www.bayt.com/en/uae/jobs/artificial-intelligence-jobs/">Bayt</a>).</div>
+      <p class="sowhat">The AI-talent shortage is global and structural, not a US story. Wage premia (20-64%) and national subsidies are the tell — governments are now competing for AI headcount.</p>
+      <div><span class="chip arc">ARC: REGIONAL-JOBS · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.pwc.co.uk/press-room/press-releases/research-commentary/2026/ai-jobs-barometer-2026.html">PwC UK Barometer</a> · <a href="https://www.robertwalters.com.sg/insights/hiring-advice/blog/hiring-in-singapore-guide-and-trends-2026.html">Robert Walters SG</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="us-export-controls">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D1</span> <span class="cat">POLICY · GLOBAL</span></div>
+      <h4>The reg clock tightens toward Aug 1 / Aug 2 — and a new distillation front</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The two big deadlines are now inside two weeks: the US covered-frontier framework (Jun 2 EO) design deadline is <strong>Aug 1 — 14 days out</strong> (clearinghouse still unbuilt), and the EU AI Act's Article 50 transparency + GPAI enforcement (fines to €15M/3%) is <strong>Aug 2 — 15 days</strong> away. New this window: Washington opened a front on <strong>"adversarial distillation"</strong> — a White House OSTP memo directing agencies to share intel with labs, plus a Senate push to sanction Chinese firms — as Kimi K3 (Hero) and other Chinese open weights surge.</div>
+      <div class="body">Governance is a three-body problem: US (EO + overdue clearinghouse; <a href="https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/">White House</a>), EU (GPAI powers switch on Aug 2 with the final Code of Practice in place; <a href="https://www.lw.com/en/insights/eu-ai-act-gpai-model-obligations-in-force-and-final-gpai-code-of-practice-in-place">Latham</a>), and the distillation fight, where Anthropic has accused DeepSeek/Moonshot/MiniMax and Alibaba of mass extraction of Claude (<a href="https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks">Anthropic</a>).</div>
+      <p class="sowhat">Staff EU Aug 2 workstreams now and treat all three regimes as live. The distillation crackdown ties directly to today's hero — the cheaper the open frontier, the harder the US pushes on how it was built.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D39</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/">White House EO</a> · <a href="https://www.lw.com/en/insights/eu-ai-act-gpai-model-obligations-in-force-and-final-gpai-code-of-practice-in-place">Latham (EU GPAI)</a> · <a href="https://artificialintelligenceact.eu/">AI Act tracker</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="models" data-story-id="google-models">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">D2</span> <span class="cat">MODELS · GOOGLE</span></div>
+      <h4>Gemini 3.5 Pro's target day passed — still no model card</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The <strong>Jul 17 target (T-0) came and went</strong>. As of the Jul 18 IST run there is still <strong>no official model card, pricing page or gemini-3.5-pro API listing</strong>; the dedicated trackers report a fourth missed date and a possible stopgap release. A handful of aggregators asserted GA (even quoting ~$1.25/$10 pricing), but no primary Google source confirms it — treat those as unverified. The date has slipped again.</div>
+      <div class="body">Google slipped 3.5 Pro repeatedly after scrapping the 2.5-Pro base and rebuilding (<a href="https://www.techtimes.com/articles/320736/20260716/rebuilt-gemini-35-pro-misses-third-deadline-google-eyes-stopgap-release.htm">TechTimes</a>, <a href="https://coursiv.io/blog/gemini-3-5-pro">Coursiv</a>). Reported specs — 2M context, a Deep Think mode — remain reporting, not Google-published.</div>
+      <p class="sowhat">Keep the eval harness warm but don't plan around it. Until a real model card + pricing land, Gemini 3.5 Pro is vapor — and today's open-weight news (Hero) is eating its narrative oxygen.</p>
+      <div><span class="chip arc">ARC: GOOGLE-MODELS · D19</span><span class="chip">Agg 2x</span></div>
+      <div class="src"><a href="https://www.techtimes.com/articles/320736/20260716/rebuilt-gemini-35-pro-misses-third-deadline-google-eyes-stopgap-release.htm">TechTimes</a> · <a href="https://coursiv.io/blog/gemini-3-5-pro">Coursiv</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING ══════════ -->
+<section>
+  <div class="sec-head">Still Tracking <small>LONG-RUNNERS WITH NO MOVEMENT THIS EDITION</small></div>
+  <div class="tracking-strip" id="tracking-strip"></div>
+</section>
+
+<!-- ══════════ RESOLVED ══════════ -->
+<section>
+  <div class="sec-head">Resolved <small>YESTERDAY'S OPEN THREADS, CLOSED</small></div>
+  <div class="resolved-strip" id="resolved-strip"></div>
+</section>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 035 · 2026-07-18 (IST) · FORMAT v2</strong></p>
+    <p>METHOD: 27 web searches across frontier + open-weight models, hardware/compute, AI infrastructure, business/funding/M&amp;A, enterprise &amp; platform strategy, AI safety research, workforce/labor and regional AI-jobs hotspots (Saturday deep beat = regional + AI jobs: India GCCs, Singapore, UK, UAE/Dubai), plus regulation (US/EU) and the US-China distillation fight. v2 splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with a change-line) and STILL TRACKING (quiet long-runners). Hero = biggest new item unless a developing thread had a major escalation. Aggregator claims cross-checked against ≥2 outlets where possible; single-source/aggregator items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+    <p>KNOWN SCAN GAPS &amp; CAVEATS THIS EDITION: NEW.24H applies to ZERO items — nothing cleanly broke within 24h of the Jul 18 IST run. Every New item is genuinely new to this feed (id absent last edition) but dated earlier in the week, labelled honestly: Kimi K3 / Fireworks / TSMC / Wonder / India-GCC (Jul 16), Inkling / Microsoft-Copilot / Singapore-UK-UAE jobs (Jul 15), the Nobel "We Must Act Now" statement (Jul 13) and the FLI AI Safety Index (Jul 7). Yesterday's Friday deep-beat scan tilted vertical/defense and missed this models-and-money cluster; it is surfaced here for the first time. Kimi K3's parameter count varies by source (2.7T vs 2.8T) and its "beats US models" claims rest on Arena blind-preference tests, not a full independent benchmark suite; the weights are not downloadable until Jul 27, so it is currently a closed API preview. TSMC figures are from its Q2 earnings (record $40.2B rev; N3/CoWoS sold-out is management commentary). Fireworks ($1.5B/$17.5B) and Wonder ($650M/$9B) are company-primary + 2x press. The Nobel statement (16 laureates, 200+ signatories) is 2x-sourced incl. Stanford primary. FLI Index grades are from the FLI report (evidence cutoff Jun 3), 2x-sourced (TIME/MIT Sloan). Microsoft's sell-against-rivals playbook is press reporting of internal FY27 sessions (TechCrunch/PYMNTS), not a Microsoft statement. Regional-jobs figures are report-based (Swarajya/NASSCOM-referenced for India; PwC/Robert Walters/Bayt for UK/SG/UAE) and reflect 2026 trends, not a single-day event. DEVELOPING: reg-clock moved (US Aug 1 = 14d, EU Aug 2 = 15d; new US "adversarial distillation" OSTP memo + Senate sanctions push); google-models DE-ESCALATED (Jul 17 target passed with no official model card/pricing/API; aggregator GA claims unverified). DATE-TRAPS EXCLUDED (not padded as New — too stale or previously surfaced): Anthropic×Samsung custom 2nm inference chip (Jul 2-3, folded to custom-silicon); Microsoft Frontier / OpenAI Deployment Co / AWS FDE (early July, folded to it-services-ai); HSBC×Google Cloud (Jun 17); the distillation accusations' core figures (Feb/Jun, folded to china-export); and the MiniMax M3 / Huawei Atlas 950 WAIC showcases (previously announced hardware, folded to open-weight/china tracking). AUTO-RETIREMENTS: edition-034's ten New items with no fresh movement drop to Tracking one-liners; workforce and india-reg demote from Developing to Tracking (no fresh movement).</p>
+    <p>NOTE: Links point to sources found during the scan; where only an outlet root or roundup was available it is labelled as such. Nothing here is investment advice.</p>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 35,
+  "date": "2026-07-18",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 27,
+  "counts": {"new": 10, "developing": 2, "tracking": 17},
+  "tiers": {"critical": 3, "notable": 7, "monitor": 2},
+  "stories": [
+    {"id":"kimi-k3","section":"new","rank":1,"title":"Moonshot AI unveiled Kimi K3 (~Jul 16), a ~2.7-2.8-trillion-parameter open-weight MoE model with a 1M-token context and multimodal input; in blind Arena testing developers preferred it over Anthropic's Fable 5 and OpenAI's GPT-5.6 Sol for front-end coding and it edged the standard Opus 4.8 in text; API access runs ~$12/M tokens and the downloadable weights are slated for Jul 27, narrowing the open-vs-closed frontier gap to roughly one model generation","tier":"critical","impact":8,"delta":"new","arc":"open-frontier","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-16","lastUpdate":"2026-07-18","category":"models"},
+    {"id":"tsmc-earnings","section":"new","rank":2,"title":"TSMC reported record Q2 2026 results (Jul 16): revenue ~$40.2B (NT$1.27T, +36% YoY), net income up ~77% YoY (a fifth straight record) with HPC/AI at ~66% of wafer revenue; management said its N3 (3nm) node and CoWoS advanced packaging are sold out through end-2026 with lead times into 2027, and it lifted full-year growth guidance past 40% — the physical ceiling under every AI buildout","tier":"critical","impact":7,"delta":"new","arc":"compute-supply","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-16","lastUpdate":"2026-07-18","category":"hardware"},
+    {"id":"fireworks-raise","section":"new","rank":3,"title":"Fireworks AI closed a $1.505B Series D at a $17.5B valuation (Jul 16), led by Atreides Management, Index Ventures and TCV with Nvidia, Lightspeed, Bessemer and others; it crossed $1B ARR (5x YoY) and serves 40T tokens/day, 95%+ from models fine-tuned on customers' own data — capitalizing the layer that turns open weights into production 'specialized intelligence'","tier":"notable","impact":6,"delta":"new","arc":"ai-infra-capital","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-16","lastUpdate":"2026-07-18","category":"business"},
+    {"id":"inkling-tm","section":"new","rank":4,"title":"Thinking Machines Lab, founded by ex-OpenAI CTO Mira Murati, released its first model Inkling (Jul 15): a 975B-parameter MoE (41B active), multimodal (text/image/audio input), 1M-token context, pretrained on 45T tokens and licensed under Apache 2.0, with weights on Hugging Face and hosted access via Together, Fireworks, Databricks, Modal and Baseten — a second frontier-adjacent open-weight drop in one week, this one American and permissively licensed","tier":"notable","impact":6,"delta":"new","arc":"open-frontier","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-15","lastUpdate":"2026-07-18","category":"models"},
+    {"id":"nobel-ai-economy","section":"new","rank":5,"title":"A Stanford Digital Economy Lab statement, 'We Must Act Now,' signed by 16 Nobel laureates and 200+ economists and AI researchers (nearing 2,000 signatories), warns AI could transform the economy on a scale larger than the Industrial Revolution but over a far shorter time frame, urging urgent institutional preparation for large-scale job displacement; notably Daron Acemoglu and Simon Johnson, long AI-displacement skeptics, signed on (Jul 13)","tier":"notable","impact":6,"delta":"new","arc":"ai-econ-warning","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-13","lastUpdate":"2026-07-18","category":"policy"},
+    {"id":"msft-copilot-compete","section":"new","rank":6,"title":"Microsoft, in an FY27 planning session (~Jul 14-15), coached its sales teams to position Copilot and its own MAI models as a cheaper, more secure end-to-end alternative to OpenAI and Anthropic, with side-by-side decks casting Claude as slower and less accurate; it is already routing Excel/Outlook Copilot workloads to MAI models, and cited Unilever swapping to a cheaper Microsoft model to save ~$300M — OpenAI's largest backer now openly selling against it","tier":"notable","impact":5,"delta":"new","arc":"platform-wars","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-15","lastUpdate":"2026-07-18","category":"enterprise"},
+    {"id":"wonder-raise","section":"new","rank":7,"title":"Marc Lore's food-tech platform Wonder announced a $650M Series D at a $9B pre-money valuation (Jul 16), backed by Accel, GV, NEA, ARK Invest and Kayne Anderson Rudnick; its footprint tripled to ~140 locations, funds go to robotics, AI and its automated 'Infinite Kitchen,' and Lore says it will be IPO-ready in early 2027 — AI-plus-robotics moving into everyday physical commerce","tier":"notable","impact":5,"delta":"new","arc":"ai-commerce","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-16","lastUpdate":"2026-07-18","category":"business"},
+    {"id":"india-gcc-jobs","section":"new","rank":8,"title":"Saturday deep beat: India's Global Capability Centres are on track to hire ~510,000 people in 2026 with 64% of new roles requiring AI/data skills and AI/data-science the fastest-growing function (+38% YoY), even as overall Indian white-collar hiring fell ~5-9%; Bengaluru holds ~30-39% share and Hyderabad ~20% with a Tier-2 breakout, GenAI demand is up ~300% and India faces a ~53% AI-skill deficit — global firms building owned AI capability inside India rather than buying IT-services contracts","tier":"notable","impact":5,"delta":"new","arc":"regional-jobs","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-16","lastUpdate":"2026-07-18","category":"enterprise"},
+    {"id":"fli-safety-index","section":"new","rank":9,"title":"The Future of Life Institute's Summer 2026 AI Safety Index (evidence through Jun 3, published ~Jul 7) ranks nine labs and gives no company above a C+: Anthropic tops at C+ (2.66), OpenAI C (2.28), Google DeepMind C (2.01), Meta D+, and xAI/DeepSeek/Mistral effectively fail; reviewers flag that several labs have weakened or voided earlier 'pause if redlines are hit' pledges (a 'moving goalposts' pattern) and that existential-safety scores are D-or-below industry-wide","tier":"notable","impact":5,"delta":"new","arc":"ai-safety-eval","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-07","lastUpdate":"2026-07-18","category":"research"},
+    {"id":"global-ai-jobs","section":"new","rank":10,"title":"Saturday deep beat, continued: the AI-talent shortage is global. UK — PwC's 2026 Barometer puts specialist-AI postings up ~61% YoY with an average AI-skills wage premium of ~34% and London holding 59% of a £1.2T tech sector; Singapore — 95% of employers report tech-hiring difficulty, with Budget 2026 adding a 400% AI-spend tax deduction; UAE — Dubai/Abu Dhabi list 300+ live AI roles across ADIA Lab, telcos and Careem, with wage premia of 20-64% and national subsidies now competing for AI headcount","tier":"monitor","impact":4,"delta":"new","arc":"regional-jobs","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-15","lastUpdate":"2026-07-18","category":"policy"},
+    {"id":"us-export-controls","section":"developing","rank":1,"title":"The AI-governance clock tightens: the US covered-frontier framework (Jun 2 EO) design deadline is Aug 1 (14 days out) with the clearinghouse still unbuilt; the EU AI Act's Article 50 transparency + GPAI enforcement (fines to €15M/3%, final Code of Practice in place) is Aug 2 (15 days) away; and Washington opened a new front on 'adversarial distillation' — a White House OSTP memo directing agencies to share intel with labs plus a Senate push to sanction Chinese firms — as Chinese open weights (Kimi K3, Hero) surge","tier":"critical","impact":7,"delta":"escalated","arc":"reg-clock","arcDay":39,"confidence":"Primary","new24h":false,"update":"US Aug 1 now 14 days out and EU Aug 2 15 days; new US 'adversarial distillation' front (White House OSTP memo + Senate sanctions push) opens as Kimi K3 and other Chinese open weights surge; EU GPAI supervision powers switch on Aug 2","firstSeen":"2026-06-12","lastUpdate":"2026-07-18","category":"policy"},
+    {"id":"google-models","section":"developing","rank":2,"title":"Gemini 3.5 Pro's Jul 17 GA target (T-0) came and went with, as of the Jul 18 IST run, still no official model card, pricing page or gemini-3.5-pro API listing; dedicated trackers report a fourth missed date and a possible stopgap release, and a handful of aggregators asserted GA (even quoting ~$1.25/$10 pricing) but no primary Google source confirms it — the date has slipped again","tier":"monitor","impact":4,"delta":"deescalated","arc":"google-models","arcDay":19,"confidence":"Agg 2x","new24h":false,"update":"The Jul 17 target passed with no official model card, pricing or API listing at run time; aggregator GA claims (incl. ~$1.25/$10 pricing) are unverified by any primary Google source — de-escalated to a missed-date watch","firstSeen":"2026-06-30","lastUpdate":"2026-07-18","category":"models"}
+  ],
+  "tracking": [
+    {"id":"open-weight","label":"Open-weight table now clearly Chinese-and-open at the top: Kimi K3 (New Hero, ~2.8T, weights Jul 27) and Thinking Machines' Inkling (New #4, 975B, Apache 2.0) join GLM-5.2, DeepSeek V4, MiniMax M3 and Qwen 3.6; the open-vs-closed gap reads as ~1 model generation","arc":"open-frontier","arcDay":1},
+    {"id":"china-export","label":"China's MOFCOM still weighing curbs on overseas access to its best (incl. open-weight) models; the inverse leg is the US 'adversarial distillation' crackdown (folded under reg-clock) with Anthropic accusing DeepSeek/Moonshot/MiniMax/Alibaba of mass Claude extraction; no fresh MOFCOM movement","arc":"china-export","arcDay":5},
+    {"id":"custom-silicon","label":"Alt-Nvidia + custom stack: AMD Advancing AI (Jul 22-23, MI450/Helios/EPYC Venice) is 4 days out; Anthropic in early talks with Samsung for a custom 2nm Claude inference chip (Jul 2); TSMC's N3/CoWoS sold-out (New #2) is the shared bottleneck; Google TPU, SambaNova, OpenAI-Broadcom Jalapeno","arc":"custom-silicon","arcDay":13},
+    {"id":"compute-buildout","label":"Meta's Hyperion 5GW/$50B Louisiana buildout holds; top-5 tech 2026 capex ~$630-650B; TSMC's record quarter + $100B Arizona plan (New #2) is the upstream supply signal; no fresh number this window","arc":"compute-buildout","arcDay":3},
+    {"id":"it-services-ai","label":"Labs-as-SI thread: Anthropic's Ode ($1.5B), PwC×OpenAI agentic service, Microsoft Frontier ($2.5B/6,000 experts), AWS FDE (~$1B) and OpenAI's Deployment Company; Microsoft now also selling Copilot/MAI against the labs (New #6); no fresh docket movement","arc":"it-services-ai","arcDay":9},
+    {"id":"sovereign-ai","label":"Sovereign/provider-independent AI compounds: Japan's national physical-AI model + 140MW Noetra Rubin factory (ed-034 Hero), MGX's $49B fund, Singapore NCS/Qwen, UAE FAIDA, India Sarvam, Google Africa Lab; no fresh movement","arc":"sovereign-ai","arcDay":14},
+    {"id":"china-governance","label":"Shanghai WAIC runs to Jul 20 (Xi Jinping's first in-person keynote delivered Jul 17); Beijing's proposed Shanghai-HQ'd World AI Cooperation Organization (WAICO) is the China-led governance track; 300+ product debuts incl. Huawei Atlas 950 supernode and MiniMax M3; no fresh governance text","arc":"china-governance","arcDay":2},
+    {"id":"defense-ai","label":"European defense-AI mega-rounds hold: Helsing $1.8B/$18B and Quantum Systems $1.2B/$8B (ed-034 New); defense-tech at a record $17.4B YTD (Dealroom); no fresh close this window","arc":"defense-ai","arcDay":2},
+    {"id":"ai-health","label":"Consumer preventive-health AI: Daniel Ek's Neko Health $700M at ~$7B entering the US (ed-034 New) holds; no fresh movement","arc":"ai-health","arcDay":2},
+    {"id":"ai-for-science","label":"Generative biology: Chai Discovery's $400M at $3.8B for de-novo antibody design (Chai-2 at Lilly/Pfizer/Novartis) holds; protein-dynamics prediction is the fresh research edge; no single new headline","arc":"ai-for-science","arcDay":3},
+    {"id":"ai-coding","label":"Coinbase's 95-100%-AI-assisted-code disclosure (ed-034 New) holds as the enterprise-adoption mirror of the AI-layoffs curve; Fireworks/specialized-model infra (New #3) is the supply side; no fresh company disclosure","arc":"ai-coding","arcDay":2},
+    {"id":"physical-ai","label":"Apptronik's ~90k sq-ft 'Robot Park' humanoid data-factory (Apollo 2 -> Google DeepMind Gemini Robotics) holds; Wonder's automated 'Infinite Kitchen' (New #7) is the applied-commerce edge; no fresh milestone","arc":"physical-ai","arcDay":20},
+    {"id":"workforce","label":"AI still the leading stated reason for US layoffs (Challenger; a record 4th straight month, 101,743 cuts YTD); the Nobel 'We Must Act Now' statement (New #5) and India's GCC AI build-out (New #8) are the two poles of the same story; no fresh Challenger print","arc":"workforce","arcDay":22},
+    {"id":"india-reg","label":"India's RBI 'kill switch' / human-override proposal for banks & NBFCs holds with its public-feedback window closing Jul 24 (on the Deadline Radar); SEBI's AI-tools advisory stands; no fresh regulator text this window","arc":"india-reg","arcDay":3},
+    {"id":"money-markets","label":"Record H1 2026 venture (~$510B, Crunchbase); this window adds Fireworks $1.5B/$17.5B and Wonder $650M/$9B (New #3, #7); defense-tech record $17.4B YTD; OpenAI's proposed 5% US-government stake stays conceptual","arc":"money-markets","arcDay":7},
+    {"id":"talent","label":"Lab talent war: Google DeepMind's exodus continues (Shazeer->OpenAI, Jumper->Anthropic, Denny Zhou->Meta, Zoph re-departing OpenAI); Murati's Thinking Machines ships its first model (New #4); Apple v OpenAI trade-secret suit unresolved; no fresh docket movement","arc":"talent","arcDay":28},
+    {"id":"agent-security","label":"Prompt injection stays OWASP LLM01 (~340% YoY); the reference set carries EchoLeak, CurXecute, the GitHub Copilot PR-injection RCE, Semantic Kernel and Claude Code (CVE-2025-59536) RCEs; ~73% of assessed production AI deployments show injection exposure; no fresh forensic update","arc":"agent-security","arcDay":22}
+  ],
+  "movers": [
+    {"dir":"up","text":"MOONSHOT — Kimi K3 (~2.8T, open weight) preferred over Fable 5 & GPT-5.6 Sol in blind coding tests; weights Jul 27; reported to pull rival AI-exposed equities lower"},
+    {"dir":"up","text":"TSMC — record Q2 ($40.2B rev, net +77% YoY); N3 & CoWoS sold out through 2026, lead times into 2027; FY growth guidance raised past 40%"},
+    {"dir":"up","text":"FIREWORKS — $1.5B Series D at $17.5B; crosses $1B ARR (5x YoY), 40T tokens/day of specialized-model inference"},
+    {"dir":"up","text":"THINKING MACHINES — Murati ships Inkling, a 975B open-weight MoE under Apache 2.0; weights on Hugging Face"},
+    {"dir":"up","text":"WONDER — $650M Series D at $9B; footprint tripled to ~140 sites; targeting an early-2027 IPO"},
+    {"dir":"up","text":"REG-CLOCK — US Aug 1 (14d) / EU Aug 2 (15d) now inside two weeks; new US 'adversarial distillation' front (OSTP memo + Senate sanctions push)"},
+    {"dir":"down","text":"AI & LABOR — 16 Nobel laureates + 200 economists warn 'we must act now' on large-scale AI job displacement; FLI Safety Index puts no lab above C+"},
+    {"dir":"down","text":"GEMINI 3.5 PRO — Jul 17 target passed with still no official model card, pricing or API listing; aggregator GA claims unverified"}
+  ],
+  "arcs": {
+    "open-frontier": {"day": 1, "note": "HERO / new arc: Moonshot's Kimi K3 (~2.8T open weight, weights Jul 27) tops Arena over Fable 5 & GPT-5.6 Sol; Thinking Machines' Inkling (975B, Apache 2.0) follows — the open-vs-closed gap now ~1 model generation"},
+    "compute-supply": {"day": 1, "note": "New arc: TSMC's record Q2 with N3 & CoWoS sold out through 2026 (lead times into 2027) — the physical ceiling under every AI buildout, upstream of the capex thread"},
+    "ai-infra-capital": {"day": 1, "note": "New arc: Fireworks $1.5B at $17.5B ($1B ARR, 40T tokens/day) capitalizes the 'specialized intelligence' layer that turns open weights into production"},
+    "ai-econ-warning": {"day": 1, "note": "New arc: Stanford's 'We Must Act Now' — 16 Nobel laureates + 200 economists (Acemoglu/Johnson among them) urge urgent preparation for AI-driven economic transformation"},
+    "platform-wars": {"day": 1, "note": "New arc: Microsoft coaches sales to pitch Copilot/MAI against OpenAI & Anthropic on cost and security; routing Excel/Outlook to MAI; Unilever ~$300M swap"},
+    "ai-commerce": {"day": 1, "note": "New arc: Wonder $650M at $9B for AI-plus-robotics food commerce (automated 'Infinite Kitchen'); IPO-ready early 2027"},
+    "regional-jobs": {"day": 1, "note": "New arc (Saturday deep beat): India GCCs ~510k hires / 64% AI-skilled; global AI-talent shortage across Singapore (95% hiring difficulty), UK (61% posting growth, 34% premium) and UAE/Dubai (300+ roles)"},
+    "ai-safety-eval": {"day": 1, "note": "New arc: FLI Summer 2026 AI Safety Index — no lab above C+ (Anthropic 2.66, OpenAI 2.28, DeepMind 2.01); 'moving goalposts' on pause pledges; existential-safety D-or-below industry-wide"},
+    "reg-clock": {"day": 39, "note": "Escalated: US Aug 1 (14d) and EU Aug 2 (15d) inside two weeks; new US 'adversarial distillation' front (OSTP memo + Senate sanctions push) as Chinese open weights (Kimi K3) surge; EU GPAI powers switch on Aug 2"},
+    "google-models": {"day": 19, "note": "De-escalated: Gemini 3.5 Pro's Jul 17 target passed with no official model card, pricing or API listing at run time; aggregator GA claims unverified — a missed-date watch"},
+    "china-export": {"day": 5, "note": "Tracking: MOFCOM still weighing model-export curbs; the US distillation crackdown is the inverse leg (folded under reg-clock); no fresh MOFCOM movement"},
+    "custom-silicon": {"day": 13, "note": "Tracking: AMD Advancing AI Jul 22-23 (MI450/Helios); Anthropic-Samsung 2nm inference-chip talks (Jul 2); TSMC N3/CoWoS sold-out the shared bottleneck"},
+    "compute-buildout": {"day": 3, "note": "Tracking: Meta Hyperion 5GW/$50B holds; top-5 capex ~$630-650B; TSMC record quarter + $100B Arizona the upstream supply signal"},
+    "it-services-ai": {"day": 9, "note": "Tracking: Ode, PwC×OpenAI, Microsoft Frontier, AWS FDE, OpenAI Deployment Co; Microsoft now selling Copilot/MAI against the labs (New #6)"},
+    "sovereign-ai": {"day": 14, "note": "Tracking: Japan's national model + Noetra Rubin factory (ed-034 Hero), MGX $49B, Singapore NCS/Qwen, UAE FAIDA, India Sarvam"},
+    "china-governance": {"day": 2, "note": "Tracking: WAIC runs to Jul 20 (Xi keynote Jul 17); WAICO governance bid; 300+ debuts incl. Huawei Atlas 950 supernode, MiniMax M3"},
+    "defense-ai": {"day": 2, "note": "Tracking: Helsing $1.8B/$18B + Quantum Systems $1.2B/$8B hold; defense-tech record $17.4B YTD"},
+    "ai-health": {"day": 2, "note": "Tracking: Neko Health $700M at ~$7B entering the US holds"},
+    "ai-for-science": {"day": 3, "note": "Tracking: Chai Discovery $400M at $3.8B for de-novo antibody design; protein-dynamics prediction the fresh research edge"},
+    "ai-coding": {"day": 2, "note": "Tracking: Coinbase's 95-100%-AI-code disclosure holds; Fireworks specialized-model infra (New #3) the supply side"},
+    "physical-ai": {"day": 20, "note": "Tracking: Apptronik Robot Park -> Gemini Robotics; Wonder's automated kitchen (New #7) the applied edge"},
+    "workforce": {"day": 22, "note": "Tracking: AI the leading stated US-layoff reason a record 4th month (Challenger, 101,743 cuts); Nobel statement (New #5) + India GCC build-out (New #8) the two poles"},
+    "india-reg": {"day": 3, "note": "Tracking: RBI AI 'kill switch' proposal, feedback closes Jul 24 (on radar); SEBI AI-tools advisory; no fresh regulator text"},
+    "money-markets": {"day": 7, "note": "Tracking: record H1 ~$510B; Fireworks $1.5B + Wonder $650M this window; defense-tech record $17.4B YTD"},
+    "talent": {"day": 28, "note": "Tracking: DeepMind exodus continues; Murati's Thinking Machines ships Inkling (New #4); Apple v OpenAI unresolved"},
+    "agent-security": {"day": 22, "note": "Tracking: prompt injection OWASP LLM01 (~340% YoY); EchoLeak/CurXecute/Copilot-PR/Semantic-Kernel/Claude-Code CVEs; ~73% of assessed deployments exposed"}
+  },
+  "resolved": [
+    "NEW.24H THIS EDITION: none — no item cleanly broke within 24h of the Jul 18 IST run. The whole New mosaic is genuinely new to this feed (ids absent last edition) but dated Jul 7-16; yesterday's Friday vertical/defense deep-beat scan missed this models-and-money cluster, surfaced here for the first time with honest dates and no 24h badge.",
+    "Gemini 3.5 Pro's Jul 17 GA target (T-0) PASSED with no official model card, pricing page or gemini-3.5-pro API listing at the Jul 18 IST run; some aggregators asserted GA (even quoting ~$1.25/$10 pricing) but no primary Google source confirms it — kept Developing and DE-ESCALATED to a missed-date watch, not logged as shipped.",
+    "AUTO-DEMOTE: edition-034's ten New items with no fresh movement drop to Tracking one-liners — japan-sovereign-ai -> sovereign-ai, waic-xi -> china-governance, helsing-raise & quantum-systems -> defense-ai/money-markets, neko-health -> ai-health, chai-discovery -> ai-for-science, pwc-openai -> it-services-ai, coinbase-aicode -> ai-coding, apptronik-robotpark -> physical-ai, netapp-datapelago -> ai-data-infra (silently retired); workforce and india-reg demote from Developing to Tracking (no fresh movement).",
+    "DATE-TRAPS EXCLUDED (not padded as New — too stale or previously surfaced): Anthropic×Samsung custom 2nm inference chip (Jul 2-3, folded to custom-silicon); Microsoft Frontier / OpenAI Deployment Co / AWS FDE (early July, folded to it-services-ai); HSBC×Google Cloud (Jun 17); the distillation accusations' core figures (Feb/Jun, folded to china-export/reg-clock); MiniMax M3 & Huawei Atlas 950 WAIC showcases (previously announced, folded to open-weight/china-governance)."
+  ],
+  "deadlines": [
+    {"date": "2026-07-20", "label": "WAIC 2026 closes in Shanghai: end of the High-Level Meeting on Global AI Governance; watch for a firmer World AI Cooperation Organization (WAICO) proposal — 2 days", "severity": "medium"},
+    {"date": "2026-07-22", "label": "AMD Advancing AI 2026 (Jul 22-23, Moscone SF): expected MI450 (HBM4), Zen6 EPYC Venice, ROCm and the Helios rack-scale system — 4 days", "severity": "medium"},
+    {"date": "2026-07-24", "label": "DeepSeek legacy API retirement: deepseek-chat/reasoner aliases return errors (15:59 UTC) — repoint to deepseek-v4-pro/-flash; also RBI's AI 'kill-switch' feedback window closes — 6 days", "severity": "high"},
+    {"date": "2026-07-27", "label": "Moonshot to release Kimi K3 open weights (New Hero): until then no one can independently inspect or self-host it — 9 days", "severity": "medium"},
+    {"date": "2026-08-01", "label": "US: agencies to finalize the Jun 2 EO's voluntary covered-frontier framework (30-day pre-release access; classified cyber-benchmarking); clearinghouse already overdue — 14 days", "severity": "high"},
+    {"date": "2026-08-02", "label": "EU AI Act: Article 50 transparency + GPAI enforcement (fines up to €15M/3% turnover; final Code of Practice in place) — 15 days; stand-alone high-risk Annex III deferred to Dec 2 2027", "severity": "high"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
