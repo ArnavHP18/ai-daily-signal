@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 036 — 20 July 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>MARKETS</b> Kimi K3 shock hits the tape — Nasdaq −1.4% (−2.9% on the week), Nvidia −3% briefly cedes #1 market cap to Apple; chip pain spreads to Samsung &amp; SK Hynix &nbsp;◆&nbsp; <b>WAICO</b> 29 countries formalize a Shanghai-HQ'd, China-led AI cooperation body as WAIC 2026 closes &nbsp;◆&nbsp; <b>MICROSOFT</b> readies Project Perception, a multi-model AI cyber tool to rival Anthropic's Mythos &nbsp;◆&nbsp; <b>EMERGENT</b> India's 3rd AI unicorn of 2026 — $130M at $1.5B, $120M ARR &nbsp;◆&nbsp; <b>PIXVERSE</b> $439M Series C tops $2B; Alibaba leads the AI-video race &nbsp;◆&nbsp; <b>NVIDIA</b> China clears limited H200 buys for top firms; "very few" actually shipped &nbsp;◆&nbsp; <b>REG-CLOCK</b> US Aug 1 / EU Aug 2 now ~12 days out &nbsp;◆&nbsp; <b>GEMINI 3.5 PRO</b> reports peg the slip into August &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>036</b></span>
+    <span>MONDAY, 20 JULY 2026</span>
+    <span class="seg">NEW <b>6</b> · DEVELOPING <b>3</b> · TRACKING <b>20</b></span>
+    <span>CRITICAL <b>2</b> / NOTABLE 4 / MONITOR 3</span>
+    <span>SCAN: 28 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="open-frontier">
+  <div>
+    <div class="kicker">■ Today's Lead · Developing ▲ · Markets / Open-Weight · The Kimi shock reaches Wall Street</div>
+    <h2>The Kimi K3 shock hits the tape — a Chinese open model knocks a week off the chip trade</h2>
+    <p class="dek">The biggest move on a quiet Monday isn't a launch — it's the market fallout from Friday's hero. <strong>Moonshot's Kimi K3</strong> (~2.8T open weight, weights due Jul 27), preferred over <strong>Fable 5</strong> and <strong>GPT-5.6 Sol</strong> in blind coding tests, triggered a semiconductor sell-off dubbed a fresh "DeepSeek moment": the <strong>Nasdaq fell 1.4%</strong> on Jul 17 and finished the week <strong>down 2.9%</strong>, the <strong>S&amp;P 500 lost 1%</strong>, and <strong>Nvidia dropped ~3%</strong> intraday, <em>briefly ceding the top market-cap spot to Apple</em> (<a href="https://fortune.com/2026/07/17/china-moonshot-kimi-k3-markets-china-ai/">Fortune</a>, <a href="https://edition.cnn.com/2026/07/17/investing/us-stocks-asia">CNN</a>, <a href="https://seekingalpha.com/news/4614944-dow-jones-sp500-nasdaq-composite-wall-street-news">Seeking Alpha</a>). By Jul 19 the pain had spread to Asian memory — <strong>Samsung and SK Hynix</strong> weighed lower (<a href="https://en.sedaily.com/technology/2026/07/19/chinas-kimi-k3-shakes-us-chip-stocks-weighs-on-samsung-and">Seoul Economic Daily</a>).</p>
+    <p class="sowhat">So what: the sell-off prices a single fear — that a cheaper, capable open model cracks the assumption that AI leadership <em>requires</em> unbounded compute spend. Stocks bounced part-way back, but the re-rating question is now live and stays live into the Jul 27 weight drop, when the community can finally test whether K3's numbers reproduce (Deadline Radar).</p>
+    <span class="chip arc">ARC: OPEN-FRONTIER · D2</span><span class="chip">2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://fortune.com/2026/07/17/china-moonshot-kimi-k3-markets-china-ai/">Fortune</a> ·
+      <a href="https://edition.cnn.com/2026/07/17/investing/us-stocks-asia">CNN Business</a> ·
+      <a href="https://seekingalpha.com/news/4614944-dow-jones-sp500-nasdaq-composite-wall-street-news">Seeking Alpha</a> ·
+      <a href="https://en.sedaily.com/technology/2026/07/19/chinas-kimi-k3-shakes-us-chip-stocks-weighs-on-samsung-and">Seoul Economic Daily</a> ·
+      <a href="https://techcrunch.com/2026/07/18/kimi-threat-or-menace/">TechCrunch</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What changed since Friday.</strong> Edition 035 led with Kimi K3's launch and noted only that it was "reported to pull rival AI-exposed equities lower." Over the weekend that became a quantified market event: Nasdaq −1.4% on Jul 17 (−2.9% on the week), S&amp;P 500 −1%, Nvidia −3% intraday with a brief handover of the #1 market-cap crown to Apple, Broadcom/Alphabet/Amazon/Microsoft all lower, and — into Jul 19 — Samsung and SK Hynix dragged down as the story reached the memory complex.</p>
+      <p><strong>Why it's the lead.</strong> No frontier model shipped on Jul 18–20; the dominant, market-moving development is this fallout. It is the clearest test yet of the "DeepSeek moment" thesis — that Chinese open weights compress both the capability gap <em>and</em> the willingness to keep funding record AI capex (see TSMC's sold-out nodes and the top-5's ~$630–650B capex, both in Tracking).</p>
+      <p><strong>The caveats.</strong> Equity moves are noisy and partly retraced by Jul 18 close (some desks called it an over-reaction; <a href="https://stocksdownunder.com/kimi-k3-ai-stocks-deepseek-moment/">Stocks Down Under</a>). K3's "beats US models" claims still rest on preference/leaderboard tests, not a full independent suite, and the weights are not downloadable until Jul 27 — so the model that spooked the tape is still a closed API preview.</p>
+      <p><strong>Watch next.</strong> The Jul 27 weight drop (reproducibility, license terms); whether Fable 5 / GPT-5.6 / Gemini respond on price; and the policy blowback — the same "adversarial distillation" fight tightening under the reg clock (Developing D2).</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>What moved</dt><dd>US &amp; Asian chip/AI equities on the Kimi K3 "DeepSeek moment"</dd>
+      <dt>Nasdaq</dt><dd>−1.4% (Jul 17); −2.9% on the week</dd>
+      <dt>Nvidia</dt><dd>−3% intraday; briefly ceded #1 market cap to Apple</dd>
+      <dt>Spread</dt><dd>By Jul 19, Samsung &amp; SK Hynix lower (memory complex)</dd>
+      <dt>Trigger</dt><dd>Kimi K3 (~2.8T open weight); weights ship Jul 27</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">7</b>/10 — a live re-rating of the AI-capex trade</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="open-frontier">
+      <div class="num">1</div>
+      <h4>Kimi K3's shock reaches Wall Street</h4>
+      <p>A Chinese open-weight model triggers a chip sell-off: Nasdaq −1.4% (−2.9% on the week), Nvidia −3% briefly ceding #1 to Apple, Samsung/SK Hynix lower by Jul 19. The AI-capex trade is being re-priced. <strong>DEVELOPING ▲.</strong></p>
+    </article>
+    <article class="trip" data-story-id="waico">
+      <div class="num">2</div>
+      <h4>A China-led AI governance body goes formal</h4>
+      <p>As WAIC 2026 closes in Shanghai (Jul 20), 29 countries sign to establish the World AI Cooperation Organization — a Shanghai-HQ'd multilateral track running parallel to the US and EU regimes. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="reg-clock">
+      <div class="num">3</div>
+      <h4>The reg clock: US Aug 1, EU Aug 2 — ~12 days</h4>
+      <p>The US covered-frontier framework (Aug 1) and the EU AI Act's GPAI enforcement (Aug 2, fines to €15M/3%) are now inside two weeks, with the distillation fight still open. <strong>DEVELOPING ▲.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>A MARKET-DIGESTION MONDAY (deep beat = research):</strong> after Saturday's dense models-and-money cluster, today is lighter. The dominant development is the <strong>Kimi K3 market fallout</strong> (now Developing, not a new launch). <strong>Six items are genuinely new to this feed</strong> but broke earlier in the week (Jul 13–17) plus the Monday research beat — <strong>none broke inside the last 24h</strong>, so there are <strong>no NEW.24H badges</strong> and dates are labelled honestly. New: <strong>WAICO</strong> formally established (29 countries, Jul 16) as WAIC closes today; <strong>Microsoft Project Perception</strong>, a multi-model AI cyber tool (reported Jul 17); <strong>Emergent</strong>, India's 3rd AI unicorn of 2026 ($130M/$1.5B, Jul 15); <strong>PixVerse</strong>'s $439M AI-video round (Alibaba-led, Jul 13–15); China's <strong>limited H200</strong> clearance (Jul 8–14); and the research beat — <strong>long-horizon agent reliability</strong>. Carries: reg-clock (▲), the Kimi fallout (▲) and <strong>Gemini 3.5 Pro</strong> (▼ — fresh reports now peg the slip into August). This is a real, not-padded 6 — recycled carries were demoted to Tracking rather than dressed up as new.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (9)</button>
+    <button class="tab" data-cat="models">MODELS (2)</button>
+    <button class="tab" data-cat="policy">POLICY (2)</button>
+    <button class="tab" data-cat="business">BUSINESS (2)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (1)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (1)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>6 ITEMS · SURFACED SINCE LAST EDITION · NONE BROKE &lt;24H</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 note" data-cat="policy" data-story-id="waico">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#1</span> <span class="cat">POLICY · GOVERNANCE</span></div>
+      <h4>A China-led AI governance body goes formal — 29 countries sign the WAICO agreement</h4>
+      <div class="body">As <strong>WAIC 2026</strong> and its High-Level Meeting on Global AI Governance close in Shanghai (Jul 17–20), <strong>29 countries</strong> signed the agreement establishing the <strong>World Artificial Intelligence Cooperation Organization (WAICO)</strong>, a Shanghai-headquartered multilateral body first floated by Beijing and signed on Jul 16 (<a href="https://en.wikipedia.org/wiki/World_Artificial_Intelligence_Conference">Wikipedia</a>, <a href="https://www.globaltimes.cn/page/202607/1365551.shtml">Global Times</a>, <a href="https://en.people.cn/n3/2026/0708/c90000-20475542.html">People's Daily</a>). The conference drew 1,100+ firms and 300+ product debuts across 140 forums.</div>
+      <p class="sowhat">Governance is now a three-track race — US (Aug 1), EU (Aug 2) and a China-led multilateral body. For non-aligned states, WAICO is a real alternative forum; watch who signs beyond the first 29.</p>
+      <div><span class="chip arc">ARC: CHINA-GOVERNANCE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://en.wikipedia.org/wiki/World_Artificial_Intelligence_Conference">WAIC (overview)</a> · <a href="https://www.globaltimes.cn/page/202607/1365551.shtml">Global Times</a> · <a href="https://www.manilatimes.net/2026/07/16/news/national/shanghai-to-host-biggest-ai-conference/2385327/amp">Manila Times</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="project-perception">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#2</span> <span class="cat">ENTERPRISE · AI SECURITY</span></div>
+      <h4>Microsoft readies Project Perception — a multi-model AI cyber tool to rival Anthropic's Mythos</h4>
+      <div class="body">Microsoft is preparing to launch <strong>Project Perception</strong>, an AI cybersecurity platform for finding and fixing software vulnerabilities that <strong>routes each task to the best-fit model</strong> across Microsoft, OpenAI and Anthropic to cut cost (<a href="https://www.newsbytesapp.com/news/science/microsoft-to-launch-project-perception-ai-cybersecurity-platform-this-month/tldr">NewsBytes</a>, <a href="https://windowsreport.com/microsoft-prepares-project-perception-to-compete-with-anthropic-mythos/">Windows Report</a>, <a href="https://www.digitaltoday.co.kr/en/view/82643/microsoft-to-unveil-project-perception-ai-vulnerability-tool-in-july">Digital Today</a>). Reported to launch this month; led by security chief <strong>Hayete Gallot</strong>; positioned against Anthropic's Mythos.</div>
+      <p class="sowhat">The "cheap enough to run nonstop" pitch turns vuln-finding into a continuous background process — and quietly makes Microsoft a model-router, hedging across the very labs it also sells against (see platform-wars).</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D23</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://windowsreport.com/microsoft-prepares-project-perception-to-compete-with-anthropic-mythos/">Windows Report</a> · <a href="https://phemex.com/news/article/microsoft-to-launch-ai-vulnerability-detection-tool-this-month-93543">Phemex News</a> · <a href="https://www.digitaltoday.co.kr/en/view/82643/microsoft-to-unveil-project-perception-ai-vulnerability-tool-in-july">Digital Today</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="emergent-unicorn">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#3</span> <span class="cat">BUSINESS · INDIA · AI CODING</span></div>
+      <h4>Emergent becomes India's 3rd AI unicorn of 2026 — $130M at a $1.5B valuation</h4>
+      <div class="body">Indian AI-coding startup <strong>Emergent</strong> raised a <strong>$130M Series C</strong> at a <strong>$1.5B</strong> post-money valuation (Jul 15) — a 5x jump in six months — led by Creaegis with Khosla, SoftBank Vision Fund 2, Lightspeed and Y Combinator (<a href="https://techcrunch.com/2026/07/15/indian-ai-coding-startup-emergent-becomes-a-unicorn-just-over-a-year-after-launch/">TechCrunch</a>, <a href="https://www.dealstreetasia.com/stories/emergent-unicorn-489228">DealStreetAsia</a>). It reports <strong>$120M ARR</strong> (up 70% in four months) and 200,000+ paying customers as an "engineering team in a box" for SMBs.</div>
+      <p class="sowhat">The applied edge of the AI-coding wave is now a fundable category in India, not just the US — an "engineering team in a box" priced for the long tail, barely a year after launch.</p>
+      <div><span class="chip arc">ARC: AI-CODING · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/15/indian-ai-coding-startup-emergent-becomes-a-unicorn-just-over-a-year-after-launch/">TechCrunch</a> · <a href="https://finance.biggo.com/news/a10212f3-849e-468f-958b-3f4e1f367a78">BigGo Finance</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="pixverse-raise">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#4</span> <span class="cat">BUSINESS · AI VIDEO</span></div>
+      <h4>PixVerse's $439M round tops a $2B valuation as Alibaba joins the AI-video race</h4>
+      <div class="body">AI-video startup <strong>PixVerse</strong> (also reported as "AIsphere/Aishu") closed a <strong>$439M Series C</strong> (¥2.98B) — an extension led by <strong>Alibaba</strong> — lifting its valuation past <strong>$2B</strong> (Jul 13–15) (<a href="https://techcrunch.com/2026/07/13/video-generation-startup-pixverse-raises-439m-valuation-soars-past-2b/">TechCrunch</a>, <a href="https://www.caixinglobal.com/2026-07-15/alibaba-leads-439-million-funding-round-for-ai-video-startup-aisphere-102464241.html">Caixin</a>, <a href="https://www.dealstreetasia.com/stories/pixverse-series-c-funding-extension-488982">DealStreetAsia</a>). It claims 150M+ registered users across 177 countries and is pushing toward interactive "world models."</div>
+      <p class="sowhat">Chinese tech giants are racing to fund interactive world models — the next rung above clip generation. With Sora exiting the market (per reports), the field is consolidating fast around a few well-capitalized players.</p>
+      <div><span class="chip arc">ARC: MONEY-MARKETS · D8</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/13/video-generation-startup-pixverse-raises-439m-valuation-soars-past-2b/">TechCrunch</a> · <a href="https://www.caixinglobal.com/2026-07-15/alibaba-leads-439-million-funding-round-for-ai-video-startup-aisphere-102464241.html">Caixin Global</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="hardware" data-story-id="nvidia-h200-china">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#5</span> <span class="cat">HARDWARE · EXPORT</span></div>
+      <h4>China clears limited H200 buys for its top AI firms — but "very few" have shipped</h4>
+      <div class="body">Beijing plans to let leading domestic firms (<strong>Alibaba, ByteDance, DeepSeek</strong>) buy a capped supply of <strong>Nvidia H200</strong> GPUs — reportedly under <strong>200,000 units</strong> total — with three more firms cleared by Jul 14 (<a href="https://www.bloomberg.com/news/articles/2026-07-08/china-to-let-ai-firms-buy-nvidia-h200-chips-information-says">Bloomberg</a>, <a href="https://finance.yahoo.com/technology/ai/articles/china-plans-let-top-ai-150506111.html">The Information via Yahoo</a>). A senior US trade official says only "<strong>very few</strong>" chips have actually reached China so far (<a href="https://www.cnbc.com/2026/07/14/nvidia-h200-ai-chips-china.html">CNBC</a>).</div>
+      <p class="sowhat">The inverse of the export-control story: China needs Nvidia compute its homegrown chips can't yet match, and briefly cracks the door — but with caps and paltry actual shipments, it changes the trajectory, not this quarter.</p>
+      <div><span class="chip arc">ARC: CHINA-EXPORT · D6</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-07-08/china-to-let-ai-firms-buy-nvidia-h200-chips-information-says">Bloomberg</a> · <a href="https://www.cnbc.com/2026/07/14/nvidia-h200-ai-chips-china.html">CNBC</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="research" data-story-id="research-longhorizon">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#6</span> <span class="cat">RESEARCH · AGENTS</span></div>
+      <h4>Monday research beat: the frontier's next problem is long-horizon reliability</h4>
+      <div class="body">The research edge this week is <strong>long-horizon agent reliability</strong> — completing many-step tasks where early mistakes compound. Reporting describes a DeepMind training method, "<strong>prospective credit assignment</strong>," said to lift success on <strong>SWE-Bench</strong> issues needing &gt;10 steps (<a href="https://skycrumbs.com/blog/ai-research-july-2026">Skycrumbs</a> — single secondary outlet, treat as reported). A new benchmark, <strong>Long-Horizon-Terminal-Bench</strong>, grades agents on long terminal tasks with dense rewards (<a href="https://arxiv.org/abs/2607.08964">arXiv 2607.08964</a>); related work probes agentic self-driving labs (<a href="https://arxiv.org/pdf/2607.04508">arXiv 2607.04508</a>).</div>
+      <p class="sowhat">Credit assignment across long horizons is the quiet prerequisite for reliable agents — the plumbing beneath every "AI does your job for a day" demo. Watch for a primary DeepMind paper to confirm the reported result.</p>
+      <div><span class="chip arc">ARC: AI-FOR-SCIENCE · D1</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://arxiv.org/abs/2607.08964">arXiv: Long-Horizon-Terminal-Bench</a> · <a href="https://skycrumbs.com/blog/ai-research-july-2026">Skycrumbs (roundup)</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="models" data-story-id="open-frontier">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D1</span> <span class="cat">MODELS · MARKETS</span></div>
+      <h4>Kimi K3's market fallout — a live re-rating of the AI-capex trade</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Friday's "reported to pull equities lower" became a quantified event: <strong>Nasdaq −1.4%</strong> (Jul 17), <strong>−2.9% on the week</strong>, S&amp;P −1%, <strong>Nvidia −3%</strong> intraday <em>briefly ceding #1 market cap to Apple</em>; by <strong>Jul 19</strong> the drag reached <strong>Samsung &amp; SK Hynix</strong>. Some desks called it an over-reaction and stocks partly retraced.</div>
+      <div class="body">The lead, in full above. The sell-off tests the "DeepSeek moment" thesis that cheap Chinese open weights undercut the case for record AI capex (<a href="https://fortune.com/2026/07/17/china-moonshot-kimi-k3-markets-china-ai/">Fortune</a>, <a href="https://finance.yahoo.com/markets/stocks/articles/kimi-k3-just-triggered-deepseek-175532711.html">Yahoo</a>). Weights still ship <strong>Jul 27</strong>, when the numbers can finally be reproduced.</div>
+      <p class="sowhat">Don't confuse a price move with a verdict. The real test is Jul 27 — if K3's benchmarks hold on open weights, the re-rating sticks; if not, it fades like most one-day shocks.</p>
+      <div><span class="chip arc">ARC: OPEN-FRONTIER · D2</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://edition.cnn.com/2026/07/17/investing/us-stocks-asia">CNN Business</a> · <a href="https://en.sedaily.com/technology/2026/07/19/chinas-kimi-k3-shakes-us-chip-stocks-weighs-on-samsung-and">Seoul Economic Daily</a> · <a href="https://techcrunch.com/2026/07/18/kimi-threat-or-menace/">TechCrunch</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="reg-clock">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D2</span> <span class="cat">POLICY · GLOBAL</span></div>
+      <h4>The reg clock tightens to ~12 days — and now a China-led counter-track</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The two deadlines slid inside two weeks: the US covered-frontier framework (Jun 2 EO) is <strong>Aug 1 — 12 days out</strong> (clearinghouse still unbuilt), and the EU AI Act's GPAI enforcement (fines to €15M/3%) is <strong>Aug 2 — 13 days</strong>. New context: today's <strong>WAICO</strong> (New #1) opens a China-led multilateral track alongside them, and China's limited <strong>H200</strong> clearance (New #5) is the compute-access counterweight to the US distillation crackdown.</div>
+      <div class="body">Governance is a three-body problem — US (EO + overdue clearinghouse), EU (GPAI powers switch on Aug 2 with the final Code of Practice in place; <a href="https://artificialintelligenceact.eu/">AI Act tracker</a>, <a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai">European Commission</a>), and now a Shanghai-HQ'd multilateral body. Enforcement readiness guides are live (<a href="https://compliancehub.wiki/eu-ai-act-gpai-enforcement-august-2026-readiness/">ComplianceHub</a>).</div>
+      <p class="sowhat">Staff EU Aug 2 workstreams now and treat all three regimes as live. The cheaper the open frontier gets (see D1), the harder Washington leans on how the models were built.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D41</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai">EU Commission (AI Act)</a> · <a href="https://artificialintelligenceact.eu/">AI Act tracker</a> · <a href="https://compliancehub.wiki/eu-ai-act-gpai-enforcement-august-2026-readiness/">ComplianceHub (readiness)</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="models" data-story-id="google-models">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">D3</span> <span class="cat">MODELS · GOOGLE</span></div>
+      <h4>Gemini 3.5 Pro slips again — reports now peg it into August</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> With the <strong>Jul 17 target passed</strong> and still <strong>no model card, pricing or gemini-3.5-pro API listing</strong>, fresh reporting now pegs the release <strong>delayed into August</strong> — a fourth missed date — with the rebuilt model said to still show hallucinations and inconsistent outputs. Google is meanwhile shipping <em>smaller</em> stopgaps (Nano Banana 2 Lite, Gemini Omni Flash, Video Remix), not the flagship.</div>
+      <div class="body">Google slipped 3.5 Pro repeatedly after scrapping the base model and rebuilding (<a href="https://www.techtimes.com/articles/320736/20260716/rebuilt-gemini-35-pro-misses-third-deadline-google-eyes-stopgap-release.htm">TechTimes</a>, <a href="https://www.cometapi.com/gemini-3-5-pro-release-date-rumored-specifications-all-we-know-in-2026-updated-july-2026/">CometAPI</a>). Reported specs (2M context, Deep Think) remain unconfirmed by any Google model card.</div>
+      <p class="sowhat">Keep the eval harness warm but don't plan around it. Until a real model card + pricing land, 3.5 Pro is vapor — and the open-weight news keeps eating its narrative oxygen.</p>
+      <div><span class="chip arc">ARC: GOOGLE-MODELS · D20</span><span class="chip">Agg 2x</span></div>
+      <div class="src"><a href="https://www.techtimes.com/articles/320736/20260716/rebuilt-gemini-35-pro-misses-third-deadline-google-eyes-stopgap-release.htm">TechTimes</a> · <a href="https://coursiv.io/blog/gemini-3-5-pro">Coursiv</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING ══════════ -->
+<section>
+  <div class="sec-head">Still Tracking <small>LONG-RUNNERS WITH NO MOVEMENT THIS EDITION</small></div>
+  <div class="tracking-strip" id="tracking-strip"></div>
+</section>
+
+<!-- ══════════ RESOLVED ══════════ -->
+<section>
+  <div class="sec-head">Resolved <small>YESTERDAY'S OPEN THREADS, CLOSED</small></div>
+  <div class="resolved-strip" id="resolved-strip"></div>
+</section>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 036 · 2026-07-20 (IST) · FORMAT v2</strong></p>
+    <p>METHOD: 28 web searches across frontier + open-weight models, hardware/compute &amp; export controls, AI infrastructure, business/funding/M&amp;A, enterprise &amp; AI-security tooling, agent/long-horizon research (Monday deep beat = research), workforce/labor, and regulation (US/EU) plus the China-led governance track. v2 splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with a change-line) and STILL TRACKING (quiet long-runners). Hero = biggest new item unless a developing thread had a major escalation — today the escalation (Kimi K3's market fallout) is the lead. Aggregator claims cross-checked against ≥2 outlets where possible; single-source/aggregator items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+    <p>KNOWN SCAN GAPS &amp; CAVEATS THIS EDITION: NEW.24H applies to ZERO items — nothing cleanly broke within 24h of the Jul 20 IST run. The six New items are genuinely new to this feed (id absent last edition) but dated earlier in the week, labelled honestly: WAICO's formal establishment (signed Jul 16, WAIC closes Jul 20); Microsoft Project Perception (reported ~Jul 17, launch "this month"); Emergent's unicorn round (Jul 15); PixVerse's $439M extension (Jul 13–15); China's limited H200 clearance (Jul 8–14); the research beat (long-horizon agent reliability, arXiv-dated July). RESEARCH CAVEAT: the DeepMind "prospective credit assignment" claim rests on a single secondary roundup (Skycrumbs) and is flagged Agg 1x — the paired arXiv items (2607.08964 Long-Horizon-Terminal-Bench; 2607.04508 self-driving lab) are primary listings; treat the DeepMind result as reported until a primary paper confirms it. WAICO signatory count (29) and Project Perception's capabilities/launch window are press-reported, not company-confirmed. PixVerse is variously named "AIsphere/Aishu" across outlets; the $439M is an extension of a Series C whose first tranche closed in March. The Kimi K3 market move is real and multi-sourced (Fortune/CNN/Seeking Alpha/Seoul Economic Daily) but partly retraced intraday — a price signal, not a verdict; K3's weights are not downloadable until Jul 27. DATE-TRAPS EXCLUDED (not padded as New): the Kimi K3 launch itself (ed-035 Hero, carried as Developing on the fallout); Anthropic's $47B ARR / IPO filing (May–June); Claude Science &amp; GPT-Live product launches (late June/early July); 3M×Microsoft optics partnership (Jul 15, folded to it-services-ai); OpenAI/AWS/Microsoft enterprise-deployment units (early July, folded to it-services-ai). AUTO-RETIREMENTS: edition-035's New items with no fresh movement drop to Tracking one-liners — kimi-k3 PROMOTED to Developing (open-frontier); tsmc-earnings → compute-supply/compute-buildout, fireworks-raise → money-markets, inkling-tm → open-weight, nobel-ai-economy → workforce, msft-copilot-compete → platform-wars, wonder-raise → money-markets/physical-ai, india-gcc-jobs &amp; global-ai-jobs → regional-jobs, fli-safety-index → ai-safety-eval. china-governance retired into today's WAICO New item. No Developing thread hit the 3-edition retirement this edition.</p>
+    <p>NOTE: Links point to sources found during the scan; where only an outlet root or roundup was available it is labelled as such. Nothing here is investment advice.</p>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 36,
+  "date": "2026-07-20",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 28,
+  "counts": {"new": 6, "developing": 3, "tracking": 20},
+  "tiers": {"critical": 2, "notable": 4, "monitor": 3},
+  "stories": [
+    {"id":"waico","section":"new","rank":1,"title":"As WAIC 2026 and its High-Level Meeting on Global AI Governance closed in Shanghai (Jul 17-20), 29 countries signed the agreement establishing the World Artificial Intelligence Cooperation Organization (WAICO), a Shanghai-headquartered China-led multilateral body signed Jul 16; the conference drew 1,100+ firms and 300+ product debuts across 140 forums, giving Beijing a governance track running parallel to the US (Aug 1) and EU (Aug 2) regimes","tier":"notable","impact":6,"delta":"new","arc":"china-governance","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-16","lastUpdate":"2026-07-20","category":"policy"},
+    {"id":"project-perception","section":"new","rank":2,"title":"Microsoft is preparing to launch Project Perception, an AI cybersecurity platform for finding and fixing software vulnerabilities that routes each task to the best-fit model across Microsoft, OpenAI and Anthropic to cut cost; reported to launch this month, led by security chief Hayete Gallot, and positioned against Anthropic's Mythos — making Microsoft a model-router even as it sells Copilot/MAI against those same labs (reported ~Jul 17)","tier":"notable","impact":6,"delta":"new","arc":"agent-security","arcDay":23,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-17","lastUpdate":"2026-07-20","category":"enterprise"},
+    {"id":"emergent-unicorn","section":"new","rank":3,"title":"Indian AI-coding startup Emergent raised a $130M Series C at a $1.5B post-money valuation (Jul 15) — a 5x jump in six months — led by Creaegis with Khosla, SoftBank Vision Fund 2, Lightspeed and Y Combinator; it reports $120M ARR (up 70% in four months) and 200,000+ paying customers as an 'engineering team in a box,' becoming India's 7th unicorn overall and 3rd AI unicorn of 2026","tier":"notable","impact":5,"delta":"new","arc":"ai-coding","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-15","lastUpdate":"2026-07-20","category":"business"},
+    {"id":"pixverse-raise","section":"new","rank":4,"title":"AI-video startup PixVerse (also reported as 'AIsphere/Aishu') closed a $439M Series C (~2.98B yuan), an extension led by Alibaba, lifting its valuation past $2B (Jul 13-15); it claims 150M+ registered users across 177 countries and is pushing toward interactive 'world models' — part of a race among Chinese tech giants to fund the next rung above clip generation","tier":"notable","impact":5,"delta":"new","arc":"money-markets","arcDay":8,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-13","lastUpdate":"2026-07-20","category":"business"},
+    {"id":"nvidia-h200-china","section":"new","rank":5,"title":"Beijing plans to let leading domestic firms (Alibaba, ByteDance, DeepSeek) buy a capped supply of Nvidia H200 GPUs — reportedly under 200,000 units total — with three more firms cleared by Jul 14; a senior US trade official says only 'very few' chips have actually reached China so far — the inverse of the export-control story, cracking the door on compute China's homegrown chips can't yet match (Jul 8-14)","tier":"monitor","impact":5,"delta":"new","arc":"china-export","arcDay":6,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-08","lastUpdate":"2026-07-20","category":"hardware"},
+    {"id":"research-longhorizon","section":"new","rank":6,"title":"Monday research beat: the frontier's next problem is long-horizon agent reliability — completing many-step tasks where early mistakes compound. Reporting describes a DeepMind training method, 'prospective credit assignment,' said to lift success on SWE-Bench issues needing >10 steps (single secondary outlet, flagged Agg 1x); a new benchmark, Long-Horizon-Terminal-Bench (arXiv 2607.08964), grades agents on long terminal tasks with dense rewards, and related work probes agentic self-driving labs (arXiv 2607.04508)","tier":"monitor","impact":4,"delta":"new","arc":"ai-for-science","arcDay":1,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-07-20","lastUpdate":"2026-07-20","category":"research"},
+    {"id":"open-frontier","section":"developing","rank":1,"title":"Moonshot's Kimi K3 (~2.8T open weight, weights Jul 27) turned from a launch into a market event: the Nasdaq fell 1.4% on Jul 17 (-2.9% on the week), the S&P 500 lost 1%, and Nvidia dropped ~3% intraday, briefly ceding the top market-cap spot to Apple; by Jul 19 the drag reached Samsung and SK Hynix — a live re-rating of the AI-capex trade on the 'DeepSeek moment' thesis, though stocks partly retraced and the weights are not downloadable until Jul 27","tier":"critical","impact":7,"delta":"escalated","arc":"open-frontier","arcDay":2,"confidence":"2x src","new24h":false,"update":"Friday's 'reported to pull equities lower' became quantified: Nasdaq -1.4% (Jul 17), -2.9% on the week, Nvidia -3% intraday briefly ceding #1 market cap to Apple; by Jul 19 the drag reached Samsung & SK Hynix; some desks called it an over-reaction and stocks partly retraced","firstSeen":"2026-07-16","lastUpdate":"2026-07-20","category":"models"},
+    {"id":"reg-clock","section":"developing","rank":2,"title":"The AI-governance clock tightens inside two weeks: the US covered-frontier framework (Jun 2 EO) design deadline is Aug 1 (12 days out) with the clearinghouse still unbuilt, and the EU AI Act's Article 50 transparency + GPAI enforcement (fines to €15M/3%, final Code of Practice in place) is Aug 2 (13 days); new context is a China-led counter-track — today's WAICO (New #1) — plus China's limited H200 clearance (New #5) as the compute-access counterweight to the US distillation crackdown","tier":"critical","impact":7,"delta":"escalated","arc":"reg-clock","arcDay":41,"confidence":"Primary","new24h":false,"update":"US Aug 1 now 12 days out and EU Aug 2 13 days; a China-led multilateral track (WAICO, New #1) opens alongside them and China's limited H200 clearance (New #5) is the compute-access counterweight to the US distillation crackdown","firstSeen":"2026-06-12","lastUpdate":"2026-07-20","category":"policy"},
+    {"id":"google-models","section":"developing","rank":3,"title":"Gemini 3.5 Pro's Jul 17 target passed with still no official model card, pricing page or gemini-3.5-pro API listing; fresh reporting now pegs the release delayed into August — a fourth missed date — with the rebuilt model said to still show hallucinations and inconsistent outputs, while Google ships smaller stopgaps (Nano Banana 2 Lite, Gemini Omni Flash, Video Remix) instead of the flagship","tier":"monitor","impact":4,"delta":"deescalated","arc":"google-models","arcDay":20,"confidence":"Agg 2x","new24h":false,"update":"With the Jul 17 target passed and no model card/pricing/API listing, reporting now pegs the release into August (a fourth miss); Google is shipping smaller stopgaps (Nano Banana 2 Lite, Gemini Omni Flash, Video Remix), not the flagship","firstSeen":"2026-06-30","lastUpdate":"2026-07-20","category":"models"}
+  ],
+  "tracking": [
+    {"id":"open-weight","label":"Open-weight table stays Chinese-and-open at the top: Kimi K3 (now Developing on the market fallout, weights Jul 27) and Thinking Machines' Inkling (975B, Apache 2.0) join GLM-5.2, DeepSeek V4, MiniMax M3 and Qwen 3.6; the open-vs-closed gap reads as ~1 model generation","arc":"open-frontier","arcDay":2},
+    {"id":"platform-wars","label":"Microsoft coaching its salesforce to pitch Copilot/MAI as a cheaper, more secure alternative to OpenAI & Anthropic (ed-035 New); today's Project Perception (New #2) is the security-tooling extension and makes Microsoft a model-router; no fresh sales-doc leak","arc":"platform-wars","arcDay":2},
+    {"id":"regional-jobs","label":"India's GCCs on track for ~510k hires / 64% AI-skilled, with a Singapore/UK/UAE talent crunch (ed-035 New); Emergent's unicorn round (New #3) is the India AI-startup edge; no fresh labor report this window","arc":"regional-jobs","arcDay":2},
+    {"id":"ai-safety-eval","label":"FLI's Summer 2026 AI Safety Index (no lab above C+; Anthropic 2.66, OpenAI 2.28, DeepMind 2.01) holds (ed-035 New); WAICO (New #1) is the new multilateral governance track; no fresh grade","arc":"ai-safety-eval","arcDay":2},
+    {"id":"compute-supply","label":"TSMC's record Q2 with N3 (3nm) & CoWoS sold out through 2026 (lead times into 2027) holds (ed-035 New); AMD Advancing AI (Jul 22-23) is the next catalyst; no fresh number","arc":"compute-supply","arcDay":2},
+    {"id":"china-export","label":"MOFCOM still weighing curbs on overseas access to China's best (incl. open-weight) models; the inverse leg is China's limited H200 clearance (New #5) and the US 'adversarial distillation' crackdown (under reg-clock), with Anthropic's Claude-extraction claims; no fresh MOFCOM text","arc":"china-export","arcDay":6},
+    {"id":"custom-silicon","label":"Alt-Nvidia + custom stack: AMD Advancing AI (Jul 22-23, MI450/Helios/EPYC Venice) is 2 days out; Anthropic in early talks with Samsung for a custom 2nm Claude inference chip; TSMC's N3/CoWoS sold-out is the shared bottleneck; Google TPU, SambaNova, OpenAI-Broadcom","arc":"custom-silicon","arcDay":14},
+    {"id":"compute-buildout","label":"Meta's Hyperion 5GW/$50B Louisiana buildout holds; top-5 tech 2026 capex ~$630-650B; TSMC's record quarter the upstream supply signal (Kimi's market shock, D1, is the demand-side doubt); no fresh number","arc":"compute-buildout","arcDay":4},
+    {"id":"it-services-ai","label":"Labs-as-SI thread: Anthropic's Ode ($1.5B), PwC×OpenAI, Microsoft Frontier ($2.5B/6,000 experts), AWS FDE (~$1B) and OpenAI's Deployment Company; the 3M×Microsoft AI-datacenter optics partnership (Jul 15) is the latest tie-up; no fresh docket movement","arc":"it-services-ai","arcDay":10},
+    {"id":"sovereign-ai","label":"Sovereign/provider-independent AI compounds: Japan's national physical-AI model + 140MW Noetra Rubin factory, MGX's $49B fund, Singapore NCS/Qwen, UAE FAIDA, India Sarvam; today's WAICO (New #1) is the multilateral cousin; no fresh national program","arc":"sovereign-ai","arcDay":15},
+    {"id":"defense-ai","label":"European defense-AI mega-rounds hold: Helsing $1.8B/$18B and Quantum Systems $1.2B/$8B; defense-tech at a record $17.4B YTD (Dealroom); no fresh close this window","arc":"defense-ai","arcDay":3},
+    {"id":"ai-health","label":"Consumer preventive-health AI: Daniel Ek's Neko Health $700M at ~$7B entering the US holds; no fresh movement","arc":"ai-health","arcDay":3},
+    {"id":"ai-for-science","label":"Generative biology & AI-for-science: Chai Discovery's $400M for de-novo antibody design and Anthropic's Claude Science hold; agentic self-driving labs (MARS, arXiv 2607.04508) and long-horizon agent research (New #6) are the fresh edges","arc":"ai-for-science","arcDay":4},
+    {"id":"ai-coding","label":"Coinbase's 95-100%-AI-assisted-code disclosure holds as the enterprise mirror of the AI-layoffs curve; Emergent (New #3, $120M ARR) and Fireworks/specialized-model infra are the startup/supply side; no fresh company disclosure","arc":"ai-coding","arcDay":3},
+    {"id":"physical-ai","label":"Apptronik's 'Robot Park' humanoid data-factory (-> Gemini Robotics) holds; Tesla's Optimus Gen 3 production ramp (late-July target) had not begun as of mid-July (Musk walked the Fremont line Jul 1; Q2 report carried no Optimus numbers); Wonder's automated kitchen the applied-commerce edge","arc":"physical-ai","arcDay":21},
+    {"id":"workforce","label":"AI still the leading stated reason for US layoffs; 2026 trackers count ~168k+ workers hit with ~54% of layoff events citing AI/automation; the Nobel 'We Must Act Now' statement is the policy pole and India's GCC build-out the counter-current; no fresh Challenger print","arc":"workforce","arcDay":23},
+    {"id":"india-reg","label":"India's RBI 'kill switch' / human-override draft for banks & NBFCs holds with its public-feedback window closing Jul 24 (on the Deadline Radar); SEBI's AI-tools advisory and the DPDP regime stand; no fresh regulator text this window","arc":"india-reg","arcDay":4},
+    {"id":"money-markets","label":"Record H1 2026 venture (~$510B, Crunchbase); this window adds Emergent $130M/$1.5B and PixVerse $439M/$2B+ (New #3, #4); Fireworks $1.5B and Wonder $650M carry; defense-tech record $17.4B YTD","arc":"money-markets","arcDay":8},
+    {"id":"talent","label":"Lab talent war: Google DeepMind's exodus continues (Shazeer->OpenAI, Jumper->Anthropic, Denny Zhou->Meta); Tom Blomfield takes leave from YC to join Anthropic's compute team (Jul 13); Murati's Thinking Machines shipped Inkling; Apple v OpenAI trade-secret suit unresolved","arc":"talent","arcDay":29},
+    {"id":"agent-security","label":"Prompt injection stays OWASP LLM01 (~340% YoY); Microsoft's Project Perception (New #2) is the defensive-tooling response; the reference CVE set carries EchoLeak, CurXecute, the Copilot PR-injection RCE, Semantic Kernel and Claude Code (CVE-2025-59536); ~73% of assessed deployments show injection exposure","arc":"agent-security","arcDay":23}
+  ],
+  "movers": [
+    {"dir":"down","text":"NVIDIA — −3% intraday on the Kimi K3 'DeepSeek moment'; briefly ceded the #1 market-cap spot to Apple before partly retracing"},
+    {"dir":"down","text":"NASDAQ — −1.4% (Jul 17), −2.9% on the week; S&P 500 −1% as investors question the AI-capex trade"},
+    {"dir":"down","text":"SAMSUNG / SK HYNIX — weighed lower by the Kimi K3 shock into Jul 19 as the story reached the memory complex (Seoul Economic Daily)"},
+    {"dir":"up","text":"EMERGENT — India's 3rd AI unicorn of 2026: $130M Series C at $1.5B, $120M ARR, 200k+ paying customers"},
+    {"dir":"up","text":"PIXVERSE — $439M Series C extension, valuation tops $2B; Alibaba leads the AI-video / interactive-world-model race"},
+    {"dir":"up","text":"WAICO — 29 countries sign to formalize a Shanghai-HQ'd, China-led AI cooperation body as WAIC 2026 closes"},
+    {"dir":"up","text":"REG-CLOCK — US Aug 1 (12d) / EU Aug 2 (13d) now inside two weeks; enforcement + Code of Practice live"},
+    {"dir":"down","text":"GEMINI 3.5 PRO — reports now peg the release into August (fourth miss); still no model card, pricing or API listing"}
+  ],
+  "arcs": {
+    "open-frontier": {"day": 2, "note": "HERO / escalated: Kimi K3's launch became a market event — Nasdaq -1.4% (Jul 17, -2.9% wk), Nvidia -3% briefly ceding #1 to Apple, Samsung/SK Hynix lower by Jul 19; a live re-rating of the AI-capex trade, partly retraced; weights Jul 27"},
+    "china-governance": {"day": 1, "note": "New item: WAICO formally established with 29 signatories as WAIC 2026 closes Jul 20 — a Shanghai-HQ'd, China-led multilateral governance track alongside the US (Aug 1) and EU (Aug 2) regimes"},
+    "agent-security": {"day": 23, "note": "New item + carry: Microsoft's Project Perception (multi-model AI vuln-finder, rivals Anthropic Mythos) is the fresh defensive-tooling entry; prompt injection stays OWASP LLM01 with the EchoLeak/CurXecute/Copilot-PR CVE set"},
+    "ai-coding": {"day": 1, "note": "New item: Emergent becomes India's 3rd AI unicorn of 2026 ($130M at $1.5B, $120M ARR) — the applied AI-coding-startup edge; Coinbase 95-100% AI-code and Fireworks infra carry"},
+    "money-markets": {"day": 8, "note": "New item: PixVerse $439M at $2B+ (Alibaba-led AI video) joins Emergent $130M; record H1 ~$510B; Fireworks $1.5B + Wonder $650M carry; defense-tech $17.4B YTD"},
+    "china-export": {"day": 6, "note": "New item: China clears limited H200 buys for Alibaba/ByteDance/DeepSeek (<200k cap) but 'very few' shipped — the compute-access counterweight to the US distillation crackdown; MOFCOM still weighing outbound curbs"},
+    "ai-for-science": {"day": 1, "note": "New item (Monday research beat): long-horizon agent reliability — DeepMind 'prospective credit assignment' (reported, Agg 1x) + Long-Horizon-Terminal-Bench (arXiv 2607.08964) + agentic self-driving labs (arXiv 2607.04508)"},
+    "reg-clock": {"day": 41, "note": "Escalated: US Aug 1 (12d) and EU Aug 2 (13d) inside two weeks; WAICO (New #1) opens a China-led counter-track and China's H200 clearance (New #5) is the compute-access counterweight to the US distillation crackdown"},
+    "google-models": {"day": 20, "note": "De-escalated: Gemini 3.5 Pro's Jul 17 target passed; reporting now pegs the release into August (fourth miss); Google shipping smaller stopgaps (Nano Banana 2 Lite, Gemini Omni Flash, Video Remix), not the flagship"},
+    "open-weight": {"day": 2, "note": "Tracking: open-weight table stays Chinese-and-open at the top — Kimi K3 (Developing), Inkling 975B Apache-2.0, GLM-5.2, DeepSeek V4, MiniMax M3, Qwen 3.6; gap ~1 generation"},
+    "platform-wars": {"day": 2, "note": "Tracking: Microsoft's sell-against-the-labs playbook holds; Project Perception (New #2) is the security-tooling extension and makes Microsoft a model-router"},
+    "regional-jobs": {"day": 2, "note": "Tracking: India GCCs ~510k hires / 64% AI-skilled + Singapore/UK/UAE crunch hold; Emergent (New #3) the India-startup edge"},
+    "ai-safety-eval": {"day": 2, "note": "Tracking: FLI Summer 2026 Index (no lab above C+) holds; WAICO (New #1) the new multilateral track"},
+    "compute-supply": {"day": 2, "note": "Tracking: TSMC record Q2, N3 & CoWoS sold out through 2026; AMD Advancing AI Jul 22-23 the next catalyst"},
+    "custom-silicon": {"day": 14, "note": "Tracking: AMD Advancing AI Jul 22-23 (MI450/Helios/EPYC Venice), 2 days out; Anthropic-Samsung 2nm inference-chip talks; TSMC sold-out the shared bottleneck"},
+    "compute-buildout": {"day": 4, "note": "Tracking: Meta Hyperion 5GW/$50B holds; top-5 capex ~$630-650B; Kimi's market shock (D1) is the demand-side doubt"},
+    "it-services-ai": {"day": 10, "note": "Tracking: Ode, PwC×OpenAI, Microsoft Frontier, AWS FDE, OpenAI Deployment Co; 3M×Microsoft AI-datacenter optics (Jul 15) the latest tie-up"},
+    "sovereign-ai": {"day": 15, "note": "Tracking: Japan's national model + Noetra Rubin factory, MGX $49B, Singapore NCS/Qwen, UAE FAIDA, India Sarvam; WAICO (New #1) the multilateral cousin"},
+    "defense-ai": {"day": 3, "note": "Tracking: Helsing $1.8B/$18B + Quantum Systems $1.2B/$8B hold; defense-tech record $17.4B YTD"},
+    "ai-health": {"day": 3, "note": "Tracking: Neko Health $700M at ~$7B entering the US holds"},
+    "ai-coding-2": {"day": 3, "note": "Tracking: Coinbase 95-100% AI-code holds; Emergent (New #3) + Fireworks the startup/supply side"},
+    "physical-ai": {"day": 21, "note": "Tracking: Apptronik Robot Park -> Gemini Robotics; Tesla Optimus Gen 3 ramp (late-July) not yet begun as of mid-July; Wonder's kitchen the applied edge"},
+    "workforce": {"day": 23, "note": "Tracking: AI the leading stated US-layoff reason; ~168k+ workers hit in 2026, ~54% of events cite AI; Nobel statement + India GCC build-out the two poles"},
+    "india-reg": {"day": 4, "note": "Tracking: RBI AI 'kill switch' draft, feedback closes Jul 24 (on radar); SEBI advisory + DPDP stand; no fresh text"},
+    "talent": {"day": 29, "note": "Tracking: DeepMind exodus continues; Tom Blomfield takes leave from YC for Anthropic's compute team (Jul 13); Murati's Inkling shipped; Apple v OpenAI unresolved"}
+  },
+  "resolved": [
+    "NEW.24H THIS EDITION: none — no item cleanly broke within 24h of the Jul 20 IST run. The six New items are genuinely new to this feed (ids absent last edition) but dated Jul 13-17 (a weekend cluster surfaced now) plus the Monday research beat; labelled honestly with no 24h badge.",
+    "WAIC 2026 CLOSED (Jul 20) in Shanghai; the World AI Cooperation Organization was formally established with 29 signatory countries (surfaced as New #1) — the china-governance Tracking one-liner resolves into that arc.",
+    "AUTO-DEMOTE: edition-035's New items with no fresh movement drop to Tracking one-liners — kimi-k3 PROMOTED to Developing (open-frontier, market fallout); tsmc-earnings -> compute-supply/compute-buildout, fireworks-raise -> money-markets, inkling-tm -> open-weight, nobel-ai-economy -> workforce, msft-copilot-compete -> platform-wars, wonder-raise -> money-markets/physical-ai, india-gcc-jobs & global-ai-jobs -> regional-jobs, fli-safety-index -> ai-safety-eval. No Developing thread hit the 3-edition no-movement retirement this edition.",
+    "DATE-TRAPS EXCLUDED (not padded as New): the Kimi K3 launch itself (ed-035 Hero, carried as Developing on the fallout); Anthropic $47B ARR / IPO filing (May-June); Claude Science & GPT-Live product launches (late June/early July); 3M×Microsoft optics (Jul 15, folded to it-services-ai); OpenAI/AWS/Microsoft enterprise-deployment units (early July, folded to it-services-ai)."
+  ],
+  "deadlines": [
+    {"date": "2026-07-22", "label": "AMD Advancing AI 2026 (Jul 22-23, Moscone SF): expected MI450 (HBM4), Zen6 EPYC Venice, ROCm and the Helios rack-scale system — 2 days", "severity": "medium"},
+    {"date": "2026-07-24", "label": "DeepSeek legacy API retirement: deepseek-chat/reasoner aliases return errors (15:59 UTC) — repoint to deepseek-v4-pro/-flash; also RBI's AI 'kill-switch' feedback window closes — 4 days", "severity": "high"},
+    {"date": "2026-07-27", "label": "Moonshot to release Kimi K3 open weights: until then no one can independently reproduce its benchmarks or self-host it — the resolution of the market re-rating (Hero) — 7 days", "severity": "medium"},
+    {"date": "2026-08-01", "label": "US: agencies to finalize the Jun 2 EO's voluntary covered-frontier framework (30-day pre-release access; classified cyber-benchmarking); clearinghouse already overdue — 12 days", "severity": "high"},
+    {"date": "2026-08-02", "label": "EU AI Act: Article 50 transparency + GPAI enforcement (fines up to €15M/3% turnover; final Code of Practice in place) — 13 days; stand-alone high-risk Annex III deferred to Dec 2 2027", "severity": "high"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
