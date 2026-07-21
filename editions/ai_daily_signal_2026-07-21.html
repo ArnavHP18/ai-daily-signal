@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 037 — 21 July 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>CUSPAI</b> $450M Series B at $2.6B launches an "AI Materials Foundry" of 45+ orgs (Nvidia, Meta, Samsung, Lam Research) aimed at the semiconductor-materials bottleneck &nbsp;◆&nbsp; <b>QWEN3.8-MAX</b> Alibaba previews a 2.4T multimodal model at WAIC — China's open-weight cadence accelerates days after Kimi K3 &nbsp;◆&nbsp; <b>EU DMA</b> Commission orders Google to open Android's AI-assistant layer to rivals and share Search data &nbsp;◆&nbsp; <b>US AI POLITICS</b> Sacks &amp; Ackman use Kimi K3 to attack data-center limits and model pre-approval as Aug 1 nears &nbsp;◆&nbsp; <b>NVIDIA</b> steadies near $200 as the Kimi selloff partly retraces &nbsp;◆&nbsp; <b>AMD ADVANCING AI</b> MI450 / EPYC Venice / Helios — 1 day out &nbsp;◆&nbsp; <b>REG-CLOCK</b> US Aug 1 / EU Aug 2 now ~11–12 days &nbsp;◆&nbsp; <b>GEMINI 3.5 PRO</b> markets split Jul 31 / Aug 7 &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>037</b></span>
+    <span>TUESDAY, 21 JULY 2026</span>
+    <span class="seg">NEW <b>6</b> · DEVELOPING <b>3</b> · TRACKING <b>21</b></span>
+    <span>CRITICAL <b>2</b> / NOTABLE 4 / MONITOR 3</span>
+    <span>SCAN: 28 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="cuspai-materials">
+  <div>
+    <div class="kicker">■ Today's Lead · New ● · Research / AI-for-Science · The compute crunch, attacked from the materials side</div>
+    <h2>AI turns on the chip shortage itself — CuspAI raises $450M and builds a materials foundry with Nvidia and Samsung inside</h2>
+    <p class="dek">On a quieter Tuesday the biggest genuinely-new item is a research bet with an industrial coalition behind it. <strong>CuspAI</strong>, a Cambridge (UK) startup using AI to discover new materials, raised a <strong>$450M Series B</strong> at a <strong>$2.6B</strong> valuation — up from ~$520M last September — led by <strong>Kleiner Perkins</strong> and <strong>NEA</strong>, with Bezos Expeditions, Lux Capital, <strong>AMD Ventures</strong> and Britain's Sovereign AI Venture Fund (<a href="https://qz.com/cuspai-raises-450-million-series-b-ai-materials-foundry-072026">Quartz</a>, <a href="https://medium.com/@CuspAI/launching-our-ai-materials-foundry-and-450-million-series-b-f5603d8259dd">CuspAI</a>, <a href="https://www.eweek.com/news/cuspai-ai-materials-funding/">eWeek</a>). Alongside it the company launched the <strong>AI Materials Foundry</strong> — a coalition of <strong>45+ organizations</strong> including <strong>Nvidia, Meta, Samsung, Hyundai Motor Group and Lam Research</strong> — pooling compute and lab access. <strong>Semiconductors</strong> get 80% of CuspAI's research bandwidth this year, including work to remove supply-constrained rare metals (ruthenium, iridium) from chipmaking (<a href="https://invezz.com/news/2026/07/20/uk-government-backs-british-ai-startup-cuspai-in-450m-funding-round/">Invezz</a>).</p>
+    <p class="sowhat">So what: the same compute crunch driving the AI-capex fight (Developing D1) is being attacked from the materials layer — and the chip supply chain itself (Nvidia, Samsung, Lam) is co-investing. AI-for-science graduates from protein structure to the physical inputs of the chips it runs on.</p>
+    <span class="chip arc">ARC: AI-MATERIALS · D1</span><span class="chip">2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://qz.com/cuspai-raises-450-million-series-b-ai-materials-foundry-072026">Quartz</a> ·
+      <a href="https://medium.com/@CuspAI/launching-our-ai-materials-foundry-and-450-million-series-b-f5603d8259dd">CuspAI (primary)</a> ·
+      <a href="https://www.eweek.com/news/cuspai-ai-materials-funding/">eWeek</a> ·
+      <a href="https://www.newelectronics.co.uk/content/news/cuspai-raises-450m-to-accelerate-ai-driven-materials-discovery">New Electronics</a> ·
+      <a href="https://invezz.com/news/2026/07/20/uk-government-backs-british-ai-startup-cuspai-in-450m-funding-round/">Invezz</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What's new.</strong> CuspAI is a 2024-founded materials-discovery lab (co-founded with input from DeepMind/Meta AI alumni) that trains generative models to propose novel compounds — MOFs for carbon capture, then a hard pivot into semiconductor materials. The Jul 20 round roughly 5x's its valuation in ten months and is paired with the AI Materials Foundry, a members' coalition pooling GPU compute, wet-lab access and domain expertise on CuspAI's platform. Lab operations expand in Cambridge, Singapore and the SF Bay Area.</p>
+      <p><strong>Why it leads today.</strong> No frontier model shipped on Jul 20–21; the cleanest, best-sourced <em>new</em> development is this. It is also the day's strongest research beat — AI-for-science aimed squarely at the industry's own bottleneck (advanced-node materials and rare-metal dependence), with the chipmakers as backers rather than customers.</p>
+      <p><strong>The caveats.</strong> Materials-discovery claims are notoriously hard to validate: a generated candidate is a hypothesis until synthesized and characterized, and prior AI-materials waves (e.g. GNoME) drew scrutiny over how many "novel" structures were truly useful. The 80%-on-semiconductors framing and the "remove ruthenium/iridium" goal are the company's, not yet peer-reviewed results. Foundry membership is a commitment to collaborate, not disclosed capital.</p>
+      <p><strong>Watch next.</strong> First Foundry deliverables and any peer-reviewed characterization; whether the semiconductor-materials angle intersects TSMC/Samsung roadmaps (Tracking: compute-supply, custom-silicon); and whether the UK Sovereign AI Fund's stake becomes a template for state-backed applied-science bets (Tracking: sovereign-ai).</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>Who</dt><dd>CuspAI (Cambridge, UK) — AI materials discovery</dd>
+      <dt>Round</dt><dd>$450M Series B; $2.6B valuation (up from ~$520M, Sept)</dd>
+      <dt>Leads</dt><dd>Kleiner Perkins &amp; NEA; +Bezos, Lux, AMD Ventures, UK Sovereign AI Fund</dd>
+      <dt>Foundry</dt><dd>45+ orgs incl. Nvidia, Meta, Samsung, Hyundai, Lam Research</dd>
+      <dt>Focus</dt><dd>Semiconductors = 80% of research; targets rare-metal (Ru/Ir) reduction</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">6</b>/10 — AI-for-science on the chip-materials bottleneck</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="cuspai-materials">
+      <div class="num">1</div>
+      <h4>AI aims at the chip-materials bottleneck</h4>
+      <p>CuspAI raises $450M at $2.6B and launches an "AI Materials Foundry" of 45+ orgs (Nvidia, Meta, Samsung, Lam Research); 80% of its research is semiconductors, targeting supply-constrained rare metals. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="qwen38-max">
+      <div class="num">2</div>
+      <h4>China's open-weight cadence accelerates</h4>
+      <p>Days after Kimi K3, Alibaba previews Qwen3.8-Max — a 2.4T multimodal model — at WAIC, with Zhipu and MiniMax also pushing flagships. The competitive floor, not just one model, has moved. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="reg-clock">
+      <div class="num">3</div>
+      <h4>The reg clock: US Aug 1, EU Aug 2 — ~11–12 days</h4>
+      <p>The US covered-frontier framework (Aug 1) and EU AI Act GPAI enforcement (Aug 2, fines to €15M/3%) are inside two weeks — as Washington faces a home-grown "we're losing" backlash. <strong>DEVELOPING ▲.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>A QUIETER, CONSOLIDATION TUESDAY (deep beat = open-source/models):</strong> no new frontier model shipped Jul 20–21; last week's <strong>Kimi K3</strong> open-frontier wave is now cresting rather than breaking (markets partly retraced; Nvidia steadying near $200). <strong>Six items are genuinely new to this feed</strong>, honestly dated. <strong>Two broke inside 24h</strong> (both Jul 20) and carry <strong>NEW.24H</strong> badges: <strong>CuspAI</strong>'s $450M AI Materials Foundry (Hero) and <strong>Blackstone→Futronic</strong>, capital into the humanoid-robot supply chain. The other four are new-to-feed but older: Alibaba's <strong>Qwen3.8-Max</strong> preview (Jul 19); the <strong>US AI-race backlash</strong> from Sacks &amp; Ackman (Jul 15–17); the <strong>EU DMA</strong> order opening Google's Android AI layer (Jul 16); and the <strong>AI drug-discovery</strong> clinical-reality inflection (Jul 14–16). Carries: reg-clock (▲), the Kimi fallout (broadening to competition + policy) and <strong>Gemini 3.5 Pro</strong> (markets now split Jul 31 / Aug 7). Recycled carries were demoted to Tracking, not dressed up as new — and one aggregator date-trap (Harvey's March round mis-listed as July) was caught and excluded.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (9)</button>
+    <button class="tab" data-cat="models">MODELS (3)</button>
+    <button class="tab" data-cat="policy">POLICY (3)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+    <button class="tab" data-cat="business">BUSINESS (1)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>6 ITEMS · SURFACED SINCE LAST EDITION · 2 BROKE &lt;24H</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 note" data-cat="research" data-story-id="cuspai-materials">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#1</span> <span class="cat">RESEARCH · AI-FOR-SCIENCE</span></div>
+      <h4>CuspAI raises $450M and launches an AI Materials Foundry with Nvidia, Samsung and Lam inside</h4>
+      <div class="body">Cambridge (UK) materials-discovery lab <strong>CuspAI</strong> closed a <strong>$450M Series B</strong> at a <strong>$2.6B</strong> valuation (Jul 20), led by <strong>Kleiner Perkins</strong> and <strong>NEA</strong>, and launched the <strong>AI Materials Foundry</strong> — a coalition of <strong>45+ organizations</strong> (Nvidia, Meta, Samsung, Hyundai, Lam Research) pooling compute and lab access (<a href="https://qz.com/cuspai-raises-450-million-series-b-ai-materials-foundry-072026">Quartz</a>, <a href="https://medium.com/@CuspAI/launching-our-ai-materials-foundry-and-450-million-series-b-f5603d8259dd">CuspAI</a>). Semiconductors take 80% of its research this year, targeting supply-constrained rare metals (ruthenium, iridium).</div>
+      <p class="sowhat">The full lead, above. The chip supply chain is now co-investing in the AI that hunts for its next materials — the compute bottleneck attacked from the physical-inputs side.</p>
+      <div><span class="chip arc">ARC: AI-MATERIALS · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.eweek.com/news/cuspai-ai-materials-funding/">eWeek</a> · <a href="https://www.newelectronics.co.uk/content/news/cuspai-raises-450m-to-accelerate-ai-driven-materials-discovery">New Electronics</a> · <a href="https://ventureburn.com/cuspai-raises-450-million-series-b-ai-materials-foundry/">Ventureburn</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="qwen38-max">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#2</span> <span class="cat">MODELS · OPEN-WEIGHT</span></div>
+      <h4>Alibaba previews Qwen3.8-Max — a 2.4T multimodal model — as China's open cadence accelerates</h4>
+      <div class="body">Days after Moonshot's Kimi K3, Alibaba's Qwen team previewed <strong>Qwen3.8-Max</strong>, described as a <strong>2.4-trillion-parameter</strong> multimodal model, during <strong>WAIC</strong> in Shanghai (Jul 19); Alibaba calls it "one of the most powerful models available today" (<a href="https://www.marktechpost.com/2026/07/19/alibaba-previews-qwen3-8-max-a-2-4-trillion-parameter-multimodal-model-days-after-moonshots-kimi-k3-open-weight-launch/">MarkTechPost</a>, <a href="https://techstartups.com/2026/07/20/top-tech-news-today-july-20-2026-alibaba-bezos-blackstone-google-moonshot-ai-nvidia-samsung-more/">Tech Startups</a>). Zhipu (GLM) and MiniMax (M2.1 now; M3 Pro planned Q3) are shipping flagships on a near-weekly rhythm.</div>
+      <p class="sowhat">Kimi wasn't a one-off. Chinese labs now ship trillion-scale, increasingly-open frontier models weekly — so the "DeepSeek moment" is a floor that keeps rising, not a single scare. A preview, not weights yet.</p>
+      <div><span class="chip arc">ARC: QWEN-MAX · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.marktechpost.com/2026/07/19/alibaba-previews-qwen3-8-max-a-2-4-trillion-parameter-multimodal-model-days-after-moonshots-kimi-k3-open-weight-launch/">MarkTechPost</a> · <a href="https://www.chinapulse.com/data-news/2026/07/20/top-tech-news-today-july-20-2026-alibaba-bezos-blackstone-google-moonshot-ai-nvidia-samsung-more">ChinaPulse (wire)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="eu-dma-google">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#3</span> <span class="cat">POLICY · EU / ANTITRUST</span></div>
+      <h4>EU orders Google to open Android's AI-assistant layer to rivals and share Search data</h4>
+      <div class="body">The European Commission adopted <strong>two binding DMA decisions</strong> (Jul 16) requiring Google to give rival AI assistants the <strong>same system-level Android access</strong> it reserves for Gemini — wake words, home button, screen reading, in-app actions — and to <strong>share Search data</strong> with rival engines (<a href="https://digital-markets-act.ec.europa.eu/commission-provides-guidance-google-ai-interoperability-android-and-sharing-google-search-data-under-2026-07-16_en">European Commission</a>, <a href="https://www.techtimes.com/articles/320760/20260716/eu-gives-rival-ai-assistants-system-level-android-access-google-reserved-gemini.htm">TechTimes</a>, <a href="https://www.unite.ai/eu-compels-google-to-share-android-and-search-data-with-rival-ai-assistants/">Unite.AI</a>). Search-data sharing begins Jan 2027; Android interop reaches users by Jul 2027; Google can appeal.</div>
+      <p class="sowhat">The first time the DMA is used to pry open the OS-level AI-assistant slot — a distribution lever that could shape Gemini's reach more than any benchmark. A template regulators (and India's MeitY) may copy.</p>
+      <div><span class="chip arc">ARC: EU-DMA · D1</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://digital-markets-act.ec.europa.eu/commission-provides-guidance-google-ai-interoperability-android-and-sharing-google-search-data-under-2026-07-16_en">EC (DMA)</a> · <a href="https://www.techtimes.com/articles/320760/20260716/eu-gives-rival-ai-assistants-system-level-android-access-google-reserved-gemini.htm">TechTimes</a> · <a href="https://www.trendingtopics.eu/eu-forces-google-to-open-android-to-third-party-ai-assistants/">Trending Topics</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="us-ai-race-backlash">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#4</span> <span class="cat">POLICY · US / POLITICS</span></div>
+      <h4>The Kimi shock becomes a US policy fight — Sacks and Ackman say America is handicapping itself</h4>
+      <div class="body">Kimi K3 triggered a domestic backlash: <strong>David Sacks</strong> (former White House AI czar) publicly attacked US AI policy — data-center permitting limits and proposed model <strong>pre-approval</strong> — warning the US risks losing the AI race (<a href="https://www.axios.com/2026/07/17/sacks-kimi-open-source-weights-trump">Axios</a>, <a href="https://thehill.com/policy/technology/5975303-david-sacks-us-artificial-intelligence-kimi-k3-moonshot-ai/">The Hill</a>). <strong>Bill Ackman</strong> called winning the "superintelligence race" existential, citing China's unrestricted data-center and energy expansion (<a href="https://www.benzinga.com/markets/prediction-markets/26/07/60537191/david-sacks-bill-ackman-sound-the-alarm-on-chinas-kimi-k3-as-nvidia-micron-slide">Benzinga</a>).</div>
+      <p class="sowhat">The open-frontier scare is now reshaping domestic pressure — the loosen-the-rules camp weaponizes Kimi against pre-approval, colliding head-on with the Aug 1 covered-frontier framework (see reg-clock).</p>
+      <div><span class="chip arc">ARC: US-AI-POLITICS · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.axios.com/2026/07/17/sacks-kimi-open-source-weights-trump">Axios</a> · <a href="https://thehill.com/policy/technology/5975303-david-sacks-us-artificial-intelligence-kimi-k3-moonshot-ai/">The Hill</a> · <a href="https://www.benzinga.com/markets/prediction-markets/26/07/60537191/david-sacks-bill-ackman-sound-the-alarm-on-chinas-kimi-k3-as-nvidia-micron-slide">Benzinga</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="business" data-story-id="blackstone-futronic">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#5</span> <span class="cat">BUSINESS · ROBOTICS SUPPLY</span></div>
+      <h4>Blackstone buys into Futronic — betting on the humanoid robot's parts, not its brain</h4>
+      <div class="body"><strong>Blackstone</strong> invested in <strong>Futronic</strong>, a South Korean maker of high-precision <strong>actuators</strong> for automotive systems and industrial/humanoid robots, valuing it at ~<strong>₩1 trillion (~$676M)</strong> (Jul 20) — institutional capital moving into the physical supply chain beneath the humanoid race (<a href="https://techstartups.com/2026/07/20/top-tech-news-today-july-20-2026-alibaba-bezos-blackstone-google-moonshot-ai-nvidia-samsung-more/">Tech Startups</a>, <a href="https://www.chinapulse.com/data-news/2026/07/20/top-tech-news-today-july-20-2026-alibaba-bezos-blackstone-google-moonshot-ai-nvidia-samsung-more">ChinaPulse</a>).</div>
+      <p class="sowhat">Actuators and harmonic drives — not AI "brains" — are the real bottleneck for humanoids. Watch whether component supply, more than model quality, gates 2026–27 deployment. (Single wire; treated as Agg 1x.)</p>
+      <div><span class="chip arc">ARC: ROBOTICS-SUPPLY · D1</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://techstartups.com/2026/07/20/top-tech-news-today-july-20-2026-alibaba-bezos-blackstone-google-moonshot-ai-nvidia-samsung-more/">Tech Startups</a> · <a href="https://www.chinapulse.com/data-news/2026/07/20/top-tech-news-today-july-20-2026-alibaba-bezos-blackstone-google-moonshot-ai-nvidia-samsung-more">ChinaPulse (same wire)</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="enterprise" data-story-id="ai-drug-discovery">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#6</span> <span class="cat">ENTERPRISE · VERTICAL / HEALTH</span></div>
+      <h4>AI drug discovery hits a clinical-reality inflection — and Anthropic enters the wet lab</h4>
+      <div class="body">2026 AI drug-discovery investment tops <strong>$2B</strong> as timelines reportedly compress to 12–18 months; industry estimates put <strong>15–20 AI programs</strong> entering Phase III this year, with Insilico's <strong>rentosertib</strong> the field's first peer-reviewed positive Phase IIa (IPF, <em>Nature Medicine</em> 2025) (<a href="https://www.globenewswire.com/news-release/2026/07/14/3327157/0/en/AI-Drug-Discovery-Investment-Surges-to-2-Billion-as-Technology-Cuts-Development-Timelines-by-70-Driven-by-Breakthrough-Clinical-Success-Rates.html">GlobeNewswire</a>, <a href="https://aimmediahouse.com/ai-lifesciences/2026-is-the-year-ai-drug-discovery-meets-clinical-reality">AIM Media</a>). <strong>Anthropic</strong> is standing up an internal drug-discovery program as part of a Claude-for-healthcare push; still <strong>no AI-designed drug is FDA-approved</strong>.</div>
+      <p class="sowhat">The "AI designs drugs" promise is finally graded by clinical outcomes, not press releases — and a frontier lab moving into wet-lab discovery signals the labs want the science layer, not just the tooling.</p>
+      <div><span class="chip arc">ARC: AI-BIO · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.globenewswire.com/news-release/2026/07/14/3327157/0/en/AI-Drug-Discovery-Investment-Surges-to-2-Billion-as-Technology-Cuts-Development-Timelines-by-70-Driven-by-Breakthrough-Clinical-Success-Rates.html">GlobeNewswire</a> · <a href="https://www.drugtargetreview.com/ai-in-drug-discovery-predictions-for-2026/1865962.article">Drug Target Review</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="models" data-story-id="open-frontier">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D1</span> <span class="cat">MODELS · MARKETS</span></div>
+      <h4>The Kimi K3 wave crests — from acute selloff to a broader competitive re-rating</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The acute selloff <strong>eased</strong>: Nvidia is steadying near the <strong>$200</strong> level by Jul 20 and indices partly retraced the Jul 17–18 lows. But the pressure <strong>broadened</strong> — Alibaba's <strong>Qwen3.8-Max</strong> preview (New #2) is the next open salvo, and the shock drew explicit <strong>US-policy alarm</strong> (Sacks/Ackman, New #4). Weights still land <strong>Jul 27</strong>.</div>
+      <div class="body">The story is no longer one chart — it's a floor that keeps rising (weekly Chinese open-model drops) plus a live policy fight over how much the US should spend and gate (<a href="https://www.fxleaders.com/news/2026/07/20/nvidia-stock-nvda-tests-200-support-as-chinese-ai-competition-shakes-the-chip-rally/">FX Leaders</a>, <a href="https://www.bloomberg.com/news/articles/2026-07-20/moonshot-s-kimi-k3-may-be-more-about-memory-than-compute">Bloomberg</a>). Bloomberg notes K3's real constraint may be <em>memory</em> (1.5TB+ HBM), not compute.</div>
+      <p class="sowhat">Don't confuse a price bounce with an all-clear. The Jul 27 weight drop is still the verdict — reproducibility and license terms decide whether the re-rating sticks.</p>
+      <div><span class="chip arc">ARC: OPEN-FRONTIER · D3</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.fxleaders.com/news/2026/07/20/nvidia-stock-nvda-tests-200-support-as-chinese-ai-competition-shakes-the-chip-rally/">FX Leaders</a> · <a href="https://www.bloomberg.com/news/articles/2026-07-20/moonshot-s-kimi-k3-may-be-more-about-memory-than-compute">Bloomberg</a> · <a href="https://simplywall.st/stocks/us/semiconductors/nasdaq-nvda/nvidia/news/nvidia-nvda-faces-a-new-ai-test-as-kimi-k3-challenges-us-lea">Simply Wall St</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="reg-clock">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D2</span> <span class="cat">POLICY · GLOBAL</span></div>
+      <h4>The reg clock tightens to ~11–12 days — with pressure from both sides now</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The countdown slid to <strong>Aug 1 — 11 days</strong> (US covered-frontier framework; clearinghouse still unbuilt) and <strong>Aug 2 — 12 days</strong> (EU AI Act GPAI enforcement, fines to €15M/3%). New cross-pressure: the EU showed it will enforce hard — its Jul 16 <strong>DMA</strong> order against Google (New #3) — while a US <strong>domestic backlash</strong> (Sacks/Ackman, New #4) attacks the very pre-approval regime the Aug 1 framework embodies.</div>
+      <div class="body">Governance is now a three-body problem <em>and</em> a two-front domestic fight: EU powers switch on Aug 2 with the final Code of Practice in place (<a href="https://artificialintelligenceact.eu/">AI Act tracker</a>, <a href="https://www.lw.com/en/insights/eu-ai-act-gpai-model-obligations-in-force-and-final-gpai-code-of-practice-in-place">Latham</a>); US agencies must stand up the framework by Aug 1 amid calls to loosen it (<a href="https://compliancehub.wiki/eu-ai-act-gpai-enforcement-august-2026-readiness/">ComplianceHub</a>).</div>
+      <p class="sowhat">Staff EU Aug 2 workstreams now. The cheaper and faster the open frontier gets, the sharper the split between "gate the models" and "unleash the buildout" — and Aug 1 is where it lands.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D42</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai">EU Commission (AI Act)</a> · <a href="https://www.lw.com/en/insights/eu-ai-act-gpai-model-obligations-in-force-and-final-gpai-code-of-practice-in-place">Latham &amp; Watkins</a> · <a href="https://artificialintelligenceact.eu/">AI Act tracker</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="models" data-story-id="google-models">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">D3</span> <span class="cat">MODELS · GOOGLE</span></div>
+      <h4>Gemini 3.5 Pro still unshipped — prediction markets now split Jul 31 / Aug 7</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Still <strong>no model card, pricing or API listing</strong>. Fresh prediction-market data now splits the release between <strong>~Jul 31</strong> (81% on one market) and <strong>Aug 7</strong> (73% on another) — a fifth slip in view — while Google keeps shipping smaller stopgaps rather than the flagship.</div>
+      <div class="body">Google slipped 3.5 Pro repeatedly after scrapping the base model and rebuilding, citing coding-reliability and hallucination issues (<a href="https://9to5google.com/2026/07/16/gemini-3-5-pro-delays/">9to5Google</a>, <a href="https://www.geeky-gadgets.com/gemini-3-5-pro-delayed-again/">Geeky Gadgets</a>). Reported specs remain unconfirmed by any Google model card.</div>
+      <p class="sowhat">Keep the eval harness warm but don't plan around it. Until a real model card + pricing land, 3.5 Pro is vapor — and every Chinese open drop eats more of its narrative oxygen.</p>
+      <div><span class="chip arc">ARC: GOOGLE-MODELS · D21</span><span class="chip">Agg 2x</span></div>
+      <div class="src"><a href="https://9to5google.com/2026/07/16/gemini-3-5-pro-delays/">9to5Google</a> · <a href="https://www.geeky-gadgets.com/gemini-3-5-pro-delayed-again/">Geeky Gadgets</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING ══════════ -->
+<section>
+  <div class="sec-head">Still Tracking <small>LONG-RUNNERS WITH NO MOVEMENT THIS EDITION</small></div>
+  <div class="tracking-strip" id="tracking-strip"></div>
+</section>
+
+<!-- ══════════ RESOLVED ══════════ -->
+<section>
+  <div class="sec-head">Resolved <small>YESTERDAY'S OPEN THREADS, CLOSED</small></div>
+  <div class="resolved-strip" id="resolved-strip"></div>
+</section>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 037 · 2026-07-21 (IST) · FORMAT v2</strong></p>
+    <p>METHOD: 28 web searches across frontier + open-weight models (Tuesday deep beat = open-source/models), hardware/compute &amp; export controls, AI-for-science &amp; materials, business/funding/M&amp;A, enterprise &amp; vertical AI (health/robotics), AI-security tooling, workforce/labor, and regulation (US/EU/India) — with additional cross-check passes to confirm named rounds and dates. v2 splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with a change-line) and STILL TRACKING (quiet long-runners). Hero = biggest new item unless a developing thread had a major escalation; no thread escalated decisively today (the Kimi wave is cresting, not breaking), so the Hero is the biggest genuinely-new item (CuspAI). Aggregator claims cross-checked against ≥2 outlets where possible; single-source/aggregator items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+    <p>KNOWN SCAN GAPS &amp; CAVEATS THIS EDITION: NEW.24H applies to TWO items — CuspAI's $450M raise + AI Materials Foundry (Jul 20) and Blackstone's Futronic robotics-actuator investment (Jul 20) — both broke within ~24h of the Jul 21 IST run. The other four New items are new to this feed but dated earlier, labelled honestly: Qwen3.8-Max preview (Jul 19); the US AI-race backlash (Sacks/Ackman, Jul 15–17); the EU DMA Google decision (Jul 16); the AI drug-discovery inflection (Jul 14–16). SINGLE-WIRE FLAG: the Blackstone→Futronic item rests on one syndicated wire (Tech Startups/ChinaPulse) and is chip-flagged Agg 1x; the ~₩1T (~$676M) value is press-reported, not company-confirmed. Qwen3.8-Max is a WAIC <em>preview</em> (2.4T claimed), not a weights release; parameter/capability claims are Alibaba's. CuspAI's "80% semiconductors" and rare-metal-reduction goals are the company's stated priorities, not peer-reviewed results. The AI drug-discovery figures are industry/press estimates (GlobeNewswire/AIM/Drug Target Review); no AI-designed drug is FDA-approved. The Kimi K3 market move remains real but partly retraced — a price signal, not a verdict; weights ship Jul 27. DATE-TRAPS EXCLUDED (not padded as New): the Kimi K3 launch/market shock (carried Developing); Grok 4.5 (xAI/Cursor, Jul 8, folded to ai-coding); ChatGPT Work (Jul 9); HARVEY's $200M/$11B round (which one aggregator listed under July — it actually closed in MARCH 2026, cross-checked against CNBC/Bloomberg and excluded); ServiceNow Otto/Action Fabric (May); Anthropic's S-1/$47B ARR (May–June); Anthropic×Google/Broadcom multi-GW compute (folded to custom-silicon). AUTO-RETIREMENTS: edition-036's New items with no fresh movement drop to Tracking one-liners — waico → china-governance, project-perception → platform-wars/agent-security, emergent-unicorn → ai-coding/money-markets, pixverse-raise → money-markets, nvidia-h200-china → china-export, research-longhorizon → ai-for-science. No Developing thread hit the 3-edition no-movement retirement this edition.</p>
+    <p>NOTE: Links point to sources found during the scan; where only an outlet root or roundup was available it is labelled as such. Nothing here is investment advice.</p>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 37,
+  "date": "2026-07-21",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 28,
+  "counts": {"new": 6, "developing": 3, "tracking": 21},
+  "tiers": {"critical": 2, "notable": 4, "monitor": 3},
+  "stories": [
+    {"id":"cuspai-materials","section":"new","rank":1,"title":"CuspAI, a Cambridge (UK) AI materials-discovery lab, raised a $450M Series B at a $2.6B valuation (up from ~$520M last September) led by Kleiner Perkins and NEA — with Bezos Expeditions, Lux Capital, AMD Ventures and Britain's Sovereign AI Venture Fund — and launched the AI Materials Foundry, a coalition of 45+ organizations (Nvidia, Meta, Samsung, Hyundai Motor Group, Lam Research) pooling compute and lab access; semiconductors take 80% of its research this year, including work to remove supply-constrained rare metals (ruthenium, iridium) from chipmaking (Jul 20)","tier":"notable","impact":6,"delta":"new","arc":"ai-materials","arcDay":1,"confidence":"2x src","new24h":true,"firstSeen":"2026-07-20","lastUpdate":"2026-07-21","category":"research"},
+    {"id":"qwen38-max","section":"new","rank":2,"title":"Alibaba previewed Qwen3.8-Max, described as a 2.4-trillion-parameter multimodal model, during WAIC in Shanghai on Jul 19 — days after Moonshot's Kimi K3 — calling it 'one of the most powerful models available today'; Zhipu (GLM) and MiniMax (M2.1 now, M3 Pro planned Q3) are shipping flagships on a near-weekly rhythm, so China's open-weight competitive floor keeps rising rather than resting on a single model","tier":"notable","impact":6,"delta":"new","arc":"qwen-max","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-19","lastUpdate":"2026-07-21","category":"models"},
+    {"id":"eu-dma-google","section":"new","rank":3,"title":"The European Commission adopted two binding Digital Markets Act decisions (Jul 16) ordering Google to give rival AI assistants the same system-level Android access it reserves for Gemini — wake words, home button, screen reading, in-app actions — and to share Search data with rival engines; search-data sharing begins Jan 2027, Android interoperability reaches users by Jul 2027, and Google can seek judicial review","tier":"notable","impact":6,"delta":"new","arc":"eu-dma","arcDay":1,"confidence":"Primary","new24h":false,"firstSeen":"2026-07-16","lastUpdate":"2026-07-21","category":"policy"},
+    {"id":"us-ai-race-backlash","section":"new","rank":4,"title":"Moonshot's Kimi K3 triggered a US political backlash: former White House AI czar David Sacks publicly attacked US AI policy — data-center permitting limits and proposed model pre-approval — warning the US risks losing the AI race, while Bill Ackman called winning the 'superintelligence race' existential, both citing China's unrestricted data-center and energy expansion; the fight lands directly on the Aug 1 US covered-frontier framework deadline (Jul 15-17)","tier":"notable","impact":5,"delta":"new","arc":"us-ai-politics","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-17","lastUpdate":"2026-07-21","category":"policy"},
+    {"id":"blackstone-futronic","section":"new","rank":5,"title":"Blackstone invested in Futronic, a South Korean maker of high-precision actuators used in automotive systems and industrial/humanoid robots, valuing it at roughly 1 trillion won (~$676M) on Jul 20 — institutional capital moving into the physical supply chain beneath the humanoid-robot race; the item rests on a single syndicated wire (Tech Startups/ChinaPulse) and the valuation is press-reported, so it is chip-flagged Agg 1x","tier":"monitor","impact":4,"delta":"new","arc":"robotics-supply","arcDay":1,"confidence":"Agg 1x","new24h":true,"firstSeen":"2026-07-20","lastUpdate":"2026-07-21","category":"business"},
+    {"id":"ai-drug-discovery","section":"new","rank":6,"title":"AI drug discovery hit a clinical-reality inflection: 2026 investment tops $2B as timelines reportedly compress to 12-18 months, industry estimates put 15-20 AI programs entering Phase III this year, and Insilico's rentosertib is the field's first peer-reviewed positive Phase IIa (IPF, Nature Medicine 2025); Anthropic is standing up an internal drug-discovery program as part of a Claude-for-healthcare push, though no AI-designed drug is FDA-approved yet (Jul 14-16)","tier":"monitor","impact":5,"delta":"new","arc":"ai-bio","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-07-14","lastUpdate":"2026-07-21","category":"enterprise"},
+    {"id":"open-frontier","section":"developing","rank":1,"title":"The Kimi K3 open-frontier wave is cresting rather than breaking: the acute chip selloff eased (Nvidia steadying near $200 by Jul 20, indices partly retracing the Jul 17-18 lows) even as the competitive front broadened — Alibaba's Qwen3.8-Max preview (New #2) is the next open salvo — and the shock drew explicit US-policy alarm (Sacks/Ackman, New #4); Bloomberg notes K3's real constraint may be memory (1.5TB+ HBM), not compute; weights still land Jul 27","tier":"critical","impact":7,"delta":"carry","arc":"open-frontier","arcDay":3,"confidence":"2x src","new24h":false,"update":"The acute selloff eased (Nvidia steadying near $200 by Jul 20; indices partly retraced) but the pressure broadened to a competitive + policy re-rating: Qwen3.8-Max preview (New #2) is the next open salvo and Sacks/Ackman (New #4) turned it into a US policy fight; weights still Jul 27","firstSeen":"2026-07-16","lastUpdate":"2026-07-21","category":"models"},
+    {"id":"reg-clock","section":"developing","rank":2,"title":"The AI-governance clock tightens: the US covered-frontier framework (Jun 2 EO) deadline is Aug 1 (11 days out) with the clearinghouse still unbuilt, and the EU AI Act's Article 50 transparency + GPAI enforcement (fines to EUR15M/3%, final Code of Practice in place) is Aug 2 (12 days); new cross-pressure is the EU flexing enforcement broadly via its Jul 16 DMA order against Google (New #3) and a US domestic backlash (Sacks/Ackman, New #4) attacking the very pre-approval regime the Aug 1 framework embodies","tier":"critical","impact":7,"delta":"escalated","arc":"reg-clock","arcDay":42,"confidence":"Primary","new24h":false,"update":"Deadlines slid to Aug 1 (11 days) and Aug 2 (12 days); the EU showed hard enforcement via its Jul 16 DMA order on Google (New #3) while a US domestic backlash (Sacks/Ackman, New #4) attacks the pre-approval regime the Aug 1 framework embodies; clearinghouse still unbuilt","firstSeen":"2026-06-12","lastUpdate":"2026-07-21","category":"policy"},
+    {"id":"google-models","section":"developing","rank":3,"title":"Gemini 3.5 Pro remains unshipped with still no model card, pricing page or gemini-3.5-pro API listing; fresh prediction-market data now splits the release between ~Jul 31 (81% on one market) and Aug 7 (73% on another) — a fifth slip in view — while Google keeps shipping smaller stopgaps (Nano Banana 2 Lite, Gemini Omni Flash, Video Remix) instead of the flagship, citing coding-reliability and hallucination issues from the rebuild","tier":"monitor","impact":4,"delta":"carry","arc":"google-models","arcDay":21,"confidence":"Agg 2x","new24h":false,"update":"Still no model card/pricing/API listing; prediction markets now split Jul 31 (81%) vs Aug 7 (73%) — a fifth slip in view — with Google shipping smaller stopgaps rather than the flagship","firstSeen":"2026-06-30","lastUpdate":"2026-07-21","category":"models"}
+  ],
+  "tracking": [
+    {"id":"open-weight","label":"Open-weight table stays Chinese-and-open at the top: Qwen3.8-Max preview (2.4T, New #2), Kimi K3 (Developing, weights Jul 27) and MiniMax M3 Pro (planned Q3) join GLM-5.2, DeepSeek V4 Pro and Thinking Machines' Inkling (975B, Apache 2.0); the open-vs-closed gap reads as ~1 model generation","arc":"open-weight","arcDay":3},
+    {"id":"china-governance","label":"WAICO — the 29-country, Shanghai-HQ'd, China-led AI cooperation body established as WAIC 2026 closed Jul 20 (ed-036 New) — holds; no fresh signatories or charter detail this window","arc":"china-governance","arcDay":2},
+    {"id":"platform-wars","label":"Microsoft's sell-against-the-labs playbook holds; Project Perception (ed-036 New) makes it a model-router; The Information reports Google & Microsoft teaming to blunt Anthropic/OpenAI in enterprise; no fresh sales-doc leak","arc":"platform-wars","arcDay":3},
+    {"id":"regional-jobs","label":"India's GCCs on track for ~510k hires / 64% AI-skilled (Quess: centres now reskilling internally as talent stays short) with a Singapore/UK/UAE crunch; Emergent (ed-036) the India-startup edge; no fresh labor print","arc":"regional-jobs","arcDay":3},
+    {"id":"ai-safety-eval","label":"FLI's Summer 2026 AI Safety Index (no lab above C+; Anthropic highest at C+, OpenAI/DeepMind at C) holds; WAICO is the new multilateral track; no fresh grade","arc":"ai-safety-eval","arcDay":3},
+    {"id":"compute-supply","label":"TSMC's record Q2 with N3 (3nm) & CoWoS sold out through 2026 (lead times into 2027) holds; AMD Advancing AI (Jul 22-23) is the imminent catalyst — 1 day out; no fresh number","arc":"compute-supply","arcDay":3},
+    {"id":"china-export","label":"H200 access: the US has cleared ~10 Chinese firms for up to 75k chips each (~$10B licenses) but a Jul 14 Commerce witness called actual shipments 'trivial'; China's own draft caps buys under 200k, training-only; MOFCOM still weighs outbound curbs on Chinese open models","arc":"china-export","arcDay":7},
+    {"id":"custom-silicon","label":"Alt-Nvidia + custom stack: AMD Advancing AI (Jul 22-23: MI450/EPYC Venice/Helios) is 1 day out and anchors Meta+OpenAI 12GW commitments; Anthropic-Samsung 2nm inference-chip talks and Anthropic x Google/Broadcom multi-GW compute carry; TSMC sold-out the shared bottleneck","arc":"custom-silicon","arcDay":15},
+    {"id":"compute-buildout","label":"Meta's Hyperion 5GW/$50B Louisiana buildout holds; top-5 tech 2026 capex ~$630-650B; fresh power-infra financings this window — National Grid Ventures' $1.75B for 35% of Joulent and a $3.25B QTS/Blackstone data-center loan; Kimi's market shock (D1) the demand-side doubt","arc":"compute-buildout","arcDay":5},
+    {"id":"it-services-ai","label":"Labs-as-SI: Anthropic's Ode ($1.5B, with Blackstone), PwC x OpenAI, Microsoft Frontier ($2.5B/6,000 experts), AWS FDE (~$1B) and OpenAI's Deployment Company; Gartner still warns >40% of agentic projects may be scrapped by 2027; no fresh docket movement","arc":"it-services-ai","arcDay":11},
+    {"id":"sovereign-ai","label":"Sovereign/provider-independent AI compounds: Japan's national physical-AI model + 140MW Noetra Rubin factory, MGX's $49B fund, Singapore NCS/Qwen, UAE FAIDA, India Sarvam; the UK Sovereign AI Venture Fund backing CuspAI (Hero) and WAICO are the fresh cousins","arc":"sovereign-ai","arcDay":16},
+    {"id":"defense-ai","label":"European defense-AI mega-rounds hold: Helsing $1.8B/$18B and Quantum Systems $1.2B/$8B; Singularity emerged from stealth with $80M for air defense (Agg 1x); defense-tech at a record $17.4B YTD (Dealroom)","arc":"defense-ai","arcDay":4},
+    {"id":"ai-health","label":"Consumer preventive-health AI: Daniel Ek's Neko Health $700M at ~$7B entering the US holds; the drug-discovery clinical inflection (New #6) is the fresh adjacent edge","arc":"ai-health","arcDay":4},
+    {"id":"ai-for-science","label":"AI-for-science: CuspAI's $450M AI Materials Foundry (New #1 / Hero) is now the lead; Chai Discovery's $400M de-novo antibody design and long-horizon agent reliability (ed-036, arXiv 2607.08964) carry","arc":"ai-for-science","arcDay":5},
+    {"id":"ai-coding","label":"Coinbase's 95-100%-AI-assisted-code disclosure holds as the enterprise mirror of the AI-layoffs curve; Emergent (ed-036, $120M ARR) and Grok 4.5 (xAI, Cursor-trained) are the startup/supply side; no fresh company disclosure","arc":"ai-coding","arcDay":4},
+    {"id":"physical-ai","label":"Apptronik's 'Robot Park' humanoid data-factory (-> Gemini Robotics) holds; Tesla's Optimus V3 ramp (late-July target) still not begun as of mid-July; Figure/BMW the strongest verified deployments; Blackstone->Futronic (New #5) the supply-chain money","arc":"physical-ai","arcDay":22},
+    {"id":"workforce","label":"AI still the leading stated reason for US layoffs; 2026 trackers count ~168k+ workers hit with ~54% of events citing AI (Oracle 20-30k, Meta ~8k, Microsoft 4% in July, Intuit ~3k); the Nobel 'We Must Act Now' statement and India's GCC build-out are the two poles; no fresh Challenger print","arc":"workforce","arcDay":24},
+    {"id":"india-reg","label":"India's RBI 'kill switch' / human-override draft for banks & NBFCs holds with its public-feedback window closing Jul 24 (on the Deadline Radar); SEBI's AI-tools advisory and the DPDP regime stand; no fresh regulator text this window","arc":"india-reg","arcDay":5},
+    {"id":"money-markets","label":"Record H1 2026 venture (~$510B, Crunchbase); this window adds CuspAI $450M/$2.6B and Blackstone->Futronic (~$676M); Emergent $130M and PixVerse $439M carry; defense-tech record $17.4B YTD","arc":"money-markets","arcDay":9},
+    {"id":"talent","label":"Lab talent war: Google DeepMind's exodus continues; Tom Blomfield on leave from YC for Anthropic's compute team; Meta's Superintelligence Labs (Shengjia Zhao) and Murati's Thinking Machines (Inkling) carry; Apple v OpenAI trade-secret suit unresolved","arc":"talent","arcDay":30},
+    {"id":"agent-security","label":"Prompt injection stays OWASP LLM01 (~340% YoY); Project Perception (ed-036) is the defensive-tooling response; the reference CVE set carries EchoLeak, the Copilot PR-injection RCE, Semantic Kernel (CVE-2026-25592/26030) and Cursor (CVE-2026-22708 / CVE-2025-59536); ~73% of assessed deployments show injection exposure","arc":"agent-security","arcDay":24}
+  ],
+  "movers": [
+    {"dir":"up","text":"QWEN3.8-MAX — Alibaba previews a 2.4T multimodal model at WAIC, days after Kimi K3 — China's open-weight cadence accelerates"},
+    {"dir":"up","text":"CUSPAI — $450M Series B at $2.6B; launches an AI Materials Foundry of 45+ orgs (Nvidia/Meta/Samsung/Lam) aimed at the semiconductor-materials bottleneck"},
+    {"dir":"up","text":"NVIDIA — steadies near the $200 level by Jul 20 as the Kimi K3 selloff partly retraces; Bloomberg reframes K3 as a memory story, not compute"},
+    {"dir":"up","text":"EU DMA — Commission orders Google to open Android's AI-assistant layer to rivals and share Search data"},
+    {"dir":"up","text":"US AI POLITICS — Sacks & Ackman use Kimi K3 to attack data-center limits and model pre-approval as the Aug 1 deadline nears"},
+    {"dir":"up","text":"BLACKSTONE / FUTRONIC — invests in a Korean robot-actuator maker (~$676M), routing capital into the humanoid supply chain"},
+    {"dir":"down","text":"GEMINI 3.5 PRO — prediction markets now split Jul 31 / Aug 7; still no model card, pricing or API listing"},
+    {"dir":"up","text":"AI DRUG DISCOVERY — 2026 investment tops $2B; Anthropic starts an internal drug-discovery program"}
+  ],
+  "arcs": {
+    "ai-materials": {"day": 1, "note": "HERO / New: CuspAI's $450M Series B at $2.6B + the AI Materials Foundry (45+ orgs incl Nvidia/Meta/Samsung/Lam) — AI-for-science aimed at the semiconductor-materials bottleneck; 80% of research on chips, targeting rare-metal (Ru/Ir) reduction"},
+    "qwen-max": {"day": 1, "note": "New: Alibaba previews Qwen3.8-Max (2.4T multimodal) at WAIC days after Kimi K3 — China's open-weight cadence accelerates; Zhipu/MiniMax also shipping flagships"},
+    "eu-dma": {"day": 1, "note": "New: EU Commission's two binding DMA decisions (Jul 16) force Google to open Android's AI-assistant layer to rivals and share Search data (from Jan 2027; Android interop by Jul 2027)"},
+    "us-ai-politics": {"day": 1, "note": "New: Kimi K3 triggers a US policy backlash — Sacks attacks data-center limits + model pre-approval, Ackman calls the race existential — colliding with the Aug 1 covered-frontier framework"},
+    "robotics-supply": {"day": 1, "note": "New (Agg 1x): Blackstone invests in Korea's Futronic (robot actuators) at ~$676M — capital into the humanoid supply chain; component supply, not model quality, may gate deployment"},
+    "ai-bio": {"day": 1, "note": "New: AI drug discovery hits a clinical-reality inflection — $2B+ 2026 investment, 15-20 AI programs toward Phase III, Insilico's rentosertib the first peer-reviewed win; Anthropic enters the wet lab; no FDA approval yet"},
+    "open-frontier": {"day": 3, "note": "Developing / carry: the Kimi K3 wave crests — acute selloff eases (Nvidia near $200, indices retrace) but broadens to competition (Qwen3.8-Max) + policy (Sacks/Ackman); Bloomberg reframes K3 as a memory story; weights Jul 27"},
+    "reg-clock": {"day": 42, "note": "Escalated: US Aug 1 (11d) / EU Aug 2 (12d) inside two weeks; EU flexes via the Jul 16 DMA order on Google (New #3) while a US domestic backlash (New #4) attacks the pre-approval regime; clearinghouse still unbuilt"},
+    "google-models": {"day": 21, "note": "Carry: Gemini 3.5 Pro still unshipped; prediction markets split Jul 31 (81%) vs Aug 7 (73%) — a fifth slip in view; Google ships smaller stopgaps, not the flagship"},
+    "open-weight": {"day": 3, "note": "Tracking: open-weight table stays Chinese-and-open — Qwen3.8-Max preview, Kimi K3 (Developing), MiniMax M3 Pro (planned), GLM-5.2, DeepSeek V4 Pro, Inkling 975B; gap ~1 generation"},
+    "china-governance": {"day": 2, "note": "Tracking: WAICO (29 countries, established as WAIC closed Jul 20) holds; no fresh signatories or charter detail"},
+    "platform-wars": {"day": 3, "note": "Tracking: Microsoft's sell-against-the-labs playbook + Project Perception (model-router); The Information reports a Google-Microsoft team-up against Anthropic/OpenAI"},
+    "regional-jobs": {"day": 3, "note": "Tracking: India GCCs ~510k hires / 64% AI-skilled + internal reskilling (Quess) + Singapore/UK/UAE crunch; Emergent the India-startup edge"},
+    "ai-safety-eval": {"day": 3, "note": "Tracking: FLI Summer 2026 Index (no lab above C+) holds; WAICO the new multilateral track"},
+    "compute-supply": {"day": 3, "note": "Tracking: TSMC record Q2, N3 & CoWoS sold out through 2026; AMD Advancing AI Jul 22-23 the imminent catalyst (1 day)"},
+    "china-export": {"day": 7, "note": "Tracking: US cleared ~10 firms for up to 75k H200s each (~$10B licenses) but shipments 'trivial' (Jul 14 testimony); China's own draft caps buys <200k, training-only; MOFCOM weighs outbound curbs"},
+    "custom-silicon": {"day": 15, "note": "Tracking: AMD Advancing AI Jul 22-23 (MI450/EPYC Venice/Helios), 1 day out, anchors Meta+OpenAI 12GW; Anthropic-Samsung 2nm talks; Anthropic x Google/Broadcom multi-GW"},
+    "compute-buildout": {"day": 5, "note": "Tracking: Meta Hyperion 5GW/$50B holds; top-5 capex ~$630-650B; National Grid->Joulent $1.75B and a $3.25B QTS/Blackstone loan the fresh power-infra financings; Kimi (D1) the demand-side doubt"},
+    "it-services-ai": {"day": 11, "note": "Tracking: Ode/Anthropic-Blackstone, PwC x OpenAI, Microsoft Frontier, AWS FDE, OpenAI Deployment Co; Gartner warns >40% of agentic projects may be scrapped by 2027"},
+    "sovereign-ai": {"day": 16, "note": "Tracking: Japan's national model + Noetra Rubin factory, MGX $49B, Singapore NCS/Qwen, UAE FAIDA, India Sarvam; UK Sovereign AI Fund backing CuspAI (Hero) + WAICO the fresh cousins"},
+    "defense-ai": {"day": 4, "note": "Tracking: Helsing $1.8B/$18B + Quantum Systems $1.2B/$8B hold; Singularity $80M air-defense stealth (Agg 1x); defense-tech record $17.4B YTD"},
+    "ai-health": {"day": 4, "note": "Tracking: Neko Health $700M at ~$7B (US entry) holds; the drug-discovery inflection (New #6) the fresh adjacent edge"},
+    "ai-for-science": {"day": 5, "note": "Tracking: CuspAI's AI Materials Foundry (Hero) leads; Chai Discovery's $400M antibody design and long-horizon agent reliability (ed-036, arXiv 2607.08964) carry"},
+    "ai-coding": {"day": 4, "note": "Tracking: Coinbase 95-100% AI-code holds; Emergent ($120M ARR) and Grok 4.5 (Cursor-trained) the startup/supply side; no fresh disclosure"},
+    "physical-ai": {"day": 22, "note": "Tracking: Apptronik Robot Park -> Gemini Robotics; Tesla Optimus V3 ramp (late-July) not yet begun as of mid-July; Figure/BMW the strongest verified deployments; Blackstone->Futronic (New #5) the supply money"},
+    "workforce": {"day": 24, "note": "Tracking: AI the leading stated US-layoff reason; ~168k+ hit in 2026, ~54% of events cite AI (Oracle 20-30k, Meta ~8k, Microsoft 4%, Intuit ~3k); Nobel statement + India GCC build-out the poles"},
+    "india-reg": {"day": 5, "note": "Tracking: RBI AI 'kill switch' draft, feedback closes Jul 24 (on radar); SEBI advisory + DPDP stand; no fresh text"},
+    "money-markets": {"day": 9, "note": "Tracking: record H1 ~$510B; adds CuspAI $450M/$2.6B + Blackstone->Futronic ~$676M; Emergent $130M + PixVerse $439M carry; defense-tech $17.4B YTD"},
+    "talent": {"day": 30, "note": "Tracking: DeepMind exodus continues; Blomfield on leave from YC for Anthropic's compute team; Meta Superintelligence Labs (Shengjia Zhao) + Murati's Inkling carry; Apple v OpenAI unresolved"},
+    "agent-security": {"day": 24, "note": "Tracking: prompt injection stays OWASP LLM01 (~340% YoY); Project Perception the defensive response; CVE set carries EchoLeak, Copilot RCE, Semantic Kernel (CVE-2026-25592/26030), Cursor (CVE-2026-22708 / CVE-2025-59536)"}
+  },
+  "resolved": [
+    "NEW.24H THIS EDITION: two items — CuspAI's $450M raise + AI Materials Foundry (Jul 20, Hero) and Blackstone's Futronic robotics-actuator investment (Jul 20) — broke within ~24h of the Jul 21 IST run. The other four New items are genuinely new to this feed but dated earlier: Qwen3.8-Max preview (Jul 19), the US AI-race backlash (Jul 15-17), the EU DMA Google decision (Jul 16) and the AI drug-discovery inflection (Jul 14-16) — labelled honestly, no 24h badge.",
+    "KIMI K3 WAVE DE-ESCALATES from an acute selloff to a broader competitive/policy re-rating: Nvidia steadies near $200 and Alibaba's Qwen3.8-Max preview confirms the trend; WAICO (ed-036 New) settles to a Tracking one-liner with no fresh signatories.",
+    "AUTO-DEMOTE: edition-036's New items with no fresh movement drop to Tracking one-liners — waico -> china-governance, project-perception -> platform-wars/agent-security, emergent-unicorn -> ai-coding/money-markets, pixverse-raise -> money-markets, nvidia-h200-china -> china-export, research-longhorizon -> ai-for-science. No Developing thread hit the 3-edition no-movement retirement this edition.",
+    "DATE-TRAPS EXCLUDED (not padded as New): the Kimi K3 launch/market shock (carried Developing); Grok 4.5 (xAI/Cursor, Jul 8, folded to ai-coding); ChatGPT Work (Jul 9); Harvey's $200M/$11B round (an aggregator listed it under July — it actually closed in MARCH 2026, cross-checked vs CNBC/Bloomberg and excluded); ServiceNow Otto/Action Fabric (May); Anthropic S-1/$47B ARR (May-June); Anthropic x Google/Broadcom compute (folded to custom-silicon)."
+  ],
+  "deadlines": [
+    {"date": "2026-07-22", "label": "AMD Advancing AI 2026 (Jul 22-23, Moscone SF): expected MI450 (HBM4), Zen6 EPYC Venice (commercial launch), ROCm and the Helios rack-scale system; anchors Meta+OpenAI 12GW commitments — 1 day", "severity": "medium"},
+    {"date": "2026-07-24", "label": "DeepSeek legacy API retirement: deepseek-chat/reasoner aliases return errors (15:59 UTC) — repoint to deepseek-v4-pro/-flash; also RBI's AI 'kill-switch' feedback window closes — 3 days", "severity": "high"},
+    {"date": "2026-07-27", "label": "Moonshot to release Kimi K3 open weights: until then no one can independently reproduce its benchmarks or self-host it — the resolution of the market re-rating (Developing D1) — 6 days", "severity": "medium"},
+    {"date": "2026-08-01", "label": "US: agencies to finalize the Jun 2 EO's voluntary covered-frontier framework (30-day pre-release access; classified cyber-benchmarking); clearinghouse already overdue and now politically contested — 11 days", "severity": "high"},
+    {"date": "2026-08-02", "label": "EU AI Act: Article 50 transparency + GPAI enforcement (fines up to EUR15M/3% turnover; final Code of Practice in place) — 12 days; stand-alone high-risk Annex III deferred to Dec 2 2027", "severity": "high"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
