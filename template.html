@@ -116,6 +116,20 @@
   /* tracking + resolved + footer */
   .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
   .tracking-strip strong{color:var(--accent)}
+
+  /* collapsible archive sections (Still Tracking / Resolved / method notes) */
+  .fold{border-bottom:3px solid var(--ink);margin-top:26px}
+  .fold[open]{border-bottom-color:var(--rule)}
+  .fold > summary{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:0 0 8px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary small{font-size:10px;color:#6b6353;letter-spacing:1px;font-weight:400}
+  .fold > summary .caret{font-size:11px;color:#6b6353;letter-spacing:0}
+  .fold > summary:hover{color:var(--crit)}
+  .fold[open] > summary .caret::after{content:"▴ HIDE"}
+  .fold:not([open]) > summary .caret::after{content:"▾ SHOW"}
+  .fold .fold-body{padding-bottom:16px}
+  footer .fold{border-bottom:none;margin-top:12px}
+  footer .fold > summary{font-size:11px;letter-spacing:2px}
   footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
   footer p{margin-bottom:6px}
   @media(max-width:860px){
@@ -412,17 +426,17 @@
   </div>
 </section>
 
-<!-- ══════════ STILL TRACKING ══════════ -->
-<section>
-  <div class="sec-head">Still Tracking <small>LONG-RUNNERS WITH NO MOVEMENT THIS EDITION</small></div>
-  <div class="tracking-strip" id="tracking-strip"></div>
-</section>
+<!-- ══════════ STILL TRACKING (collapsed by default) ══════════ -->
+<details class="fold" id="fold-tracking">
+  <summary>Still Tracking <small>N LONG-RUNNERS · NO MOVEMENT THIS EDITION</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="tracking-strip" id="tracking-strip"></div></div>
+</details>
 
-<!-- ══════════ RESOLVED ══════════ -->
-<section>
-  <div class="sec-head">Resolved <small>YESTERDAY'S OPEN THREADS, CLOSED</small></div>
-  <div class="resolved-strip" id="resolved-strip"></div>
-</section>
+<!-- ══════════ RESOLVED (collapsed by default) ══════════ -->
+<details class="fold" id="fold-resolved">
+  <summary>Resolved <small>OPEN THREADS, CLOSED</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="resolved-strip" id="resolved-strip"></div></div>
+</details>
 
 </main>
 
@@ -430,9 +444,14 @@
 <footer>
   <div class="wrap">
     <p><strong>AI DAILY SIGNAL · EDITION 013 · 2026-06-23 (IST) · FORMAT v2</strong></p>
-    <p>METHOD: 22 web searches across frontier models, open-source/open-weight, agents &amp; tooling, AI security, hardware/compute, research (arXiv/Nature), business/funding/IPO/M&amp;A, regulation (EU/US/India) and vertical AI (health). v2 format splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING (long-runners with no movement). Hero = biggest new item unless a developing thread had a major escalation. Target ≥10 new items; thin days fall back to "quiet day." Aggregator claims cross-checked against ≥2 outlets where possible; single-source and rumor items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
-    <p>KNOWN SCAN GAPS THIS EDITION: this is the first v2 run and a catch-up edition — the broadened beat surfaced ten items the prior narrow scan had missed, several dated earlier in June (MiniMax M3 Jun 1, GLM-5.2 June, NVIDIA RTX Spark/Computex Jun 1, Microsoft Agent 365, Sarvam Jun 15, Robin/Nature May, June megarounds) rather than strictly within 24h; they qualify as NEW because their ids were absent from prior editions, and dates are labelled. Open-weight benchmark figures (MiniMax M3 59.0% / GLM-5.2 62.1% SWE-Bench Pro) come from open-weight roundups and coding leaderboards (Hugging Face, Kilo), not independently re-run here; "edges GPT-5.5" is benchmark-specific. Microsoft Agent 365 GA and the NVIDIA agent platform rest partly on single vendor/analyst sources (Futurum, NVIDIA newsroom) and are chip-flagged. The agent-security items (Help Net, TechTimes, Microsoft Security) describe a trajectory, not a new single incident on Jun 23. Developing threads: Anthropic blackout Day 12 with no signed deal (Bloomberg's "new power" is its framing, the "trusted partner" idea is G7-sourced and not agreed); GPT-5.6 stays RUMOR-FLAGGED (no system card/API string); SPCX ~$165.78/$2.1T is volatile Jun 22 data not re-checked at IST close; OpenAI ~$1T target above ~$730–852B marks; DeepSeek V4.1 timing and Huawei Ascend co-design are trade/regional reports, pre-audit. India: Sarvam unicorn confirmed (TechCrunch); RBI Jul 1 dark-pattern Directions on the radar; MeitY synthetic-content rules in force since Feb 20; DPDP consent rules due later 2026. Still Tracking holds Jumper→Anthropic (settled), Anthropic Seoul deployments, Gemini 3.5 Pro watch, Grok V9-Medium/Grok 5, WWDC Gemini-Siri, Agent SDK credit-split and the Great American AI Act — all without material movement this edition.</p>
-    <p>NOTE: Links point to sources found during the scan; where only an outlet root or roundup was available it is labelled as such. Nothing here is investment advice.</p>
+    <details class="fold" id="fold-method">
+      <summary>Method, scan gaps &amp; caveats <span class="caret"></span></summary>
+      <div class="fold-body">
+        <p>METHOD: 22 web searches across frontier models, open-source/open-weight, agents &amp; tooling, AI security, hardware/compute, research (arXiv/Nature), business/funding/IPO/M&amp;A, regulation (EU/US/India) and vertical AI (health). v2 format splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING (long-runners with no movement). Hero = biggest new item unless a developing thread had a major escalation. Target ≥10 new items; thin days fall back to "quiet day." Aggregator claims cross-checked against ≥2 outlets where possible; single-source and rumor items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+        <p>KNOWN SCAN GAPS THIS EDITION: this is the first v2 run and a catch-up edition — the broadened beat surfaced ten items the prior narrow scan had missed, several dated earlier in June (MiniMax M3 Jun 1, GLM-5.2 June, NVIDIA RTX Spark/Computex Jun 1, Microsoft Agent 365, Sarvam Jun 15, Robin/Nature May, June megarounds) rather than strictly within 24h; they qualify as NEW because their ids were absent from prior editions, and dates are labelled. Open-weight benchmark figures (MiniMax M3 59.0% / GLM-5.2 62.1% SWE-Bench Pro) come from open-weight roundups and coding leaderboards (Hugging Face, Kilo), not independently re-run here; "edges GPT-5.5" is benchmark-specific. Microsoft Agent 365 GA and the NVIDIA agent platform rest partly on single vendor/analyst sources (Futurum, NVIDIA newsroom) and are chip-flagged. The agent-security items (Help Net, TechTimes, Microsoft Security) describe a trajectory, not a new single incident on Jun 23. Developing threads: Anthropic blackout Day 12 with no signed deal (Bloomberg's "new power" is its framing, the "trusted partner" idea is G7-sourced and not agreed); GPT-5.6 stays RUMOR-FLAGGED (no system card/API string); SPCX ~$165.78/$2.1T is volatile Jun 22 data not re-checked at IST close; OpenAI ~$1T target above ~$730–852B marks; DeepSeek V4.1 timing and Huawei Ascend co-design are trade/regional reports, pre-audit. India: Sarvam unicorn confirmed (TechCrunch); RBI Jul 1 dark-pattern Directions on the radar; MeitY synthetic-content rules in force since Feb 20; DPDP consent rules due later 2026. Still Tracking holds Jumper→Anthropic (settled), Anthropic Seoul deployments, Gemini 3.5 Pro watch, Grok V9-Medium/Grok 5, WWDC Gemini-Siri, Agent SDK credit-split and the Great American AI Act — all without material movement this edition.</p>
+        <p>NOTE: Links point to sources found during the scan; where only an outlet root or roundup was available it is labelled as such. Nothing here is investment advice.</p>
+      </div>
+    </details>
   </div>
 </footer>
 
@@ -572,6 +591,14 @@
   if(state.resolved && state.resolved.length){
     document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
   }
+
+  // ── deep-link support: #still-tracking / #resolved / #method open the collapsed folds ──
+  var foldMap = {'still-tracking':'fold-tracking','resolved':'fold-resolved','method':'fold-method'};
+  var openFromHash = function(){
+    var id = foldMap[(location.hash||'').replace('#','')];
+    if(id){ var el = document.getElementById(id); if(el){ el.open = true; el.scrollIntoView(); } }
+  };
+  window.addEventListener('hashchange', openFromHash); openFromHash();
 
   // ── category tabs (filter all cards across New + Developing) ──
   document.querySelectorAll('.tab').forEach(function(tab){
