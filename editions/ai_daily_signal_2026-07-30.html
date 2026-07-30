@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 013 — 23 June 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+
+  /* collapsible archive sections (Still Tracking / Resolved / method notes) */
+  .fold{border-bottom:3px solid var(--ink);margin-top:26px}
+  .fold[open]{border-bottom-color:var(--rule)}
+  .fold > summary{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:0 0 8px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary small{font-size:10px;color:#6b6353;letter-spacing:1px;font-weight:400}
+  .fold > summary .caret{font-size:11px;color:#6b6353;letter-spacing:0}
+  .fold > summary:hover{color:var(--crit)}
+  .fold[open] > summary .caret::after{content:"▴ HIDE"}
+  .fold:not([open]) > summary .caret::after{content:"▾ SHOW"}
+  .fold .fold-body{padding-bottom:16px}
+  footer .fold{border-bottom:none;margin-top:12px}
+  footer .fold > summary{font-size:11px;letter-spacing:2px}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>MICROSOFT</b> Azure accelerates to +43% and crosses $100B in annual revenue; capex outlook held at ~$190B and the stock jumps ~7% &nbsp;◆&nbsp; <b>META</b> revenue +27.9% but EPS misses by $1.04 and shares fall 9.6% after hours — capex floor raised to $130B &nbsp;◆&nbsp; <b>FED</b> holds 9–3 at 3.50–3.75%, and all three dissents wanted a <em>hike</em> &nbsp;◆&nbsp; <b>NVIDIA</b> puts $5B into Ilya Sutskever's Safe Superintelligence, which moves off Google TPUs onto Vera Rubin &nbsp;◆&nbsp; <b>1,171 SIGNATURES</b> staff at OpenAI, Anthropic, Google and Meta ask Washington to build a pacing mechanism for the frontier &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>042</b></span>
+    <span>THURSDAY, 30 JULY 2026</span>
+    <span class="seg">NEW <b>11</b> · DEVELOPING <b>4</b> · TRACKING <b>22</b></span>
+    <span>CRITICAL <b>5</b> / NOTABLE 7 / MONITOR 3</span>
+    <span>SCAN: 49 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="compute-buildout">
+  <div>
+    <div class="kicker">■ Today's Lead · Developing · Business · Day 14 of the compute-buildout arc</div>
+    <h2>The capex verdict lands, and it is split: Microsoft rewarded for spending, Meta punished for it</h2>
+    <p class="dek">Fourteen editions of this thread asked one question — is AI revenue growing into the capex? The first hard answer arrived last night, and it was not a single answer. <strong>Microsoft</strong> reported Azure growth <em>accelerating</em> to <strong>43%</strong> from 40%, Azure passing <strong>$100 billion</strong> of annual revenue for the first time, Microsoft Cloud at <strong>$59.3B</strong> (+27%) and quarterly revenue near <strong>$90B</strong> on EPS of <strong>$4.81</strong> — then held its calendar-2026 capex outlook at about <strong>$190B</strong> rather than raising it. The stock rose roughly <strong>7–8%</strong> after hours (<a href="https://news.microsoft.com/source/2026/07/29/microsoft-cloud-and-ai-strength-fuels-fourth-quarter-results-4/">Microsoft</a>, <a href="https://www.cnbc.com/2026/07/29/microsoft-msft-q4-earnings-report-2026.html">CNBC</a>, <a href="https://fortune.com/2026/07/29/microsoft-azure-100-billion-annual-revenue-earnings-revenue-cloud-ai/">Fortune</a>). <strong>Meta</strong> grew revenue <strong>27.9%</strong> to <strong>$60.8B</strong> and beat on the top line — then missed GAAP EPS by <strong>$1.04</strong> at <strong>$6.18</strong>, posted operating income <em>down</em> 8% to $18.8B on a 31% margin, spent <strong>$31.1B</strong> of capex in the quarter and raised the floor of its 2026 capex range from $125B to <strong>$130–145B</strong>. Shares fell <strong>9.64%</strong> after hours to $529.15 (<a href="https://www.investing.com/news/transcripts/earnings-call-transcript-meta-misses-eps-in-q2-2026-as-stock-sinks-after-hours-93CH-4821910">Investing.com</a>, <a href="https://finance.yahoo.com/news/meta-misses-on-q2-earnings-stock-tumbles-121325403.html">Yahoo Finance</a>). Hours earlier the <strong>FOMC</strong> held at 3.50–3.75% on a <strong>9–3</strong> vote — and all three dissenters wanted a <em>hike</em> (<a href="https://www.federalreserve.gov/newsevents/pressreleases/monetary20260729a.htm">Federal Reserve</a>, <a href="https://www.cnbc.com/2026/07/29/fed-rate-decision-july-2026.html">CNBC</a>).</p>
+    <p class="sowhat">So what: the market did not reject AI capex — it repriced the <em>ratio</em>. Microsoft showed accelerating cloud revenue against flat spending guidance and was paid for it; Meta showed accelerating spending against decelerating operating income and was charged for it. If you are writing a 2027 AI budget, the defensible version now needs a revenue line attached to each tranche of spend, not a capability line. Amazon and Apple report tonight.</p>
+    <span class="chip arc">ARC: COMPUTE-BUILDOUT · D14</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://news.microsoft.com/source/2026/07/29/microsoft-cloud-and-ai-strength-fuels-fourth-quarter-results-4/">Microsoft (Jul 29)</a> ·
+      <a href="https://www.cnbc.com/2026/07/29/microsoft-msft-q4-earnings-report-2026.html">CNBC (Jul 29)</a> ·
+      <a href="https://fortune.com/2026/07/29/microsoft-azure-100-billion-annual-revenue-earnings-revenue-cloud-ai/">Fortune (Jul 29)</a> ·
+      <a href="https://www.investing.com/news/transcripts/earnings-call-transcript-meta-misses-eps-in-q2-2026-as-stock-sinks-after-hours-93CH-4821910">Investing.com (Jul 29)</a> ·
+      <a href="https://www.federalreserve.gov/newsevents/pressreleases/monetary20260729a.htm">Federal Reserve (Jul 29)</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What Microsoft actually printed.</strong> Fiscal Q4 (quarter ended 30 June): revenue about <strong>$90B</strong>, up roughly 18%; EPS <strong>$4.81</strong>; net income <strong>$35.77B</strong> against $27.23B a year earlier. Microsoft Cloud <strong>$59.3B</strong>, +27%. Intelligent Cloud <strong>$39.31B</strong>, +31.6%. Azure grew <strong>43%</strong>, up from 40% in the prior quarter and ahead of the ~40% consensus compiled by Visible Alpha, and full-year Azure revenue <strong>topped $100B for the first time</strong>. Microsoft 365 Copilot passed <strong>30 million paid seats</strong>; commercial remaining performance obligations reached <strong>$678B</strong>, up 8% sequentially. Full-year FY26 revenue was <strong>$331.8B</strong> with EPS of $17.95, up 32%. The quarter also carried a <strong>$3.2B</strong> positive impact from Microsoft's investment in Anthropic. Guidance for fiscal Q1 is <strong>$89.85–90.95B</strong> (+16%) (<a href="https://news.microsoft.com/source/2026/07/29/microsoft-cloud-and-ai-strength-fuels-fourth-quarter-results-4/">Microsoft</a>, <a href="https://www.cnbc.com/2026/07/29/microsoft-msft-q4-earnings-report-2026.html">CNBC</a>, <a href="https://www.theregister.com/software/2026/07/30/microsoft-earnings-q4-26-cloud-brings-revenue-rain/5280798">The Register</a>).</p>
+      <p><strong>The capex line that moved the stock.</strong> CFO Amy Hood said the calendar-2026 capex forecast is <strong>unchanged</strong> at about $190B, and that she expects <em>further growth</em> in FY27 capex on "demand signals across our portfolio" while still being free-cash-flow positive in FY27. No hard FY27 dollar figure appeared in the reporting reviewed for this edition — a widely circulated <strong>$255–260B</strong> FY27 number was a pre-print analyst estimate, not confirmed guidance, and this briefing is not treating it as such. The market read "unchanged" as discipline and bought it (<a href="https://finance.yahoo.com/markets/stocks/articles/msft-stock-extends-gains-hours-232247513.html">Yahoo Finance</a>).</p>
+      <p><strong>What Meta actually printed.</strong> Revenue <strong>$60.8B</strong>, +27.9%, roughly $510M ahead of consensus; Family of Apps revenue $60.4B (+28%) with advertising at $59.4B (+27%). GAAP EPS came in at <strong>$6.18</strong>, <strong>$1.04</strong> below consensus, with the gap explained by <strong>$2.4B</strong> of legal contingencies and <strong>$1.2B</strong> of severance. GAAP operating income was <strong>$18.8B</strong>, down 8% year over year, a <strong>31%</strong> margin against 43% a year earlier on Citi's model. Capex was <strong>$31.1B</strong> in the quarter, R&amp;D ran at about 36% of revenue, and total 2026 expenses were guided up at the low end to <strong>$165–169B</strong> (<a href="https://www.investing.com/news/company-news/meta-q2-2026-slides-revenue-surges-28-as-ai-spending-pressures-profits-93CH-4821966">Investing.com</a>).</p>
+      <p><strong>Zuckerberg's defence.</strong> On the call he argued it "would be foolish" to "sell all of the compute and take a short-term profit," describing Meta's infrastructure as a portfolio mixing long- and short-horizon bets, and said that in the "very worst case" Meta ends up with pre-built capacity and absorbs the depreciation. He also widened the pitch beyond agents to a "large enterprise opportunity" spanning agents, APIs, compute and internal software — which is the same direction as the reported <strong>Anthropic compute-leasing talks</strong> carried as New #6 below (<a href="https://techcrunch.com/2026/07/29/zuckerberg-says-metas-enterprise-ai-opportunity-extends-beyond-agents/">TechCrunch</a>).</p>
+      <p><strong>The Fed, which almost nobody is reading correctly.</strong> The FOMC held the funds rate at <strong>3.50–3.75%</strong> for a fifth consecutive meeting, but the vote was <strong>9–3</strong> and all three dissenters — Hammack (Cleveland), Kashkari (Minneapolis) and Logan (Dallas) — preferred to <em>raise</em> by a quarter point. This is the second meeting under Chair Kevin Warsh, who has stripped forward guidance out of the statement; the statement describes activity expanding at a solid pace amid elevated uncertainty tied in part to the Middle East conflict. For anyone financing data centres, the tail risk in this cycle has flipped from "when do cuts arrive" to "does the next move go the other way" (<a href="https://www.federalreserve.gov/newsevents/pressreleases/monetary20260729a.htm">Federal Reserve</a>, <a href="https://www.cnbc.com/2026/07/29/fed-rate-decision-july-2026.html">CNBC</a>).</p>
+      <p><strong>Watch next.</strong> Amazon and Apple report after the close tonight; consensus for Amazon is about <strong>$196.7B</strong> revenue and <strong>$1.82</strong> EPS with AWS growth (28% in Q1, its fastest in fifteen quarters) and roughly <strong>$200B</strong> of 2026 capex the two numbers that matter. Alphabet has already lifted FY26 capex to $195–205B. The four-company combined number, and how much of it is leased rather than owned, is the read that closes this arc for the quarter (<a href="https://www.fool.com/investing/2026/07/27/prediction-ceo-andy-jassy-will-raise-amazons-full/">Motley Fool</a>, <a href="https://seekingalpha.com/news/4618117-amazon-earnings-preview-will-aws-reacceleration-justify-the-capex-binge">Seeking Alpha</a>).</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>Microsoft</dt><dd>Azure +43% (from 40%); Azure FY revenue &gt;$100B first time; MS Cloud $59.3B +27%; EPS $4.81; net income $35.77B</dd>
+      <dt>Microsoft capex</dt><dd>CY2026 outlook unchanged ~$190B; Hood guides "further growth" in FY27 and FCF-positive FY27; no hard FY27 figure disclosed</dd>
+      <dt>Meta</dt><dd>Revenue $60.8B +27.9%; GAAP EPS $6.18, $1.04 miss; operating income $18.8B, −8%; margin 31%</dd>
+      <dt>Meta capex</dt><dd>$31.1B in the quarter; FY26 range narrowed up at the floor to $130–145B; expenses $165–169B</dd>
+      <dt>Market</dt><dd>MSFT ~+7–8% after hours; META −9.64% to $529.15 from a $585.61 close</dd>
+      <dt>Fed</dt><dd>Hold at 3.50–3.75%, 9–3, all three dissents for a 25bp <em>hike</em>; fifth consecutive hold</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">10</b>/10 — every AI budget, every capacity contract, and every vendor pricing model built on "spend now, explain later"</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="compute-buildout">
+      <div class="num">1</div>
+      <h4>Split verdict: Azure +43% rewarded, Meta's margin punished</h4>
+      <p>Microsoft accelerated Azure to 43%, crossed $100B in annual Azure revenue and left capex at ~$190B — up ~7%. Meta grew 27.9% but missed EPS by $1.04, cut operating income 8% and lifted its capex floor — down 9.6%. <strong>DEVELOPING · ESCALATED.</strong></p>
+    </article>
+    <article class="trip" data-story-id="nvidia-ssi">
+      <div class="num">2</div>
+      <h4>Nvidia buys into Sutskever — and takes SSI off Google's TPUs</h4>
+      <p>$5B into Safe Superintelligence with access to the Vera Rubin platform, reportedly lifting SSI's compute an order of magnitude and shifting it from Google TPUs to Nvidia GPUs. The supplier is now a shareholder in the frontier. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="pacing-frontier-letter">
+      <div class="num">3</div>
+      <h4>1,171 signatures ask Washington for a brake pedal</h4>
+      <p>Staff across OpenAI, Anthropic, Meta and Google — including Dario Amodei and OpenAI chief scientist Jakub Pachocki — ask the US to build the technical and governance tools to pace frontier AI. Not a pause: an option to pause later. <strong>NEW.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>THURSDAY DEEP BEAT — HARDWARE &amp; COMPUTE, and the beat and the lead are the same story today:</strong> the megacap capex cycle stopped being a forecast and became a scoreboard. Microsoft held spending flat and accelerated revenue; Meta raised spending and shrank operating income; the market paid one and charged the other within the same hour. Underneath it, the <strong>memory bill</strong> is quietly rewriting what "capex" even means — about <strong>$25B</strong> of Microsoft's $190B is component-price inflation rather than extra capacity, HBM now consumes <strong>23%</strong> of global DRAM wafers against 8% in 2024, Micron's high-bandwidth memory is effectively sold out for 2026, and its new fab does not ship volume until around Q3 2028 (New #7). Elsewhere: <strong>Nvidia takes a $5B position in Safe Superintelligence</strong> and pulls it off Google TPUs · <strong>1,171 lab staff</strong> ask Washington for a pacing mechanism · <strong>Claude went dark worldwide</strong> for about three hours · <strong>Nature Medicine</strong> finds general-purpose frontier models beating the specialised clinical AI tools hundreds of thousands of US doctors use · and <strong>Meta is reportedly in talks to sell Anthropic $10B of compute</strong>, which would make the fourth-largest capex spender a cloud vendor. Three items broke inside 24 hours and are badged as such; the other eight carry honest earlier dates.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (15)</button>
+    <button class="tab" data-cat="models">MODELS (2)</button>
+    <button class="tab" data-cat="business">BUSINESS (6)</button>
+    <button class="tab" data-cat="policy">POLICY (4)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (1)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>11 ITEMS · BROKE / SURFACED SINCE LAST EDITION · 3 INSIDE 24H</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="business" data-story-id="msft-q4-fy26">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">#1</span> <span class="cat">BUSINESS · EARNINGS</span></div>
+      <h4>Microsoft accelerates Azure to 43%, crosses $100B in Azure revenue, and does not raise capex</h4>
+      <div class="body">Fiscal Q4 revenue of about <strong>$90B</strong> (+18%) on EPS of <strong>$4.81</strong> and net income of <strong>$35.77B</strong> against $27.23B a year earlier. Microsoft Cloud <strong>$59.3B</strong> (+27%); Intelligent Cloud <strong>$39.31B</strong> (+31.6%); <strong>Azure +43%</strong>, accelerating from 40% and beating the ~40% consensus, with full-year Azure revenue <strong>passing $100B for the first time</strong>. Microsoft 365 Copilot is over <strong>30 million paid seats</strong>, commercial RPO reached <strong>$678B</strong> (+8% sequentially), and the quarter booked a <strong>$3.2B</strong> positive impact from the Anthropic stake. Amy Hood held the calendar-2026 capex outlook <strong>unchanged at ~$190B</strong>, guided to further FY27 capex growth with FY27 free cash flow still positive, and set fiscal Q1 revenue at <strong>$89.85–90.95B</strong>. The shares rose roughly <strong>7–8%</strong> after hours (<a href="https://news.microsoft.com/source/2026/07/29/microsoft-cloud-and-ai-strength-fuels-fourth-quarter-results-4/">Microsoft</a>, <a href="https://www.cnbc.com/2026/07/29/microsoft-msft-q4-earnings-report-2026.html">CNBC</a>).</div>
+      <p class="sowhat">The bull case for AI capex now has one concrete proof point: spending held flat while cloud growth accelerated. That is the comparison every other spender will be measured against this quarter — and the FY27 capex number Hood declined to put a figure on is the next thing to price.</p>
+      <div><span class="chip arc">ARC: COMPUTE-BUILDOUT · D14</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://news.microsoft.com/source/2026/07/29/microsoft-cloud-and-ai-strength-fuels-fourth-quarter-results-4/">Microsoft (Jul 29)</a> · <a href="https://www.cnbc.com/2026/07/29/microsoft-msft-q4-earnings-report-2026.html">CNBC (Jul 29)</a> · <a href="https://fortune.com/2026/07/29/microsoft-azure-100-billion-annual-revenue-earnings-revenue-cloud-ai/">Fortune (Jul 29)</a> · <a href="https://www.theregister.com/software/2026/07/30/microsoft-earnings-q4-26-cloud-brings-revenue-rain/5280798">The Register (Jul 30)</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="business" data-story-id="meta-q2-26">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">#2</span> <span class="cat">BUSINESS · EARNINGS</span></div>
+      <h4>Meta beats on revenue, misses on profit, raises the capex floor — and loses 9.6% after hours</h4>
+      <div class="body">Revenue <strong>$60.8B</strong>, up <strong>27.9%</strong> and about $510M ahead of consensus, with Family of Apps at $60.4B (+28%) and advertising at $59.4B (+27%). GAAP EPS of <strong>$6.18</strong> missed by <strong>$1.04</strong>, the gap accounted for by <strong>$2.4B</strong> of legal contingencies and <strong>$1.2B</strong> of severance. GAAP operating income fell <strong>8%</strong> to <strong>$18.8B</strong> — a <strong>31%</strong> margin against 43% a year earlier — as R&amp;D ran near 36% of revenue. Capex was <strong>$31.1B</strong> in the quarter; the 2026 range was narrowed upward at the floor to <strong>$130–145B</strong> from $125–145B, and total 2026 expenses guided to <strong>$165–169B</strong>. Shares fell <strong>9.64%</strong> after hours to $529.15. Zuckerberg told analysts it "would be foolish" to "sell all of the compute and take a short-term profit," and that in the worst case Meta simply owns pre-built capacity and eats the depreciation (<a href="https://www.investing.com/news/transcripts/earnings-call-transcript-meta-misses-eps-in-q2-2026-as-stock-sinks-after-hours-93CH-4821910">Investing.com</a>, <a href="https://techcrunch.com/2026/07/29/zuckerberg-says-metas-enterprise-ai-opportunity-extends-beyond-agents/">TechCrunch</a>).</div>
+      <p class="sowhat">Revenue growth of 28% was not enough to buy another year of patience. The market is now pricing the second derivative — spending growth against operating-income growth — and on that measure Meta is the negative example that Microsoft's print created.</p>
+      <div><span class="chip arc">ARC: COMPUTE-BUILDOUT · D14</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-meta-misses-eps-in-q2-2026-as-stock-sinks-after-hours-93CH-4821910">Investing.com transcript (Jul 29)</a> · <a href="https://www.investing.com/news/company-news/meta-q2-2026-slides-revenue-surges-28-as-ai-spending-pressures-profits-93CH-4821966">Investing.com slides (Jul 29)</a> · <a href="https://finance.yahoo.com/news/meta-misses-on-q2-earnings-stock-tumbles-121325403.html">Yahoo Finance (Jul 29)</a> · <a href="https://techcrunch.com/2026/07/29/zuckerberg-says-metas-enterprise-ai-opportunity-extends-beyond-agents/">TechCrunch (Jul 29)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="nvidia-ssi">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#3</span> <span class="cat">BUSINESS · CAPITAL</span></div>
+      <h4>Nvidia commits $5B to Safe Superintelligence and moves it off Google's TPUs</h4>
+      <div class="body">Nvidia has committed <strong>$5 billion</strong> to <strong>Safe Superintelligence</strong>, the lab founded by former OpenAI co-founder and alignment lead <strong>Ilya Sutskever</strong>, in one of the chipmaker's largest funding deals of this cycle, announced <strong>27 July</strong>. The money comes with a long-term partnership giving SSI access to the next-generation <strong>Vera Rubin</strong> platform, reported to raise the lab's compute by roughly an order of magnitude — and, per multiple accounts, shifting SSI from Google TPUs onto Nvidia GPUs (<a href="https://www.bloomberg.com/news/articles/2026-07-27/nvidia-makes-substantial-investment-in-sutskever-s-ai-startup">Bloomberg</a>, <a href="https://techcrunch.com/2026/07/27/ilya-sutskevers-safe-superintelligence-partners-with-nvidia-to-scale-its-ai-research/">TechCrunch</a>). SSI has shipped no product and has published no model.</div>
+      <p class="sowhat">Nvidia keeps converting cash into demand for its own silicon — first the discussed OpenAI backstop, now an equity position in a pre-product lab whose accelerator choice flips with the cheque. Treat every "independent" frontier lab's hardware roadmap as a commercial variable, not a technical one.</p>
+      <div><span class="chip arc">ARC: AI-FINANCING · D3</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-07-27/nvidia-makes-substantial-investment-in-sutskever-s-ai-startup">Bloomberg (Jul 27)</a> · <a href="https://techcrunch.com/2026/07/27/ilya-sutskevers-safe-superintelligence-partners-with-nvidia-to-scale-its-ai-research/">TechCrunch (Jul 27)</a> · <a href="https://techstartups.com/2026/07/27/nvidia-invests-5-billion-in-ilya-sutskevers-safe-superintelligence-as-ai-startup-shifts-from-google-tpus-to-gpus/">Tech Startups (Jul 27)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="pacing-frontier-letter">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#4</span> <span class="cat">POLICY · GOVERNANCE</span></div>
+      <h4>1,171 signatures from inside the labs ask Washington to build a way to slow the frontier down</h4>
+      <div class="body">An open letter titled <strong>"Pacing the Frontier"</strong>, published <strong>28 July</strong> with <strong>1,171 signatures</strong> from more than 1,100 employees of OpenAI, Anthropic, Meta and Google, asks the US government to back an international effort to build the technical and governance instruments needed to deliberately pace automated AI development. Signatories include <strong>Dario Amodei</strong> and several Anthropic co-founders, OpenAI chief scientist <strong>Jakub Pachocki</strong>, Meta's VP of AI research and the researcher Dawn Song; the non-profits Guidelight AI Standards and Encode AI back it (<a href="https://www.cnn.com/2026/07/28/tech/ai-development-tech-employees-open-letter">CNN</a>, <a href="https://thenextweb.com/news/pacing-the-frontier-ai-employees-letter-us-government">TNW</a>). It is explicitly <em>not</em> a call to pause now: it asks that the option to pace exist later, naming recursive self-improvement — "a real risk that capability development rapidly accelerates beyond our ability to understand or control the resulting systems" — as the specific fear. Coverage ties its timing to <strong>OpenAI's sandbox-escape incident</strong> of early July (<a href="https://www.techtimes.com/articles/321905/20260728/over-1100-ai-employees-petition-us-backed-pacing-mechanism-after-openais-sandbox-escape.htm">TechTimes</a>).</div>
+      <p class="sowhat">When the CEO of one frontier lab and the chief scientist of another sign the same request for a state-built brake, the governance conversation has moved inside the buildings. Expect this text to be cited in the August EU and US enforcement rounds by people on both sides of it.</p>
+      <div><span class="chip arc">ARC: AI-GOVERNANCE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnn.com/2026/07/28/tech/ai-development-tech-employees-open-letter">CNN (Jul 28)</a> · <a href="https://thenextweb.com/news/pacing-the-frontier-ai-employees-letter-us-government">TNW (Jul 28)</a> · <a href="https://www.techtimes.com/articles/321905/20260728/over-1100-ai-employees-petition-us-backed-pacing-mechanism-after-openais-sandbox-escape.htm">TechTimes (Jul 28)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="claude-outage">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#5</span> <span class="cat">ENTERPRISE · RELIABILITY</span></div>
+      <h4>Claude went dark worldwide for about three hours, and half the complaints were Claude Code</h4>
+      <div class="body">Anthropic began investigating elevated errors across all models at <strong>19:49 UTC on 29 July</strong>, said it had identified the issue at 20:33 UTC, and reached full resolution at about <strong>22:36 UTC</strong> — roughly three hours affecting claude.ai, the API and Claude Code. Requests failed with <strong>529 Overloaded</strong>, the error that indicates servers cannot absorb current request volume, and it propagated into every third-party tool built on the API. Downdetector logged more than <strong>2,000</strong> reports, roughly half of them Claude Code. Anthropic has not published a root cause (<a href="https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-confirms-claude-is-down-worldwide/">BleepingComputer</a>, <a href="https://www.newsweek.com/claude-down-outage-capacity-constraints-not-working-anthropic-12262120">Newsweek</a>).</div>
+      <p class="sowhat">Coding agents are now load-bearing in real engineering workflows, and this is what the dependency costs when it fails: a single vendor's capacity ceiling stopping work across thousands of teams. If your build or review path calls one model API with no fallback, yesterday was the drill.</p>
+      <div><span class="chip arc">ARC: AI-RELIABILITY · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-confirms-claude-is-down-worldwide/">BleepingComputer (Jul 29)</a> · <a href="https://www.newsweek.com/claude-down-outage-capacity-constraints-not-working-anthropic-12262120">Newsweek (Jul 29)</a> · <a href="https://glitchwire.com/news/anthropics-claude-goes-down-for-thousands-as-529-errors-hit-workers-mid-task/">Glitchwire (Jul 29)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="meta-anthropic-compute">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#6</span> <span class="cat">BUSINESS · COMPUTE</span></div>
+      <h4>Meta is reportedly in early talks to lease Anthropic more than $10B of compute</h4>
+      <div class="body">The New York Times, citing three people with knowledge of the discussions, reported on <strong>17–18 July</strong> that Meta is in preliminary talks to lease AI computing power to <strong>Anthropic</strong> in a deal worth as much as <strong>$10 billion over two years</strong>, paid in monthly instalments with an early-exit clause available to either side. Anthropic reportedly floated the idea in June. For scale, the proposed pact is about a third the size of Anthropic's three-year, <strong>$45B</strong> commitment with SpaceX. If signed, it would turn Meta's roughly $145B infrastructure footprint into a merchant cloud business — Zuckerberg said in May that entering cloud was "definitely on the table" (<a href="https://www.bloomberg.com/news/articles/2026-07-17/meta-in-talks-to-sell-computing-power-to-anthropic-nyt-reports">Bloomberg</a>, <a href="https://www.datacenterdynamics.com/en/news/anthropic-considers-leasing-compute-from-meta-in-10bn-deal/">DCD</a>). Neither company has confirmed the talks; nothing is signed.</div>
+      <p class="sowhat">The capex overhang has an escape valve: sell the capacity. Every large spender now has a plausible path to reclassify data centres from cost to revenue — which is exactly the argument Zuckerberg made on last night's call, and exactly the claim buyers should demand contracts for before believing.</p>
+      <div><span class="chip arc">ARC: COMPUTE-LANDLORD · D2</span><span class="chip">RUMOR-FLAG · NYT + 3 CARRIES</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-07-17/meta-in-talks-to-sell-computing-power-to-anthropic-nyt-reports">Bloomberg (Jul 17)</a> · <a href="https://www.datacenterdynamics.com/en/news/anthropic-considers-leasing-compute-from-meta-in-10bn-deal/">DCD</a> · <a href="https://qz.com/anthropic-meta-computing-power-lease-deal-071726">Quartz (Jul 17)</a> · <a href="https://thenextweb.com/news/anthropic-meta-10-billion-compute-deal-talks">TNW</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="hardware" data-story-id="memory-capex-inflation">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#7</span> <span class="cat">HARDWARE · MEMORY (DEEP BEAT)</span></div>
+      <h4>Roughly $25B of Microsoft's $190B capex is not capacity — it is the memory bill</h4>
+      <div class="body">Thursday's deep beat, and the number that reframes every capex headline above. Of Microsoft's ~<strong>$190B</strong> calendar-2026 capital spending — itself up about <strong>61%</strong> on 2025 — Amy Hood has attributed about <strong>$25B</strong> to <strong>higher component prices</strong> rather than additional capacity, as memory and storage costs surge industry-wide (<a href="https://www.cnbc.com/2026/04/29/microsoft-msft-q3-earnings-report-2026.html">CNBC, Apr 29</a>, <a href="https://www.fool.com/investing/2026/07/27/microsoft-plans-190-billion-of-capital-spending-th/">Motley Fool, Jul 27</a>). The supply picture explains it: <strong>HBM now consumes 23% of global DRAM wafers</strong> against 8% in 2024; Samsung, SK Hynix and Micron control more than <strong>95%</strong> of DRAM output and are all reallocating wafers away from commodity memory; <strong>Micron's HBM is effectively sold out for 2026</strong>; DDR5 64GB RDIMM pricing has roughly doubled while DDR4 is up 60–80%. Micron broke ground in July on a fab reported at about <strong>$9.3B</strong> that does not produce until around <strong>Q3 2028</strong>, and SK Hynix has warned the shortage may run past 2030 (<a href="https://www.technology.org/2026/07/24/memory-shortage-consumer-prices-2026/">Technology.org</a>, <a href="https://www.avnet.com/integrated/resources/article/2026-memory-shortage-ai-supercycle/">Avnet</a>).</div>
+      <p class="sowhat">A material slice of the AI buildout is price, not progress — the same dollars buying fewer racks. Any 2027 infrastructure plan priced off 2025 memory assumptions is wrong by a margin larger than most contingency budgets, and the relief date is a fab that ships in 2028.</p>
+      <div><span class="chip arc">ARC: COMPUTE-SUPPLY · D9</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/04/29/microsoft-msft-q3-earnings-report-2026.html">CNBC (Apr 29)</a> · <a href="https://www.fool.com/investing/2026/07/27/microsoft-plans-190-billion-of-capital-spending-th/">Motley Fool (Jul 27)</a> · <a href="https://www.technology.org/2026/07/24/memory-shortage-consumer-prices-2026/">Technology.org (Jul 24)</a> · <a href="https://www.avnet.com/integrated/resources/article/2026-memory-shortage-ai-supercycle/">Avnet</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="research" data-story-id="clinical-llm-benchmark">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#8</span> <span class="cat">RESEARCH · HEALTH AI</span></div>
+      <h4>Nature Medicine: general-purpose frontier models beat the specialised clinical AI doctors actually use</h4>
+      <div class="body">A <em>Nature Medicine</em> study evaluated two clinical AI tools — <strong>OpenEvidence</strong> and <strong>UpToDate Expert AI</strong> — against three frontier models, <strong>GPT-5.2</strong>, <strong>Gemini 3.1 Pro</strong> and <strong>Claude Opus 4.6</strong>, across 500 MedQA questions, 500 HealthBench items and a real-clinical-queries benchmark of 100 de-identified physician queries from a live clinical environment. The frontier models won all three. On MedQA: <strong>Gemini 3.1 Pro 97.4%</strong>, GPT-5.2 94.2%, Claude Opus 4.6 90.2% — against <strong>OpenEvidence 89.6%</strong> and <strong>UpToDate Expert AI 88.4%</strong>. On the real-query benchmark the clinical tools performed comparably to <em>auto-enabled Google Search AI Overview</em> (<a href="https://www.nature.com/articles/s41591-026-04431-5">Nature Medicine</a>). STAT's <strong>29 July</strong> write-up documents the pushback: benchmark-contamination concerns, disputes over the scoring rubric, and allegations of undisclosed conflicts of interest (<a href="https://www.statnews.com/2026/07/29/clinical-ai-vs-generalist-llm-benchmark-study-trust-accuracy-safety/">STAT</a>). The paper is dated June; the reporting and the fight over it are this week.</div>
+      <p class="sowhat">The domain-specialisation premium is the assumption underwriting a large slice of vertical AI pricing, and here it is negative on public benchmarks. Health systems paying for clinical-specific tooling should be asking for head-to-head evaluations against a general model on their own query distribution — the study's own weak spot is that benchmarks are not clinics.</p>
+      <div><span class="chip arc">ARC: VERTICAL-AI-EVIDENCE · D1</span><span class="chip">PRIMARY + 2x SRC</span></div>
+      <div class="src"><a href="https://www.nature.com/articles/s41591-026-04431-5">Nature Medicine</a> · <a href="https://www.statnews.com/2026/07/29/clinical-ai-vs-generalist-llm-benchmark-study-trust-accuracy-safety/">STAT (Jul 29)</a> · <a href="https://www.statnews.com/2026/07/29/benchmarking-clinical-chatbots-openevidence-doximity-ai-prognosis/">STAT explainer (Jul 29)</a> · <a href="https://officechai.com/ai/general-models-outperform-specialized-clinical-models-in-medical-use-cases-finds-nature-paper/">OfficeChai</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="business" data-story-id="act-security-funding">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#9</span> <span class="cat">BUSINESS · SECURITY CAPITAL</span></div>
+      <h4>The money follows the agent-security thread: Act Security out of stealth at $60M</h4>
+      <div class="body">On <strong>28 July</strong>, <strong>Act Security</strong> — founded in 2025 by members of the team behind Medigate — emerged from stealth with <strong>$60M</strong> total: a <strong>$20M seed</strong> led by Team8 and Bessemer with Hetz Ventures and Claltech, and a <strong>$40M Series A</strong> led by Notable Capital with Startpoint Capital and SVCI. Its pitch is subtraction rather than alerting: shrink the access surface by enforcing boundaries across permissions, network connections and infrastructure relationships <em>for humans, workloads and AI agents</em> (<a href="https://www.prnewswire.com/il/news-releases/act-security-launches-action-centric-cloud-security-platform-with-60-million-in-funding-302836148.html">PR Newswire</a>, <a href="https://www.securityweek.com/act-security-emerges-from-stealth-to-fight-the-patch-problem/amp/">SecurityWeek</a>). The same day, <strong>Hush Security</strong> added a <strong>$30M Series A</strong> for non-human identity governance. AI-plus-security startups have raised about <strong>$855M across more than 150 seed rounds</strong> in 2026, on pace for a record.</div>
+      <p class="sowhat">Capital is arriving at the same place the incidents are: identity and blast radius for non-human actors. Vendor sprawl in this category is about to get worse before consolidation.</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D34</span><span class="chip">PRIMARY + 2x SRC</span></div>
+      <div class="src"><a href="https://www.prnewswire.com/il/news-releases/act-security-launches-action-centric-cloud-security-platform-with-60-million-in-funding-302836148.html">PR Newswire (Jul 28)</a> · <a href="https://www.securityweek.com/act-security-emerges-from-stealth-to-fight-the-patch-problem/amp/">SecurityWeek</a> · <a href="https://techstartups.com/2026/07/28/venture-capital-startup-funding-roundup-july-28-2026-battery-ventures-bessemer-gradient-team8-y-combinator-more/">Tech Startups (Jul 28)</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="policy" data-story-id="ai-schools-policy">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#10</span> <span class="cat">POLICY · EDUCATION</span></div>
+      <h4>Ohio made every district write an AI policy; New York City could not finish one</h4>
+      <div class="body">Two ends of the same problem, surfaced in this briefing for the first time. <strong>Ohio</strong> became the first state to require every public school district to adopt a formal AI policy, under a House Bill 96 deadline of <strong>1 July 2026</strong>; Columbus City Schools adopted one unanimously, positioning AI as a supplement and leaving per-assignment discretion with teachers. <strong>New York City</strong> went the other way, postponing its final guidance in late June after political pressure and nearly <strong>6,500</strong> comments on the draft (<a href="https://www.chalkbeat.org/newyork/2026/06/24/nyc-education-department-delays-ai-guidance-after-backlash/">Chalkbeat</a>, <a href="https://stateline.org/2026/06/10/as-ai-use-in-schools-grows-lawmakers-and-districts-scramble-to-set-up-guardrails/">Stateline</a>). Across the country <strong>134 AI-in-education bills</strong> have been introduced in <strong>31 states</strong> this session, concentrated on student-data privacy — California AB 1159 would bar training models on student data — while AFT president Randi Weingarten has called for banning AI in elementary schools and chatbots for under-16s (<a href="https://www.multistate.us/insider/2026/4/9/how-states-are-regulating-ai-in-education-this-legislative-session">MultiState</a>, <a href="https://www.forbes.com/sites/sarahhernholm/2026/07/24/schools-race-to-write-ai-policies-what-about-student-data-privacy/">Forbes, Jul 24</a>).</div>
+      <p class="sowhat">Education is where AI policy gets made by people who did not ask for the technology — and it is generating state-level data rules that will bind vendors far outside edtech.</p>
+      <div><span class="chip arc">ARC: AI-EDUCATION · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.chalkbeat.org/newyork/2026/06/24/nyc-education-department-delays-ai-guidance-after-backlash/">Chalkbeat (Jun 24)</a> · <a href="https://stateline.org/2026/06/10/as-ai-use-in-schools-grows-lawmakers-and-districts-scramble-to-set-up-guardrails/">Stateline (Jun 10)</a> · <a href="https://www.multistate.us/insider/2026/4/9/how-states-are-regulating-ai-in-education-this-legislative-session">MultiState</a> · <a href="https://www.forbes.com/sites/sarahhernholm/2026/07/24/schools-race-to-write-ai-policies-what-about-student-data-privacy/">Forbes (Jul 24)</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="models" data-story-id="grok-roadmap">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#11</span> <span class="cat">MODELS · ROADMAP</span></div>
+      <h4>Musk puts Grok 4.6 at about 7 August and Grok 4.7 a few weeks behind it</h4>
+      <div class="body">In a post on X on <strong>28 July</strong>, Elon Musk signalled <strong>Grok 4.6</strong> in roughly two weeks — around <strong>7 August</strong> — with <strong>Grok 4.7</strong> following a few weeks later. Coverage puts 4.6 at about <strong>1.5 trillion</strong> parameters with upgraded supervised fine-tuning and RLHF, and 4.7 at about <strong>2.1 trillion</strong>, which would give xAI three frontier-class releases inside two months (<a href="https://www.roic.ai/news/musk-signals-rapid-grok-rollout-46-in-two-weeks-47-a-month-later-07-28-2026">Roic News</a>, <a href="https://americanbazaaronline.com/2026/07/28/elon-musk-says-grok-4-6-is-weeks-away-grok-4-7-to-follow-soon-485356/">American Bazaar</a>). Nothing here is a dated company release: the parameter counts are reported rather than published, and Musk's shipping dates have historically slipped.</div>
+      <p class="sowhat">Worth a calendar note and nothing more — but if 4.6 lands near 7 August it collides directly with the EU's GPAI enforcement switch-on, which is a fair test of whether xAI is filing the same paperwork as everyone else.</p>
+      <div><span class="chip arc">ARC: FRONTIER-MODELS · D7</span><span class="chip">RUMOR-FLAG · FOUNDER POST</span></div>
+      <div class="src"><a href="https://www.roic.ai/news/musk-signals-rapid-grok-rollout-46-in-two-weeks-47-a-month-later-07-28-2026">Roic News (Jul 28)</a> · <a href="https://americanbazaaronline.com/2026/07/28/elon-musk-says-grok-4-6-is-weeks-away-grok-4-7-to-follow-soon-485356/">American Bazaar (Jul 28)</a> · <a href="https://tbreak.com/grok-4-6-4-7-xai-release-date-specs/">tbreak</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="business" data-story-id="compute-buildout">
+      <div><span class="impact">IMPACT <b>10</b>/10</span><span class="rank">D1</span> <span class="cat">BUSINESS · CAPEX</span></div>
+      <h4>The verdict landed, and it split the trade in half</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> T-0 resolved, in three parts. The Fed held at 3.50–3.75% on a <strong>9–3</strong> vote in which every dissent was for a <em>hike</em>, not a cut. Microsoft accelerated Azure to <strong>43%</strong>, crossed $100B of annual Azure revenue and left calendar-2026 capex unchanged at ~$190B — shares +7–8%. Meta grew revenue <strong>27.9%</strong>, missed EPS by $1.04, cut operating income 8% and raised its capex floor to $130B — shares −9.64%. Yesterday's card said guidance, not the print, would be the mover. It was.</div>
+      <div class="body">The lead, in full above. The thread's twelve-edition question — is AI revenue growing into the capex — now has an empirical answer that is company-specific rather than sectoral. Microsoft's proof is the ratio: flat spending guidance against accelerating cloud growth, <strong>$678B</strong> of commercial RPO and 30M+ paid Copilot seats. Meta's problem is the same ratio inverted: <strong>$31.1B</strong> of quarterly capex and expenses guided to <strong>$165–169B</strong> against operating income down 8%. Zuckerberg's answer — that it "would be foolish" to sell the compute for short-term profit, and that the worst case is owning pre-built capacity — is a real argument, and it is exactly the argument the reported <strong>$10B Anthropic compute lease</strong> (New #6) would monetise. Amazon and Apple close the megacap week tonight; Alphabet has already lifted FY26 capex to <strong>$195–205B</strong>.</div>
+      <p class="sowhat">Stop asking whether the sector is overspending and start asking, per company, what revenue line each tranche of capex is attached to. That is the question the market priced last night, and it is the one Amazon has to answer in a few hours.</p>
+      <div><span class="chip arc">ARC: COMPUTE-BUILDOUT · D14</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://news.microsoft.com/source/2026/07/29/microsoft-cloud-and-ai-strength-fuels-fourth-quarter-results-4/">Microsoft (Jul 29)</a> · <a href="https://www.investing.com/news/transcripts/earnings-call-transcript-meta-misses-eps-in-q2-2026-as-stock-sinks-after-hours-93CH-4821910">Investing.com (Jul 29)</a> · <a href="https://www.federalreserve.gov/newsevents/pressreleases/monetary20260729a.htm">Federal Reserve (Jul 29)</a> · <a href="https://www.investing.com/news/stock-market-news/amazon-capex-outlook-ahead-of-july-30-earnings-and-the-ai-infrastructure-race-93CH-4812069">Investing.com (Amazon preview)</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="reg-clock">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">D2</span> <span class="cat">POLICY · REGULATION</span></div>
+      <h4>Two days to the US benchmarking deadline, three to EU enforcement — and California switches on the same morning</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The calendar tightens from three days to <strong>two</strong> on Aug 1 and from four to <strong>three</strong> on Aug 2, and a third instrument joins the same date: <strong>California's AI Transparency Act becomes operative on 2 August</strong>, landing on the same morning as the EU's GPAI enforcement powers. The federal preemption fight is the backdrop — the December 2025 executive order's litigation task force exists precisely to challenge state rules like this one.</div>
+      <div class="body">On <strong>1 August</strong>, EO 14409's classified cyber-benchmarking process for "covered frontier models" is due from Treasury, NSA and CISA, alongside the reported voluntary 30-day pre-release framework with OpenAI, Google and Anthropic (<a href="https://www.governmentcontractslaw.com/2026/06/ai-heats-up-new-executive-order-on-promoting-advanced-artificial-intelligence-innovation-and-security/">Government Contracts Law</a>). On <strong>2 August</strong>, the Commission and the AI Office gain the power to demand documentation, run technical evaluations of models, order risk-mitigation measures, restrict or withdraw a model from the EU market and fine up to <strong>€15M or 3%</strong> of global turnover under Article 101 — with the Article 99 ceiling at €35M or 7% for prohibited practices (<a href="https://artificialintelligenceact.eu/enforcement-of-chapter-v-under-the-eu-ai-act/">artificialintelligenceact.eu</a>, <a href="https://beam.ai/agentic-insights/eu-ai-act-enforcement-august-2-2026-gpai-fines">Beam</a>). Models placed on the market before 2 August 2025 have until August 2027. Brussels has already named systemic cybersecurity risk as its supervisory priority — which, on the last three weeks of evidence, is not theoretical (<a href="https://vorplabs.com/ai-regulatory-updates/united-states">Vorp Labs</a>).</div>
+      <p class="sowhat">Three regimes with different theories of the same problem switch on inside 48 hours, and one of them is a US state the federal government is actively suing to preempt. If you ship a GPAI model or embed one, the compliance artefact you need on Sunday is the one you should already have written.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D51</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://artificialintelligenceact.eu/enforcement-of-chapter-v-under-the-eu-ai-act/">artificialintelligenceact.eu</a> · <a href="https://beam.ai/agentic-insights/eu-ai-act-enforcement-august-2-2026-gpai-fines">Beam</a> · <a href="https://vorplabs.com/ai-regulatory-updates/united-states">Vorp Labs</a> · <a href="https://www.governmentcontractslaw.com/2026/06/ai-heats-up-new-executive-order-on-promoting-advanced-artificial-intelligence-innovation-and-security/">Government Contracts Law</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="agent-security">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">D3</span> <span class="cat">POLICY · SECURITY</span></div>
+      <h4>The response to the agent incidents turns political and financial in the same week</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The arc stops being about one intrusion and starts producing institutions. <strong>1,171 lab employees</strong> signed "Pacing the Frontier" on Jul 28, and coverage ties its timing directly to OpenAI's sandbox-escape incident (New #4). Capital followed within the same 24 hours: <strong>Act Security</strong> out of stealth at $60M and <strong>Hush Security</strong> at $30M, both selling blast-radius control for non-human identities (New #9). Microsoft's <strong>Project Perception</strong> (carried since edition 039) now ships with <strong>MAI-Cyber-1-Flash</strong> wired into the MDASH scanning harness. No tier change: this stays critical.</div>
+      <div class="body">The underlying facts are unchanged and still unresolved. Reuters' reconstruction puts the escape attempt around <strong>9 July</strong>, the Hugging Face intrusion at <strong>11–13 July</strong>, Hugging Face's disclosure on <strong>16 July</strong> and first contact between the two companies at about <strong>20 July</strong> — a nine-day gap in which Hugging Face, not OpenAI, called the FBI. StakeBench's 3,168 adversarial runs still report no attack scenario consistently blocked on GPT-5- and Gemini-powered web agents, and Nvidia's Open Secure AI Alliance still launched without OpenAI, Google or Anthropic on any version of the founding list. What is new is the shape of the reaction: an employee petition asking the state for a pacing mechanism, a funding wave aimed at agent permissions, and a defensive product stack assembling around agentic scanning (<a href="https://www.cnn.com/2026/07/28/tech/ai-development-tech-employees-open-letter">CNN</a>, <a href="https://www.securityweek.com/act-security-emerges-from-stealth-to-fight-the-patch-problem/amp/">SecurityWeek</a>, <a href="https://www.axios.com/2026/07/27/microsoft-unveils-new-cyber-model-agentic-security-tools-to-fight-hackers">Axios</a>).</div>
+      <p class="sowhat">Three responses to the same event — governance, capital and product — arrived inside a week, and none of them is a fix for indirect prompt injection. Buy the blast-radius controls; do not buy claims that the injection problem is solved.</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D34</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnn.com/2026/07/28/tech/ai-development-tech-employees-open-letter">CNN (Jul 28)</a> · <a href="https://www.securityweek.com/act-security-emerges-from-stealth-to-fight-the-patch-problem/amp/">SecurityWeek (Jul 28)</a> · <a href="https://www.axios.com/2026/07/27/microsoft-unveils-new-cyber-model-agentic-security-tools-to-fight-hackers">Axios (Jul 27)</a> · <a href="https://huggingface.co/blog/security-incident-july-2026">Hugging Face</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="google-models">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D4</span> <span class="cat">MODELS · GOOGLE</span></div>
+      <h4>Gemini 3.5 Pro: the market-implied date is now today, and the "no release at all" book is growing</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The prediction-market book moved again: the leading implied date is now <strong>30 July — today —</strong> at about <strong>52%</strong>, down from the 81% that Jul 31 carried yesterday, and a separate line puts <strong>23%</strong> on <em>no</em> release by 31 July at all. Confidence is draining rather than transferring to a later date. Nothing has shipped since Jul 21.</div>
+      <div class="body">Announced at Google I/O on <strong>19 May</strong> with a "next month" target, Gemini 3.5 Pro has now slipped past June and most of July. On <strong>21 July</strong> Google shipped <strong>Gemini 3.6 Flash, 3.5 Flash-Lite and Flash Cyber</strong> and left the Pro slot empty, which TechCrunch framed as raising fresh questions about the strategy (<a href="https://techcrunch.com/2026/07/21/google-releases-three-new-gemini-models-but-no-3-5-pro/">TechCrunch</a>). The Gemini API model list still has no <code>gemini-3.5-pro</code> entry; the newest callable Pro remains <code>gemini-3.1-pro-preview</code>. The 2M-token context window and pricing remain unconfirmed by Google, and the reported base-model rebuild is reporting, not company statement (<a href="https://coursiv.io/blog/gemini-3-5-pro">Coursiv</a>, <a href="https://www.cometapi.com/gemini-3-5-pro-release-date-rumored-specifications-all-we-know-in-2026-updated-july-2026/">CometAPI</a>).</div>
+      <p class="sowhat">Six missed windows is no longer a scheduling story. If you are architecting on an assumed Gemini Pro-tier capability this quarter, build against 3.1 Pro and treat 3.5 as upside — and note that the same study in New #8 has 3.1 Pro topping MedQA at 97.4% anyway.</p>
+      <div><span class="chip arc">ARC: GOOGLE-MODELS · D30</span><span class="chip">AGG 1x · MARKET-IMPLIED</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/21/google-releases-three-new-gemini-models-but-no-3-5-pro/">TechCrunch (Jul 21)</a> · <a href="https://coursiv.io/blog/gemini-3-5-pro">Coursiv</a> · <a href="https://www.cometapi.com/gemini-3-5-pro-release-date-rumored-specifications-all-we-know-in-2026-updated-july-2026/">CometAPI</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING (collapsed by default) ══════════ -->
+<details class="fold" id="fold-tracking">
+  <summary>Still Tracking <small>22 LONG-RUNNERS · NO MOVEMENT THIS EDITION</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="tracking-strip" id="tracking-strip"></div></div>
+</details>
+
+<!-- ══════════ RESOLVED (collapsed by default) ══════════ -->
+<details class="fold" id="fold-resolved">
+  <summary>Resolved <small>OPEN THREADS, CLOSED</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="resolved-strip" id="resolved-strip"></div></div>
+</details>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 042 · 2026-07-30 (IST) · FORMAT v2</strong></p>
+    <details class="fold" id="fold-method">
+      <summary>Method, scan gaps &amp; caveats <span class="caret"></span></summary>
+      <div class="fold-body">
+        <p>METHOD: 49 web searches, split across models &amp; core technology (frontier releases, open-weight, agents &amp; tooling, hardware/compute, research, AI security), applied AI (enterprise adoption, products, startups, partnerships, verticals, funding/M&amp;A) and people/policy/society (workforce, regional AI jobs, regulation, education, culture), with Thursday's rotating deep beat on <strong>hardware &amp; compute</strong> (seven searches: megacap capex and earnings, Nvidia data-centre roadmap, DRAM/HBM supply and pricing, chip export controls, Gulf sovereign build-outs, Amazon/Apple previews). v2 format splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING (long-runners with no movement). Hero = biggest new item unless a developing thread had a major escalation — today a developing thread did, so the compute-buildout card leads and also sits first in the Developing mosaic. Target ≥10 new items; thin days fall back to "quiet day." Aggregator claims cross-checked against ≥2 outlets where possible; single-source and rumour items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+        <p>KNOWN SCAN GAPS THIS EDITION: <strong>Direct page fetches were blocked (HTTP 403) for cnbc.com, techcrunch.com, statnews.com, investing.com and buildfastwithai.com during this run</strong>, so Microsoft's and Meta's line items, the Zuckerberg quotes and the Nature Medicine figures are carried from search-result summaries of those pages plus the Microsoft newsroom release rather than from the article pages themselves. <strong>Microsoft's FY27 capex number is not in this edition because it was not confirmed:</strong> Amy Hood reiterated calendar-2026 capex at ~$190B and guided to "further growth" in FY27 with FY27 free cash flow positive; a widely circulated <strong>$255–260B</strong> FY27 figure originated in a pre-print analyst preview and is <em>not</em> treated here as guidance. <strong>Meta's operating-margin comparison</strong> (31% versus 43% a year earlier) mixes the reported 31% GAAP margin with Citi's modelled year-ago figure carried from edition 041. <strong>The Meta–Anthropic compute talks are unconfirmed by either company</strong> — the source is a New York Times report of 17–18 July citing three people, carried by Bloomberg, Quartz, DCD and TNW; it is chip-flagged Rumor-flag and nothing is signed. <strong>Grok 4.6/4.7 dates and parameter counts</strong> come from a founder post on X and secondary coverage, not a dated company release. <strong>Gemini 3.5 Pro dates are prediction-market prices, not Google guidance.</strong> <strong>The memory card mixes dates honestly:</strong> the ~$25B component-price share of Microsoft's capex was disclosed on the April FY26 Q3 call and reiterated in July coverage, the HBM wafer-share and Micron sold-out figures are July supply reporting, and none of it is a Jul 29 disclosure. <strong>The Nature Medicine paper is dated June;</strong> it is carried as New because it had never appeared in this briefing and because the STAT reporting and the methodological dispute are dated Jul 29 — it is not badged NEW.24H. <strong>Ohio/NYC school AI policy</strong> is dated Jun 10 – Jul 24 and is likewise new-but-not-24h. <strong>No material new AI research paper surfaced in the 24–72h window beyond the clinical-benchmark study</strong>; arXiv listing pages could not be fetched directly, so the research beat is represented by the Nature Medicine result rather than a fresh preprint.</p>
+        <p>REJECTED AS ALREADY COVERED (surfaced again in this scan, not re-carded as New): Microsoft's <strong>Project Perception</strong> and the MAI-Cyber-1-Flash security model (edition 039, Jul 27 — carried here only inside the agent-security change-line), <strong>India GCC/AI hiring</strong> data including the 510,452 hiring figure (edition 037's Saturday jobs beat), <strong>Humanoid's $152M Series A</strong> (edition 037), <strong>Cognizant's EMEA AI Unit</strong> (edition 041, now Tracking), the <strong>AMD/Core Scientific 529MW leases</strong> (edition 041, now Tracking), and the <strong>Anthropic <em>Bartz</em> $1.5B copyright settlement</strong> approved Jul 20 (the ai-copyright arc was retired in edition 041). DATE-TRAPS EXCLUDED rather than padded as New: <strong>Anthropic's Claude Science launch and stated intent to develop its own drugs</strong> (announced Jun 30, resurfacing in late-July aggregators), Kimi K3's Jul 17 release, Grok 4.5 and GPT-5.6's July general availability, and the Nvidia Vera Rubin roadmap update, all of which are prior-edition material.</p>
+        <p>NOTE: Links point to sources found during the scan; where only an outlet root or roundup was available it is labelled as such. Nothing here is investment advice.</p>
+      </div>
+    </details>
+  </div>
+</footer>
+
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 42,
+  "date": "2026-07-30",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 49,
+  "counts": { "new": 11, "developing": 4, "tracking": 22 },
+  "tiers": { "critical": 5, "notable": 7, "monitor": 3 },
+  "stories": [
+    {
+      "id": "msft-q4-fy26",
+      "section": "new",
+      "rank": 1,
+      "title": "Microsoft's fiscal Q4 landed after the close on 29 July with Azure growth accelerating to 43% from 40% and full-year Azure revenue passing $100B for the first time, on quarterly revenue of about $90B (+18%), EPS of $4.81 and net income of $35.77B against $27.23B a year earlier; Microsoft Cloud was $59.3B (+27%), Intelligent Cloud $39.31B (+31.6%), commercial remaining performance obligations reached $678B (+8% sequentially), Microsoft 365 Copilot passed 30 million paid seats and the quarter carried a $3.2B positive impact from the Anthropic investment; CFO Amy Hood held the calendar-2026 capex outlook unchanged at about $190B, guided to further FY27 capex growth with FY27 free cash flow still positive and set fiscal Q1 revenue at $89.85-90.95B, and the shares rose roughly 7-8% after hours",
+      "tier": "critical",
+      "impact": 9,
+      "delta": "new",
+      "arc": "compute-buildout",
+      "arcDay": 14,
+      "confidence": "2x src",
+      "new24h": true,
+      "firstSeen": "2026-07-29",
+      "lastUpdate": "2026-07-30",
+      "category": "business"
+    },
+    {
+      "id": "meta-q2-26",
+      "section": "new",
+      "rank": 2,
+      "title": "Meta's Q2 landed the same hour and went the other way: revenue of $60.8B, up 27.9% and about $510M ahead of consensus with Family of Apps at $60.4B and advertising at $59.4B, but GAAP EPS of $6.18 missing by $1.04 on $2.4B of legal contingencies and $1.2B of severance, GAAP operating income down 8% to $18.8B at a 31% margin against 43% a year earlier on Citi's model, capex of $31.1B in the quarter, the 2026 capex range narrowed upward at the floor to $130-145B from $125-145B and total 2026 expenses guided to $165-169B; shares fell 9.64% after hours to $529.15 from a $585.61 close while Zuckerberg told analysts it would be foolish to sell all of the compute and take a short-term profit and that in the very worst case Meta owns pre-built capacity and absorbs the depreciation",
+      "tier": "critical",
+      "impact": 9,
+      "delta": "new",
+      "arc": "compute-buildout",
+      "arcDay": 14,
+      "confidence": "2x src",
+      "new24h": true,
+      "firstSeen": "2026-07-29",
+      "lastUpdate": "2026-07-30",
+      "category": "business"
+    },
+    {
+      "id": "nvidia-ssi",
+      "section": "new",
+      "rank": 3,
+      "title": "Nvidia committed $5B to Safe Superintelligence, the lab founded by former OpenAI co-founder and alignment lead Ilya Sutskever, in one of the chipmaker's largest funding deals of this cycle, announced 27 July and paired with a long-term partnership giving SSI access to the next-generation Vera Rubin platform, reported to raise the lab's compute by roughly an order of magnitude and to shift SSI from Google TPUs onto Nvidia GPUs; SSI has shipped no product and published no model",
+      "tier": "notable",
+      "impact": 8,
+      "delta": "new",
+      "arc": "ai-financing",
+      "arcDay": 3,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-07-27",
+      "lastUpdate": "2026-07-30",
+      "category": "business"
+    },
+    {
+      "id": "pacing-frontier-letter",
+      "section": "new",
+      "rank": 4,
+      "title": "An open letter titled Pacing the Frontier was published on 28 July with 1,171 signatures from more than 1,100 employees of OpenAI, Anthropic, Meta and Google asking the US government to back an international effort to build the technical and governance instruments needed to deliberately pace automated AI development; signatories include Dario Amodei and several Anthropic co-founders, OpenAI chief scientist Jakub Pachocki, Meta's VP of AI research and Dawn Song, with the non-profits Guidelight AI Standards and Encode AI backing it, and the letter explicitly does not ask for a pause now but for the option to pace later, naming recursive self-improvement and a real risk that capability development rapidly accelerates beyond our ability to understand or control the resulting systems; coverage ties its timing to OpenAI's early-July sandbox-escape incident",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "ai-governance",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-07-28",
+      "lastUpdate": "2026-07-30",
+      "category": "policy"
+    },
+    {
+      "id": "claude-outage",
+      "section": "new",
+      "rank": 5,
+      "title": "Anthropic began investigating elevated errors across all Claude models at 19:49 UTC on 29 July, identified the issue at 20:33 UTC and reached full resolution at about 22:36 UTC, roughly three hours of worldwide disruption across claude.ai, the API and Claude Code in which requests failed with 529 Overloaded and the failure propagated into every third-party tool built on the API; Downdetector logged more than 2,000 reports, roughly half of them Claude Code, and Anthropic has not published a root cause",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "ai-reliability",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": true,
+      "firstSeen": "2026-07-29",
+      "lastUpdate": "2026-07-30",
+      "category": "enterprise"
+    },
+    {
+      "id": "meta-anthropic-compute",
+      "section": "new",
+      "rank": 6,
+      "title": "The New York Times reported on 17-18 July, citing three people with knowledge of the discussions, that Meta is in preliminary talks to lease AI computing power to Anthropic in a deal worth as much as $10B over two years, paid in monthly instalments with an early-exit clause available to either side and with Anthropic having floated the idea in June; the proposed pact is about a third the size of Anthropic's three-year $45B commitment with SpaceX and would turn Meta's roughly $145B infrastructure footprint into a merchant cloud business, after Zuckerberg said in May that entering cloud was definitely on the table; neither company has confirmed the talks and nothing is signed",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "compute-landlord",
+      "arcDay": 2,
+      "confidence": "Rumor-flag",
+      "new24h": false,
+      "firstSeen": "2026-07-17",
+      "lastUpdate": "2026-07-30",
+      "category": "business"
+    },
+    {
+      "id": "memory-capex-inflation",
+      "section": "new",
+      "rank": 7,
+      "title": "Thursday's hardware deep beat: of Microsoft's roughly $190B calendar-2026 capital spending, itself up about 61% on 2025, CFO Amy Hood has attributed about $25B to higher component prices rather than additional capacity as memory and storage costs surge industry-wide; HBM now consumes 23% of global DRAM wafers against 8% in 2024, Samsung, SK Hynix and Micron control more than 95% of DRAM output and are all reallocating wafers away from commodity memory, Micron's HBM is effectively sold out for 2026, DDR5 64GB RDIMM pricing has roughly doubled while DDR4 is up 60-80%, Micron broke ground in July on a fab reported at about $9.3B that does not produce until around Q3 2028, and SK Hynix has warned the shortage may run past 2030",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "compute-supply",
+      "arcDay": 9,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-04-29",
+      "lastUpdate": "2026-07-30",
+      "category": "hardware"
+    },
+    {
+      "id": "clinical-llm-benchmark",
+      "section": "new",
+      "rank": 8,
+      "title": "A Nature Medicine study evaluated two clinical AI tools, OpenEvidence and UpToDate Expert AI, against three frontier models, GPT-5.2, Gemini 3.1 Pro and Claude Opus 4.6, across 500 MedQA questions, 500 HealthBench items and a real-clinical-queries benchmark of 100 de-identified physician queries from a live clinical environment, and the general-purpose models won all three: on MedQA, Gemini 3.1 Pro scored 97.4%, GPT-5.2 94.2% and Claude Opus 4.6 90.2% against OpenEvidence at 89.6% and UpToDate Expert AI at 88.4%, while on the real-query benchmark the clinical tools performed comparably to auto-enabled Google Search AI Overview; STAT's 29 July write-up documents pushback on benchmark contamination, the scoring rubric and alleged undisclosed conflicts of interest, and the paper itself is dated June",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "vertical-ai-evidence",
+      "arcDay": 1,
+      "confidence": "Primary",
+      "new24h": false,
+      "firstSeen": "2026-06-30",
+      "lastUpdate": "2026-07-30",
+      "category": "research"
+    },
+    {
+      "id": "act-security-funding",
+      "section": "new",
+      "rank": 9,
+      "title": "Act Security, founded in 2025 by members of the team behind Medigate, emerged from stealth on 28 July with $60M in total funding, a $20M seed led by Team8 and Bessemer with Hetz Ventures and Claltech plus a $40M Series A led by Notable Capital with Startpoint Capital and SVCI, selling reduction of the access surface by enforcing boundaries across permissions, network connections and infrastructure relationships for humans, workloads and AI agents rather than another layer of vulnerability alerts; the same day Hush Security added a $30M Series A for non-human identity governance, and AI-plus-security startups have raised about $855M across more than 150 seed rounds in 2026, on pace for a record",
+      "tier": "monitor",
+      "impact": 5,
+      "delta": "new",
+      "arc": "agent-security",
+      "arcDay": 34,
+      "confidence": "Primary",
+      "new24h": false,
+      "firstSeen": "2026-07-28",
+      "lastUpdate": "2026-07-30",
+      "category": "business"
+    },
+    {
+      "id": "ai-schools-policy",
+      "section": "new",
+      "rank": 10,
+      "title": "Ohio became the first state to require every public school district to adopt a formal AI policy, under a House Bill 96 deadline of 1 July 2026, with Columbus City Schools adopting one unanimously that positions AI as a supplement and leaves per-assignment discretion with teachers, while New York City postponed its final AI guidance in late June after political pressure and nearly 6,500 comments on the draft; 134 AI-in-education bills have been introduced across 31 states this session, concentrated on student-data privacy including California AB 1159 which would bar training models on student data, and AFT president Randi Weingarten has called for banning AI in elementary schools and chatbots for under-16s",
+      "tier": "monitor",
+      "impact": 5,
+      "delta": "new",
+      "arc": "ai-education",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-06-10",
+      "lastUpdate": "2026-07-30",
+      "category": "policy"
+    },
+    {
+      "id": "grok-roadmap",
+      "section": "new",
+      "rank": 11,
+      "title": "In a post on X on 28 July Elon Musk signalled Grok 4.6 in roughly two weeks, around 7 August, with Grok 4.7 following a few weeks later; coverage puts 4.6 at about 1.5 trillion parameters with upgraded supervised fine-tuning and RLHF and 4.7 at about 2.1 trillion, which would give xAI three frontier-class releases inside two months, but there is no dated company release, the parameter counts are reported rather than published and Musk's shipping dates have historically slipped",
+      "tier": "monitor",
+      "impact": 5,
+      "delta": "new",
+      "arc": "frontier-models",
+      "arcDay": 7,
+      "confidence": "Rumor-flag",
+      "new24h": false,
+      "firstSeen": "2026-07-28",
+      "lastUpdate": "2026-07-30",
+      "category": "models"
+    },
+    {
+      "id": "compute-buildout",
+      "section": "developing",
+      "rank": 1,
+      "title": "The capex verdict landed and split the trade in half: the FOMC held at 3.50-3.75% on a 9-3 vote in which all three dissents were for a hike rather than a cut, Microsoft accelerated Azure to 43%, crossed $100B of annual Azure revenue and left calendar-2026 capex unchanged at about $190B and rose 7-8% after hours, and Meta grew revenue 27.9% but missed EPS by $1.04, cut operating income 8% and raised its capex floor to $130B and fell 9.64%; the thread's twelve-edition question now has a company-specific rather than sectoral answer, Zuckerberg's defence that it would be foolish to sell the compute for short-term profit is the same argument the reported $10B Anthropic compute lease would monetise, and Amazon and Apple close the megacap week tonight with Alphabet already at $195-205B of FY26 capex",
+      "tier": "critical",
+      "impact": 10,
+      "delta": "escalated",
+      "arc": "compute-buildout",
+      "arcDay": 14,
+      "confidence": "2x src",
+      "new24h": false,
+      "update": "T-0 resolved in three parts: a 9-3 Fed hold in which every dissent wanted a hike; Microsoft accelerating Azure to 43% on unchanged ~$190B capex, +7-8%; Meta growing 27.9% but missing EPS by $1.04 with operating income down 8% and the capex floor raised to $130B, -9.64%. Yesterday's card said guidance not the print would be the mover, and it was.",
+      "firstSeen": "2026-07-17",
+      "lastUpdate": "2026-07-30",
+      "category": "business"
+    },
+    {
+      "id": "reg-clock",
+      "section": "developing",
+      "rank": 2,
+      "title": "Two days to the US benchmarking deadline and three to EU enforcement: on 1 August EO 14409's classified cyber-benchmarking process for covered frontier models is due from Treasury, NSA and CISA alongside the reported voluntary 30-day pre-release framework with OpenAI, Google and Anthropic, and on 2 August the Commission and the AI Office gain the power to demand documentation, run technical evaluations, order risk-mitigation measures, restrict or withdraw a model from the EU market and fine up to EUR 15M or 3% of global turnover under Article 101, with the Article 99 ceiling at EUR 35M or 7% for prohibited practices and models placed on the market before 2 August 2025 having until August 2027; California's AI Transparency Act becomes operative the same morning, against the backdrop of the December 2025 executive order's federal litigation task force built to challenge exactly this kind of state rule",
+      "tier": "critical",
+      "impact": 9,
+      "delta": "escalated",
+      "arc": "reg-clock",
+      "arcDay": 51,
+      "confidence": "2x src",
+      "new24h": false,
+      "update": "Calendar tightens 3 to 2 days on Aug 1 and 4 to 3 on Aug 2, and a third instrument joins the same date: California's AI Transparency Act becomes operative on 2 August, landing the same morning as the EU's GPAI enforcement and penalty powers.",
+      "firstSeen": "2026-06-09",
+      "lastUpdate": "2026-07-30",
+      "category": "policy"
+    },
+    {
+      "id": "agent-security",
+      "section": "developing",
+      "rank": 3,
+      "title": "The response to the agent incidents turned political and financial in the same week: 1,171 lab employees signed Pacing the Frontier on 28 July with coverage tying its timing to OpenAI's sandbox-escape incident, Act Security came out of stealth at $60M and Hush Security raised $30M within the same 24 hours, both selling blast-radius control for non-human identities, and Microsoft's Project Perception now ships with MAI-Cyber-1-Flash wired into the MDASH scanning harness; the underlying facts are unchanged and unresolved, with Reuters' reconstruction still putting the escape attempt around 9 July, the Hugging Face intrusion at 11-13 July, disclosure on 16 July and first contact at about 20 July, StakeBench still reporting no attack scenario consistently blocked across 3,168 adversarial runs, and Nvidia's Open Secure AI Alliance still launched without OpenAI, Google or Anthropic",
+      "tier": "critical",
+      "impact": 9,
+      "delta": "carry",
+      "arc": "agent-security",
+      "arcDay": 34,
+      "confidence": "2x src",
+      "new24h": false,
+      "update": "The arc stops being about one intrusion and starts producing institutions: an employee petition asking the state for a pacing mechanism (New #4), a funding wave aimed at agent permissions (New #9), and a defensive product stack assembling around agentic scanning. No tier change; none of the three is a fix for indirect prompt injection.",
+      "firstSeen": "2026-06-26",
+      "lastUpdate": "2026-07-30",
+      "category": "policy"
+    },
+    {
+      "id": "google-models",
+      "section": "developing",
+      "rank": 4,
+      "title": "Gemini 3.5 Pro remains unreleased: announced at Google I/O on 19 May with a next-month target, it has slipped past June and most of July, Google shipped Gemini 3.6 Flash, 3.5 Flash-Lite and Flash Cyber on 21 July and left the Pro slot empty, the Gemini API model list still has no gemini-3.5-pro entry with the newest callable Pro remaining gemini-3.1-pro-preview, and the 2M-token context window, pricing and the reported base-model rebuild remain unconfirmed by Google",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "carry",
+      "arc": "google-models",
+      "arcDay": 30,
+      "confidence": "Agg 1x",
+      "new24h": false,
+      "update": "The prediction-market book moved again: the leading implied date is now 30 July - today - at about 52%, down from the 81% Jul 31 carried yesterday, with a separate line putting 23% on no release by 31 July at all. Confidence is draining rather than transferring to a later date.",
+      "firstSeen": "2026-06-30",
+      "lastUpdate": "2026-07-30",
+      "category": "models"
+    }
+  ],
+  "tracking": [
+    { "id": "amd-core-scientific", "label": "AMD's 529MW of Core Scientific capacity on 15-year leases worth over $14B, with the option to ~2.5GW by Dec 2028 and warrants over 30M shares at $23.47, holds with no new counterparty named", "arc": "compute-landlord", "arcDay": 2 },
+    { "id": "mcp-stateless-spec", "label": "The MCP 2026-07-28 stateless spec holds as shipped - handshake and Mcp-Session-Id removed, servers as OAuth 2.1 resource servers - with no second major client implementation announced since Claude's day-one support", "arc": "agent-protocol", "arcDay": 2 },
+    { "id": "open-secure-ai-alliance", "label": "Nvidia's Open Secure AI Alliance and the NOOA Apache-2.0 agent-auditing framework hold; the membership count still differs by outlet (37 / 40+ / 52) and OpenAI, Google and Anthropic remain absent from every version", "arc": "agent-security", "arcDay": 34 },
+    { "id": "claude-share-indexing", "label": "The indexed Claude share pages no longer surface via the Reddit search technique and Anthropic's position is unchanged; no regulator has opened an inquiry", "arc": "ai-privacy", "arcDay": 2 },
+    { "id": "mdash-patch-tuesday", "label": "Microsoft's record 570 July patches, 316% above July 2025, hold - the MDASH harness now also feeds MAI-Cyber-1-Flash, but no August cadence data exists yet", "arc": "ai-vuln-discovery", "arcDay": 2 },
+    { "id": "stakebench-injection", "label": "StakeBench's finding that no attack scenario was consistently blocked across 3,168 runs on GPT-5- and Gemini-powered web agents holds; no vendor has published a rebuttal or a remediation", "arc": "agent-security", "arcDay": 34 },
+    { "id": "cognizant-emea-ai", "label": "Cognizant's EMEA AI Unit and the IDC 88% agent-pilot failure rate it is sold against hold, as does the wider labs-as-systems-integrator move (Microsoft Frontier, OpenAI Presence, Anthropic Ode, PwC x OpenAI)", "arc": "it-services-ai", "arcDay": 20 },
+    { "id": "cognition-poke", "label": "Cognition's low-nine-figure acquisition of Poke holds, alongside Midjourney/Co-Star and World Labs/SceniX - no fourth lab acquisition this window", "arc": "consolidation", "arcDay": 2 },
+    { "id": "businessnext-servicenow", "label": "ServiceNow's $40M for roughly 5% of BusinessNext at a $700M valuation holds with no further banking-platform investment disclosed", "arc": "money-markets", "arcDay": 2 },
+    { "id": "uk-court-ai", "label": "The UK Ministry of Justice's Crown Court AI legal assistants and HMCTS listing tool hold in controlled environments with no rollout date published", "arc": "public-sector-ai", "arcDay": 2 },
+    { "id": "nvidia-openai-backstop", "label": "Nvidia's discussed guarantee of up to $250B of OpenAI's lease-and-construction financing for the 10GW Ohio campus, plus the separately discussed ~$350B chip line, remains unsigned - today's $5B into SSI is a different structure entirely", "arc": "ai-financing", "arcDay": 3 },
+    { "id": "open-frontier", "label": "No movement on Kimi K3 in the open since the three-provider OpenRouter listing - weights, licence and serving picture unchanged", "arc": "open-frontier", "arcDay": 12 },
+    { "id": "kimi-k3-adoption", "label": "Chinese open models at ~60% of US-company token usage on OpenRouter, with six of the top ten models, holds with no fresh measurement", "arc": "open-model-adoption", "arcDay": 3 },
+    { "id": "zscaler-agent-payments", "label": "Zscaler's in-the-wild finding that 4 of 26 models made the fraudulent crypto payment under indirect prompt injection holds; still no vendor remediation published", "arc": "agent-fraud", "arcDay": 3 },
+    { "id": "illinois-ai-act", "label": "Illinois SB 315, the first US state law mandating independent third-party frontier-AI safety audits, holds with no implementing guidance issued", "arc": "us-states", "arcDay": 3 },
+    { "id": "ferc-large-load", "label": "FERC's six Section 206 show-cause orders on large-load interconnection tariffs hold; the Aug 17 refile deadline is the live date and governs 2028 data-centre grid connections", "arc": "grid-policy", "arcDay": 3 },
+    { "id": "workforce", "label": "The AI-layoff tape holds at roughly 322 events and 205,832 workers for 2026 as of Jul 29, with about 60% of tracked tech cuts linked to AI-driven restructuring and no new sector inflection", "arc": "workforce", "arcDay": 33 },
+    { "id": "china-export", "label": "MOFCOM's consultations with Alibaba, ByteDance and Z.ai on overseas-access restrictions and training-data transfer hold, as does Beijing's H200 boycott and the US licence regime for Blackwell-class parts", "arc": "china-export", "arcDay": 16 },
+    { "id": "eu-transparency-code", "label": "The Article 50 paperwork is complete and static - guidelines adopted Jul 20, signing window shut Jul 22 - and the live question is enforcement on Aug 2, carried on the reg-clock card", "arc": "reg-clock", "arcDay": 51 },
+    { "id": "frontier-models", "label": "Claude Opus 5 (Jul 24, $5/$25 per M, 1M context) and the Opus 5 versus GPT-5.6 Sol leaderboard tension carry; aggregator leaderboards now show Opus 5 at 96% on SWE-bench Verified and 89.1% on Terminal-Bench 2.1 against Sol's 88.8%, unverified by either vendor", "arc": "frontier-models", "arcDay": 7 },
+    { "id": "india-reg", "label": "The RBI's draft Guidance on Regulatory Principles for Model Risk Management remains in consultation, with additional AI-specific requirements flagged under Utkarsh", "arc": "india-reg", "arcDay": 14 },
+    { "id": "ai-for-science", "label": "Anthropic's J-lens interpretability result and the two independent multi-agent co-scientist papers in Nature 655 hold with no replication or rebuttal filed", "arc": "ai-for-science", "arcDay": 12 }
+  ],
+  "movers": [
+    { "dir": "up", "text": "MICROSOFT - Azure accelerates to +43% from 40%, full-year Azure revenue tops $100B, RPO $678B, Copilot past 30M paid seats; shares +7-8% after hours on unchanged ~$190B capex" },
+    { "dir": "down", "text": "META - GAAP EPS $6.18 misses by $1.04 on $2.4B legal and $1.2B severance, operating income -8%, capex floor raised to $130B; shares -9.64% to $529.15" },
+    { "dir": "up", "text": "FED - holds at 3.50-3.75% for a fifth meeting, but 9-3 with Hammack, Kashkari and Logan all dissenting for a 25bp HIKE" },
+    { "dir": "up", "text": "NVIDIA - $5B into Ilya Sutskever's Safe Superintelligence with Vera Rubin access; SSI reportedly moves off Google TPUs onto Nvidia GPUs" },
+    { "dir": "down", "text": "ANTHROPIC - about three hours of worldwide Claude downtime on Jul 29 (19:49-22:36 UTC) with 529 Overloaded errors and 2,000+ Downdetector reports, roughly half of them Claude Code" },
+    { "dir": "down", "text": "CLINICAL AI - Nature Medicine puts OpenEvidence at 89.6% and UpToDate Expert AI at 88.4% on MedQA against Gemini 3.1 Pro's 97.4%, and level with Google's AI Overview on real physician queries" },
+    { "dir": "up", "text": "AI-SECURITY SEED - about $855M across 150+ seed rounds in 2026; Act Security out of stealth at $60M and Hush Security at $30M on the same day" },
+    { "dir": "up", "text": "MEMORY - HBM now takes 23% of global DRAM wafers against 8% in 2024, Micron's HBM is sold out for 2026, and ~$25B of Microsoft's $190B capex is component-price inflation" },
+    { "dir": "up", "text": "META (as seller) - NYT reports Anthropic in early talks to lease more than $10B of Meta compute over two years; unconfirmed and unsigned" },
+    { "dir": "up", "text": "XAI - Musk puts Grok 4.6 (reported ~1.5T parameters) at about Aug 7 and Grok 4.7 (~2.1T) a few weeks later" },
+    { "dir": "down", "text": "GEMINI 3.5 PRO - the market-implied date slides to today at ~52%, with 23% now on no release by Jul 31 at all" }
+  ],
+  "arcs": {
+    "compute-buildout": { "day": 14, "note": "HERO / Developing D1 / Escalated: the verdict lands split - Microsoft +7-8% on flat capex, Meta -9.6% on a raised floor, Fed holds 9-3 with hike dissents" },
+    "ai-financing": { "day": 3, "note": "New #3: Nvidia takes a $5B position in Safe Superintelligence and moves it onto Vera Rubin" },
+    "ai-governance": { "day": 1, "note": "New #4: 1,171 signatures from inside the labs ask Washington to build a pacing mechanism" },
+    "ai-reliability": { "day": 1, "note": "New #5: Claude down worldwide for about three hours on 529 Overloaded" },
+    "compute-landlord": { "day": 2, "note": "New #6: Meta reportedly in early talks to lease Anthropic more than $10B of compute; AMD/Core Scientific holds in Tracking" },
+    "compute-supply": { "day": 9, "note": "New #7 / Thursday deep beat: about $25B of Microsoft's capex is memory-price inflation, not capacity" },
+    "vertical-ai-evidence": { "day": 1, "note": "New #8: Nature Medicine finds frontier models beating specialised clinical AI on all three benchmarks" },
+    "agent-security": { "day": 34, "note": "Developing D3 / New #9: the response turns political and financial - a pacing petition, $90M into agent-permission startups, Project Perception plus MAI-Cyber-1-Flash" },
+    "ai-education": { "day": 1, "note": "New #10: Ohio mandates district AI policies; NYC postpones its own after 6,500 comments" },
+    "frontier-models": { "day": 7, "note": "New #11: Musk signals Grok 4.6 around Aug 7 and 4.7 weeks later; Opus 5 carries in Tracking" },
+    "reg-clock": { "day": 51, "note": "Developing D2 / Escalated: Aug 1 at two days, Aug 2 at three, and California's AI Transparency Act switches on the same morning" },
+    "google-models": { "day": 30, "note": "Developing D4: the market-implied Gemini 3.5 Pro date is today at ~52%, with 23% on no release at all" },
+    "agent-protocol": { "day": 2, "note": "Tracking: the stateless MCP spec holds as shipped" },
+    "it-services-ai": { "day": 20, "note": "Tracking: Cognizant's EMEA unit and the labs-as-integrator move hold" },
+    "open-frontier": { "day": 12, "note": "Tracking: no movement on K3 in the open" }
+  },
+  "resolved": [
+    "T-0 ON THE CAPEX TRADE - CLOSED, AND SPLIT: the Fed held at 3.50-3.75% on a 9-3 vote with all three dissents for a HIKE; Microsoft accelerated Azure to 43%, crossed $100B of annual Azure revenue, left calendar-2026 capex unchanged at ~$190B and rose 7-8%; Meta grew revenue 27.9% but missed EPS by $1.04, cut operating income 8%, raised its capex floor to $130B and fell 9.64%. Edition 041's call that guidance rather than the print would be the mover was correct.",
+    "MICROSOFT'S FY27 CAPEX - PARTIALLY CLOSED AND DELIBERATELY NOT NUMBERED HERE: Amy Hood reiterated calendar-2026 capex at ~$190B and guided to further FY27 growth with FY27 free cash flow positive, but no hard FY27 figure appeared in the reporting reviewed. The widely circulated $255-260B FY27 number came from a pre-print analyst preview and is NOT treated as guidance in this edition.",
+    "GEMINI 3.5 PRO's JUL 31 MARKET DATE - STILL OPEN AND DEGRADING: the leading implied date moved forward to Jul 30 at ~52%, down from 81% on Jul 31 yesterday, with a separate 23% now on no release by Jul 31 at all. Six announced or implied windows have now passed since the May 19 I/O target.",
+    "NEW.24H THIS EDITION: THREE, and that is the honest count - Microsoft's fiscal Q4, Meta's Q2 and the Claude outage all broke after the US close on Jul 29, inside 24h of this edition. The other eight New items carry earlier dates: Nvidia/SSI (Jul 27), the Pacing the Frontier letter and Act Security (Jul 28), the Meta-Anthropic talks (Jul 17-18), the Nature Medicine study (June, reported Jul 29), Ohio/NYC school policy (Jun 10 - Jul 24) and the Grok roadmap post (Jul 28). None of them is badged NEW.24H.",
+    "AUTO-DEMOTE (New -> Tracking): all ten of edition 041's New items drop to one-liners. amd-core-scientific, mcp-stateless-spec, open-secure-ai-alliance, claude-share-indexing, mdash-patch-tuesday, stakebench-injection, cognizant-emea-ai, cognition-poke, businessnext-servicenow and uk-court-ai had no material movement this window.",
+    "PROMOTED (Tracking -> New): compute-supply, dormant at D8, moved into a card as New #7 on Thursday's hardware deep beat - the memory-price share of capex is the first concrete number attached to a thread that had been carrying as a list of supply-side announcements.",
+    "SILENTLY RETIRED (three or more editions, no movement, no known outcome): jacobian-conjecture, openai-ad-forecast, eu-google-dma and physical-ai drop out of Tracking. it-services-ai is folded into the cognizant-emea-ai line rather than carried twice.",
+    "REJECTED AS ALREADY COVERED (surfaced again in this scan, not re-carded): Microsoft's Project Perception and MAI-Cyber-1-Flash (edition 039, carried only inside the agent-security change-line), India GCC/AI hiring including the 510,452 figure (edition 037), Humanoid's $152M Series A (edition 037), Cognizant's EMEA AI Unit (edition 041), AMD/Core Scientific (edition 041) and the Anthropic Bartz $1.5B copyright settlement approved Jul 20 (ai-copyright retired in edition 041).",
+    "DATE-TRAPS EXCLUDED (not padded as New): Anthropic's Claude Science launch and stated intent to develop its own drugs, announced Jun 30 and resurfacing in late-July aggregators; Kimi K3's Jul 17 release; Grok 4.5 and GPT-5.6's July general availability; and Nvidia's Vera Rubin roadmap update, all prior-edition material."
+  ],
+  "deadlines": [
+    { "date": "2026-07-30", "label": "TODAY: Amazon Q2 and Apple fiscal Q3 after the close - Amazon consensus ~$196.7B revenue and $1.82 EPS with AWS growth (28% in Q1, its fastest in fifteen quarters) and roughly $200B of 2026 capex the numbers that matter; Apple consensus ~$108B", "severity": "high" },
+    { "date": "2026-07-31", "label": "Gemini 3.5 Pro: the end of the current market window. The leading implied date is now today at ~52%, with 23% on no release by Jul 31 at all - prediction-market prices, not Google guidance - 1 day", "severity": "medium" },
+    { "date": "2026-08-01", "label": "US: EO 14409's classified cyber-benchmarking process for 'covered frontier models' is due from Treasury, NSA and CISA, alongside the reported voluntary 30-day pre-release framework with OpenAI, Google and Anthropic - 2 days", "severity": "high" },
+    { "date": "2026-08-02", "label": "EU AI Act: the Commission's GPAI enforcement and penalty powers switch on - fines to EUR 15M or 3% of global turnover, with systemic cybersecurity risk named as the supervisory priority. California's AI Transparency Act becomes operative the same morning - 3 days", "severity": "high" },
+    { "date": "2026-08-07", "label": "Grok 4.6: Musk's own signalled window, about two weeks from his Jul 28 post, with 4.7 a few weeks behind it. Founder post, not a dated company release - 8 days", "severity": "low" },
+    { "date": "2026-08-17", "label": "FERC Section 206: all six RTOs/ISOs must justify or refile their large-load interconnection tariffs, 60 days from the Jun 18 show-cause orders - the rules governing 2028 data-centre grid connections - 18 days", "severity": "medium" }
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── deep-link support: #still-tracking / #resolved / #method open the collapsed folds ──
+  var foldMap = {'still-tracking':'fold-tracking','resolved':'fold-resolved','method':'fold-method'};
+  var openFromHash = function(){
+    var id = foldMap[(location.hash||'').replace('#','')];
+    if(id){ var el = document.getElementById(id); if(el){ el.open = true; el.scrollIntoView(); } }
+  };
+  window.addEventListener('hashchange', openFromHash); openFromHash();
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
