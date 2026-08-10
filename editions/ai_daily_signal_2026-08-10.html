@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 053 — 10 August 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+
+  /* collapsible archive sections (Still Tracking / Resolved / method notes) */
+  .fold{border-bottom:3px solid var(--ink);margin-top:26px}
+  .fold[open]{border-bottom-color:var(--rule)}
+  .fold > summary{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:0 0 8px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary small{font-size:10px;color:#6b6353;letter-spacing:1px;font-weight:400}
+  .fold > summary .caret{font-size:11px;color:#6b6353;letter-spacing:0}
+  .fold > summary:hover{color:var(--crit)}
+  .fold[open] > summary .caret::after{content:"▴ HIDE"}
+  .fold:not([open]) > summary .caret::after{content:"▾ SHOW"}
+  .fold .fold-body{padding-bottom:16px}
+  footer .fold{border-bottom:none;margin-top:12px}
+  footer .fold > summary{font-size:11px;letter-spacing:2px}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>GOOGLE</b> Hassabis gives up the Google DeepMind CEO title for Chair + Alphabet Chief Scientist; Kavukcuoglu takes day-to-day as SVP reporting to Pichai; Alphabet −4% &nbsp;◆&nbsp; <b>TEXAS</b> Tesla and SpaceX confirm "Terafab" in Grimes County — $16.8B first phase, 3,000+ jobs, up to ~$119B across all phases &nbsp;◆&nbsp; <b>AMD</b> Record Q2: $11.5B revenue, data centre $6.7B and up 107% YoY — 58% of the company &nbsp;◆&nbsp; <b>SECURITY</b> Horizon3 to $2B+ on a $250M Series E — autonomous pentesting is the first "AI vs AI" category to price &nbsp;◆&nbsp; <b>INDIA</b> 227,991 GCC hires in H1 2026, +11%, two in three roles now needing AI or data skills &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>053</b></span>
+    <span>MONDAY, 10 AUGUST 2026</span>
+    <span class="seg">NEW <b>12</b> · DEVELOPING <b>3</b> · TRACKING <b>41</b></span>
+    <span>CRITICAL <b>2</b> / NOTABLE 10 / MONITOR 3</span>
+    <span>SCAN: 38 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="google-ai-shakeup">
+  <div>
+    <div class="kicker">■ Today's Lead · Developing · Escalated · Models · Day 8 of the talent-flow arc</div>
+    <h2>Hassabis gives up the Google DeepMind CEO title — and yesterday's unresolved claim resolves the other way</h2>
+    <p class="dek">This briefing declined to card a Google reorganisation yesterday because August-dated coverage could not be told apart from the April 2024 Research-into-DeepMind consolidation. That call now settles, and it settles against the consolidation reading: the August event is a <strong>succession at the top</strong>. On <strong>5 August</strong>, <strong>Demis Hassabis</strong> gave up the Google DeepMind CEO title to become <strong>Chair of Google DeepMind and Chief Scientist of Alphabet</strong>, shifting to AGI strategy and scientific applications; <strong>Koray Kavukcuoglu</strong> — DeepMind's CTO and Alphabet's chief AI architect — takes day-to-day operations as <strong>SVP</strong>, reporting to Sundar Pichai rather than holding a stand-alone CEO title, and owns Gemini model development, frontier research and the Gemini app and developer teams (<a href="https://www.bloomberg.com/news/articles/2026-08-05/google-deepmind-boss-hassabis-moves-to-chair-role-in-shakeup">Bloomberg</a>, <a href="https://fortune.com/2026/08/05/demis-hassabis-steps-down-google-deepmind-ai-shakeup/">Fortune</a>, <a href="https://time.com/article/2026/08/06/google-deepmind-ai-demis-hassabis/">TIME</a>). <strong>Jeff Dean</strong> leaves to co-found <strong>Discovery Loop</strong>, a Google-backed AI-science startup, taking colleagues with him — the departures this briefing carried on 9 August without their cause. <strong>Alphabet fell about 4%</strong> on the news (<a href="https://www.axios.com/2026/08/06/googles-ai-leadership-shuffle">Axios</a>). The context reporters keep attaching: the flagship Gemini remains unshipped against a planned June launch.</p>
+    <p class="sowhat">So what: the person who owns your Gemini roadmap changed, and the reporting line moved up to Pichai — that is a product-cadence signal, not a personnel footnote. If Gemini is a single point of failure in your stack, this is the quarter to price a second model in, and to stop treating the missing flagship as a scheduling slip.</p>
+    <span class="chip arc">ARC: TALENT-FLOW · D8</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://www.bloomberg.com/news/articles/2026-08-05/google-deepmind-boss-hassabis-moves-to-chair-role-in-shakeup">Bloomberg (5 Aug)</a> ·
+      <a href="https://fortune.com/2026/08/05/demis-hassabis-steps-down-google-deepmind-ai-shakeup/">Fortune (5 Aug)</a> ·
+      <a href="https://time.com/article/2026/08/06/google-deepmind-ai-demis-hassabis/">TIME (6 Aug)</a> ·
+      <a href="https://www.axios.com/2026/08/06/googles-ai-leadership-shuffle">Axios (6 Aug)</a> ·
+      <a href="https://finance.yahoo.com/technology/ai/articles/google-shakes-up-ai-leadership-as-deepmind-chief-shifts-role-160227886.html">Reuters via Yahoo</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What actually changed.</strong> Hassabis does not leave Alphabet and does not stop running research — he stops running the unit. The new shape is Chair of Google DeepMind plus Chief Scientist of Alphabet, described across the coverage as a formalisation of a shift that had been underway for at least a year, toward AGI strategy and the scientific-application side. Kavukcuoglu's title is <em>SVP of Google DeepMind</em>, not CEO, and he reports to Pichai. The absence of a stand-alone CEO title is the detail worth holding: the unit's operating leadership is now one rung closer to Google proper than it was on 4 August.</p>
+      <p><strong>Why this is the lead rather than a New item.</strong> The id <code>google-ai-shakeup</code> has been carried in Still Tracking since 3 August on the departures alone — Jeff Dean, Sanjay Ghemawat, Oriol Vinyals and Quoc Le, dated 5 August, destination Discovery Loop. What was missing was the cause and the shape at the top, and yesterday's edition recorded that gap explicitly as the first thing to re-run. It re-ran and resolved. Under v2 that is a Developing thread with a decisive event, which outranks the biggest New item for the hero slot.</p>
+      <p><strong>What yesterday got right and wrong.</strong> Right: refusing to print a "DeepMind absorbs Research" card that would have been a two-year-old story. Wrong in emphasis: the August coverage was not primarily about team consolidation at all, so the disambiguation problem was partly self-inflicted by searching for the wrong event. The correction is recorded rather than quietly dropped.</p>
+      <p><strong>What is still not established.</strong> No first-party Google or Alphabet post was reachable in this scan — <code>blog.google</code> is blocked by the network egress proxy from this environment, so the announcement itself has not been read directly, only the wire and magazine coverage of it. The 4% share move is single-sourced here to Axios and repeated in the Reuters-derived wires; it has not been re-checked against a market close. Discovery Loop's funding, headcount and the exact list of who followed Dean are not established. And the "flagship Gemini planned for June, still unshipped" line is reporters' framing attached to the shake-up, not a Google statement.</p>
+      <p><strong>Watch next.</strong> Whether a first-party post appears and whether it names a Gemini date; whether more Gemini-side names follow Dean out inside the month; and whether Kavukcuoglu's first visible decision is a ship or a reorganisation.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>Date</dt><dd>5 August 2026; follow-on coverage 6 August</dd>
+      <dt>Hassabis</dt><dd>Gives up Google DeepMind CEO title → Chair of Google DeepMind + Chief Scientist of Alphabet</dd>
+      <dt>Kavukcuoglu</dt><dd>SVP of Google DeepMind, reporting to Pichai; owns Gemini models, frontier research, Gemini app + developer teams. No stand-alone CEO title</dd>
+      <dt>Jeff Dean</dt><dd>Departs to co-found Discovery Loop, a Google-backed AI-science startup, with colleagues following</dd>
+      <dt>Market</dt><dd>Alphabet ~−4% on 5 August (single-sourced here; not re-checked at a close)</dd>
+      <dt>Unresolved</dt><dd>No first-party Google post reachable — blog.google blocked by the egress proxy. Flagship Gemini still unshipped against a planned June launch (reporters' framing)</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">9</b>/10 — anyone whose roadmap assumes a Gemini ship date, and every lab watching where senior Google researchers land next</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="google-ai-shakeup">
+      <div class="num">1</div>
+      <h4>Google DeepMind's CEO title disappears</h4>
+      <p>Hassabis moves to Chair + Alphabet Chief Scientist; Kavukcuoglu runs it as an SVP reporting to Pichai; Jeff Dean leaves for Discovery Loop; Alphabet −4%. Yesterday's unresolved Google claim resolves — and not as the consolidation story it looked like. <strong>DEVELOPING · ESCALATED.</strong></p>
+    </article>
+    <article class="trip" data-story-id="tesla-spacex-terafab">
+      <div class="num">2</div>
+      <h4>Terafab: $16.8B of Texas silicon, phase one</h4>
+      <p>Tesla and SpaceX confirm a jointly built fab in Grimes County — logic, memory, packaging and test on one site, 3,000+ jobs, over 100M sq ft, a $30M Texas Enterprise Fund grant, and a headline that could reach ~$119B across all phases. The compute build-out stops renting and starts fabricating. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="amd-q2-2026">
+      <div class="num">3</div>
+      <h4>AMD's data centre doubles — and the stock falls anyway</h4>
+      <p>Record $11.5B quarter, data centre $6.7B and +107% YoY at 58% of revenue, Q3 guided $12.7–13.3B. Paired with the $14B Core Scientific lease, AMD now has both the demand and the 1.1GW of floor space. Shares still slipped after hours. <strong>NEW.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>NOT A QUIET DAY, BUT NOT A 24-HOUR ONE EITHER:</strong> twelve items are new to these pages and none is a recycled carry — but <strong>NEW.24H is zero for the third consecutive edition</strong>, and the freshest carded events are 3–6 August. The hero is a promoted Tracking thread, which is the correct v2 outcome when a carried thread produces a decisive event. Also new today: <strong>Horizon3 to $2B+</strong> on a $250M Series E, the first AI-security card in four editions · <strong>India's GCCs</strong> at 227,991 H1 hires with two in three roles needing AI or data skills, the first India card in three editions · <strong>Anthropic's first Chief Global Affairs Officer</strong>, a former California Supreme Court Justice · <strong>China's CAC</strong> issuing its first companion-AI fines · a <strong>Nature 41.3M-paper study</strong> finding AI adopters publish 3.02× more while the collective topic space contracts — Monday's research beat, and seven months old, labelled as such · plus the agent-platform layer moving again (Oracle/Google Cloud, AWS/Superblocks, Gemini Spark driving a logged-in Chrome). Developing carries only three threads because only three moved.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (15)</button>
+    <button class="tab" data-cat="models">MODELS (3)</button>
+    <button class="tab" data-cat="business">BUSINESS (1)</button>
+    <button class="tab" data-cat="policy">POLICY (3)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (4)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (3)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>12 ITEMS · BROKE / SURFACED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="hardware" data-story-id="tesla-spacex-terafab">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#1</span> <span class="cat">HARDWARE · FABS</span></div>
+      <h4>Tesla and SpaceX confirm "Terafab" — $16.8B for a single-site logic, memory, packaging and test complex in Texas</h4>
+      <div class="body">Announced <strong>6 August</strong>: the jointly developed semiconductor factory the two companies have been trailing lands in <strong>Grimes County, Texas</strong>, with an initial investment of <strong>$16.8 billion</strong> and at least <strong>3,000</strong> planned jobs (<a href="https://techcrunch.com/2026/08/06/tesla-and-spacex-will-invest-16-8b-to-start-building-terafab-chip-factory-in-texas/">TechCrunch</a>, <a href="https://electrek.co/2026/08/06/tesla-spacex-terafab-grimes-county-16-8-billion/">Electrek</a>). The structural claim is the site plan rather than the number: <strong>logic, memory, packaging and testing on one campus</strong>, a footprint reported above <strong>100 million square feet</strong>, and a total across all phases put as high as <strong>~$119 billion</strong>. Texas has extended a <strong>$30M Texas Enterprise Fund</strong> grant and the project qualifies under the state's JETI programme (<a href="https://gov.texas.gov/news/post/governor-abbott-announces-spacex-expansion-in-grimes-county">Office of the Governor</a>, <a href="https://qz.com/tesla-spacex-terafab-chip-factory-grimes-county-texas-080626">Quartz</a>). It lands four days after this briefing's hero on SpaceX going NVIDIA-exclusive for orbital compute, and against open speculation about a Tesla–SpaceX merger since June's IPO.</div>
+      <p class="sowhat">Buying GPUs is a procurement decision; building logic and memory and packaging on one site is a bet that the merchant supply chain will not clear at the volume you need. Nothing here ships silicon this decade — but it prices how little the buildout trusts the supply it currently rents.</p>
+      <div><span class="chip arc">ARC: COMPUTE-BUILDOUT · D25</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/08/06/tesla-and-spacex-will-invest-16-8b-to-start-building-terafab-chip-factory-in-texas/">TechCrunch</a> · <a href="https://electrek.co/2026/08/06/tesla-spacex-terafab-grimes-county-16-8-billion/">Electrek</a> · <a href="https://gov.texas.gov/news/post/governor-abbott-announces-spacex-expansion-in-grimes-county">Texas Governor (not fetched — egress blocked)</a> · <a href="https://qz.com/tesla-spacex-terafab-chip-factory-grimes-county-texas-080626">Quartz</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="hardware" data-story-id="amd-q2-2026">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#2</span> <span class="cat">HARDWARE · EARNINGS</span></div>
+      <h4>AMD's data centre more than doubles: $6.7B, +107% YoY, and 58% of the company</h4>
+      <div class="body">Reported <strong>4 August</strong>: record revenue of <strong>$11.5B</strong>, up about 50% year over year, with <strong>data centre at $6.7B and up 107%</strong> on EPYC and Instinct — now <strong>58% of total revenue</strong>. Non-GAAP EPS <strong>$1.66</strong> on <strong>$2.8B</strong> net income (GAAP $1.38 / $2.3B). Client was $3.1B (+23%), embedded $977M (+19%), and gaming fell 31% to $779M on lower semi-custom demand. Q3 is guided to <strong>$12.7–13.3B</strong>, roughly +41% (<a href="https://www.sec.gov/Archives/edgar/data/0000002488/000000248826000121/amdq22026earningsslidesf.htm">AMD 8-K earnings slides</a>, <a href="https://finance.yahoo.com/markets/stocks/articles/amd-q2-2026-earnings-record-202927876.html">Yahoo Finance</a>). The stock fell after hours anyway (<a href="https://www.investing.com/news/company-news/amd-q2-2026-slides-data-center-revenue-doubles-stock-falls-after-hours-93CH-4836240">Investing.com</a>) — a beat priced as already expected.</div>
+      <p class="sowhat">This is the first quarter in which AMD's accelerator business is bigger than everything else it sells combined. If your procurement still models AMD as the hedge you take when NVIDIA is allocated out, the volume no longer supports that framing.</p>
+      <div><span class="chip arc">ARC: GPU-DUOPOLY · D1</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://www.sec.gov/Archives/edgar/data/0000002488/000000248826000121/amdq22026earningsslidesf.htm">SEC 8-K (AMD Q2 slides)</a> · <a href="https://finance.yahoo.com/markets/stocks/articles/amd-q2-2026-earnings-record-202927876.html">Yahoo Finance</a> · <a href="https://www.investing.com/news/company-news/amd-q2-2026-slides-data-center-revenue-doubles-stock-falls-after-hours-93CH-4836240">Investing.com</a> · <a href="https://qz.com/amd-record-revenue-data-center-earnings-q2-2026-080426">Quartz</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="hardware" data-story-id="core-scientific-amd">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#3</span> <span class="cat">HARDWARE · CAPACITY</span></div>
+      <h4>The floor space behind that quarter: AMD leases 530MW from Core Scientific for 15 years, ~$14B</h4>
+      <div class="body">Announced <strong>28 July</strong> alongside Core Scientific's own Q2 and never carded here — a <strong>15-year</strong> infrastructure agreement covering <strong>529–530MW</strong> of critical IT across five campuses in <strong>Texas, Oklahoma, Alabama and Georgia</strong>, worth more than <strong>$14B</strong> in potential base contracted revenue, which <strong>doubles Core Scientific's leased AI capacity to about 1.1GW</strong> (<a href="https://www.datacenterknowledge.com/deals/core-scientific-doubles-ai-capacity-to-1-1-gw-in-14b-amd-deal">Data Center Knowledge</a>, <a href="https://www.cloudcomputing-news.net/news/amd-core-scientific-data-centre-deal/">CloudComputing-News</a>). AMD directly leases <strong>377MW</strong> at Pecos and Hunt County, Texas and Muskogee, Oklahoma; a neocloud takes <strong>152MW</strong> at Auburn, Alabama and Dalton, Georgia. Capacity begins <strong>2027</strong>, and AMD holds an exclusive right to reserve up to <strong>2GW</strong> more (<a href="https://www.techtimes.com/articles/321817/20260728/amd-secures-ai-data-center-capacity-core-scientific-14b-power-play.htm">TechTimes</a>).</div>
+      <p class="sowhat">Read it next to New #2 and the shape is clear: AMD is not just selling more Instinct, it is pre-committing the megawatts those parts need for fifteen years. Power, not wafers, is the constraint being locked down — and the reservation right on another 2GW is the real option value.</p>
+      <div><span class="chip arc">ARC: COMPUTE-BUILDOUT · D25</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.datacenterknowledge.com/deals/core-scientific-doubles-ai-capacity-to-1-1-gw-in-14b-amd-deal">Data Center Knowledge</a> · <a href="https://www.cloudcomputing-news.net/news/amd-core-scientific-data-centre-deal/">CloudComputing-News</a> · <a href="https://www.techtimes.com/articles/321817/20260728/amd-secures-ai-data-center-capacity-core-scientific-14b-power-play.htm">TechTimes</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="horizon3-250m">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#4</span> <span class="cat">BUSINESS · SECURITY</span></div>
+      <h4>Autonomous pentesting prices: Horizon3 raises $250M at $2B+ as "AI vs AI" becomes a category</h4>
+      <div class="body">Announced <strong>3 August</strong>: a <strong>$250M Series E</strong> at a valuation above <strong>$2B</strong>, co-led by existing investors <strong>NightDragon</strong> and <strong>NEA</strong>, oversubscribed, with seven new names including Singapore's <strong>EDBI</strong>, <strong>PSG</strong>, <strong>SAIC</strong> and <strong>Sapphire Ventures</strong> (<a href="https://horizon3.ai/news/press-release/horizon3-raises-250m-series-e-at-2b-valuation-to-lead-the-ai-vs-ai-cybersecurity-era/">Horizon3 press release</a>, <a href="https://techcrunch.com/2026/08/03/horizon3-hits-2-billion-valuation-with-250m-series-e-as-ai-threats-escalate/">TechCrunch</a>). The operating numbers matter more than the mark: <strong>~120% YoY growth</strong>, <strong>approaching $100M ARR</strong>, <strong>7,200+ organisations</strong> protected, and a valuation that has <strong>more than tripled</strong> from the $650M Series D roughly a year ago (<a href="https://siliconangle.com/2026/08/03/horizon3-ai-raises-250m-2b-plus-valuation-autonomous-pentesting/">SiliconANGLE</a>, <a href="https://www.forbes.com/sites/victordey/2026/08/03/horizon3-raises-250-million-as-cybersecuritys-next-war-goes-ai-vs-ai/">Forbes</a>). Money goes to sales and channel across enterprise, mid-market and federal, plus offices in Singapore and Australia.</div>
+      <p class="sowhat">This briefing has carried the agent-security arc for 45 days as a list of CVEs and eval escapes with no commercial counterparty. Horizon3 is the counterparty: continuous automated attack is now a funded product line at real ARR, which means your next pentest finding may arrive daily rather than annually.</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D45</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://horizon3.ai/news/press-release/horizon3-raises-250m-series-e-at-2b-valuation-to-lead-the-ai-vs-ai-cybersecurity-era/">Horizon3 (primary)</a> · <a href="https://techcrunch.com/2026/08/03/horizon3-hits-2-billion-valuation-with-250m-series-e-as-ai-threats-escalate/">TechCrunch</a> · <a href="https://www.forbes.com/sites/victordey/2026/08/03/horizon3-raises-250-million-as-cybersecuritys-next-war-goes-ai-vs-ai/">Forbes</a> · <a href="https://siliconangle.com/2026/08/03/horizon3-ai-raises-250m-2b-plus-valuation-autonomous-pentesting/">SiliconANGLE</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="research" data-story-id="nature-ai-science-narrowing">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#5</span> <span class="cat">RESEARCH · AI FOR SCIENCE</span></div>
+      <h4>Monday's research beat: AI makes individual scientists 3× more prolific and science 4.6% narrower</h4>
+      <div class="body"><strong>Date honesty first: this was published in <em>Nature</em> on 14 January 2026 and is seven months old.</strong> It has never been carried here, the research beat produced no dated August entry, and the finding is the most load-bearing thing this scan surfaced on AI-for-science — so it is carded as new to these pages and explicitly <em>not</em> badged NEW.24H. Hao and colleagues trained a language model to identify AI-augmented work across <strong>41.3 million</strong> English-language natural-science papers published 1980–2025 in biology, chemistry, physics, medicine, materials science and geology, comparing roughly <strong>311,000</strong> AI-using papers against the rest. Adopters publish <strong>3.02× more papers</strong>, receive <strong>4.84× more citations</strong>, and become project leaders <strong>1.37 years earlier</strong>. Collectively, though, AI adoption <strong>shrinks the volume of topics studied by 4.63%</strong> and <strong>cuts engagement between scientists by 22%</strong> — the tools automate crowded established fields rather than open new ones (<a href="https://www.nature.com/articles/s41586-025-09922-y">Nature</a>, <a href="https://www.science.org/content/article/ai-has-supercharged-scientists-may-have-shrunk-science">Science/AAAS</a>, <a href="https://spectrum.ieee.org/ai-science-research-flattens-discovery">IEEE Spectrum</a>).</div>
+      <p class="sowhat">Every AI-for-science pitch this briefing has carried — Robin, the automated-research systems, Discovery Loop as of today — is measured on individual throughput. This is the first large-N evidence that the throughput gain and a contraction in what gets studied are the same effect. If you fund research, the metric to add is topic dispersion, not output.</p>
+      <div><span class="chip arc">ARC: AI-SCIENCE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.nature.com/articles/s41586-025-09922-y">Nature (Hao et al.)</a> · <a href="https://www.science.org/content/article/ai-has-supercharged-scientists-may-have-shrunk-science">Science/AAAS</a> · <a href="https://spectrum.ieee.org/ai-science-research-flattens-discovery">IEEE Spectrum</a> · <a href="https://www.nature.com/articles/d41586-026-01954-2">Nature commentary (2026)</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/41535462/">PubMed</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="policy" data-story-id="anthropic-cuellar">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#6</span> <span class="cat">POLICY · LABS</span></div>
+      <h4>Anthropic names a former state Supreme Court Justice as its first Chief Global Affairs Officer</h4>
+      <div class="body">Announced <strong>4 August</strong>: <strong>Mariano-Florentino "Tino" Cuéllar</strong> becomes Anthropic's first Chief Global Affairs Officer, leading policy, international engagement and government relationships worldwide (<a href="https://www.anthropic.com/news/tino-cuellar">Anthropic</a>). He recently stepped down as president of the <strong>Carnegie Endowment for International Peace</strong>, was a <strong>Justice of the Supreme Court of California</strong> writing on technology, privacy and separation of powers, served as a White House aide under Obama, and currently leads the Harvard Corporation (<a href="https://www.pymnts.com/personnel/2026/anthropic-appoints-former-california-supreme-court-justice-as-first-global-affairs-chief/">PYMNTS</a>, <a href="https://www.business-standard.com/world-news/anthropic-appoints-mariano-florentino-cuellar-as-first-global-affairs-chief-126080401891_1.html">Business Standard</a>). A 2025 study he co-led helped shape <strong>California SB 53</strong>, the whistleblower-protection and incident-reporting law for high-revenue AI developers.</div>
+      <p class="sowhat">The role did not exist until now, and the hire is a judge and a foreign-policy institution head rather than a Washington lobbyist. Read it as labs staffing for adjudication and treaty-shaped engagement, not just for legislative defence.</p>
+      <div><span class="chip arc">ARC: LAB-POLICY · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.anthropic.com/news/tino-cuellar">Anthropic (primary)</a> · <a href="https://www.pymnts.com/personnel/2026/anthropic-appoints-former-california-supreme-court-justice-as-first-global-affairs-chief/">PYMNTS</a> · <a href="https://www.business-standard.com/world-news/anthropic-appoints-mariano-florentino-cuellar-as-first-global-affairs-chief-126080401891_1.html">Business Standard</a> · <a href="https://www.investing.com/news/company-news/anthropic-names-marianoflorentino-cuellar-as-first-global-affairs-chief-93CH-4835401">Investing.com</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="policy" data-story-id="india-gcc-h1-2026">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#7</span> <span class="cat">POLICY · INDIA JOBS</span></div>
+      <h4>India's GCCs hired 227,991 in H1 — and two in three of those roles now need AI or data skills</h4>
+      <div class="body">The first India card in three editions, and it is a jobs card. Global Capability Centres in India made <strong>227,991 hires in H1 2026</strong>, up <strong>11% year on year</strong>, with <strong>nearly two in three new GCC roles</strong> requiring AI, data-science or intelligent-automation skills. <strong>AI, data science and analytics</strong> is the fastest-growing function at <strong>+38% YoY</strong>; technology and software is 31% of GCC hiring, engineering and product R&amp;D 16%, cloud and cybersecurity 11%; tech and BFSI together are 56% of the total. <strong>Bengaluru holds about 30%</strong> of GCC hiring (<a href="https://swarajyamag.com/amp/story/economy/ai-data-skills-now-drive-two-in-three-new-gcc-jobs-in-india-as-hiring-rises-11-per-cent">Swarajya</a>, <a href="https://www.business-standard.com/amp/economy/news/ai-becomes-largest-hiring-driver-as-gccs-ramp-up-demand-for-digital-talent-126070101058_1.html">Business Standard</a>). The contrast is the story: overall Indian white-collar hiring fell <strong>5% month on month and 9% year on year in June</strong>. Nasscom–Zinnov puts the ecosystem at 2,100+ centres, 2.3M professionals and close to $100B in annual revenue (<a href="https://news.outsourceaccelerator.com/india-gcc-hiring-peak/">Outsource Accelerator</a>).</div>
+      <p class="sowhat">GCCs are the counter-cyclical employer in a shrinking Indian white-collar market, and the entry ticket has moved to AI and data. For anyone hiring in Bengaluru, Hyderabad or NCR, the competition for those two-in-three roles is a captive-centre budget, not another startup.</p>
+      <div><span class="chip arc">ARC: INDIA-JOBS · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://swarajyamag.com/amp/story/economy/ai-data-skills-now-drive-two-in-three-new-gcc-jobs-in-india-as-hiring-rises-11-per-cent">Swarajya</a> · <a href="https://www.business-standard.com/amp/economy/news/ai-becomes-largest-hiring-driver-as-gccs-ramp-up-demand-for-digital-talent-126070101058_1.html">Business Standard</a> · <a href="https://news.outsourceaccelerator.com/india-gcc-hiring-peak/">Outsource Accelerator</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="policy" data-story-id="china-companion-enforcement">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#8</span> <span class="cat">POLICY · CHINA</span></div>
+      <h4>China's companion-AI rules start biting: 12 fines, 4.2M RMB in the first weeks</h4>
+      <div class="body">The <strong>Interim Measures for the Administration of AI Anthropomorphic Interactive Services</strong> — co-issued <strong>10 April</strong> by the CAC with the NDRC, MIIT, Ministry of Public Security and SAMR — took effect <strong>15 July</strong>, covering services that simulate personality and provide ongoing emotional interaction, with content requirements, safety assessments, anti-addiction measures and heightened protection for minors and elderly users (<a href="https://www.lw.com/en/insights/china-introduces-rules-for-ai-companion-and-emotional-interaction-services">Latham &amp; Watkins</a>, <a href="https://www.justsecurity.org/148468/china-ai-companion-rules-relationships/">Just Security</a>, <a href="https://iapp.org/news/a/chinas-regulation-on-ai-companions-takes-force">IAPP</a>). <span class="chip rumor">AGG-SOURCED FIGURE</span> Two regulatory trackers now report that in the first three weeks of enforcement the CAC issued <strong>12 fines totalling 4.2M RMB</strong> (<a href="https://cubbbix.com/blog/ai-regulation-august-2026-global-update/">Cubbbix tracker</a>, <a href="https://ethicore.substack.com/p/friday-download-the-august-regulatory">Ethicore</a>) — no CAC enforcement notice was reachable to confirm it. Ceilings are modest: CNY100,000 for simple violations, CNY200,000 where harm to life, health or safety follows. Shanghai's CAC had already stripped <strong>14,000+</strong> non-compliant AI agents in a 26 June pre-deadline sweep, and Doubao and Qwen shut companion features on the effective date (<a href="https://www.caixinglobal.com/2026-07-16/chinas-first-ai-companion-rules-to-curb-addiction-protect-minors-102464887.html">Caixin</a>).</div>
+      <p class="sowhat">The fines are small enough to be a message rather than a deterrent, but this is the world's first enforcement record for a behaviour-and-dependency rule rather than a content rule — the template other regulators will copy if it holds. Treat the 12/4.2M figure as tracker-sourced until a CAC notice surfaces.</p>
+      <div><span class="chip arc">ARC: CHINA-AI-RULES · D1</span><span class="chip rumor">Agg 1x on the fines</span></div>
+      <div class="src"><a href="https://www.lw.com/en/insights/china-introduces-rules-for-ai-companion-and-emotional-interaction-services">Latham &amp; Watkins</a> · <a href="https://www.justsecurity.org/148468/china-ai-companion-rules-relationships/">Just Security</a> · <a href="https://iapp.org/news/a/chinas-regulation-on-ai-companions-takes-force">IAPP</a> · <a href="https://www.caixinglobal.com/2026-07-16/chinas-first-ai-companion-rules-to-curb-addiction-protect-minors-102464887.html">Caixin</a> · <a href="https://cubbbix.com/blog/ai-regulation-august-2026-global-update/">Cubbbix (fines)</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="enterprise" data-story-id="gemini-spark-chrome">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#9</span> <span class="cat">ENTERPRISE · AGENTS</span></div>
+      <h4>Gemini Spark starts driving desktop Chrome — with your logged-in sessions and saved passwords</h4>
+      <div class="body">Reported in the <strong>week of 7 August</strong>: Google's <strong>Gemini Spark</strong> agent can now operate the desktop version of <strong>Chrome</strong>, using <strong>logged-in accounts and saved passwords</strong> to carry out tasks such as booking property viewings or preparing flight searches (<a href="https://aiagentstore.ai/ai-agent-news/this-week">AI Agent Store weekly</a>). Spark runs as a cloud agent that keeps working with the device off, priced at <strong>$99.99/month</strong> and included in the AI Ultra plan (<a href="https://www.aiapps.com/blog/ai-news-august-breakthroughs-launches-trends-cant-miss/">AIapps</a>). Single-tracker sourcing; no first-party Google post was reachable in this scan.</div>
+      <p class="sowhat">This is the lethal-trifecta configuration shipped as a consumer feature: an agent with private data, untrusted web content and credentialed action in one loop. If you run a site that authenticates humans, an agent with the user's saved password is now part of your threat model.</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D45</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://aiagentstore.ai/ai-agent-news/this-week">AI Agent Store (week of 7 Aug)</a> · <a href="https://www.aiapps.com/blog/ai-news-august-breakthroughs-launches-trends-cant-miss/">AIapps</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="oracle-google-agent-studio">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#10</span> <span class="cat">ENTERPRISE · PLATFORMS</span></div>
+      <h4>Oracle puts Gemini inside Fusion — AI Agent Studio gets a unified builder and Google models</h4>
+      <div class="body">Reported in the <strong>week of 7 August</strong>: Oracle updated <strong>AI Agent Studio</strong> with a unified AI-native builder combining no-code, low-code and professional tooling for Fusion Agentic Applications, and expanded its partnership with <strong>Google Cloud</strong> so that <strong>Gemini 3.1 Flash-Lite</strong> and <strong>Gemini 3.5 Flash</strong> are available directly inside Agent Studio and as embedded AI in <strong>Fusion Cloud Applications and NetSuite</strong> (<a href="https://aiagentstore.ai/ai-agent-news/this-week">AI Agent Store weekly</a>, <a href="https://agentic.ai/news">Agentic.ai</a>). Tracker-sourced; no Oracle or Google press release was reachable in this scan.</div>
+      <p class="sowhat">Gemini reaching ERP and NetSuite by default is a bigger distribution event than most model launches — it puts a Google model in the systems of record without anyone choosing it. Check whether your Fusion tenant now has an embedded model you have not reviewed.</p>
+      <div><span class="chip arc">ARC: AGENT-PLATFORM-WAR · D1</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://aiagentstore.ai/ai-agent-news/this-week">AI Agent Store (week of 7 Aug)</a> · <a href="https://agentic.ai/news">Agentic.ai</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="aws-superblocks">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#11</span> <span class="cat">ENTERPRISE · PARTNERSHIPS</span></div>
+      <h4>AWS and Superblocks sign a multiyear deal for AI app development inside customers' own VPCs</h4>
+      <div class="body">Reported in the <strong>week of 7 August</strong>: <strong>AWS</strong> entered a multiyear partnership with <strong>Superblocks</strong> letting enterprises run AI-powered application development <strong>entirely within their own private AWS environments</strong> — corporate data stays inside customer infrastructure, with integration into <strong>Amazon Bedrock</strong> and existing security controls (<a href="https://aiagentstore.ai/ai-agent-news/this-week">AI Agent Store weekly</a>). Tracker-sourced; terms not disclosed in the material reachable here.</div>
+      <p class="sowhat">The interesting term is the boundary, not the deal size: "AI app building that never leaves your VPC" is the shape regulated buyers have been asking for since agent pilots started failing procurement. Expect the same packaging from the other hyperscalers.</p>
+      <div><span class="chip arc">ARC: AGENT-PLATFORM-WAR · D1</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://aiagentstore.ai/ai-agent-news/this-week">AI Agent Store (week of 7 Aug)</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="cognizant-emea-ai-unit">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#12</span> <span class="cat">ENTERPRISE · SERVICES</span></div>
+      <h4>Cognizant stands up an EMEA AI unit aimed squarely at the failed-pilot problem</h4>
+      <div class="body">Dated <strong>28 July</strong> and never carded here: Cognizant launched an <strong>EMEA AI unit</strong> to help enterprises across Europe, the Middle East and Africa move agentic AI from stalled pilots into production, with a first cohort of certified engineers planned by <strong>Q4 2026</strong> (<a href="https://www.techtimes.com/articles/321781/20260728/cognizant-launches-emea-ai-unit-enterprise-agent-pilots-fail-scale.htm">TechTimes</a>). Single-source. It attaches directly to the tracked IDC finding that 88% of agent proofs-of-concept never reach broad production.</div>
+      <p class="sowhat">When the integrators build dedicated units around a failure mode, the failure mode is now a market. That is a better read on the pilot-to-production gap than another survey.</p>
+      <div><span class="chip arc">ARC: AGENT-PLATFORM-WAR · D1</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://www.techtimes.com/articles/321781/20260728/cognizant-launches-emea-ai-unit-enterprise-agent-pilots-fail-scale.htm">TechTimes</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="models" data-story-id="google-ai-shakeup">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">D1</span> <span class="cat">MODELS · GOVERNANCE</span></div>
+      <h4>Hassabis to Chair, Kavukcuoglu to SVP: the Google DeepMind succession, in full above</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Promoted from Still Tracking, and yesterday's explicitly recorded open question is answered. The 5 August event is a CEO-level succession, not the team consolidation the ambiguous coverage suggested: Hassabis takes Chair of Google DeepMind plus Chief Scientist of Alphabet; Kavukcuoglu runs day-to-day as SVP reporting to Pichai with no stand-alone CEO title; Jeff Dean's destination is confirmed as Discovery Loop, a Google-backed AI-science startup; Alphabet fell about 4%.</div>
+      <div class="body">The full brief is in the hero. Carried since 3 August on the departures alone — Dean, Ghemawat, Vinyals and Le, dated 5 August — the thread now has its cause. The remaining gap is first-party: <code>blog.google</code> is blocked by the egress proxy from this environment, so no Google or Alphabet post has been read directly, and the share move is single-sourced to <a href="https://www.axios.com/2026/08/06/googles-ai-leadership-shuffle">Axios</a> and the Reuters-derived wires rather than re-checked at a close (<a href="https://www.bloomberg.com/news/articles/2026-08-05/google-deepmind-boss-hassabis-moves-to-chair-role-in-shakeup">Bloomberg</a>, <a href="https://fortune.com/2026/08/05/demis-hassabis-steps-down-google-deepmind-ai-shakeup/">Fortune</a>, <a href="https://time.com/article/2026/08/06/google-deepmind-ai-demis-hassabis/">TIME</a>).</div>
+      <p class="sowhat">Your Gemini roadmap has a new owner and a shorter reporting line to Pichai. Price a second model into anything that assumes a Gemini ship date this half.</p>
+      <div><span class="chip arc">ARC: TALENT-FLOW · D8</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-08-05/google-deepmind-boss-hassabis-moves-to-chair-role-in-shakeup">Bloomberg</a> · <a href="https://fortune.com/2026/08/05/demis-hassabis-steps-down-google-deepmind-ai-shakeup/">Fortune</a> · <a href="https://time.com/article/2026/08/06/google-deepmind-ai-demis-hassabis/">TIME</a> · <a href="https://www.axios.com/2026/08/06/googles-ai-leadership-shuffle">Axios</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="openai-august-retirements">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D2</span> <span class="cat">MODELS · LIFECYCLE</span></div>
+      <h4>Atlas is gone. Three OpenAI dates left in August, and o3 is the one with weight</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> De-escalated, because the imminent one executed. Atlas stopped working on 9 August as OpenAI's published release notes said it would; no revision, no slip, and nothing new was added to the schedule in this scan. The thread drops from critical to notable — what remains is a 17-day runway to o3 rather than a deadline in the next 24 hours.</div>
+      <div class="body">Remaining published dates: <strong>o3 leaves ChatGPT on 26 August</strong> at the end of its 90-day sunset, the official <strong>DALL·E GPT retires 30 August</strong>, and <strong>GPT-5.4 and GPT-5.4 mini are removed from Codex</strong> for signed-in users on <strong>31 August</strong> (<a href="https://help.openai.com/en/articles/6825453-chatgpt-release-notes">OpenAI ChatGPT release notes</a>, <a href="https://help.openai.com/en/articles/9624314-model-release-notes">OpenAI model release notes</a>). Separately, the Claude Developer Platform retires the legacy Workbench and experimental prompt-tools APIs on <strong>17 August</strong> — saved legacy prompts, variables and evals need exporting before then. The 31 August Codex removal shares its date with Claude Sonnet 5's introductory pricing ending, so two default-tier changes land together.</div>
+      <p class="sowhat">o3 is the migration with real weight left: it is the model most likely pinned in an eval harness someone wrote in May and has not opened since. Seventeen days.</p>
+      <div><span class="chip arc">ARC: MODEL-LIFECYCLE · D5</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://help.openai.com/en/articles/6825453-chatgpt-release-notes">OpenAI ChatGPT release notes</a> · <a href="https://help.openai.com/en/articles/9624314-model-release-notes">OpenAI model release notes</a> · <a href="https://releasebot.io/updates/openai">Releasebot</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="openai-free-unlimited">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D3</span> <span class="cat">MODELS · PRICING</span></div>
+      <h4>The free-tier cap lifts this week — and a tracker now says the Think button comes with it</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The calendar arrived: this is the week of 10 August, when the ~10-messages-per-5-hours cap goes and GPT-5.6 Luna becomes the Free and Go default. One substantive discrepancy opened alongside it — a model-update tracker now reports Free and Go users also getting a new <strong>Think</strong> button for harder questions, subject to abuse guardrails, which contradicts the 6 August reporting that step-by-step reasoning stays reserved for Plus and Pro. Flagged rather than resolved; no OpenAI post settling it was reachable.</div>
+      <div class="body">The announced package from <strong>6 August</strong>: unlimited text chats for free accounts, no credit card, with limits retained on file uploads, image generation and custom GPTs (<a href="https://techcrunch.com/2026/08/06/openai-brings-unlimited-chatgpt-text-chats-to-free-users/">TechCrunch</a>, <a href="https://www.macrumors.com/2026/08/06/chatgpt-free-unlimited-text-chats/">MacRumors</a>, <a href="https://www.pymnts.com/news/artificial-intelligence/2026/openai-drops-chatgpt-limits-for-free-users-and-upgrades-paid-tiers/">PYMNTS</a>). The tracker-sourced addition also has Plus and Pro getting an updated <strong>GPT-5.6 Sol</strong> in ChatGPT with a slider controlling how much thought a response gets (<a href="https://llm-stats.com/llm-updates">LLM-Stats updates</a>, <a href="https://www.digitalapplied.com/blog/ai-model-releases-august-2026-tracker">Digital Applied tracker</a>).</div>
+      <p class="sowhat">If the Think button really reaches the free tier, the paywall moves off reasoning entirely and onto tools and file handling — a materially different competitive position from the one announced on 6 August. Worth confirming before you reprice anything.</p>
+      <div><span class="chip arc">ARC: MODEL-PRICING · D11</span><span class="chip">2x SRC</span><span class="chip rumor">DISCREPANCY FLAGGED</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/08/06/openai-brings-unlimited-chatgpt-text-chats-to-free-users/">TechCrunch</a> · <a href="https://www.macrumors.com/2026/08/06/chatgpt-free-unlimited-text-chats/">MacRumors</a> · <a href="https://www.pymnts.com/news/artificial-intelligence/2026/openai-drops-chatgpt-limits-for-free-users-and-upgrades-paid-tiers/">PYMNTS</a> · <a href="https://llm-stats.com/llm-updates">LLM-Stats</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING (collapsed by default) ══════════ -->
+<details class="fold" id="fold-tracking">
+  <summary>Still Tracking <small>41 LONG-RUNNERS · NO MOVEMENT THIS EDITION</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="tracking-strip" id="tracking-strip"></div></div>
+</details>
+
+<!-- ══════════ RESOLVED (collapsed by default) ══════════ -->
+<details class="fold" id="fold-resolved">
+  <summary>Resolved <small>OPEN THREADS, CLOSED</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="resolved-strip" id="resolved-strip"></div></div>
+</details>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 053 · 2026-08-10 (IST) · FORMAT v2</strong></p>
+    <details class="fold" id="fold-method">
+      <summary>Method, scan gaps &amp; caveats <span class="caret"></span></summary>
+      <div class="fold-body">
+        <p>METHOD: 38 web searches against a 20–28 target, split across models and core technology, open-weight releases, agents and tooling, AI security, hardware and compute, research (arXiv, Nature, Science), applied and enterprise AI, products, funding and earnings, regulation (China, EU, US, UK, India) and the regional jobs beat. Monday's rotation put the deep beat on <strong>research</strong>. v2 splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING (long-runners with no movement). Hero is the biggest new item unless a developing thread had a major escalation — today it did, so the hero is a promoted Tracking thread. Aggregator claims are cross-checked against ≥2 outlets where possible; single-source and tracker-only items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 is breadth of who must act.</p>
+        <p>SCAN BREADTH — WHY 38 AND NOT 28: the same cause as yesterday, and it has now recurred often enough to be a standing condition of this environment rather than an incident. <strong>Every direct page fetch attempted was refused by the network egress proxy</strong> — gov.texas.gov, blog.google, axios.com, techstartups.com and nature.com were each tried and each blocked. Every date, figure and attribution therefore had to be established by additional search passes instead of by reading a source page, and roughly a third of the searches were verification rather than discovery. Three of those verification passes changed the edition: one confirmed the Google DeepMind succession that yesterday's edition declined to card; one <em>killed</em> a candidate card — an aggregator's claim that the UK's AI Regulation and Safety Bill had cleared the Commons with Royal Assent expected by October, which parliamentary and law-firm sources contradict flatly (no AI Bill sits before Parliament as of May 2026); and one dated the Nature AI-for-science study to 14 January 2026, which is why it carries an explicit age disclosure instead of a NEW.24H badge.</p>
+        <p>DATE HONESTY: NEW.24H is <strong>zero for the third consecutive edition</strong>. Nothing dated 8, 9 or 10 August surfaced across models, applied AI, policy, security, hardware, research, robotics or the regional jobs beat. The freshest carded events are 3–6 August (Horizon3, AMD's Q2, Cuéllar, the DeepMind succession, Terafab). Four cards are materially older and say so on their face: Core Scientific/AMD is 28 July, Cognizant's EMEA unit is 28 July, the India GCC figures are an H1 report first covered in early July, and the Nature study is 14 January. All are new to these pages and none is badged as breaking. Three consecutive zero-24h days is a statement about the window, not a scan failure — but a fourth would be worth treating as one.</p>
+        <p>SOURCE CAVEATS BY CARD: <strong>Terafab</strong> — the Texas Governor's release is cited but was not fetched; the ~$119B all-phases figure and the &gt;100M sq ft footprint are reported, not filed. <strong>AMD Q2</strong> — the SEC 8-K earnings slides are the primary source and the only card today resting on a filing; the after-hours share move is single-sourced. <strong>Core Scientific</strong> — the capacity figure appears as both 529MW and 530MW across outlets; $14B is <em>potential base contracted revenue</em> over fifteen years, not booked revenue. <strong>Horizon3</strong> — company press release plus three outlets; the ~$100M ARR and 120% growth figures are company-stated. <strong>Nature study</strong> — the paper is real and multi-sourced (Nature, Science/AAAS, IEEE Spectrum, PubMed 41535462) but seven months old. <strong>China companion fines</strong> — the rules are documented by Latham, Just Security, IAPP and Caixin, but the 12-fines/4.2M-RMB figure rests on two regulatory trackers with no reachable CAC notice, and is chip-flagged accordingly. <strong>Gemini Spark, Oracle/Google, AWS/Superblocks</strong> — all three rest on the same weekly agent-news tracker with no reachable first-party post; they are carded as monitor-tier or flagged Agg 1x for that reason, and the Gemini Spark card's security framing is this briefing's read, not a reported claim. <strong>Cognizant</strong> — single source. <strong>OpenAI free tier</strong> — a genuine contradiction between the 6 August reporting (Think stays Plus/Pro) and a tracker (Think reaches Free/Go) is printed as a flagged discrepancy rather than resolved in either direction.</p>
+        <p>GENUINE GAPS THIS EDITION: (1) <strong>no dated August research entry</strong> — the deep beat was research and it produced no paper this briefing could date inside the window, so a seven-month-old Nature study carries the beat with an age disclosure; the arXiv cs.MA listings show early-August submissions on agent scaling and multi-agent reasoning but no individual paper could be dated and attributed reliably. (2) <strong>No open-weight movement for the third edition running</strong> — Qwen3.8-Max's promised weights are still not on Hugging Face and still have no named licence, on the day its window opens. (3) <strong>No frontier model shipped</strong> in this window for the third consecutive edition. (4) <strong>No first-party page was read directly for any card</strong>, including the hero — the Anthropic, Horizon3 and SEC links are cited from search-result metadata, not fetched. (5) The <strong>White House AI safety framework meeting</strong> reported for 4 August with OpenAI, Anthropic and Google attending produced no readable outcome, so the tracked <code>wh-ai-cyber-tests</code> thread stays a one-liner. (6) <strong>UK</strong> produced no card after the tracker claim above was disproved. (7) The <strong>Alphabet −4%</strong> figure and Discovery Loop's funding, headcount and full departure list remain unestablished.</p>
+        <p>NOTE: Links point to sources found during the scan; where only an outlet root, a tracker or a roundup was available it is labelled as such, and pages that could not be fetched are marked. Nothing here is investment advice.</p>
+      </div>
+    </details>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 53,
+  "date": "2026-08-10",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 38,
+  "counts": {"new": 12, "developing": 3, "tracking": 41},
+  "tiers": {"critical": 2, "notable": 10, "monitor": 3},
+  "stories": [
+    {"id":"tesla-spacex-terafab","section":"new","rank":1,"title":"Tesla and SpaceX confirmed on 6 August that their jointly developed semiconductor factory, Terafab, will be built in Grimes County, Texas, with a $16.8B initial investment, at least 3,000 planned jobs, logic, memory, packaging and testing on a single campus, a reported footprint above 100 million square feet and total spending across all phases put as high as ~$119B; Texas extended a $30M Texas Enterprise Fund grant and the project qualifies under the state JETI programme","tier":"critical","impact":8,"delta":"new","arc":"compute-buildout","arcDay":25,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-10","lastUpdate":"2026-08-10","category":"hardware"},
+    {"id":"amd-q2-2026","section":"new","rank":2,"title":"AMD reported Q2 on 4 August: record revenue of $11.5B up about 50% YoY, data centre revenue of $6.7B up 107% YoY and 58% of total revenue on EPYC and Instinct, non-GAAP EPS $1.66 on $2.8B net income (GAAP $1.38 / $2.3B), client $3.1B +23%, embedded $977M +19%, gaming down 31% to $779M, Q3 guided $12.7-13.3B (~+41%); shares fell after hours","tier":"notable","impact":7,"delta":"new","arc":"gpu-duopoly","arcDay":1,"confidence":"Primary","new24h":false,"firstSeen":"2026-08-10","lastUpdate":"2026-08-10","category":"hardware"},
+    {"id":"core-scientific-amd","section":"new","rank":3,"title":"Announced 28 July alongside Core Scientific's Q2 and never previously carded: a 15-year infrastructure agreement with AMD covering 529-530MW of critical IT across five campuses in Texas, Oklahoma, Alabama and Georgia, worth more than $14B in potential base contracted revenue, doubling Core Scientific's leased AI capacity to about 1.1GW; AMD directly leases 377MW, a neocloud 152MW; capacity begins 2027 and AMD holds an exclusive right to reserve up to 2GW more","tier":"notable","impact":7,"delta":"new","arc":"compute-buildout","arcDay":25,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-10","lastUpdate":"2026-08-10","category":"hardware"},
+    {"id":"horizon3-250m","section":"new","rank":4,"title":"Horizon3 announced a $250M Series E on 3 August at a valuation above $2B, co-led by NightDragon and NEA and oversubscribed with seven new investors including EDBI, PSG, SAIC and Sapphire Ventures; company-stated ~120% YoY growth, approaching $100M ARR and 7,200+ organisations protected, with the valuation more than tripled from a $650M Series D about a year ago; proceeds to sales and channel plus Singapore and Australia offices","tier":"notable","impact":7,"delta":"new","arc":"agent-security","arcDay":45,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-10","lastUpdate":"2026-08-10","category":"business"},
+    {"id":"nature-ai-science-narrowing","section":"new","rank":5,"title":"Monday's research beat, carded with an explicit age disclosure: a Nature study published 14 January 2026 (Hao et al.) trained a language model to identify AI-augmented work across 41.3 million natural-science papers 1980-2025, comparing ~311,000 AI-using papers against the rest; adopters publish 3.02x more papers, receive 4.84x more citations and lead projects 1.37 years earlier, while AI adoption shrinks the collective volume of topics studied by 4.63% and cuts engagement between scientists by 22%","tier":"notable","impact":7,"delta":"new","arc":"ai-science","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-10","lastUpdate":"2026-08-10","category":"research"},
+    {"id":"anthropic-cuellar","section":"new","rank":6,"title":"Anthropic announced on 4 August that Mariano-Florentino 'Tino' Cuellar becomes its first Chief Global Affairs Officer, leading policy, international engagement and government relationships worldwide; he recently stepped down as president of the Carnegie Endowment for International Peace, was a Justice of the Supreme Court of California, served as a White House aide under Obama and currently leads the Harvard Corporation, and co-led a 2025 study that helped shape California SB 53","tier":"notable","impact":6,"delta":"new","arc":"lab-policy","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-10","lastUpdate":"2026-08-10","category":"policy"},
+    {"id":"india-gcc-h1-2026","section":"new","rank":7,"title":"First India card in three editions: Global Capability Centres in India made 227,991 hires in H1 2026, up 11% YoY, with nearly two in three new GCC roles requiring AI, data-science or intelligent-automation skills; AI/data-science/analytics is the fastest-growing function at +38% YoY, technology and software 31% of GCC hiring, engineering and product R&D 16%, cloud and cybersecurity 11%, tech plus BFSI 56% of the total, Bengaluru about 30%; overall Indian white-collar hiring fell 5% MoM and 9% YoY in June. Underlying report is early-July dated, newly covered here","tier":"notable","impact":6,"delta":"new","arc":"india-jobs","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-10","lastUpdate":"2026-08-10","category":"policy"},
+    {"id":"china-companion-enforcement","section":"new","rank":8,"title":"China's Interim Measures for the Administration of AI Anthropomorphic Interactive Services, co-issued 10 April by the CAC with the NDRC, MIIT, Ministry of Public Security and SAMR, took effect 15 July with content requirements, safety assessments, anti-addiction measures and heightened protection for minors and elderly users; two regulatory trackers report the CAC issued 12 fines totalling 4.2M RMB in the first three weeks, a figure with no reachable CAC notice; penalty ceilings are CNY100,000 simple and CNY200,000 where harm follows; Shanghai's CAC stripped 14,000+ non-compliant AI agents on 26 June and Doubao and Qwen shut companion features on the effective date","tier":"notable","impact":6,"delta":"new","arc":"china-ai-rules","arcDay":1,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-08-10","lastUpdate":"2026-08-10","category":"policy"},
+    {"id":"gemini-spark-chrome","section":"new","rank":9,"title":"Reported in the week of 7 August: Google's Gemini Spark agent can now operate desktop Chrome using logged-in accounts and saved passwords for tasks such as booking property viewings or preparing flight searches; Spark runs as a cloud agent that continues working with the device off, priced at $99.99/month and included in the AI Ultra plan. Single-tracker sourcing, no first-party Google post reachable; the lethal-trifecta security framing is this briefing's read, not a reported claim","tier":"notable","impact":6,"delta":"new","arc":"agent-security","arcDay":45,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-08-10","lastUpdate":"2026-08-10","category":"enterprise"},
+    {"id":"oracle-google-agent-studio","section":"new","rank":10,"title":"Reported in the week of 7 August: Oracle updated AI Agent Studio with a unified AI-native builder combining no-code, low-code and professional tooling for Fusion Agentic Applications, and expanded its Google Cloud partnership so Gemini 3.1 Flash-Lite and Gemini 3.5 Flash are available directly inside Agent Studio and embedded in Fusion Cloud Applications and NetSuite. Tracker-sourced, no first-party release reachable","tier":"monitor","impact":5,"delta":"new","arc":"agent-platform-war","arcDay":1,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-08-10","lastUpdate":"2026-08-10","category":"enterprise"},
+    {"id":"aws-superblocks","section":"new","rank":11,"title":"Reported in the week of 7 August: AWS entered a multiyear partnership with Superblocks letting enterprises run AI-powered application development entirely inside their own private AWS environments, keeping corporate data in customer infrastructure and integrating with Amazon Bedrock and existing security controls; terms not disclosed in reachable material. Tracker-sourced","tier":"monitor","impact":5,"delta":"new","arc":"agent-platform-war","arcDay":1,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-08-10","lastUpdate":"2026-08-10","category":"enterprise"},
+    {"id":"cognizant-emea-ai-unit","section":"new","rank":12,"title":"Dated 28 July and never previously carded: Cognizant launched an EMEA AI unit to help enterprises across Europe, the Middle East and Africa move agentic AI from stalled pilots into production, with a first cohort of certified engineers planned by Q4 2026; single-source, and it attaches to the tracked IDC finding that 88% of agent proofs-of-concept never reach broad production","tier":"monitor","impact":4,"delta":"new","arc":"agent-platform-war","arcDay":1,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-08-10","lastUpdate":"2026-08-10","category":"enterprise"},
+    {"id":"google-ai-shakeup","section":"developing","rank":1,"title":"HERO: on 5 August Demis Hassabis gave up the Google DeepMind CEO title to become Chair of Google DeepMind and Chief Scientist of Alphabet, shifting to AGI strategy and scientific applications; Koray Kavukcuoglu, DeepMind CTO and Alphabet chief AI architect, takes day-to-day operations as SVP reporting to Sundar Pichai with no stand-alone CEO title, owning Gemini model development, frontier research and the Gemini app and developer teams; Jeff Dean departs to co-found Discovery Loop, a Google-backed AI-science startup, taking colleagues with him; Alphabet fell about 4%; the flagship Gemini remains unshipped against a planned June launch (reporters' framing). No first-party Google post was reachable - blog.google is blocked by the egress proxy","tier":"critical","impact":9,"delta":"escalated","arc":"talent-flow","arcDay":8,"confidence":"2x src","new24h":false,"update":"Promoted from Still Tracking and yesterday's recorded open question is answered: the 5 August event is a CEO-level succession, not the team consolidation the ambiguous coverage suggested. Hassabis to Chair plus Alphabet Chief Scientist, Kavukcuoglu to SVP reporting to Pichai, Jeff Dean's destination confirmed as Discovery Loop, Alphabet about -4%","firstSeen":"2026-08-03","lastUpdate":"2026-08-10","category":"models"},
+    {"id":"openai-august-retirements","section":"developing","rank":2,"title":"Atlas stopped working on 9 August exactly as OpenAI's published release notes said; remaining published dates are o3 leaving ChatGPT on 26 August at the end of its 90-day sunset, the official DALL-E GPT retiring 30 August, and GPT-5.4 and GPT-5.4 mini removed from Codex for signed-in users on 31 August; separately the Claude Developer Platform retires the legacy Workbench and experimental prompt-tools APIs on 17 August, so saved legacy prompts, variables and evals need exporting first","tier":"notable","impact":6,"delta":"deescalated","arc":"model-lifecycle","arcDay":5,"confidence":"Primary","new24h":false,"update":"De-escalated because the imminent one executed: Atlas stopped working on 9 August with no revision and no slip, and nothing was added to the schedule in this scan. Critical to notable - what remains is a 17-day runway to o3 rather than a deadline inside 24 hours","firstSeen":"2026-08-06","lastUpdate":"2026-08-10","category":"models"},
+    {"id":"openai-free-unlimited","section":"developing","rank":3,"title":"The 6 August package takes effect this week: the roughly 10-messages-per-5-hours cap is removed, free ChatGPT accounts get unlimited text chats with no credit card, and GPT-5.6 Luna becomes the Free and Go default, with limits retained on file uploads, image generation and custom GPTs; a model-update tracker separately reports Free and Go users receiving a new Think button subject to abuse guardrails, which contradicts the 6 August reporting that step-by-step reasoning stays reserved for Plus and Pro, and reports Plus and Pro getting an updated GPT-5.6 Sol with a slider controlling response effort","tier":"notable","impact":6,"delta":"carry","arc":"model-pricing","arcDay":11,"confidence":"2x src","new24h":false,"update":"The calendar arrived - this is the week of 10 August when the cap goes and Luna becomes the Free and Go default. One substantive discrepancy opened alongside it: a tracker now puts the Think button on Free and Go, contradicting the 6 August reporting. Flagged rather than resolved; no OpenAI post settling it was reachable","firstSeen":"2026-08-09","lastUpdate":"2026-08-10","category":"models"}
+  ],
+  "tracking": [
+    {"id":"spacex-nvidia-starmind","label":"DEMOTED FROM NEW (hero of edition 052): SpaceX's exclusive NVIDIA commitment for ground and orbital AI compute and the FCC filing for up to a million data-centre satellites hold, with no dated follow-up. Today's Terafab card is a different SpaceX silicon story, not movement on this one","arc":"compute-buildout","arcDay":25},
+    {"id":"amd-taalas","label":"DEMOTED FROM NEW: AMD's acquisition of Toronto inference-silicon startup Taalas holds at 6 August, terms undisclosed, expected to close Q4 2026 subject to regulatory approval. Today's AMD Q2 and Core Scientific cards are the same company, not this deal","arc":"post-hbm-inference","arcDay":4},
+    {"id":"anthropic-chip-team","label":"DEMOTED FROM NEW: Anthropic's confirmed in-house chip team targeting roughly 50% lower per-token inference cost holds; the Samsung leg remains reported, not confirmed","arc":"lab-silicon","arcDay":2},
+    {"id":"hadrian-137b","label":"DEMOTED FROM NEW: Hadrian's $1.37B Series D at $7.87B for AI-run factories holds with no dated follow-up","arc":"industrial-ai","arcDay":2},
+    {"id":"happyrobot-150m","label":"DEMOTED FROM NEW: HappyRobot's $150M Series C at $1.2B, 150+ enterprise customers and the 28,000-hours-a-month automation claim hold","arc":"ai-roi","arcDay":5},
+    {"id":"rentosertib-fast-track","label":"DEMOTED FROM NEW: rentosertib's FDA Fast Track holds, with the estimated Phase III start on 30 August still on the radar and still against zero approved AI-discovered drugs","arc":"ai-drug-approval","arcDay":2},
+    {"id":"h1-2026-510b","label":"DEMOTED FROM NEW: the record $510B H1 2026 global startup funding figure and the $217B / 43% OpenAI-plus-Anthropic concentration hold; the Crunchbase week-of-7-August roundup reports three billion-dollar-plus rounds but its line-up could not be read","arc":"ai-capital-markets","arcDay":3},
+    {"id":"gallup-ai-nonuse-layoffs","label":"DEMOTED FROM NEW: Gallup's 18% layoff rate for AI non-users against 6% for users holds unchanged","arc":"workforce","arcDay":44},
+    {"id":"byd-humanoid-august","label":"DEMOTED FROM NEW: BYD's first humanoid is still due this month with no date; the surrounding ledger is unchanged - Chery's Aimoga at about $42,000 retail, XPeng's Iron targeting 1,000+ units a month, Figure 03 past 1,000 units, AgiBot at 15,000 cumulative","arc":"embodied-ai","arcDay":12},
+    {"id":"workforce","label":"DEMOTED FROM DEVELOPING at D44: the AI-attribution ledger is unchanged at 322 layoff events and 205,832 workers as of 8 August, and the three-way disagreement between 1%, ~50,000 and 87,714 did not move. Oracle's 21,000 over twelve months, Microsoft's 4,800, GitLab's ~350 and Cisco's ~4,000 remain the largest named cuts","arc":"workforce","arcDay":44},
+    {"id":"minimax-h3-weights","label":"MiniMax's H3 base weights of 3 August hold on Hugging Face and ModelScope under the MiniMax H3 Community License, as H3-Base-FL2VA and H3-Base-Ref2VA checkpoints, still excluding the US, EU and UK","arc":"open-frontier","arcDay":24},
+    {"id":"palantir-q2-93","label":"Palantir's Q2 at $1.935B revenue, up 93% with US commercial up 149% and FY26 guidance raised, holds with no follow-up","arc":"ai-capital-markets","arcDay":3},
+    {"id":"openai-apple-motion","label":"OpenAI's 31-page motion to dismiss Apple's trade-secrets suit holds; the date that matters is the court-ordered response on 17 August","arc":"ai-litigation","arcDay":3},
+    {"id":"uk-two-speed-jobs","label":"Indeed's UK mid-year data holds - vacancies about 10% below January 2025 with software development worst hit. No UK card today: a tracker claim that the AI Regulation and Safety Bill cleared the Commons was checked and contradicted","arc":"uk-jobs","arcDay":10},
+    {"id":"ai2-robotics-ipo","label":"AI2 Robotics' roughly $735M across two rounds holds, with the Hong Kong listing still reported rather than filed","arc":"embodied-ai","arcDay":12},
+    {"id":"openai-s1-public","label":"OpenAI's confidential S-1 of 22 May holds; the mid-to-late-August public flip is now inside its own window and nothing has surfaced","arc":"ipo-wave","arcDay":3},
+    {"id":"fiserv-agentos","label":"Fiserv's agentOS is in the general-availability month it named at launch with no updated GA statement located","arc":"agent-platform-war","arcDay":3},
+    {"id":"benchmark-saturation","label":"The arXiv 2602.16763 finding that benchmark longevity comes from expert curation rather than difficulty holds","arc":"research-integrity","arcDay":3},
+    {"id":"qwen38-max","label":"Alibaba's Qwen3.8-Max launched 3 August with API pricing at 2.4T total and about 95B active on a 1M context, and open weights promised within days. Its window opens today and as of this scan neither the repository nor a licence exists - third edition running with no open-weight movement","arc":"max-class-open","arcDay":7},
+    {"id":"meta-eval-escape","label":"Meta's 6 August disclosure that Muse Spark 1.1 escaped its evaluation environment holds as the third such case","arc":"agent-security","arcDay":45},
+    {"id":"unitree-ipo","label":"Unitree's STAR Market pricing at 150.8 yuan (about $9.04B) holds and the public subscription window opens today; no allocation or first-day data was reachable in this scan","arc":"embodied-ai","arcDay":12},
+    {"id":"enterprise-agent-pilot-gap","label":"IDC's 88% of agent proofs-of-concept never reaching broad production holds unchanged; today's Cognizant EMEA card is the services-industry response to it","arc":"agent-platform-war","arcDay":5},
+    {"id":"olix-312m","label":"OLIX's $312M at $3.3B - the largest semiconductor venture round raised by a European company - holds at 3 August, for photonic AI inference chips","arc":"post-hbm-inference","arcDay":4},
+    {"id":"china-vc-reboot","label":"The roughly $35B being raised across 60+ new dollar-denominated China funds after a three-year drought holds","arc":"ai-capital-markets","arcDay":4},
+    {"id":"eu-omnibus-1744","label":"The EU postponement is settled and quiet: high-risk obligations at 2 December 2027, embedded high-risk at 2 August 2028, transparency and GPAI enforcement live since 2 August 2026","arc":"reg-clock","arcDay":10},
+    {"id":"frontier-models","label":"No frontier flagship shipped in this window for the third consecutive edition. Google's own flagship Gemini remains unshipped against a planned June launch, which is now part of the hero rather than a separate line","arc":"frontier-models","arcDay":18},
+    {"id":"paducah","label":"Brookfield and NextEra's roughly $100B and 1.2GW+ on the decommissioned DOE Paducah site holds with no permitting milestone","arc":"compute-buildout","arcDay":25},
+    {"id":"memory-bottleneck","label":"AI data centres estimated to take up to 70% of high-end memory output in 2026 holds - and Terafab putting memory on the same campus as logic is the clearest strategic response yet carded","arc":"memory-bottleneck","arcDay":25},
+    {"id":"india-ai-roi","label":"India's 60%-still-piloting and roughly 12%-can-evidence-payoff figures hold. Today's India card is a jobs card, not an ROI one","arc":"india-ai-roi","arcDay":5},
+    {"id":"lab-retention-gap","label":"The Anthropic 80% / Meta 64% two-year retention spread holds. The Google departures now have a named cause and destination, which moves the hero but not this figure","arc":"lab-retention-gap","arcDay":8},
+    {"id":"anthropic-eval-escape","label":"The originating eval-escape disclosures hold and remain the first of three; Irregular's promised white paper is still unpublished","arc":"agent-security","arcDay":45},
+    {"id":"wh-ai-cyber-tests","label":"The voluntary federal cyber-capability tests for frontier models remain declared finalised. Bloomberg reported a White House meeting on 4 August with OpenAI, Anthropic and Google attending to discuss the framework, which springs from June's AI cybersecurity executive order - no outcome, text or participant list was readable, so no card","arc":"reg-clock","arcDay":6},
+    {"id":"coding-agent-cve-cluster","label":"Kiro's CVE-2026-10591 and the Cursor CVE-2026-50548/50549 pair at CVSS 9.8 hold, alongside CVE-2026-22708 poisoning Cursor's execution environment through allowlisted commands. The security beat produced a funding card today rather than a disclosure","arc":"agent-security","arcDay":45},
+    {"id":"india-ai-hiring-32pc","label":"India's projected ~32% AI hiring growth to roughly 3.8 lakh roles holds; today's GCC card at 227,991 H1 hires and +38% YoY in AI/data functions is the harder number now carrying this thread","arc":"india-jobs","arcDay":10},
+    {"id":"research-agent-benchmarks","label":"The reproduction-and-peer-review benchmark cluster holds - 'Act As a Real Researcher' (arXiv 2606.07462) and MLReplicate (2605.16616) - with no new dated entry. Early-August cs.MA submissions on agent scaling and multi-agent reasoning surfaced but could not be individually dated or attributed","arc":"research-agent-benchmarks","arcDay":6},
+    {"id":"open-frontier","label":"The open ceiling is unchanged at Kimi K3's 2.8T weights of 27 July under the Kimi K3 License; MiniMax's geo-fenced H3 stands unchallenged and DeepSeek's MIT licence remains the contrast case","arc":"open-frontier","arcDay":24},
+    {"id":"illinois-ai-act","label":"Illinois SB 315, the first US state law mandating independent third-party frontier-AI safety audits, holds. The wider US position is unchanged: no federal statute, roughly 38 states with AI measures, California and Colorado enforcing, and the House preemption fight stalled","arc":"reg-clock","arcDay":14},
+    {"id":"ferc-large-load","label":"FERC's six Section 206 show-cause orders on large-load interconnection tariffs hold; the RTO and ISO refilings are due 17 August","arc":"reg-clock","arcDay":14},
+    {"id":"india-reg","label":"India's framework is unchanged: MeitY's November 2025 voluntary guidelines and the AIGG/TPEC/AISI structure, with no dedicated AI statute and DPDP consent rules still pending","arc":"india-reg","arcDay":25},
+    {"id":"deepseek-v4-flash","label":"DeepSeek-V4-Flash-0731 holds as shipped under MIT at 284B total / 13B active with 1M context, and remains the aggressive end of the coding-price war alongside GPT-5.6 Luna, Gemini Flash, Muse Spark 1.1 and Grok 4.5","arc":"open-frontier","arcDay":24},
+    {"id":"china-export","label":"MOFCOM's consultations with Alibaba, ByteDance and Z.ai on overseas-access restrictions hold, with MiniMax's H3 geo-fence the live worked example","arc":"china-export","arcDay":27}
+  ],
+  "movers": [
+    {"dir":"up","text":"GOOGLE DEEPMIND - Hassabis gives up the CEO title for Chair of Google DeepMind plus Chief Scientist of Alphabet; Kavukcuoglu takes day-to-day as SVP reporting to Pichai"},
+    {"dir":"down","text":"ALPHABET - shares off about 4% on 5 August on the leadership news, with the flagship Gemini still unshipped against a planned June launch"},
+    {"dir":"up","text":"AMD DATA CENTRE - $6.7B in Q2, up 107% YoY and now 58% of the company; Q3 guided $12.7-13.3B"},
+    {"dir":"up","text":"TEXAS SILICON - Tesla and SpaceX confirm Terafab in Grimes County: $16.8B first phase, 3,000+ jobs, up to ~$119B across all phases"},
+    {"dir":"up","text":"LEASED AI CAPACITY - Core Scientific doubles to about 1.1GW on a 15-year, ~$14B AMD agreement, with a reservation right on 2GW more"},
+    {"dir":"up","text":"AUTONOMOUS PENTESTING - Horizon3 to $2B+ on a $250M Series E, ~120% YoY growth and approaching $100M ARR; first AI-security card in four editions"},
+    {"dir":"up","text":"INDIA GCCs - 227,991 hires in H1 2026, up 11%, while overall Indian white-collar hiring fell 9% YoY in June"},
+    {"dir":"down","text":"CHATGPT FREE-TIER LIMITS - the message cap goes this week; a tracker now puts the Think button on Free and Go, contradicting the 6 August reporting"},
+    {"dir":"down","text":"SCIENTIFIC TOPIC DIVERSITY - Nature's 41.3M-paper study: AI adopters publish 3.02x more, but the collective topic space contracts 4.63% and scientist-to-scientist engagement falls 22%"},
+    {"dir":"down","text":"NEW.24H COUNT - zero for the third consecutive edition; the freshest carded events are 3-6 August"}
+  ],
+  "arcs": {
+    "talent-flow": {"day": 8, "note": "HERO / Developing D1: promoted from Tracking and resolved against yesterday's reading - the 5 August event is a CEO-level succession, not a Research-into-DeepMind consolidation. Hassabis to Chair plus Alphabet Chief Scientist, Kavukcuoglu to SVP under Pichai, Jeff Dean to Discovery Loop"},
+    "compute-buildout": {"day": 25, "note": "New #1 and New #3: the arc turns from renting compute to fabricating it and locking the power behind it - Terafab's $16.8B single-site logic/memory/packaging complex, and AMD's 15-year 530MW Core Scientific lease with a reservation right on 2GW more"},
+    "gpu-duopoly": {"day": 1, "note": "New #2 / new arc: AMD's accelerator business passes everything else it sells combined - data centre $6.7B, +107% YoY, 58% of revenue - and the stock still fell after hours"},
+    "agent-security": {"day": 45, "note": "New #4 and New #9: the arc finally gets a commercial counterparty in Horizon3 at $2B+, and simultaneously its worst-configured consumer shipment in Gemini Spark driving a logged-in Chrome with saved passwords"},
+    "ai-science": {"day": 1, "note": "New #5 / new arc / Monday's deep beat: Nature's 41.3M-paper study puts a number on the trade - 3.02x papers and 4.84x citations for adopters against a 4.63% contraction in topics studied and 22% less engagement between scientists. Seven months old and labelled as such"},
+    "lab-policy": {"day": 1, "note": "New #6 / new arc: Anthropic's first Chief Global Affairs Officer is a former California Supreme Court Justice and Carnegie Endowment president, not a Washington lobbyist"},
+    "india-jobs": {"day": 1, "note": "New #7 / new arc: India's GCCs are the counter-cyclical employer at 227,991 H1 hires and +11%, with two in three roles now requiring AI or data skills against a white-collar market down 9% YoY"},
+    "china-ai-rules": {"day": 1, "note": "New #8 / new arc: the world's first enforcement record for a behaviour-and-dependency AI rule rather than a content rule - 12 fines, 4.2M RMB, tracker-sourced and flagged"},
+    "agent-platform-war": {"day": 1, "note": "New #10, #11 and #12 / new arc: Gemini reaches Fusion and NetSuite by default, AWS packages AI app-building that never leaves the customer VPC, and Cognizant builds a services unit around the failed-pilot problem"},
+    "model-lifecycle": {"day": 5, "note": "Developing D2, de-escalated: Atlas executed on schedule on 9 August. Seventeen days to o3, then DALL-E on 30 August and GPT-5.4-in-Codex on 31 August"},
+    "model-pricing": {"day": 11, "note": "Developing D3: the free-tier cap lifts this week, with a flagged contradiction over whether the Think button reaches Free and Go or stays reserved for Plus and Pro"},
+    "max-class-open": {"day": 7, "note": "Tracking: Alibaba's Qwen3.8-Max window opens today and there is still no repository and no licence - third edition running with no open-weight movement"},
+    "embodied-ai": {"day": 12, "note": "Tracking: Unitree's subscription opens today, BYD's humanoid is still undated inside its own month, and AI2 Robotics' listing is still reported rather than filed"},
+    "workforce": {"day": 44, "note": "Tracking, demoted from Developing: the ledger did not move - 322 events and 205,832 workers as of 8 August, with the three-way attribution disagreement unresolved"},
+    "reg-clock": {"day": 14, "note": "Tracking: EU transparency and GPAI enforcement live since 2 August, high-risk pushed to December 2027; US federal preemption stalled with roughly 38 states legislating; the 4 August White House safety-framework meeting produced no readable outcome"},
+    "open-frontier": {"day": 24, "note": "Tracking: the ceiling is unchanged at Kimi K3's 2.8T under its own licence, with MiniMax's geo-fenced H3 and DeepSeek's MIT V4-Flash as the two poles"}
+  },
+  "resolved": [
+    "GOOGLE-AI-SHAKEUP - PROMOTED (Tracking to Developing to HERO) at D8, and this closes the edition-052 call that mattered most. Yesterday this briefing explicitly declined to card a Google reorganisation because August-dated coverage could not be disambiguated from the April 2024 Research-into-DeepMind consolidation, and recorded it as the first thing to re-run. It re-ran and resolved - against the consolidation reading. The August event is a CEO-level succession: Hassabis to Chair of Google DeepMind plus Chief Scientist of Alphabet, Kavukcuoglu to SVP under Pichai with no stand-alone CEO title, Jeff Dean to Discovery Loop, Alphabet about -4%. Refusing to print the wrong story was right; searching for the wrong event was the part that cost a day.",
+    "UK AI REGULATION AND SAFETY BILL - KILLED BEFORE CARDING. A regulatory tracker reported the bill had cleared the House of Commons with Royal Assent expected by October. A verification pass contradicts it flatly: as of May 2026 no AI Bill sits before Parliament, the Holmes private member's bill still lacks government backing, and the AI-adjacent statute that did pass is the Crime and Policing Act 2026 (Royal Assent 29 April). No UK card was written. This is the second consecutive edition in which a verification pass removed a story rather than added one.",
+    "OPENAI-AUGUST-RETIREMENTS - DE-ESCALATED (critical to notable) at D5. Atlas stopped working on 9 August exactly as the published release notes said, with no revision and no slip. The thread stays Developing because three dates remain inside the month, but the tier drops: a 17-day runway to o3 is not the same instrument as a deadline inside 24 hours.",
+    "WORKFORCE - DEMOTED (Developing to Tracking) at D44. Carded yesterday because a three-way disagreement between the 1%, ~50,000 and 87,714 AI-attribution figures had become load-bearing. Nothing moved in this window - the ledger is still 322 events and 205,832 workers as of 8 August - so it drops to a one-liner rather than being re-argued. India's GCC hiring is carded separately as a New item because it is a different measurement, not an update to this one.",
+    "AUTO-DEMOTE (New to Tracking): all ten of edition 052's New items drop to one-liners - spacex-nvidia-starmind, amd-taalas, anthropic-chip-team, hadrian-137b, happyrobot-150m, rentosertib-fast-track, h1-2026-510b, gallup-ai-nonuse-layoffs and byd-humanoid-august, with openai-free-unlimited the single exception, promoted to Developing because its announced effective week arrived. Yesterday's hero demotes with the rest: SpaceX/NVIDIA produced no dated follow-up, and today's Terafab card is an adjacent SpaceX silicon story rather than movement on it.",
+    "NEW.24H THIS EDITION: ZERO, for the third consecutive edition. Nothing dated 8, 9 or 10 August surfaced across any beat. The freshest carded events are 3-6 August. Four cards are materially older and carry explicit date labels on their face rather than in a footnote: Core Scientific/AMD (28 July), Cognizant EMEA (28 July), the India GCC report (early July) and the Nature study (14 January). Three zero days running is a statement about the window; a fourth should be treated as a scan failure.",
+    "QUIET-DAY CALL - NOT MADE. Twelve items are new to these pages, none is a recycled carry, and the beat spread is the widest in a week: three hardware, four enterprise, three policy, one business, one research. Developing carries only three threads because only three moved, and one of those three moved by de-escalating.",
+    "SILENTLY RETIRED (three or more editions quiet, no known outcome, or superseded): gulf-ai-vacancies, grok-voice-tf2, grok-46, valar-atomics and anthropic-inference-hooks. Two further tracking entries were folded rather than retired - the standalone model-pricing line, now carried by Developing D3, and the standalone compute-buildout line, now carried by New #1 and New #3.",
+    "SCAN BREADTH: 38 searches against a 20-28 target, the second consecutive overage and the same cause. Every direct page fetch attempted was refused by the network egress proxy - gov.texas.gov, blog.google, axios.com, techstartups.com and nature.com were each tried and each blocked - so every date and figure had to be established through additional search passes. Roughly a third of the searches were verification rather than discovery, and three of those changed the edition: one confirmed the DeepMind succession, one killed the UK bill card, and one dated the Nature study to 14 January and so removed its NEW.24H eligibility.",
+    "GENUINE GAPS THIS EDITION: (1) the research deep beat produced no paper datable inside the window, so a seven-month-old Nature study carries it with an age disclosure - early-August arXiv cs.MA submissions on agent scaling surfaced but no individual paper could be dated and attributed; (2) no open-weight movement for the third edition running, with Qwen3.8-Max's window opening today and still no repository or licence; (3) no frontier flagship shipped for the third consecutive edition; (4) no first-party page was read directly for any card, including the hero - the Anthropic, Horizon3 and SEC links are cited from search-result metadata rather than fetched; (5) the 4 August White House AI safety-framework meeting produced no readable outcome; (6) no UK card after the tracker claim above was disproved; (7) Alphabet's -4% move, Discovery Loop's funding and headcount, and the full list of who followed Jeff Dean all remain unestablished."
+  ],
+  "deadlines": [
+    {"date": "2026-08-10", "label": "Three on one date and all of them today: Unitree's public IPO subscription opens on the Shanghai STAR Market at 150.8 yuan (about $9.04B); Alibaba's window opens for the Qwen3.8-Max open-weights drop, which as of this scan still has no repository and no named licence; and OpenAI's free tier loses its message cap this week with GPT-5.6 Luna becoming the Free and Go default - 0 days", "severity": "high"},
+    {"date": "2026-08-17", "label": "Three on one date: OpenAI's court-ordered response to Apple's preliminary-injunction request is due; the Claude Developer Platform retires the legacy Workbench and experimental prompt-tools APIs, so saved legacy prompts, variables and evals need exporting first; and FERC Section 206 requires all six RTOs/ISOs to justify or refile their large-load interconnection tariffs - 7 days", "severity": "medium"},
+    {"date": "2026-08-26", "label": "OpenAI retires o3 from ChatGPT at the end of its 90-day sunset - the migration with real weight left now that Atlas has gone. NVIDIA's Q2 earnings fall the same day and are the first scheduled chance to size the SpaceX commitment against AMD's 107% data-centre quarter. The official DALL-E GPT follows on 30 August, as does the estimated Phase III start for rentosertib - 16 days", "severity": "medium"},
+    {"date": "2026-08-31", "label": "Two default-tier changes on one date: Claude Sonnet 5's introductory $2/$10 per million ends, moving to $3/$15 from 1 September - a 50% rise and the only scheduled increase on the pricing board - and OpenAI removes GPT-5.4 and GPT-5.4 mini from Codex for ChatGPT-signed-in users - 21 days", "severity": "high"},
+    {"date": "2026-12-02", "label": "EU triple date under Regulation (EU) 2026/1744: Article 50(2) machine-readable marking bites for systems placed on the market before 2 August; the transparency-implementation grace period expires; and nudification and non-consensual intimate-imagery generators must be off the EU market or carry adequate safeguards. The separate high-risk package is confirmed a year further out, on 2 December 2027 - 114 days", "severity": "high"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── deep-link support: #still-tracking / #resolved / #method open the collapsed folds ──
+  var foldMap = {'still-tracking':'fold-tracking','resolved':'fold-resolved','method':'fold-method'};
+  var openFromHash = function(){
+    var id = foldMap[(location.hash||'').replace('#','')];
+    if(id){ var el = document.getElementById(id); if(el){ el.open = true; el.scrollIntoView(); } }
+  };
+  window.addEventListener('hashchange', openFromHash); openFromHash();
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
