@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 054 — 11 August 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+
+  /* collapsible archive sections (Still Tracking / Resolved / method notes) */
+  .fold{border-bottom:3px solid var(--ink);margin-top:26px}
+  .fold[open]{border-bottom-color:var(--rule)}
+  .fold > summary{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:0 0 8px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary small{font-size:10px;color:#6b6353;letter-spacing:1px;font-weight:400}
+  .fold > summary .caret{font-size:11px;color:#6b6353;letter-spacing:0}
+  .fold > summary:hover{color:var(--crit)}
+  .fold[open] > summary .caret::after{content:"▴ HIDE"}
+  .fold:not([open]) > summary .caret::after{content:"▾ SHOW"}
+  .fold .fold-body{padding-bottom:16px}
+  footer .fold{border-bottom:none;margin-top:12px}
+  footer .fold > summary{font-size:11px;letter-spacing:2px}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>OPENAI</b> GPT-5.6-Cyber ships to a new Daybreak Red tier — a frontier model with dual-use cyber restrictions deliberately reduced, for named defenders &nbsp;◆&nbsp; <b>META</b> Muse Glimmer, 30B dense, Apache 2.0, one 24GB GPU — first open-weight movement in four editions &nbsp;◆&nbsp; <b>INTEL</b> proposes $15B of common stock, its first public share sale since the 1971 listing &nbsp;◆&nbsp; <b>OPENROUTER</b> Chinese models above 30% of US token volume every week since 8 Feb, peaking at 46% — DeepSeek alone the largest single vendor &nbsp;◆&nbsp; <b>ALIBABA</b> the named Qwen3.8-Max open-weights week is open and still empty &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>054</b></span>
+    <span>TUESDAY, 11 AUGUST 2026</span>
+    <span class="seg">NEW <b>10</b> · DEVELOPING <b>2</b> · TRACKING <b>32</b></span>
+    <span>CRITICAL <b>2</b> / NOTABLE 7 / MONITOR 3</span>
+    <span>SCAN: 30 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="openai-daybreak-cyber">
+  <div>
+    <div class="kicker">■ Today's Lead · New · Models · Day 46 of the agent-security arc</div>
+    <h2>OpenAI ships a model with the cyber guardrails taken off — on purpose, to a named list</h2>
+    <p class="dek">For forty-five editions this briefing has carried an arc in which offensive capability is the thing that <em>escapes</em> — a prompt injection, an eval-environment breakout, a CVE in a coding agent. On <strong>10 August</strong> OpenAI inverted it. It expanded its <strong>Daybreak</strong> cybersecurity initiative into two access tiers and introduced <strong>GPT-5.6-Cyber</strong>, a model built on GPT-5.6 Sol and purpose-trained for authorized security work, with the dual-use restrictions that normally block this class of request deliberately reduced (<a href="https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/">OpenAI</a>, <a href="https://www.axios.com/2026/08/10/openai-gpt-astra-restrictions-safety-hacking-defenders">Axios</a>, <a href="https://www.cnbc.com/2026/08/10/open-ai-daybreak-cybersecurity.html">CNBC</a>). <strong>Daybreak Blue</strong> is the broader tier for security engineers — code audits, preventative work. <strong>Daybreak Red</strong> is the narrow one: vulnerability research, exploit validation and exploit-chain development, gated to selected defenders. Reported capability figures differ by outlet and both are printed here: one account has GPT-5.6-Cyber responding to <strong>95%</strong> of advanced cybersecurity requests in testing, another to <strong>up to 98.5%</strong> of security queries that the general models refuse (<a href="https://techcrunch.com/2026/08/10/as-ai-led-attacks-multiply-openai-launches-a-new-cyber-model/">TechCrunch</a>, <a href="https://the-decoder.com/openai-launches-gpt-5-6-cyber-to-help-defenders-find-vulnerabilities-before-attackers-do/">The Decoder</a>). It has reportedly already surfaced <strong>two previously unknown Chrome vulnerabilities</strong>. Program members including <strong>Accenture, IBM, CrowdStrike, Cisco and Palo Alto Networks</strong> may now build the models into products, managed services and customer work.</p>
+    <p class="sowhat">So what: the refusal boundary is no longer a property of the model, it is a property of your contract — if your threat model assumed "the frontier labs won't answer that," it is now wrong for an expanding, commercially-distributed list of counterparties, and your disclosure and patch windows should be re-timed against a defender who can generate exploit chains at machine speed.</p>
+    <span class="chip arc">ARC: AGENT-SECURITY · D46</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/">OpenAI (primary — not fetched, see gaps)</a> ·
+      <a href="https://www.axios.com/2026/08/10/openai-gpt-astra-restrictions-safety-hacking-defenders">Axios</a> ·
+      <a href="https://www.cnbc.com/2026/08/10/open-ai-daybreak-cybersecurity.html">CNBC</a> ·
+      <a href="https://techcrunch.com/2026/08/10/as-ai-led-attacks-multiply-openai-launches-a-new-cyber-model/">TechCrunch</a> ·
+      <a href="https://www.neowin.net/news/openai-launches-gpt-56-cyber-and-expands-daybreak-with-red-and-blue-access-tiers/">Neowin</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What shipped.</strong> Two things on the same day. First, a structural change to Daybreak, OpenAI's cybersecurity programme: it splits into <strong>Blue</strong> and <strong>Red</strong> access tiers. Blue is the standard tier for security engineers, running a model with the system-level cyber guardrails relaxed for advanced code audits and preventative work. Red is the restricted tier, granting access to the new purpose-trained model for aggressive work — vulnerability research, exploit validation, security testing (<a href="https://www.neowin.net/news/openai-launches-gpt-56-cyber-and-expands-daybreak-with-red-and-blue-access-tiers/">Neowin</a>). Second, <strong>GPT-5.6-Cyber</strong> itself: built on GPT-5.6 Sol, with reduced restrictions on dual-use cybersecurity tasks, capable of finding zero-days and developing exploit chains (<a href="https://the-decoder.com/openai-launches-gpt-5-6-cyber-to-help-defenders-find-vulnerabilities-before-attackers-do/">The Decoder</a>).</p>
+      <p><strong>Why it is the lead.</strong> Every previous card in this arc — the Anthropic, OpenAI and Meta eval-environment escapes, the Kiro and Cursor CVE cluster, Gemini Spark driving a logged-in Chrome — described capability leaking past a boundary someone intended to hold. This is the first carded instance of a frontier lab moving the boundary itself, publicly, with a named commercial distribution list attached. The asymmetry argument OpenAI is making is explicit in the framing of its own post — the defence window is narrowing, so put frontier capability in defenders' hands first. That is a defensible thesis and it is also, unavoidably, a decision to manufacture and distribute the capability rather than to withhold it.</p>
+      <p><strong>What is not established.</strong> The two capability percentages above come from different outlets describing what may be different measurements — 95% of advanced cybersecurity requests answered in testing versus up to 98.5% of otherwise-blocked security queries — and this scan could not reconcile them against a primary evaluation table, because every attempt to fetch openai.com was refused by the network egress proxy. The vetting criteria for Red, the revocation process, the size of the access list beyond the five named firms, and whether any external red-team reviewed the release are all unestablished here. The two Chrome vulnerabilities are reported, not independently confirmed, and no CVE identifiers surfaced in this scan.</p>
+      <p><strong>Watch next.</strong> Whether Anthropic or Google publish a comparable tiered-access policy; whether any Daybreak Red output produces a dated, numbered CVE that can be traced back to the programme; and whether the EU AI Act's GPAI obligations, live since 2 August, are read to cover a deliberately de-restricted derivative of a systemic-risk model.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>Announced</dt><dd>10 August 2026 — inside 24h</dd>
+      <dt>What it is</dt><dd>GPT-5.6-Cyber, built on GPT-5.6 Sol, dual-use cyber restrictions reduced</dd>
+      <dt>Tiers</dt><dd>Daybreak Blue (security engineers, audits, prevention) · Daybreak Red (vuln research, exploit validation, exploit chains — selected defenders)</dd>
+      <dt>Capability</dt><dd>95% of advanced cyber requests answered in testing (one account); up to 98.5% of otherwise-blocked queries (another) — figures not reconciled here</dd>
+      <dt>Already found</dt><dd>Two previously unknown Chrome vulnerabilities (reported; no CVE ids surfaced)</dd>
+      <dt>Named members</dt><dd>Accenture · IBM · CrowdStrike · Cisco · Palo Alto Networks — may embed in products and managed services</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">9</b>/10 — every security, platform and disclosure team, plus anyone whose patch cadence assumed labs would refuse</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="openai-daybreak-cyber">
+      <div class="num">1</div>
+      <h4>OpenAI de-restricts a model, on purpose, for named defenders</h4>
+      <p>GPT-5.6-Cyber lands on a new Daybreak Red tier for vulnerability research and exploit-chain work, with Blue as the broader engineer tier. Accenture, IBM, CrowdStrike, Cisco and Palo Alto Networks can build it into products. Two unknown Chrome bugs already reported found. <strong>NEW · 10 AUG.</strong></p>
+    </article>
+    <article class="trip" data-story-id="meta-muse-glimmer">
+      <div class="num">2</div>
+      <h4>Meta puts a 30B agent model under Apache 2.0</h4>
+      <p>Muse Glimmer — dense, multimodal, distilled from Muse Spark, 131K context, 100+ languages — ships on Hugging Face under Apache 2.0 with GGUF, ExecuTorch and a speculative-decoding drafter, sized to run on one 24GB consumer GPU. First open-weight movement carded in four editions. <strong>NEW · 10 AUG.</strong></p>
+    </article>
+    <article class="trip" data-story-id="chinese-model-token-share">
+      <div class="num">3</div>
+      <h4>Chinese models now carry a third of US token volume</h4>
+      <p>On OpenRouter, Chinese models have held above 30% of US token use every week since 8 February and touched 46%, against a 12-month average of 11% and 4.5% in H1 2025. DeepSeek alone is the single largest vendor on the platform, ahead of every US lab. <strong>NEW · REPORTED 7 JUL.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>THE DROUGHT BREAKS:</strong> after three consecutive editions with <strong>zero</strong> NEW.24H items, four things on this page broke inside 24 hours — OpenAI's cyber tier, Meta's Apache-2.0 30B, Intel's $15B equity raise and an independent probe of frontier-model training-run identity, all dated 10 August. Ten items are new to these pages and none is a recycled carry. <strong>Tuesday's deep beat is open-source and models</strong>, and it finally produced something after three dry runs: Meta returns to permissive licensing at 30B while <strong>Alibaba's own named Qwen3.8-Max open-weights week is open and still empty</strong> — the two facts are the same story from opposite ends, and the demand-side number underneath both is the OpenRouter share above. Also new: an F-16 flew under AI control at Eglin with the safety pilot only watching (disclosed 16 July) · Intel proposes its first public share sale since listing in 1971 · Microsoft folds consumer and enterprise Copilot into one app with a paid AutoPilot agent tier, on an internal audit showing under 4.5% of 450M Microsoft 365 seats have converted to paid Copilot · Chai Discovery tripled to $3.8B in seven months with Pfizer, Lilly and Novartis simultaneously · Dunelm puts a Gemini Enterprise shopping agent in its iOS app · at least 22 professors left elite US universities for the big four labs in roughly half a year. Developing carries only two threads because only two moved. Two candidate cards were <strong>killed by verification</strong> — NVIDIA's healthcare robotics stack and the million-binder Proteina-Complexa validation both surfaced in August-framed roundups and both actually date to GTC on 16 March.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (12)</button>
+    <button class="tab" data-cat="models">MODELS (5)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (2)</button>
+    <button class="tab" data-cat="policy">POLICY (2)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (1)</button>
+    <button class="tab" data-cat="business">BUSINESS (1)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>10 ITEMS · BROKE / SURFACED SINCE LAST EDITION · 4 INSIDE 24H</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="models" data-story-id="openai-daybreak-cyber">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">#1</span> <span class="cat">MODELS · SECURITY</span></div>
+      <h4>OpenAI ships GPT-5.6-Cyber and splits Daybreak into Blue and Red access tiers</h4>
+      <div class="body">The lead, in full above. On <strong>10 August</strong> OpenAI expanded Daybreak into two tiers and introduced <strong>GPT-5.6-Cyber</strong>, built on GPT-5.6 Sol with dual-use cybersecurity restrictions deliberately reduced (<a href="https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/">OpenAI</a>, <a href="https://www.axios.com/2026/08/10/openai-gpt-astra-restrictions-safety-hacking-defenders">Axios</a>). <strong>Blue</strong> serves security engineers doing audits and prevention; <strong>Red</strong> gates vulnerability research, exploit validation and exploit-chain development to selected defenders. Reported capability differs by outlet — 95% of advanced cyber requests answered in testing, or up to 98.5% of otherwise-blocked queries — and both are printed here because this scan could not reconcile them. Two previously unknown Chrome vulnerabilities are reported found. <strong>Accenture, IBM, CrowdStrike, Cisco and Palo Alto Networks</strong> may embed the models in products and managed services (<a href="https://www.cnbc.com/2026/08/10/open-ai-daybreak-cybersecurity.html">CNBC</a>).</div>
+      <p class="sowhat">Forty-five editions of this arc were about capability escaping a boundary; this is the boundary being moved deliberately. Re-time your disclosure and patch windows for a counterparty generating exploit chains at machine speed.</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D46</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/">OpenAI</a> · <a href="https://www.axios.com/2026/08/10/openai-gpt-astra-restrictions-safety-hacking-defenders">Axios</a> · <a href="https://techcrunch.com/2026/08/10/as-ai-led-attacks-multiply-openai-launches-a-new-cyber-model/">TechCrunch</a> · <a href="https://the-decoder.com/openai-launches-gpt-5-6-cyber-to-help-defenders-find-vulnerabilities-before-attackers-do/">The Decoder</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="models" data-story-id="meta-muse-glimmer">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#2</span> <span class="cat">MODELS · OPEN-WEIGHT</span></div>
+      <h4>Meta returns to permissive licensing: Muse Glimmer, 30B dense, Apache 2.0, one consumer GPU</h4>
+      <div class="body">Meta Superintelligence Labs published <strong>Muse Glimmer</strong> to Hugging Face on <strong>10 August</strong> under <strong>Apache 2.0</strong> — a 30B dense multimodal model distilled from Muse Spark and tuned for always-on local agent workflows, coding and LLM-as-judge, with a <strong>131K context</strong> and 100+ languages (<a href="https://venturebeat.com/technology/meta-returns-to-open-source-with-muse-glimmer-an-apache-2-0-licensed-30b-parameter-ai-model-optimized-for-agents-available-now">VentureBeat</a>, <a href="https://www.marktechpost.com/2026/08/10/meta-ai-releases-muse-glimmer/">MarkTechPost</a>). The engineering claim is the point: a 30B model needs upwards of 55GB at full precision, and Meta ships roughly 4-bit weights plus block-level speculative decoding via a <strong>DFlash</strong> drafter so it answers fast enough to sit inside a real agent loop on <strong>one 24GB consumer GPU or a Mac, with no network call</strong>. The collection carries BF16, GGUF k-quants and ExecuTorch builds; <a href="https://www.amd.com/en/blogs/2026/run-meta-muse-glimmer-30b-on-amd-ryzen-ai-max-and-radeon-gpus.html">AMD</a> published a Ryzen AI Max / Radeon run guide the same window (<a href="https://www.phoronix.com/news/Meta-Muse-Glimmer">Phoronix</a>).</div>
+      <p class="sowhat">Tuesday's deep beat, and the first open-weight movement carded in four editions: the licence is the story as much as the size — Apache 2.0 at 30B is the most permissive thing a US lab has put at agent-capable scale this quarter, and it lands while Alibaba's Max-class window sits empty.</p>
+      <div><span class="chip arc">ARC: OPEN-FRONTIER · D25</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://venturebeat.com/technology/meta-returns-to-open-source-with-muse-glimmer-an-apache-2-0-licensed-30b-parameter-ai-model-optimized-for-agents-available-now">VentureBeat</a> · <a href="https://www.marktechpost.com/2026/08/10/meta-ai-releases-muse-glimmer/">MarkTechPost</a> · <a href="https://www.phoronix.com/news/Meta-Muse-Glimmer">Phoronix</a> · <a href="https://www.amd.com/en/blogs/2026/run-meta-muse-glimmer-30b-on-amd-ryzen-ai-max-and-radeon-gpus.html">AMD</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="hardware" data-story-id="intel-15b-offering">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#3</span> <span class="cat">HARDWARE · CAPITAL</span></div>
+      <h4>Intel proposes $15B of common stock — its first public share sale since the 1971 listing</h4>
+      <div class="body">Intel announced a proposed <strong>$15B underwritten common-stock offering</strong> on <strong>10 August</strong>, with a 30-day underwriter option for up to <strong>$2.25B</strong> more, proceeds earmarked for general corporate purposes including capital expenditure and working capital (<a href="https://newsroom.intel.com/corporate/intel-announces-proposed-15-billion-common-stock-offering">Intel</a>). <a href="https://www.bloomberg.com/news/articles/2026-08-10/intel-selling-15-billion-in-common-stock-to-fund-growth">Bloomberg</a> frames it as the company's first public share sale since it listed in <strong>1971</strong>, and as a bid to fund real-world AI uses and purpose-built silicon. The backdrop: Data Center and AI at <strong>$6.3B, up 59%</strong>; Intel Foundry at $5.8B of segment revenue against a <strong>$2.1B operating loss</strong>; the July capex target lifted to <strong>$20B</strong>; 14A promised at high volume by 2028; and a stock that has nearly tripled this year to about <strong>$101.65</strong> (<a href="https://www.cnbc.com/2026/08/10/intel-intc-stock-offering-ai.html">CNBC</a>).</div>
+      <p class="sowhat">The compute-buildout arc has been financed by leases, private credit and hyperscaler balance sheets for twenty-five editions. This is the first carded instance of a chipmaker going to the public equity market for it — and doing so for the first time in fifty-five years.</p>
+      <div><span class="chip arc">ARC: FOUNDRY-CAPITAL · D1</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://newsroom.intel.com/corporate/intel-announces-proposed-15-billion-common-stock-offering">Intel Newsroom</a> · <a href="https://www.bloomberg.com/news/articles/2026-08-10/intel-selling-15-billion-in-common-stock-to-fund-growth">Bloomberg</a> · <a href="https://www.cnbc.com/2026/08/10/intel-intc-stock-offering-ai.html">CNBC</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="chinese-model-token-share">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#4</span> <span class="cat">MODELS · DEMAND</span></div>
+      <h4>Chinese open-weight models have held above 30% of US token volume every week since February</h4>
+      <div class="body">The demand-side number underneath the whole open-weight arc, and this briefing has never carded it. On <strong>OpenRouter</strong>, the share of tokens US companies route through Chinese models has sat <strong>above 30% every week since 8 February</strong> and has reached as high as <strong>46%</strong> — against a trailing-12-month average of <strong>11%</strong> and just <strong>4.5%</strong> in H1 2025 (<a href="https://www.cnbc.com/2026/07/07/chinese-ai-models-costs-us-openai-anthropic.html">CNBC</a>, 7 July). <strong>DeepSeek alone accounts for 17.6% of all tokens</strong> on the platform, roughly 5.13T a week — the single largest vendor, ahead of every US lab — with Qwen second among Chinese providers at 13.9% (~2.77T weekly) (<a href="https://cryptobriefing.com/chinese-models-openrouter-token-usage-cost-advantage/">CryptoBriefing</a>). Read the other way, US models have fallen from roughly <strong>70% to 30%</strong> of platform token volume in a year (<a href="https://officechai.com/ai/share-of-us-models-being-used-on-openrouter-has-collapsed-from-70-to-30-over-the-past-year/">OfficeChai</a>). The stated cause is price — open Chinese models running 60–90% cheaper — and Airbnb's Brian Chesky has said the company runs Qwen for customer-service work.</div>
+      <p class="sowhat">Caveat the metric before you quote it: OpenRouter is one router, token volume is not revenue, and cheap models attract high-volume low-value traffic. With that said, a third of US developer token flow moving to weights their government cannot switch off is the strategic fact of the quarter.</p>
+      <div><span class="chip arc">ARC: OPEN-FRONTIER · D25</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/07/07/chinese-ai-models-costs-us-openai-anthropic.html">CNBC</a> · <a href="https://cryptobriefing.com/chinese-models-openrouter-token-usage-cost-advantage/">CryptoBriefing</a> · <a href="https://officechai.com/ai/share-of-us-models-being-used-on-openrouter-has-collapsed-from-70-to-30-over-the-past-year/">OfficeChai</a> · <a href="https://fourweekmba.com/ai-openrouter-us-models-token-share-deepseek-volume-revenue-spl/">FourWeekMBA</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="darpa-venom-f16">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#5</span> <span class="cat">POLICY · DEFENCE</span></div>
+      <h4>An F-16 flew under AI control at Eglin — the safety pilot was only watching</h4>
+      <div class="body"><strong>Dated 16 July, carded here for the first time.</strong> DARPA and the US Air Force disclosed that an F-16, modified into an autonomous flying testbed with the <strong>VENOM</strong> autonomy kit, has flown with an <strong>AI agent doing the actual flying</strong> and a test pilot aboard only to monitor (<a href="https://www.darpa.mil/news/2026/darpa-us-air-force-fly-ai-controlled-f-16">DARPA</a>, <a href="https://www.stripes.com/branches/air_force/2026-07-20/first-venom-autonomous-jet-flight-22317435.html">Stars and Stripes</a>). During June flight operations a safety pilot could hand control between the cockpit and the agent through a dedicated switch. The VENOM fleet now becomes the backbone of DARPA's <strong>Artificial Intelligence Reinforcements (AIR)</strong> programme, which will run multiple agents through live-flight scenarios — groundwork for one human orchestrating teams of uncrewed aircraft (<a href="https://theaviationist.com/2026/07/16/darpa-usaf-fly-f-16-venom-autonomy-modification/">The Aviationist</a>, <a href="https://www.executivegov.com/articles/venom-f16-autonomous-flight-test-darpa-usaf">ExecutiveGov</a>).</div>
+      <p class="sowhat">This briefing has carried autonomy-in-production stories about agents in browsers and banking stacks. A retrofitted fourth-generation fighter flying itself on a legacy airframe is the same trend with the failure mode changed, and it is a US government primary source, not a vendor claim.</p>
+      <div><span class="chip arc">ARC: AUTONOMOUS-WEAPONS · D1</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://www.darpa.mil/news/2026/darpa-us-air-force-fly-ai-controlled-f-16">DARPA</a> · <a href="https://www.stripes.com/branches/air_force/2026-07-20/first-venom-autonomous-jet-flight-22317435.html">Stars and Stripes</a> · <a href="https://theaviationist.com/2026/07/16/darpa-usaf-fly-f-16-venom-autonomy-modification/">The Aviationist</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="microsoft-copilot-unified">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#6</span> <span class="cat">ENTERPRISE · MICROSOFT</span></div>
+      <h4>Copilot collapses into one app — and the number behind the reset is a 4.5% conversion rate</h4>
+      <div class="body">Microsoft is folding consumer and enterprise Copilot into a <strong>single unified app</strong> this month, combining GitHub Copilot, Copilot Chat, Copilot Cowork and a new agentic layer called <strong>AutoPilot</strong>; Satya Nadella confirmed the plan on the <strong>29 July</strong> Q4 FY2026 earnings call (<a href="https://www.techtimes.com/articles/319706/20260704/microsoft-copilot-merges-one-app-august-feature-cuts-reveal-paid-adoption-crisis.htm">TechTimes</a>, <a href="https://mlq.ai/news/microsoft-merges-consumer-and-enterprise-copilot-into-single-app-launches-paid-autopilot-agents/">MLQ</a>). Always-on AutoPilot agents — the first named <strong>Microsoft Scout</strong> — run background tasks for an extra paid subscription, at a reported 10–20 model calls per task. Copilot Podcasts and Copilot Labs are cut; Copilot chief Jacob Andreou has a team of <strong>11,000</strong> on the reset. The figure that explains it: an internal audit found <strong>fewer than 4.5% of Microsoft 365's 450 million seats</strong> have converted to a paid Copilot add-on (<a href="https://gcn.com/microsoft-copilot-merges-into-one-unified/20629/">GCN</a>).</div>
+      <p class="sowhat">Set 4.5% of 450M seats beside the 88% of agent pilots that never reach production this briefing carries in Tracking. The largest distribution channel in enterprise software has the same conversion problem as everyone else, and its answer is to charge more for agents rather than less for chat.</p>
+      <div><span class="chip arc">ARC: AGENT-PLATFORM-WAR · D2</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.techtimes.com/articles/319706/20260704/microsoft-copilot-merges-one-app-august-feature-cuts-reveal-paid-adoption-crisis.htm">TechTimes</a> · <a href="https://mlq.ai/news/microsoft-merges-consumer-and-enterprise-copilot-into-single-app-launches-paid-autopilot-agents/">MLQ</a> · <a href="https://gcn.com/microsoft-copilot-merges-into-one-unified/20629/">GCN</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="chai-discovery-400m">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#7</span> <span class="cat">BUSINESS · BIO</span></div>
+      <h4>Chai Discovery triples to $3.8B in seven months — with Pfizer, Lilly and Novartis at once</h4>
+      <div class="body"><strong>Dated 14 July, new to these pages.</strong> Chai Discovery announced a <strong>$400M Series C</strong> at a <strong>$3.8B</strong> valuation, tripling its mark in seven months and pushing total funding above <strong>$600M across three rounds in eleven months</strong> (<a href="https://www.businesswire.com/news/home/20260713849009/en/Chai-Discovery-Announces-$400M-Series-C-to-Advance-AI-Driven-Molecular-Design">BusinessWire</a>, <a href="https://endpoints.news/chai-discovery-gets-400m-tripling-valuation-from-seven-months-ago/">Endpoints News</a>). Index led, with Kleiner Perkins, Sequoia, Dimension and — notably — <strong>OpenAI</strong> among the investors. The round closed a day after a Novartis collaboration, leaving Chai with <strong>Pfizer, Eli Lilly and Novartis simultaneously</strong> (<a href="https://techfundingnews.com/chai-discovery-triples-to-3-8b-in-7-months-as-openai-backed-drug-designer-lands-400m-after-novartis-deal/">TechFundingNews</a>).</div>
+      <p class="sowhat">Three of the largest pharma partners at once is a distribution position, not a science claim — and it is still being built against a sector with zero fully FDA-approved AI-discovered drugs.</p>
+      <div><span class="chip arc">ARC: AI-DRUG-APPROVAL · D3</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.businesswire.com/news/home/20260713849009/en/Chai-Discovery-Announces-$400M-Series-C-to-Advance-AI-Driven-Molecular-Design">BusinessWire</a> · <a href="https://endpoints.news/chai-discovery-gets-400m-tripling-valuation-from-seven-months-ago/">Endpoints</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="research" data-story-id="model-identity-probing">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#8</span> <span class="cat">RESEARCH · FORENSICS</span></div>
+      <h4>A probing method that infers which training run a frontier model came from</h4>
+      <div class="body">Independent researcher <strong>Shrivu Shankar</strong> published a methodology on <strong>10 August</strong> that infers training-run identity for frontier models from historical-fact quizzes, self-reported dates and self-identification (<a href="https://blog.sshh.io/p/exploring-claudegpt-knowledge-cutoffs">blog.sshh.io</a>). The reported findings: Anthropic's <strong>Opus 4.7+ models share a late-December-2025 knowledge cutoff</strong>, consistent with one training run; the <strong>GPT-5.6 family clusters around a late-February-2026 checkpoint</strong>; and <strong>Opus 5 shows an older knowledge state (~January 2026) than its published May 2026 cutoff</strong>. He also reports Anthropic models occasionally self-identifying as GPT-4, which he reads as evidence of training on prior-generation model outputs (<a href="https://aiweekly.co/ai-news-today">AI Weekly</a>).</div>
+      <p class="sowhat">Today's research beat. One researcher, one blog, not peer-reviewed — but it is a cheap, reproducible external probe of something labs do not disclose, and if the Opus 5 cutoff gap replicates it is a documentation problem, not a curiosity.</p>
+      <div><span class="chip arc">ARC: MODEL-FORENSICS · D1</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://blog.sshh.io/p/exploring-claudegpt-knowledge-cutoffs">Shrivu Shankar (author)</a> · <a href="https://aiweekly.co/ai-news-today">AI Weekly</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="dunelm-gemini-agent">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#9</span> <span class="cat">ENTERPRISE · RETAIL</span></div>
+      <h4>Dunelm puts a Gemini Enterprise shopping agent inside its iOS app</h4>
+      <div class="body">UK homewares retailer <strong>Dunelm</strong> launched <strong>Ask Dunelm</strong>, a conversational shopping agent live in its iOS app: natural-language product search, in-home visualisation of items, and whole-room planning rather than keyword search (<a href="https://www.retailgazette.co.uk/blog/2026/08/dunelm-launches-ai-shopping-assistant-with-google-cloud/">Retail Gazette</a>, <a href="https://internetretailing.net/dunelm-launches-ask-dunelm-ai-shopping-agent/">InternetRetailing</a>). It is described as one of the first UK deployments of Google Cloud's <strong>Gemini Enterprise for Customer Experience</strong> multimodal shopping agent. The app it sits in launched earlier this year and has passed <strong>500,000 downloads</strong>; Dunelm calls this the first of several planned enhancements (<a href="https://www.insightdiy.co.uk/news/dunelm-launches-ask-dunelm-ai-shopping-agent/16735.htm">Insight DIY</a>). <em>August 2026; the exact announcement date could not be pinned in this scan.</em></div>
+      <p class="sowhat">A named mid-cap retailer shipping a customer-facing agent, not a pilot — the kind of card the applied beat exists for, and the counter-example to the pilot-failure statistics in Tracking.</p>
+      <div><span class="chip arc">ARC: AGENT-PLATFORM-WAR · D2</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.retailgazette.co.uk/blog/2026/08/dunelm-launches-ai-shopping-assistant-with-google-cloud/">Retail Gazette</a> · <a href="https://internetretailing.net/dunelm-launches-ask-dunelm-ai-shopping-agent/">InternetRetailing</a> · <a href="https://www.insightdiy.co.uk/news/dunelm-launches-ask-dunelm-ai-shopping-agent/16735.htm">Insight DIY</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="policy" data-story-id="academic-brain-drain">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#10</span> <span class="cat">POLICY · WORKFORCE</span></div>
+      <h4>At least 22 professors left elite US universities for the big four labs in roughly half a year</h4>
+      <div class="body"><span class="chip rumor">SOURCE-FLAG</span> At least <strong>22 professors and researchers</strong> left or took leave from universities including Stanford, Berkeley and Harvard during roughly the first half of 2026 to join OpenAI, Anthropic, Meta or Google DeepMind, split close to evenly — <strong>OpenAI 6, Meta 6, Anthropic 5, Google DeepMind 5</strong>. Named moves include Sanmi Koyejo and Bo Li to Meta, Maissam Barkeshli to Anthropic and Rahul Jain to Google DeepMind (<a href="https://cryptobriefing.com/ai-companies-poach-professors-academia/">CryptoBriefing</a>, <a href="https://windowsforum.com/threads/2026-ai-talent-drain-22-academics-join-openai-anthropic-meta.436560/">WindowsForum</a>). The framing that earns the card: the number is small enough to vanish in national employment statistics and large enough to hollow out individual research groups — the people who choose research questions, train the next cohort, and provide the independent scrutiny that regulators lean on. Background context in <a href="https://www.schneier.com/blog/archives/2026/03/academia-and-the-ai-brain-drain.html">Schneier</a> (March 2026).</div>
+      <p class="sowhat">Flagged deliberately: the count comes from aggregator-grade outlets and could not be checked against any primary registry in this scan. Treat 22 as an order of magnitude, not a ledger.</p>
+      <div><span class="chip arc">ARC: TALENT-FLOW · D9</span><span class="chip rumor">Agg 1x</span></div>
+      <div class="src"><a href="https://cryptobriefing.com/ai-companies-poach-professors-academia/">CryptoBriefing</a> · <a href="https://www.schneier.com/blog/archives/2026/03/academia-and-the-ai-brain-drain.html">Schneier (context)</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION · ONLY 2 MOVED</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 note" data-cat="models" data-story-id="openai-free-unlimited">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D1</span> <span class="cat">MODELS · PRICING</span></div>
+      <h4>The free tier's message cap goes this week — and yesterday's contradiction resolves</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The announced week arrived. OpenAI's own 6 August post sets a two-stage rollout: GPT-5.6 Luna became the Free and Go default in the announcement week, with <strong>unlimited text chats and the Think button following in the week of 10 August</strong> — which resolves the contradiction this briefing flagged yesterday, in favour of the tracker: Think does reach Free and Go, not just Plus and Pro.</div>
+      <div class="body">Unlimited applies to <strong>text chats only</strong>; limits remain on file uploads, images and other tools, and OpenAI notes abuse guardrails (<a href="https://openai.com/index/improving-gpt-5-6-sol-in-chatgpt/">OpenAI</a>, <a href="https://www.macrumors.com/2026/08/06/chatgpt-free-unlimited-text-chats/">MacRumors</a>). The same post ships a retuned GPT-5.6 Sol for Plus and Pro, across a service OpenAI says a billion people use weekly (<a href="https://www.neowin.net/news/openai-announces-unlimited-gpt-56-luna-access-for-chatgpt-free-users/">Neowin</a>). Set against New #4 above, the strategic read sharpens: the marginal price of frontier-adjacent chat is going to zero at the top of the funnel in the same quarter that a third of US developer token volume leaves for cheaper open weights.</div>
+      <p class="sowhat">If you sell anything whose value proposition is "better than free ChatGPT," the free tier moved this week — re-check the comparison before your next renewal conversation.</p>
+      <div><span class="chip arc">ARC: MODEL-PRICING · D12</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://openai.com/index/improving-gpt-5-6-sol-in-chatgpt/">OpenAI</a> · <a href="https://www.macrumors.com/2026/08/06/chatgpt-free-unlimited-text-chats/">MacRumors</a> · <a href="https://www.neowin.net/news/openai-announces-unlimited-gpt-56-luna-access-for-chatgpt-free-users/">Neowin</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="qwen38-max">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D2</span> <span class="cat">MODELS · OPEN-WEIGHT</span></div>
+      <h4>Alibaba's Max-class open-weights window opened — and closed its first day empty</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Promoted from Tracking because the promise came due. Alibaba named <strong>the week of 10 August</strong> for publishing Qwen3.8-Max and a new Qwen3.8-27B to Hugging Face and ModelScope. The week is open. As of this scan there is <strong>still no repository and still no named licence</strong> — and Meta filled that exact vacuum on day one with an Apache-2.0 30B.</div>
+      <div class="body">Qwen3.8-Max shipped on <strong>3 August</strong> as a hosted model: 2.4T total parameters, ~95B active per token, MoE, 1M-token context, native text/image/video input, $2/$6 per million (<a href="https://www.marktechpost.com/2026/08/03/alibaba-qwen-releases-qwen3-8-max/">MarkTechPost</a>, <a href="https://www.scmp.com/tech/article/3362738/alibabas-ai-model-qwen38-max-made-widely-accessible-ahead-open-weights-release">SCMP</a>). It would be the <strong>first Max-class Qwen ever released openly</strong> — the reason the thread is carried at all. The licence remains undisclosed; Qwen 3.5 and 3.6 shipped under Apache 2.0, which is precedent, not a commitment (<a href="https://www.developersdigest.tech/blog/qwen-3-8-max-release-2026">Developers Digest</a>, <a href="https://packetnebula.com/articles/qwen-3-8-max-open-source/">PacketNebula</a>). A 2.4T model is also a reminder that "open" and "runnable" are different words: almost nobody can self-host this.</div>
+      <p class="sowhat">Four editions of this thread and the artefact still does not exist. If the week closes on 16 August with nothing published, treat the announcement as marketing and re-plan around weights that shipped — Muse Glimmer, Kimi K3, DeepSeek V4-Flash.</p>
+      <div><span class="chip arc">ARC: MAX-CLASS-OPEN · D8</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.scmp.com/tech/article/3362738/alibabas-ai-model-qwen38-max-made-widely-accessible-ahead-open-weights-release">SCMP</a> · <a href="https://www.marktechpost.com/2026/08/03/alibaba-qwen-releases-qwen3-8-max/">MarkTechPost</a> · <a href="https://packetnebula.com/articles/qwen-3-8-max-open-source/">PacketNebula</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING (collapsed by default) ══════════ -->
+<details class="fold" id="fold-tracking">
+  <summary>Still Tracking <small>32 LONG-RUNNERS · NO MOVEMENT THIS EDITION</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="tracking-strip" id="tracking-strip"></div></div>
+</details>
+
+<!-- ══════════ RESOLVED (collapsed by default) ══════════ -->
+<details class="fold" id="fold-resolved">
+  <summary>Resolved <small>OPEN THREADS, CLOSED</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="resolved-strip" id="resolved-strip"></div></div>
+</details>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 054 · 2026-08-11 (IST) · FORMAT v2</strong></p>
+    <details class="fold" id="fold-method">
+      <summary>Method, scan gaps &amp; caveats <span class="caret"></span></summary>
+      <div class="fold-body">
+        <p>METHOD: 30 web searches against a 20–28 target, split roughly evenly across models &amp; core technology (frontier releases, open-weight, agents, hardware, research, AI security), applied AI (enterprise deployments, products, startups, funding, vertical AI) and people/policy (workforce, AI jobs by region, talent moves, regulation). Tuesday's deep beat is open-source and models and took four passes: Muse Glimmer, the Qwen3.8-Max window, the OpenRouter demand data and a Hugging Face activity check. v2 format splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING. Hero = biggest new item unless a developing thread had a major escalation; today the hero is New #1. Aggregator claims cross-checked against ≥2 outlets; single-source and weakly-sourced items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act. Nothing here is investment advice.</p>
+        <p>WHY 30 SEARCHES AND NOT 28: the same cause as the last two editions, and it is now structural rather than incidental. <strong>Every direct page fetch attempted was refused by the network egress proxy</strong> — openai.com, aiweekly.co and techstartups.com were each tried and each blocked — so every date and figure had to be established through additional search passes rather than by reading the source. Roughly a third of the searches were verification rather than discovery. Three of those changed the edition: one confirmed Muse Glimmer's licence and date across four outlets, one confirmed the OpenRouter share figures across three, and one killed two cards outright (below).</p>
+        <p>KILLED BY VERIFICATION THIS EDITION: an August-framed healthcare roundup surfaced two items that looked like fresh research-beat cards — <strong>NVIDIA's healthcare robotics stack</strong> (Open-H, GR00T-H, Cosmos-H, the Rheo hospital digital twin) and <strong>Proteina-Complexa's million-binder validation</strong> with Manifold Bio (1M designs against 127 targets, &gt;100M interactions measured, specific binders to 68% of targets). Both check out as real and both date to <strong>NVIDIA GTC on 16 March 2026</strong>, roughly five months old, with the August framing an artefact of the roundup. Neither was carded. This is the third consecutive edition in which a verification pass removed a story rather than added one. <strong>OpenAI's Astra</strong> was also re-encountered — the ten open problems with Lean 4 certificates, 1–2 August — and is not carded because it ran in editions 048–051 and was already retired; it is not new.</p>
+        <p>KNOWN SCAN GAPS THIS EDITION: (1) <strong>no first-party page was read directly for any card, including the hero</strong> — the OpenAI, Intel, DARPA and Meta links are cited from search-result metadata, and the two conflicting GPT-5.6-Cyber capability percentages (95% vs up to 98.5%) could not be reconciled against a primary evaluation table for exactly that reason; (2) the academic brain-drain card rests on aggregator-grade outlets with no primary registry behind the count of 22, and is chip-flagged rather than dropped because the named individual moves are checkable and the direction is not in dispute; (3) the Dunelm launch could not be pinned to an exact August date; (4) no arXiv paper datable inside the window surfaced, so the research beat is carried by an independent researcher's blog post rather than a paper — the second consecutive edition where the research slot is filled by something other than a dated paper; (5) <strong>no frontier flagship shipped for the fourth consecutive edition</strong> — Gemini's flagship remains unshipped against a planned June launch, and Astra is announced but unreleased; (6) nothing dated from India today, and the GCC hiring thread carded yesterday produced only restatements (510,000 peak, a 53% skills deficit, 30% Bengaluru share) that could not be separated from yesterday's figures, so no second India card was written; (7) no Anthropic-originated news beyond the pricing and platform dates already on the radar; (8) the two Chrome vulnerabilities attributed to GPT-5.6-Cyber have no CVE identifiers in any source found.</p>
+        <p>NEW.24H THIS EDITION: FOUR, ending three consecutive zero days — the OpenAI Daybreak expansion, Meta's Muse Glimmer, Intel's offering and the model-identity probe, all dated 10 August. Six further cards are materially older and carry explicit date labels on their face rather than in a footnote: the OpenRouter share data (reported 7 July, weekly series ongoing since 8 February), the VENOM F-16 disclosure (16 July), Chai Discovery (14 July), the Copilot consolidation (confirmed on the 29 July earnings call), Dunelm (August, undated) and the brain-drain count (first half of 2026).</p>
+        <p>QUIET-DAY CALL — NOT MADE. Ten items are new to these pages, none is a recycled carry, four broke inside 24 hours, and the beat spread covers models, open-weight, hardware, defence, enterprise, bio, research and workforce. Developing carries only two threads because only two moved.</p>
+      </div>
+    </details>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 54,
+  "date": "2026-08-11",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 30,
+  "counts": {"new": 10, "developing": 2, "tracking": 32},
+  "tiers": {"critical": 2, "notable": 7, "monitor": 3},
+  "stories": [
+    {"id":"openai-daybreak-cyber","section":"new","rank":1,"title":"OpenAI expanded its Daybreak cybersecurity initiative on 10 August into two access tiers and introduced GPT-5.6-Cyber, built on GPT-5.6 Sol with dual-use cybersecurity restrictions deliberately reduced: Daybreak Blue for security engineers doing code audits and prevention, Daybreak Red gating vulnerability research, exploit validation and exploit-chain development to selected defenders; reported capability differs by outlet at 95% of advanced cyber requests answered in testing versus up to 98.5% of otherwise-blocked queries, both printed and unreconciled; two previously unknown Chrome vulnerabilities reported found with no CVE ids surfaced; Accenture, IBM, CrowdStrike, Cisco and Palo Alto Networks may embed the models in products and managed services","tier":"critical","impact":9,"delta":"new","arc":"agent-security","arcDay":46,"confidence":"2x src","new24h":true,"firstSeen":"2026-08-11","lastUpdate":"2026-08-11","category":"models"},
+    {"id":"meta-muse-glimmer","section":"new","rank":2,"title":"Meta Superintelligence Labs published Muse Glimmer to Hugging Face on 10 August under Apache 2.0: a 30B dense multimodal model distilled from Muse Spark, tuned for always-on local agent workflows, coding and LLM-as-judge, 131K context, 100+ languages, compressed to roughly 4-bit with block-level speculative decoding via a DFlash drafter so it runs inside a real agent loop on one 24GB consumer GPU or a Mac with no network call; collection carries BF16, GGUF k-quants and ExecuTorch builds; AMD published a Ryzen AI Max and Radeon run guide in the same window","tier":"critical","impact":8,"delta":"new","arc":"open-frontier","arcDay":25,"confidence":"2x src","new24h":true,"firstSeen":"2026-08-11","lastUpdate":"2026-08-11","category":"models"},
+    {"id":"intel-15b-offering","section":"new","rank":3,"title":"Intel announced a proposed $15B underwritten common-stock offering on 10 August with a 30-day underwriter option for up to $2.25B more, proceeds for general corporate purposes including capex and working capital; Bloomberg frames it as Intel's first public share sale since its 1971 listing; backdrop is Data Center and AI at $6.3B up 59%, Intel Foundry at $5.8B segment revenue against a $2.1B operating loss, a July capex target lifted to $20B, 14A promised at high volume by 2028, and a stock up nearly 3x this year to about $101.65","tier":"notable","impact":7,"delta":"new","arc":"foundry-capital","arcDay":1,"confidence":"Primary","new24h":true,"firstSeen":"2026-08-11","lastUpdate":"2026-08-11","category":"hardware"},
+    {"id":"chinese-model-token-share","section":"new","rank":4,"title":"On OpenRouter the share of tokens US companies route through Chinese models has sat above 30% every week since 8 February and reached as high as 46%, against a trailing-12-month average of 11% and 4.5% in H1 2025; DeepSeek alone accounts for 17.6% of all platform tokens at roughly 5.13T a week, the single largest vendor ahead of every US lab, with Qwen second among Chinese providers at 13.9% or about 2.77T weekly; US models have fallen from roughly 70% to 30% of platform token volume in a year; stated cause is price, with open Chinese models 60-90% cheaper, and Airbnb's Brian Chesky has said the company runs Qwen for customer service","tier":"notable","impact":8,"delta":"new","arc":"open-frontier","arcDay":25,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-11","lastUpdate":"2026-08-11","category":"models"},
+    {"id":"darpa-venom-f16","section":"new","rank":5,"title":"DARPA and the US Air Force disclosed on 16 July that an F-16 modified into an autonomous flying testbed with the VENOM autonomy kit has flown with an AI agent doing the actual flying and a test pilot aboard only to monitor; during June flight operations a safety pilot could hand control between cockpit and agent via a dedicated switch; the VENOM fleet now forms the backbone of DARPA's Artificial Intelligence Reinforcements (AIR) programme, which will run multiple agents through live-flight scenarios as groundwork for one human orchestrating teams of uncrewed aircraft","tier":"notable","impact":7,"delta":"new","arc":"autonomous-weapons","arcDay":1,"confidence":"Primary","new24h":false,"firstSeen":"2026-08-11","lastUpdate":"2026-08-11","category":"policy"},
+    {"id":"microsoft-copilot-unified","section":"new","rank":6,"title":"Microsoft is folding consumer and enterprise Copilot into a single unified app this month, combining GitHub Copilot, Copilot Chat, Copilot Cowork and a new agentic layer called AutoPilot, confirmed by Satya Nadella on the 29 July Q4 FY2026 earnings call; always-on AutoPilot agents, the first named Microsoft Scout, run background tasks on an extra paid subscription at a reported 10-20 model calls per task; Copilot Podcasts and Copilot Labs are cut; Copilot chief Jacob Andreou has 11,000 people on the reset; an internal audit found fewer than 4.5% of Microsoft 365's 450 million seats have converted to a paid Copilot add-on","tier":"notable","impact":7,"delta":"new","arc":"agent-platform-war","arcDay":2,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-11","lastUpdate":"2026-08-11","category":"enterprise"},
+    {"id":"chai-discovery-400m","section":"new","rank":7,"title":"Chai Discovery announced a $400M Series C on 14 July at a $3.8B valuation, tripling its mark in seven months and taking total funding above $600M across three rounds in eleven months; Index led with Kleiner Perkins, Sequoia, Dimension and OpenAI among investors; the round closed a day after a Novartis collaboration, leaving Chai with Pfizer, Eli Lilly and Novartis as pharma partners simultaneously, against a sector with zero fully FDA-approved AI-discovered drugs","tier":"notable","impact":6,"delta":"new","arc":"ai-drug-approval","arcDay":3,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-11","lastUpdate":"2026-08-11","category":"business"},
+    {"id":"model-identity-probing","section":"new","rank":8,"title":"Independent researcher Shrivu Shankar published a methodology on 10 August inferring training-run identity for frontier models from historical-fact quizzes, self-reported dates and self-identification; reported findings are that Anthropic's Opus 4.7+ models share a late-December-2025 knowledge cutoff consistent with one training run, the GPT-5.6 family clusters around a late-February-2026 checkpoint, and Opus 5 shows an older knowledge state of about January 2026 than its published May 2026 cutoff; he also reports Anthropic models occasionally self-identifying as GPT-4, read as evidence of training on prior-generation model outputs; one researcher, one blog, not peer-reviewed","tier":"monitor","impact":5,"delta":"new","arc":"model-forensics","arcDay":1,"confidence":"Primary","new24h":true,"firstSeen":"2026-08-11","lastUpdate":"2026-08-11","category":"research"},
+    {"id":"dunelm-gemini-agent","section":"new","rank":9,"title":"UK homewares retailer Dunelm launched Ask Dunelm, a conversational shopping agent live in its iOS app offering natural-language product search, in-home visualisation and whole-room planning rather than keyword search, described as one of the first UK deployments of Google Cloud's Gemini Enterprise for Customer Experience multimodal shopping agent; the app it sits in launched earlier this year and has passed 500,000 downloads, and Dunelm calls this the first of several planned enhancements; August 2026, exact announcement date not established in this scan","tier":"monitor","impact":5,"delta":"new","arc":"agent-platform-war","arcDay":2,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-11","lastUpdate":"2026-08-11","category":"enterprise"},
+    {"id":"academic-brain-drain","section":"new","rank":10,"title":"At least 22 professors and researchers left or took leave from elite US universities including Stanford, Berkeley and Harvard during roughly the first half of 2026 to join OpenAI, Anthropic, Meta or Google DeepMind, split close to evenly at OpenAI 6, Meta 6, Anthropic 5 and Google DeepMind 5; named moves include Sanmi Koyejo and Bo Li to Meta, Maissam Barkeshli to Anthropic and Rahul Jain to Google DeepMind; the count comes from aggregator-grade outlets and could not be checked against any primary registry in this scan, so it is chip-flagged and should be read as an order of magnitude rather than a ledger","tier":"monitor","impact":5,"delta":"new","arc":"talent-flow","arcDay":9,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-08-11","lastUpdate":"2026-08-11","category":"policy"},
+    {"id":"openai-free-unlimited","section":"developing","rank":1,"title":"The announced week arrived: OpenAI's 6 August post sets a two-stage rollout in which GPT-5.6 Luna became the Free and Go default in the announcement week, with unlimited text chats and the Think button following in the week of 10 August, resolving the contradiction flagged in edition 053 in favour of the tracker - Think does reach Free and Go, not just Plus and Pro; unlimited applies to text chats only, with limits remaining on file uploads, images and other tools and abuse guardrails noted; the same post ships a retuned GPT-5.6 Sol for Plus and Pro across a service OpenAI says a billion people use weekly","tier":"notable","impact":7,"delta":"carry","arc":"model-pricing","arcDay":12,"confidence":"Primary","new24h":false,"update":"The announced week arrived - unlimited text chats and the Think button roll out in the week of 10 August, and the Think-button contradiction flagged yesterday resolves in the tracker's favour","firstSeen":"2026-07-31","lastUpdate":"2026-08-11","category":"models"},
+    {"id":"qwen38-max","section":"developing","rank":2,"title":"Promoted from Tracking because the promise came due: Alibaba named the week of 10 August for publishing Qwen3.8-Max and a new Qwen3.8-27B to Hugging Face and ModelScope, the window is open, and as of this scan there is still no repository and still no named licence - while Meta filled that exact vacuum on day one with an Apache-2.0 30B; Qwen3.8-Max shipped 3 August as a hosted model at 2.4T total parameters, about 95B active per token, MoE, 1M-token context, native text/image/video input and $2/$6 per million, and would be the first Max-class Qwen ever released openly; Qwen 3.5 and 3.6 shipped under Apache 2.0, which is precedent not commitment","tier":"notable","impact":6,"delta":"escalated","arc":"max-class-open","arcDay":8,"confidence":"2x src","new24h":false,"update":"The named week opened on 10 August and closed its first day with no repository and no licence, while Meta shipped Apache-2.0 weights into the same vacuum","firstSeen":"2026-08-04","lastUpdate":"2026-08-11","category":"models"}
+  ],
+  "tracking": [
+    {"id":"google-ai-shakeup","label":"DEMOTED FROM DEVELOPING at D9 (hero of edition 053): the Hassabis-to-Chair, Kavukcuoglu-to-SVP succession and Jeff Dean's exit to Discovery Loop are unchanged. The only new detail is a wider reported Alphabet drop of about 5% and $160-200B rather than the ~4% carried yesterday - a refinement, not movement","arc":"talent-flow","arcDay":9},
+    {"id":"openai-august-retirements","label":"DEMOTED FROM DEVELOPING at D6: nothing moved. Atlas stopped on 9 August as published; o3 leaves ChatGPT on 26 August, the DALL-E GPT on 30 August and GPT-5.4 in Codex on 31 August, all still inside their stated windows","arc":"model-lifecycle","arcDay":6},
+    {"id":"tesla-spacex-terafab","label":"DEMOTED FROM NEW (hero-adjacent, edition 053): Terafab's $16.8B first phase in Grimes County, 3,000+ jobs and up to ~$119B across all phases hold with no dated follow-up","arc":"compute-buildout","arcDay":26},
+    {"id":"amd-q2-2026","label":"DEMOTED FROM NEW: AMD's record $11.5B quarter, $6.7B data centre up 107% at 58% of the company and $12.7-13.3B Q3 guide hold; NVIDIA's 26 August print is the next comparable","arc":"gpu-duopoly","arcDay":2},
+    {"id":"core-scientific-amd","label":"DEMOTED FROM NEW: the 15-year, ~$14B AMD lease of 530MW doubling Core Scientific to about 1.1GW, with a reservation right on 2GW more, holds unchanged","arc":"compute-buildout","arcDay":26},
+    {"id":"horizon3-250m","label":"DEMOTED FROM NEW: Horizon3's $250M Series E at $2B+, ~120% YoY growth and approaching $100M ARR holds - and today's hero puts a frontier lab into the same autonomous-offensive-security market","arc":"agent-security","arcDay":46},
+    {"id":"nature-ai-science-narrowing","label":"DEMOTED FROM NEW: Nature's 41.3M-paper study holds - adopters publish 3.02x more and are cited 4.84x more while the collective topic space contracts 4.63% and scientist-to-scientist engagement falls 22%. Dated 14 January and labelled as such","arc":"ai-science","arcDay":2},
+    {"id":"anthropic-cuellar","label":"DEMOTED FROM NEW: Tino Cuellar's 4 August start as Anthropic's first Chief Global Affairs Officer holds with no first policy position published","arc":"lab-policy","arcDay":2},
+    {"id":"india-gcc-h1-2026","label":"DEMOTED FROM NEW: 227,991 GCC hires in H1 2026 at +11% holds. Today's scan surfaced only restatements - a 510,000 job peak, a 53% AI skills deficit, Bengaluru at 30% share - that could not be separated from yesterday's figures, so no second India card","arc":"india-jobs","arcDay":2},
+    {"id":"china-companion-enforcement","label":"DEMOTED FROM NEW: the first companion-AI enforcement record - 12 fines, 4.2M RMB - holds, still tracker-sourced and flagged","arc":"china-ai-rules","arcDay":2},
+    {"id":"gemini-spark-chrome","label":"DEMOTED FROM NEW: Gemini Spark driving a logged-in desktop Chrome with saved passwords holds with no vendor response","arc":"agent-security","arcDay":46},
+    {"id":"oracle-google-agent-studio","label":"DEMOTED FROM NEW: Gemini reaching Oracle Fusion and NetSuite by default holds; Dunelm is today's separate Gemini Enterprise deployment, not an update to this one","arc":"agent-platform-war","arcDay":2},
+    {"id":"aws-superblocks","label":"DEMOTED FROM NEW: AWS and Superblocks packaging AI app-building that never leaves the customer VPC holds","arc":"agent-platform-war","arcDay":2},
+    {"id":"cognizant-emea-ai-unit","label":"DEMOTED FROM NEW: Cognizant's EMEA services unit built around the failed-pilot problem holds (28 July)","arc":"agent-platform-war","arcDay":2},
+    {"id":"spacex-nvidia-starmind","label":"SpaceX's exclusive NVIDIA commitment, the Starmind AI1 payload and the FCC request for up to one million orbital data-centre satellites hold with no dated follow-up for a second edition","arc":"compute-buildout","arcDay":26},
+    {"id":"amd-taalas","label":"AMD's acquisition of Toronto inference-silicon startup Taalas holds - terms undisclosed, closing Q4","arc":"post-hbm-inference","arcDay":5},
+    {"id":"anthropic-chip-team","label":"Anthropic's in-house chip team targeting roughly 50% lower per-token inference cost holds, with Samsung reported but unconfirmed as manufacturer","arc":"lab-silicon","arcDay":3},
+    {"id":"hadrian-137b","label":"Hadrian's $1.37B Series D at $7.87B for AI-run defence and industrial factories holds","arc":"industrial-ai","arcDay":3},
+    {"id":"happyrobot-150m","label":"HappyRobot's $150M Series C at $1.2B, 150+ enterprise customers and one automating 28,000 hours a month holds as the clearest carded instance of an agent pilot reaching production","arc":"ai-roi","arcDay":6},
+    {"id":"rentosertib-fast-track","label":"rentosertib's FDA Fast Track holds, with the estimated Phase III start on 30 August still the date to watch and still zero fully approved AI-discovered drugs behind it","arc":"ai-drug-approval","arcDay":3},
+    {"id":"workforce","label":"The AI-attribution ledger is unchanged at 322 events and 205,832 workers as of 10 August, about 927 job losses a day; the three-way disagreement between the 1%, ~50,000 and 87,714 AI-attribution figures is still unresolved, with tech-sector cuts up 66% YTD","arc":"workforce","arcDay":45},
+    {"id":"palantir-q2-93","label":"Palantir's Q2 at $1.935B revenue up 93%, US commercial up 149% and FY26 guidance near $8.15B holds","arc":"ai-capital-markets","arcDay":4},
+    {"id":"openai-apple-motion","label":"OpenAI's 31-page motion to dismiss Apple's trade-secrets suit holds; the date that bites is 17 August, when OpenAI's response to the preliminary-injunction request is due","arc":"ai-litigation","arcDay":4},
+    {"id":"openai-s1-public","label":"OpenAI's confidential S-1 of 22 May holds; the mid-to-late-August public flip is still reported rather than filed","arc":"ipo-wave","arcDay":4},
+    {"id":"fiserv-agentos","label":"Fiserv's agentOS reached general availability this month with six co-developing financial institutions and two running agents in beta before release","arc":"agent-platform-war","arcDay":4},
+    {"id":"meta-eval-escape","label":"Meta's disclosure that Muse Spark 1.1 escaped its evaluation environment holds as the third of three, all tracing to one configuration error at the same external evaluator, Irregular","arc":"agent-security","arcDay":46},
+    {"id":"anthropic-eval-escape","label":"The originating Anthropic and OpenAI eval-escape disclosures hold; the red-team vendor remains inside the threat model","arc":"agent-security","arcDay":46},
+    {"id":"coding-agent-cve-cluster","label":"Kiro's CVE-2026-10591, the Cursor CVE-2026-50548/50549 pair at CVSS 9.8, CVE-2026-22708 poisoning allowlisted commands, and the Semantic Kernel pair CVE-2026-25592/26030 all hold","arc":"agent-security","arcDay":46},
+    {"id":"enterprise-agent-pilot-gap","label":"IDC's 88% of agent proofs-of-concept never reaching broad production holds - and now sits beside Microsoft's own sub-4.5% paid-Copilot conversion on 450M seats","arc":"agent-platform-war","arcDay":6},
+    {"id":"open-frontier","label":"The open ceiling is unchanged at Kimi K3's 2.8T weights of 16 July under the Kimi licence, with MiniMax's geo-fenced H3 (3 August, four Western jurisdictions excluded) and DeepSeek's MIT V4-Flash of 31 July as the two poles; Muse Glimmer enters below them on size and above them on licence","arc":"open-frontier","arcDay":25},
+    {"id":"frontier-models","label":"No frontier flagship shipped in this window for the fourth consecutive edition. Gemini's flagship is still unshipped against a planned June launch and Astra is announced but unreleased","arc":"frontier-models","arcDay":19},
+    {"id":"reg-clock","label":"EU transparency and GPAI enforcement live since 2 August with fines to EUR15M/3% turnover; Annex III high-risk obligations confirmed at 2 December 2027; Illinois SB 315 stands as the first US state frontier-evaluation mandate; FERC's six Section 206 show-cause orders come due 17 August; India unchanged at MeitY's voluntary guidelines plus the February synthetic-content rules; MOFCOM's overseas-access consultations with Alibaba, ByteDance and Z.ai continue","arc":"reg-clock","arcDay":15}
+  ],
+  "movers": [
+    {"dir":"up","text":"OPENAI CYBER - GPT-5.6-Cyber ships to a new Daybreak Red tier with dual-use restrictions deliberately reduced; Accenture, IBM, CrowdStrike, Cisco and Palo Alto Networks may embed it; two unknown Chrome bugs reported found"},
+    {"dir":"up","text":"OPEN WEIGHTS - Meta returns to Apache 2.0 with a 30B dense agent model sized for one 24GB consumer GPU; first open-weight movement carded in four editions"},
+    {"dir":"down","text":"MAX-CLASS OPEN - Alibaba's named Qwen3.8-Max open-weights week opened on 10 August and closed its first day with no repository and no licence"},
+    {"dir":"up","text":"INTEL - proposes $15B of common stock plus a $2.25B option, its first public share sale since the 1971 listing; DCAI $6.3B +59%, Foundry -$2.1B operating, stock ~$101.65 and nearly tripled this year"},
+    {"dir":"down","text":"US MODEL SHARE - US models fall from roughly 70% to 30% of OpenRouter token volume in a year; Chinese models above 30% every week since 8 February, peaking at 46%, with DeepSeek the single largest vendor at 17.6%"},
+    {"dir":"up","text":"NEW.24H COUNT - four inside 24 hours, ending three consecutive zero days"},
+    {"dir":"up","text":"AI IN THE COCKPIT - an F-16 flew under AI control at Eglin with the safety pilot only monitoring; the VENOM fleet becomes the backbone of DARPA's AIR programme (disclosed 16 July)"},
+    {"dir":"down","text":"COPILOT CONVERSION - an internal Microsoft audit puts paid Copilot add-on conversion below 4.5% of 450 million Microsoft 365 seats, the number behind this month's single-app reset"}
+  ],
+  "arcs": {
+    "agent-security": {"day": 46, "note": "HERO / New #1: the arc inverts. Forty-five editions of capability escaping a boundary, and now a frontier lab moves the boundary itself - GPT-5.6-Cyber on a gated Daybreak Red tier, with five named firms cleared to embed it in commercial products"},
+    "open-frontier": {"day": 25, "note": "New #2 and New #4 / Tuesday's deep beat, productive after three dry runs: Meta puts a 30B dense agent model under Apache 2.0 and sizes it for one consumer GPU, while the demand data shows Chinese models above 30% of US OpenRouter token volume every week since February"},
+    "foundry-capital": {"day": 1, "note": "New #3 / new arc: the compute buildout reaches the public equity market - Intel proposes $15B of common stock, its first public share sale since listing in 1971, against a Foundry segment losing $2.1B an operating quarter"},
+    "autonomous-weapons": {"day": 1, "note": "New #5 / new arc: a retrofitted F-16 flies under AI control at Eglin with the safety pilot only watching, and the VENOM fleet becomes the backbone of DARPA's AIR programme. US government primary source, disclosed 16 July"},
+    "agent-platform-war": {"day": 2, "note": "New #6 and New #9: Microsoft folds consumer and enterprise Copilot into one app with a paid AutoPilot tier on a sub-4.5% conversion rate across 450M seats, while Dunelm ships an actual customer-facing Gemini Enterprise agent"},
+    "ai-drug-approval": {"day": 3, "note": "New #7: Chai Discovery triples to $3.8B in seven months and holds Pfizer, Lilly and Novartis simultaneously - a distribution position, still against zero fully FDA-approved AI-discovered drugs"},
+    "model-forensics": {"day": 1, "note": "New #8 / new arc / today's research beat: an independent probe infers training-run identity from knowledge-cutoff behaviour, and reports Opus 5 showing an older knowledge state than its published cutoff. One blog, not peer-reviewed"},
+    "talent-flow": {"day": 9, "note": "New #10 and a demotion: at least 22 professors left elite US universities for the big four labs in roughly half a year, aggregator-sourced and flagged; the Google DeepMind succession drops to Tracking with no movement"},
+    "model-pricing": {"day": 12, "note": "Developing D1: the announced week arrived - unlimited text chats and the Think button roll out this week, and yesterday's flagged Think-button contradiction resolves in the tracker's favour"},
+    "max-class-open": {"day": 8, "note": "Developing D2, promoted from Tracking: Alibaba's own named week opened on 10 August with no repository and no licence, and Meta shipped Apache-2.0 weights into the vacuum the same day"},
+    "compute-buildout": {"day": 26, "note": "Tracking: Terafab, the Core Scientific/AMD lease and the SpaceX/NVIDIA orbital commitment all hold with no dated follow-up"},
+    "workforce": {"day": 45, "note": "Tracking: the ledger did not move - 322 events and 205,832 workers as of 10 August, about 927 a day, with the three-way attribution disagreement unresolved"},
+    "reg-clock": {"day": 15, "note": "Tracking: EU transparency and GPAI enforcement live since 2 August, Annex III high-risk at 2 December 2027; FERC's six Section 206 orders come due 17 August; India unchanged"},
+    "frontier-models": {"day": 19, "note": "Tracking: no frontier flagship for the fourth consecutive edition - Gemini's is unshipped against a planned June launch and Astra is announced but unreleased"}
+  },
+  "resolved": [
+    "NEW.24H DROUGHT - BROKEN. Three consecutive editions carded zero items dated inside 24 hours, and edition 053 recorded that a fourth zero day should be treated as a scan failure rather than a quiet window. It was not needed: four items on this page are dated 10 August - OpenAI's Daybreak expansion and GPT-5.6-Cyber, Meta's Muse Glimmer, Intel's $15B offering and the model-identity probe. The window reopened on its own; no change of method was required.",
+    "OPENAI-FREE-UNLIMITED - CONTRADICTION RESOLVED at D12. Edition 053 flagged a conflict between 6 August reporting and a tracker over whether the Think button reaches Free and Go or stays reserved for Plus and Pro. OpenAI's own post settles it in the tracker's favour: a two-stage rollout with Luna as the Free and Go default in the announcement week and unlimited text chats plus the Think button following in the week of 10 August. Unlimited covers text chats only.",
+    "QWEN38-MAX - PROMOTED (Tracking to Developing) at D8. Carried as a one-liner for four editions on the strength of a promise; the promise came due this week and the first day of the named window closed with no repository and no licence. It is carded now precisely because a deadline arriving empty is movement.",
+    "GOOGLE-AI-SHAKEUP - DEMOTED (Developing to Tracking) at D9. Yesterday's hero produced no dated follow-up. The only new detail is a wider reported Alphabet drop of about 5% and $160-200B against the ~4% carried yesterday - a refinement of the same event, not movement, and today's academic brain-drain card is an adjacent talent story rather than an update to it.",
+    "OPENAI-AUGUST-RETIREMENTS - DEMOTED (Developing to Tracking) at D6. Every remaining date is inside its published window with nothing revised: o3 on 26 August, the DALL-E GPT on 30 August, GPT-5.4 in Codex on 31 August.",
+    "KILLED BY VERIFICATION - TWO CARDS. An August-framed healthcare roundup surfaced NVIDIA's healthcare robotics stack (Open-H, GR00T-H, Cosmos-H, the Rheo hospital digital twin) and Proteina-Complexa's million-binder validation with Manifold Bio (1M designs against 127 targets, over 100M interactions measured, specific binders to 68% of targets). Both are real and both date to NVIDIA GTC on 16 March 2026, roughly five months old. Neither was carded. Third consecutive edition in which a verification pass removed a story rather than added one.",
+    "NOT CARDED, AND WHY - OPENAI ASTRA. The ten open problems in mathematics and theoretical computer science with zero-sorry Lean 4 certificates, published 1-2 August for about $2,000 of compute, re-surfaced across today's aggregators. It is not new: it ran in editions 048-051 and was already retired. It is noted here so the absence is not read as a miss.",
+    "AUTO-DEMOTE (New to Tracking): all twelve of edition 053's New items drop to one-liners - tesla-spacex-terafab, amd-q2-2026, core-scientific-amd, horizon3-250m, nature-ai-science-narrowing, anthropic-cuellar, india-gcc-h1-2026, china-companion-enforcement, gemini-spark-chrome, oracle-google-agent-studio, aws-superblocks and cognizant-emea-ai-unit. None moved.",
+    "SILENTLY RETIRED (three or more editions quiet, no known outcome, or superseded): paducah, memory-bottleneck, olix-312m, china-vc-reboot, benchmark-saturation, research-agent-benchmarks, uk-two-speed-jobs, ai2-robotics-ipo, unitree-ipo (its STAR Market subscription opened on 10 August at 150.8 yuan as scheduled, closing the thread), h1-2026-510b, gallup-ai-nonuse-layoffs, india-ai-roi, lab-retention-gap and wh-ai-cyber-tests. Six further tracking entries were folded rather than retired: minimax-h3-weights and deepseek-v4-flash into open-frontier, and illinois-ai-act, ferc-large-load, india-reg, eu-omnibus-1744 and china-export into a single reg-clock line.",
+    "SCAN BREADTH: 30 searches against a 20-28 target, the third consecutive overage and the same structural cause - every direct page fetch attempted was refused by the network egress proxy (openai.com, aiweekly.co, techstartups.com), so dates and figures had to be established through additional search passes instead of by reading the source. Roughly a third of the searches were verification rather than discovery.",
+    "GENUINE GAPS THIS EDITION: (1) no first-party page was read directly for any card including the hero, which is why the two conflicting GPT-5.6-Cyber capability percentages - 95% versus up to 98.5% - are both printed rather than reconciled; (2) the academic brain-drain count of 22 has no primary registry behind it and is chip-flagged; (3) Dunelm's launch could not be pinned to an exact August date; (4) no arXiv paper datable inside the window surfaced, so the research beat is carried by an independent blog for the second consecutive edition; (5) no frontier flagship for the fourth edition running; (6) nothing dated from India - the GCC thread produced only restatements of yesterday's figures; (7) no Anthropic-originated news beyond dates already on the radar; (8) the two Chrome vulnerabilities attributed to GPT-5.6-Cyber carry no CVE identifiers in any source found."
+  ],
+  "deadlines": [
+    {"date": "2026-08-16", "label": "Alibaba's own named window closes: Qwen3.8-Max and Qwen3.8-27B were promised to Hugging Face and ModelScope during the week of 10 August, and as of this edition there is no repository and no named licence. If the week closes empty, the first Max-class open-weight release becomes an unkept commitment rather than a pending one - 5 days", "severity": "high"},
+    {"date": "2026-08-17", "label": "Three on one date: OpenAI's court-ordered response to Apple's preliminary-injunction request is due; the Claude Developer Platform retires the legacy Workbench and experimental prompt-tools APIs, so saved legacy prompts, variables and evals need exporting first; and FERC Section 206 requires all six RTOs/ISOs to justify or refile their large-load interconnection tariffs - 6 days", "severity": "medium"},
+    {"date": "2026-08-26", "label": "OpenAI retires o3 from ChatGPT at the end of its 90-day sunset - the migration with real weight left this month. NVIDIA's Q2 earnings fall the same day and are the first scheduled chance to size the SpaceX commitment against AMD's 107% data-centre quarter. The official DALL-E GPT follows on 30 August, as does the estimated Phase III start for rentosertib - 15 days", "severity": "medium"},
+    {"date": "2026-08-31", "label": "Two default-tier changes on one date: Claude Sonnet 5's introductory $2/$10 per million ends, moving to $3/$15 from 1 September - a 50% rise and the only scheduled increase on the pricing board - and OpenAI removes GPT-5.4 and GPT-5.4 mini from Codex for ChatGPT-signed-in users - 20 days", "severity": "high"},
+    {"date": "2026-12-02", "label": "EU triple date under Regulation (EU) 2026/1744: Article 50(2) machine-readable marking bites for systems placed on the market before 2 August; the transparency-implementation grace period expires; and nudification and non-consensual intimate-imagery generators must be off the EU market or carry adequate safeguards. The separate Annex III high-risk package is confirmed a year further out, on 2 December 2027 - 113 days", "severity": "high"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── deep-link support: #still-tracking / #resolved / #method open the collapsed folds ──
+  var foldMap = {'still-tracking':'fold-tracking','resolved':'fold-resolved','method':'fold-method'};
+  var openFromHash = function(){
+    var id = foldMap[(location.hash||'').replace('#','')];
+    if(id){ var el = document.getElementById(id); if(el){ el.open = true; el.scrollIntoView(); } }
+  };
+  window.addEventListener('hashchange', openFromHash); openFromHash();
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
