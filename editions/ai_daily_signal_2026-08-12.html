@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 055 — 12 August 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+
+  /* collapsible archive sections (Still Tracking / Resolved / method notes) */
+  .fold{border-bottom:3px solid var(--ink);margin-top:26px}
+  .fold[open]{border-bottom-color:var(--rule)}
+  .fold > summary{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:0 0 8px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary small{font-size:10px;color:#6b6353;letter-spacing:1px;font-weight:400}
+  .fold > summary .caret{font-size:11px;color:#6b6353;letter-spacing:0}
+  .fold > summary:hover{color:var(--crit)}
+  .fold[open] > summary .caret::after{content:"▴ HIDE"}
+  .fold:not([open]) > summary .caret::after{content:"▾ SHOW"}
+  .fold .fold-body{padding-bottom:16px}
+  footer .fold{border-bottom:none;margin-top:12px}
+  footer .fold > summary{font-size:11px;letter-spacing:2px}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>PROVENANCE</b> Anthropic begins stamping an invisible statistical watermark into every Claude text output worldwide — API, claude.ai, Claude Code, Cowork and all three clouds &nbsp;◆&nbsp; <b>OPEN WEIGHTS</b> NVIDIA ships Nemotron 3.5 Lightning, a 30B open MoE sized for one PC GPU, plus NeMo Switchyard, an open router &nbsp;◆&nbsp; <b>MAX-CLASS OPEN</b> Alibaba's named week is three days gone — no Qwen3.8-Max repository, no licence, four days to the close &nbsp;◆&nbsp; <b>SECURITY BEAT</b> INTERPOL puts AI inside up to 55% of African cybercrime; 30+ CVEs filed against MCP servers in one 60-day window &nbsp;◆&nbsp; <b>SMALL MODELS</b> Pathway's 150M-parameter BDH-CQ claims a new ARC-AGI-1 cost-accuracy frontier at $0.0007 a task &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>055</b></span>
+    <span>WEDNESDAY, 12 AUGUST 2026</span>
+    <span class="seg">NEW <b>9</b> · DEVELOPING <b>2</b> · TRACKING <b>32</b></span>
+    <span>CRITICAL <b>2</b> / NOTABLE 6 / MONITOR 3</span>
+    <span>SCAN: 28 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="anthropic-text-watermark">
+  <div>
+    <div class="kicker">■ Today's Lead · New · Models · Day 1 of the content-provenance arc</div>
+    <h2>Every sentence Claude writes now carries a hidden mark — and it survives copy-paste</h2>
+    <p class="dek">Anthropic has begun embedding an <strong>invisible statistical watermark</strong> into text generated by its newer Claude models, applied globally rather than only in the jurisdiction that forced it. The mark is woven into the model's token-selection process at the moment of generation, so it lives inside the words themselves and travels with the content when someone copies and pastes it somewhere else — no metadata, no file header to strip (<a href="https://fortune.com/2026/08/11/anthropic-claude-watermark-ai-text-police-ai-slop/">Fortune</a>, <a href="https://qz.com/anthropic-claude-watermarks-ai-generated-text-images-081126">Quartz</a>). Coverage is the whole surface: the Claude Platform API, claude.ai, Claude Code, Claude Cowork, Claude Tag, and Claude accessed through <strong>AWS, Google Cloud and Microsoft Foundry</strong> (<a href="https://www.business-standard.com/technology/tech-news/claude-invisible-watermark-ai-generated-text-how-it-works-126081100381_1.html">Business Standard</a>). Reporting dates the start of marking to <strong>2 August</strong> — the day the EU AI Act's transparency chapter began being enforced — and puts the driver squarely in Article 50 (<a href="https://interestingengineering.com/ai-robotics/anthropic-claude-text-invisible-watermarks">Interesting Engineering</a>). The company is explicit about what the mark is not: it is <em>not</em> an AI detector. A hit means the text <strong>may have been processed by Claude</strong>, not that a human did not write it, and TechTimes leads on exactly that distinction — the mark proves processing, not authorship (<a href="https://www.techtimes.com/articles/323873/20260811/claude-now-watermarks-text-everywhere-mark-proves-processing-not-authorship.htm">TechTimes</a>).</p>
+    <p class="sowhat">So what: if your organisation pipes Claude output into anything you later publish, license or submit, that output is now marked at the source and the detector is going to be public — decide this week whether that is a compliance asset or a disclosure problem, and write it into your AI-use policy before someone else runs the check.</p>
+    <span class="chip arc">ARC: CONTENT-PROVENANCE · D1</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://fortune.com/2026/08/11/anthropic-claude-watermark-ai-text-police-ai-slop/">Fortune (11 Aug)</a> ·
+      <a href="https://qz.com/anthropic-claude-watermarks-ai-generated-text-images-081126">Quartz (11 Aug)</a> ·
+      <a href="https://www.techtimes.com/articles/323873/20260811/claude-now-watermarks-text-everywhere-mark-proves-processing-not-authorship.htm">TechTimes (11 Aug)</a> ·
+      <a href="https://www.business-standard.com/technology/tech-news/claude-invisible-watermark-ai-generated-text-how-it-works-126081100381_1.html">Business Standard (11 Aug)</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What is actually being shipped.</strong> For text outputs, a statistical watermark is embedded at generation time — biasing the model's token selection in a pattern a detector can recognise later. Reporting is consistent that the mark does not change the meaning, quality or readability of the response, and that because it is carried by the word choices themselves rather than by metadata, it persists through a plain copy-paste into a document, an email or a CMS. Coverage was described as spanning the Claude Platform API, claude.ai, Claude Code, Claude Cowork, Claude Tag, and Claude models served via AWS, Google Cloud and Microsoft Foundry. Anthropic said it plans to publish technical details so that users and third parties can check content for supported Claude marks; those detection tools were not available to test at the time of this scan.</p>
+      <p><strong>Why it leads.</strong> This briefing has carried the EU transparency clock as a calendar item for months — Article 50 enforcement live since 2 August, Article 50(2) machine-readable marking biting on 2 December for systems already on the market. Today it stops being a calendar item. A frontier lab has changed what its product <em>emits</em>, and — the detail that makes it a lead rather than a compliance note — it did so <strong>worldwide</strong>, not only for EU users. A regulation with EU scope has just set the default behaviour of a model used everywhere. That is the shape of the Brussels effect arriving in a token stream, and every other lab now has a worked example and a competitive question to answer.</p>
+      <p><strong>The limits, stated by the company.</strong> Three caveats matter operationally. First, the mark indicates processing, not authorship: text a human wrote and asked Claude to lightly edit can carry it, and that is the failure mode most likely to hurt a student, a job applicant or a journalist. Second, heavy revision weakens the signal — Anthropic expects some marks to survive editing, not all. Third, very short passages may not carry enough text to detect reliably. Anyone planning to treat a positive hit as evidence of anything should read those three sentences first.</p>
+      <p><strong>What could not be checked here.</strong> No Anthropic first-party page was fetched for this card: every direct page fetch attempted this edition was refused by the egress proxy, so the 2 August start date, the exact model coverage and the surface list all rest on secondary reporting from four outlets that agree with one another. The specific list of "supported" models was not enumerated in any source located. Watch next: publication of the detection method, whether the mark is extended to images and code, and whether OpenAI or Google follow with text-level marking rather than the C2PA image metadata most of the industry has settled for.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>What</dt><dd>Invisible statistical watermark embedded in Claude text at generation time, inside token selection</dd>
+      <dt>When</dt><dd>Marking reported to have begun 2 August; the story broke across outlets on 11 August</dd>
+      <dt>Where</dt><dd>Claude Platform API, claude.ai, Claude Code, Cowork, Claude Tag; plus AWS, Google Cloud, Microsoft Foundry</dd>
+      <dt>Scope</dt><dd>Applied globally, not only to EU users, though EU AI Act Article 50 is the named driver</dd>
+      <dt>Survives</dt><dd>Copy-paste, because the mark is in the words; weakened by heavy editing; unreliable on very short text</dd>
+      <dt>Not</dt><dd>An AI detector — a hit means content <em>may</em> have been processed by Claude, not that it was authored by it</dd>
+      <dt>Caveat</dt><dd>No first-party page fetched (proxy-blocked); four secondary outlets in agreement</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">8</b>/10 — every organisation publishing, licensing or submitting Claude-assisted text</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="anthropic-text-watermark">
+      <div class="num">1</div>
+      <h4>Claude's output is now marked at the source</h4>
+      <p>An invisible statistical watermark, woven into token selection, applied globally across API, claude.ai, Claude Code, Cowork and the three clouds. It survives copy-paste. It is explicitly not an AI detector — a hit proves processing, not authorship. EU Article 50 is the driver; the scope is worldwide. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="nvidia-nemotron-lightning">
+      <div class="num">2</div>
+      <h4>NVIDIA ships a 30B open MoE for one PC GPU</h4>
+      <p>Nemotron 3.5 Lightning is free to download, use and modify without permission, targets always-on multi-agent workloads, and claims up to 4x faster output and 30% faster agentic task completion in its class. NeMo Switchyard, an open router, ships alongside. It landed on the same day Alibaba's Max-class open weights did not. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="mcp-cve-surge">
+      <div class="num">3</div>
+      <h4>Wednesday's security beat: MCP is the attack surface</h4>
+      <p>Thirty-plus CVEs filed against MCP servers in a single 60-day window, roughly 43% of them command injection; at least seven confirmed high or critical across MCP Inspector, LiteLLM, Cursor, LibreChat and Windsurf. The STDIO transport executes OS commands without sanitisation. Identifiers are vendor-reported and unverified here. <strong>NEW.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>SHORT OF QUOTA, NOT PADDED:</strong> nine New items against a ≥10 target. Three candidates were killed by verification rather than carded to make the number — an 11 August syndication of <em>Claude for Teachers</em> that is a 14 July launch already carried in edition 046, an 11 August write-up of Dili's $15M Series A already carded on 4 August, and a 10 August deployment of "70,000+ Rubin and Blackwell GPUs" whose operator was not named in any source located. Four items are dated inside 24 hours, holding yesterday's count for a second edition after three zero days: the Claude watermark · NVIDIA's Nemotron 3.5 Lightning and NeMo Switchyard · Pathway's 150M-parameter BDH-CQ breaking the ARC-AGI-1 cost-accuracy frontier at $0.0007 a task, which gives the research beat its first dated arXiv paper in three editions · and Anthropic's Compliance API reaching Cowork and Claude Code. Wednesday's AI-security deep beat produced two cards from opposite ends of the problem — INTERPOL putting AI inside up to 55% of African cybercrime with losses doubled to $484M, and the MCP server CVE surge. Also new: Lumilens leaves stealth at a $5.51B valuation with production optical interconnects already shipping into hyperscale AI data centres · ChatGPT Enterprise and EDU kill individually authorised connected-app sync, with existing connections cut on 14 August · AMD's ~121% year-to-date run against NVIDIA's ~17% as markets price MI450 as a real second source. Developing holds at two: yesterday's Daybreak hero, deliberately held with no movement, and Alibaba's Max-class open-weight promise, now three days into a four-day-remaining window with nothing published.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (11)</button>
+    <button class="tab" data-cat="models">MODELS (4)</button>
+    <button class="tab" data-cat="policy">POLICY (2)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (2)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+    <button class="tab" data-cat="business">BUSINESS (1)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>9 ITEMS · BROKE / SURFACED SINCE LAST EDITION · 4 INSIDE 24H</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="models" data-story-id="anthropic-text-watermark">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#1</span> <span class="cat">MODELS · PROVENANCE</span></div>
+      <h4>Anthropic marks every Claude text output with an invisible watermark — worldwide</h4>
+      <div class="body">The lead, in full above. A statistical watermark is embedded at generation time by biasing token selection, so it rides inside the words and survives copy-paste rather than sitting in strippable metadata. Coverage spans the Claude Platform API, claude.ai, Claude Code, Cowork, Claude Tag and Claude served through AWS, Google Cloud and Microsoft Foundry (<a href="https://fortune.com/2026/08/11/anthropic-claude-watermark-ai-text-police-ai-slop/">Fortune</a>, <a href="https://qz.com/anthropic-claude-watermarks-ai-generated-text-images-081126">Quartz</a>). Marking is reported to have begun <strong>2 August</strong>, the day EU transparency enforcement started, and Article 50 is the named driver — but the rollout is global, not EU-gated (<a href="https://interestingengineering.com/ai-robotics/anthropic-claude-text-invisible-watermarks">Interesting Engineering</a>). Anthropic is explicit that a hit means content <em>may have been processed</em> by Claude, not that Claude authored it (<a href="https://www.techtimes.com/articles/323873/20260811/claude-now-watermarks-text-everywhere-mark-proves-processing-not-authorship.htm">TechTimes</a>).</div>
+      <p class="sowhat">The EU wrote a rule for EU users and got a global default in a token stream — put the "processing, not authorship" distinction into your AI-use policy before a detector result is used against someone.</p>
+      <div><span class="chip arc">ARC: CONTENT-PROVENANCE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://fortune.com/2026/08/11/anthropic-claude-watermark-ai-text-police-ai-slop/">Fortune</a> · <a href="https://qz.com/anthropic-claude-watermarks-ai-generated-text-images-081126">Quartz</a> · <a href="https://www.techtimes.com/articles/323873/20260811/claude-now-watermarks-text-everywhere-mark-proves-processing-not-authorship.htm">TechTimes</a> · <a href="https://www.business-standard.com/technology/tech-news/claude-invisible-watermark-ai-generated-text-how-it-works-126081100381_1.html">Business Standard</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="nvidia-nemotron-lightning">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#2</span> <span class="cat">MODELS · OPEN-WEIGHT</span></div>
+      <h4>NVIDIA ships Nemotron 3.5 Lightning — a 30B open MoE sized for a single PC GPU</h4>
+      <div class="body">NVIDIA released <strong>Nemotron 3.5 Lightning</strong> on 11 August: a 30-billion-parameter open mixture-of-experts model, roughly 3B active per token, built for high-volume agentic workloads and small enough to run on one PC GPU. Companies can <strong>download, use and modify it for free without seeking permission</strong>, and NVIDIA claims up to <strong>4x faster output</strong> and <strong>30% faster agentic task completion</strong> than competing models in its class (<a href="https://www.cnbc.com/2026/08/11/nvidia-releases-nemotron-3point5-lightning-open-source-ai-model-.html">CNBC</a>, <a href="https://siliconangle.com/2026/08/11/nvidia-releases-nemotron-3-5-lightning-nemo-switchyard-give-enterprise-ai-capability-options/">SiliconANGLE</a>). It is on Hugging Face, ModelScope, OpenRouter and NVIDIA's own endpoint (<a href="https://build.nvidia.com/nvidia/nemotron-3.5-lightning-30b-a3b/modelcard">model card</a>). Shipping alongside: <strong>NeMo Switchyard</strong>, an open-source router that sends each request to whichever model handles it fastest and cheapest (<a href="https://blogs.nvidia.com/blog/nemotron-lightning-switchyard-rtx-dgx/">NVIDIA</a>).</div>
+      <p class="sowhat">A chip company shipping the router as well as the model is optimising for tokens-per-watt across your whole fleet, not for one benchmark — if you run always-on agents, price the local tier before renewing a per-token contract.</p>
+      <div><span class="chip arc">ARC: OPEN-FRONTIER · D26</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/08/11/nvidia-releases-nemotron-3point5-lightning-open-source-ai-model-.html">CNBC</a> · <a href="https://siliconangle.com/2026/08/11/nvidia-releases-nemotron-3-5-lightning-nemo-switchyard-give-enterprise-ai-capability-options/">SiliconANGLE</a> · <a href="https://blogs.nvidia.com/blog/nemotron-lightning-switchyard-rtx-dgx/">NVIDIA Blog</a> · <a href="https://qz.com/nvidia-nemotron-35-lightning-open-source-ai-model-081126">Quartz</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="mcp-cve-surge">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#3</span> <span class="cat">POLICY · SECURITY · DEEP BEAT</span></div>
+      <h4>Wednesday's deep beat: 30+ CVEs against MCP servers in one 60-day window</h4>
+      <div class="body">The agent-security arc has spent forty-six editions on model behaviour. Today's beat says the softer target is the plumbing. Security researchers count <strong>30+ CVEs filed against MCP servers in a single 60-day window</strong> in early 2026, roughly <strong>43% of them command-injection patterns</strong>, with the STDIO transport executing OS commands without sanitisation or validation (<a href="https://www.practical-devsecops.com/mcp-security-statistics-2026-report/">Practical DevSecOps</a>, <a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-mcp-security-crisis-20260504-csa-styled/">Cloud Security Alliance Labs</a>). At least seven confirmed high or critical CVEs span <strong>MCP Inspector, LiteLLM, Cursor, LibreChat and Windsurf</strong>; the Windsurf path (reported as CVE-2026-30615) turns attacker-controlled HTML into silent registration of a malicious MCP STDIO server and then arbitrary command execution with no further user interaction (<a href="https://www.ox.security/blog/mcp-supply-chain-advisory-rce-vulnerabilities-across-the-ai-ecosystem/">OX Security</a>, <a href="https://agentmelt.com/blog/mcp-security-2026-attacks-and-defenses/">Agentmelt</a>). A design-level MCP flaw enabling RCE was separately reported in April across a large installed base (<a href="https://thehackernews.com/2026/04/anthropic-mcp-design-vulnerability.html">The Hacker News</a>).</div>
+      <p class="sowhat">Your agent's blast radius is its tool servers, not its model — inventory every MCP server your agents can reach, pin versions, and treat STDIO transport as remote code execution with extra steps.</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D47</span><span class="chip">2x SRC</span><span class="chip rumor">CVE IDs UNVERIFIED</span></div>
+      <div class="src"><a href="https://www.practical-devsecops.com/mcp-security-statistics-2026-report/">Practical DevSecOps</a> · <a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-mcp-security-crisis-20260504-csa-styled/">CSA Labs</a> · <a href="https://www.ox.security/blog/mcp-supply-chain-advisory-rce-vulnerabilities-across-the-ai-ecosystem/">OX Security</a> · <a href="https://thehackernews.com/2026/04/anthropic-mcp-design-vulnerability.html">The Hacker News</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="interpol-africa-ai-crime">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#4</span> <span class="cat">POLICY · CRIME · DEEP BEAT</span></div>
+      <h4>INTERPOL: AI is inside up to 55% of African cybercrime, and losses have doubled</h4>
+      <div class="body">INTERPOL's <strong>African Cyberthreat Assessment Report 2026</strong> — a 40-page study drawing on survey data from <strong>36 member countries</strong>, published June, and picked up across African and international press in early August — finds AI enabling <strong>up to 55%</strong> of cybercrime on the continent, with losses <strong>more than doubled since 2024 to about $484M</strong> (<a href="https://www.interpol.int/en/News-and-Events/News/2026/INTERPOL-report-finds-AI-linked-to-more-than-half-of-cybercrime-in-Africa">INTERPOL</a>, <a href="https://www.jurist.org/news/2026/08/interpol-report-finds-ai-linked-to-over-half-of-cybercrime-in-africa/">JURIST</a>). Scam centres now operate in <strong>72% of surveyed countries</strong>; AI-generated deepfakes and synthetic identities are increasingly defeating biometric checks; and the report describes AI automating <em>every stage</em> of an attack — reconnaissance, phishing, extortion and evasion — with business email compromise the most improved by generative text (<a href="https://punchng.com/ai-powers-55-of-african-cybercrimes-interpol-2026-report-reveals/">Punch</a>, <a href="https://www.africanews.com/2026/08/04/ai-fuels-more-than-half-of-cybercrime-in-africa-as-digital-scams-surge-interpol/">Africanews</a>).</div>
+      <p class="sowhat">This is the demand-side number under yesterday's Daybreak card: the offensive use is already industrialised and measured by a police body, not projected by a vendor — if your fraud controls still lean on liveness checks or "does this email read oddly", they are dated.</p>
+      <div><span class="chip arc">ARC: AI-CRIME · D1</span><span class="chip">2x SRC</span><span class="chip">REPORT DATED JUNE</span></div>
+      <div class="src"><a href="https://www.interpol.int/en/News-and-Events/News/2026/INTERPOL-report-finds-AI-linked-to-more-than-half-of-cybercrime-in-Africa">INTERPOL (primary)</a> · <a href="https://www.interpol.int/Media/Documents/Publications/Cybercrime/African-Cyberthreat-Assessment-Report-2026">Report PDF</a> · <a href="https://www.jurist.org/news/2026/08/interpol-report-finds-ai-linked-to-over-half-of-cybercrime-in-africa/">JURIST</a> · <a href="https://www.africanews.com/2026/08/04/ai-fuels-more-than-half-of-cybercrime-in-africa-as-digital-scams-surge-interpol/">Africanews</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="lumilens-900m">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#5</span> <span class="cat">BUSINESS · OPTICS</span></div>
+      <h4>Lumilens leaves stealth at $5.51B with optics already shipping into hyperscale AI data centres</h4>
+      <div class="body">Silicon-photonics startup <strong>Lumilens</strong> emerged from stealth on 6 August. The company's own release says <strong>more than $900M raised in total</strong>, of which <strong>more than $700M</strong> is the Series C, at a <strong>$5.51B</strong> valuation — several outlets headline the round itself as "$900M", and both figures are printed here because no reconciliation was possible (<a href="https://www.businesswire.com/news/home/20260806444241/en/Lumilens-Emerges-from-Stealth-with-More-Than-$900-Million-in-Funding-to-Break-AIs-Connectivity-Bottlenecks-in-the-Data-Center">Businesswire</a>, <a href="https://siliconangle.com/2026/08/06/optical-networking-startup-lumilens-launches-900m-funding/">SiliconANGLE</a>). It builds optical interconnects for both the scale-up fabric linking GPUs inside one system and the scale-out fabric stitching racks together, and says it is <strong>already shipping production product</strong> into hyperscale AI data centres under a multi-billion-dollar customer agreement — two years after founding. Atreides, Bain Capital Ventures, Meritech, Seligman and Spark co-led, with Qualcomm among a dozen-plus others; CEO Ankur Singla previously sold Contrail Systems and Volterra for a combined $676M (<a href="https://www.electronicsweekly.com/news/business/lumilens-raises-900m-2026-08/">Electronics Weekly</a>).</div>
+      <p class="sowhat">Capital is moving past the accelerator to the wire between accelerators — the bottleneck story of the next buildout is interconnect, and a two-year-old with a multi-billion-dollar supply agreement says the hyperscalers already agree.</p>
+      <div><span class="chip arc">ARC: FOUNDRY-CAPITAL · D2</span><span class="chip">2x SRC</span><span class="chip">6 AUG</span></div>
+      <div class="src"><a href="https://www.businesswire.com/news/home/20260806444241/en/Lumilens-Emerges-from-Stealth-with-More-Than-$900-Million-in-Funding-to-Break-AIs-Connectivity-Bottlenecks-in-the-Data-Center">Businesswire (primary)</a> · <a href="https://siliconangle.com/2026/08/06/optical-networking-startup-lumilens-launches-900m-funding/">SiliconANGLE</a> · <a href="https://www.electronicsweekly.com/news/business/lumilens-raises-900m-2026-08/">Electronics Weekly</a> · <a href="https://theaiinsider.tech/2026/08/07/lumilens-raises-more-than-700m-million-in-series-c-funding-to-develop-optical-interconnect-tech-for-ai-data-centers/">The AI Insider</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="research" data-story-id="pathway-bdh-cq">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#6</span> <span class="cat">RESEARCH · REASONING</span></div>
+      <h4>A 150M-parameter model claims a new ARC-AGI-1 cost-accuracy frontier at $0.0007 a task</h4>
+      <div class="body">The research beat gets its first dated arXiv paper in three editions. <strong>BDH-CQ</strong> (<a href="https://arxiv.org/abs/2608.09888">arXiv 2608.09888</a>), from Pathway, does in-context learning with <strong>recurrent latent reasoning</strong>: examples shown at inference time continuously update a recurrent memory, and the model then solves the query by iterating in a high-dimensional latent space <em>without verbalising intermediate steps</em> — no chain-of-thought scratchpad. A <strong>150M-parameter</strong> configuration reaches <strong>29.5% pass@2</strong> on the public ARC-AGI-1 evaluation set at a computed inference cost of <strong>$0.0007 per task</strong>, which the authors say breaks the previously reported cost-accuracy Pareto frontier (<a href="https://www.morningstar.com/news/business-wire/20260811268264/pathways-150m-parameter-model-breaks-the-arc-agi-1-cost-efficiency-frontier">Businesswire via Morningstar</a>). Trade coverage frames it as roughly 11x lower reasoning cost (<a href="https://analyticsindiamag.com/ai-news/pathway-claims-11x-lower-ai-reasoning-costs-with-150m-parameter-model">Analytics India Magazine</a>).</div>
+      <p class="sowhat">Every deployed reasoning system today pays for its thinking in emitted tokens; a latent-recurrent architecture does not, and if that holds outside ARC it changes the unit economics of reasoning more than another point of benchmark score would.</p>
+      <div><span class="chip arc">ARC: SMALL-MODEL-REASONING · D1</span><span class="chip">2x SRC</span><span class="chip rumor">SELF-REPORTED SCORES</span></div>
+      <div class="src"><a href="https://arxiv.org/abs/2608.09888">arXiv 2608.09888</a> · <a href="https://www.morningstar.com/news/business-wire/20260811268264/pathways-150m-parameter-model-breaks-the-arc-agi-1-cost-efficiency-frontier">Morningstar / Businesswire</a> · <a href="https://analyticsindiamag.com/ai-news/pathway-claims-11x-lower-ai-reasoning-costs-with-150m-parameter-model">Analytics India Magazine</a> · <a href="https://pathway.com/">Pathway</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="claude-compliance-api">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#7</span> <span class="cat">ENTERPRISE · GOVERNANCE</span></div>
+      <h4>Claude's Compliance API reaches Cowork and Claude Code — sessions become discoverable</h4>
+      <div class="body">Anthropic expanded its <strong>Compliance API</strong> to cover <strong>Cowork and Claude Code</strong> across desktop, web, mobile and CLI, in beta for Claude Enterprise customers. Security teams can pull unified session content and metadata for audits and <strong>eDiscovery</strong> through one API (<a href="https://releasebot.io/updates/anthropic/claude">Anthropic release notes via Releasebot</a>). Read it next to today's lead and a pattern appears: within the same week the same vendor made its output externally identifiable and its sessions internally retrievable. The agent transcript is becoming a record class — with the retention and legal-hold questions that implies for anyone whose engineers paste production data into a CLI.</div>
+      <p class="sowhat">If Claude Code sessions are now discoverable, they are discoverable in litigation too — get retention policy on agent transcripts written before your first hold notice tests it.</p>
+      <div><span class="chip arc">ARC: AGENT-PLATFORM-WAR · D3</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://releasebot.io/updates/anthropic/claude">Releasebot (Anthropic notes)</a> · <a href="https://releasebot.io/updates/anthropic">Releasebot index</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="openai-connector-sync-retire">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#8</span> <span class="cat">ENTERPRISE · OPENAI</span></div>
+      <h4>ChatGPT Enterprise and EDU kill user-authorised connector sync — live connections cut 14 August</h4>
+      <div class="body">A quiet retirement with a two-day fuse. ChatGPT <strong>Enterprise and EDU</strong> are ending individual-user sync for connected apps and moving to <strong>admin-managed sync</strong> and plugin-based access. New individually authorised sync connections stopped being available on <strong>10 August</strong>; <strong>existing</strong> user-authorised sync connections are <strong>disabled on 14 August</strong> (<a href="https://releasebot.io/updates/openai">OpenAI release notes via Releasebot</a>, <a href="https://help.openai.com/en/articles/6825453-chatgpt-release-notes">ChatGPT release notes</a>). It is the same direction of travel as Microsoft's Copilot consolidation carded yesterday: the individual user stops being the unit of AI configuration and the admin becomes it.</div>
+      <p class="sowhat">Anyone in your org who wired their own Drive or Slack into ChatGPT loses it on Friday — find those users today, or your helpdesk finds them on Monday.</p>
+      <div><span class="chip arc">ARC: OPENAI-AUGUST-RETIREMENTS · D7</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://releasebot.io/updates/openai">Releasebot (OpenAI notes)</a> · <a href="https://help.openai.com/en/articles/6825453-chatgpt-release-notes">ChatGPT release notes</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="hardware" data-story-id="amd-nvidia-ytd-gap">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#9</span> <span class="cat">HARDWARE · MARKETS</span></div>
+      <h4>AMD up ~121% year-to-date against NVIDIA's ~17% as markets price a real second source</h4>
+      <div class="body">The accelerator duopoly is being repriced. <strong>AMD is up roughly 121% year-to-date against NVIDIA's roughly 17%</strong>, with the gap attributed to investors treating the <strong>MI450</strong> roadmap as genuine second-source competition rather than a hedge (<a href="https://tr.tradingview.com/news/gurufocus:f0832d95b094b:0-amd-just-declared-war-on-nvidia-and-it-s-gunning-for-100-billion">GuruFocus via TradingView</a>). The counterweight on the other side: SpaceX's plan to scale data centres to <strong>10GW by 2027</strong> exclusively on NVIDIA hardware is floated as up to <strong>$300B</strong> in potential orders (<a href="https://finance.yahoo.com/markets/stocks/articles/elon-musk-newest-data-center-195822398.html">Yahoo Finance</a>). Both are market commentary, not company disclosure, and NVIDIA's Q2 on <strong>26 August</strong> is the first scheduled chance to size either claim.</div>
+      <p class="sowhat">Second-source pricing power only exists if buyers actually qualify a second part — if your capacity plan assumes one vendor, 26 August is the date to revisit it.</p>
+      <div><span class="chip arc">ARC: FOUNDRY-CAPITAL · D2</span><span class="chip rumor">MARKET COMMENTARY</span></div>
+      <div class="src"><a href="https://tr.tradingview.com/news/gurufocus:f0832d95b094b:0-amd-just-declared-war-on-nvidia-and-it-s-gunning-for-100-billion">GuruFocus / TradingView</a> · <a href="https://finance.yahoo.com/markets/stocks/articles/elon-musk-newest-data-center-195822398.html">Yahoo Finance</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION · ONLY 2 MOVED</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="models" data-story-id="openai-daybreak-cyber">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">D1</span> <span class="cat">MODELS · SECURITY</span></div>
+      <h4>Daybreak Red, one day on: no reconciliation of the two capability numbers, no CVE ids</h4>
+      <div class="delta-line nochange"><span class="dl-tag">NO CHANGE</span> Nothing dated moved in 24 hours. Today's scan returned only restatements of the 10 August announcement. Deliberately held as Developing rather than demoted, because Wednesday's security beat sits directly on top of it — New #3 and New #4 are the attack surface and the crime economics this model is aimed at. Demotes to Tracking if quiet next edition.</div>
+      <div class="body">OpenAI split its <strong>Daybreak</strong> cybersecurity programme into two access tiers on 10 August and introduced <strong>GPT-5.6-Cyber</strong>, built on GPT-5.6 Sol with dual-use cybersecurity restrictions deliberately reduced: <strong>Daybreak Blue</strong> for security engineers doing code audits and prevention, <strong>Daybreak Red</strong> gating vulnerability research, exploit validation and exploit-chain development to selected defenders (<a href="https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/">OpenAI</a>, <a href="https://www.cnbc.com/2026/08/10/open-ai-daybreak-cybersecurity.html">CNBC</a>). Accenture, IBM, CrowdStrike, Cisco and Palo Alto Networks may embed the models in products and managed services (<a href="https://techcrunch.com/2026/08/10/as-ai-led-attacks-multiply-openai-launches-a-new-cyber-model/">TechCrunch</a>). The two capability figures printed yesterday — 95% of advanced cyber requests answered in testing, versus up to 98.5% of otherwise-blocked queries — remain unreconciled, and the two reported Chrome vulnerabilities still carry no CVE identifiers in any source located (<a href="https://www.axios.com/2026/08/10/openai-gpt-astra-restrictions-safety-hacking-defenders">Axios</a>).</div>
+      <p class="sowhat">Yesterday's question is unanswered and now has a scale attached: INTERPOL says AI already sits inside more than half of cybercrime in 36 countries, so the "defenders get it first" premise is being tested against attackers who did not wait for a tier.</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D47</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/">OpenAI</a> · <a href="https://www.cnbc.com/2026/08/10/open-ai-daybreak-cybersecurity.html">CNBC</a> · <a href="https://techcrunch.com/2026/08/10/as-ai-led-attacks-multiply-openai-launches-a-new-cyber-model/">TechCrunch</a> · <a href="https://www.axios.com/2026/08/10/openai-gpt-astra-restrictions-safety-hacking-defenders">Axios</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="qwen38-max">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D2</span> <span class="cat">MODELS · OPEN-WEIGHT</span></div>
+      <h4>Day 3 of Alibaba's named week: still no Qwen3.8-Max repository, still no licence</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The clock, and the source of the only date. Three days into the week Alibaba named, the Qwen organisation on Hugging Face still has no matching repository, no weight files and no licence file. The one specific date now circulating — <strong>12 August, today</strong> — traces to an X user, not to Alibaba. Four days remain before the named window closes on 16 August.</div>
+      <div class="body">Alibaba shipped <strong>Qwen3.8-Max</strong> as an API product on 3 August — 2.4T-parameter MoE, ~95B active per token, 1M context, text and vision, at $2.00/$6.00 per million tokens — and said it would publish weights for it and a new <strong>Qwen3.8-27B</strong> to Hugging Face and ModelScope during the <strong>week of 10 August</strong> (<a href="https://www.latent.space/p/ainews-qwen-38-max24t-and-27b-new">Latent Space</a>, <a href="https://www.developersdigest.tech/blog/qwen-3-8-max-release-2026">Developers Digest</a>). As of this scan neither model is published and the licence remains undisclosed — permissive or custom is unknown (<a href="https://neomanex.com/news/qwen38-max-open-weights-countdown-aug-2026">Neomanex</a>, <a href="https://www.digitalapplied.com/blog/qwen3-8-open-weights-checklist-before-download">Digital Applied</a>). The contrast landed today: NVIDIA published a 30B open MoE with an explicit no-permission-needed grant (New #2) while the first Max-class open-weight release stayed a promise.</div>
+      <p class="sowhat">A 2.4T open-weight model is worth waiting for; an undisclosed licence is not worth planning around — hold the migration slot but do not commit an architecture to weights whose terms nobody has read.</p>
+      <div><span class="chip arc">ARC: MAX-CLASS-OPEN · D9</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://neomanex.com/news/qwen38-max-open-weights-countdown-aug-2026">Neomanex</a> · <a href="https://www.digitalapplied.com/blog/qwen3-8-open-weights-checklist-before-download">Digital Applied</a> · <a href="https://www.latent.space/p/ainews-qwen-38-max24t-and-27b-new">Latent Space</a> · <a href="https://www.developersdigest.tech/blog/qwen-3-8-max-release-2026">Developers Digest</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING (collapsed by default) ══════════ -->
+<details class="fold" id="fold-tracking">
+  <summary>Still Tracking <small>32 LONG-RUNNERS · NO MOVEMENT THIS EDITION</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="tracking-strip" id="tracking-strip"></div></div>
+</details>
+
+<!-- ══════════ RESOLVED (collapsed by default) ══════════ -->
+<details class="fold" id="fold-resolved">
+  <summary>Resolved <small>OPEN THREADS, CLOSED</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="resolved-strip" id="resolved-strip"></div></div>
+</details>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 055 · 2026-08-12 (IST) · FORMAT v2</strong></p>
+    <details class="fold" id="fold-method">
+      <summary>Method, scan gaps &amp; caveats <span class="caret"></span></summary>
+      <div class="fold-body">
+        <p>METHOD: 28 web searches, at the top of the 20-28 band and back inside it after three consecutive overages. Split roughly 13 / 6 / 9 across Models &amp; core technology (including security, hardware and research) / Applied AI / People, policy &amp; society — the A-side weighting is Wednesday's rotation, whose deep beat is AI security and which produced two cards from opposite ends of the problem (INTERPOL's crime economics, the MCP server CVE surge). v2 format splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING (long-runners with no movement). Hero = biggest new item unless a developing thread had a major escalation; none did. Target ≥10 new items; nine shipped, and the shortfall was not padded. Aggregator claims cross-checked against ≥2 outlets where possible; single-source and commentary items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+        <p>KNOWN SCAN GAPS THIS EDITION: (1) <strong>No first-party page was read directly for any card, including the hero.</strong> Every direct page fetch attempted this edition — NVIDIA's blog, arXiv, CNBC, Fortune — was refused by the egress proxy. This is the fourth consecutive edition with the same structural cause, and it is why the hero's 2 August marking-start date, the exact list of watermarked surfaces and the Nemotron licence grant all rest on secondary reporting rather than on the vendors' own pages. Where outlets agree, the item is chipped 2x SRC; where they do not, both numbers are printed. (2) <strong>CVE identifiers in New #3 are unverified.</strong> CVE-2026-30615 (Windsurf) and the 30+/60-day and ~43% command-injection figures come from security-vendor and analyst research notes — Practical DevSecOps, CSA Labs, OX Security, Agentmelt — and NVD was not reachable to confirm any identifier or CVSS score. The card is chipped accordingly; treat the pattern as sound and the individual ids as unconfirmed. (3) <strong>Lumilens' round size is reported two ways</strong> — the company release says more than $900M total with more than $700M of it the Series C; several outlets headline a "$900M Series C". Both are printed. (4) <strong>Pathway's ARC-AGI-1 numbers are self-reported</strong> in the paper and the company's own Businesswire release; no independent re-run was located, and the 29.5% pass@2 / $0.0007-per-task claim should be read as a claim. (5) <strong>No frontier flagship shipped for the fifth consecutive edition</strong> — Nemotron 3.5 Lightning is a 30B open MoE, not a flagship. (6) <strong>India produced nothing dated.</strong> The Bengaluru AI-jobs figures surfaced this scan (26% share of AI jobs, GenAI specialist demand up 300% on 2024, a 53% skill deficit against a one-million-professional need) trace to LinkedIn posts and recruiter blogs with no primary report attached, and were not carded. Saturday's regional beat is the next scheduled chance.</p>
+        <p>KILLED BY VERIFICATION — FOUR CANDIDATES. <strong>Claude for Teachers:</strong> surfaced by an 11 August syndication and initially read as new; it is a <strong>14 July</strong> launch, already carried in edition 046 (25 July). Not carded. <strong>Dili's $15M Series A:</strong> dated 11 August by one outlet; the round was carded on 4 August. Not carded. <strong>"70,000+ Rubin and Blackwell GPUs" deployed at a data-centre site on 10 August:</strong> no operator was named in any source located, and an unnamed buyer is not a story. Not carded. <strong>CNIL Article 11 information requests to 14 French financial institutions on 4 August:</strong> asserted by a single regulatory-roundup blog; four follow-up searches found no CNIL release, no French press coverage and no second outlet. Not carded, and flagged here because a plausible, specific, uncorroborated enforcement claim is exactly the kind of item this format is designed to catch.</p>
+        <p>NOTE: Links point to sources found during the scan; where only an outlet root, a roundup or a release-note aggregator was available it is labelled as such. Nothing here is investment advice.</p>
+      </div>
+    </details>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 55,
+  "date": "2026-08-12",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 28,
+  "counts": {"new": 9, "developing": 2, "tracking": 32},
+  "tiers": {"critical": 2, "notable": 6, "monitor": 3},
+  "stories": [
+    {"id":"anthropic-text-watermark","section":"new","rank":1,"title":"Anthropic has begun embedding an invisible statistical watermark into text generated by newer Claude models, applied worldwide rather than only for EU users: the mark is woven into token selection at generation time so it lives inside the words and survives copy-paste, covering the Claude Platform API, claude.ai, Claude Code, Cowork, Claude Tag and Claude served via AWS, Google Cloud and Microsoft Foundry; marking reported to have begun 2 August, the day EU AI Act transparency enforcement started, with Article 50 the named driver; Anthropic is explicit it is not an AI detector - a hit means content may have been processed by Claude, not authored by it - and warns heavy editing weakens the signal and very short passages may not carry enough text; detection tooling promised but not yet published","tier":"critical","impact":8,"delta":"new","arc":"content-provenance","arcDay":1,"confidence":"2x src","new24h":true,"firstSeen":"2026-08-12","lastUpdate":"2026-08-12","category":"models"},
+    {"id":"nvidia-nemotron-lightning","section":"new","rank":2,"title":"NVIDIA released Nemotron 3.5 Lightning on 11 August: a 30B open mixture-of-experts model (~3B active per token) for high-volume agentic workloads, small enough to run on a single PC GPU, free to download, use and modify without seeking permission, claiming up to 4x faster output and 30% faster agentic task completion than competing models in its class; available on Hugging Face, ModelScope, OpenRouter and NVIDIA's own endpoint; shipped alongside NeMo Switchyard, an open-source router that sends each request to whichever model handles it fastest and cheapest","tier":"notable","impact":7,"delta":"new","arc":"open-frontier","arcDay":26,"confidence":"2x src","new24h":true,"firstSeen":"2026-08-12","lastUpdate":"2026-08-12","category":"models"},
+    {"id":"mcp-cve-surge","section":"new","rank":3,"title":"Wednesday's AI-security deep beat: security researchers count 30+ CVEs filed against MCP servers in a single 60-day window in early 2026, roughly 43% of them command-injection patterns, with the STDIO transport executing OS commands without sanitisation; at least seven confirmed high or critical CVEs span MCP Inspector, LiteLLM, Cursor, LibreChat and Windsurf, including a reported Windsurf prompt-injection-to-RCE path (CVE-2026-30615) that registers a malicious MCP STDIO server from attacker-controlled HTML with no further user interaction; a design-level MCP flaw enabling RCE was separately reported in April; CVE identifiers and CVSS scores are vendor-reported and were not confirmed against NVD","tier":"notable","impact":7,"delta":"new","arc":"agent-security","arcDay":47,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-12","lastUpdate":"2026-08-12","category":"policy"},
+    {"id":"interpol-africa-ai-crime","section":"new","rank":4,"title":"INTERPOL's African Cyberthreat Assessment Report 2026 - 40 pages, survey data from 36 member countries, published June and picked up widely in early August - finds AI enabling up to 55% of cybercrime in Africa with losses more than doubled since 2024 to about USD 484M; scam centres operate in 72% of surveyed countries; AI-generated deepfakes and synthetic identities are increasingly defeating biometric security; the report describes AI automating every stage of an attack from reconnaissance and phishing to extortion and evasion, with business email compromise most improved by generative text","tier":"notable","impact":7,"delta":"new","arc":"ai-crime","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-12","lastUpdate":"2026-08-12","category":"policy"},
+    {"id":"lumilens-900m","section":"new","rank":5,"title":"Silicon-photonics startup Lumilens emerged from stealth on 6 August: company release says more than $900M raised in total of which more than $700M is the Series C, at a $5.51B valuation, while several outlets headline the round itself as $900M and the two are not reconciled; builds optical interconnects for both the scale-up fabric linking GPUs inside one system and the scale-out fabric between racks, and says it is already shipping production product into hyperscale AI data centres under a multi-billion-dollar customer agreement two years after founding; Atreides, Bain Capital Ventures, Meritech, Seligman and Spark co-led with Qualcomm among a dozen-plus others; CEO Ankur Singla previously sold Contrail Systems and Volterra for a combined $676M","tier":"notable","impact":7,"delta":"new","arc":"foundry-capital","arcDay":2,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-12","lastUpdate":"2026-08-12","category":"business"},
+    {"id":"pathway-bdh-cq","section":"new","rank":6,"title":"BDH-CQ (arXiv 2608.09888), from Pathway, does in-context learning with recurrent latent reasoning: inference-time examples continuously update a recurrent memory and the model solves the query by iterating in a high-dimensional latent space without verbalising intermediate steps, so it has no chain-of-thought scratchpad to pay for; a 150M-parameter configuration reaches 29.5% pass@2 on the public ARC-AGI-1 evaluation set at a computed inference cost of $0.0007 per task, which the authors say breaks the previously reported cost-accuracy Pareto frontier; trade coverage frames it as roughly 11x lower reasoning cost; scores are self-reported and no independent re-run was located","tier":"notable","impact":6,"delta":"new","arc":"small-model-reasoning","arcDay":1,"confidence":"2x src","new24h":true,"firstSeen":"2026-08-12","lastUpdate":"2026-08-12","category":"research"},
+    {"id":"claude-compliance-api","section":"new","rank":7,"title":"Anthropic expanded its Compliance API to cover Cowork and Claude Code across desktop, web, mobile and CLI, in beta for Claude Enterprise customers, letting security teams pull unified session content and metadata for audits and eDiscovery through one API; lands in the same week the same vendor made its output externally identifiable, turning the agent transcript into a record class with retention and legal-hold implications","tier":"monitor","impact":5,"delta":"new","arc":"agent-platform-war","arcDay":3,"confidence":"Agg 1x","new24h":true,"firstSeen":"2026-08-12","lastUpdate":"2026-08-12","category":"enterprise"},
+    {"id":"openai-connector-sync-retire","section":"new","rank":8,"title":"ChatGPT Enterprise and EDU are ending individual-user sync for connected apps in favour of admin-managed sync and plugin-based access: new individually authorised sync connections stopped being available on 10 August and existing user-authorised sync connections are disabled on 14 August; same direction of travel as Microsoft's Copilot consolidation - the individual user stops being the unit of AI configuration and the admin becomes it","tier":"monitor","impact":5,"delta":"new","arc":"openai-august-retirements","arcDay":7,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-08-12","lastUpdate":"2026-08-12","category":"enterprise"},
+    {"id":"amd-nvidia-ytd-gap","section":"new","rank":9,"title":"AMD is up roughly 121% year-to-date against NVIDIA's roughly 17%, with the gap attributed to investors treating the MI450 roadmap as genuine second-source competition rather than a hedge; on the other side, SpaceX's plan to scale data centres to 10GW by 2027 exclusively on NVIDIA hardware is floated as up to $300B in potential orders; both are market commentary rather than company disclosure, and NVIDIA's Q2 on 26 August is the first scheduled chance to size either claim","tier":"monitor","impact":5,"delta":"new","arc":"foundry-capital","arcDay":2,"confidence":"Rumor-flag","new24h":false,"firstSeen":"2026-08-12","lastUpdate":"2026-08-12","category":"hardware"},
+    {"id":"openai-daybreak-cyber","section":"developing","rank":1,"title":"Daybreak Red one day on: nothing dated moved in 24 hours and today's scan returned only restatements of the 10 August announcement. GPT-5.6-Cyber on a gated Daybreak Red tier with dual-use cybersecurity restrictions deliberately reduced, Daybreak Blue for audits and prevention, Accenture/IBM/CrowdStrike/Cisco/Palo Alto Networks cleared to embed. The two capability figures - 95% of advanced cyber requests answered in testing versus up to 98.5% of otherwise-blocked queries - remain unreconciled, and the two reported Chrome vulnerabilities still carry no CVE identifiers in any source located","tier":"critical","impact":9,"delta":"carry","arc":"agent-security","arcDay":47,"confidence":"2x src","new24h":false,"update":"No dated movement in 24h; deliberately held rather than demoted because Wednesday's security beat (New #3 attack surface, New #4 crime economics) sits directly on top of it. Demotes to Tracking if quiet next edition","firstSeen":"2026-08-11","lastUpdate":"2026-08-11","category":"models"},
+    {"id":"qwen38-max","section":"developing","rank":2,"title":"Day 3 of Alibaba's named week and still no Qwen3.8-Max or Qwen3.8-27B repository on Hugging Face or ModelScope, no weight files and no licence file; Qwen3.8-Max shipped as an API product on 3 August (2.4T MoE, ~95B active, 1M context, text and vision, $2.00/$6.00 per million tokens) and the open weights were promised for the week of 10 August; the only specific date now circulating, 12 August, traces to an X user rather than to Alibaba; four days remain before the named window closes on 16 August","tier":"notable","impact":6,"delta":"carry","arc":"max-class-open","arcDay":9,"confidence":"2x src","new24h":false,"update":"The clock and the provenance of the only date: three days into the named week nothing is published, and the 12 August date circulating traces to an X user, not Alibaba. NVIDIA published a 30B open MoE with an explicit no-permission grant the same day the first Max-class open-weight release stayed a promise","firstSeen":"2026-08-03","lastUpdate":"2026-08-12","category":"models"}
+  ],
+  "tracking": [
+    {"id":"meta-muse-glimmer","label":"DEMOTED FROM NEW: Meta's Muse Glimmer - 30B dense multimodal agent model under Apache 2.0, ~4-bit with a speculative-decoding drafter, one 24GB consumer GPU - holds with no dated follow-up","arc":"open-frontier","arcDay":26},
+    {"id":"chinese-model-token-share","label":"DEMOTED FROM NEW: Chinese models above 30% of US OpenRouter token volume every week since 8 February, peak 46%, DeepSeek the single largest vendor at 17.6% - holds, no fresh weekly print located","arc":"open-frontier","arcDay":26},
+    {"id":"intel-15b-offering","label":"DEMOTED FROM NEW: Intel's proposed $15B common-stock offering plus a $2.25B underwriter option, its first public share sale since the 1971 listing, holds with no pricing announced","arc":"foundry-capital","arcDay":2},
+    {"id":"darpa-venom-f16","label":"DEMOTED FROM NEW: the AI-flown F-16 at Eglin with the safety pilot only monitoring, and VENOM as the backbone of DARPA's AIR programme, holds - disclosed 16 July, no follow-up","arc":"autonomous-weapons","arcDay":2},
+    {"id":"microsoft-copilot-unified","label":"DEMOTED FROM NEW: Microsoft folding consumer and enterprise Copilot into one app with a paid AutoPilot tier, against sub-4.5% paid conversion on 450M seats, holds - today's OpenAI connector retirement is the same admin-over-user move, carded separately","arc":"agent-platform-war","arcDay":3},
+    {"id":"chai-discovery-400m","label":"DEMOTED FROM NEW: Chai Discovery's $400M Series C at $3.8B (14 July), tripling in seven months while holding Pfizer, Lilly and Novartis, holds","arc":"ai-drug-approval","arcDay":4},
+    {"id":"model-identity-probing","label":"DEMOTED FROM NEW: Shrivu Shankar's methodology inferring training-run identity holds - and gains an adjacent thread today, since watermarking makes output attributable from the other direction","arc":"model-forensics","arcDay":2},
+    {"id":"dunelm-gemini-agent","label":"DEMOTED FROM NEW: Dunelm's Ask Dunelm conversational shopping agent in its iOS app holds, no adoption numbers published","arc":"agent-platform-war","arcDay":3},
+    {"id":"academic-brain-drain","label":"DEMOTED FROM NEW: at least 22 professors leaving or taking leave from elite US universities for the big four labs in half a year holds - aggregator-sourced, still unconfirmed by any institution","arc":"talent-flow","arcDay":10},
+    {"id":"openai-free-unlimited","label":"DEMOTED FROM DEVELOPING at D13: nothing dated moved. GPT-5.6 Luna as the free default and the two-stage rollout from the 6 August post hold as published","arc":"model-pricing","arcDay":13},
+    {"id":"google-ai-shakeup","label":"The Hassabis-to-Chair and Kavukcuoglu-to-SVP succession holds at D11 with no dated follow-up for a third consecutive edition","arc":"google-org","arcDay":11},
+    {"id":"openai-august-retirements","label":"o3 leaves ChatGPT on 26 August and the official DALL-E GPT on 30 August, both inside published windows; the connected-apps sync retirement is carded separately as New #8 because it is a distinct, previously uncarded deadline","arc":"openai-august-retirements","arcDay":7},
+    {"id":"tesla-spacex-terafab","label":"Terafab's $16.8B first phase in Grimes County and the 3,000+ headcount hold with no construction milestone published","arc":"compute-buildout","arcDay":27},
+    {"id":"amd-q2-2026","label":"AMD's record $11.5B quarter, $6.7B data centre up 107% at 58% of the company, holds - today's card is the equity-market read on it, not new company disclosure","arc":"foundry-capital","arcDay":3},
+    {"id":"core-scientific-amd","label":"The 15-year, ~$14B AMD lease of 530MW doubling Core Scientific to about 1.1GW holds","arc":"compute-buildout","arcDay":27},
+    {"id":"horizon3-250m","label":"Horizon3's $250M Series E at $2B+, ~120% YoY growth and approaching $100M ARR holds - autonomous pentest, adjacent to today's MCP CVE card but with no new company news","arc":"agent-security","arcDay":47},
+    {"id":"nature-ai-science-narrowing","label":"Nature's 41.3M-paper study - adopters publish 3.02x more and are cited 4.84x more, while the topic space narrows - holds","arc":"ai-science","arcDay":3},
+    {"id":"anthropic-cuellar","label":"Tino Cuellar's 4 August start as Anthropic's first Chief Global Affairs Officer holds; the watermark rollout is the first policy-shaped product move since","arc":"talent-flow","arcDay":3},
+    {"id":"india-gcc-h1-2026","label":"227,991 GCC hires in H1 2026 at +11% holds. Today's India scan surfaced only recruiter-blog figures with no primary report attached and nothing was carded; Saturday's regional beat is the next scheduled pass","arc":"india-jobs","arcDay":3},
+    {"id":"china-companion-enforcement","label":"The first companion-AI enforcement record - 12 fines, 4.2M RMB - holds","arc":"reg-clock","arcDay":16},
+    {"id":"gemini-spark-chrome","label":"Gemini Spark driving a logged-in desktop Chrome with saved passwords holds with no new disclosure","arc":"agent-security","arcDay":47},
+    {"id":"oracle-google-agent-studio","label":"Gemini reaching Oracle Fusion and NetSuite by default holds","arc":"agent-platform-war","arcDay":3},
+    {"id":"aws-superblocks","label":"AWS and Superblocks packaging AI app-building that never leaves the customer VPC holds","arc":"agent-platform-war","arcDay":3},
+    {"id":"cognizant-emea-ai-unit","label":"Cognizant's EMEA services unit built around the failed-pilot problem holds (28 July)","arc":"agent-platform-war","arcDay":3},
+    {"id":"spacex-nvidia-starmind","label":"SpaceX's exclusive NVIDIA commitment, the Starmind AI1 payload and the FCC request hold; the 10GW-by-2027 order-size arithmetic is carded today as market commentary, not disclosure","arc":"compute-buildout","arcDay":27},
+    {"id":"rentosertib-fast-track","label":"rentosertib's FDA Fast Track holds, with the estimated Phase III start on 30 August still the date that matters","arc":"ai-drug-approval","arcDay":4},
+    {"id":"workforce","label":"The AI-attribution ledger is unchanged at 322 events and 205,832 workers as of 11 August, with 54% of events explicitly citing AI, automation or machine learning - same totals as yesterday, so no movement","arc":"workforce","arcDay":46},
+    {"id":"openai-apple-motion","label":"OpenAI's 31-page motion to dismiss Apple's trade-secrets suit holds; 17 August is the date that bites","arc":"litigation","arcDay":5},
+    {"id":"openai-s1-public","label":"OpenAI's confidential S-1 of 22 May holds; the mid-to-late-August public flip is still reported rather than scheduled","arc":"ipo-wave","arcDay":5},
+    {"id":"reg-clock","label":"EU transparency and GPAI enforcement live since 2 August with fines to EUR15M/3% turnover; today's hero is the first product-level implementation of Article 50 marking this briefing has carded, and it was applied worldwide rather than EU-only","arc":"reg-clock","arcDay":16},
+    {"id":"open-frontier","label":"The open ceiling is unchanged at Kimi K3's 2.8T weights of 16 July; the floor moved twice this week instead - Meta's 30B Apache-2.0 Muse Glimmer and now NVIDIA's 30B Nemotron 3.5 Lightning, both sized for one consumer GPU","arc":"open-frontier","arcDay":26},
+    {"id":"frontier-models","label":"No frontier flagship shipped in this window for the fifth consecutive edition. Nemotron 3.5 Lightning is a 30B open MoE, not a flagship; Gemini's flagship, Grok 5 and the next Claude remain undated","arc":"frontier-models","arcDay":20}
+  ],
+  "movers": [
+    {"dir":"up","text":"CONTENT PROVENANCE - Anthropic starts marking every Claude text output with an invisible statistical watermark, worldwide, across API, claude.ai, Claude Code, Cowork and all three clouds; EU Article 50 is the driver, the scope is global"},
+    {"dir":"up","text":"NVIDIA - ships Nemotron 3.5 Lightning, a 30B open MoE sized for one PC GPU and free to modify without permission, plus NeMo Switchyard, an open cost-and-latency router"},
+    {"dir":"down","text":"MAX-CLASS OPEN - day 3 of Alibaba's named week with no Qwen3.8-Max repository, no weight files and no licence; the only 12 August date in circulation traces to an X user, not Alibaba"},
+    {"dir":"up","text":"AMD - up roughly 121% year-to-date against NVIDIA's roughly 17% as markets price MI450 as a genuine second source; market commentary, not company disclosure"},
+    {"dir":"down","text":"MCP ATTACK SURFACE - 30+ CVEs filed against MCP servers in a single 60-day window, about 43% command injection, across MCP Inspector, LiteLLM, Cursor, LibreChat and Windsurf"},
+    {"dir":"down","text":"AI CRIME ECONOMICS - INTERPOL puts AI inside up to 55% of African cybercrime across 36 surveyed countries, with losses more than doubled since 2024 to about $484M"},
+    {"dir":"up","text":"OPTICAL INTERCONNECT - Lumilens leaves stealth at $5.51B with production optics already shipping into hyperscale AI data centres under a multi-billion-dollar agreement"},
+    {"dir":"up","text":"NEW.24H COUNT - four inside 24 hours for a second consecutive edition, holding the recovery from three zero days"}
+  ],
+  "arcs": {
+    "content-provenance": {"day": 1, "note": "HERO / New #1 / new arc: the EU transparency clock stops being a calendar item. Anthropic marks every Claude text output with an invisible statistical watermark at token-selection time, applied worldwide rather than EU-only - a regulation with EU scope setting the global default behaviour of a model"},
+    "open-frontier": {"day": 26, "note": "New #2: the open floor moves for the second time this week. NVIDIA publishes a 30B open MoE with an explicit no-permission-needed grant plus an open router, three days after Meta's 30B Apache-2.0 Muse Glimmer. The ceiling is still Kimi K3's 2.8T of 16 July"},
+    "agent-security": {"day": 47, "note": "New #3 and Developing D1 / Wednesday's deep beat: the beat moves from model behaviour to plumbing. 30+ CVEs against MCP servers in one 60-day window, ~43% command injection, seven-plus confirmed high or critical across five named tools - while yesterday's Daybreak hero produces no dated follow-up"},
+    "ai-crime": {"day": 1, "note": "New #4 / new arc: the demand side of the security beat, measured by a police body rather than a vendor. INTERPOL finds AI inside up to 55% of African cybercrime across 36 countries, losses doubled to $484M, scam centres in 72% of them, deepfakes defeating biometrics"},
+    "foundry-capital": {"day": 2, "note": "New #5 and New #9: capital markets price the compute buildout from both ends. Lumilens leaves stealth at $5.51B on the interconnect bottleneck with production shipments already running, while AMD's 121% year-to-date run against NVIDIA's 17% prices MI450 as a real second source"},
+    "small-model-reasoning": {"day": 1, "note": "New #6 / new arc / the research beat's first dated arXiv paper in three editions: Pathway's BDH-CQ reasons in a recurrent latent space with no verbalised chain of thought, and claims a new ARC-AGI-1 cost-accuracy frontier at 150M parameters and $0.0007 a task. Self-reported"},
+    "agent-platform-war": {"day": 3, "note": "New #7: Anthropic's Compliance API reaches Cowork and Claude Code, making agent sessions retrievable for audit and eDiscovery in the same week the same vendor made its output externally identifiable. The agent transcript becomes a record class"},
+    "openai-august-retirements": {"day": 7, "note": "New #8: a distinct, previously uncarded deadline inside the August retirement set - ChatGPT Enterprise and EDU end individually authorised connected-app sync, with existing connections cut on 14 August, moving configuration from the user to the admin"},
+    "max-class-open": {"day": 9, "note": "Developing D2: three days into Alibaba's named week with no repository, no weight files and no licence, and the only specific date in circulation traceable to an X user rather than the company. Four days to the window closing"}
+  },
+  "resolved": [
+    "CLAUDE FOR TEACHERS - KILLED BY VERIFICATION. An 11 August syndication read as a new launch; it is the 14 July release, already carried in edition 046 on 25 July. Not carded, and the near-miss is the reason the archive grep runs before the card is written.",
+    "DILI $15M SERIES A - KILLED BY VERIFICATION. Dated 11 August by one outlet; the round was carded on 4 August. Not carded.",
+    "70,000 GPU DEPLOYMENT - NOT CARDED, AND WHY. A 10 August item describing more than 70,000 Rubin and Blackwell GPUs going into a data-centre site named no operator in any source located. An unnamed buyer at that scale is not a story yet.",
+    "CNIL ARTICLE 11 REQUESTS - NOT CARDED, AND WHY. A single regulatory-roundup blog asserted that CNIL issued Article 11 technical-documentation requests to 14 French financial institutions running credit-scoring algorithms on 4 August. Four follow-up searches found no CNIL release, no French press coverage and no second outlet. A specific, plausible, uncorroborated enforcement claim is exactly what the confidence chips exist to stop.",
+    "OPENAI-FREE-UNLIMITED - DEMOTED (Developing to Tracking) at D13. The two-stage rollout from the 6 August post holds as published with nothing dated to add.",
+    "OPENAI-DAYBREAK-CYBER - HELD, NOT DEMOTED, at D47. Yesterday's hero produced no dated follow-up in 24 hours and would normally drop to Tracking; it is held as Developing with a NO CHANGE line because Wednesday's security beat produced two cards that sit directly on top of it. Demotes next edition if still quiet.",
+    "AUTO-DEMOTE (New to Tracking): nine of edition 054's ten New items drop to one-liners - meta-muse-glimmer, intel-15b-offering, chinese-model-token-share, darpa-venom-f16, microsoft-copilot-unified, chai-discovery-400m, model-identity-probing, dunelm-gemini-agent and academic-brain-drain. Only the Daybreak hero was held.",
+    "SILENTLY RETIRED (three or more editions quiet, no known outcome, or superseded): amd-taalas, anthropic-chip-team, anthropic-eval-escape, enterprise-agent-pilot-gap, fiserv-agentos, hadrian-137b, happyrobot-150m, meta-eval-escape and palantir-q2-93. Also retired: coding-agent-cve-cluster, superseded by today's broader MCP-server CVE card rather than dropped for silence.",
+    "FRESHNESS QUOTA - MISSED BY ONE, DELIBERATELY. Nine New items against a target of ten. Three candidates that would have made the number were killed by verification and are listed above; none was carded to close the gap. Above the five-item quiet-day floor, so the edition ships in full.",
+    "SCAN BREADTH - BACK INSIDE THE BAND. 28 searches against a 20-28 target, ending three consecutive editions of overage. The structural cause of those overages is unchanged: every direct page fetch is refused by the egress proxy, so confirmation has to be bought with extra searches rather than with one first-party read."
+  ],
+  "deadlines": [
+    {"date": "2026-08-14", "label": "ChatGPT Enterprise and EDU disable all existing individually authorised connected-app sync connections. New ones stopped on 10 August; from Friday, configuration is admin-managed only, and any user who wired their own Drive or Slack into ChatGPT loses it - 2 days", "severity": "medium"},
+    {"date": "2026-08-16", "label": "Alibaba's own named window closes: Qwen3.8-Max and Qwen3.8-27B were promised to Hugging Face and ModelScope during the week of 10 August, and on day 3 there is still no repository, no weight files and no licence. If the week closes empty, the first Max-class open-weight release becomes an unkept commitment rather than a pending one - 4 days", "severity": "high"},
+    {"date": "2026-08-17", "label": "Three on one date: OpenAI's court-ordered response to Apple's preliminary-injunction request is due; the Claude Developer Platform retires the legacy Workbench and experimental prompt-tools APIs, so saved legacy prompts, variables and evals need exporting first; and FERC Section 206 requires all six RTOs/ISOs to justify or refile their large-load interconnection tariffs - 5 days", "severity": "medium"},
+    {"date": "2026-08-26", "label": "OpenAI retires o3 from ChatGPT at the end of its 90-day sunset. NVIDIA's Q2 earnings fall the same day and are the first scheduled chance to size both the SpaceX commitment and AMD's second-source claim against actual disclosure. The official DALL-E GPT follows on 30 August, as does the estimated Phase III start for rentosertib - 14 days", "severity": "medium"},
+    {"date": "2026-08-31", "label": "Two default-tier changes on one date: Claude Sonnet 5's introductory $2/$10 per million ends, moving to $3/$15 from 1 September - a 50% rise and the only scheduled increase on the pricing board - and OpenAI removes GPT-5.4 and GPT-5.4 mini from Codex for ChatGPT-signed-in users - 19 days", "severity": "high"},
+    {"date": "2026-12-02", "label": "EU triple date under Regulation (EU) 2026/1744: Article 50(2) machine-readable marking bites for systems placed on the market before 2 August - the obligation Anthropic has now implemented early and globally; the transparency-implementation grace period expires; and nudification and non-consensual intimate-imagery generators must be off the EU market or carry adequate safeguards. The separate Annex III high-risk package is confirmed a year further out, on 2 December 2027 - 112 days", "severity": "high"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── deep-link support: #still-tracking / #resolved / #method open the collapsed folds ──
+  var foldMap = {'still-tracking':'fold-tracking','resolved':'fold-resolved','method':'fold-method'};
+  var openFromHash = function(){
+    var id = foldMap[(location.hash||'').replace('#','')];
+    if(id){ var el = document.getElementById(id); if(el){ el.open = true; el.scrollIntoView(); } }
+  };
+  window.addEventListener('hashchange', openFromHash); openFromHash();
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
