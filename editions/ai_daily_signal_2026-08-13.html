@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 055 — 13 August 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+
+  /* collapsible archive sections (Still Tracking / Resolved / method notes) */
+  .fold{border-bottom:3px solid var(--ink);margin-top:26px}
+  .fold[open]{border-bottom-color:var(--rule)}
+  .fold > summary{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:0 0 8px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary small{font-size:10px;color:#6b6353;letter-spacing:1px;font-weight:400}
+  .fold > summary .caret{font-size:11px;color:#6b6353;letter-spacing:0}
+  .fold > summary:hover{color:var(--crit)}
+  .fold[open] > summary .caret::after{content:"▴ HIDE"}
+  .fold:not([open]) > summary .caret::after{content:"▾ SHOW"}
+  .fold .fold-body{padding-bottom:16px}
+  footer .fold{border-bottom:none;margin-top:12px}
+  footer .fold > summary{font-size:11px;letter-spacing:2px}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>OPENAI</b> Ads go live in ChatGPT's Free and Go tiers — and expand to the UK, Mexico, Brazil, Japan and South Korea in a single day &nbsp;◆&nbsp; <b>OPENAI</b> Brad Lightcap leaves after eight years — the third C-suite exit of the run-up to a listing &nbsp;◆&nbsp; <b>AMD</b> Helios rack-scale in full production, shipping end of Q3 — OpenAI, Meta, Oracle, Anthropic and Microsoft named &nbsp;◆&nbsp; <b>CHINA</b> Beijing forces Meta to unwind its $2B Manus acquisition; user data deleted 23–24 Aug &nbsp;◆&nbsp; <b>ALIBABA</b> Qwen3.8-Max open-weights week has 3 days left and still no repository &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>055</b></span>
+    <span>THURSDAY, 13 AUGUST 2026</span>
+    <span class="seg">NEW <b>10</b> · DEVELOPING <b>2</b> · TRACKING <b>32</b></span>
+    <span>CRITICAL <b>2</b> / NOTABLE 8 / MONITOR 2</span>
+    <span>SCAN: 30 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="openai-chatgpt-ads">
+  <div>
+    <div class="kicker">■ Today's Lead · New · Business · Day 13 of the model-pricing arc</div>
+    <h2>ChatGPT starts carrying ads — the free tier stops being a loss leader</h2>
+    <p class="dek">OpenAI has begun testing advertising inside ChatGPT, and the rollout moved faster than the announcement. Ads are being served to <strong>Free and Go</strong> users in the <strong>US, Canada, Australia and New Zealand</strong>, and on <strong>11 August</strong> the test expanded to the <strong>UK, Mexico, Brazil, Japan and South Korea</strong>; paid plans see nothing (<a href="https://openai.com/index/testing-ads-in-chatgpt/">OpenAI</a>, <a href="https://www.nbcnews.com/tech/internet/openai-starts-testing-ads-chatgpt-rcna258242">NBC News</a>, <a href="https://www.gptadsai.com/guides/chatgpt-ads-news">ChatGPT Ads tracker</a>). OpenAI's stated design constraints are specific: ads are labelled and <em>visually separated</em> from answers, they do not influence model outputs, conversations are not shared with marketers, and sensitive categories — politics, health, mental health — and under-age profiles are excluded. Users can view, dismiss or comment on what they are shown. The framing in OpenAI's own post is infrastructure economics: ads "help fund infrastructure work, supporting broader access to AI through higher quality free and low cost options" (<a href="https://www.mmm-online.com/news/openai-kicks-off-test-phase-for-chatgpt-ads/">MM+M</a>). It lands in the same fortnight OpenAI took <strong>ChatGPT Go global</strong> (<a href="https://m.gsmarena.com/newscomm-71153p3.php">GSMArena</a>) and days before the S-1 window this briefing has been tracking since 22 May.</p>
+    <p class="sowhat">So what: the free tier now has a second revenue line, which changes what "free" is allowed to cost — if you build on the consumer surface, assume ad inventory becomes a ranking-adjacent surface eventually, and if you buy media, a new labelled placement just opened in nine countries with no third-party measurement story yet.</p>
+    <span class="chip arc">ARC: MODEL-PRICING · D13</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://openai.com/index/testing-ads-in-chatgpt/">OpenAI (primary)</a> ·
+      <a href="https://www.nbcnews.com/tech/internet/openai-starts-testing-ads-chatgpt-rcna258242">NBC News</a> ·
+      <a href="https://www.mmm-online.com/news/openai-kicks-off-test-phase-for-chatgpt-ads/">MM+M</a> ·
+      <a href="https://www.gptadsai.com/guides/chatgpt-ads-news">Rollout tracker</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What shipped.</strong> Advertising is being tested inside ChatGPT for the <strong>Free and Go</strong> tiers only. Serving is live in the US, Canada, Australia and New Zealand, and the tracker record has the test reaching the <strong>UK, Mexico, Brazil, Japan and South Korea on 11 August</strong>. OpenAI's product page is dated to this week by two release trackers; the outlet coverage clusters on 11–12 August. Paid plans (Plus, Pro, Business, Enterprise) are excluded.</p>
+      <p><strong>The guardrails OpenAI published.</strong> Ads are clearly marked and visually separated from answers; they do not change what the model says; conversations are not shared with advertisers; politics, health and mental-health queries and under-age profiles are excluded; and users can view, dismiss or comment on individual ads. Those are the company's own commitments, not audited findings.</p>
+      <p><strong>Why it is the lead.</strong> This briefing has carried <em>openai-free-unlimited</em> as a Developing thread for twelve editions on the question of how a free tier at consumer scale gets paid for. This is the answer, stated in OpenAI's own words — infrastructure funding. It arrives alongside ChatGPT Go's global launch and inside the reported mid-to-late-August window for OpenAI's S-1 to flip public, which makes a second, non-subscription revenue line materially more than a product change.</p>
+      <p><strong>The caveats.</strong> Every direct fetch of openai.com and nbcnews.com was blocked by this environment's egress proxy, so the OpenAI post and the NBC story are cited from search-result summaries rather than read first-hand — the country list and the tier split are corroborated across three independent summaries, but no figure for ad load, pricing, format or launch advertisers has been confirmed here, and none should be assumed. The exact publication date of OpenAI's post is reported as 12 August by release trackers while the market expansion is dated 11 August; both are printed above rather than reconciled.</p>
+      <p><strong>Watch next.</strong> Whether ad inventory ever touches ranking or retrieval; whether a measurement or brand-safety partner is named; whether the EU is added (Article 50 transparency and the AI Act's enforcement regime now apply to what a chatbot discloses); and whether ad revenue shows up as a line in the S-1 if the filing flips public this month.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>What</dt><dd>Advertising test inside ChatGPT — labelled, visually separated from answers</dd>
+      <dt>Who sees it</dt><dd>Free and Go tiers only; paid plans excluded</dd>
+      <dt>Where</dt><dd>US, Canada, Australia, NZ; UK, Mexico, Brazil, Japan, South Korea added 11 Aug</dd>
+      <dt>Stated limits</dt><dd>No influence on outputs; conversations not shared with marketers; politics/health/mental-health and under-18 profiles excluded</dd>
+      <dt>Stated purpose</dt><dd>Fund infrastructure and keep free/low-cost access viable</dd>
+      <dt>Caveat</dt><dd>Company commitments, not audited; no ad load, price or advertiser named; first-party page not readable from here</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">8</b>/10 — anyone building on the consumer surface, buying media, or modelling OpenAI's revenue ahead of a filing</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="openai-chatgpt-ads">
+      <div class="num">1</div>
+      <h4>ChatGPT's free tier gets a second revenue line</h4>
+      <p>Ads are live for Free and Go users in four countries and expanded to five more on 11 August. Labelled, separated, excluded from politics and health, and — OpenAI says — with no influence on outputs. The twelve-edition question of who pays for the free tier now has a published answer. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="openai-lightcap-exit">
+      <div class="num">2</div>
+      <h4>Lightcap leaves — the third C-suite exit before a listing</h4>
+      <p>OpenAI's longtime COO, who grew go-to-market from ~50 to 700+ people, is out after eight years to "start something new." It follows Fidji Simo and Kate Rouch, with Brockman taking product. The reshuffle is running straight into the S-1 window. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="amd-helios-production">
+      <div class="num">3</div>
+      <h4>AMD's rack-scale answer is in full production</h4>
+      <p>Today's hardware beat: Helios — MI455X GPUs, EPYC Venice, Pensando networking, ROCm 7 — is in full production and ships by end of Q3, with OpenAI, Meta, Oracle, Anthropic and Microsoft all named as deployers. The duopoly finally has a second rack. <strong>NEW.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>THE SHAPE OF TODAY:</strong> ten new items, but only <strong>one broke inside 24 hours</strong> — the ads test. Two days passed since edition 054 and the wire filled with 11 August news rather than 13 August news, so most of today's cards carry honest older date labels and no NEW.24H badge. Thursday's deep beat is <strong>hardware and compute</strong>, and it was the productive one: AMD's Helios in full production · Supermicro's Q4 beat with a $60B backlog including a gigawatt SpaceX/xAI co-build · Energy Vault's 1.25GW power agreement for a hyperscaler AI campus · Meta and BlackRock's 1GW, $10B+ El Paso venture. Elsewhere: Beijing forces Meta to unwind its $2B Manus acquisition, with user data deleted 23–24 August · Target names its first chief AI officer · Google's AMIE runs real-time clinical <em>video</em> consultations and rates on par with primary-care physicians in a 100-scenario study · MiniMax open-sources the H3 omni-modal video model. Two Developing threads carry: the free-tier monetisation question (now escalated by the hero) and Alibaba's Qwen3.8-Max open-weights promise, three days from its own deadline with no repository. <strong>Killed by verification:</strong> a claimed California "Frontier AI Safety Act" assembly vote on 10 August and a "Google agents now call stores" item that traces to a 2025 launch — details in Resolved.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (12)</button>
+    <button class="tab" data-cat="models">MODELS (3)</button>
+    <button class="tab" data-cat="business">BUSINESS (2)</button>
+    <button class="tab" data-cat="policy">POLICY (1)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (1)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (4)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>10 ITEMS · BROKE / SURFACED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="business" data-story-id="openai-chatgpt-ads">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#1</span> <span class="cat">BUSINESS · OPENAI</span></div>
+      <h4>OpenAI starts testing ads in ChatGPT — Free and Go tiers, nine countries</h4>
+      <div class="body">The lead, in full above. Ads are serving to <strong>Free and Go</strong> users in the US, Canada, Australia and New Zealand, with the <strong>UK, Mexico, Brazil, Japan and South Korea</strong> added on <strong>11 August</strong>; paid plans are excluded (<a href="https://openai.com/index/testing-ads-in-chatgpt/">OpenAI</a>, <a href="https://www.nbcnews.com/tech/internet/openai-starts-testing-ads-chatgpt-rcna258242">NBC News</a>). OpenAI says ads are labelled and visually separated, do not influence answers, and are kept out of politics, health and mental-health contexts and under-age profiles; conversations are not shared with marketers. The stated rationale is funding infrastructure and keeping free and low-cost tiers viable (<a href="https://www.mmm-online.com/news/openai-kicks-off-test-phase-for-chatgpt-ads/">MM+M</a>). It arrives with ChatGPT Go's global launch and inside the reported S-1 window.</div>
+      <p class="sowhat">The free tier now earns. Treat ad inventory as a permanent fixture of the consumer surface and ask, before you build on it, what happens the first time ranking and revenue want different things.</p>
+      <div><span class="chip arc">ARC: MODEL-PRICING · D13</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://openai.com/index/testing-ads-in-chatgpt/">OpenAI</a> · <a href="https://www.nbcnews.com/tech/internet/openai-starts-testing-ads-chatgpt-rcna258242">NBC News</a> · <a href="https://www.mmm-online.com/news/openai-kicks-off-test-phase-for-chatgpt-ads/">MM+M</a> · <a href="https://m.gsmarena.com/newscomm-71153p3.php">GSMArena (Go global)</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="hardware" data-story-id="amd-helios-production">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#2</span> <span class="cat">HARDWARE · AMD</span></div>
+      <h4>AMD's Helios rack-scale system is in full production — and OpenAI, Meta, Oracle, Anthropic and Microsoft are on the deploy list</h4>
+      <div class="body">Today's deep beat. AMD's first rack-scale system, <strong>Helios</strong> — Instinct <strong>MI455X</strong> GPUs, EPYC <strong>Venice</strong> CPUs, Pensando networking and the ROCm 7 stack in one integrated platform — is in <strong>full production</strong> and begins shipping to customers by the <strong>end of Q3 2026</strong>, with <strong>OpenAI, Meta, Oracle, Anthropic and Microsoft</strong> all reported as planning deployments (<a href="https://techcrunch.com/2026/07/23/amd-takes-on-nvidia-with-its-helios-ai-rack-scale-system/">TechCrunch</a>, <a href="https://www.hpcwire.com/2026/07/24/amd-takes-on-nvidia-with-mi455-gpus-and-helios-racks/">HPCwire</a>, <a href="https://finance.yahoo.com/technology/ai/articles/amd-launches-helios-rack-system-133630311.html">Yahoo Finance</a>). AMD and Schneider Electric have since published reference standards for powering and cooling the rack (<a href="https://www.datacenterdynamics.com/en/news/amd-and-schneider-electric-launch-reference-standards-for-helios-ai-rack/">DCD</a>). Announced at Advancing AI on <strong>22–23 July</strong> at Moscone Center — carded here for the first time, dated honestly, and read against AMD's 107% data-centre quarter already in Tracking.</div>
+      <p class="sowhat">Rack-scale was the last place NVIDIA had no credible alternative. If your 2027 capacity plan assumes one vendor and one integration stack, this is the quarter to price the second one — the reference designs are now public.</p>
+      <div><span class="chip arc">ARC: GPU-DUOPOLY · D3</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/07/23/amd-takes-on-nvidia-with-its-helios-ai-rack-scale-system/">TechCrunch</a> · <a href="https://www.hpcwire.com/2026/07/24/amd-takes-on-nvidia-with-mi455-gpus-and-helios-racks/">HPCwire</a> · <a href="https://finance.yahoo.com/technology/ai/articles/amd-launches-helios-rack-system-133630311.html">Yahoo Finance</a> · <a href="https://www.datacenterdynamics.com/en/news/amd-and-schneider-electric-launch-reference-standards-for-helios-ai-rack/">DCD</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="openai-lightcap-exit">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#3</span> <span class="cat">POLICY · TALENT</span></div>
+      <h4>Brad Lightcap leaves OpenAI — the third senior exit into the listing window</h4>
+      <div class="body">OpenAI's longtime chief operating officer announced on <strong>11 August</strong> that he is leaving to "start something new." Lightcap joined in <strong>2018</strong>, spent four years as COO and moved to a special-projects role in April, when chief revenue officer <strong>Denise Dresser</strong> absorbed most of his responsibilities; he stays a few more weeks and says he is "not going far" (<a href="https://www.axios.com/2026/08/11/openai-executive-brad-lightcap-is-leaving">Axios</a>, <a href="https://techcrunch.com/2026/08/11/brad-lightcap-openais-longtime-coo-is-leaving-to-start-something-new/">TechCrunch</a>). As COO he grew go-to-market from roughly <strong>50 to over 700</strong> people. His exit follows AGI chief <strong>Fidji Simo</strong> and CMO <strong>Kate Rouch</strong>, in a reshuffle that put president Greg Brockman over product — and it lands as the company prepares a listing against a reported <strong>$852B</strong> mark (<a href="https://www.cnbc.com/2026/08/11/longtime-openai-executive-brad-lightcap-leaves-as-shakeup-at-ai-lab-continues.html">CNBC</a>).</div>
+      <p class="sowhat">Three C-suite departures inside one pre-IPO run is a governance signal, not gossip — if you have an enterprise agreement or a roadmap commitment sourced through OpenAI's go-to-market org, confirm who owns it now.</p>
+      <div><span class="chip arc">ARC: TALENT-FLOW · D10</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.axios.com/2026/08/11/openai-executive-brad-lightcap-is-leaving">Axios</a> · <a href="https://techcrunch.com/2026/08/11/brad-lightcap-openais-longtime-coo-is-leaving-to-start-something-new/">TechCrunch</a> · <a href="https://www.cnbc.com/2026/08/11/longtime-openai-executive-brad-lightcap-leaves-as-shakeup-at-ai-lab-continues.html">CNBC</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="manus-meta-unwind">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#4</span> <span class="cat">BUSINESS · CHINA</span></div>
+      <h4>Beijing forces Meta to unwind its $2B Manus deal — and user data gets deleted on 23 August</h4>
+      <div class="body">AI-agent company <strong>Manus</strong> said on <strong>11 August</strong> it will resume operating as an <strong>independent company</strong>, roughly eight months after Meta acquired it for a reported <strong>$2B</strong> in late December 2025. China's <strong>NDRC blocked the acquisition in April 2026</strong> and ordered it unwound, citing rules on outbound investment and technology export controls (<a href="https://www.bloomberg.com/news/articles/2026-08-11/manus-to-resume-independent-operations-in-unwind-of-meta-deal">Bloomberg</a>, <a href="https://finance.yahoo.com/technology/ai/articles/ai-firm-manus-resume-independent-174930225.html">Reuters via Yahoo</a>). The unwind has a user-facing cost: data generated by certain users <strong>on or after 29 December 2025 will be deleted</strong> between <strong>23 August 08:00 and 24 August (SGT)</strong>, with affected users notified in-app and by email and able to back up first (<a href="https://manus.im/blog/a-note-to-our-users">Manus</a>).</div>
+      <p class="sowhat">A completed, paid-for acquisition was reversed by a regulator eight months on, and the reversal deletes customer data. If you run agent workloads on a Chinese-founded vendor, the exit risk is not just service continuity — put a data-export date in the contract.</p>
+      <div><span class="chip arc">ARC: CHINA-AI-RULES · D3</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-08-11/manus-to-resume-independent-operations-in-unwind-of-meta-deal">Bloomberg</a> · <a href="https://finance.yahoo.com/technology/ai/articles/ai-firm-manus-resume-independent-174930225.html">Reuters via Yahoo</a> · <a href="https://manus.im/blog/a-note-to-our-users">Manus (primary)</a> · <a href="https://www.trendingtopics.eu/manus-becomes-independent-again-following-2b-meta-deal-and-deletes-user-data/">Trending Topics</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="hardware" data-story-id="supermicro-q4-backlog">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#5</span> <span class="cat">HARDWARE · EARNINGS</span></div>
+      <h4>Supermicro beats on Q4 and guides up — on a $60B backlog with a gigawatt SpaceX/xAI co-build inside it</h4>
+      <div class="body"><strong>Super Micro</strong> reported fiscal Q4 after the bell on <strong>11 August</strong>, topping expectations and guiding Q1 strongly; the stock jumped (<a href="https://finance.yahoo.com/technology/article/supermicro-to-report-q4-results-in-latest-test-for-ai-infrastructure-company-210004983.html">Yahoo Finance</a>). The company had guided Q4 revenue to <strong>$11.0–12.5B</strong> and pre-announced revenue near the low end but gross margin of <strong>15–17%</strong> against an initial <strong>8.2–8.4%</strong> — a mix shift, not a volume story (<a href="https://www.sec.gov/Archives/edgar/data/0001375365/000137536526000019/fq42026businessupdate.htm">SEC 8-K</a>). Full-year FY26 guidance was raised to <strong>$38.9–40.4B</strong>, and the pre-announced <strong>$60B backlog</strong> includes a <strong>gigawatt-scale co-build for SpaceX and xAI</strong> (<a href="https://247wallst.com/investing/2026/08/11/live-can-super-micros-q4-earnings-tonight-spark-a-rebound-after-30-1-year-decline/">24/7 Wall St.</a>, <a href="https://www.cnbc.com/2026/07/21/super-micro-stock-spacex-announcement.html">CNBC</a>).</div>
+      <p class="sowhat">The margin swing is the tell: at gigawatt scale the integrator captures more, not less. Read it as evidence the buildout is now priced on delivery capacity rather than component supply.</p>
+      <div><span class="chip arc">ARC: COMPUTE-BUILDOUT · D27</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://finance.yahoo.com/technology/article/supermicro-to-report-q4-results-in-latest-test-for-ai-infrastructure-company-210004983.html">Yahoo Finance</a> · <a href="https://www.sec.gov/Archives/edgar/data/0001375365/000137536526000019/fq42026businessupdate.htm">SEC 8-K</a> · <a href="https://247wallst.com/investing/2026/08/11/live-can-super-micros-q4-earnings-tonight-spark-a-rebound-after-30-1-year-decline/">24/7 Wall St.</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="research" data-story-id="google-amie-video">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#6</span> <span class="cat">RESEARCH · HEALTH</span></div>
+      <h4>Google's AMIE runs real-time clinical <em>video</em> consultations — and rates on par with primary-care physicians</h4>
+      <div class="body">Today's research beat. Google published <strong>AMIE (Video)</strong>, built on Gemini and Project Astra, which conducts <strong>synchronous clinical video consultations</strong> — reading non-verbal cues, guiding patient actors through virtual physical exams and reasoning diagnostically in real time — using an <strong>asynchronous multi-agent architecture</strong> because a single agent cannot hold conversational latency and deep reasoning at once (<a href="https://arxiv.org/abs/2608.09861">arXiv 2608.09861</a>, <a href="https://research.google/blog/advancing-amie-towards-expert-level-audio-visual-clinical-consultations/">Google Research</a>). The study ran <strong>100 clinical scenarios</strong> across three arms — AMIE Video, AMIE Text and PCP Video — over a Meet-like interface, with <strong>15 trained actors</strong> across cardiopulmonary, abdominal, HEENT, neuro/psychiatric and musculoskeletal presentations. AMIE (Video) matched or exceeded PCPs on core clinical competencies; <strong>PCPs were preferred on rapport and partnership</strong>. Google says real-patient studies must come before any clinical conclusion (<a href="https://blog.google/innovation-and-ai/models-and-research/google-research/amie-video-consultations/">Google</a>).</div>
+      <p class="sowhat">Actors are not patients and a rating is not an outcome — but the architecture is the transferable result: split perception, dialogue and reasoning across agents when latency and depth conflict.</p>
+      <div><span class="chip arc">ARC: AI-SCIENCE · D3</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://arxiv.org/abs/2608.09861">arXiv</a> · <a href="https://research.google/blog/advancing-amie-towards-expert-level-audio-visual-clinical-consultations/">Google Research</a> · <a href="https://blog.google/innovation-and-ai/models-and-research/google-research/amie-video-consultations/">Google</a> · <a href="https://www.artificialintelligence-news.com/news/google-tests-amie-for-clinical-video-consultations/">AI News</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="enterprise" data-story-id="target-chief-ai-officer">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#7</span> <span class="cat">ENTERPRISE · RETAIL</span></div>
+      <h4>Target names its first chief AI officer — a Lowe's operator, reporting into product</h4>
+      <div class="body"><strong>Target</strong> appointed <strong>Chandhu Nair</strong> as its first chief AI officer and SVP on <strong>11 August</strong>; he starts <strong>24 August</strong> (<a href="https://www.cnbc.com/2026/08/11/target-appoints-chief-ai-officer-chandhu-nair.html">CNBC</a>, <a href="https://www.retaildive.com/news/target-taps-lowes-chandhu-nair-chief-ai-officer/827630/">Retail Dive</a>). He arrives from <strong>Lowe's</strong>, where he spent six-plus years as SVP of stores, data, AI and innovation, after Staples and Gap and two ventures of his own. Target also promoted <strong>Purvi Shah</strong> to SVP of user experience; both report to chief information and product officer <strong>Prat Vemana</strong> — an AI chief placed under product, not IT (<a href="https://www.fastcompany.com/91588065/target-names-first-chief-ai-officer-exclusive">Fast Company</a>).</div>
+      <p class="sowhat">The reporting line is the signal. A CAIO under the product org is a mandate to change the shopping experience, not to run a centre of excellence — watch which retailers copy the structure, not just the title.</p>
+      <div><span class="chip arc">ARC: AI-ROI · D7</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/08/11/target-appoints-chief-ai-officer-chandhu-nair.html">CNBC</a> · <a href="https://www.retaildive.com/news/target-taps-lowes-chandhu-nair-chief-ai-officer/827630/">Retail Dive</a> · <a href="https://www.fastcompany.com/91588065/target-names-first-chief-ai-officer-exclusive">Fast Company</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="models" data-story-id="minimax-h3-open">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#8</span> <span class="cat">MODELS · OPEN-WEIGHT</span></div>
+      <h4>MiniMax open-sources H3, an omni-modal video model — weights and quants land the same day</h4>
+      <div class="body"><strong>MiniMax</strong> published open weights for <strong>H3</strong>, its omni-modal video model, to Hugging Face on <strong>3 August</strong>, with native ComfyUI support arriving the same day and community <strong>GGUF, INT4 and NVFP4</strong> quantisations following immediately (<a href="https://comfyui-wiki.com/en/news/2026-08-03-minimax-h3-open-weights-comfyui">ComfyUI Wiki</a>, <a href="https://comfyui-wiki.com/en/news/2026-08-03-minimax-h3-community-quants">quant roundup</a>, <a href="https://digg.com/tech/ohzpdbew">Digg</a>). Carded here for the first time and dated honestly — it is <strong>ten days old</strong>, and it matters mainly as a contrast: an open video model shipped weights, a licence and a runtime path within a day, while Alibaba's Qwen3.8-Max open-weights promise (Developing, below) is three days from its own deadline with no repository at all.</div>
+      <p class="sowhat">High-quality open video weights are rare. If you have been waiting for a self-hostable video model to test, this one already has quants and a node graph — the friction argument is gone.</p>
+      <div><span class="chip arc">ARC: OPEN-FRONTIER · D26</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://comfyui-wiki.com/en/news/2026-08-03-minimax-h3-open-weights-comfyui">ComfyUI Wiki</a> · <a href="https://comfyui-wiki.com/en/news/2026-08-03-minimax-h3-community-quants">Community quants</a> · <a href="https://digg.com/tech/ohzpdbew">Digg</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="hardware" data-story-id="energy-vault-hyperscaler">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#9</span> <span class="cat">HARDWARE · POWER</span></div>
+      <h4>1.25GW of on-site generation for a single hyperscaler AI campus</h4>
+      <div class="body"><strong>Energy Vault</strong> announced on <strong>7 August</strong> a strategic agreement to deploy <strong>1.25GW</strong> of integrated power infrastructure for a hyperscaler AI data centre, working with a power-generation EPC deploying <strong>Caterpillar gensets</strong>, with the initial deployment in <strong>Texas</strong> and roughly <strong>$500–600M</strong> of revenue impact expected across H2 2026 and 2027; management discussed it on the <strong>11 August</strong> earnings call (<a href="https://www.businesswire.com/news/home/20260807600552/en/Energy-Vault-Announces-Strategic-Agreement-to-Deploy-1.25-GW-of-Integrated-Power-Infrastructure-for-Hyperscaler-AI-Data-Center-with-Leading-Power-Generation-EPC-Deploying-Caterpillar-Gensets">BusinessWire</a>, <a href="https://www.stocktitan.net/news/NRGV/energy-vault-announces-strategic-agreement-to-deploy-1-25-gw-of-073fvhenvn84.html">StockTitan</a>). The hyperscaler is not named.</div>
+      <p class="sowhat">Behind-the-meter generation at gigawatt scale means the grid interconnect queue is no longer the binding constraint for those who can pay — and the FERC large-load tariff date on 17 August is about exactly this.</p>
+      <div><span class="chip arc">ARC: COMPUTE-BUILDOUT · D27</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://www.businesswire.com/news/home/20260807600552/en/Energy-Vault-Announces-Strategic-Agreement-to-Deploy-1.25-GW-of-Integrated-Power-Infrastructure-for-Hyperscaler-AI-Data-Center-with-Leading-Power-Generation-EPC-Deploying-Caterpillar-Gensets">BusinessWire (primary)</a> · <a href="https://www.stocktitan.net/news/NRGV/energy-vault-announces-strategic-agreement-to-deploy-1-25-gw-of-073fvhenvn84.html">StockTitan</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="hardware" data-story-id="meta-blackrock-elpaso">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#10</span> <span class="cat">HARDWARE · CAPEX</span></div>
+      <h4>Meta and BlackRock take a 1GW El Paso campus off Meta's balance sheet</h4>
+      <div class="body"><strong>Meta</strong> and <strong>BlackRock</strong> announced a strategic venture to develop a data-centre campus in <strong>El Paso, Texas</strong> with <strong>1GW</strong> of compute capacity, representing over <strong>$10B</strong> of Meta investment, with the transaction expected to close within days and capacity coming online from <strong>2028</strong> (<a href="https://about.fb.com/news/2026/07/meta-announces-new-venture-with-blackrock-to-develop-data-center-in-el-paso/">Meta</a>, <a href="https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Announces-New-Strategic-Venture-with-BlackRock-to-Develop-Data-Center-in-El-Paso/default.aspx">Meta IR</a>). It sits under <strong>Meta Compute</strong>, the infrastructure organisation Zuckerberg established on <strong>12 January</strong> under Santosh Janardhan and Daniel Gross, which plans multiple gigawatt-plus campuses and is described as scaling to hundreds of gigawatts over time (<a href="https://www.datacenterdynamics.com/en/news/meta-establishes-meta-compute-plans-multiple-gigawatt-plus-scale-ai-data-centers/">DCD</a>, <a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/meta-sets-up-meta-compute-organization-for-gigawatt-scale-ai-data-centers-initiative-is-said-to-consumer-hundreds-of-gigawatts-over-time">Tom's Hardware</a>). July-dated and carded here for the first time.</div>
+      <p class="sowhat">Off-balance-sheet JVs are becoming the standard structure for gigawatt campuses — the capex line in the earnings deck is no longer the whole picture of what a hyperscaler is committing.</p>
+      <div><span class="chip arc">ARC: COMPUTE-BUILDOUT · D27</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://about.fb.com/news/2026/07/meta-announces-new-venture-with-blackrock-to-develop-data-center-in-el-paso/">Meta</a> · <a href="https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Announces-New-Strategic-Venture-with-BlackRock-to-Develop-Data-Center-in-El-Paso/default.aspx">Meta IR</a> · <a href="https://www.datacenterdynamics.com/en/news/meta-establishes-meta-compute-plans-multiple-gigawatt-plus-scale-ai-data-centers/">DCD</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 note" data-cat="models" data-story-id="openai-free-unlimited">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D1</span> <span class="cat">MODELS · PRICING</span></div>
+      <h4>The free tier finally has a business model — and it is advertising</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Escalated, and answered. Twelve editions of tracking how an unlimited-feeling free tier gets funded ends with OpenAI publishing the answer in its own words: ads fund infrastructure and keep free and low-cost access viable. Ads are live for Free and Go in four countries, five more added 11 August, and ChatGPT Go went global in the same fortnight.</div>
+      <div class="body">This thread has carried the question since the 6 August free-access reporting and the tracker contradiction resolved in edition 054. The resolution is structural rather than a limit change: OpenAI has attached a <strong>second revenue line</strong> to the tiers that were previously pure cost (<a href="https://openai.com/index/testing-ads-in-chatgpt/">OpenAI</a>, <a href="https://www.nbcnews.com/tech/internet/openai-starts-testing-ads-chatgpt-rcna258242">NBC News</a>). No usage-limit change was announced alongside it, and OpenAI states ads do not influence outputs. What remains open is whether generosity on the free tier now moves with ad economics rather than with GPU supply.</div>
+      <p class="sowhat">Stop modelling the free tier as charity that could be withdrawn — model it as inventory that will be optimised. Those fail in different directions.</p>
+      <div><span class="chip arc">ARC: MODEL-PRICING · D13</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://openai.com/index/testing-ads-in-chatgpt/">OpenAI</a> · <a href="https://www.nbcnews.com/tech/internet/openai-starts-testing-ads-chatgpt-rcna258242">NBC News</a> · <a href="https://m.gsmarena.com/newscomm-71153p3.php">GSMArena (Go global)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="qwen38-max">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D2</span> <span class="cat">MODELS · OPEN-WEIGHT</span></div>
+      <h4>Qwen3.8-Max open weights: three days left in Alibaba's own window, still no repository</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The clock, not the content — and the clock is nearly out. Today's scan re-confirms what edition 054 recorded: no Hugging Face or ModelScope repository, no named licence, no revised date. The promised week of 10 August closes on <strong>16 August</strong>, three days away.</div>
+      <div class="body">Alibaba previewed <strong>Qwen3.8-Max</strong> on <strong>19 July</strong> and launched it on <strong>3 August</strong>; the open-weights commitment covers Max and the smaller <strong>Qwen3.8-27B</strong>, positioned as the realistic local and on-premise path, with weights promised to Hugging Face and ModelScope during the week of 10 August (<a href="https://www.yottalabs.ai/post/qwen-3-8-max-release-date-specs-how-to-access-2026">Yotta Labs</a>, <a href="https://neomanex.com/news/qwen38-max-open-weights-countdown-aug-2026">Neomanex</a>, <a href="https://www.orcarouter.ai/blog/qwen-3-8-27b-open-weights-leak">OrcaRouter</a>). As of this edition none of that has appeared. The contrast in New #8 is the point: MiniMax shipped H3's weights, a runtime and community quants inside a day.</div>
+      <p class="sowhat">Three days from a self-imposed deadline with nothing published. Do not put a Max-class open model in a Q3 plan until a repository and a licence exist — and note this would be the first Max-class open-weight release, so the precedent cuts both ways.</p>
+      <div><span class="chip arc">ARC: MAX-CLASS-OPEN · D10</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://www.yottalabs.ai/post/qwen-3-8-max-release-date-specs-how-to-access-2026">Yotta Labs</a> · <a href="https://neomanex.com/news/qwen38-max-open-weights-countdown-aug-2026">Neomanex</a> · <a href="https://www.orcarouter.ai/blog/qwen-3-8-27b-open-weights-leak">OrcaRouter</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING (collapsed by default) ══════════ -->
+<details class="fold" id="fold-tracking">
+  <summary>Still Tracking <small>32 LONG-RUNNERS · NO MOVEMENT THIS EDITION</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="tracking-strip" id="tracking-strip"></div></div>
+</details>
+
+<!-- ══════════ RESOLVED (collapsed by default) ══════════ -->
+<details class="fold" id="fold-resolved">
+  <summary>Resolved <small>OPEN THREADS, CLOSED</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="resolved-strip" id="resolved-strip"></div></div>
+</details>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 055 · 2026-08-13 (IST) · FORMAT v2</strong></p>
+    <details class="fold" id="fold-method">
+      <summary>Method, scan gaps &amp; caveats <span class="caret"></span></summary>
+      <div class="fold-body">
+        <p>METHOD: 30 web searches across three beat groups — models &amp; core technology (frontier releases, open-weight/Hugging Face, agents, hardware/compute, research, AI security), applied AI (enterprise deployments, products, startups, funding, partnerships, vertical AI, money) and people/policy/society (workforce and labour, AI jobs markets including India GCCs, talent moves, regulation in the EU, US, India and China). Thursday's rotating deep beat was hardware and compute, and produced four of the ten new cards. v2 format splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING (long-runners with no movement). Hero = biggest new item unless a developing thread had a major escalation; no developing thread escalated decisively today, so the hero is New #1. Target is ≥10 new items; aggregator claims were cross-checked against ≥2 outlets and two failed that test (below). Confidence chips: 2x SRC / Primary / Agg 1x / Rumor-flag. Impact /10 = breadth of who must act.</p>
+        <p>NEW.24H DISCIPLINE: only <strong>one</strong> item today carries the NEW.24H badge — the ChatGPT ads test, dated 12 August by two release trackers with the nine-country market expansion dated 11 August; both datings are printed above rather than reconciled. Everything else is labelled with its real date and carries no 24-hour badge: Lightcap, Manus, Target and Supermicro are all 11 August; Energy Vault is 7 August; MiniMax H3 is 3 August; AMD Helios is 22–23 July with the Schneider reference standards later; Meta/BlackRock El Paso is July, under a Meta Compute organisation established 12 January. These are NEW because their ids were absent from every prior edition, not because they broke today. Edition 054 ran on 11 August; no edition ran on 12 August, so this edition spans a two-day window.</p>
+        <p>KILLED BY VERIFICATION — TWO ITEMS. (1) A regulation roundup asserted that "California's sweeping Frontier AI Safety Act passed its final assembly vote on August 10 and awaits the governor's signature." No second outlet, no legislative record and no bill number could be found for that vote; the searchable record instead shows SB 53, the Transparency in Frontier Artificial Intelligence Act, signed on 29 September 2025, and an Assembly Appropriations hearing dated 5 August 2026 with a 12 September session deadline. Not carded. (2) A this-week agent roundup listed "Google is rolling out consumer agents that can call stores, check inventory and complete purchases by phone" as current news; the underlying launch is a TechCrunch story from 13 November 2025 with a rollout dated 29 January 2026. Not carded. Also checked and not carded as new: the Reprompt prompt-injection flaw in Copilot Personal (CVE-2026-24307) surfaced in an August security roundup but was disclosed by Varonis and patched in Microsoft's January 2026 update cycle; and Prometheus's $12B Series B at $41B, which is dated 11 June.</p>
+        <p>GENUINE GAPS THIS EDITION: (1) <strong>Every direct page fetch was blocked</strong> by this environment's egress proxy — openai.com, nbcnews.com, llm-stats.com and aiagentstore.ai all returned EGRESS_BLOCKED — so not one first-party page was read directly, including for the hero. Every citation rests on search-result summaries, and the two unreconciled ad-announcement dates are a direct consequence. (2) Scan breadth ran to 30 searches against a 20–28 target, the fourth consecutive overage, driven by cross-check searches on claims that then failed verification. (3) <strong>Nothing dated 13 August surfaced at all</strong> — the wire this edition is an 11–12 August wire. (4) The India and regional beat was dry: searches returned only restatements of the H1 2026 GCC numbers already in Tracking (227,991 hires, +11%, Bengaluru ~30% share) with no new dated release. (5) No new AI-security incident was found; the agent-security cluster carries unchanged in Tracking. (6) The AI-attribution layoff ledger is restated at ~205,000 workers through August and about 919 job losses a day, consistent with the 205,832 figure already tracked as of 10 August — a restatement, not movement, so it stays in Tracking. (7) Supermicro's Q4 beat is sourced from the pre-announcement 8-K and same-day coverage; final reported revenue and EPS were not confirmed here. (8) The Helios customer list (OpenAI, Meta, Oracle, Anthropic, Microsoft) is reported as deployment plans by trade outlets, not confirmed by each named company.</p>
+        <p>NOTE: Links point to sources found during the scan; where only an outlet root or roundup was available it is labelled as such. Nothing here is investment advice.</p>
+      </div>
+    </details>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 55,
+  "date": "2026-08-13",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 30,
+  "counts": {"new": 10, "developing": 2, "tracking": 32},
+  "tiers": {"critical": 2, "notable": 8, "monitor": 2},
+  "stories": [
+    {"id":"openai-chatgpt-ads","section":"new","rank":1,"title":"OpenAI began testing advertising inside ChatGPT for the Free and Go tiers only, serving in the US, Canada, Australia and New Zealand with the UK, Mexico, Brazil, Japan and South Korea added on 11 August; paid plans excluded; OpenAI says ads are labelled and visually separated from answers, do not influence outputs, are withheld from politics, health and mental-health contexts and under-age profiles, and that conversations are not shared with marketers, with users able to view, dismiss or comment on ads; stated purpose is funding infrastructure to keep free and low-cost access viable; lands alongside ChatGPT Go's global launch and inside the reported mid-to-late-August S-1 window","tier":"critical","impact":8,"delta":"new","arc":"model-pricing","arcDay":13,"confidence":"2x src","new24h":true,"firstSeen":"2026-08-13","lastUpdate":"2026-08-13","category":"business"},
+    {"id":"amd-helios-production","section":"new","rank":2,"title":"AMD's first rack-scale system Helios - Instinct MI455X GPUs, EPYC Venice CPUs, Pensando networking and ROCm 7 - is in full production and ships to customers by end of Q3 2026, with OpenAI, Meta, Oracle, Anthropic and Microsoft all reported as planning deployments; announced at Advancing AI on 22-23 July at Moscone Center, with AMD and Schneider Electric since publishing power and cooling reference standards for the rack","tier":"critical","impact":8,"delta":"new","arc":"gpu-duopoly","arcDay":3,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-13","lastUpdate":"2026-08-13","category":"hardware"},
+    {"id":"openai-lightcap-exit","section":"new","rank":3,"title":"Brad Lightcap, OpenAI's longtime COO who joined in 2018 and grew go-to-market from roughly 50 to over 700 people, announced on 11 August that he is leaving to start something new; he moved to a special-projects role in April when CRO Denise Dresser absorbed most of his responsibilities, stays a few more weeks and says he is 'not going far'; follows AGI chief Fidji Simo and CMO Kate Rouch in a reshuffle that put president Greg Brockman over product, as the company prepares a listing against a reported $852B mark","tier":"notable","impact":7,"delta":"new","arc":"talent-flow","arcDay":10,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-13","lastUpdate":"2026-08-13","category":"policy"},
+    {"id":"manus-meta-unwind","section":"new","rank":4,"title":"AI-agent company Manus said on 11 August it will resume operating as an independent company roughly eight months after Meta acquired it for a reported $2B in late December 2025, after China's NDRC blocked the acquisition in April 2026 and ordered it unwound citing outbound-investment and technology-export rules; data generated by certain users on or after 29 December 2025 will be deleted between 23 August 08:00 and 24 August SGT, with affected users notified in-app and by email and able to back up first","tier":"notable","impact":7,"delta":"new","arc":"china-ai-rules","arcDay":3,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-13","lastUpdate":"2026-08-13","category":"business"},
+    {"id":"supermicro-q4-backlog","section":"new","rank":5,"title":"Super Micro reported fiscal Q4 after the bell on 11 August, topping expectations and guiding Q1 strongly with the stock jumping; Q4 revenue was pre-announced near the low end of $11.0-12.5B guidance but gross margin at 15-17% against an initial 8.2-8.4% on favourable customer and product mix; FY26 guidance raised to $38.9-40.4B and the pre-announced $60B backlog includes a gigawatt-scale co-build for SpaceX and xAI","tier":"notable","impact":7,"delta":"new","arc":"compute-buildout","arcDay":27,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-13","lastUpdate":"2026-08-13","category":"hardware"},
+    {"id":"google-amie-video","section":"new","rank":6,"title":"Google published AMIE (Video), built on Gemini and Project Astra, conducting synchronous real-time clinical video consultations - perceiving non-verbal cues, guiding patient actors through virtual physical exams and reasoning diagnostically - via an asynchronous multi-agent architecture because one agent cannot hold conversational latency and deep reasoning at once; 100 clinical scenarios across AMIE Video, AMIE Text and PCP Video arms with 15 trained actors across cardiopulmonary, abdominal, HEENT, neuro/psychiatric and musculoskeletal presentations; AMIE (Video) matched or exceeded PCPs on core clinical competencies while PCPs were preferred on rapport and partnership; Google says real-patient studies must precede any clinical conclusion","tier":"notable","impact":6,"delta":"new","arc":"ai-science","arcDay":3,"confidence":"Primary","new24h":false,"firstSeen":"2026-08-13","lastUpdate":"2026-08-13","category":"research"},
+    {"id":"target-chief-ai-officer","section":"new","rank":7,"title":"Target appointed Chandhu Nair as its first chief AI officer and SVP on 11 August, starting 24 August; he arrives from Lowe's where he spent six-plus years as SVP of stores, data, AI and innovation, after Staples and Gap and two ventures of his own; Target also promoted Purvi Shah to SVP of user experience, with both reporting to chief information and product officer Prat Vemana - an AI chief placed under product rather than IT","tier":"notable","impact":6,"delta":"new","arc":"ai-roi","arcDay":7,"confidence":"2x src","new24h":false,"firstSeen":"2026-08-13","lastUpdate":"2026-08-13","category":"enterprise"},
+    {"id":"minimax-h3-open","section":"new","rank":8,"title":"MiniMax published open weights for H3, its omni-modal video model, to Hugging Face on 3 August with native ComfyUI support the same day and community GGUF, INT4 and NVFP4 quantisations following immediately; carded for the first time and ten days old, notable mainly as the contrast case to Alibaba's unfulfilled Qwen3.8-Max open-weights promise","tier":"notable","impact":6,"delta":"new","arc":"open-frontier","arcDay":26,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-08-13","lastUpdate":"2026-08-13","category":"models"},
+    {"id":"energy-vault-hyperscaler","section":"new","rank":9,"title":"Energy Vault announced on 7 August a strategic agreement to deploy 1.25GW of integrated power infrastructure for an unnamed hyperscaler AI data centre, with a power-generation EPC deploying Caterpillar gensets, initial deployment in Texas and roughly $500-600M of revenue impact expected across H2 2026 and 2027; discussed on the 11 August earnings call","tier":"monitor","impact":5,"delta":"new","arc":"compute-buildout","arcDay":27,"confidence":"Primary","new24h":false,"firstSeen":"2026-08-13","lastUpdate":"2026-08-13","category":"hardware"},
+    {"id":"meta-blackrock-elpaso","section":"new","rank":10,"title":"Meta and BlackRock announced a strategic venture to develop a data-centre campus in El Paso, Texas with 1GW of compute capacity representing over $10B of Meta investment, expected to close within days with capacity coming online from 2028; it sits under Meta Compute, the infrastructure organisation Zuckerberg established on 12 January under Santosh Janardhan and Daniel Gross, which plans multiple gigawatt-plus campuses and is described as scaling to hundreds of gigawatts over time","tier":"monitor","impact":5,"delta":"new","arc":"compute-buildout","arcDay":27,"confidence":"Primary","new24h":false,"firstSeen":"2026-08-13","lastUpdate":"2026-08-13","category":"hardware"},
+    {"id":"openai-free-unlimited","section":"developing","rank":1,"title":"The free-tier funding question is answered: OpenAI has attached advertising as a second revenue line to the Free and Go tiers, stating in its own post that ads fund infrastructure and keep free and low-cost access viable; no usage-limit change was announced alongside it and OpenAI states ads do not influence outputs; ChatGPT Go went global in the same fortnight; what remains open is whether free-tier generosity now tracks ad economics rather than GPU supply","tier":"notable","impact":7,"delta":"escalated","arc":"model-pricing","arcDay":13,"confidence":"2x src","new24h":false,"update":"Escalated and answered: twelve editions of tracking how the free tier gets funded ends with OpenAI publishing advertising as the answer - live for Free and Go in four countries, five more added 11 August","firstSeen":"2026-08-01","lastUpdate":"2026-08-13","category":"models"},
+    {"id":"qwen38-max","section":"developing","rank":2,"title":"Alibaba's Qwen3.8-Max open-weights commitment remains unfulfilled: previewed 19 July, launched 3 August, with weights for Max and the smaller Qwen3.8-27B promised to Hugging Face and ModelScope during the week of 10 August; as of this edition there is no repository on either host, no named licence and no revised date, with three days left before the 16 August window closes","tier":"notable","impact":6,"delta":"carry","arc":"max-class-open","arcDay":10,"confidence":"Agg 1x","new24h":false,"update":"The clock, not the content: today's scan re-confirms no repository, no licence and no revised date; Alibaba's own week closes on 16 August, three days away","firstSeen":"2026-08-04","lastUpdate":"2026-08-13","category":"models"}
+  ],
+  "tracking": [
+    {"id":"openai-daybreak-cyber","label":"DEMOTED FROM NEW (hero, edition 054): GPT-5.6-Cyber on the gated Daybreak Red tier holds, with the 95% / 98.5% capability figures still unreconciled between outlets and no CVE ids surfaced for the two reported Chrome findings","arc":"agent-security","arcDay":48},
+    {"id":"meta-muse-glimmer","label":"DEMOTED FROM NEW: Meta's return to Apache 2.0 with a 30B dense agent model sized for one 24GB consumer GPU holds, with no follow-up benchmark re-runs surfaced","arc":"open-frontier","arcDay":26},
+    {"id":"intel-15b-offering","label":"DEMOTED FROM NEW: the proposed $15B common-stock offering plus a $2.25B option, Intel's first public share sale since the 1971 listing, holds; Intel's Data Center and AI segment was up 59% YoY in the July report","arc":"foundry-capital","arcDay":3},
+    {"id":"chinese-model-token-share","label":"DEMOTED FROM NEW: US models falling from roughly 70% to 30% of OpenRouter token volume in a year, with Chinese models above 30% every week since February, holds on tracker data","arc":"open-frontier","arcDay":26},
+    {"id":"darpa-venom-f16","label":"DEMOTED FROM NEW: the AI-controlled F-16 flight at Eglin with the safety pilot only monitoring, and VENOM as the backbone of DARPA's AIR programme, holds as a 16 July government disclosure","arc":"autonomous-weapons","arcDay":3},
+    {"id":"microsoft-copilot-unified","label":"DEMOTED FROM NEW: the unified consumer-and-enterprise Copilot app with a paid AutoPilot tier holds, still against an internal audit putting paid add-on conversion below 4.5% of 450 million seats","arc":"agent-platform-war","arcDay":4},
+    {"id":"chai-discovery-400m","label":"DEMOTED FROM NEW: Chai Discovery's tripling to $3.8B in seven months while holding Pfizer, Lilly and Novartis simultaneously holds, still against zero fully FDA-approved AI-discovered drugs","arc":"ai-drug-approval","arcDay":5},
+    {"id":"model-identity-probing","label":"DEMOTED FROM NEW: the independent probe inferring training-run identity from knowledge-cutoff behaviour holds as one blog, not peer-reviewed and not replicated in this scan","arc":"model-forensics","arcDay":3},
+    {"id":"dunelm-gemini-agent","label":"DEMOTED FROM NEW: Dunelm's customer-facing Gemini Enterprise agent holds with no usage or outcome data published since","arc":"agent-platform-war","arcDay":4},
+    {"id":"academic-brain-drain","label":"DEMOTED FROM NEW: at least 22 professors leaving for industry labs holds; today's separate Lightcap departure is a lab-to-founder move and is carded rather than folded in here","arc":"talent-flow","arcDay":10},
+    {"id":"google-ai-shakeup","label":"The Hassabis-to-Chair and Kavukcuoglu-to-SVP succession holds, alongside Jeff Dean, Sanjay Ghemawat, Oriol Vinyals and Quoc Le leaving to co-found Discovery Loop on 5 August; no dated follow-up in this scan","arc":"talent-flow","arcDay":11},
+    {"id":"openai-august-retirements","label":"Every remaining retirement date is inside its published window: Atlas stopped 9 August as published, o3 leaves ChatGPT on 26 August and the official DALL-E GPT on 30 August","arc":"model-lifecycle","arcDay":8},
+    {"id":"tesla-spacex-terafab","label":"Terafab's $16.8B first phase in Grimes County with 3,000+ jobs holds; today's Supermicro backlog card is the nearer-term read on the same buildout","arc":"compute-buildout","arcDay":27},
+    {"id":"amd-q2-2026","label":"AMD's record $11.5B quarter, $6.7B data centre up 107% at 58% of the company and $12.7-13.3B guidance holds - and now sits directly beside Helios entering full production","arc":"gpu-duopoly","arcDay":3},
+    {"id":"core-scientific-amd","label":"The 15-year, ~$14B AMD lease of 530MW doubling Core Scientific to about 1.1GW holds with no new milestone disclosed","arc":"compute-buildout","arcDay":27},
+    {"id":"spacex-nvidia-starmind","label":"SpaceX's exclusive NVIDIA commitment, the Starmind AI1 payload and the FCC request for up to one million orbital units hold; Supermicro's gigawatt co-build for SpaceX and xAI is the terrestrial counterpart","arc":"compute-buildout","arcDay":27},
+    {"id":"amd-taalas","label":"AMD's acquisition of Toronto inference-silicon startup Taalas holds - terms undisclosed, closing Q4","arc":"post-hbm-inference","arcDay":7},
+    {"id":"anthropic-chip-team","label":"Anthropic's in-house chip team targeting roughly 50% lower per-token inference cost holds, with the Samsung report unconfirmed","arc":"lab-silicon","arcDay":5},
+    {"id":"nature-ai-science-narrowing","label":"Nature's 41.3M-paper study holds - adopters publish 3.02x more and are cited 4.84x more while the field narrows; today's AMIE video study is the capability counterpart","arc":"ai-science","arcDay":3},
+    {"id":"rentosertib-fast-track","label":"rentosertib's FDA Fast Track holds, with the estimated Phase III start on 30 August still the date to watch","arc":"ai-drug-approval","arcDay":5},
+    {"id":"workforce","label":"The AI-attribution ledger is restated at about 205,000 workers through August and roughly 919 job losses a day, consistent with the 205,832 figure as of 10 August - a restatement, not movement; cuts concentrated in customer service, data operations, entry-level software and finance back offices","arc":"workforce","arcDay":47},
+    {"id":"india-gcc-h1-2026","label":"227,991 GCC hires in H1 2026 at +11% holds, with Bengaluru at roughly 30% share and two in three new GCC roles requiring AI or data skills; today's scan surfaced only restatements, no new dated release","arc":"india-jobs","arcDay":4},
+    {"id":"palantir-q2-93","label":"Palantir's Q2 at $1.935B revenue up 93%, US commercial up 149% and FY26 guidance near $8.15B holds","arc":"ai-capital-markets","arcDay":6},
+    {"id":"openai-apple-motion","label":"OpenAI's 31-page motion to dismiss Apple's trade-secrets suit holds; 17 August is when OpenAI's court-ordered response to the preliminary-injunction request is due","arc":"ai-litigation","arcDay":6},
+    {"id":"openai-s1-public","label":"OpenAI's confidential S-1 of 22 May holds; the mid-to-late-August public flip is still reported rather than filed, and today's Lightcap exit and ads launch both land inside that window","arc":"ipo-wave","arcDay":6},
+    {"id":"cognizant-emea-ai-unit","label":"Cognizant's EMEA services unit built around the failed-pilot problem holds (28 July); it resurfaced in this week's agent roundups without new dated detail","arc":"agent-platform-war","arcDay":4},
+    {"id":"gemini-spark-chrome","label":"Gemini Spark driving a logged-in desktop Chrome with saved passwords holds with no vendor response surfaced","arc":"agent-security","arcDay":48},
+    {"id":"coding-agent-cve-cluster","label":"Kiro's CVE-2026-10591, the Cursor CVE-2026-50548/50549 pair at CVSS 9.8 and CVE-2026-22708 poisoning allowlisted commands hold; no new agent CVE surfaced this edition","arc":"agent-security","arcDay":48},
+    {"id":"enterprise-agent-pilot-gap","label":"IDC's 88% of agent proofs-of-concept never reaching broad production holds, beside Microsoft's sub-4.5% Copilot conversion","arc":"agent-platform-war","arcDay":4},
+    {"id":"open-frontier","label":"The open ceiling is unchanged at Kimi K3's 2.8T weights of 16 July under the Kimi licence; MiniMax's H3 video weights of 3 August are carded separately as New #8","arc":"open-frontier","arcDay":26},
+    {"id":"frontier-models","label":"No frontier flagship shipped in this window for the fifth consecutive edition; Gemini's flagship is still unscheduled and Gemini 3.6 Flash / 3.5 Flash-Lite are efficiency tiers, not a frontier release","arc":"frontier-models","arcDay":21},
+    {"id":"reg-clock","label":"EU transparency, GPAI enforcement and the high-risk obligations live since 2 August with fines to EUR15M/3% turnover; first national market-surveillance actions expected within weeks; Annex III high-risk package confirmed for 2 December 2027","arc":"reg-clock","arcDay":17}
+  ],
+  "movers": [
+    {"dir":"up","text":"CHATGPT ADS - the free tier gets a second revenue line; Free and Go serving in four countries, five more added in a single day"},
+    {"dir":"up","text":"AMD RACK-SCALE - Helios in full production and shipping by end of Q3, with OpenAI, Meta, Oracle, Anthropic and Microsoft named as deployers"},
+    {"dir":"up","text":"SUPERMICRO - Q4 beat and strong Q1 guidance; gross margin 15-17% against 8.2-8.4% guided, FY26 raised to $38.9-40.4B on a $60B backlog"},
+    {"dir":"up","text":"CHIP TAPE - AMD, Intel and NVIDIA all rallied on Wednesday 12 August after a run of AI earnings reports"},
+    {"dir":"down","text":"OPENAI C-SUITE - Lightcap out after eight years, the third senior departure after Fidji Simo and Kate Rouch, with Brockman over product"},
+    {"dir":"down","text":"CHINA M&A - Beijing forces the unwind of Meta's completed $2B Manus acquisition eight months on, with user data deleted 23-24 August"},
+    {"dir":"down","text":"NEW.24H COUNT - one inside 24 hours, down from four; the wire this edition is an 11-12 August wire with nothing dated 13 August"}
+  ],
+  "arcs": {
+    "model-pricing": {"day": 13, "note": "HERO / New #1 and Developing D1: the arc resolves. Twelve editions of asking how an unlimited-feeling free tier gets funded ends with OpenAI publishing advertising as the answer - Free and Go only, nine countries, labelled and separated, with outputs stated to be unaffected"},
+    "gpu-duopoly": {"day": 3, "note": "New #2 / Thursday's deep beat: AMD's Helios rack-scale system enters full production with OpenAI, Meta, Oracle, Anthropic and Microsoft named, giving the duopoly a second integrated rack for the first time - read against AMD's 107% data-centre quarter already in Tracking"},
+    "talent-flow": {"day": 10, "note": "New #3: Brad Lightcap leaves OpenAI after eight years and four as COO, the third C-suite exit of the pre-listing run after Fidji Simo and Kate Rouch"},
+    "china-ai-rules": {"day": 3, "note": "New #4: the NDRC's April block of Meta's $2B Manus acquisition takes effect - a completed cross-border deal unwound eight months on, with user data deleted 23-24 August SGT"},
+    "compute-buildout": {"day": 27, "note": "New #5, #9 and #10 / the deep beat's centre of gravity: Supermicro's $60B backlog with a gigawatt SpaceX/xAI co-build, Energy Vault's 1.25GW of behind-the-meter generation for an unnamed hyperscaler, and Meta/BlackRock's 1GW $10B+ El Paso venture under Meta Compute"},
+    "ai-science": {"day": 3, "note": "New #6 / today's research beat: Google's AMIE (Video) runs real-time clinical video consultations across 100 scenarios and rates on par with primary-care physicians on core competencies, while PCPs keep the edge on rapport"},
+    "ai-roi": {"day": 7, "note": "New #7: Target names its first chief AI officer and places him under product rather than IT - the reporting line is the signal"},
+    "open-frontier": {"day": 26, "note": "New #8: MiniMax ships H3's omni-modal video weights, a runtime path and community quants inside a day, the direct contrast to Alibaba's unfulfilled Max-class promise"},
+    "max-class-open": {"day": 10, "note": "Developing D2: three days left in Alibaba's own 10 August week for Qwen3.8-Max and Qwen3.8-27B open weights, with no repository, no licence and no revised date"},
+    "agent-security": {"day": 48, "note": "Quiet: no new incident or CVE surfaced this edition; the Daybreak Red tier, the Gemini Spark Chrome finding and the coding-agent CVE cluster all carry unchanged in Tracking"},
+    "agent-platform-war": {"day": 4, "note": "Quiet: Microsoft's unified Copilot, Dunelm's Gemini agent, Cognizant EMEA and the 88% pilot gap all hold without dated movement"},
+    "ipo-wave": {"day": 6, "note": "The S-1's reported mid-to-late-August flip is still unfiled, and both of today's OpenAI items - the ads launch and the Lightcap exit - land inside that window"},
+    "reg-clock": {"day": 17, "note": "EU high-risk obligations and transparency live since 2 August with first national enforcement actions expected within weeks; a claimed 10 August California assembly vote failed verification and was not carded"},
+    "workforce": {"day": 47, "note": "Restated, not moved: about 205,000 AI-attributed job losses through August, roughly 919 a day, consistent with the ledger already tracked"},
+    "india-jobs": {"day": 4, "note": "Dry: only restatements of the H1 2026 GCC figures - 227,991 hires at +11%, Bengaluru ~30% share, two in three new GCC roles AI- or data-skilled"},
+    "frontier-models": {"day": 21, "note": "Tracking only: no frontier flagship in this window for the fifth consecutive edition; Gemini 3.6 Flash and 3.5 Flash-Lite are efficiency tiers, not a frontier release"},
+    "model-lifecycle": {"day": 8, "note": "Tracking only: Atlas stopped 9 August as published; o3 leaves ChatGPT 26 August and the official DALL-E GPT 30 August, all inside published windows"},
+    "foundry-capital": {"day": 3, "note": "Tracking only: Intel's proposed $15B common-stock offering plus $2.25B option holds, with Data Center and AI up 59% YoY in the July report"},
+    "autonomous-weapons": {"day": 3, "note": "Tracking only: the AI-controlled F-16 flight at Eglin and VENOM as the backbone of DARPA's AIR programme hold as a 16 July government disclosure"},
+    "model-forensics": {"day": 3, "note": "Tracking only: the knowledge-cutoff identity probe holds as one blog, not peer-reviewed and not replicated in this scan"},
+    "ai-drug-approval": {"day": 5, "note": "Tracking only: Chai Discovery at $3.8B and rentosertib's Fast Track hold; the 30 August estimated Phase III start is the next dated event"},
+    "post-hbm-inference": {"day": 7, "note": "Tracking only: AMD's acquisition of Taalas holds, terms undisclosed, closing Q4"},
+    "lab-silicon": {"day": 5, "note": "Tracking only: Anthropic's in-house chip team targeting ~50% lower per-token inference cost holds, Samsung report unconfirmed"},
+    "ai-capital-markets": {"day": 6, "note": "Tracking only: Palantir's Q2 at $1.935B up 93% with FY26 guidance near $8.15B holds"},
+    "ai-litigation": {"day": 6, "note": "Tracking only: OpenAI's motion to dismiss Apple's trade-secrets suit holds; the court-ordered injunction response is due 17 August"}
+  },
+  "resolved": [
+    "OPENAI-FREE-UNLIMITED - QUESTION ANSWERED at D13, and escalated rather than closed. The thread has carried the question of how an unlimited-feeling free tier gets funded since 1 August. OpenAI answered it in its own words this week: advertising, on the Free and Go tiers only, to fund infrastructure and keep free and low-cost access viable. It continues as Developing D1 because the consequence - whether free-tier generosity now tracks ad economics rather than GPU supply - is open.",
+    "KILLED BY VERIFICATION - CALIFORNIA FRONTIER AI SAFETY ACT. A regulation roundup asserted that a 'sweeping Frontier AI Safety Act' passed its final California assembly vote on 10 August and awaits the governor's signature. No second outlet, no legislative record and no bill number could be found. The searchable record instead shows SB 53, the Transparency in Frontier Artificial Intelligence Act, signed 29 September 2025, plus an Assembly Appropriations hearing dated 5 August 2026 against a 12 September session deadline. Not carded.",
+    "KILLED BY VERIFICATION - GOOGLE'S CALLING AGENTS. A this-week agent roundup listed 'Google is rolling out consumer agents that can call stores, check inventory and complete purchases by phone' as current news. The underlying launch is a TechCrunch story from 13 November 2025 and a rollout dated 29 January 2026, initially for toys, health and beauty and electronics in the US. Not carded.",
+    "NOT CARDED, AND WHY - REPROMPT (CVE-2026-24307). The single-click prompt-injection exfiltration path in Copilot Personal surfaced in an August security roundup, but it was disclosed by Varonis Threat Labs and patched by Microsoft in the January 2026 update cycle. Old, fixed, and not new. Prometheus's $12B Series B at $41B was likewise re-surfaced by an August funding roundup and is dated 11 June.",
+    "AUTO-DEMOTE (New to Tracking): all ten of edition 054's New items drop to one-liners - openai-daybreak-cyber, meta-muse-glimmer, intel-15b-offering, chinese-model-token-share, darpa-venom-f16, microsoft-copilot-unified, chai-discovery-400m, model-identity-probing, dunelm-gemini-agent and academic-brain-drain. None produced a dated follow-up in this scan.",
+    "SILENTLY RETIRED (three or more editions quiet, no known outcome, or folded into a live cluster): horizon3-250m, anthropic-cuellar, oracle-google-agent-studio, aws-superblocks, hadrian-137b, happyrobot-150m, fiserv-agentos, anthropic-eval-escape, meta-eval-escape and china-companion-enforcement. Tracking holds at 32.",
+    "NEW.24H - ONE. Only the ChatGPT ads test broke inside 24 hours. Nine of the ten New items are 11 August or earlier and carry honest date labels with no badge; nothing dated 13 August surfaced anywhere in a 30-search scan.",
+    "SCAN BREADTH: 30 searches against a 20-28 target, the fourth consecutive overage. The cause this edition is different from the last three - it was cross-check searches on aggregator claims, two of which then failed verification and were killed. The direct-fetch failure remains: openai.com, nbcnews.com, llm-stats.com and aiagentstore.ai all returned EGRESS_BLOCKED, so no first-party page was read directly, including for the hero.",
+    "GENUINE GAPS THIS EDITION: (1) no first-party page read directly for any card - the two unreconciled ChatGPT-ads dates, 11 August for the market expansion and 12 August for OpenAI's post, are a direct consequence; (2) nothing dated 13 August surfaced at all; (3) the India and regional beat returned only restatements of H1 GCC figures already tracked; (4) no new AI-security incident or CVE; (5) Supermicro's Q4 is sourced from the pre-announcement 8-K and same-day coverage, with final revenue and EPS unconfirmed here; (6) the Helios customer list is reported as deployment plans by trade outlets, not confirmed by each named company."
+  ],
+  "deadlines": [
+    {"date": "2026-08-16", "label": "Alibaba's own named window closes: Qwen3.8-Max and Qwen3.8-27B were promised to Hugging Face and ModelScope during the week of 10 August, and as of this edition there is no repository and no named licence. If the week closes empty, the first Max-class open-weight release becomes an unkept commitment rather than a pending one - 3 days", "severity": "high"},
+    {"date": "2026-08-17", "label": "Three on one date: OpenAI's court-ordered response to Apple's preliminary-injunction request is due; the Claude Developer Platform retires the legacy Workbench and experimental prompt-tools APIs, so saved legacy prompts, variables and evals need exporting first; and FERC Section 206 requires all six RTOs/ISOs to justify or refile their large-load interconnection tariffs - the last of these is the one Energy Vault's 1.25GW behind-the-meter deal is a direct answer to - 4 days", "severity": "medium"},
+    {"date": "2026-08-23", "label": "Manus deletes data generated by certain users on or after 29 December 2025, from 08:00 SGT on 23 August until 24 August, as the Meta acquisition unwinds on NDRC orders. Affected users are notified in-app and by email and can back up first - 10 days", "severity": "medium"},
+    {"date": "2026-08-26", "label": "OpenAI retires o3 from ChatGPT at the end of its 90-day sunset - the migration with real weight left this month. NVIDIA's Q2 earnings fall the same day and are now the first scheduled chance to size the SpaceX commitment against both AMD's 107% data-centre quarter and Helios entering full production. The official DALL-E GPT follows on 30 August, as does the estimated Phase III start for rentosertib - 13 days", "severity": "medium"},
+    {"date": "2026-08-31", "label": "Two default-tier changes on one date: Claude Sonnet 5's introductory $2/$10 per million ends, moving to $3/$15 from 1 September - a 50% rise and the only scheduled increase on the pricing board - and OpenAI removes GPT-5.4 and GPT-5.4 mini from Codex for ChatGPT-signed-in users - 18 days", "severity": "high"},
+    {"date": "2026-12-02", "label": "EU triple date under Regulation (EU) 2026/1744: Article 50(2) machine-readable marking bites for systems placed on the market before 2 August; the transparency-implementation grace period expires; and nudification and non-consensual intimate-imagery generators must be off the EU market or carry adequate safeguards. The separate Annex III high-risk package is confirmed a year further out, on 2 December 2027 - 111 days", "severity": "high"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── deep-link support: #still-tracking / #resolved / #method open the collapsed folds ──
+  var foldMap = {'still-tracking':'fold-tracking','resolved':'fold-resolved','method':'fold-method'};
+  var openFromHash = function(){
+    var id = foldMap[(location.hash||'').replace('#','')];
+    if(id){ var el = document.getElementById(id); if(el){ el.open = true; el.scrollIntoView(); } }
+  };
+  window.addEventListener('hashchange', openFromHash); openFromHash();
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
