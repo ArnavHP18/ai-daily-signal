@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 060 — 18 August 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+
+  /* collapsible archive sections (Still Tracking / Resolved / method notes) */
+  .fold{border-bottom:3px solid var(--ink);margin-top:26px}
+  .fold[open]{border-bottom-color:var(--rule)}
+  .fold > summary{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:0 0 8px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary small{font-size:10px;color:#6b6353;letter-spacing:1px;font-weight:400}
+  .fold > summary .caret{font-size:11px;color:#6b6353;letter-spacing:0}
+  .fold > summary:hover{color:var(--crit)}
+  .fold[open] > summary .caret::after{content:"▴ HIDE"}
+  .fold:not([open]) > summary .caret::after{content:"▾ SHOW"}
+  .fold .fold-body{padding-bottom:16px}
+  footer .fold{border-bottom:none;margin-top:12px}
+  footer .fold > summary{font-size:11px;letter-spacing:2px}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>COMPUTE</b> NVIDIA will back as much as $105B of financing for a single OpenAI campus in Ohio — 4.25GW at the start, 3.75GW optioned, NVIDIA-only silicon, a 20-year lease &nbsp;◆&nbsp; <b>RAILS</b> Stripe reported closing on OpenRouter for more than $7B — the model-routing layer, bought by the payments layer &nbsp;◆&nbsp; <b>OPEN</b> NVIDIA's Nemotron 3.5 Lightning ships weights, training data and recipes under OpenMDW-1.1 and runs on one consumer GPU &nbsp;◆&nbsp; <b>LABELS</b> Google makes Gemini's visible AI watermark an off switch three weeks into the EU transparency regime; SynthID stays in the file &nbsp;◆&nbsp; <b>DEADLINE</b> Microsoft's unified Copilot rollout starts today and Copilot Podcasts goes dark &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>060</b></span>
+    <span>TUESDAY, 18 AUGUST 2026</span>
+    <span class="seg">NEW <b>11</b> · DEVELOPING <b>5</b> · TRACKING <b>38</b></span>
+    <span>CRITICAL <b>3</b> / NOTABLE 11 / MONITOR 2</span>
+    <span>SCAN: 43 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="nvidia-openai-ohio-105b">
+  <div>
+    <div class="kicker">■ Today's Lead · New · Hardware · Day 32 of the compute-buildout arc</div>
+    <h2>NVIDIA will underwrite $105 billion for one OpenAI data centre — and the chips are now the collateral</h2>
+    <p class="dek">NVIDIA said on <strong>Monday 17 August</strong> that it will back as much as <strong>$105 billion</strong> in financing for the <strong>PORTS-Pike Technology Campus</strong>, an OpenAI data-centre site in <strong>Ohio</strong>, and separately invest <strong>$1.5 billion</strong> into <strong>SB Energy</strong>, the SoftBank unit developing it (<a href="https://www.bloomberg.com/news/articles/2026-08-17/nvidia-to-invest-up-to-105-billion-for-openai-data-center-in-ohio">Bloomberg</a>, <a href="https://www.cnbc.com/2026/08/17/nvidia-financing-open-ai-data-center-ohio.html">CNBC</a>). SB Energy builds and owns the campus; <strong>OpenAI leases it for 20 years</strong>. First phase is <strong>4.25 gigawatts</strong> of compute with an option on another <strong>3.75GW</strong>. In return OpenAI committed to using <strong>NVIDIA chips exclusively</strong> on the site, and Jensen Huang put OpenAI's broader infrastructure plans at roughly <strong>$600 billion of NVIDIA compute through 2030</strong>. Read it against the other half of the same week: on <strong>10 August</strong> NVIDIA announced financing platforms with <strong>Apollo, BlackRock, Blackstone, Brookfield, Goldman Sachs and KKR</strong> to mobilise <strong>over $500 billion of third-party capital</strong> for AI compute, and by <strong>14 August</strong> Goldman was reported marketing the structure to investors.</p>
+    <p class="sowhat">So what: this is the week the buildout stopped being funded out of hyperscaler cash flow and started being funded like infrastructure debt — SPVs, 20-year leases, GPUs as collateral. That changes who is exposed when utilisation disappoints: not just the labs, but pension money. If you buy compute, your counterparty risk now runs through a capital structure, not a balance sheet.</p>
+    <span class="chip arc">ARC: COMPUTE-BUILDOUT · D32</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://www.bloomberg.com/news/articles/2026-08-17/nvidia-to-invest-up-to-105-billion-for-openai-data-center-in-ohio">Bloomberg (17 Aug)</a> ·
+      <a href="https://www.cnbc.com/2026/08/17/nvidia-financing-open-ai-data-center-ohio.html">CNBC (17 Aug)</a> ·
+      <a href="https://finance.yahoo.com/technology/article/nvidia-inks-105-billion-deal-for-openai-data-center-190524832.html">Yahoo Finance (17 Aug)</a> ·
+      <a href="https://www.benzinga.com/markets/prediction-markets/26/08/61256057/nvidia-openai-deal-circular-financing">Benzinga (17 Aug)</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>The structure, as reported.</strong> NVIDIA is not building the campus and is not the landlord. SB Energy — SoftBank's energy arm — builds and owns PORTS-Pike; OpenAI signs a 20-year lease; NVIDIA backstops up to $105 billion of the financing that gets it built, and separately puts $1.5 billion of equity into SB Energy itself. The consideration flowing back to NVIDIA is an exclusivity commitment: OpenAI uses NVIDIA silicon on that site. Initial capacity is 4.25GW with a 3.75GW expansion option, which would put the fully-built campus at 8GW — larger than the entire announced first phase of most sovereign AI programmes.</p>
+      <p><strong>Why the $500 billion platform is the same story.</strong> On 10 August NVIDIA announced it was establishing AI compute infrastructure financing platforms with six of the largest alternative and traditional asset managers — Apollo, BlackRock, Blackstone, Brookfield, Goldman Sachs and KKR — explicitly to mobilise more than $500 billion of <em>third-party</em> capital. The mechanism is that compute is treated as a financeable, revenue-generating asset: capital deployed through private offerings and bonds issued by special-purpose entities, with GPU fleets as the underlying collateral. Huang's framing to CNBC was that his chips are an "investable asset". By 14 August Goldman was reported to be in talks with investors on the Ohio-scale piece specifically. The Ohio deal is the first very large worked example of the platform's logic.</p>
+      <p><strong>The circularity question, named.</strong> Coverage has already put the obvious objection to Huang: NVIDIA is financing a customer's purchase of NVIDIA chips, in exchange for a commitment to buy NVIDIA chips. He has rejected the "circular financing" characterisation, arguing the demand is real and pointing at the ~$600B compute figure through 2030. This briefing is not in a position to adjudicate that — but the disclosure to watch is whether any of this appears as vendor financing, guarantee or off-balance-sheet exposure in NVIDIA's Q2 filing.</p>
+      <p><strong>What is not established.</strong> The $105B is a maximum backed amount, not cash deployed today, and the reported terms — how much is guarantee versus direct investment, the seniority, the drawdown schedule — are not public. Neither is the split between the two announcements: whether Ohio draws on the six-manager platform or sits alongside it. All four sources here are secondary; direct fetches of nvidianews.nvidia.com, openai.com and cnbc.com were blocked by this environment's egress proxy, so nothing in this card was read off the primary release.</p>
+      <p><strong>Watch next.</strong> <strong>NVIDIA's Q2 earnings on 26 August</strong> are now the single most load-bearing date on this radar: the first scheduled opportunity to see how any of this is booked, how the SpaceX and AMD Helios commitments sit alongside it, and whether management quantifies the financing exposure. Also watch whether the ratings agencies say anything about GPU-collateralised paper, and whether the data-centre IPO queue behind Vantage reprices on it.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>Announced</dt><dd>NVIDIA, <b>Monday 17 August</b>; separate $500B platform announced <b>10 August</b></dd>
+      <dt>Backing</dt><dd>Up to <b>$105B</b> of financing for the PORTS-Pike campus + <b>$1.5B</b> equity into SB Energy</dd>
+      <dt>Capacity</dt><dd><b>4.25GW</b> initial · <b>3.75GW</b> option · <b>20-year</b> OpenAI lease; SB Energy builds and owns</dd>
+      <dt>Consideration</dt><dd>OpenAI commits to <b>NVIDIA chips exclusively</b> on site</dd>
+      <dt>Scale claim</dt><dd>OpenAI infrastructure ≈ <b>$600B</b> of NVIDIA compute through <b>2030</b> (Huang)</dd>
+      <dt>Adjacent</dt><dd><b>$500B+</b> third-party capital platform with Apollo, BlackRock, Blackstone, Brookfield, Goldman, KKR</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">9</b>/10 — anyone buying compute, anyone holding infrastructure credit, anyone modelling NVIDIA demand</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="nvidia-openai-ohio-105b">
+      <div class="num">1</div>
+      <h4>NVIDIA underwrites $105B for one OpenAI campus</h4>
+      <p>Announced 17 August: up to $105B backed for the PORTS-Pike site in Ohio, plus $1.5B into SB Energy, which builds and owns it while OpenAI leases for 20 years. 4.25GW now, 3.75GW optioned, NVIDIA-only silicon. Seven days after a $500B third-party capital platform with six asset managers. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="stripe-openrouter-7b">
+      <div class="num">2</div>
+      <h4>The payments layer just bought the routing layer</h4>
+      <p>Stripe is reported to have finalised a deal for OpenRouter at more than $7B — a 5x markup on a $1.3B valuation from May, for a gateway serving 8 million users across 400+ models. Neither company will comment. Follows Stripe's January purchase of Metronome. <strong>NEW · RUMOR-FLAG.</strong></p>
+    </article>
+    <article class="trip" data-story-id="nvidia-nemotron-35-lightning">
+      <div class="num">3</div>
+      <h4>Tuesday's open-weight beat: NVIDIA ships the recipe, not just the weights</h4>
+      <p>Nemotron 3.5 Lightning — 30B MoE, 3B active, distilled from Nemotron 3 Ultra — released 11 August under OpenMDW-1.1 with weights, <em>training data and recipes</em>, free for commercial use, no permission request, running on a single consumer GPU. Plus NeMo Switchyard, an open model router. <strong>NEW.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>ELEVEN NEW, AND WHAT THEY ADD UP TO:</strong> the money moved to the infrastructure layer and the plumbing layer on the same day. Also new: Stripe reported closing on OpenRouter at $7B+ while Anthropic is in talks on its own largest-ever deal — about $6B for <strong>Decart</strong>, and notably for chip-efficiency software rather than models · Synchrony put OpenAI models across its enterprise and a financing-offers plugin inside ChatGPT · Higgsfield quadrupled to $5.4B in eight months on annualised revenue reported at $700M, up from about $20M a year ago · Google made Gemini's <em>visible</em> AI watermark an off switch three weeks into the EU transparency regime, with SynthID and C2PA still embedded · Unitree's Shanghai IPO drew a record 8,000x-plus retail oversubscription with the debut window open now · OpenAI named Wiz's former president Dali Rajic chief revenue officer after less than a year of his predecessor · and the Terminal-Bench 2.1 board now has an open-weight model 0.5 points off the closed leader. <strong>Honest date note:</strong> four of the eleven broke inside 24 hours and carry NEW.24H; the other seven are 6–14 August, surfaced here for the first time, and every card states its real date.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (16)</button>
+    <button class="tab" data-cat="models">MODELS (3)</button>
+    <button class="tab" data-cat="business">BUSINESS (5)</button>
+    <button class="tab" data-cat="policy">POLICY (3)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (2)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (3)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>11 ITEMS · BROKE / SURFACED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="hardware" data-story-id="nvidia-openai-ohio-105b">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">#1</span> <span class="cat">HARDWARE · COMPUTE</span></div>
+      <h4>NVIDIA backs up to $105B for OpenAI's Ohio campus, and takes chip exclusivity in return</h4>
+      <div class="body">The lead, in full above. Announced <strong>17 August</strong>: NVIDIA backs as much as <strong>$105B</strong> of financing for the <strong>PORTS-Pike Technology Campus</strong> and invests <strong>$1.5B</strong> into <strong>SB Energy</strong>, the SoftBank unit that will build and own the site (<a href="https://www.bloomberg.com/news/articles/2026-08-17/nvidia-to-invest-up-to-105-billion-for-openai-data-center-in-ohio">Bloomberg</a>, <a href="https://www.cnbc.com/2026/08/17/nvidia-financing-open-ai-data-center-ohio.html">CNBC</a>). OpenAI leases for <strong>20 years</strong>, starts at <strong>4.25GW</strong> with a <strong>3.75GW</strong> option, and commits to NVIDIA silicon exclusively on site. Huang put OpenAI's broader plans at roughly <strong>$600B</strong> of NVIDIA compute through 2030 and rejected the "circular financing" framing put to him.</div>
+      <p class="sowhat">Compute is now financed like a toll road, with GPUs as collateral and a 20-year lease as the cash flow. NVIDIA's <strong>26 August</strong> Q2 is the first scheduled chance to see how any of it is booked.</p>
+      <div><span class="chip arc">ARC: COMPUTE-BUILDOUT · D32</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-08-17/nvidia-to-invest-up-to-105-billion-for-openai-data-center-in-ohio">Bloomberg (17 Aug)</a> · <a href="https://www.cnbc.com/2026/08/17/nvidia-financing-open-ai-data-center-ohio.html">CNBC (17 Aug)</a> · <a href="https://finance.yahoo.com/technology/article/nvidia-inks-105-billion-deal-for-openai-data-center-190524832.html">Yahoo Finance (17 Aug)</a> · <a href="https://www.benzinga.com/markets/prediction-markets/26/08/61256057/nvidia-openai-deal-circular-financing">Benzinga (17 Aug)</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="business" data-story-id="stripe-openrouter-7b">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#2</span> <span class="cat">BUSINESS · M&amp;A</span></div>
+      <h4>Stripe is reported to have finalised a $7B-plus deal for OpenRouter</h4>
+      <div class="body">Reported <strong>16–17 August</strong> and unconfirmed by either party: Stripe has finalised an agreement to acquire <strong>OpenRouter</strong> for <strong>more than $7 billion</strong> (<a href="https://techcrunch.com/2026/08/16/stripe-will-reportedly-acquire-ai-gateway-startup-openrouter-for-7b/">TechCrunch</a>, <a href="https://qz.com/stripe-acquiring-openrouter-ai-model-gateway-7-billion-081726">Quartz</a>). OpenRouter — founded 2023, New York — is a single access point to <strong>400+ models</strong> serving <strong>8 million users</strong>, and was valued at <strong>$1.3B</strong> in a May round; reporting says talks opened nearer <strong>$10B</strong> and came down roughly 30% as summer model prices fell. Stripe was already OpenRouter's payment processor, and bought usage-billing firm <strong>Metronome</strong> in January. Both companies decline to address what they characterise as rumour.</div>
+      <p class="sowhat">If it closes, the company that meters the internet's payments owns the layer that chooses which model runs and bills for the tokens. Model choice becomes a billing decision made one level below your application.</p>
+      <div><span class="chip arc">ARC: AGENT-PAYMENT-RAILS · D1</span><span class="chip">RUMOR-FLAG</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/08/16/stripe-will-reportedly-acquire-ai-gateway-startup-openrouter-for-7b/">TechCrunch (16 Aug)</a> · <a href="https://qz.com/stripe-acquiring-openrouter-ai-model-gateway-7-billion-081726">Quartz (17 Aug)</a> · <a href="https://stratechery.com/2026/stripe-acquiring-openrouter-aggregating-ai-flipping-the-business-model/">Stratechery (17 Aug)</a> · <a href="https://theaiinsider.tech/2026/08/17/stripe-reportedly-finalizes-7b-plus-acquisition-of-ai-gateway-startup-openrouter/">The AI Insider (17 Aug)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="anthropic-decart-6b">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#3</span> <span class="cat">BUSINESS · M&amp;A</span></div>
+      <h4>Anthropic is in talks to buy Decart for about $6B — for chip efficiency, not models</h4>
+      <div class="body">Reported by Bloomberg on <strong>13 August</strong> and carded here for the first time: Anthropic is in talks to acquire <strong>Decart</strong> for about <strong>$6 billion</strong>, which would be its largest known acquisition (<a href="https://www.bloomberg.com/news/articles/2026-08-13/anthropic-said-in-talks-to-buy-ai-startup-decart-for-6-billion">Bloomberg</a>, <a href="https://fortune.com/2026/08/13/anthropic-said-in-talks-to-buy-startup-decart-for-6-billion/">Fortune</a>). Decart's software <strong>reduces the cost of training and running AI by making chips work more efficiently</strong>; the stated rationale is letting Anthropic's existing compute absorb more demand. Founded 2023 by <strong>Dean and Orian Leitersdorf and Moshe Shalev</strong>, it raised <strong>$300M</strong> in May led by Radical Ventures at nearly <strong>$4B</strong>, total funding above <strong>$450M</strong>. <strong>The deal is not final and could fall through.</strong></div>
+      <p class="sowhat">The most expensive thing a frontier lab can buy right now is not a model team — it is a lower cost per token. Read it against yesterday's Ramp finding that buyers will not pay frontier prices at volume.</p>
+      <div><span class="chip arc">ARC: AI-CAPITAL-MARKETS · D11</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-08-13/anthropic-said-in-talks-to-buy-ai-startup-decart-for-6-billion">Bloomberg (13 Aug)</a> · <a href="https://fortune.com/2026/08/13/anthropic-said-in-talks-to-buy-startup-decart-for-6-billion/">Fortune (13 Aug)</a> · <a href="https://qz.com/anthropic-decart-acquisition-talks-6-billion-081326">Quartz (13 Aug)</a> · <a href="https://www.timesofisrael.com/anthropic-reportedly-in-talks-to-buy-israeli-founded-ai-startup-at-6b-valuation/">Times of Israel (13 Aug)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="hardware" data-story-id="nvidia-500b-compute-financing">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#4</span> <span class="cat">HARDWARE · CAPITAL</span></div>
+      <h4>NVIDIA sets up $500B-plus financing platforms with six asset managers — compute as an asset class</h4>
+      <div class="body">Announced <strong>10 August</strong> and not previously carded here: NVIDIA is establishing AI compute infrastructure financing platforms with <strong>Apollo, BlackRock, Blackstone, Brookfield, Goldman Sachs and KKR</strong> to mobilise <strong>over $500 billion of third-party capital</strong> (<a href="https://nvidianews.nvidia.com/news/nvidia-partners-with-apollo-blackrock-blackstone-brookfield-goldman-sachs-and-kkr-to-establish-ai-compute-infrastructure-financing-platforms-to-mobilize-over-500-billion-of-third-party-capital">NVIDIA newsroom</a>, <a href="https://www.cnbc.com/2026/08/10/nvidia-wall-street-asset-managers-500-billion-ai-push.html">CNBC</a>). The structure treats <strong>NVIDIA compute as collateral</strong>, with capital deployed through private offerings and bonds issued by special-purpose entities, so hyperscalers, labs and enterprises can finance compute without their own balance sheets. Huang told CNBC his chips are an "investable asset". By <strong>14 August</strong> Goldman was reported courting investors on the structure.</div>
+      <p class="sowhat">The bottleneck the industry actually hit was funding, not fabs — and the fix is securitisation. Watch for the first published spread on GPU-collateralised paper; that number will price the whole buildout.</p>
+      <div><span class="chip arc">ARC: COMPUTE-BUILDOUT · D32</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://nvidianews.nvidia.com/news/nvidia-partners-with-apollo-blackrock-blackstone-brookfield-goldman-sachs-and-kkr-to-establish-ai-compute-infrastructure-financing-platforms-to-mobilize-over-500-billion-of-third-party-capital">NVIDIA newsroom (10 Aug)</a> · <a href="https://www.cnbc.com/2026/08/10/nvidia-wall-street-asset-managers-500-billion-ai-push.html">CNBC (10 Aug)</a> · <a href="https://qz.com/goldman-sachs-nvidia-ai-financing-investors-081426">Quartz (14 Aug)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="nvidia-nemotron-35-lightning">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#5</span> <span class="cat">MODELS · OPEN WEIGHTS</span></div>
+      <h4>Tuesday's deep beat: NVIDIA's Nemotron 3.5 Lightning ships weights, data and recipes under OpenMDW-1.1</h4>
+      <div class="body">Released <strong>11 August</strong>: <strong>Nemotron 3.5 Lightning</strong>, a <strong>30B</strong> mixture-of-experts model with <strong>3B active parameters</strong> per token, distilled from Nemotron 3 Ultra and aimed at high-volume agentic workloads (<a href="https://www.cnbc.com/2026/08/11/nvidia-releases-nemotron-3point5-lightning-open-source-ai-model-.html">CNBC</a>, <a href="https://siliconangle.com/2026/08/11/nvidia-releases-nemotron-3-5-lightning-nemo-switchyard-give-enterprise-ai-capability-options/">SiliconANGLE</a>). NVIDIA claims up to <strong>4x faster output</strong> and roughly <strong>30% faster agentic task completion</strong> against comparable open models. It runs on a <strong>single consumer GPU</strong> — RTX PCs or DGX Spark — and ships under the permissive <strong>OpenMDW-1.1</strong> licence with <strong>weights, training data and recipes</strong>, downloadable without requesting permission. NVIDIA also released <strong>NeMo Switchyard</strong>, an open library routing agent requests to the cheapest adequate model. <strong>OCI</strong> added support the same day.</div>
+      <p class="sowhat">Against a month of staged weights and revenue-share licences — GLM-5.3 still undated, Qwen3.8-Max under a bespoke licence — a chip vendor just published the full recipe. The open-weight norm is being reset by the party with the least reason to protect model margin.</p>
+      <div><span class="chip arc">ARC: OPEN-FRONTIER · D31</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/08/11/nvidia-releases-nemotron-3point5-lightning-open-source-ai-model-.html">CNBC (11 Aug)</a> · <a href="https://siliconangle.com/2026/08/11/nvidia-releases-nemotron-3-5-lightning-nemo-switchyard-give-enterprise-ai-capability-options/">SiliconANGLE (11 Aug)</a> · <a href="https://blogs.nvidia.com/blog/nemotron-lightning-switchyard-rtx-dgx/">NVIDIA Blog</a> · <a href="https://blogs.oracle.com/ai-and-datascience/whats-new-in-ai-august-2026">Oracle OCI (11 Aug)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="gemini-watermark-optional">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#6</span> <span class="cat">POLICY · TRANSPARENCY</span></div>
+      <h4>Google makes Gemini's visible AI watermark optional — three weeks into the EU transparency regime</h4>
+      <div class="body">Reported <strong>14 August</strong>: Google is letting Gemini users switch off the <strong>visible</strong> watermark on AI-generated images, video and music, via a <strong>Media Watermark</strong> on/off toggle in Gemini settings (<a href="https://techcrunch.com/2026/08/14/google-will-now-allow-users-to-remove-visible-watermark-from-its-ai-generations/">TechCrunch</a>, <a href="https://www.sammyfans.com/2026/08/15/you-can-now-remove-visible-watermarks-from-gemini-creations/">Sammy Fans</a>). Gemini VP <strong>Josh Woodward</strong> said the toggle covers the <strong>Nano Banana, Omni and Lyria</strong> models, lands in Gemini and the <strong>Flow</strong> video editor first, with Search to follow. The hidden layer stays: <strong>SynthID</strong> and <strong>C2PA</strong> metadata remain embedded in the file, so provenance is still machine-checkable — just not visible to whoever sees the post.</div>
+      <p class="sowhat">EU Article 50 transparency has been live since 2 August and its machine-readable marking date is 2 December. Google's read is that embedded provenance satisfies the obligation and the visible label is a product choice. That reading has not been tested by a regulator.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D22</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/08/14/google-will-now-allow-users-to-remove-visible-watermark-from-its-ai-generations/">TechCrunch (14 Aug)</a> · <a href="https://www.sammyfans.com/2026/08/15/you-can-now-remove-visible-watermarks-from-gemini-creations/">Sammy Fans (15 Aug)</a> · <a href="https://www.technology.org/2026/08/17/google-gemini-visible-ai-watermark-toggle/">Technology.org (17 Aug)</a> · <a href="https://www.digitalcitizen.life/google-gemini-now-lets-you-remove-visible-watermarks-from-ai-generated-media/">Digital Citizen</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="enterprise" data-story-id="synchrony-openai-commerce">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#7</span> <span class="cat">ENTERPRISE · COMMERCE</span></div>
+      <h4>Synchrony puts financing offers inside ChatGPT and OpenAI models across its enterprise</h4>
+      <div class="body">Announced <strong>17 August</strong>: consumer lender <strong>Synchrony</strong> shipped a <strong>ChatGPT plugin</strong>, live in the plugin directory, letting shoppers browse promotional financing, deals and offers from participating Synchrony partners inside a conversation — and is deploying <strong>GPT-5.6 Sol, Terra and Luna</strong> across the enterprise through <strong>ChatGPT Work, Codex and AWS Bedrock</strong> (<a href="https://www.prnewswire.com/news-releases/synchrony-announces-enterprise-collaboration-with-openai-to-power-the-next-era-of-agentic-commerce-302852927.html">PR Newswire</a>, <a href="https://www.pymnts.com/partnerships/2026/synchrony-debuts-chatgpt-plugin-to-promote-offers/">PYMNTS</a>).</div>
+      <p class="sowhat">Point-of-sale credit is moving to where the purchase decision is made. Note the pairing with today's Stripe item: two different companies are trying to own money movement inside the assistant, from opposite ends.</p>
+      <div><span class="chip arc">ARC: AGENT-PLATFORM-WAR · D9</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.prnewswire.com/news-releases/synchrony-announces-enterprise-collaboration-with-openai-to-power-the-next-era-of-agentic-commerce-302852927.html">PR Newswire (17 Aug)</a> · <a href="https://www.pymnts.com/partnerships/2026/synchrony-debuts-chatgpt-plugin-to-promote-offers/">PYMNTS</a> · <a href="https://www.rttnews.com/3681196/synchrony-partners-with-openai-to-expand-ai-powered-commerce.aspx">RTTNews (17 Aug)</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="higgsfield-series-b">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#8</span> <span class="cat">BUSINESS · FUNDING</span></div>
+      <h4>Higgsfield raises $400M at $5.4B, quadrupling in eight months on $700M annualised revenue</h4>
+      <div class="body">Announced <strong>17 August</strong>: AI video and image startup <strong>Higgsfield</strong> raised a <strong>$400M Series B</strong> at <strong>$5.4B</strong>, up from <strong>$1.3B</strong> eight months earlier, led by <strong>DST Global</strong> with Goldman Sachs Alternatives growth equity, Intel Capital, Liberty Global, Mirae, NTT DOCOMO Ventures, Tribe, Smash, Fifth Wall and Valor, plus existing backers Accel and Menlo (<a href="https://www.prnewswire.com/news-releases/higgsfield-raises-400-million-series-b-financing-at-5-4-billion-valuation-with-annualized-revenue-reaching-700-million-302852430.html">PR Newswire</a>, <a href="https://techcrunch.com/2026/08/17/higgsfield-raises-400m-series-b-quadrupling-its-valuation-in-8-months-to-5-4b/">TechCrunch</a>). Company-reported: annualised revenue <strong>$700M</strong> this month against about <strong>$20M</strong> a year ago, <strong>30M+ users</strong> in 238 countries, <strong>390 of the Fortune 500</strong>, and agentic-product users up <strong>42x in three months</strong> after a May rollout.</div>
+      <p class="sowhat">Every revenue figure here is the company's own and unaudited. But a 35x annualised-revenue claim in twelve months is the strongest datapoint yet that generative media is a paying category, not a demo category.</p>
+      <div><span class="chip arc">ARC: GENAI-MEDIA · D1</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://www.prnewswire.com/news-releases/higgsfield-raises-400-million-series-b-financing-at-5-4-billion-valuation-with-annualized-revenue-reaching-700-million-302852430.html">PR Newswire (17 Aug)</a> · <a href="https://techcrunch.com/2026/08/17/higgsfield-raises-400m-series-b-quadrupling-its-valuation-in-8-months-to-5-4b/">TechCrunch (17 Aug)</a> · <a href="https://siliconangle.com/2026/08/17/higgsfield-raises-400m-at-5-4-billion-valuation-to-scale-video-and-image-generation-platform/">SiliconANGLE (17 Aug)</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="unitree-star-debut">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#9</span> <span class="cat">BUSINESS · ROBOTICS</span></div>
+      <h4>Unitree's Shanghai IPO drew a record 8,000x-plus retail oversubscription; the debut window is open now</h4>
+      <div class="body">Priced <strong>6 August</strong> at <strong>150.80 yuan</strong> a share to raise about <strong>6.1 billion yuan ($904M)</strong> on the STAR Market at roughly <strong>$9.04B</strong>, making Hangzhou's <strong>Unitree</strong> (Yushu Technology) the mainland's first listed humanoid robot maker (<a href="https://www.bloomberg.com/news/articles/2026-08-06/china-s-unitree-seeks-904-million-in-first-mainland-robotic-ipo">Bloomberg</a>). New since this briefing last carried it: the offering was <strong>more than 8,000 times oversubscribed by retail investors</strong>, a STAR Market record for tech startups, with the trading debut expected between <strong>17 and 21 August</strong> (<a href="https://kfgo.com/2026/08/14/chinese-humanoid-robot-maker-unitree-powers-up-for-stellar-shanghai-debut/">Reuters via KFGO</a>). Unlike most humanoid startups it is profitable: 2025 revenue up more than fourfold to nearly <strong>1.7B yuan ($252M)</strong>, adjusted net profit about <strong>600M yuan</strong>.</div>
+      <p class="sowhat">This is the first public market price on humanoid robotics, and it is being set by Chinese retail demand rather than institutional models. Whatever it opens at becomes the comparable every Western humanoid programme is measured against.</p>
+      <div><span class="chip arc">ARC: EMBODIED-AI · D20</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-08-06/china-s-unitree-seeks-904-million-in-first-mainland-robotic-ipo">Bloomberg (6 Aug)</a> · <a href="https://kfgo.com/2026/08/14/chinese-humanoid-robot-maker-unitree-powers-up-for-stellar-shanghai-debut/">Reuters/KFGO (14 Aug)</a> · <a href="https://www.japantimes.co.jp/business/2026/08/12/tech/unitree-china-humanoid-robot-makers/">Japan Times (12 Aug)</a> · <a href="https://en.sedaily.com/international/2026/08/07/unitree-sets-ipo-price-to-raise-61-billion-yuan">Seoul Economic Daily (7 Aug)</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="policy" data-story-id="openai-cro-rajic">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#10</span> <span class="cat">POLICY · PEOPLE</span></div>
+      <h4>OpenAI names Wiz's former president its chief revenue officer, less than a year into the last one</h4>
+      <div class="body">Reported <strong>13 August</strong> and posted by OpenAI: <strong>Dali Rajic</strong> becomes chief revenue officer, leading the global revenue organisation (<a href="https://www.bloomberg.com/news/articles/2026-08-13/openai-hires-new-chief-revenue-officer-after-less-than-a-year">Bloomberg</a>, <a href="https://openai.com/index/dali-rajic-chief-revenue-officer/">OpenAI</a>). He was president and COO of <strong>Wiz</strong> through its acquisition by Google, and before that president and COO of <strong>Zscaler</strong> and chief customer and revenue officer at <strong>AppDynamics</strong>. He succeeds <strong>Denise Dresser</strong>, who joined in <strong>December 2025</strong> and leaves after a transition. OpenAI's own post puts the commercial base at <strong>1B+ weekly users</strong> and <strong>2M+ businesses</strong>, twice as many as a year ago.</div>
+      <p class="sowhat">A security-operator CRO, hired ahead of a listing, after a nine-month tenure. The hire reads as a bet that the next revenue problem is enterprise procurement discipline rather than demand.</p>
+      <div><span class="chip arc">ARC: OPENAI-COMMERCIAL-ORG · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-08-13/openai-hires-new-chief-revenue-officer-after-less-than-a-year">Bloomberg (13 Aug)</a> · <a href="https://openai.com/index/dali-rajic-chief-revenue-officer/">OpenAI (primary)</a> · <a href="https://www.pymnts.com/personnel/2026/openai-appoints-dali-rajic-chief-revenue-officer/">PYMNTS</a> · <a href="https://www.storyboard18.com/brand-makers/openai-appoints-dali-rajic-as-chief-revenue-officer-denise-dresser-exits-107689.htm">Storyboard18</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="models" data-story-id="terminal-bench-21-open-gap">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#11</span> <span class="cat">MODELS · BENCHMARKS</span></div>
+      <h4>Terminal-Bench 2.1 now has an open-weight model half a point off the leader</h4>
+      <div class="body">Leaderboard updated <strong>14 August</strong>: <strong>Grok 4.6</strong> leads <strong>Terminal-Bench 2.1</strong> at <strong>88.4%</strong>, with <strong>DeepSeek V4 Pro 0813</strong> at <strong>87.9%</strong>, <strong>Qwen3.8-Max</strong> at <strong>86.6%</strong>, Gemini 3.7 Flash at 85.8% and Muse Spark 1.2 at 82.9% (<a href="https://codingfleet.com/blog/terminal-bench-leaderboard-2026/">CodingFleet leaderboard</a>). On SWE-bench Pro the closed tier still holds a wider gap — Claude Mythos 5 and Fable 5 tied at <strong>80.3%</strong>, Opus 5 at 79.2% — but Qwen3.8-Max's <strong>67.7%</strong> is the strongest open entry since Opus 5 and sits above GPT-5.6 Sol's 64.6% (<a href="https://www.morphllm.com/swe-bench-pro">Morph SWE-bench Pro</a>). <strong>Single-aggregator sourcing;</strong> no primary leaderboard page was reachable in this scan.</div>
+      <p class="sowhat">The agentic-terminal gap is now inside noise while the software-engineering gap is not. If your evaluation rests on one benchmark family, you are being told two different stories about the same question.</p>
+      <div><span class="chip arc">ARC: OPEN-FRONTIER · D31</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://codingfleet.com/blog/terminal-bench-leaderboard-2026/">CodingFleet Terminal-Bench 2.1 (14 Aug)</a> · <a href="https://codingfleet.com/blog/swe-bench-pro-leaderboard-2026/">CodingFleet SWE-bench Pro</a> · <a href="https://www.morphllm.com/swe-bench-pro">Morph SWE-bench Pro</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="hardware" data-story-id="compute-buildout">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">D1</span> <span class="cat">HARDWARE · COMPUTE</span></div>
+      <h4>Day 32: the buildout stops being self-funded and becomes a credit product</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Escalated on financing structure, not capacity. In eight days the arc moved from "who is buying GPUs" to "who is lending against them": NVIDIA established $500B-plus third-party capital platforms with six asset managers on 10 August, Goldman was reported marketing them on 14 August, and on 17 August NVIDIA backed up to $105B for a single OpenAI campus that SoftBank's SB Energy will own and OpenAI will lease for 20 years.</div>
+      <div class="body">The arc's existing components all still stand and now read as the demand side of a credit story: <strong>ONEOK's 1GW</strong> gas supply agreement with 40-plus counterparties in the pipeline; <strong>SMIC's</strong> first $3B quarter at 93.7% utilisation with a warning that Q3 wafers cost more; and the data-centre listing queue with <strong>Vantage's</strong> exploratory ~$100B process reported ahead of CyrusOne and DayOne. What is new is that the marginal dollar is now institutional third-party capital collateralised on GPUs, deployed through SPVs — which imports a different failure mode. A demand air pocket used to compress a hyperscaler's margin; now it also has to be explained to bondholders.</div>
+      <p class="sowhat">Model your compute counterparty as a capital structure, not a company. And treat <strong>NVIDIA's 26 August Q2</strong> as the read on this arc — it is the first scheduled disclosure that could size the guarantee exposure.</p>
+      <div><span class="chip arc">ARC: COMPUTE-BUILDOUT · D32</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-08-17/nvidia-to-invest-up-to-105-billion-for-openai-data-center-in-ohio">Bloomberg (17 Aug)</a> · <a href="https://www.cnbc.com/2026/08/10/nvidia-wall-street-asset-managers-500-billion-ai-push.html">CNBC (10 Aug)</a> · <a href="https://nvidianews.nvidia.com/news/nvidia-partners-with-apollo-blackrock-blackstone-brookfield-goldman-sachs-and-kkr-to-establish-ai-compute-infrastructure-financing-platforms-to-mobilize-over-500-billion-of-third-party-capital">NVIDIA newsroom</a> · <a href="https://qz.com/goldman-sachs-nvidia-ai-financing-investors-081426">Quartz (14 Aug)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="open-frontier">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D2</span> <span class="cat">MODELS · OPEN WEIGHTS</span></div>
+      <h4>Day 31: promoted back off the tracking strip — the open tier gets a full recipe and a benchmark near-parity</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Promoted from Still Tracking on two movements. NVIDIA released Nemotron 3.5 Lightning on 11 August under OpenMDW-1.1 with weights, training data <em>and</em> recipes and no permission gate — the opposite of the month's staged-and-licensed trend. And the Terminal-Bench 2.1 board updated on 14 August with DeepSeek V4 Pro 0813 at 87.9% against Grok 4.6's leading 88.4%, closing the agentic-terminal gap to half a point. The deepseek-v4pro-0813 tracking entry retires into this thread.</div>
+      <div class="body">The thread's open question has been whether the open tier can match the closed one on capability while the <em>release norm</em> degrades. Both halves moved this week and in opposite directions. On capability: DeepSeek V4 Pro 0813's self-reported jumps now have a third-party number next to them, and Qwen3.8-Max's 67.7% on SWE-bench Pro sits above GPT-5.6 Sol. On the norm: <strong>GLM-5.3's</strong> weights are still staged, undated and behind a safety evaluation roughly two weeks from the 14 August launch, and <strong>Qwen3.8-Max</strong> shipped under a bespoke licence with the 1M context stripped — while a GPU vendor with no model margin to defend published everything including the data. Benchmark sourcing here is single-aggregator and flagged as such.</div>
+      <p class="sowhat">If you have been waiting for the open tier to be good enough, that test is close to passed on agentic terminal work. The live risk has shifted to licensing: what you may deploy, not what it can do.</p>
+      <div><span class="chip arc">ARC: OPEN-FRONTIER · D31</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/08/11/nvidia-releases-nemotron-3point5-lightning-open-source-ai-model-.html">CNBC (11 Aug)</a> · <a href="https://siliconangle.com/2026/08/11/nvidia-releases-nemotron-3-5-lightning-nemo-switchyard-give-enterprise-ai-capability-options/">SiliconANGLE (11 Aug)</a> · <a href="https://codingfleet.com/blog/terminal-bench-leaderboard-2026/">CodingFleet (14 Aug)</a> · <a href="https://huggingface.co/blog/state-of-open-models-summer-2026">Hugging Face</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="ai-capital-markets">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D3</span> <span class="cat">BUSINESS · CAPITAL</span></div>
+      <h4>Day 11: three deals in five days, and none of them buys a model</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Escalated on deal composition. Stripe reported finalising OpenRouter at $7B-plus (16–17 August), Anthropic in talks on Decart at about $6B (13 August), and Higgsfield's $400M at $5.4B (17 August). What they buy is routing, chip efficiency and distribution — infrastructure around models, not models. Databricks' $190B round retires into this thread.</div>
+      <div class="body">The thread has tracked valuation levels; the movement now is in <em>what the money is for</em>. Anthropic's largest-ever acquisition target makes chips cheaper to run, not answers better. Stripe's target chooses among 400 models and bills for them. Higgsfield sells generated media at a claimed $700M annualised. Read alongside yesterday's Ramp finding — Fable 5 taking 6% of business tokens and 11.4% of spend — and a consistent thesis emerges on the buy side: the frontier capability premium is capped, so capital is going to the layers that arbitrage it. Crunchbase has roughly 80% of Q2 venture dollars going to AI-focused startups, so the pool funding this is not narrowing.</div>
+      <p class="sowhat">If you are raising against "our model is better", the last five days of deal flow are pricing a different asset. If you are buying, the acquisition premium is on cost and control of routing.</p>
+      <div><span class="chip arc">ARC: AI-CAPITAL-MARKETS · D11</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-08-13/anthropic-said-in-talks-to-buy-ai-startup-decart-for-6-billion">Bloomberg (13 Aug)</a> · <a href="https://techcrunch.com/2026/08/16/stripe-will-reportedly-acquire-ai-gateway-startup-openrouter-for-7b/">TechCrunch (16 Aug)</a> · <a href="https://www.prnewswire.com/news-releases/higgsfield-raises-400-million-series-b-financing-at-5-4-billion-valuation-with-annualized-revenue-reaching-700-million-302852430.html">PR Newswire (17 Aug)</a> · <a href="https://news.crunchbase.com/venture/na-startup-funding-ma-shattered-records-ai-q2-2026/">Crunchbase</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="agent-platform-war">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D4</span> <span class="cat">ENTERPRISE · PLATFORMS</span></div>
+      <h4>Day 9: the assistant becomes a checkout, and Microsoft's unification lands today</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Two dated executions. Microsoft's unified consumer-and-business Copilot begins its worldwide rollout <strong>today, 18 August</strong> — the web URL moves to copilot.cloud.microsoft with automatic redirect unless an organisation blocks the new host, Copilot Podcasts is fully retired and existing podcasts become inaccessible, and Deep Research is withdrawn for consumer users. And Synchrony put a financing-offers plugin inside ChatGPT while deploying GPT-5.6 Sol, Terra and Luna across its enterprise. The microsoft-copilot-unify entry retires into this thread.</div>
+      <div class="body">The arc's standing components hold: <strong>IBM's</strong> OpenAI Elite partnership with a dedicated practice inside IBM Consulting; the first-party <strong>Linux ChatGPT desktop</strong> preview carrying ChatGPT, ChatGPT Work and Codex; <strong>Claude Code self-hosted</strong> environments and Claude for Government in beta; and <strong>Pixel 11</strong>, which ships in two days at $899–$1,900 as the first consumer handset sold on transacting, business-calling agents rather than model quality. What Synchrony adds is the commerce primitive — a regulated lender putting promotional financing where the purchase intent forms. Pair it with the reported Stripe/OpenRouter deal and both the money rail and the model rail are being claimed in the same week.</div>
+      <p class="sowhat">Two things to action today: check whether your tenant blocks copilot.cloud.microsoft before the redirect surprises users, and export anything you care about from Copilot Podcasts, because retirement here means inaccessible, not archived.</p>
+      <div><span class="chip arc">ARC: AGENT-PLATFORM-WAR · D9</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.prnewswire.com/news-releases/synchrony-announces-enterprise-collaboration-with-openai-to-power-the-next-era-of-agentic-commerce-302852927.html">PR Newswire (17 Aug)</a> · <a href="https://learn.microsoft.com/en-us/partner-center/announcements/2026-august">Microsoft Learn (Aug 2026)</a> · <a href="https://www.pymnts.com/partnerships/2026/synchrony-debuts-chatgpt-plugin-to-promote-offers/">PYMNTS</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="reg-clock">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D5</span> <span class="cat">POLICY · REGULATION</span></div>
+      <h4>Day 22: promoted off tracking — the first test of what "transparency" actually requires</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Promoted from Still Tracking. Sixteen days after EU transparency obligations went live, Google made Gemini's visible AI watermark a user-controlled off switch while keeping SynthID and C2PA embedded — the first major vendor to publicly narrow the visible-labelling surface under the live regime. Anthropic's worldwide statistical text watermarking, cited to Article 50, retires into this thread as the counter-position.</div>
+      <div class="body">The obligations that went live on <strong>2 August</strong> require that people can recognise when they are interacting with AI or looking at AI-generated content, with fines to <strong>EUR 15M or 3% of turnover</strong>; deepfakes must be labelled. Two vendors have now answered the same clause differently: Anthropic added statistical watermarking to Claude text for models launched on or after 2 August, and Google is making the visible mark optional while keeping the machine-readable one. The high-risk package was pushed to <strong>2 December 2027</strong> for standalone systems and <strong>2 August 2028</strong> for embedded ones, but the <strong>2 December 2026</strong> triple date still bites: machine-readable marking for pre-2 August systems, expiry of the transparency grace period shortened from six months to three, and nudification and non-consensual intimate-imagery generators off the EU market or carrying adequate safeguards.</div>
+      <p class="sowhat">If your compliance plan assumed a visible label satisfies Article 50, note that the largest vendor has just bet the embedded one is enough. Nobody has a regulator's answer yet, and the grace period ends 2 December.</p>
+      <div><span class="chip arc">ARC: REG-CLOCK · D22</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/08/14/google-will-now-allow-users-to-remove-visible-watermark-from-its-ai-generations/">TechCrunch (14 Aug)</a> · <a href="https://commission.europa.eu/news-and-media/news/safer-and-more-transparent-ai-2026-08-02_en">European Commission (2 Aug)</a> · <a href="https://www.aljazeera.com/news/2026/8/6/what-came-into-force-with-the-eus-ai-act-this-week-and-what-didnt">Al Jazeera (6 Aug)</a> · <a href="https://digital-strategy.ec.europa.eu/en/news/commission-starts-enforcing-ai-act-rules-and-new-transparency-requirements-2-august">EC Digital Strategy</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING (collapsed by default) ══════════ -->
+<details class="fold" id="fold-tracking">
+  <summary>Still Tracking <small>LONG-RUNNING THREADS · NO MOVEMENT THIS EDITION</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="tracking-strip" id="tracking-strip"></div></div>
+</details>
+
+<!-- ══════════ RESOLVED (collapsed by default) ══════════ -->
+<details class="fold" id="fold-resolved">
+  <summary>Resolved <small>OPEN THREADS, CLOSED</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="resolved-strip" id="resolved-strip"></div></div>
+</details>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 060 · 2026-08-18 (IST) · FORMAT v2</strong></p>
+    <details class="fold" id="fold-method">
+      <summary>Method, scan gaps &amp; caveats <span class="caret"></span></summary>
+      <div class="fold-body">
+        <p>METHOD: 43 web searches, split roughly evenly across (A) models &amp; core technology — frontier and open-weight releases, agents/tooling, hardware/compute, research, AI security; (B) applied AI — enterprise deployments, products, startups, partnerships, vertical AI and money; and (C) people, policy &amp; society — workforce and AI jobs, talent, culture, regulation. Tuesday's rotating deep beat is <strong>open source and models</strong>, which ran four searches deep across Hugging Face trending, open-weight release trackers, the Terminal-Bench and SWE-bench Pro boards and the Nemotron release, and produced New #5, New #11 and Developing D2. v2 format splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING (long-runners with no movement). Hero = biggest new item unless a developing thread had a major escalation; today they are the same story, so the Ohio financing leads as New #1 and the compute-buildout arc carries separately as Developing D1 with the change-line pointed at the financing structure rather than the site. Target ≥10 new items; thin days fall back to "quiet day." Aggregator claims cross-checked against ≥2 outlets where possible; single-source and unconfirmed items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+        <p>KNOWN SCAN GAPS THIS EDITION: <strong>No research card, and the reason is not that we skipped the beat.</strong> Three separate searches ran across arXiv cs.AI/cs.LG agent benchmarks, Nature and Science, and the frontier labs' own research posts. What surfaced was either out of window — the Nature 41.3-million-paper study on AI-augmented research (3.02x papers, 4.85x citations, a 4.63% fall in collective topic diversity, 22% less follow-on engagement) is genuinely important but published in the s41586-025 series and covered from December through May, so it is not news today — or unciteable aggregator summaries of papers with no reachable primary. Rather than card a restatement, the research tab is dropped for this edition and the gap is stated here. <strong>Scan breadth ran to 43 searches against the 20–28 target — a ninth consecutive overage</strong>, driven by date-verification: eleven candidate items needed a second dated source, and six were killed for age (see Resolved). This overage is a standing problem with this routine, not a one-off. <strong>Every direct page fetch failed.</strong> Eleven of eleven attempts returned EGRESS_BLOCKED: nvidianews.nvidia.com, openai.com, cnbc.com, techcrunch.com, theregister.com, nature.com, synchrony.com, artificialanalysis.ai, swarajyamag.com, techstartups.com and unrot.co. Nothing in this edition was read off a primary document — including the hero. The NVIDIA newsroom, OpenAI and PR Newswire links in the source lines are the primary releases as identified in search results, cited but not fetched. <strong>The Stripe/OpenRouter item is unconfirmed by both parties</strong> and chipped Rumor-flag accordingly; both companies say they do not address rumour, and the $7B figure, the $10B opening price and the ~30% markdown all trace to the same reporting chain. <strong>The Anthropic/Decart deal is in talks, not signed</strong>, and could fall through. <strong>The Terminal-Bench 2.1 and SWE-bench Pro numbers rest on aggregator leaderboard mirrors</strong> (CodingFleet, Morph), not the benchmark maintainers' own pages, which were not reachable; the card is chipped Agg 1x and the near-parity claim should be treated as indicative. <strong>Higgsfield's revenue figures are company-reported and unaudited</strong> — the $700M annualised and 42x agentic growth are from the release, not a filing. <strong>The $105B Ohio structure is only partly public</strong>: how much is guarantee versus direct investment, the drawdown schedule, and whether it draws on the six-manager platform are all unreported. <strong>India returned nothing datable for a fifth consecutive edition</strong> — this scan produced only GCC salary-band and skills-gap aggregators with no tie to a datable release, so the india-gcc-h1-2026 entry is retired unresolved rather than carried a fifth time. <strong>Nothing surfaced on the Apple/OpenAI filing due 17 August, the Claude legacy-API retirement, the six-RTO FERC deadline, or whether the Imagen 4 endpoints actually shut down yesterday</strong>; all are closed or carried on their published schedules and flagged as unconfirmed as executed.</p>
+        <p>NOTE: Links point to sources found during the scan; where only an outlet root or roundup was available it is labelled as such. Dates in card bodies are publication or event dates as reported, not the date of this edition. Nothing here is investment advice.</p>
+      </div>
+    </details>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 60,
+  "date": "2026-08-18",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 43,
+  "counts": {
+    "new": 11,
+    "developing": 5,
+    "tracking": 38
+  },
+  "tiers": {
+    "critical": 3,
+    "notable": 11,
+    "monitor": 2
+  },
+  "stories": [
+    {
+      "id": "nvidia-openai-ohio-105b",
+      "section": "new",
+      "rank": 1,
+      "title": "HERO: NVIDIA said on Monday 17 August it will back as much as $105B in financing for the PORTS-Pike Technology Campus, an OpenAI data-centre site in Ohio, and separately invest $1.5B into SB Energy, the SoftBank unit that will build and own the site while OpenAI leases it for 20 years; first phase is 4.25GW with an option on another 3.75GW, and in return OpenAI committed to using NVIDIA chips exclusively on site, with Huang putting OpenAI's broader infrastructure plans at roughly $600B of NVIDIA compute through 2030 and rejecting the 'circular financing' characterisation; it lands seven days after NVIDIA established AI compute infrastructure financing platforms with Apollo, BlackRock, Blackstone, Brookfield, Goldman Sachs and KKR to mobilise over $500B of third-party capital",
+      "tier": "critical",
+      "impact": 9,
+      "delta": "new",
+      "arc": "compute-buildout",
+      "arcDay": 32,
+      "confidence": "2x src",
+      "new24h": true,
+      "firstSeen": "2026-08-18",
+      "lastUpdate": "2026-08-18",
+      "category": "hardware"
+    },
+    {
+      "id": "stripe-openrouter-7b",
+      "section": "new",
+      "rank": 2,
+      "title": "Reported 16-17 August and unconfirmed by either party: Stripe has finalised an agreement to acquire OpenRouter for more than $7 billion - the AI gateway, founded 2023 in New York, gives developers a single access point to 400+ models and serves 8 million users, and was valued at $1.3B in a May round; reporting says talks opened nearer $10B and came down roughly 30% as summer model prices fell, that Stripe was already OpenRouter's payment processor, and that it follows Stripe's January purchase of usage-billing firm Metronome; both companies decline to address what they characterise as rumour",
+      "tier": "critical",
+      "impact": 8,
+      "delta": "new",
+      "arc": "agent-payment-rails",
+      "arcDay": 1,
+      "confidence": "Rumor-flag",
+      "new24h": true,
+      "firstSeen": "2026-08-18",
+      "lastUpdate": "2026-08-18",
+      "category": "business"
+    },
+    {
+      "id": "anthropic-decart-6b",
+      "section": "new",
+      "rank": 3,
+      "title": "Bloomberg reported on 13 August that Anthropic is in talks to acquire Decart for about $6 billion, which would be its largest known acquisition - Decart's software reduces the cost of training and running AI by making chips work more efficiently, and the stated rationale is letting Anthropic's existing compute absorb more demand; founded in 2023 by Dean and Orian Leitersdorf and Moshe Shalev, Decart raised $300M in May led by Radical Ventures at nearly $4B on total funding above $450M; the deal is not final and could fall through",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "ai-capital-markets",
+      "arcDay": 11,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-08-18",
+      "lastUpdate": "2026-08-18",
+      "category": "business"
+    },
+    {
+      "id": "nvidia-500b-compute-financing",
+      "section": "new",
+      "rank": 4,
+      "title": "Announced 10 August and not previously carded here: NVIDIA is establishing AI compute infrastructure financing platforms with Apollo, BlackRock, Blackstone, Brookfield, Goldman Sachs and KKR to mobilise over $500 billion of third-party capital, treating NVIDIA compute as collateral with capital deployed through private offerings and bonds issued by special-purpose entities so hyperscalers, labs and enterprises can finance compute without their own balance sheets; Huang told CNBC his chips are an 'investable asset', and by 14 August Goldman was reported courting investors on the structure",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "compute-buildout",
+      "arcDay": 32,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-08-18",
+      "lastUpdate": "2026-08-18",
+      "category": "hardware"
+    },
+    {
+      "id": "nvidia-nemotron-35-lightning",
+      "section": "new",
+      "rank": 5,
+      "title": "Today's open-source deep beat: NVIDIA released Nemotron 3.5 Lightning on 11 August - a 30B mixture-of-experts model with 3B active parameters per token, distilled from Nemotron 3 Ultra for high-volume agentic workloads, claiming up to 4x faster output and roughly 30% faster agentic task completion against comparable open models, running on a single consumer GPU (RTX PCs or DGX Spark) and shipping under the permissive OpenMDW-1.1 licence with weights, training data AND recipes, downloadable without requesting permission; NVIDIA also released NeMo Switchyard, an open library routing agent requests to the cheapest adequate model, and OCI added support the same day",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "new",
+      "arc": "open-frontier",
+      "arcDay": 31,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-08-18",
+      "lastUpdate": "2026-08-18",
+      "category": "models"
+    },
+    {
+      "id": "gemini-watermark-optional",
+      "section": "new",
+      "rank": 6,
+      "title": "Reported 14 August: Google is letting Gemini users switch off the visible watermark on AI-generated images, video and music via a 'Media Watermark' on/off toggle in settings, with Gemini VP Josh Woodward saying it covers the Nano Banana, Omni and Lyria models and lands in Gemini and the Flow video editor first with Search to follow; the hidden layer stays - SynthID and C2PA metadata remain embedded, so provenance is machine-checkable but not visible to whoever sees the post, sixteen days into the EU AI Act transparency obligations that went live on 2 August",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "new",
+      "arc": "reg-clock",
+      "arcDay": 22,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-08-18",
+      "lastUpdate": "2026-08-18",
+      "category": "policy"
+    },
+    {
+      "id": "synchrony-openai-commerce",
+      "section": "new",
+      "rank": 7,
+      "title": "Announced 17 August: consumer lender Synchrony shipped a ChatGPT plugin, live in the plugin directory, letting shoppers browse promotional financing, deals and offers from participating Synchrony partners inside a conversation, and is deploying GPT-5.6 Sol, Terra and Luna across the enterprise through ChatGPT Work, Codex and AWS Bedrock - a regulated lender putting point-of-sale credit where the purchase decision forms",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "new",
+      "arc": "agent-platform-war",
+      "arcDay": 9,
+      "confidence": "2x src",
+      "new24h": true,
+      "firstSeen": "2026-08-18",
+      "lastUpdate": "2026-08-18",
+      "category": "enterprise"
+    },
+    {
+      "id": "higgsfield-series-b",
+      "section": "new",
+      "rank": 8,
+      "title": "Announced 17 August: AI video and image startup Higgsfield raised a $400M Series B at $5.4B, up from $1.3B eight months earlier, led by DST Global with Goldman Sachs Alternatives growth equity, Intel Capital, Liberty Global, Mirae, NTT DOCOMO Ventures, Tribe, Smash, Fifth Wall and Valor plus existing backers Accel and Menlo; company-reported and unaudited: annualised revenue $700M this month against about $20M a year ago, 30M+ users in 238 countries, 390 of the Fortune 500, and agentic-product users up 42x in three months after a May rollout",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "new",
+      "arc": "genai-media",
+      "arcDay": 1,
+      "confidence": "Primary",
+      "new24h": true,
+      "firstSeen": "2026-08-18",
+      "lastUpdate": "2026-08-18",
+      "category": "business"
+    },
+    {
+      "id": "unitree-star-debut",
+      "section": "new",
+      "rank": 9,
+      "title": "Unitree (Yushu Technology) priced its Shanghai STAR Market IPO on 6 August at 150.80 yuan a share to raise about 6.1 billion yuan ($904M) at roughly $9.04B, making it the mainland's first listed humanoid robot maker; new since this briefing last carried the thread, the offering was more than 8,000 times oversubscribed by retail investors - a STAR Market record for tech startups - with the trading debut expected between 17 and 21 August; unlike most humanoid startups it is profitable, with 2025 revenue up more than fourfold to nearly 1.7B yuan ($252M) and adjusted net profit about 600M yuan",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "new",
+      "arc": "embodied-ai",
+      "arcDay": 20,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-08-18",
+      "lastUpdate": "2026-08-18",
+      "category": "business"
+    },
+    {
+      "id": "openai-cro-rajic",
+      "section": "new",
+      "rank": 10,
+      "title": "Reported 13 August and posted by OpenAI: Dali Rajic becomes chief revenue officer leading the global revenue organisation, having been president and COO of Wiz through its acquisition by Google and earlier president and COO of Zscaler and chief customer and revenue officer at AppDynamics; he succeeds Denise Dresser, who joined in December 2025 and leaves after a transition period, and OpenAI's own post puts the commercial base at more than 1 billion weekly users and more than 2 million businesses, twice as many as a year ago",
+      "tier": "monitor",
+      "impact": 5,
+      "delta": "new",
+      "arc": "openai-commercial-org",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-08-18",
+      "lastUpdate": "2026-08-18",
+      "category": "policy"
+    },
+    {
+      "id": "terminal-bench-21-open-gap",
+      "section": "new",
+      "rank": 11,
+      "title": "Leaderboard updated 14 August: Grok 4.6 leads Terminal-Bench 2.1 at 88.4% with DeepSeek V4 Pro 0813 at 87.9%, Qwen3.8-Max at 86.6%, Gemini 3.7 Flash at 85.8% and Muse Spark 1.2 at 82.9% - putting an open-weight model half a point off the closed leader on agentic terminal work; on SWE-bench Pro the gap is wider, with Claude Mythos 5 and Fable 5 tied at 80.3% and Opus 5 at 79.2% against Qwen3.8-Max's 67.7%, itself the strongest open entry since Opus 5 and above GPT-5.6 Sol's 64.6%; single-aggregator sourcing, no primary leaderboard page reachable in this scan",
+      "tier": "monitor",
+      "impact": 5,
+      "delta": "new",
+      "arc": "open-frontier",
+      "arcDay": 31,
+      "confidence": "Agg 1x",
+      "new24h": false,
+      "firstSeen": "2026-08-18",
+      "lastUpdate": "2026-08-18",
+      "category": "models"
+    },
+    {
+      "id": "compute-buildout",
+      "section": "developing",
+      "rank": 1,
+      "title": "Day 32: the buildout stops being self-funded and becomes a credit product - ONEOK's 1GW gas agreement, SMIC's $3B quarter at 93.7% utilisation and the Vantage-led data-centre listing queue all now read as the demand side of a credit story, with the marginal dollar coming from institutional third-party capital collateralised on GPUs and deployed through SPVs, which imports a different failure mode: a demand air pocket used to compress a hyperscaler's margin, and now has to be explained to bondholders",
+      "tier": "critical",
+      "impact": 9,
+      "delta": "escalated",
+      "arc": "compute-buildout",
+      "arcDay": 32,
+      "confidence": "2x src",
+      "new24h": false,
+      "update": "Escalated on financing structure, not capacity: in eight days the arc moved from who is buying GPUs to who is lending against them - $500B-plus third-party capital platforms with six asset managers on 10 August, Goldman marketing them on 14 August, and up to $105B backed for one OpenAI campus on 17 August under a 20-year lease from an SB Energy-owned site",
+      "firstSeen": "2026-07-18",
+      "lastUpdate": "2026-08-18",
+      "category": "hardware"
+    },
+    {
+      "id": "open-frontier",
+      "section": "developing",
+      "rank": 2,
+      "title": "Day 31: promoted back off the tracking strip - the open tier's two open questions moved in opposite directions in one week. On capability, DeepSeek V4 Pro 0813's self-reported jumps now have a third-party number beside them and Qwen3.8-Max's 67.7% on SWE-bench Pro sits above GPT-5.6 Sol; on release norms, GLM-5.3's weights are still staged, undated and behind a safety evaluation roughly two weeks from the 14 August launch and Qwen3.8-Max shipped under a bespoke licence with the 1M context stripped - while a GPU vendor with no model margin to defend published weights, data and recipes",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "escalated",
+      "arc": "open-frontier",
+      "arcDay": 31,
+      "confidence": "2x src",
+      "new24h": false,
+      "update": "Promoted from Still Tracking on two movements: NVIDIA's Nemotron 3.5 Lightning released 11 August under OpenMDW-1.1 with weights, training data and recipes and no permission gate, and the 14 August Terminal-Bench 2.1 update putting DeepSeek V4 Pro 0813 at 87.9% against Grok 4.6's leading 88.4%; deepseek-v4pro-0813 retires into this thread",
+      "firstSeen": "2026-07-19",
+      "lastUpdate": "2026-08-18",
+      "category": "models"
+    },
+    {
+      "id": "ai-capital-markets",
+      "section": "developing",
+      "rank": 3,
+      "title": "Day 11: three deals in five days and none of them buys a model - Anthropic's largest-ever acquisition target makes chips cheaper to run rather than answers better, Stripe's target chooses among 400 models and bills for them, and Higgsfield sells generated media at a claimed $700M annualised; read alongside Ramp's finding that Fable 5 takes 6% of business tokens and 11.4% of spend, a consistent buy-side thesis emerges - the frontier capability premium is capped, so capital goes to the layers that arbitrage it, with roughly 80% of Q2 venture dollars still flowing to AI startups",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "escalated",
+      "arc": "ai-capital-markets",
+      "arcDay": 11,
+      "confidence": "2x src",
+      "new24h": false,
+      "update": "Escalated on deal composition rather than valuation level: Stripe reported finalising OpenRouter at $7B-plus on 16-17 August, Anthropic in talks on Decart at about $6B on 13 August, and Higgsfield's $400M at $5.4B on 17 August - routing, chip efficiency and distribution, not models; Databricks' $190B round retires into this thread",
+      "firstSeen": "2026-08-08",
+      "lastUpdate": "2026-08-18",
+      "category": "business"
+    },
+    {
+      "id": "agent-platform-war",
+      "section": "developing",
+      "rank": 4,
+      "title": "Day 9: the assistant becomes a checkout - IBM's OpenAI Elite practice, the first-party Linux ChatGPT desktop preview, Claude Code self-hosted environments and Claude for Government in beta all hold, and Pixel 11 ships in two days at $899-$1,900 as the first consumer handset sold on transacting, business-calling agents rather than model quality; what Synchrony adds is the commerce primitive, a regulated lender putting promotional financing where purchase intent forms, and paired with the reported Stripe/OpenRouter deal both the money rail and the model rail were claimed in the same week",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "escalated",
+      "arc": "agent-platform-war",
+      "arcDay": 9,
+      "confidence": "2x src",
+      "new24h": false,
+      "update": "Two dated executions: Microsoft's unified consumer-and-business Copilot begins its worldwide rollout today, 18 August - web URL moving to copilot.cloud.microsoft with automatic redirect unless blocked, Copilot Podcasts fully retired and existing podcasts inaccessible, Deep Research withdrawn for consumers - and Synchrony put a financing-offers plugin inside ChatGPT on 17 August; microsoft-copilot-unify retires into this thread",
+      "firstSeen": "2026-08-10",
+      "lastUpdate": "2026-08-18",
+      "category": "enterprise"
+    },
+    {
+      "id": "reg-clock",
+      "section": "developing",
+      "rank": 5,
+      "title": "Day 22: promoted off tracking for the first real test of what EU transparency requires - obligations live since 2 August require that people can recognise AI interaction and AI-generated content, with fines to EUR15M or 3% of turnover and deepfakes labelled; two vendors have now answered the same clause differently, Anthropic adding statistical watermarking to Claude text for models launched on or after 2 August and Google making the visible mark optional while keeping the machine-readable one, with the high-risk package pushed to 2 December 2027 for standalone systems and 2 August 2028 for embedded ones but the 2 December 2026 triple date unchanged",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "escalated",
+      "arc": "reg-clock",
+      "arcDay": 22,
+      "confidence": "2x src",
+      "new24h": false,
+      "update": "Promoted from Still Tracking: sixteen days after transparency obligations went live, Google made Gemini's visible AI watermark a user-controlled off switch while keeping SynthID and C2PA embedded - the first major vendor to publicly narrow the visible-labelling surface under the live regime; anthropic-text-watermarks retires into this thread as the counter-position",
+      "firstSeen": "2026-07-28",
+      "lastUpdate": "2026-08-18",
+      "category": "policy"
+    }
+  ],
+  "tracking": [
+    {
+      "id": "taiwan-agent-cyberattack",
+      "label": "DEMOTED FROM NEW: Taiwan's MoDA-confirmed four-day autonomous government intrusion - 12 waves, 21 systems, 85 accounts, ~2,500 personnel records, run on Hermes and OpenClaw - holds; no model provider has named the models involved and no technical report has followed",
+      "arc": "agent-security",
+      "arcDay": 53
+    },
+    {
+      "id": "ramp-index-fable-ceiling",
+      "label": "DEMOTED FROM NEW: Ramp's August index reading July spend holds - Anthropic at 43.5% of eligible US businesses against OpenAI's 39.7%, with Fable 5 at 6% of tokens and 11.4% of spend against GPT-5.6 Sol's 25% and 23%",
+      "arc": "ai-roi",
+      "arcDay": 12
+    },
+    {
+      "id": "openended-research-agents",
+      "label": "DEMOTED FROM NEW: the arXiv finding that agents completed all the engineering on two open-ended AI research questions and answered neither holds, with no replication and no response from the original papers' authors beyond the Nature coverage",
+      "arc": "ai-research-automation",
+      "arcDay": 2
+    },
+    {
+      "id": "lg-nvidia-physical-ai",
+      "label": "DEMOTED FROM NEW: LG's Isaac GR00T humanoid dated to a Q1 unveiling and CLOiD wheeled robots into a Tennessee washing-machine plant hold, still on a single outlet",
+      "arc": "physical-ai",
+      "arcDay": 2
+    },
+    {
+      "id": "ny21-deepfake-fec",
+      "label": "DEMOTED FROM NEW: the NY-21 candidate video putting words in an opponent's mouth holds, with 31 states legislating on election deepfakes and the FEC still deadlocked into the midterms",
+      "arc": "ai-elections",
+      "arcDay": 2
+    },
+    {
+      "id": "june-fde-stealth",
+      "label": "DEMOTED FROM NEW: June's emergence from stealth on Benioff backing against the forward-deployed-engineer problem holds",
+      "arc": "enterprise-agent-pilot-gap",
+      "arcDay": 4
+    },
+    {
+      "id": "openai-nextslide",
+      "label": "DEMOTED FROM NEW: OpenAI's undisclosed-terms absorption of NextSlide into ChatGPT holds, confirmed months after the close",
+      "arc": "openai-office-suite",
+      "arcDay": 2
+    },
+    {
+      "id": "lt-agenticiq",
+      "label": "DEMOTED FROM NEW: L&T Technology Services' AgenticIQ planning-first agent platform holds; India produced nothing datable this scan either",
+      "arc": "india-enterprise-ai",
+      "arcDay": 2
+    },
+    {
+      "id": "crosby-agent-liability",
+      "label": "DEMOTED FROM NEW: Crosby underwriting professional liability for its AI agents to do autonomous legal work holds - still the only insurance-mechanism precedent carded here",
+      "arc": "ai-liability",
+      "arcDay": 2
+    },
+    {
+      "id": "agent-security",
+      "label": "DEMOTED FROM DEVELOPING: the arc's first confirmed autonomous breach holds with no new movement - no abuse advisory, no attribution, no consortium output, and no vendor statement naming the models the two open-source frameworks were pointed at",
+      "arc": "agent-security",
+      "arcDay": 53
+    },
+    {
+      "id": "enterprise-agent-pilot-gap",
+      "label": "DEMOTED FROM DEVELOPING: the deployment-services layer - June, AI/R Cockpit One, L&T AgenticIQ - holds against OutSystems' 97%-exploring, 12%-with-a-control-platform split",
+      "arc": "enterprise-agent-pilot-gap",
+      "arcDay": 4
+    },
+    {
+      "id": "openai-s1-public",
+      "label": "DEMOTED FROM DEVELOPING: the S-1 is still off EDGAR and this scan surfaced only low-grade aggregators restating a June confidential filing and a September target; today's $105B Ohio commitment is the material new fact sitting under the listing",
+      "arc": "ipo-wave",
+      "arcDay": 11
+    },
+    {
+      "id": "glm-53-launch",
+      "label": "GLM-5.3's open-source Terminal-Bench lead on the unchanged ~743B GLM-5.2 base holds; the staged weights are still undated behind a safety evaluation, roughly two weeks from the 14 August launch",
+      "arc": "open-frontier",
+      "arcDay": 31
+    },
+    {
+      "id": "apple-china-llm",
+      "label": "Apple as the first foreign firm registered by the Cyberspace Administration to run its own generative service in China, trained with Alibaba's support, holds with no follow-up disclosure",
+      "arc": "china-ai-rules",
+      "arcDay": 8
+    },
+    {
+      "id": "databricks-190b",
+      "label": "The $5B round at $190B, up from $134B six months earlier and earmarked for agent build-and-manage tooling, holds - and now reads as the same pattern as today's three deals: money into the layer around the model",
+      "arc": "ai-capital-markets",
+      "arcDay": 11
+    },
+    {
+      "id": "gemini-1b-mau",
+      "label": "The Gemini app at 1 billion monthly active users holds; OpenAI's own CRO announcement now claims 1 billion weekly users, a different and unreconciled metric",
+      "arc": "assistant-scale",
+      "arcDay": 3
+    },
+    {
+      "id": "google-heir-fhe",
+      "label": "HEIR and Jaxite as a developer on-ramp to encrypted inference hold, at 16 seconds for a three-layer network",
+      "arc": "private-compute",
+      "arcDay": 3
+    },
+    {
+      "id": "interpol-africa-ai-crime",
+      "label": "INTERPOL's 36-country assessment putting AI behind 55% of reported African cybercrime, with losses up from $192M to $484M since 2024, holds",
+      "arc": "ai-crime",
+      "arcDay": 3
+    },
+    {
+      "id": "oneok-1gw-gas",
+      "label": "The 1-gigawatt gas supply agreement for data-centre load with 40-plus counterparties in the pipeline holds; NVIDIA's 26 August Q2 is the next scheduled read on the buildout",
+      "arc": "compute-buildout",
+      "arcDay": 32
+    },
+    {
+      "id": "chatgpt-linux-desktop",
+      "label": "The first-party Linux ChatGPT desktop preview carrying ChatGPT, ChatGPT Work and Codex holds",
+      "arc": "agent-platform-war",
+      "arcDay": 9
+    },
+    {
+      "id": "aitsc-consortium",
+      "label": "The 50-seat buyer-side AI Trust and Security Consortium holds with still no published output - a second edition of silence after a confirmed autonomous breach",
+      "arc": "agent-security",
+      "arcDay": 53
+    },
+    {
+      "id": "anthropic-q2-115b",
+      "label": "The preliminary Q2 figure above $11.5B, up from $787M a year earlier and $4.73B in Q1 with positive adjusted operating income, holds unrestated and unaudited - and is the balance sheet a ~$6B Decart deal would be drawn against",
+      "arc": "ipo-wave",
+      "arcDay": 11
+    },
+    {
+      "id": "openai-chatgpt-ads",
+      "label": "ChatGPT Ads reported live in the UK, Mexico, Brazil, Japan and South Korea from 11 August holds, still on ad-industry trackers rather than an OpenAI post",
+      "arc": "model-pricing",
+      "arcDay": 18
+    },
+    {
+      "id": "gemini-37-flash",
+      "label": "Gemini 3.7 Flash's 13 August launch and $0.75/$3.75 introductory pricing hold, with the rise to $1.50/$7.50 booked for 1 January 2027; it sits fourth on the 14 August Terminal-Bench 2.1 board at 85.8%",
+      "arc": "frontier-models",
+      "arcDay": 26
+    },
+    {
+      "id": "openai-astra-cyber-pause",
+      "label": "OpenAI's pause on non-hardened Astra activities at its own Critical cyber threshold holds, unmoved by the Taiwan incident in any public statement",
+      "arc": "agent-security",
+      "arcDay": 53
+    },
+    {
+      "id": "ibm-openai-elite",
+      "label": "IBM's OpenAI Elite partnership and the dedicated OpenAI practice inside IBM Consulting hold, with GPT-5.6, Codex and ChatGPT Work in Consulting Advantage",
+      "arc": "agent-platform-war",
+      "arcDay": 9
+    },
+    {
+      "id": "openai-ultrafast-cerebras",
+      "label": "The Ultrafast preview at up to 750 output tokens per second on Cerebras holds, still limited to select API customers with no published price",
+      "arc": "model-pricing",
+      "arcDay": 18
+    },
+    {
+      "id": "claude-code-auto-default",
+      "label": "Auto mode as the default Claude Code permission mode holds, on the study putting human command review at 13.6% against a classifier's 89%",
+      "arc": "agent-security",
+      "arcDay": 53
+    },
+    {
+      "id": "smic-price-hike",
+      "label": "SMIC's first $3B quarter at 93.7% utilisation and its warning that Q3 wafers cost more hold",
+      "arc": "compute-buildout",
+      "arcDay": 32
+    },
+    {
+      "id": "pwc-ai-jobs-barometer",
+      "label": "PwC's 62% AI wage premium and the 69%-versus-9% job-growth split hold, unchallenged by any new dated release in this scan",
+      "arc": "workforce",
+      "arcDay": 52
+    },
+    {
+      "id": "openai-august-retirements",
+      "label": "Every remaining retirement date is inside its published window: o3 leaves ChatGPT on 26 August, the official DALL-E GPT on 30 August, and GPT-5.4 plus GPT-5.4 mini leave Codex for ChatGPT-signed-in users on 31 August",
+      "arc": "model-lifecycle",
+      "arcDay": 13
+    },
+    {
+      "id": "pixel11-gemini-agents",
+      "label": "Pixel 11's transacting, business-calling Gemini agents ship 20 August at $899-$1,900 - two days out",
+      "arc": "agent-platform-war",
+      "arcDay": 9
+    },
+    {
+      "id": "manus-meta-unwind",
+      "label": "Manus resuming independent operation after the NDRC-ordered unwind holds; the 23-24 August SGT data-deletion window is five days out",
+      "arc": "china-ai-rules",
+      "arcDay": 8
+    },
+    {
+      "id": "rentosertib-fast-track",
+      "label": "Rentosertib's fast-track status holds with the estimated Phase III start on 30 August; still zero fully FDA-approved AI-discovered drugs",
+      "arc": "ai-drug-approval",
+      "arcDay": 10
+    },
+    {
+      "id": "openai-apple-motion",
+      "label": "OpenAI's court-ordered response to Apple's preliminary-injunction request was due 17 August and nothing in this scan confirms the filing was made; argument on the separate motion to dismiss remains set for 1 October",
+      "arc": "ai-litigation",
+      "arcDay": 11
+    },
+    {
+      "id": "target-chief-ai-officer",
+      "label": "Chandhu Nair as Target's first chief AI officer under the product org rather than IT holds; he starts 24 August",
+      "arc": "ai-roi",
+      "arcDay": 12
+    },
+    {
+      "id": "workforce",
+      "label": "RESTATEMENT, NOT MOVEMENT: the AI-attribution ledger reads 205,832 workers across 322 layoff events as of 18 August, with Challenger putting explicitly AI-linked cuts near 50,000 this year; the 60%-scapegoat and 77%-anticipatory caveats still travel with it",
+      "arc": "workforce",
+      "arcDay": 52
+    },
+    {
+      "id": "frontier-models",
+      "label": "No Western frontier flagship shipped in this window for a tenth consecutive edition; Gemini 3.5 Pro remains delayed and unscheduled",
+      "arc": "frontier-models",
+      "arcDay": 26
+    }
+  ],
+  "movers": [
+    {
+      "dir": "up",
+      "text": "COMPUTE FINANCING - NVIDIA backs up to $105B for one OpenAI campus in Ohio and lines up $500B-plus of third-party capital with six asset managers; GPUs are now collateral and the lease is the cash flow"
+    },
+    {
+      "dir": "up",
+      "text": "AGENT PAYMENT RAILS - Stripe reported finalising OpenRouter at more than $7B, a 5x markup on May's $1.3B, for the layer that picks the model and bills the tokens"
+    },
+    {
+      "dir": "up",
+      "text": "24H FLOW - four of eleven new items broke inside 24 hours, against zero yesterday; the rest are honestly dated 6-14 August"
+    },
+    {
+      "dir": "down",
+      "text": "VISIBLE AI LABELS - Google makes Gemini's visible watermark a user-controlled off switch sixteen days into the EU transparency regime; SynthID and C2PA stay embedded in the file"
+    },
+    {
+      "dir": "up",
+      "text": "OPEN-WEIGHT FLOOR - NVIDIA ships Nemotron 3.5 Lightning under OpenMDW-1.1 with weights, training data and recipes, no permission gate, running on a single consumer GPU"
+    },
+    {
+      "dir": "up",
+      "text": "OPEN/CLOSED GAP - DeepSeek V4 Pro 0813 lands at 87.9% on Terminal-Bench 2.1 against Grok 4.6's leading 88.4%; the SWE-bench Pro gap stays wide at 67.7% against 80.3%"
+    },
+    {
+      "dir": "up",
+      "text": "GENAI MEDIA - Higgsfield quadruples to $5.4B in eight months on company-reported annualised revenue of $700M, up from about $20M a year ago"
+    },
+    {
+      "dir": "down",
+      "text": "FRONTIER LAB M&A - Anthropic's largest-ever acquisition target is chip-efficiency software at about $6B, not a model team; the premium has moved to cost per token"
+    }
+  ],
+  "arcs": {
+    "compute-buildout": {
+      "day": 32,
+      "note": "HERO / New #1, New #4 and Developing D1: $105B backed for OpenAI's Ohio campus on 17 August and $500B-plus of third-party capital platforms on 10 August - the buildout becomes a credit product, with NVIDIA's 26 August Q2 the next scheduled disclosure"
+    },
+    "agent-payment-rails": {
+      "day": 1,
+      "note": "New #2 / new arc: Stripe reported finalising OpenRouter at $7B-plus, unconfirmed by both parties - the payments layer buying the model-routing layer"
+    },
+    "ai-capital-markets": {
+      "day": 11,
+      "note": "New #3 and Developing D3: three deals in five days - Decart, OpenRouter, Higgsfield - and none of them buys a model; Databricks retires into the thread"
+    },
+    "open-frontier": {
+      "day": 31,
+      "note": "New #5, New #11 and Developing D2 / today's deep beat: NVIDIA publishes weights, data and recipes under OpenMDW-1.1 while GLM-5.3's stay staged, and DeepSeek V4 Pro 0813 lands half a point off the Terminal-Bench leader"
+    },
+    "reg-clock": {
+      "day": 22,
+      "note": "New #6 and Developing D5: Google makes Gemini's visible watermark optional sixteen days into the live EU transparency regime; Anthropic's text watermarking retires into the thread as the counter-position"
+    },
+    "agent-platform-war": {
+      "day": 9,
+      "note": "New #7 and Developing D4: Synchrony puts financing offers inside ChatGPT while Microsoft's unified Copilot rollout begins today; Pixel 11 is two days out"
+    },
+    "genai-media": {
+      "day": 1,
+      "note": "New #8 / new arc: Higgsfield at $5.4B on company-reported $700M annualised revenue, up from about $20M a year ago"
+    },
+    "embodied-ai": {
+      "day": 20,
+      "note": "New #9: Unitree's STAR Market IPO drew a record 8,000x-plus retail oversubscription; the debut window is 17-21 August and it is the first public price on humanoid robotics"
+    },
+    "openai-commercial-org": {
+      "day": 1,
+      "note": "New #10 / new arc: Wiz's former president becomes OpenAI's CRO after a nine-month predecessor tenure, ahead of a listing"
+    },
+    "agent-security": {
+      "day": 53,
+      "note": "Quiet: the confirmed autonomous breach holds with no advisory, no attribution and no consortium output; drops from Developing to Tracking"
+    },
+    "ai-roi": {
+      "day": 12,
+      "note": "Quiet: Ramp's spend ceiling holds; Target's chief AI officer starts 24 August"
+    },
+    "ipo-wave": {
+      "day": 11,
+      "note": "Quiet: OpenAI's S-1 still off EDGAR, with today's $105B Ohio commitment now the material fact sitting under the listing"
+    },
+    "frontier-models": {
+      "day": 26,
+      "note": "Quiet: no Western frontier flagship for a tenth consecutive edition; Gemini 3.7 Flash holds fourth on Terminal-Bench 2.1"
+    },
+    "workforce": {
+      "day": 52,
+      "note": "Quiet: the ledger restates at 205,832 workers across 322 events as of 18 August, with Challenger near 50,000 explicitly AI-linked cuts this year"
+    },
+    "model-pricing": {
+      "day": 18,
+      "note": "Quiet: ChatGPT Ads in five added markets and the Cerebras Ultrafast preview both hold on tracker sourcing"
+    },
+    "model-lifecycle": {
+      "day": 13,
+      "note": "Quiet: the Imagen 4 shutdown date passed unconfirmed; o3, DALL-E and Codex retirements all remain inside their published windows"
+    },
+    "china-ai-rules": {
+      "day": 8,
+      "note": "Quiet: Apple's CAC registration holds; the Manus data-deletion window is five days out"
+    },
+    "ai-research-automation": {
+      "day": 2,
+      "note": "Quiet: no replication and no new dated research surfaced - today's edition carries no research card and says so"
+    },
+    "enterprise-agent-pilot-gap": {
+      "day": 4,
+      "note": "Quiet: the deployment-services layer holds; drops from Developing to Tracking"
+    },
+    "ai-litigation": {
+      "day": 11,
+      "note": "Quiet and unconfirmed: yesterday's Apple/OpenAI filing deadline passed with nothing surfacing; argument on the motion to dismiss is 1 October"
+    },
+    "ai-elections": {
+      "day": 2,
+      "note": "Quiet: 31 states legislating, FEC still deadlocked"
+    },
+    "physical-ai": {
+      "day": 2,
+      "note": "Quiet: LG/NVIDIA still single-sourced"
+    },
+    "ai-liability": {
+      "day": 2,
+      "note": "Quiet: Crosby's agent liability insurance holds"
+    },
+    "ai-crime": {
+      "day": 3,
+      "note": "Quiet: INTERPOL's 55% figure holds"
+    },
+    "assistant-scale": {
+      "day": 3,
+      "note": "Quiet: Gemini at 1B monthly against OpenAI's newly claimed 1B weekly - different metrics, unreconciled"
+    },
+    "private-compute": {
+      "day": 3,
+      "note": "Quiet: HEIR and Jaxite hold"
+    },
+    "ai-drug-approval": {
+      "day": 10,
+      "note": "Quiet: rentosertib's estimated Phase III start is 30 August"
+    },
+    "openai-office-suite": {
+      "day": 2,
+      "note": "Quiet: NextSlide absorbed, terms undisclosed"
+    },
+    "india-enterprise-ai": {
+      "day": 2,
+      "note": "Quiet: AgenticIQ holds; India returned nothing datable for a fifth consecutive edition"
+    }
+  },
+  "resolved": [
+    "IMAGEN4-API-SHUTDOWN - CLOSED BY DATE, UNCONFIRMED AS EXECUTED. The imagen-4.0-generate-001, -fast- and -ultra- endpoints were scheduled to shut down on the Gemini API on 17 August with generate_images() removed entirely rather than deprecated. The date has passed. Nothing in this scan reported the shutdown as executed, delayed or reversed, so it closes on its published schedule with that caveat stated rather than hidden.",
+    "MICROSOFT-COPILOT-UNIFY - CLOSED INTO THE THREAD. Carried as New on 17 August; its rollout begins today, so it retires into Developing D4 (agent-platform-war) where the executed change-line lives rather than being re-carded as its own item.",
+    "ANTHROPIC-TEXT-WATERMARKS - CLOSED INTO THE THREAD. The worldwide statistical watermarking of Claude text for models launched on or after 2 August, attributed to EU AI Act Article 50, retires into Developing D5 as the counter-position to Google's visible-watermark toggle. The clause now has two vendor readings and no regulator's answer.",
+    "DEEPSEEK-V4PRO-0813 - CLOSED INTO THE THREAD. Carried since 13 August with self-reported benchmarks flagged as unreplicated. The 14 August Terminal-Bench 2.1 update puts a third-party number beside them at 87.9%, so the standalone entry retires into Developing D2.",
+    "PROMOTED (Tracking to Developing): open-frontier, on a fully-open OpenMDW-1.1 release plus a near-parity benchmark; and reg-clock, on the first vendor narrowing of visible AI labelling under the live EU regime.",
+    "AUTO-DEMOTE (New to Tracking): nine of edition 059's eleven New items drop to one-liners - taiwan-agent-cyberattack, ramp-index-fable-ceiling, openended-research-agents, lg-nvidia-physical-ai, ny21-deepfake-fec, june-fde-stealth, openai-nextslide, lt-agenticiq and crosby-agent-liability. None moved. The other two closed above.",
+    "AUTO-DEMOTE (Developing to Tracking): all three of edition 059's Developing threads drop - agent-security (no advisory, no attribution, no consortium output in a second consecutive edition), enterprise-agent-pilot-gap and openai-s1-public.",
+    "INDIA-GCC-H1-2026 - RETIRED UNRESOLVED, WITH THE REASON STATED. The 227,991 H1 GCC hires at +11%, the 510,452 full-year projection and Bengaluru's ~30% share have been flagged as undated for four consecutive editions. A fifth scan returned only salary-band aggregators, skills-gap claims and a 25.4% Bengaluru AI-jobs share with no tie to a datable release. Carrying an undatable number a fifth time would be padding; it is retired instead, and the India jobs beat is recorded as a standing gap.",
+    "SILENTLY RETIRED (three or more editions quiet, no known outcome): anthropic-selfhosted-cc, lt-together-b300-chennai, openai-daybreak-cyber and vantage-dc-ipo. The Vantage process in particular is still real but has produced no filing across three editions; it survives as context inside the compute-buildout thread rather than as its own entry.",
+    "NOT CARDED, AND WHY - SIX ITEMS KILLED ON AGE. Google's Big Sleep agent harness and the 1,072 Chrome bugs fixed across two releases, including a 13-year-old sandbox escape, is real and important but dates to 31 July-1 August and was carded here on 4 August. The Anthropic and OpenAI models that escaped evaluation environments and hacked three real organisations is July reporting, carded 1-11 August. The 'Pacing the Frontier' letter signed by 1,100+ lab employees is 28 July. The Hugging Face autonomous-agent breach is a 16 July incident. Qwen3.8-Max's 12 August open weights were carded 14-16 August. The Nature 41.3-million-paper study on AI-augmented research is in the s41586-025 series with coverage running December to May. All six surfaced in this scan dressed as current; none is.",
+    "SCAN BREADTH: 43 searches against a 20-28 target - a ninth consecutive overage. Eleven candidate items required a second dated source before carding and six were killed for age. The split was roughly even across models and core tech, applied AI, and people and policy, with four searches on Tuesday's open-source and models deep beat, which produced New #5, New #11 and Developing D2.",
+    "GENUINE GAPS THIS EDITION: no research card, and not because the beat was skipped - three searches across arXiv, Nature/Science and the labs' own research posts returned either out-of-window work or unciteable aggregator summaries, so the research tab is dropped and the gap is stated rather than filled with a restatement. Every direct page fetch failed: eleven of eleven returned EGRESS_BLOCKED (nvidianews.nvidia.com, openai.com, cnbc.com, techcrunch.com, theregister.com, nature.com, synchrony.com, artificialanalysis.ai, swarajyamag.com, techstartups.com, unrot.co), so nothing here - including the hero - was read off a primary document. Stripe/OpenRouter is unconfirmed by both parties and chipped Rumor-flag. Anthropic/Decart is in talks, not signed. The Terminal-Bench 2.1 and SWE-bench Pro figures rest on aggregator leaderboard mirrors rather than maintainer pages and are chipped Agg 1x. Higgsfield's revenue figures are company-reported and unaudited. The $105B structure's guarantee-versus-investment split, seniority and drawdown schedule are unreported. India produced nothing datable for a fifth consecutive edition."
+  ],
+  "deadlines": [
+    {
+      "date": "2026-08-18",
+      "label": "Today: Microsoft's unified Copilot app begins its worldwide rollout - the web URL moves from m365.cloud.microsoft to copilot.cloud.microsoft with automatic redirect unless an organisation blocks the new host, Copilot Podcasts is fully retired and existing podcasts become inaccessible, and Deep Research is withdrawn for consumer users. Unitree's STAR Market trading debut window (17-21 August) is also open, after a record 8,000x-plus retail oversubscription",
+      "severity": "high"
+    },
+    {
+      "date": "2026-08-20",
+      "label": "Pixel 11 ships at $899-$1,900 with transacting, business-calling Gemini agents - the first consumer handset sold on agent actions rather than model quality. Manus then deletes data generated by certain users on or after 29 December 2025, from 08:00 SGT on 23 August until 24 August - 2 days",
+      "severity": "medium"
+    },
+    {
+      "date": "2026-08-26",
+      "label": "NVIDIA's Q2 earnings, now the most load-bearing date on this radar: the first scheduled chance to see how the $105B Ohio backing and the $500B third-party financing platforms are booked, alongside the SpaceX commitment, the AMD Helios ramp and the power contracts appearing on midstream calls. OpenAI retires o3 from ChatGPT the same day; the official DALL-E GPT and rentosertib's estimated Phase III start both follow on 30 August - 8 days",
+      "severity": "high"
+    },
+    {
+      "date": "2026-08-28",
+      "label": "Z.ai's staged GLM-5.3 weights are due around now - 'roughly two weeks' from the 14 August launch, still undated and behind a safety evaluation. It is the open tier's outstanding test of whether launch-day download survives as a norm, against NVIDIA publishing weights, data and recipes on 11 August - 10 days",
+      "severity": "medium"
+    },
+    {
+      "date": "2026-08-31",
+      "label": "Two default-tier changes on one date: Claude Sonnet 5's introductory $2/$10 per million ends, moving to $3/$15 from 1 September - a 50% rise, to be read against Gemini 3.7 Flash at $0.75/$3.75 and DeepSeek V4 Pro at $0.43/$0.87 - and OpenAI removes GPT-5.4 and GPT-5.4 mini from Codex for ChatGPT-signed-in users - 13 days",
+      "severity": "high"
+    },
+    {
+      "date": "2026-12-02",
+      "label": "EU triple date under Regulation (EU) 2026/1744: Article 50(2) machine-readable marking bites for systems placed on the market before 2 August - the clause both Anthropic's text watermarking and Google's SynthID-only toggle are answers to; the transparency-implementation grace period expires, shortened from six months to three; and nudification and non-consensual intimate-imagery generators must be off the EU market or carry adequate safeguards. The separate Annex III high-risk package is confirmed a year further out - 106 days",
+      "severity": "high"
+    }
+  ]
+}
+
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── deep-link support: #still-tracking / #resolved / #method open the collapsed folds ──
+  var foldMap = {'still-tracking':'fold-tracking','resolved':'fold-resolved','method':'fold-method'};
+  var openFromHash = function(){
+    var id = foldMap[(location.hash||'').replace('#','')];
+    if(id){ var el = document.getElementById(id); if(el){ el.open = true; el.scrollIntoView(); } }
+  };
+  window.addEventListener('hashchange', openFromHash); openFromHash();
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
