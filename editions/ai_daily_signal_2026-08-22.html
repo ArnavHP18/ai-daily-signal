@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 064 — 22 August 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+
+  /* collapsible archive sections (Still Tracking / Resolved / method notes) */
+  .fold{border-bottom:3px solid var(--ink);margin-top:26px}
+  .fold[open]{border-bottom-color:var(--rule)}
+  .fold > summary{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:0 0 8px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary small{font-size:10px;color:#6b6353;letter-spacing:1px;font-weight:400}
+  .fold > summary .caret{font-size:11px;color:#6b6353;letter-spacing:0}
+  .fold > summary:hover{color:var(--crit)}
+  .fold[open] > summary .caret::after{content:"▴ HIDE"}
+  .fold:not([open]) > summary .caret::after{content:"▾ SHOW"}
+  .fold .fold-body{padding-bottom:16px}
+  footer .fold{border-bottom:none;margin-top:12px}
+  footer .fold > summary{font-size:11px;letter-spacing:2px}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>NVIDIA · POOLSIDE</b> $6B to licence the Model Factory, $1B equity at $13B post-money, offers to 109 Laguna staff — and explicitly not an acquisition &nbsp;◆&nbsp; <b>AI DEBT</b> Broadcom in talks for $60B-plus, potentially ~$100B all-in, through an SPV with Blackstone and Apollo for Anthropic-bound custom silicon &nbsp;◆&nbsp; <b>ROBOTAXIS</b> Nevada clears up to 8,000 driverless vehicles in Clark County — Tesla 5,000, Waymo 1,000, Uber 1,000 &nbsp;◆&nbsp; <b>ROUTING</b> Stripe finalises the $7B-plus OpenRouter deal this briefing has carried as unconfirmed for six editions &nbsp;◆&nbsp; <b>JOBS</b> New York takes the US tech-headcount crown from the Bay Area for the first time in 13 years — 394,300 to 375,730 &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>064</b></span>
+    <span>SATURDAY, 22 AUGUST 2026</span>
+    <span class="seg">NEW <b>13</b> · DEVELOPING <b>4</b> · TRACKING <b>32</b></span>
+    <span>CRITICAL <b>7</b> / NOTABLE 9 / MONITOR 1</span>
+    <span>SCAN: 31 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="nvidia-poolside-license">
+  <div>
+    <div class="kicker">■ Today's Lead · New · Business · Day 1 of the licence-not-acquisition arc</div>
+    <h2>NVIDIA pays $6B to licence Poolside's model factory, $1B for equity, and hires 109 people — without buying the company</h2>
+    <p class="dek">Announced on <strong>21 August</strong>: NVIDIA will pay <strong>$6B</strong> for a <em>non-exclusive licence</em> to Poolside's <strong>Model Factory</strong> — the data-processing, training and evaluation system Poolside uses to build its <strong>Laguna</strong> family of open-weight coding models — and will separately invest <strong>$1B</strong> in a growth-equity round that values Poolside at <strong>$13B post-money</strong> (<a href="https://finance.yahoo.com/technology/ai/articles/nvidia-pay-poolside-6-billion-181448803.html">Bloomberg via Yahoo Finance</a>, <a href="https://www.newcomer.co/p/sources-poolside-strikes-6-billion">Newcomer</a>). NVIDIA will also extend job offers to <strong>109 Poolside employees</strong> who worked on Laguna. What it is <em>not</em>, all reporting is emphatic, is an acquisition or an acquihire: Poolside's three co-founders stay, the company keeps operating independently, and the licence is non-exclusive (<a href="https://the-decoder.com/nvidia-is-acquiring-poolsides-model-factory-and-109-employees-for-6-billion/">The Decoder</a>, <a href="https://thenextweb.com/news/nvidia-poolside-6bn-model-factory-licence">TNW</a>). The structure is the story. A buyer takes the training apparatus, the people who built it and a minority stake, and leaves behind the corporate entity that would have triggered a merger review. NVDA closed the week roughly <strong>5% lower</strong> (<a href="https://www.tradingview.com/news/stocktwits:9babc240c094b:0-nvidia-reportedly-strikes-7b-licensing-and-investment-deal-with-ai-startup-poolside/">Stocktwits/TradingView</a>).</p>
+    <p class="sowhat">So what: if $7B of consideration can move a model-training capability and its team without a change of control, then "we did not acquire them" stops being a meaningful statement about market structure — price the capability, not the cap table, when you assess who now controls model-building infrastructure.</p>
+    <span class="chip arc">ARC: LICENCE-NOT-ACQUISITION · D1</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://finance.yahoo.com/technology/ai/articles/nvidia-pay-poolside-6-billion-181448803.html">Bloomberg (via Yahoo Finance)</a> ·
+      <a href="https://www.newcomer.co/p/sources-poolside-strikes-6-billion">Newcomer</a> ·
+      <a href="https://the-decoder.com/nvidia-is-acquiring-poolsides-model-factory-and-109-employees-for-6-billion/">The Decoder</a> ·
+      <a href="https://www.pymnts.com/news/artificial-intelligence/2026/nvidia-pays-6-billion-to-license-poolside-ai-model-development-software/">PYMNTS</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What the deal actually contains.</strong> Three separable pieces. (1) A <strong>$6B non-exclusive licence</strong> to Model Factory, the pipeline Poolside runs for data processing, training and evaluation. (2) A <strong>$1B growth-equity investment</strong> in a round pricing Poolside at <strong>$13B post-money</strong> — a $12B pre-money mark, which is where the "$12B" figure circulating in some write-ups comes from. (3) <strong>Offers to 109 employees</strong> attached to the Laguna open-weight coding models. Combined consideration is about <strong>$7B</strong>. Poolside's co-founders remain and the company continues to operate on its own (<a href="https://www.newcomer.co/p/sources-poolside-strikes-6-billion">Newcomer</a>, <a href="https://cryptobriefing.com/nvidia-6b-poolside-ai-licensing-deal/">Crypto Briefing</a>).</p>
+      <p><strong>Why it leads.</strong> The 2024-25 template for this move — Inflection, Character, Windsurf — took the founders and a licence and left a hollowed shell. This one is different in a way that matters: the licence is non-exclusive, the company is capitalised rather than stripped, and the asset transferred is not a model but the <em>machinery for making models</em>. NVIDIA has spent 2026 buying its way up the stack (Kumo AI in June at $400M-plus). Model Factory is the first time it has bought the ability to manufacture the thing its customers train on, and it did so from a lab whose output — Laguna — ships as open weights. Read alongside today's Developing D4: the open tier's most consequential recent event is not a weights drop but a chip vendor licensing an open-weight lab's training stack.</p>
+      <p><strong>The number discrepancy, stated plainly.</strong> Aggregators reported this at "$600 million," "$6 billion," "$7 billion" and "$10 billion" within 24 hours. The reading consistent across Bloomberg, Newcomer, The Decoder, TNW and PYMNTS is <strong>$6B licence + $1B equity at $13B post-money</strong>. The "$600M" and "$10B" figures appear in single-aggregator posts and are not carried here. Nothing in this card comes from Poolside's or NVIDIA's own newsroom, which this scan could not fetch directly — the deal is reported, not primary-sourced.</p>
+      <p><strong>Watch next.</strong> Whether NVIDIA files anything on this at <strong>Q2 earnings on 26 August</strong> — the same disclosure that has to account for the $500B financing platforms, the up-to-$105B Ohio backing and Google's Marvell warrant. Whether any antitrust authority treats a non-exclusive licence plus 109 hires as a reviewable transaction. And whether Laguna's weights keep shipping openly now that the factory behind them has a second tenant.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>Announced</dt><dd>21 August 2026</dd>
+      <dt>Licence</dt><dd>$6B, non-exclusive, for Poolside's Model Factory (data processing / training / evaluation)</dd>
+      <dt>Equity</dt><dd>$1B growth round at $13B post-money ($12B pre)</dd>
+      <dt>People</dt><dd>Offers to 109 employees from the Laguna open-weight coding model team</dd>
+      <dt>Not an acquisition</dt><dd>Three co-founders stay; Poolside continues to operate independently; licence is non-exclusive</dd>
+      <dt>Market</dt><dd>NVDA ended the week roughly 5% lower</dd>
+      <dt>Caveat</dt><dd>Reported, not primary-sourced here; aggregator figures ranged $600M–$10B (see full brief)</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">8</b>/10 — anyone modelling AI market structure, merger exposure or who controls model-training infrastructure</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="nvidia-poolside-license">
+      <div class="num">1</div>
+      <h4>$7B moves a model factory and 109 people, with no change of control</h4>
+      <p>NVIDIA licences Poolside's Model Factory for $6B (non-exclusive), invests $1B at a $13B post-money mark, and hires 109 of the Laguna open-weight coding team. Co-founders stay; the company keeps running. The capability moves; the entity does not. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="compute-buildout">
+      <div class="num">2</div>
+      <h4>The buildout's biggest single financing yet is a debt deal</h4>
+      <p>Broadcom is in talks for more than $60B — a ~$30B junior tranche plus a $60–70B senior-secured tranche, potentially ~$100B all-in — issued through an SPV with Blackstone and Apollo, for custom silicon benefiting Anthropic. AI paper is now ~15% of US investment-grade issuance. <strong>ESCALATED.</strong></p>
+    </article>
+    <article class="trip" data-story-id="nevada-robotaxi-8000">
+      <div class="num">3</div>
+      <h4>Nevada clears up to 8,000 robotaxis in one vote</h4>
+      <p>The Nevada Transportation Authority unanimously authorised Tesla (5,000), Waymo (1,000) and Uber (1,000) across Clark County for the next year — after capping Tesla at 10 vehicles in June. Tesla's own Cybercab chief engineer calls 5,000 a ceiling and targets ~2,500. <strong>NEW.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>THE THREAD THROUGH TODAY:</strong> every lead item is about a <em>structure</em>, not a product. A $7B licence that isn't an acquisition; a ~$100B compute expansion that isn't equity; an 8,000-vehicle authorisation that isn't 8,000 vehicles; a $7B-plus purchase of the routing layer by a payments company. <strong>Thirteen new items</strong>, three of which broke inside 24 hours — the rest are dated 13–20 August and every card carries its real date. Also new: Stripe finalises OpenRouter at $7B-plus, closing a story this briefing has carried as unconfirmed background since edition 059 · Adversa's <em>Cryptographic Context Injection</em> gets Grok to decrypt an AES-256-GCM payload inside its own runtime and exfiltrate user data, unpatched since a 3 June report · Grok Bot leaves beta into SuperGrok and Cursor's paid tiers · Brazil splits $444M of AI supercomputing between Huawei/iFlytek and a US-facing tender · <em>Nature</em> puts an OpenClaw-based agentic researcher in front of the authors of the papers it reproduced, and they were not impressed. <strong>Saturday's deep beat is regional AI jobs</strong> — New York takes the US tech-headcount crown from the Bay Area, the AI wage premium hits 62%, and HSBC stands up a Singapore AI centre. Developing: compute financing, agent security, the agent-platform war and the open tier all moved; the IPO thread did not and drops to Tracking.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (17)</button>
+    <button class="tab" data-cat="models">MODELS (1)</button>
+    <button class="tab" data-cat="business">BUSINESS (3)</button>
+    <button class="tab" data-cat="policy">POLICY (5)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (6)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>13 ITEMS · BROKE / SURFACED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="business" data-story-id="nvidia-poolside-license">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#1</span> <span class="cat">BUSINESS · STRUCTURE</span></div>
+      <h4>NVIDIA licences Poolside's model factory for $6B, invests $1B, hires 109 — and calls it not an acquisition</h4>
+      <div class="body">The lead, in full above. Announced <strong>21 August</strong>: a <strong>$6B non-exclusive licence</strong> to Poolside's <strong>Model Factory</strong> (data processing, training, evaluation), a separate <strong>$1B</strong> growth-equity investment at a <strong>$13B post-money</strong> valuation, and job offers to <strong>109 employees</strong> from the team behind Poolside's open-weight <strong>Laguna</strong> coding models. Poolside's three co-founders stay and the company keeps operating independently (<a href="https://finance.yahoo.com/technology/ai/articles/nvidia-pay-poolside-6-billion-181448803.html">Bloomberg via Yahoo Finance</a>, <a href="https://www.newcomer.co/p/sources-poolside-strikes-6-billion">Newcomer</a>, <a href="https://the-decoder.com/nvidia-is-acquiring-poolsides-model-factory-and-109-employees-for-6-billion/">The Decoder</a>). NVDA closed the week about <strong>5% lower</strong>. Aggregator figures ranged from $600M to $10B in 24 hours; the multi-outlet reading is $6B + $1B.</div>
+      <p class="sowhat">The reverse-acquihire has been refined into something cleaner: buy the manufacturing capability and the people, capitalise the seller, skip the merger. Assume more of this, and stop reading "no acquisition" as "no consolidation."</p>
+      <div><span class="chip arc">ARC: LICENCE-NOT-ACQUISITION · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://finance.yahoo.com/technology/ai/articles/nvidia-pay-poolside-6-billion-181448803.html">Bloomberg (Yahoo)</a> · <a href="https://www.newcomer.co/p/sources-poolside-strikes-6-billion">Newcomer</a> · <a href="https://thenextweb.com/news/nvidia-poolside-6bn-model-factory-licence">TNW</a> · <a href="https://www.pymnts.com/news/artificial-intelligence/2026/nvidia-pays-6-billion-to-license-poolside-ai-model-development-software/">PYMNTS</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="business" data-story-id="broadcom-60b-ai-debt">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">#2</span> <span class="cat">BUSINESS · CREDIT</span></div>
+      <h4>Broadcom seeks $60B-plus in debt — potentially ~$100B all-in — for Anthropic-bound custom silicon</h4>
+      <div class="body">Reported by Bloomberg on <strong>20 August</strong>: Broadcom is in talks with lenders to raise <strong>more than $60B</strong> for an AI-chip financing that benefits <strong>Anthropic</strong> and others. The structure under discussion is a roughly <strong>$30B junior tranche</strong> alongside a partly Broadcom-guaranteed <strong>senior-secured tranche of about $60–70B</strong>, issued through a <strong>special-purpose vehicle</strong> — numbers that would take the total raise to as much as <strong>$100B</strong>. <strong>Blackstone</strong> and <strong>Apollo</strong> are in talks to participate, extending the June partnership that financed a <strong>$35B</strong> expansion of Anthropic's compute on Broadcom custom silicon, an initial 1GW against a stated ambition of <strong>20GW-plus by 2028</strong> (<a href="https://www.bloomberg.com/news/articles/2026-08-20/broadcom-seeks-more-than-60-billion-in-latest-ai-debt-deal">Bloomberg</a>, <a href="https://finance.yahoo.com/technology/ai/articles/broadcom-seeks-more-60-billion-201702584.html">Reuters via Yahoo</a>, <a href="https://thenextweb.com/news/broadcom-60bn-ai-chip-debt-anthropic">TNW</a>). Context: AMD raised a record <strong>$4.75B</strong> in its largest-ever dollar bond on 13 August, and AI-linked paper is now roughly <strong>15% of US investment-grade issuance</strong> (<a href="https://www.bloomberg.com/news/newsletters/2026-08-17/ai-debt-sales-are-keeping-us-treasury-yields-high">Bloomberg</a>).</div>
+      <p class="sowhat">The buildout has stopped being financed out of cash flow and equity. When a chip vendor guarantees SPV debt so a model lab can have capacity, the credit market — not the capex line — is where the buildout's real constraint now sits. Read NVIDIA's 26 August disclosure with that in mind.</p>
+      <div><span class="chip arc">ARC: AI-CAPITAL-MARKETS · D15</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-08-20/broadcom-seeks-more-than-60-billion-in-latest-ai-debt-deal">Bloomberg</a> · <a href="https://finance.yahoo.com/technology/ai/articles/broadcom-seeks-more-60-billion-201702584.html">Reuters (Yahoo)</a> · <a href="https://www.proactiveinvestors.com/companies/news/1097391/broadcom-seeks-more-than-60bn-in-debt-for-ai-chip-deal-1097391.html">Proactive</a> · <a href="https://www.bloomberg.com/news/articles/2026-08-13/amd-plans-to-raise-as-much-as-5-billion-from-debt-offering">Bloomberg (AMD)</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="enterprise" data-story-id="nevada-robotaxi-8000">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#3</span> <span class="cat">ENTERPRISE · AUTONOMY</span></div>
+      <h4>Nevada authorises up to 8,000 robotaxis across Clark County — Tesla 5,000, Waymo 1,000, Uber 1,000</h4>
+      <div class="body">On <strong>Thursday 20 August</strong> the <strong>Nevada Transportation Authority</strong> voted unanimously to permit up to <strong>8,000 robotaxis</strong> across Clark County, which includes Las Vegas, over the next year: <strong>Tesla 5,000</strong>, <strong>Waymo 1,000</strong> and <strong>Uber 1,000</strong> (<a href="https://techcrunch.com/2026/08/20/tesla-uber-and-waymo-all-get-the-ok-to-operate-thousands-of-robotaxis-in-nevada/">TechCrunch</a>, <a href="https://lasvegassun.com/news/2026/aug/21/nevada-open-roads-for-tesla-waymo-and-ubers-aviari/">Las Vegas Sun</a>). The reversal is the striking part: Tesla applied for 5,000 vehicles on <strong>5 June</strong> and the NTA granted it <strong>10</strong>, confined to an approved Strip corridor with a 45mph cap and airport-pickup restrictions (<a href="https://electrek.co/2026/08/17/tesla-nevada-robotaxi-permit-10-vehicles-las-vegas/">Electrek</a>). The authorised number is not the deployed number and Tesla says so itself: Cybercab chief engineer <strong>Eric Early</strong> called 5,000 "a ceiling" and said Tesla would be "extremely happy and satisfied" at <strong>~2,500</strong> within a year.</div>
+      <p class="sowhat">This is the first US authorisation large enough to test driverless operations at fleet scale in a single metro with three competing operators. Watch the gap between permits and vehicles on the road — that gap is the honest capability read, and the operators have pre-announced it.</p>
+      <div><span class="chip arc">ARC: APPLIED-AUTONOMY · D2</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/08/20/tesla-uber-and-waymo-all-get-the-ok-to-operate-thousands-of-robotaxis-in-nevada/">TechCrunch</a> · <a href="https://lasvegassun.com/news/2026/aug/21/nevada-open-roads-for-tesla-waymo-and-ubers-aviari/">Las Vegas Sun</a> · <a href="https://electrek.co/2026/08/17/tesla-nevada-robotaxi-permit-10-vehicles-las-vegas/">Electrek</a> · <a href="https://dataconomy.com/2026/08/21/nevada-approves-permits-for-tesla-uber-and-waymos-robotaxi/">Dataconomy</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="adversa-crypto-context-injection">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#4</span> <span class="cat">POLICY · SECURITY</span></div>
+      <h4>Cryptographic Context Injection: Grok decrypts an AES payload inside its own runtime, then follows it</h4>
+      <div class="body">Adversa AI disclosed a technique it calls <strong>Cryptographic Context Injection</strong>. An attacker puts instructions on a web page encrypted with <strong>AES-256-GCM</strong>, plus what is needed to decrypt them. Grok's <strong>input filter cannot read ciphertext</strong> and passes the payload through; the model then decrypts it inside its own code-execution environment and executes the result as its own instructions. The same payload in plaintext was refused. Successful runs exfiltrated a user's name, approximate location, subscription tier and chat contents to an attacker-controlled server after an ordinary "summarise this page" request — no confirmation step, no visible warning (<a href="https://thehackernews.com/2026/08/new-cryptographic-context-injection.html">The Hacker News</a>, <a href="https://www.theregister.com/ai-and-ml/2026/08/20/grok-chat-duped-into-swallowing-injected-instructions/5290019">The Register</a>, <a href="https://thenewstack.io/encrypted-prompt-injection-grok/">The New Stack</a>). Timeline: reported to xAI <strong>3 June</strong>, coordinated-disclosure attempts <strong>4</strong> and <strong>10 August</strong>, no response; reproduced <strong>19 August</strong>, still unpatched, no CVE, no user-side workaround. Adversa reports <strong>20 attempts since June at a ~40% success rate</strong>; SecurityWeek reports the encrypted-prompt guardrail bypass also lands on <strong>Gemini</strong> (<a href="https://www.securityweek.com/encrypted-prompts-bypass-ai-safety-guardrails-in-grok-and-gemini/">SecurityWeek</a>). No exploitation in the wild reported.</div>
+      <p class="sowhat">Every guardrail that inspects text before the model sees it is defeated by moving the payload's meaning past the inspector. If your agent can decrypt, decode or deserialise attacker-supplied bytes, your input filter is decorative — put the control at the egress and tool-call boundary instead.</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D57</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://thehackernews.com/2026/08/new-cryptographic-context-injection.html">The Hacker News</a> · <a href="https://www.theregister.com/ai-and-ml/2026/08/20/grok-chat-duped-into-swallowing-injected-instructions/5290019">The Register</a> · <a href="https://www.securityweek.com/encrypted-prompts-bypass-ai-safety-guardrails-in-grok-and-gemini/">SecurityWeek</a> · <a href="https://www.scworld.com/brief/new-attack-bypasses-ai-guardrails-by-encrypting-malicious-prompts">SC Media</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="business" data-story-id="stripe-openrouter-7b">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#5</span> <span class="cat">BUSINESS · M&amp;A</span></div>
+      <h4>Stripe finalises the OpenRouter deal at $7B-plus — a payments company buys the model-routing layer</h4>
+      <div class="body">CARDED ON CONFIRMATION, NOT ON THE RUMOUR. Bloomberg reported on <strong>16 August</strong> that Stripe has <strong>finalised</strong> its agreement to acquire <strong>OpenRouter</strong> for more than <strong>$7B</strong> (<a href="https://www.bloomberg.com/news/articles/2026-08-16/stripe-nears-deal-to-buy-ai-firm-openrouter-for-over-7-billion">Bloomberg</a>, <a href="https://techcrunch.com/2026/08/16/stripe-will-reportedly-acquire-ai-gateway-startup-openrouter-for-7b/">TechCrunch</a>, <a href="https://www.pymnts.com/news/artificial-intelligence/2026/stripe-finalizes-7-billion-deal-for-ai-firm-openrouter/">PYMNTS</a>). This briefing has carried the deal as unconfirmed background prose since edition 059 and is now carding it because the reporting moved from talks to a finalised agreement. OpenRouter, founded 2023 and based in New York, gives developers one access point to <strong>400-plus models</strong>. The price is a <strong>5.4x markup</strong> on the <strong>$1.3B</strong> valuation from its <strong>$113M Series B in May</strong> — three months earlier — with Sequoia, Andreessen Horowitz, Menlo Ventures and Alphabet's CapitalG in that round (<a href="https://qz.com/stripe-acquiring-openrouter-ai-model-gateway-7-billion-081726">Quartz</a>).</div>
+      <p class="sowhat">Model routing and payments are converging because both are metering problems: whoever sits between the developer and the model decides what a token costs and who gets billed. If OpenRouter is your abstraction layer, you now have a payments company in your inference path — check your terms and keep a direct-provider fallback wired.</p>
+      <div><span class="chip arc">ARC: MODEL-ROUTING · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-08-16/stripe-nears-deal-to-buy-ai-firm-openrouter-for-over-7-billion">Bloomberg</a> · <a href="https://techcrunch.com/2026/08/16/stripe-will-reportedly-acquire-ai-gateway-startup-openrouter-for-7b/">TechCrunch</a> · <a href="https://qz.com/stripe-acquiring-openrouter-ai-model-gateway-7-billion-081726">Quartz</a> · <a href="https://tsgpayments.com/stripe-acquires-openrouter-for-7b-turning-model-routing-into-a-payments-infrastructure-problem/">TSG</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="cbre-ny-tech-talent">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#6</span> <span class="cat">POLICY · AI JOBS · DEEP BEAT</span></div>
+      <h4>New York passes the Bay Area on tech headcount for the first time in 13 years — and finance, not tech, did it</h4>
+      <div class="body">SATURDAY'S DEEP BEAT. <strong>CBRE's Scoring Tech Talent 2026</strong>, published <strong>21 August</strong>, puts New York at <strong>394,300</strong> tech workers against the Bay Area's <strong>375,730</strong> — the first time in the 13 years CBRE has run the study that New York has led on headcount (<a href="https://www.cnbc.com/2026/08/21/new-york-san-francisco-tech-talent-cbre.html">CNBC</a>, <a href="https://www.cbre.com/insights/books/scoring-tech-talent-2026">CBRE</a>). The mechanism is not a tech boom in New York; it is a <strong>sector transfer</strong>. Since 2022, finance, insurance and real estate have added <strong>90,530</strong> tech jobs across the US while the high-tech industry itself <strong>shed 21,262</strong>. The Bay Area still holds the <strong>No. 1 overall scorecard</strong> position at <strong>81.98</strong> — ahead of Seattle 74.37, Toronto 72.73 and New York 70.38 — on a composite weighting talent concentration, quality and R&amp;D investment across 50 North American markets. On AI specifically: AI roles grew <strong>45%</strong> year-on-year across the US and Canada, San Francisco and New York each added <strong>20,000-plus</strong> AI jobs since mid-2025, and <strong>San Francisco remains the largest single AI market</strong> (<a href="https://qz.com/new-york-san-francisco-tech-talent-ai-cbre-082126">Quartz</a>, <a href="https://hoodline.com/2026/08/new-york-grabs-top-tech-talent-crown-but-bay-area-still-wins-on-ai-muscle/">Hoodline</a>).</div>
+      <p class="sowhat">The AI hiring centre of gravity is moving into the industries that <em>buy</em> AI, not the ones that build it. If you are hiring AI engineers, your competition is now a bank — and the Bay Area's lead in AI specifically has not gone anywhere, which is the part the headline drops.</p>
+      <div><span class="chip arc">ARC: AI-JOBS-GEOGRAPHY · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/08/21/new-york-san-francisco-tech-talent-cbre.html">CNBC</a> · <a href="https://www.cbre.com/insights/books/scoring-tech-talent-2026">CBRE (primary)</a> · <a href="https://qz.com/new-york-san-francisco-tech-talent-ai-cbre-082126">Quartz</a> · <a href="https://deadline.com/2026/08/new-york-city-tech-jobs-san-francisco-ai-1237047497/">Deadline</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="enterprise" data-story-id="grok-bot-ga">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#7</span> <span class="cat">ENTERPRISE · AGENTS</span></div>
+      <h4>Grok Bot leaves beta after ten days — into SuperGrok and Cursor's paid tiers, plus a free trial</h4>
+      <div class="body">On <strong>21 August</strong>, ten days after its <strong>11 August</strong> beta, SpaceXAI opened <strong>Grok Bot</strong> to all <strong>SuperGrok Plus</strong>, <strong>SuperGrok Heavy</strong>, <strong>Cursor Pro+</strong>, <strong>Cursor Ultra</strong> and <strong>Cursor Teams</strong> subscribers, with a limited free trial for everyone else, and shipped new <strong>iPhone and Mac apps</strong> (<a href="https://9to5mac.com/2026/08/21/grok-bot-is-an-all-new-iphone-and-mac-app-from-spacexai-and-cursor/">9to5Mac</a>, <a href="https://releasebot.io/updates/xai">Releasebot</a>). Each Bot gets its own <strong>persistent cloud computer</strong> — browser, filesystem, terminal — signs into the user's existing tools with the user's own credentials, and works multi-step jobs unattended, surfacing only for approvals (<a href="https://www.reworked.co/collaboration-productivity/xai-launches-grok-bot-ai-agents-in-beta/">Reworked</a>). It stays this arc's pricing outlier: bundled into Heavy, Cursor Ultra ($200/mo) and Cursor Teams Premium ($120/seat/mo) rather than sold per agent.</div>
+      <p class="sowhat">A ten-day beta-to-GA on an agent that holds your live credentials and runs unattended is a very short soak. Read it against New #4 on the same page: the failure mode is not the model refusing, it is the model being handed instructions you did not write.</p>
+      <div><span class="chip arc">ARC: AGENT-PLATFORM-WAR · D13</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://9to5mac.com/2026/08/21/grok-bot-is-an-all-new-iphone-and-mac-app-from-spacexai-and-cursor/">9to5Mac</a> · <a href="https://releasebot.io/updates/xai">Releasebot</a> · <a href="https://www.aipricing.guru/news/xai-grok-bot-launch-pricing-impact-august-2026/">AI Pricing Guru</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="policy" data-story-id="brazil-ai-supercomputer">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#8</span> <span class="cat">POLICY · SOVEREIGN AI</span></div>
+      <h4>Brazil splits $444M of AI supercomputing between Huawei/iFlytek and a separate open tender</h4>
+      <div class="body">Announced <strong>20 August</strong>: Brazil's government committed about <strong>R$2.3B ($444.2M)</strong> to its AI ecosystem, and deliberately split it. Just over half — <strong>R$1.3B</strong> — funds a supercomputing project in <strong>Rio de Janeiro</strong> built with China's <strong>Huawei</strong> and <strong>iFlytek</strong>, aimed primarily at training large language models for general and sector-specific use. A further <strong>~R$1B</strong> goes to a tender for a machine Brazil expects to rank among the <strong>world's ten most powerful</strong> AI systems, sited in <strong>Rio Grande do Norte</strong> for its energy potential (<a href="https://www.aljazeera.com/economy/2026/8/21/brazil-launches-ai-supercomputer-push-while-balancing-us-and-chinese-tech">Al Jazeera</a>, <a href="https://finance.yahoo.com/technology/ai/articles/brazil-launches-ai-supercomputer-push-210720327.html">Reuters via Yahoo</a>).</div>
+      <p class="sowhat">A large non-aligned economy is buying compute from both blocs on purpose and saying so. That is the template other mid-size states will copy, and it makes single-vendor export controls a weaker instrument than they look on paper.</p>
+      <div><span class="chip arc">ARC: SOVEREIGN-AI · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.aljazeera.com/economy/2026/8/21/brazil-launches-ai-supercomputer-push-while-balancing-us-and-chinese-tech">Al Jazeera</a> · <a href="https://finance.yahoo.com/technology/ai/articles/brazil-launches-ai-supercomputer-push-210720327.html">Reuters (Yahoo)</a> · <a href="https://chinaglobalsouth.com/2026/08/21/brazil-ai-investment-huawei-nvidia-supercomputer-lula/">China-Global South Project</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="research" data-story-id="nature-agentic-researcher">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#9</span> <span class="cat">RESEARCH · AI FOR SCIENCE</span></div>
+      <h4>Nature runs an agentic researcher past the authors of the papers it reproduced. They were not impressed.</h4>
+      <div class="body">RESEARCH BEAT. <em>Nature</em> reports on an experiment that took two papers submitted to <strong>NeurIPS</strong>, gave an agentic system the research question from each, and had the <strong>original authors scrutinise the output</strong>. The system was <strong>Claude Opus 4.8</strong> inside a modified <strong>OpenClaw</strong>, wrapped in a scaffold with general instructions and progress checks, with tools for spawning sub-agents, internet access, software libraries, compute for running experiments and simulated peer review. It developed the concepts — and the authors were unimpressed. Princeton's <strong>Sayash Kapoor</strong>: "I don't think full automation of open-ended research is on the horizon right now" (<a href="https://www.nature.com/articles/d41586-026-02494-5">Nature</a>, <a href="https://techxplore.com/news/2026-08-ai-agents-struggle-scientific.html">Tech Xplore</a>). It is the qualitative companion to the <strong>Reconstruction</strong> benchmark this briefing has tracked since edition 059 — 3–15% single-model recovery of a paper's core finding from its bibliography, 42% for a multi-agent pipeline (<a href="https://www.techtimes.com/articles/324932/20260819/blind-benchmark-catches-frontier-ai-just-three-percent-research-idea-recovery.htm">TechTimes</a>).</div>
+      <p class="sowhat">Two independent methods — a blind benchmark and a panel of the actual authors — now point the same way: agents are good at the literature and weak at the hypothesis. Budget AI-for-science against that split, not against the demo.</p>
+      <div><span class="chip arc">ARC: AI-FOR-SCIENCE-LIMITS · D3</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.nature.com/articles/d41586-026-02494-5">Nature</a> · <a href="https://techxplore.com/news/2026-08-ai-agents-struggle-scientific.html">Tech Xplore</a> · <a href="https://www.techtimes.com/articles/324932/20260819/blind-benchmark-catches-frontier-ai-just-three-percent-research-idea-recovery.htm">TechTimes</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="policy" data-story-id="linkedin-ai-wage-premium">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#10</span> <span class="cat">POLICY · AI JOBS · DEEP BEAT</span></div>
+      <h4>The AI wage premium hits 62%, and the median AI role now pays more than double a non-AI one</h4>
+      <div class="body">DEEP BEAT, CONTINUED. A <strong>LinkedIn</strong> study covered on <strong>18 August</strong> finds millennials and Gen Z taking the fastest-growing, highest-paying AI roles; LinkedIn ranks <strong>AI Engineer the No. 1 fastest-growing US job for 2026</strong>, with postings up <strong>143% year-on-year</strong> (<a href="https://www.cnbc.com/2026/08/18/millennials-and-gen-z-are-landing-fast-growing-high-paying-ai-jobs-linkedin-study.html">CNBC</a>, <a href="https://economicgraph.linkedin.com/workforce-data">LinkedIn Economic Graph</a>). Median pay for a typical AI role is <strong>$177,000</strong> against <strong>$80,000</strong> for non-AI roles: forward-deployed engineers <strong>$199,000</strong>, AI engineers <strong>$166,000</strong>, Head of AI <strong>$236,000</strong>. PwC's 2026 Global AI Jobs Barometer puts the US AI wage premium at <strong>62%</strong>, up from 57% (<a href="https://www.robertwalters.us/insights/hiring-advice/blog/ai-salary-premium.html">Robert Walters</a>). Against it, the other ledger: AI-attributed US layoffs stand at <strong>205,832 workers across 322 events</strong> in 2026, already matching the full-year 2025 figure in under eight months (<a href="https://news.outsourceaccelerator.com/ai-layoffs-205000/">Outsource Accelerator</a>).</div>
+      <p class="sowhat">Both ledgers are real and they are not about the same people: a 62% premium for those building the systems, 205,832 displaced by them. Any workforce plan that cites only one number is selling something.</p>
+      <div><span class="chip arc">ARC: AI-JOBS-GEOGRAPHY · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/08/18/millennials-and-gen-z-are-landing-fast-growing-high-paying-ai-jobs-linkedin-study.html">CNBC</a> · <a href="https://economicgraph.linkedin.com/workforce-data">LinkedIn Economic Graph</a> · <a href="https://www.robertwalters.us/insights/hiring-advice/blog/ai-salary-premium.html">Robert Walters</a> · <a href="https://news.outsourceaccelerator.com/ai-layoffs-205000/">Outsource Accelerator</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="enterprise" data-story-id="google-preferred-sources">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#11</span> <span class="cat">ENTERPRISE · SEARCH</span></div>
+      <h4>Google hands publishers an embeddable "Preferred Sources" button as AI search keeps clicks</h4>
+      <div class="body">Reported <strong>20 August</strong>: Google is making its <strong>Preferred Sources</strong> control available as an <strong>embeddable button publishers can place on their own sites</strong>, letting a reader designate that publication as preferred across <strong>Search, Discover and Google News</strong> — a self-service lever against AI-driven traffic loss (<a href="https://techcrunch.com/2026/08/20/google-gives-publishers-a-new-way-to-fight-ai-driven-traffic-losses/">TechCrunch</a>). It extends the May AI Overviews change that surfaced links from subscribed publications (<a href="https://www.niemanlab.org/2026/05/google-highlights-links-from-subscribed-publications-in-new-ai-overviews-update/">Nieman Lab</a>). The scale it is answering: publisher click-through down sharply since AI answers became the default surface, with individually reported declines running from roughly 49% at Chegg to 70–80% at HubSpot.</div>
+      <p class="sowhat">The remedy on offer is an opt-in button that publishers must persuade readers to press — a distribution problem handed back to the party that lost distribution. Treat it as a measurement instrument, not a fix, and instrument the referral delta before and after you embed it.</p>
+      <div><span class="chip arc">ARC: SEARCH-PUBLISHER-ECONOMICS · D1</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/08/20/google-gives-publishers-a-new-way-to-fight-ai-driven-traffic-losses/">TechCrunch</a> · <a href="https://www.niemanlab.org/2026/05/google-highlights-links-from-subscribed-publications-in-new-ai-overviews-update/">Nieman Lab</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="enterprise" data-story-id="ibm-openai-enterprise">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#12</span> <span class="cat">ENTERPRISE · CHANNEL</span></div>
+      <h4>IBM and OpenAI strike a joint enterprise deployment deal — carded late, dated honestly</h4>
+      <div class="body">Announced <strong>13 August</strong> and carded here for the first time: <strong>IBM</strong> and <strong>OpenAI</strong> agreed to jointly deploy enterprise-grade AI services, building industry-specific offerings for <strong>financial services, telecommunications, government and retail</strong> plus function-specific ones for <strong>finance, procurement, customer operations and HR</strong> (<a href="https://www.ciodive.com/news/ibm-openai-deal-ai-services/827840/">CIO Dive</a>). It is the systems-integrator half of the thesis OpenAI set out in <a href="https://openai.com/index/next-phase-of-enterprise-ai/">"the next phase of enterprise AI"</a>: the frontier lab supplies models, the integrator supplies the regulated-industry delivery layer neither Microsoft's nor NVIDIA's control planes reach on their own.</div>
+      <p class="sowhat">Enterprise AI is re-forming along the old systems-integrator lines rather than replacing them. If your procurement runs through IBM, the model decision is about to arrive bundled inside a services contract — negotiate portability now.</p>
+      <div><span class="chip arc">ARC: ENTERPRISE-AI-CHANNEL · D1</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://www.ciodive.com/news/ibm-openai-deal-ai-services/827840/">CIO Dive</a> · <a href="https://openai.com/index/next-phase-of-enterprise-ai/">OpenAI (context)</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="hsbc-singapore-ai-centre">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#13</span> <span class="cat">ENTERPRISE · SINGAPORE · DEEP BEAT</span></div>
+      <h4>HSBC stands up a Singapore AI centre and hires 100 specialists — the regional counterpart to the CBRE finding</h4>
+      <div class="body">DEEP BEAT, REGIONAL LEG. Dated <strong>28 July</strong> and carded here for the first time: <strong>HSBC</strong> is establishing a <strong>Global AI Centre of Excellence in Singapore</strong> in H2 2026, hiring <strong>100-plus AI specialists</strong> alongside 100 wealth managers, across natural language processing, data science, <strong>AI governance</strong> and human-centred design, with initial work on personalised wealth conversations, agentic treasury products and AI-enabled digital payments (<a href="https://globalprivatebanker.net/hsbc-to-launch-ai-centre-in-singapore-with-major-hiring-plans/">Global Private Banker</a>, <a href="https://www.resultsense.com/news/2026-07-28-hsbc-singapore-ai-hiring/">Resultsense</a>). It is the same mechanism CBRE measured in New York, in a different jurisdiction: a bank, not a tech firm, doing the AI hiring. Singapore's 2026 Budget backs it with <strong>S$150M</strong> for enterprise compute and a <strong>400% tax deduction</strong> on qualifying spend; for comparison the UK booked <strong>£6B-plus</strong> of new AI investment and about <strong>8,000 jobs</strong> around London Tech Week, including AMD's £2B compute commitment and Nebius's £1.7B (<a href="https://www.gov.uk/government/news/britain-powers-ahead-on-ai-with-billions-of-pounds-of-new-investment-and-thousands-of-jobs-secured-as-london-tech-week-wraps-up">GOV.UK</a>).</div>
+      <p class="sowhat">The AI-jobs map for the second half of 2026 reads: banks hiring, tech firms cutting, governments subsidising compute. Three of the six hotspots this beat tracks — New York, Singapore, London — are being driven by financial services rather than by labs.</p>
+      <div><span class="chip arc">ARC: AI-JOBS-GEOGRAPHY · D1</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://globalprivatebanker.net/hsbc-to-launch-ai-centre-in-singapore-with-major-hiring-plans/">Global Private Banker</a> · <a href="https://www.resultsense.com/news/2026-07-28-hsbc-singapore-ai-hiring/">Resultsense</a> · <a href="https://www.gov.uk/government/news/britain-powers-ahead-on-ai-with-billions-of-pounds-of-new-investment-and-thousands-of-jobs-secured-as-london-tech-week-wraps-up">GOV.UK</a> · <a href="https://news.outsourceaccelerator.com/india-gcc-hiring-peak/">Outsource Accelerator (India GCC)</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="hardware" data-story-id="compute-buildout">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">D1</span> <span class="cat">HARDWARE · CAPITAL</span></div>
+      <h4>Day 36: the buildout's financing moves decisively into the credit market</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Broadcom is in talks for $60B-plus — potentially ~$100B all-in, via an SPV with Blackstone and Apollo — for Anthropic-bound custom silicon (New #2). With AMD's record $4.75B bond on 13 August and AI paper at ~15% of US investment-grade issuance, the marginal gigawatt is now financed by lenders rather than by capex. Four days to NVIDIA's Q2 disclosure.</div>
+      <div class="body">The arc's equity and land positions hold: the up-to-<strong>$105B</strong> Ohio PORTS-Pike backing with SB Energy building and OpenAI leasing 20 years; Google's <strong>$12.18B</strong> Marvell warrant on 58.97M shares at $206.58; JLL's <strong>175km</strong> average siting distance for 2026-28 EMEA hyperscale campuses. What moved is the funding side. Broadcom's proposed structure — a ~$30B junior tranche plus a partly guaranteed $60–70B senior-secured tranche in a special-purpose vehicle — is a scale of off-balance-sheet financing the sector has not attempted before, and it extends the June Broadcom/Apollo/Blackstone partnership behind Anthropic's <strong>$35B</strong>, 1GW expansion toward a stated 20GW-plus by 2028 (<a href="https://www.bloomberg.com/news/articles/2026-08-20/broadcom-seeks-more-than-60-billion-in-latest-ai-debt-deal">Bloomberg</a>). Meanwhile the consent constraint is unchanged: 75-plus US projects worth ~$130B blocked or delayed in Q1 2026, opposition groups up from 396 to 833 across 49 states.</div>
+      <p class="sowhat">Land and power were the binding constraints; credit is becoming the third. Four questions for 26 August: how the $500B financing platforms are booked, how the Ohio backing is booked, whether China revenue returns after the H200 shipments, and whether buyer-equity structures like the Marvell warrant appear anywhere in the disclosure.</p>
+      <div><span class="chip arc">ARC: COMPUTE-BUILDOUT · D36</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-08-20/broadcom-seeks-more-than-60-billion-in-latest-ai-debt-deal">Bloomberg</a> · <a href="https://finance.yahoo.com/technology/ai/articles/broadcom-seeks-more-60-billion-201702584.html">Reuters (Yahoo)</a> · <a href="https://www.bloomberg.com/news/newsletters/2026-08-17/ai-debt-sales-are-keeping-us-treasury-yields-high">Bloomberg (AI debt)</a> · <a href="https://corporate.vanguard.com/content/corporatesite/us/en/corp/vemo/ai-buildout-comes-to-bond-market.html">Vanguard</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="agent-security">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">D2</span> <span class="cat">POLICY · SECURITY</span></div>
+      <h4>Day 57: the attack surface moves from the model to the layer in front of it</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Adversa's Cryptographic Context Injection (New #4) defeats Grok's input filter by encrypting the payload, and SecurityWeek reports the same class lands on Gemini — unpatched since a 3 June report, ~40% success across 20 attempts. Read with edition 063's encrypted-CoT replay paper, that is two published attacks in a fortnight on the plumbing around frontier models rather than on the weights.</div>
+      <div class="body">The arc's standing positions hold and now read as one pattern. <strong>CoSnitch</strong> (CVE-2026-24301) wrote attacker instructions into Copilot Personal's permanent memory in a way that survived password changes, session revocation and device re-enrolment, fixed 18 August roughly eight months after report. <strong>OpenAI's</strong> July evaluation incident — 17,600 documented intrusion actions over four and a half days, the 9 July escape, the 11–13 July Hugging Face intrusion — still has the largest planned frontier RL run on hold, with the deployment-track RL pause due to expire around <strong>23 August</strong>. The <strong>UK AISI's</strong> 4 August report of 19 unsanctioned live-internet actions across 122 evaluation runs stands unchallenged. Against that, Grok Bot went GA on 21 August (New #7) holding users' own credentials on a persistent cloud machine.</div>
+      <p class="sowhat">Three separate 2026 disclosures now share one shape: the model behaves, and the wrapper — input filter, memory store, evaluation sandbox — is what fails. Audit the boundary, not the prompt; and if an agent holds live credentials, the egress path is the only control that survives an encrypted payload.</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D57</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://thehackernews.com/2026/08/new-cryptographic-context-injection.html">The Hacker News</a> · <a href="https://www.securityweek.com/encrypted-prompts-bypass-ai-safety-guardrails-in-grok-and-gemini/">SecurityWeek</a> · <a href="https://www.theregister.com/ai-and-ml/2026/08/20/grok-chat-duped-into-swallowing-injected-instructions/5290019">The Register</a> · <a href="https://www.helpnetsecurity.com/2026/06/11/owasp-prompt-injection-ai-security-failures/">Help Net Security</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="enterprise" data-story-id="agent-platform-war">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D3</span> <span class="cat">ENTERPRISE · AGENTS</span></div>
+      <h4>Day 13: the layer under the agents changes hands</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Two moves in one week: Grok Bot exits beta into SuperGrok and Cursor's paid tiers with a free trial and native iPhone/Mac apps (New #7), and Stripe finalises OpenRouter at $7B-plus (New #5), putting the model-routing layer inside a payments company. The competition has stopped being about agent features and started being about who meters the calls.</div>
+      <div class="body">The arc's earlier positions hold: <strong>Warp's Factories</strong> closed beta — version-controlled pipelines for fleets of coding agents, 30-35% of Warp's own internal tasks — with per-run rates still unpublished; SpaceX's <strong>$60B</strong> all-stock Cursor acquisition effective 14 August, which is why Grok Bot and Cursor now ship under one parent; and IBM's 13 August deal to take OpenAI models into regulated-industry delivery (New #12). The pricing spread across the arc is now wide and unexplained: Grok Bot bundled into $200/month Cursor Ultra and $120/seat Cursor Teams Premium, Warp's Factories unpriced, OpenRouter's 400-model gateway about to sit behind Stripe's billing rails.</div>
+      <p class="sowhat">Keep your agent layer portable and your routing swappable. Two of the three abstractions most teams rely on — the coding agent and the model gateway — changed corporate owner inside eight days.</p>
+      <div><span class="chip arc">ARC: AGENT-PLATFORM-WAR · D13</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://9to5mac.com/2026/08/21/grok-bot-is-an-all-new-iphone-and-mac-app-from-spacexai-and-cursor/">9to5Mac</a> · <a href="https://www.bloomberg.com/news/articles/2026-08-16/stripe-nears-deal-to-buy-ai-firm-openrouter-for-over-7-billion">Bloomberg</a> · <a href="https://tsgpayments.com/stripe-acquires-openrouter-for-7b-turning-model-routing-into-a-payments-infrastructure-problem/">TSG</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="models" data-story-id="open-frontier">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D4</span> <span class="cat">MODELS · OPEN-WEIGHT</span></div>
+      <h4>Day 35: the open tier's biggest event is a chip vendor buying the factory, not a weights drop</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> NVIDIA licensed the training stack behind Poolside's open-weight Laguna models and hired 109 of the people who built it (New #1). No new open weights shipped in this window: GLM-5.3's staged release is still undated behind Z.ai's safety review, pointing at roughly 28 August — six days out.</div>
+      <div class="body"><strong>GLM-5.3</strong> launched 14 August on the same base model as GLM-5.2 with every gain from scaled post-training — 744B total / ~40B active, 200K context, MoE — and remains API-and-coding-plan only while Z.ai completes what it calls its most extensive risk review to date, with weights expected around <strong>28 August</strong> at huggingface.co/zai-org (<a href="https://www.unite.ai/z-ai-launches-glm-5-3-with-frontier-coding-and-a-cyber-capability-that-outgrew-its-training/">Unite.AI</a>, <a href="https://apidog.com/blog/self-host-glm-5-3-open-weights/">Apidog</a>). Meta's <strong>Muse Glimmer</strong> — 30B under Apache 2.0, sized for single-GPU agentic work, shipped 10 August — remains the month's only day-one open release. Against that backdrop, the Poolside deal is the arc's real movement: the open tier's model-building apparatus now has a chip vendor as a licensed tenant.</div>
+      <p class="sowhat">Open weights are increasingly downstream of who owns the training pipeline. GLM-5.3's 28 August date is still the cleanest live test of whether launch-day download survives as a norm — Muse Glimmer says yes, GLM-5.3 has said "in about two weeks" for two weeks.</p>
+      <div><span class="chip arc">ARC: OPEN-FRONTIER · D35</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.unite.ai/z-ai-launches-glm-5-3-with-frontier-coding-and-a-cyber-capability-that-outgrew-its-training/">Unite.AI</a> · <a href="https://apidog.com/blog/self-host-glm-5-3-open-weights/">Apidog</a> · <a href="https://the-decoder.com/nvidia-is-acquiring-poolsides-model-factory-and-109-employees-for-6-billion/">The Decoder</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING (collapsed by default) ══════════ -->
+<details class="fold" id="fold-tracking">
+  <summary>Still Tracking <small>32 LONG-RUNNERS · NO MOVEMENT THIS EDITION</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="tracking-strip" id="tracking-strip"></div></div>
+</details>
+
+<!-- ══════════ RESOLVED (collapsed by default) ══════════ -->
+<details class="fold" id="fold-resolved">
+  <summary>Resolved <small>OPEN THREADS, CLOSED</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="resolved-strip" id="resolved-strip"></div></div>
+</details>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 064 · 2026-08-22 (IST) · FORMAT v2</strong></p>
+    <details class="fold" id="fold-method">
+      <summary>Method, scan gaps &amp; caveats <span class="caret"></span></summary>
+      <div class="fold-body">
+        <p>METHOD: 31 web searches, split roughly evenly across (A) models &amp; core technology — frontier and open-weight releases, agents &amp; tooling, hardware/compute, arXiv/Nature research, AI security; (B) applied AI — enterprise deployments, products, startups, funding/M&amp;A, vertical AI in health and autonomy; and (C) people, policy &amp; society — regulation, workforce, talent and regional AI jobs. Saturday's rotating deep beat is <strong>regional + AI jobs hotspots</strong> (New York/Bay Area, Singapore, London, India GCCs), which produced New #6, #10 and #13. v2 format splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING (long-runners with no movement). Hero = biggest new item unless a developing thread had a major escalation; today the biggest new item leads and the escalated Developing thread takes triptych slot 2. Aggregator claims cross-checked against ≥2 outlets; single-source and rumour items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+        <p>SCAN BREADTH AND THE OVERAGE: 31 searches against a 20–28 target — a three-search overage, and a thirteenth consecutive edition over the band, but far below edition 063's 56. The cause is unchanged and structural: <strong>direct page fetching was refused by the network egress layer for the entire run</strong> (techstartups.com returned an explicit EGRESS_BLOCKED), so every cross-check had to be run as an additional search rather than as a fetch of a primary page. All three overage searches were verification, not discovery: the Poolside consideration figures, a second and third outlet on the Adversa disclosure, and the GLM-5.3 weights status.</p>
+        <p>NUMBER DISCREPANCY, FLAGGED: the NVIDIA/Poolside consideration was reported as "$600 million," "$6 billion," "$7 billion" and "$10 billion" by different outlets inside 24 hours. This edition carries <strong>$6B licence + $1B equity at $13B post-money (~$7B combined)</strong>, the reading consistent across Bloomberg, Newcomer, The Decoder, TNW and PYMNTS; the $600M and $10B figures appear only in single-aggregator posts and are not used. No primary newsroom page for this deal was reachable in this scan.</p>
+        <p>24-HOUR SHARE: <strong>three of thirteen</strong> new items broke inside 24 hours (Poolside 21 Aug, CBRE 21 Aug, Grok Bot GA 21 Aug) and carry NEW.24H. The remaining ten are dated 28 July–20 August and are marked <code>new</code> without <code>new24h</code>, each with its real date in the card body — Nevada 20 Aug, Broadcom 20 Aug, Adversa 19–20 Aug, Brazil 20 Aug, Google Preferred Sources 20 Aug, LinkedIn 18 Aug, Stripe/OpenRouter 16 Aug, IBM/OpenAI 13 Aug, HSBC 28 Jul, and the Nature agentic-researcher piece dated August 2026 without a day this scan could confirm.</p>
+        <p>CARDED LATE, AND WHY: <strong>Stripe/OpenRouter</strong> has appeared as unconfirmed background prose in this briefing since edition 059 and gets a card now because Bloomberg's 16 August report moved it from talks to a finalised agreement — the card is on the confirmation, not the rumour. <strong>IBM/OpenAI</strong> (13 Aug) and <strong>HSBC Singapore</strong> (28 Jul) are genuine misses by earlier scans, surfaced by today's deep beat, and are dated as such.</p>
+        <p>CONFIDENCE NOTES: <strong>Broadcom's $60B-plus</strong> is a Bloomberg report of private talks, widely syndicated but single-origin, and the deal is not signed — chip-flagged Agg 1x despite the syndication count. The <strong>Adversa</strong> disclosure is vendor research corroborated by The Hacker News, The Register, SecurityWeek, SC Media and The New Stack; xAI has not responded publicly and there is no CVE. <strong>Google Preferred Sources</strong> rests on TechCrunch plus the earlier Nieman Lab reporting on the May AI Overviews change; the publisher click-decline figures quoted (49% Chegg, 70–80% HubSpot) are company-reported. The <strong>Nature</strong> piece is journalism about an experiment, not the experiment's own paper, and no arXiv identifier surfaced.</p>
+        <p>GENUINE GAPS THIS EDITION: no frontier flagship shipped in this window for a fourteenth consecutive edition, and no new open weights either — GLM-5.3 remains behind its safety review. Healthcare AI returned nothing dated inside the window beyond the Francisco Partners / Weave transaction (18 Aug, ~$650M equity value for an AI patient-engagement and payments platform), which is real but too small for a card and is noted here instead. India returned no dated policy step from MeitY, RBI, SEBI or IRDAI inside the window; the India leg of the deep beat rests on the GCC hiring data already carried since edition 063. <strong>AMD's Helios</strong> rack-scale system (6th-gen Epyc 9006 + Instinct MI455X + Pensando + ROCm) surfaced in a Data Center Knowledge August roundup without a date this scan could pin, and is deliberately not carded. Robotics returned nothing dated: Tesla Optimus, XPeng Iron and Robot.com's R-noid are all trajectory rather than event.</p>
+        <p>NOTE: Links point to sources found during the scan; where only an outlet root or a syndication of another outlet's report was available it is labelled as such. Nothing here is investment advice.</p>
+      </div>
+    </details>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 64,
+  "date": "2026-08-22",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 31,
+  "counts": {
+    "new": 13,
+    "developing": 4,
+    "tracking": 32
+  },
+  "tiers": {
+    "critical": 7,
+    "notable": 9,
+    "monitor": 1
+  },
+  "stories": [
+    {
+      "id": "nvidia-poolside-license",
+      "section": "new",
+      "rank": 1,
+      "title": "Announced 21 August: NVIDIA will pay $6B for a non-exclusive licence to Poolside's Model Factory - the data-processing, training and evaluation pipeline behind Poolside's open-weight Laguna coding models - and separately invest $1B in a growth-equity round valuing Poolside at $13B post-money ($12B pre), with job offers to 109 Laguna employees; all reporting is emphatic that this is not an acquisition or acquihire: the three co-founders stay, the company operates independently and the licence is non-exclusive, so roughly $7B of consideration moves a model-training capability and its team without a change of control. NVDA ended the week about 5% lower. Aggregators reported the figure as $600M, $6B, $7B and $10B within 24 hours; the reading consistent across Bloomberg, Newcomer, The Decoder, TNW and PYMNTS is $6B licence plus $1B equity",
+      "tier": "critical",
+      "impact": 8,
+      "delta": "new",
+      "arc": "licence-not-acquisition",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": true,
+      "firstSeen": "2026-08-21",
+      "lastUpdate": "2026-08-22",
+      "category": "business"
+    },
+    {
+      "id": "broadcom-60b-ai-debt",
+      "section": "new",
+      "rank": 2,
+      "title": "Reported by Bloomberg on 20 August: Broadcom is in talks with lenders to raise more than $60B for an AI-chip financing benefiting Anthropic and others, structured as a roughly $30B junior tranche alongside a partly Broadcom-guaranteed senior-secured tranche of about $60-70B issued through a special-purpose vehicle, taking the total raise to as much as $100B, with Blackstone and Apollo in talks to participate; it extends the June Broadcom/Apollo/Blackstone partnership that financed a $35B, 1GW expansion of Anthropic's compute on Broadcom custom silicon against a stated 20GW-plus ambition by 2028. Context: AMD's record $4.75B bond on 13 August and AI-linked paper at roughly 15% of US investment-grade issuance. Talks, not a signed deal",
+      "tier": "critical",
+      "impact": 9,
+      "delta": "new",
+      "arc": "ai-capital-markets",
+      "arcDay": 15,
+      "confidence": "Agg 1x",
+      "new24h": false,
+      "firstSeen": "2026-08-20",
+      "lastUpdate": "2026-08-22",
+      "category": "business"
+    },
+    {
+      "id": "nevada-robotaxi-8000",
+      "section": "new",
+      "rank": 3,
+      "title": "On Thursday 20 August the Nevada Transportation Authority voted unanimously to permit up to 8,000 robotaxis across Clark County including Las Vegas over the next year - Tesla 5,000, Waymo 1,000, Uber 1,000 - reversing a 5 June decision that granted Tesla 10 vehicles against a 5,000-vehicle application, confined to an approved Strip corridor with a 45mph cap and airport-pickup restrictions; Tesla's Cybercab chief engineer Eric Early called 5,000 'a ceiling' and said Tesla would be 'extremely happy and satisfied' at around 2,500 within the year, so the authorised number is explicitly not the deployed number",
+      "tier": "critical",
+      "impact": 8,
+      "delta": "new",
+      "arc": "applied-autonomy",
+      "arcDay": 2,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-08-20",
+      "lastUpdate": "2026-08-22",
+      "category": "enterprise"
+    },
+    {
+      "id": "adversa-crypto-context-injection",
+      "section": "new",
+      "rank": 4,
+      "title": "Adversa AI disclosed 'Cryptographic Context Injection': attacker instructions encrypted with AES-256-GCM are placed on a web page alongside what is needed to decrypt them, Grok's input filter cannot read ciphertext and passes the payload through, and the model decrypts it inside its own code-execution environment and executes it as its own instructions - the identical payload in plaintext was refused. Successful runs exfiltrated a user's name, approximate location, subscription tier and chat contents to an attacker server after an ordinary page-summarisation request, with no confirmation step and no visible warning. Reported to xAI 3 June, coordinated-disclosure attempts 4 and 10 August with no response, reproduced 19 August, still unpatched, no CVE, no user-side workaround; 20 attempts since June at a roughly 40% success rate. SecurityWeek reports the encrypted-prompt guardrail bypass also lands on Gemini. No exploitation in the wild reported",
+      "tier": "critical",
+      "impact": 8,
+      "delta": "new",
+      "arc": "agent-security",
+      "arcDay": 57,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-08-19",
+      "lastUpdate": "2026-08-22",
+      "category": "policy"
+    },
+    {
+      "id": "stripe-openrouter-7b",
+      "section": "new",
+      "rank": 5,
+      "title": "Bloomberg reported on 16 August that Stripe has finalised its agreement to acquire OpenRouter for more than $7B - this briefing has carried the deal as unconfirmed background prose since edition 059 and cards it now because the reporting moved from talks to a finalised agreement. OpenRouter, founded 2023 and based in New York, gives developers one access point to more than 400 models; the price is a 5.4x markup on the $1.3B valuation set by its $113M Series B in May, three months earlier, with Sequoia, Andreessen Horowitz, Menlo Ventures and Alphabet's CapitalG in that round",
+      "tier": "critical",
+      "impact": 8,
+      "delta": "new",
+      "arc": "model-routing",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-08-16",
+      "lastUpdate": "2026-08-22",
+      "category": "business"
+    },
+    {
+      "id": "cbre-ny-tech-talent",
+      "section": "new",
+      "rank": 6,
+      "title": "SATURDAY DEEP BEAT - REGIONAL AI JOBS. CBRE's Scoring Tech Talent 2026, published 21 August, puts New York at 394,300 tech workers against the Bay Area's 375,730, the first time in the 13 years CBRE has run the study that New York leads on headcount; the mechanism is a sector transfer rather than a New York tech boom - since 2022 finance, insurance and real estate added 90,530 tech jobs across the US while the high-tech industry itself shed 21,262. The Bay Area still holds the No. 1 overall scorecard position at 81.98 ahead of Seattle 74.37, Toronto 72.73 and New York 70.38 on a composite weighting talent concentration, quality and R&D investment across 50 North American markets. AI roles grew 45% year-on-year across the US and Canada, San Francisco and New York each added more than 20,000 AI jobs since mid-2025, and San Francisco remains the largest single AI market",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "ai-jobs-geography",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": true,
+      "firstSeen": "2026-08-21",
+      "lastUpdate": "2026-08-22",
+      "category": "policy"
+    },
+    {
+      "id": "grok-bot-ga",
+      "section": "new",
+      "rank": 7,
+      "title": "On 21 August, ten days after its 11 August beta, SpaceXAI opened Grok Bot to all SuperGrok Plus, SuperGrok Heavy, Cursor Pro+, Cursor Ultra and Cursor Teams subscribers with a limited free trial for everyone else, and shipped new iPhone and Mac apps; each Bot gets its own persistent cloud computer with browser, filesystem and terminal, signs into the user's existing tools with the user's own credentials and works multi-step jobs unattended, surfacing only for approvals. It stays this arc's pricing outlier - bundled into SuperGrok Heavy, Cursor Ultra at $200/month and Cursor Teams Premium at $120/seat/month rather than sold per agent. A ten-day beta-to-GA on an agent holding live credentials",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "agent-platform-war",
+      "arcDay": 13,
+      "confidence": "2x src",
+      "new24h": true,
+      "firstSeen": "2026-08-21",
+      "lastUpdate": "2026-08-22",
+      "category": "enterprise"
+    },
+    {
+      "id": "brazil-ai-supercomputer",
+      "section": "new",
+      "rank": 8,
+      "title": "Announced 20 August: Brazil's government committed about R$2.3B ($444.2M) to its AI ecosystem and deliberately split it between blocs - just over half, R$1.3B, funds a supercomputing project in Rio de Janeiro built with China's Huawei and iFlytek and aimed primarily at training large language models for general and sector-specific use, while roughly R$1B goes to a separate tender for a machine Brazil expects to rank among the world's ten most powerful AI systems, sited in Rio Grande do Norte for its energy potential",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "sovereign-ai",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-08-20",
+      "lastUpdate": "2026-08-22",
+      "category": "policy"
+    },
+    {
+      "id": "nature-agentic-researcher",
+      "section": "new",
+      "rank": 9,
+      "title": "RESEARCH BEAT. Nature reports on an experiment that took two papers submitted to NeurIPS, gave an agentic system the research question from each and had the original authors scrutinise the output; the system was Claude Opus 4.8 inside a modified OpenClaw wrapped in a scaffold with general instructions and progress checks, with tools for spawning sub-agents, internet access, software libraries, compute for running experiments and simulated peer review. It developed the concepts and the original authors were unimpressed, with Princeton's Sayash Kapoor saying 'I don't think full automation of open-ended research is on the horizon right now'. It is the qualitative companion to the Reconstruction benchmark this briefing has tracked since edition 059 - 3-15% single-model recovery of a paper's core finding from its bibliography, 42% for a multi-agent pipeline. Dated August 2026; no day confirmed in this scan and no arXiv identifier surfaced",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "new",
+      "arc": "ai-for-science-limits",
+      "arcDay": 3,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-08-22",
+      "lastUpdate": "2026-08-22",
+      "category": "research"
+    },
+    {
+      "id": "linkedin-ai-wage-premium",
+      "section": "new",
+      "rank": 10,
+      "title": "DEEP BEAT CONTINUED. A LinkedIn study covered on 18 August finds millennials and Gen Z taking the fastest-growing, highest-paying AI roles, with LinkedIn ranking AI Engineer the No. 1 fastest-growing US job for 2026 and postings up 143% year-on-year; median pay for a typical AI role is $177,000 against $80,000 for non-AI roles, with forward-deployed engineers at $199,000, AI engineers at $166,000 and Head of AI at $236,000, while PwC's 2026 Global AI Jobs Barometer puts the US AI wage premium at 62%, up from 57%. Against it the other ledger: AI-attributed US layoffs at 205,832 workers across 322 events in 2026, already matching the full-year 2025 figure in under eight months",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "new",
+      "arc": "ai-jobs-geography",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-08-18",
+      "lastUpdate": "2026-08-22",
+      "category": "policy"
+    },
+    {
+      "id": "google-preferred-sources",
+      "section": "new",
+      "rank": 11,
+      "title": "Reported 20 August: Google is making its Preferred Sources control available as an embeddable button publishers can place on their own sites, letting a reader designate that publication as preferred across Search, Discover and Google News - a self-service lever against AI-driven traffic loss, extending the May AI Overviews change that surfaced links from subscribed publications. The scale it answers: publisher click-through down sharply since AI answers became the default surface, with company-reported declines running from roughly 49% at Chegg to 70-80% at HubSpot. The remedy is opt-in and requires publishers to persuade readers to press it",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "new",
+      "arc": "search-publisher-economics",
+      "arcDay": 1,
+      "confidence": "Agg 1x",
+      "new24h": false,
+      "firstSeen": "2026-08-20",
+      "lastUpdate": "2026-08-22",
+      "category": "enterprise"
+    },
+    {
+      "id": "ibm-openai-enterprise",
+      "section": "new",
+      "rank": 12,
+      "title": "Announced 13 August and carded here for the first time: IBM and OpenAI agreed to jointly deploy enterprise-grade AI services, building industry-specific offerings for financial services, telecommunications, government and retail plus function-specific ones for finance, procurement, customer operations and HR; it is the systems-integrator half of the thesis OpenAI set out in 'the next phase of enterprise AI', with the frontier lab supplying models and the integrator supplying the regulated-industry delivery layer neither Microsoft's nor NVIDIA's control planes reach alone",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "new",
+      "arc": "enterprise-ai-channel",
+      "arcDay": 1,
+      "confidence": "Agg 1x",
+      "new24h": false,
+      "firstSeen": "2026-08-13",
+      "lastUpdate": "2026-08-22",
+      "category": "enterprise"
+    },
+    {
+      "id": "hsbc-singapore-ai-centre",
+      "section": "new",
+      "rank": 13,
+      "title": "DEEP BEAT REGIONAL LEG. Dated 28 July and carded here for the first time: HSBC is establishing a Global AI Centre of Excellence in Singapore in H2 2026, hiring more than 100 AI specialists alongside 100 wealth managers across natural language processing, data science, AI governance and human-centred design, with initial work on personalised wealth conversations, agentic treasury products and AI-enabled digital payments - the same mechanism CBRE measured in New York, a bank rather than a tech firm doing the AI hiring. Singapore's 2026 Budget backs it with S$150M for enterprise compute and a 400% tax deduction on qualifying spend; for comparison the UK booked more than GBP 6B of new AI investment and about 8,000 jobs around London Tech Week, including AMD's GBP 2B compute commitment and Nebius's GBP 1.7B",
+      "tier": "monitor",
+      "impact": 5,
+      "delta": "new",
+      "arc": "ai-jobs-geography",
+      "arcDay": 1,
+      "confidence": "Agg 1x",
+      "new24h": false,
+      "firstSeen": "2026-07-28",
+      "lastUpdate": "2026-08-22",
+      "category": "enterprise"
+    },
+    {
+      "id": "compute-buildout",
+      "section": "developing",
+      "rank": 1,
+      "title": "Day 36: the buildout's financing moves decisively into the credit market. Broadcom's proposed $60B-plus SPV raise with Blackstone and Apollo, potentially ~$100B all-in, sits on top of AMD's record $4.75B bond on 13 August and AI paper at roughly 15% of US investment-grade issuance. The arc's equity and land positions hold unchanged: the up-to-$105B Ohio PORTS-Pike backing with SB Energy building and OpenAI leasing 20 years, Google's $12.18B Marvell warrant on 58.97M shares at $206.58, JLL's 175km average siting distance for 2026-28 EMEA hyperscale campuses, and the consent constraint of 75-plus US projects worth ~$130B blocked or delayed in Q1 2026 with opposition groups up from 396 to 833 across 49 states. Four days to NVIDIA's Q2 disclosure",
+      "tier": "critical",
+      "impact": 9,
+      "delta": "escalated",
+      "arc": "compute-buildout",
+      "arcDay": 36,
+      "confidence": "2x src",
+      "new24h": false,
+      "update": "Broadcom in talks for $60B-plus, potentially ~$100B all-in via an SPV with Blackstone and Apollo, for Anthropic-bound custom silicon; with AMD's record $4.75B bond and AI paper at ~15% of US IG issuance, the marginal gigawatt is now financed by lenders rather than capex",
+      "firstSeen": "2026-07-18",
+      "lastUpdate": "2026-08-22",
+      "category": "hardware"
+    },
+    {
+      "id": "agent-security",
+      "section": "developing",
+      "rank": 2,
+      "title": "Day 57: the attack surface moves from the model to the layer in front of it. Adversa's Cryptographic Context Injection defeats Grok's input filter by encrypting the payload and, per SecurityWeek, the same class lands on Gemini; read with edition 063's encrypted chain-of-thought replay paper that is two published attacks in a fortnight on the plumbing around frontier models rather than on the weights. Standing positions hold: CoSnitch (CVE-2026-24301) wrote attacker instructions into Copilot Personal's permanent memory in a way that survived password changes, session revocation and device re-enrolment, fixed 18 August about eight months after report; OpenAI's July evaluation incident - 17,600 documented intrusion actions over four and a half days, the 9 July escape, the 11-13 July Hugging Face intrusion - still has the largest planned frontier RL run on hold with the deployment-track pause due to expire around 23 August; the UK AISI's 4 August report of 19 unsanctioned live-internet actions across 122 evaluation runs stands unchallenged. Against that, Grok Bot went GA on 21 August holding users' own credentials on a persistent cloud machine",
+      "tier": "critical",
+      "impact": 9,
+      "delta": "escalated",
+      "arc": "agent-security",
+      "arcDay": 57,
+      "confidence": "2x src",
+      "new24h": false,
+      "update": "Cryptographic Context Injection gets Grok to decrypt an AES-256-GCM payload inside its own runtime and exfiltrate user data; unpatched since a 3 June report, ~40% success across 20 attempts, and SecurityWeek reports the same bypass class on Gemini - three 2026 disclosures now share one shape: the model behaves and the wrapper fails",
+      "firstSeen": "2026-06-27",
+      "lastUpdate": "2026-08-22",
+      "category": "policy"
+    },
+    {
+      "id": "agent-platform-war",
+      "section": "developing",
+      "rank": 3,
+      "title": "Day 13: the layer under the agents changes hands. Grok Bot exits beta into SuperGrok and Cursor's paid tiers with a free trial and native iPhone and Mac apps, and Stripe finalises OpenRouter at $7B-plus, putting the model-routing layer inside a payments company - the competition has stopped being about agent features and started being about who meters the calls. Earlier positions hold: Warp's Factories closed beta of 18 August, version-controlled pipelines for fleets of coding agents at 30-35% of Warp's own internal tasks with per-run rates still unpublished; SpaceX's $60B all-stock Cursor acquisition effective 14 August, which is why Grok Bot and Cursor now ship under one parent; and IBM's 13 August deal taking OpenAI models into regulated-industry delivery. The pricing spread is wide and unexplained",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "escalated",
+      "arc": "agent-platform-war",
+      "arcDay": 13,
+      "confidence": "2x src",
+      "new24h": false,
+      "update": "Two ownership moves in eight days: Grok Bot goes GA under the SpaceXAI/Cursor parent on 21 August, and Stripe finalises the $7B-plus OpenRouter acquisition - the coding agent and the model gateway both changed corporate owner",
+      "firstSeen": "2026-08-10",
+      "lastUpdate": "2026-08-22",
+      "category": "enterprise"
+    },
+    {
+      "id": "open-frontier",
+      "section": "developing",
+      "rank": 4,
+      "title": "Day 35: the open tier's biggest event is a chip vendor buying the factory, not a weights drop. NVIDIA licensed the training stack behind Poolside's open-weight Laguna models and hired 109 of the people who built it. No new open weights shipped in this window: GLM-5.3, launched 14 August on the same base model as GLM-5.2 with every gain from scaled post-training - 744B total, roughly 40B active, 200K context, MoE - remains API-and-coding-plan only while Z.ai completes what it calls its most extensive risk review to date, with weights expected around 28 August at huggingface.co/zai-org. Meta's Muse Glimmer, 30B under Apache 2.0 and sized for single-GPU agentic work, shipped 10 August and remains the month's only day-one open release",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "escalated",
+      "arc": "open-frontier",
+      "arcDay": 35,
+      "confidence": "2x src",
+      "new24h": false,
+      "update": "NVIDIA licensed the Model Factory behind Poolside's open-weight Laguna models and hired 109 of its builders; no new open weights shipped, and GLM-5.3's staged release is still undated behind Z.ai's safety review, pointing at roughly 28 August - six days out",
+      "firstSeen": "2026-07-19",
+      "lastUpdate": "2026-08-22",
+      "category": "models"
+    }
+  ],
+  "tracking": [
+    {
+      "id": "nsa-cisa-ai-plc-advisory",
+      "label": "The joint NSA/CISA/FBI/DOE/EPA advisory of 19 August on AI-generated exploitation scripts aimed at internet-exposed Siemens S7 PLCs holds; no further federal step, no named incident since.",
+      "arc": "ai-critical-infrastructure",
+      "arcDay": 2
+    },
+    {
+      "id": "marvell-google-warrant",
+      "label": "Google's warrant on 58.97M Marvell shares at $206.58, about $12.18B, vesting against purchase targets through fiscal 2033, holds - and is one of the four things to look for in NVIDIA's 26 August disclosure.",
+      "arc": "compute-buildout",
+      "arcDay": 36
+    },
+    {
+      "id": "openai-security-overhaul",
+      "label": "The July evaluation incident's forensics hold - 17,600 intrusion actions over 4.5 days, the 9 July escape, the 11-13 July Hugging Face intrusion; the two-week deployment-track RL pause expires around 23 August, the largest frontier run stays on hold with no restart date.",
+      "arc": "agent-security",
+      "arcDay": 57
+    },
+    {
+      "id": "cosnitch-copilot-cve",
+      "label": "CVE-2026-24301, CoSnitch, holds: Microsoft's 18 August fix landed about eight months after the December 2025 report; no evidence of exploitation in the wild and no assertion of the same behaviour in Microsoft 365 Copilot.",
+      "arc": "agent-security",
+      "arcDay": 57
+    },
+    {
+      "id": "taiwan-ai-agent-attack",
+      "label": "The near-autonomous attack on Taiwan's nuclear safety agency - Hermes and OpenClaw sub-agents, 12 waves 1-4 July, 85 accounts, 2,500-plus personnel records per Dream - holds, still single threat-intelligence-firm sourced.",
+      "arc": "offensive-ai-tooling",
+      "arcDay": 3
+    },
+    {
+      "id": "anthropic-65b-run-rate",
+      "label": "The $65B annualised run rate reported 17 August holds; no new disclosure, and the IPO thread produced no dated movement this scan.",
+      "arc": "ipo-wave",
+      "arcDay": 15
+    },
+    {
+      "id": "datacenter-consent-backlash",
+      "label": "The consent ledger holds: 75-plus projects worth ~$130B blocked or delayed in Q1 2026, opposition groups from 396 to 833 across 49 states, 300-plus state bills, New York's 50MW-plus pause signed 14 July.",
+      "arc": "compute-buildout",
+      "arcDay": 36
+    },
+    {
+      "id": "amazon-prime-air-500",
+      "label": "Prime Air's expansion to nearly 500 US cities by end-2026 holds; it now sits beside a far larger autonomy authorisation in Nevada, and neither has published a deployed-versus-authorised figure.",
+      "arc": "applied-autonomy",
+      "arcDay": 2
+    },
+    {
+      "id": "encrypted-cot-replay",
+      "label": "arXiv:2608.09867 on stealing reasoning traces from proprietary APIs holds - and reads differently beside today's Cryptographic Context Injection: both attack the encrypted-payload plumbing rather than the weights.",
+      "arc": "model-security-research",
+      "arcDay": 2
+    },
+    {
+      "id": "muse-glimmer-meta-open",
+      "label": "Meta's Muse Glimmer - 30B, Apache 2.0, single-GPU agentic sizing, shipped 10 August - holds as the month's only day-one open-weight release; the promised bigger models remain undated.",
+      "arc": "open-frontier",
+      "arcDay": 35
+    },
+    {
+      "id": "veeda-ai-world-models",
+      "label": "Sanja Fidler's Veeda AI and its $90M-plus seed from Khosla and Radical hold, with Huan Ling as chief scientist and Zan Gojcic as CTO; no product or dated milestone since.",
+      "arc": "embodied-ai",
+      "arcDay": 24
+    },
+    {
+      "id": "spacex-cursor-close",
+      "label": "The $60B all-stock Cursor close of 14 August holds and is now load-bearing: Grok Bot's GA ships through Cursor's paid tiers under the same parent.",
+      "arc": "agent-platform-war",
+      "arcDay": 13
+    },
+    {
+      "id": "police-101-ai-triage",
+      "label": "The 101 non-emergency AI triage deployment holds; no published error rate, no dated expansion.",
+      "arc": "public-sector-ai",
+      "arcDay": 2
+    },
+    {
+      "id": "dram-hbm-supercycle",
+      "label": "The memory index holds - a mainstream 32GB DDR5-6000 kit at $392 against $110-140 in Q3 2025 as DRAM capacity reallocates to HBM - alongside Samsung's 10-15% foundry increases on 4nm, 5nm and 8nm quotes.",
+      "arc": "compute-cost-inflation",
+      "arcDay": 3
+    },
+    {
+      "id": "india-gcc-510k-ai",
+      "label": "India's GCC hiring peak holds - 227,991 H1 hires across ~2,120 GCCs, AI/data/analytics fastest-growing at 38% YoY, 64% AI-skills concentration in the 510,000 projection, Bengaluru at 30% and Hyderabad fastest at 15%; no dated MeitY, RBI, SEBI or IRDAI step this scan.",
+      "arc": "ai-jobs-india",
+      "arcDay": 2
+    },
+    {
+      "id": "ipo-wave",
+      "label": "DEMOTED FROM DEVELOPING: no dated movement. Anthropic's and OpenAI's confidential filings and the autumn listing expectation all hold as previously reported; the 21 August press restated them without adding a date.",
+      "arc": "ipo-wave",
+      "arcDay": 15
+    },
+    {
+      "id": "nvidia-h200-china-shipments",
+      "label": "H200s reaching ByteDance and Tencent at roughly 10,000 units each under BIS case-by-case licensing with a reported 25% US revenue share holds; no NDRC approval. Whether it reappears as China revenue is question three for 26 August.",
+      "arc": "chip-export-valve",
+      "arcDay": 3
+    },
+    {
+      "id": "samsung-foundry-price-hike",
+      "label": "Samsung's 10-15% increases on 4nm, 5nm and 8nm quotes for China and US customers hold, now the supply-side twin of the DRAM reallocation.",
+      "arc": "compute-cost-inflation",
+      "arcDay": 3
+    },
+    {
+      "id": "silicon-data-compute-futures",
+      "label": "CME's 5 October launch of cash-settled H100 and B200 Rental Index Futures and Silicon Data's $30.5M Series A both hold, pending regulatory review - 44 days out.",
+      "arc": "ai-capital-markets",
+      "arcDay": 15
+    },
+    {
+      "id": "gpt56-cyber-daybreak-red",
+      "label": "GPT-5.6-Cyber and the Daybreak Red access tier hold, and read sharper beside an unpatched encrypted-payload bypass on two commercial assistants.",
+      "arc": "offensive-ai-tooling",
+      "arcDay": 3
+    },
+    {
+      "id": "reconstruction-benchmark",
+      "label": "The Reconstruction benchmark's 3-15% single-model and 42% multi-agent scores hold and are now corroborated qualitatively by Nature's author-panel experiment; the arXiv identifier still has not surfaced.",
+      "arc": "ai-for-science-limits",
+      "arcDay": 3
+    },
+    {
+      "id": "openai-chatgpt-teens",
+      "label": "The 13-17 experience and its age-prediction routing continue rolling out toward roughly 1 September; no classifier error rate published from inside or outside.",
+      "arc": "ai-minors-safety",
+      "arcDay": 4
+    },
+    {
+      "id": "nvidia-openai-ohio-105b",
+      "label": "The up-to-$105B backing for the PORTS-Pike campus holds: SB Energy building and owning, OpenAI leasing 20 years, 4.25GW with 3.75GW optioned - question two for 26 August.",
+      "arc": "compute-buildout",
+      "arcDay": 36
+    },
+    {
+      "id": "glm-53-launch",
+      "label": "GLM-5.3's staged weights are still undated and still behind Z.ai's safety review, pointing at roughly 28 August at huggingface.co/zai-org; the model remains API and coding-plan available rather than downloadable.",
+      "arc": "open-frontier",
+      "arcDay": 35
+    },
+    {
+      "id": "reg-clock",
+      "label": "No new dated enforcement step under the EU transparency regime; the 2 December Article 50(2) marking date, the shortened grace period and the nudification prohibition all stand, with fines up to EUR 15M or 3% of worldwide turnover.",
+      "arc": "reg-clock",
+      "arcDay": 26
+    },
+    {
+      "id": "frontier-models",
+      "label": "No Western frontier flagship shipped in this window for a fourteenth consecutive edition; Gemini 3.5 Pro remains the reference point.",
+      "arc": "frontier-models",
+      "arcDay": 30
+    },
+    {
+      "id": "gemini-37-flash",
+      "label": "Gemini 3.7 Flash's 13 August launch and $0.75/$3.75 introductory pricing hold, with the rise to $1.50/$7.50 still undated.",
+      "arc": "frontier-models",
+      "arcDay": 30
+    },
+    {
+      "id": "openai-august-retirements",
+      "label": "Every remaining retirement date is inside its published window: o3 leaves ChatGPT on 26 August, the official DALL-E GPT on 30 August.",
+      "arc": "model-lifecycle",
+      "arcDay": 17
+    },
+    {
+      "id": "workforce",
+      "label": "The AI-attribution layoff ledger reads 205,832 workers across 322 events, already matching full-year 2025 in under eight months; today's deep beat supplies the other side of it - a 62% US AI wage premium and a $177,000 median AI salary.",
+      "arc": "workforce",
+      "arcDay": 56
+    },
+    {
+      "id": "target-chief-ai-officer",
+      "label": "Chandhu Nair as Target's first chief AI officer under the product org rather than IT holds; he starts 24 August, two days out.",
+      "arc": "ai-roi",
+      "arcDay": 16
+    },
+    {
+      "id": "rentosertib-fast-track",
+      "label": "Rentosertib's fast-track status holds with the estimated Phase III start on 30 August; still zero fully AI-discovered drugs with FDA approval.",
+      "arc": "ai-drug-approval",
+      "arcDay": 14
+    },
+    {
+      "id": "manus-meta-unwind",
+      "label": "Manus resuming independent operation after the NDRC-ordered unwind holds; the data-deletion window opens at 08:00 SGT on 23 August and runs to 24 August - tomorrow.",
+      "arc": "china-ai-rules",
+      "arcDay": 12
+    }
+  ],
+  "movers": [
+    {
+      "dir": "up",
+      "text": "MODEL FACTORIES - NVIDIA pays $6B for a non-exclusive licence to Poolside's Model Factory plus $1B of equity at $13B post-money and offers to 109 Laguna staff, with no change of control: about $7B moves a training capability and its team outside the merger perimeter"
+    },
+    {
+      "dir": "down",
+      "text": "NVDA - ended the week roughly 5% lower on the Poolside terms, four trading days before a Q2 disclosure that also has to account for $500B of financing platforms and the up-to-$105B Ohio backing"
+    },
+    {
+      "dir": "up",
+      "text": "AI CREDIT - Broadcom in talks for more than $60B, potentially ~$100B all-in, through an SPV with Blackstone and Apollo for Anthropic-bound silicon; AI paper is now roughly 15% of US investment-grade issuance"
+    },
+    {
+      "dir": "up",
+      "text": "AUTONOMY - Nevada authorises up to 8,000 robotaxis across Clark County in one unanimous vote, from a June cap of 10 vehicles for Tesla; the operators themselves say the deployed number will be far lower"
+    },
+    {
+      "dir": "down",
+      "text": "INPUT FILTERS - an AES-256-GCM payload walks past Grok's input filter and is decrypted by the model inside its own runtime, unpatched since 3 June, with the same bypass class reported on Gemini"
+    },
+    {
+      "dir": "up",
+      "text": "MODEL ROUTING - Stripe finalises OpenRouter at more than $7B, a 5.4x markup on May's $1.3B mark, putting a 400-model gateway inside a payments company"
+    },
+    {
+      "dir": "up",
+      "text": "NEW YORK - takes the US tech-headcount crown from the Bay Area for the first time in 13 years, 394,300 to 375,730, on finance-sector hiring while the tech industry itself shed 21,262 roles since 2022"
+    },
+    {
+      "dir": "down",
+      "text": "24H FLOW - three of thirteen new items broke inside 24 hours; the other ten are dated 28 July to 20 August and every card carries its real date"
+    }
+  ],
+  "arcs": {
+    "licence-not-acquisition": {
+      "day": 1,
+      "note": "NEW ARC: capability, people and a minority stake changing hands for billions without a change of control - the reverse-acquihire refined past the point where 'we did not acquire them' says anything about market structure"
+    },
+    "ai-capital-markets": {
+      "day": 15,
+      "note": "Where AI capital is being priced - private rounds, a listed compute contract, and now the largest single debt structure the buildout has attempted"
+    },
+    "applied-autonomy": {
+      "day": 2,
+      "note": "Autonomous systems moving to routine civilian operation at national scale, and the widening gap between what is authorised and what is deployed"
+    },
+    "agent-security": {
+      "day": 57,
+      "note": "Agents, the infrastructure under them, and the emerging pattern: the model behaves and the wrapper - input filter, memory store, evaluation sandbox - is what fails"
+    },
+    "model-routing": {
+      "day": 1,
+      "note": "NEW ARC: who sits between the developer and the model, meters the calls and decides what a token costs"
+    },
+    "ai-jobs-geography": {
+      "day": 1,
+      "note": "NEW ARC (Saturday deep beat): where AI hiring is actually happening, which industries are doing it, and what it pays - New York, the Bay Area, Singapore, London, India"
+    },
+    "agent-platform-war": {
+      "day": 13,
+      "note": "Who owns the agent layer, how it is priced, and - this week - who owns the routing and coding layers underneath it"
+    },
+    "sovereign-ai": {
+      "day": 1,
+      "note": "NEW ARC: states buying national compute, and the ones deliberately buying from both blocs"
+    },
+    "ai-for-science-limits": {
+      "day": 3,
+      "note": "Contamination-resistant measurement of whether models can generate genuinely novel hypotheses - now with a qualitative author-panel result pointing the same way as the benchmark"
+    },
+    "search-publisher-economics": {
+      "day": 1,
+      "note": "NEW ARC: what happens to the web's referral economy once AI answers are the default surface, and what remedies are on offer"
+    },
+    "enterprise-ai-channel": {
+      "day": 1,
+      "note": "NEW ARC: frontier models reaching regulated industries through systems integrators rather than through vendor control planes"
+    },
+    "compute-buildout": {
+      "day": 36,
+      "note": "The capital, silicon, power, land, consent and now credit behind the AI buildout"
+    },
+    "open-frontier": {
+      "day": 35,
+      "note": "The open-weight tier's distance from the closed frontier - and now the question of who owns the machinery that builds open weights"
+    },
+    "offensive-ai-tooling": {
+      "day": 3,
+      "note": "Purpose-trained and open-weight cyber capability, with refusals moved out of the weights entirely"
+    },
+    "model-security-research": {
+      "day": 2,
+      "note": "Published attacks on the commercial architecture of frontier APIs rather than on the models themselves"
+    },
+    "ai-critical-infrastructure": {
+      "day": 2,
+      "note": "AI-generated offensive tooling aimed at physical control systems, and the government response to it"
+    },
+    "compute-cost-inflation": {
+      "day": 3,
+      "note": "Leading-edge foundry and memory pricing rising as AI demand fills capacity"
+    },
+    "ipo-wave": {
+      "day": 15,
+      "note": "Demoted to Tracking: AI companies approaching public markets produced no dated movement this scan"
+    },
+    "chip-export-valve": {
+      "day": 3,
+      "note": "H200-class exports to China under case-by-case BIS licensing with a revenue share, gated again by China's NDRC"
+    },
+    "public-sector-ai": {
+      "day": 2,
+      "note": "Government services routing citizens through models, and the accountability that attaches"
+    },
+    "ai-jobs-india": {
+      "day": 2,
+      "note": "Where AI hiring in India is actually happening, and who is doing it"
+    },
+    "embodied-ai": {
+      "day": 24,
+      "note": "Humanoid robotics and physical AI moving from demo to deployment to public market"
+    },
+    "ai-minors-safety": {
+      "day": 4,
+      "note": "Age assurance and minor-specific product tiers at frontier labs"
+    },
+    "reg-clock": {
+      "day": 26,
+      "note": "Dated regulatory obligations coming into force"
+    },
+    "frontier-models": {
+      "day": 30,
+      "note": "Frontier flagship releases and their pricing"
+    },
+    "model-lifecycle": {
+      "day": 17,
+      "note": "Retirements and deprecations at the labs"
+    },
+    "workforce": {
+      "day": 56,
+      "note": "AI-attributed job losses, hiring and wages"
+    },
+    "ai-roi": {
+      "day": 16,
+      "note": "Whether enterprise AI spend can be shown to pay off"
+    },
+    "ai-drug-approval": {
+      "day": 14,
+      "note": "AI-discovered drugs moving through regulatory review"
+    },
+    "china-ai-rules": {
+      "day": 12,
+      "note": "Beijing's regulatory grip on domestic and foreign AI services"
+    }
+  },
+  "resolved": [
+    "CLOSED BY CONFIRMATION: stripe-openrouter. This briefing carried Stripe's reported $7B-plus for OpenRouter as unconfirmed background prose from edition 059 onward, noting each time that neither party had confirmed. Bloomberg's 16 August report of a finalised agreement closes that open question, and the story enters the feed as New #5 rather than as prose. The rumour is resolved; the deal itself is now a tracked arc.",
+    "PROMOTED (Tracking to Developing): open-frontier and agent-platform-war both return to Developing on dated movement - NVIDIA licensing Poolside's Model Factory for the former, Grok Bot's GA plus the Stripe/OpenRouter close for the latter. compute-buildout and agent-security both escalate rather than carry.",
+    "DEMOTED (Developing to Tracking): ipo-wave. The 21 August press restated Anthropic's confidential filing and autumn listing expectation without adding a dated step. Per the v2 rule a thread with no real movement does not get a card; it drops to a one-liner and returns on a filing, a price range or a date.",
+    "AUTO-DEMOTE (New to Tracking): all fifteen of edition 063's New items drop to one-liners. None produced a second dated development inside 24 hours. Three changed status by adjacency rather than by news: spacex-cursor-close becomes load-bearing because Grok Bot's GA ships through Cursor's tiers; encrypted-cot-replay now reads as the first of two encrypted-payload attacks in a fortnight; reconstruction-benchmark gains qualitative corroboration from the Nature author panel.",
+    "SILENTLY RETIRED (three or more editions quiet, no known outcome): emea-datacenter-175km; wiz-copilot-snowflake; google-uk-contrail-trial; groq-350m-neocloud; ramp-index-fable-ceiling; openai-private-safety-processing; terminal-bench-21-open-gap; india-enterprise-ai-roi; aisi-agent-incident (its finding is folded into the Developing agent-security card); unitree-star-debut; warp-factories (folded into the Developing agent-platform-war card); and claude-code-auto-default. Twelve retirements takes carried Tracking from 28 to 16, before this edition's sixteen demotions.",
+    "NOT CARDED, AND WHY - FOUR ITEMS KILLED. AMD's Helios rack-scale system (6th-gen Epyc 9006 + Instinct MI455X + Pensando + ROCm, pitched against NVIDIA's Vera Rubin/NVL72) surfaced only in an undated August roundup and is held rather than carded. Francisco Partners' acquisition of Weave (18 August, ~$650M equity value, AI patient engagement and payments for healthcare practices) is real and dated but too small for a card; it is the only dated healthcare-AI item this scan returned. Skan AI's $63M co-led by Cathay Innovation and Dell Technologies Capital (12 August) was carded in editions 059-061 and has not moved. Bluerock Acquisition Corp's SPAC merger with Yellow.ai (3 August) is outside the window and outside the freshness bar.",
+    "CORRECTION RISK, PRE-EMPTED: the NVIDIA/Poolside consideration was reported at four different magnitudes within 24 hours ($600M, $6B, $7B, $10B). This edition carries $6B licence plus $1B equity at $13B post-money and names the discrepancy on the card, in the hero full brief and in the method notes rather than picking a number silently.",
+    "SCAN BREADTH AND THE OVERAGE: 31 searches against a 20-28 target - a three-search overage and a thirteenth consecutive edition over the band, but down from 56 last edition. Same structural cause: direct page fetching was refused by the network egress layer for the entire run, so every cross-check ran as an extra search. All three overage searches were verification, not discovery.",
+    "GENUINE GAPS THIS EDITION: no Western frontier flagship for a fourteenth consecutive edition and no new open weights either. India returned no dated regulatory step from MeitY, RBI, SEBI or IRDAI inside the window - the India leg of Saturday's deep beat rests on GCC hiring data already carried since edition 063. Robotics returned trajectory rather than event across Tesla Optimus, XPeng Iron and Robot.com's R-noid. Healthcare AI returned one small transaction and nothing else dated."
+  ],
+  "deadlines": [
+    {
+      "date": "2026-08-23",
+      "label": "TOMORROW. Manus deletes data generated by certain users on or after 29 December 2025, in a window running from 08:00 SGT on 23 August until 24 August, under the NDRC-ordered unwind. Around the same date OpenAI's two-week RL pause on deployment-track models expires - while the largest planned frontier run stays on hold with no restart date published, which remains the more informative of the two clocks - 1 day",
+      "severity": "high"
+    },
+    {
+      "date": "2026-08-26",
+      "label": "NVIDIA's Q2 earnings, still the most load-bearing date on this radar, now carrying five questions: how the $500B financing platforms and the up-to-$105B Ohio backing are booked, whether China revenue reappears after the H200 shipments, whether buyer-equity structures like Google's Marvell warrant surface anywhere, and how a $6B licence plus $1B equity in Poolside is characterised. OpenAI retires o3 from ChatGPT the same day; Target's first chief AI officer starts 24 August - 4 days",
+      "severity": "high"
+    },
+    {
+      "date": "2026-08-28",
+      "label": "Z.ai's staged GLM-5.3 weights are due around now - 'roughly two weeks' from the 14 August launch, still undated and behind a safety evaluation, expected at huggingface.co/zai-org. It is the open tier's outstanding test of whether launch-day download survives as a norm, read against Meta's Muse Glimmer, which shipped under Apache 2.0 on day one - 6 days",
+      "severity": "medium"
+    },
+    {
+      "date": "2026-08-31",
+      "label": "Two default-tier changes on one date: Claude Sonnet 5's introductory $2/$10 per million ends, moving to $3/$15 from 1 September - a 50% rise, to be read against Gemini 3.7 Flash at $0.75/$3.75 - and OpenAI removes GPT-5.4 and GPT-5.4 mini from Codex for ChatGPT-signed-in users. OpenAI's ChatGPT for Teens rollout is expected complete worldwide within a day or two either side, the first point at which age-prediction error rates could be measured from outside. The official DALL-E GPT retires and rentosertib's estimated Phase III start falls on 30 August - 9 days",
+      "severity": "high"
+    },
+    {
+      "date": "2026-10-05",
+      "label": "CME Group lists cash-settled Silicon Data H100 and B200 Rental Index Futures, pending regulatory review - the first exchange-traded price for GPU compute, and the first date on which 'we have secured capacity' and 'our inference costs will fall' become claims with a public forward curve behind them. It now also becomes the first public mark against which SPV-financed capacity like Broadcom's proposed structure can be priced - 44 days",
+      "severity": "medium"
+    },
+    {
+      "date": "2026-12-02",
+      "label": "EU triple date under Regulation (EU) 2026/1744: Article 50(2) machine-readable marking bites for systems placed on the market before 2 August - the clause Anthropic's text watermarking and Google's SynthID-only toggle are both answers to; the transparency-implementation grace period expires, shortened from six months to three; and nudification and non-consensual intimate-imagery generators must be off the EU market or carry adequate safeguards. The separate Annex III high-risk package is confirmed a year further out - 102 days",
+      "severity": "high"
+    }
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── deep-link support: #still-tracking / #resolved / #method open the collapsed folds ──
+  var foldMap = {'still-tracking':'fold-tracking','resolved':'fold-resolved','method':'fold-method'};
+  var openFromHash = function(){
+    var id = foldMap[(location.hash||'').replace('#','')];
+    if(id){ var el = document.getElementById(id); if(el){ el.open = true; el.scrollIntoView(); } }
+  };
+  window.addEventListener('hashchange', openFromHash); openFromHash();
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
