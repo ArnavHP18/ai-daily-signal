@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 071 — 29 August 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+
+  /* collapsible archive sections (Still Tracking / Resolved / method notes) */
+  .fold{border-bottom:3px solid var(--ink);margin-top:26px}
+  .fold[open]{border-bottom-color:var(--rule)}
+  .fold > summary{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:0 0 8px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary small{font-size:10px;color:#6b6353;letter-spacing:1px;font-weight:400}
+  .fold > summary .caret{font-size:11px;color:#6b6353;letter-spacing:0}
+  .fold > summary:hover{color:var(--crit)}
+  .fold[open] > summary .caret::after{content:"▴ HIDE"}
+  .fold:not([open]) > summary .caret::after{content:"▾ SHOW"}
+  .fold .fold-body{padding-bottom:16px}
+  footer .fold{border-bottom:none;margin-top:12px}
+  footer .fold > summary{font-size:11px;letter-spacing:2px}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>MECHANICAL TURK</b> Amazon closes the human-labour marketplace Bezos called "artificial artificial intelligence" on 30 September, taking SageMaker Ground Truth and Augmented AI with it &nbsp;◆&nbsp; <b>ANDROID</b> Google Play writes a February 2027 memory ceiling for every app as HBM demand starves consumer DRAM &nbsp;◆&nbsp; <b>A16Z</b> a $1.1B Machine Age Fund for chips, memory, networking, cooling and the electricity behind them &nbsp;◆&nbsp; <b>DATA CENTRES</b> the consent fight reaches six toss-up Senate races; Annenberg has 61% of Americans against one nearby &nbsp;◆&nbsp; <b>GLM-5.3</b> the 28 August staged weights date has now passed by two days with nothing published &nbsp;◆&nbsp; <b>LEDGER</b> 365 layoff events and 209,032 workers in 2026 as of 28 August &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>072</b></span>
+    <span>SUNDAY, 30 AUGUST 2026</span>
+    <span class="seg">NEW <b>10</b> · DEVELOPING <b>3</b> · TRACKING <b>40</b></span>
+    <span>CRITICAL <b>3</b> / NOTABLE 7 / MONITOR 3</span>
+    <span>SCAN: 43 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="mturk-shutdown">
+  <div>
+    <div class="kicker">■ Today's Lead · New · People &amp; Labour · Day 1 of the human-labour-behind-AI arc</div>
+    <h2>Amazon is closing Mechanical Turk, the human workforce it sold as artificial intelligence, after 21 years</h2>
+    <p class="dek">Amazon will shut <strong>Amazon Mechanical Turk</strong> on <strong>30 September 2026</strong>, ending the crowdsourced task marketplace it launched in <strong>2005</strong> and which at its peak carried more than <strong>500,000 registered workers</strong>. New customer signups already closed on <strong>30 July 2026</strong>, and two adjacent services go with it: <strong>AWS SageMaker Ground Truth</strong> and <strong>Amazon Augmented AI (A2I)</strong> — the two products that packaged human labelling and human review directly into the machine-learning pipeline. Amazon's stated reason is an <strong>internal assessment of its programs and services</strong>; it has not attributed the closure to AI (<a href="https://www.cnbc.com/2026/08/25/amazon-service-that-jeff-bezos-called-artificial-ai-is-shutting-down.html">CNBC, 25 Aug</a>, <a href="https://qz.com/amazon-mechanical-turk-shutting-down-082626">Quartz, 26 Aug</a>, <a href="https://www.techtimes.com/articles/325645/20260826/amazon-mechanical-turk-will-close-september-30-shutting-down-sagemaker-ground-truth-too.htm">TechTimes, 26 Aug</a>, <a href="https://thenextweb.com/news/amazon-mechanical-turk-closing-september-2026">TNW</a>). The name was always the joke and the thesis at once: Jeff Bezos called it <strong>"artificial artificial intelligence"</strong> — a machine interface with people behind it, after the 18th-century chess automaton with a man inside.</p>
+    <p class="sowhat">So what: this is the first large, dated retirement of the <em>human layer</em> that made modern machine learning possible, and it closes with two uncomfortable facts attached. The demand did not vanish — it moved to <strong>Scale AI, Mercor and Prolific</strong>, who recruit better-paid, better-vetted specialists rather than an open pool of anonymous micro-taskers. And the pool itself had already been contaminated by the thing it was training: a <strong>2023 study by Swiss researchers found up to 46% of MTurk workers were using large language models to complete their assigned tasks</strong>. A marketplace built to supply human judgement to machines was, by the end, partly machines supplying judgement to machines. If you run evaluations, annotation or human-in-the-loop review on MTurk, Ground Truth or A2I, you have <strong>31 days</strong> and a vendor migration you did not plan for.</p>
+    <span class="chip arc">ARC: HUMAN-LABOUR-BEHIND-AI · D1</span><span class="chip">CONFIDENCE: 2x SRC</span><span class="chip">BROKE 25 AUG — NOT NEW.24H</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://www.cnbc.com/2026/08/25/amazon-service-that-jeff-bezos-called-artificial-ai-is-shutting-down.html">CNBC</a> ·
+      <a href="https://qz.com/amazon-mechanical-turk-shutting-down-082626">Quartz</a> ·
+      <a href="https://www.techtimes.com/articles/325645/20260826/amazon-mechanical-turk-will-close-september-30-shutting-down-sagemaker-ground-truth-too.htm">TechTimes</a> ·
+      <a href="https://thenextweb.com/news/amazon-mechanical-turk-closing-september-2026">The Next Web</a> ·
+      <a href="https://techstartups.com/2026/08/26/amazon-is-shutting-down-mechanical-turk-after-21-years-as-ai-reshapes-crowdsourced-work/">Tech Startups</a> ·
+      <a href="https://www.rappler.com/technology/amazon-mechanical-turk-closure/">Rappler</a> ·
+      <a href="https://finance.yahoo.com/technology/ai/articles/amazon-shutting-down-mechanical-turk-110911035.html">Yahoo Finance</a> ·
+      <a href="https://flowingdata.com/2026/08/27/amazon-shutting-down-mechanical-turk/">FlowingData</a> ·
+      <a href="https://www.tipranks.com/news/the-fly/amazon-says-mechanical-turk-will-close-september-30-thefly-news">TipRanks / The Fly</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>Why this leads and not the data-centre thread.</strong> Today's Developing #1 — data-centre opposition arriving inside six toss-up Senate races — is the freshest item in the edition and the only thing here that broke in the last 24 hours. Under the v2 rule the hero is the biggest genuinely new item <em>unless</em> a developing thread escalates decisively, and an escalation built on analysis pieces rather than a dated event is not decisive. MTurk is a dated, primary, irreversible corporate action with a countdown on it. It leads on those grounds, at <code>new24h:false</code>, with 25 August on its face.</p>
+      <p><strong>What actually shuts, and when.</strong> Three things, staggered. New customer signups for MTurk, SageMaker Ground Truth and Amazon Augmented A2I closed on <strong>30 July 2026</strong>. The marketplace itself stops on <strong>30 September 2026</strong>. Amazon's public framing is an internal review of programs and services — the same language it has used for other service sunsets — and it has pointedly <em>not</em> said "because AI can do this now." That restraint is worth noting rather than talking over: the causal story here is being supplied by commentators, not by Amazon.</p>
+      <p><strong>The honest causal read.</strong> Two forces, not one. The first is substitution at the low end: tasks that were worth $0.05 to a human in 2015 — image tagging, sentiment labels, transcript cleanup — are now cheaper to run through a model. The second is a <em>quality</em> collapse that predates the substitution. The 2023 Swiss finding that up to 46% of MTurk workers were themselves using LLMs to complete tasks means the platform's core product — independent human judgement — was already compromised as a research instrument. Academic social science had been quietly migrating off MTurk for years for exactly this reason. The shutdown is the end of a decline, not a sudden displacement event.</p>
+      <p><strong>Where the work went.</strong> Not away. <strong>Scale AI</strong>, <strong>Mercor</strong> and <strong>Prolific</strong> now sit where MTurk did, and the shape of the labour changed with the address: fewer anonymous micro-taskers on cents-per-task, more vetted domain specialists — doctors, lawyers, competitive programmers — paid hourly rates to produce and grade expert data for post-training. The AI labour market did not shrink at the human end; it stratified. That is the version of "AI takes jobs" that shows up in this briefing's ledger far more often than outright elimination, and it is exactly the shift today's Developing #3 measures at 365 events and 209,032 workers.</p>
+      <p><strong>What to do this week, concretely.</strong> (1) Inventory every pipeline that calls MTurk, Ground Truth or A2I — including the forgotten ones inside research and QA teams — because 30 September is 31 days out and there is no extension on offer. (2) If you use it for <em>evaluation</em> rather than annotation, do not port the design straight across: the 46% contamination finding applies retroactively to any benchmark or human-preference baseline you collected there, and re-basing is cheaper than defending a stale number later. (3) Price the replacement honestly. Vetted-specialist platforms are not a cheaper MTurk; they are a different cost structure, and budgets set against micro-task pricing will not survive contact.</p>
+      <p><strong>The line worth keeping.</strong> Mechanical Turk was named for a machine that pretended to be intelligent while a human hid inside. It is being retired in the year the machines stopped needing the human — and the last recorded thing many of those humans did on the platform was quietly paste the work into a chatbot.</p>
+    </div>
+  </div>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="mturk-shutdown">
+      <div class="num">1</div>
+      <h4>The human layer under AI gets a shutdown date</h4>
+      <p>Amazon closes Mechanical Turk on 30 September after 21 years, with SageMaker Ground Truth and Augmented A2I going too. Signups ended 30 July. The demand moved to Scale AI, Mercor and Prolific — and a 2023 study had already found up to 46% of MTurk workers using LLMs to do the work. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="datacenter-consent-backlash">
+      <div class="num">2</div>
+      <h4>Data-centre consent becomes an electoral variable</h4>
+      <p>CNBC on 29 August puts the tech backlash at "fever pitch"; Newsweek and The Hill place data-centre opposition inside the six Senate races Cook rates toss-up. Annenberg: 61% of Americans oppose one nearby — 69% of Democrats, 54% of Republicans. <strong>DEVELOPING · ESCALATED.</strong></p>
+    </article>
+    <article class="trip" data-story-id="android-memory-limits">
+      <div class="num">3</div>
+      <h4>The HBM supercycle bills every Android developer</h4>
+      <p>Google Play will require apps to meet new dynamic-memory, bitmap and code-size thresholds from February 2027 — at least 25% code shrink — because HBM demand pulled fabs off consumer DRAM. Flagship LPDDR5X went from $3.50–$5.50/GB in mid-2025 to $19–$21/GB. <strong>NEW.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>TEN NEW, AND THE MOST HONEST NUMBER IN THIS EDITION IS ONE.</strong> Exactly <strong>one</strong> New item broke inside the last 24 hours — TechCrunch's TechBBQ dispatch at #9 — and it is a conference-mood piece, not an event. The lead broke on <strong>25 August</strong>; four more items are dated <strong>26–28 August</strong>. All of them carry <code>new:true</code> and <code>new24h:false</code> with their real dates on the card face, and nothing here is dressed up as breaking today. Sunday's rotating deep beat is <strong>money, startups &amp; new ideas</strong> and it carried the edition: <strong>a16z's $1.1B Machine Age Fund</strong> for chips, memory, networking, cooling and electricity · <strong>Arintra's $25M Series B</strong> on a platform already coding <strong>$5B</strong> in annual claims · <strong>Transfyr's $25M seed</strong> from General Catalyst to instrument the laboratory itself · <strong>Metriport's $26M</strong> with Amazon One Medical and Color Health named · and <strong>Legato's $12M</strong> hearing glasses out of stealth. Alongside them: <strong>Cisco and Supermicro</strong> taking the Secure AI Factory rack-scale past 200kW · and <strong>X</strong> exposing <strong>23 ad-campaign tools</strong> to any MCP client, making it the fifth social platform with an advertiser MCP. Three Developing threads moved: the data-centre fight went electoral, the <strong>GLM-5.3 flagship weights date has now been missed by two days</strong>, and the layoff ledger stepped to <strong>365 events / 209,032 workers</strong>. <strong>Quiet on models:</strong> no Western frontier flagship shipped for a nineteenth consecutive edition, and the only models card in this edition is a broken promise.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR / MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (13)</button>
+    <button class="tab" data-cat="policy">POLICY (4)</button>
+    <button class="tab" data-cat="business">BUSINESS (3)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (2)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (2)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+    <button class="tab" data-cat="models">MODELS (1)</button>
+  </div>
+
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>10 ITEMS · BROKE / SURFACED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="mturk-shutdown">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#1</span> <span class="cat">POLICY · LABOUR</span></div>
+      <h4>Amazon shuts Mechanical Turk on 30 September, and takes SageMaker Ground Truth and Augmented A2I with it</h4>
+      <div class="body">Full detail in the lead above. The compressed version: the crowdsourced task marketplace Amazon launched in <strong>2005</strong> — peak <strong>500,000-plus registered workers</strong> — closes on <strong>30 September 2026</strong>. New customer signups for MTurk, <strong>AWS SageMaker Ground Truth</strong> and <strong>Amazon Augmented AI (A2I)</strong> already ended on <strong>30 July 2026</strong>; all three go. Amazon attributes the decision to an <strong>internal assessment of its programs and services</strong> and has <em>not</em> publicly blamed AI — a restraint worth preserving rather than writing over. The work itself has not disappeared: <strong>Scale AI</strong>, <strong>Mercor</strong> and <strong>Prolific</strong> now occupy the position, recruiting vetted domain specialists on hourly rates rather than an open pool on cents-per-task (<a href="https://www.cnbc.com/2026/08/25/amazon-service-that-jeff-bezos-called-artificial-ai-is-shutting-down.html">CNBC, 25 Aug</a>, <a href="https://qz.com/amazon-mechanical-turk-shutting-down-082626">Quartz</a>, <a href="https://www.techtimes.com/articles/325645/20260826/amazon-mechanical-turk-will-close-september-30-shutting-down-sagemaker-ground-truth-too.htm">TechTimes</a>).</div>
+      <p class="sowhat">The detail that reframes the whole story: a 2023 study by Swiss academic researchers found <strong>up to 46% of MTurk workers were using large language models to complete their tasks</strong>. If you collected human-preference baselines, eval ground truth or survey data there after roughly 2023, that data is contaminated in a way no migration fixes — re-base it now rather than defend it later. And you have <strong>31 days</strong> to port any live annotation or human-review pipeline off three services at once.</p>
+      <div><span class="chip arc">ARC: HUMAN-LABOUR-BEHIND-AI · D1</span><span class="chip">2x SRC</span><span class="chip">BROKE 25 AUG</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/08/25/amazon-service-that-jeff-bezos-called-artificial-ai-is-shutting-down.html">CNBC</a> · <a href="https://qz.com/amazon-mechanical-turk-shutting-down-082626">Quartz</a> · <a href="https://www.techtimes.com/articles/325645/20260826/amazon-mechanical-turk-will-close-september-30-shutting-down-sagemaker-ground-truth-too.htm">TechTimes</a> · <a href="https://thenextweb.com/news/amazon-mechanical-turk-closing-september-2026">TNW</a> · <a href="https://www.rappler.com/technology/amazon-mechanical-turk-closure/">Rappler</a> · <a href="https://flowingdata.com/2026/08/27/amazon-shutting-down-mechanical-turk/">FlowingData</a></div>
+    </article>
+
+
+    <article class="card w3 crit" data-cat="hardware" data-story-id="android-memory-limits">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#2</span> <span class="cat">HARDWARE · MEMORY</span></div>
+      <h4>Google Play writes a memory ceiling for every Android app, because AI data centres took the DRAM</h4>
+      <div class="body">On <strong>27 August</strong> Google published two new Play app-quality requirements, the load-bearing one being memory. From <strong>February 2027</strong>, apps must meet new thresholds for <strong>dynamic memory usage</strong>, <strong>bitmap usage</strong> and <strong>code optimisation</strong>, with developers expected to shrink and optimise code by <strong>at least 25%</strong>. Apps that miss the thresholds are not banned — they lose <strong>Play Store visibility and publishing capabilities</strong>, which for most publishers is the same thing with extra steps. The cause is stated openly in the coverage: <strong>Samsung, SK hynix and Micron</strong> are allocating fab capacity to higher-margin <strong>HBM</strong> for AI accelerators rather than commodity mobile DRAM. The price move is the evidence — flagship <strong>LPDDR5/LPDDR5X</strong> went from roughly <strong>$3.50–$5.50 per GB</strong> on bulk contracts in mid-2025 to <strong>$19.00–$21.00 per GB</strong> this year, a four-to-six-fold rise (<a href="https://techcrunch.com/2026/08/27/ais-memory-crunch-is-coming-for-android-apps/">TechCrunch</a>, <a href="https://www.theregister.com/software/2026/08/27/google_forces_android_apps_to_use_memory_more_wisely_as_rampocalypse_rages/5293071">The Register</a>, <a href="https://www.tomshardware.com/phones/android/google-clamps-down-on-android-app-ram-usage-amid-ai-memory-crisis-developers-have-until-february-2027-to-adapt-to-new-memory-optimizing-rules">Tom's Hardware</a>).</div>
+      <p class="sowhat">This briefing has carried the memory constraint on <code>dram-hbm-supercycle</code> as a supplier and hyperscaler story — SK hynix's "critical global HBM shortage", NVIDIA's 15%-plus 2027 server price notice, TrendForce's 2027 bit-growth forecast. Today it becomes a <em>compliance deadline for people who do not build AI at all</em>. A mobile developer in Pune or Warsaw with no AI in the product now has a dated engineering obligation created entirely by accelerator demand, and the cheaper phones at the bottom of the market are where it lands hardest. This is the first consumer-side invoice for the buildout, and it will not be the last.</p>
+      <div><span class="chip arc">ARC: DRAM-HBM-SUPERCYCLE · D10</span><span class="chip">2x SRC</span><span class="chip">BROKE 27 AUG</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/08/27/ais-memory-crunch-is-coming-for-android-apps/">TechCrunch</a> · <a href="https://www.theregister.com/software/2026/08/27/google_forces_android_apps_to_use_memory_more_wisely_as_rampocalypse_rages/5293071">The Register</a> · <a href="https://www.tomshardware.com/phones/android/google-clamps-down-on-android-app-ram-usage-amid-ai-memory-crisis-developers-have-until-february-2027-to-adapt-to-new-memory-optimizing-rules">Tom's Hardware</a> · <a href="https://www.digitaltrends.com/phones/google-cracks-down-on-memory-hogging-android-apps-as-ai-fuels-a-global-ram-shortage/">Digital Trends</a> · <a href="https://www.androidheadlines.com/2026/08/google-play-app-memory-limits-android-ram-shortage.html">Android Headlines</a> · <a href="https://developers.slashdot.org/story/26/08/27/2210241/ais-memory-crunch-is-coming-for-android-apps">Slashdot</a></div>
+    </article>
+
+
+    <article class="card w3 note" data-cat="business" data-story-id="a16z-machine-age-fund">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#3</span> <span class="cat">BUSINESS · VENTURE</span></div>
+      <h4>a16z raises a $1.1B "Machine Age Fund" and makes hardware an official thesis</h4>
+      <div class="body">Announced in a firm blog post on <strong>Friday 28 August</strong>: <strong>Andreessen Horowitz</strong> has closed <strong>$1.1 billion</strong> for the <strong>Machine Age Fund</strong>, aimed at <em>"the physical buildout of AI."</em> The stated scope is unusually wide for a software-first firm — <strong>chips, memory, networking and storage</strong>, then <strong>data centres, robotics and home appliances</strong>, then the layers underneath: <strong>cooling, materials, electrical infrastructure and real estate</strong>. The firm's own framing is that AI demand is running into <em>supply-chain, physics and computer-science constraints</em> simultaneously, creating a "once-in-a-generation opportunity" to redesign these systems as platforms <strong>extending all the way to electricity</strong>. The specific gaps named: faster and more efficient systems, <strong>higher-bandwidth and lower-cost memory</strong>, scalable interconnects, and power-efficient edge devices (<a href="https://a16z.com/the-machine-age-fund/">a16z, primary</a>, <a href="https://www.bloomberg.com/news/articles/2026-08-28/andreessen-horowitz-raises-1-1-billion-for-ai-infrastructure-fund">Bloomberg</a>, <a href="https://techcrunch.com/2026/08/28/a16z-creates-a-1-1b-machine-age-fund-to-accelerate-the-physical-buildout-of-ai/">TechCrunch</a>, <a href="https://siliconangle.com/2026/08/28/andreessen-horowitz-raises-1-1b-ai-infrastructure-fund/">SiliconANGLE</a>).</div>
+      <p class="sowhat">Sunday's deep beat is money and new ideas, and this is the clearest signal in it: the most software-committed firm in the Valley just wrote a cheque against <em>atoms</em>, and named <strong>lower-cost memory</strong> as an explicit target. Read it beside New #2 — a $1.1B fund and a Play Store memory mandate are the same constraint arriving at opposite ends of the stack on the same weekend. For founders, the actionable read is the list: cooling, materials, electrical infrastructure and real estate are now fundable as AI companies rather than as industrials, which changes who will take the meeting.</p>
+      <div><span class="chip arc">ARC: AI-CAPITAL-MARKETS · D22</span><span class="chip">PRIMARY + 2x SRC</span><span class="chip">ANNOUNCED 28 AUG</span></div>
+      <div class="src"><a href="https://a16z.com/the-machine-age-fund/">a16z (primary)</a> · <a href="https://www.bloomberg.com/news/articles/2026-08-28/andreessen-horowitz-raises-1-1-billion-for-ai-infrastructure-fund">Bloomberg</a> · <a href="https://techcrunch.com/2026/08/28/a16z-creates-a-1-1b-machine-age-fund-to-accelerate-the-physical-buildout-of-ai/">TechCrunch</a> · <a href="https://siliconangle.com/2026/08/28/andreessen-horowitz-raises-1-1b-ai-infrastructure-fund/">SiliconANGLE</a> · <a href="https://www.pymnts.com/news/artificial-intelligence/2026/andreessen-horowitz-targets-ai-supply-crunch-with-new-1-1-billion-hardware-fund">PYMNTS</a> · <a href="https://aninews.in/news/business/andreessen-horowitz-raises-11-billion-machine-age-fund-to-back-ai-hardware-and-infrastructure20260829140319/">ANI</a></div>
+    </article>
+
+
+    <article class="card w3 note" data-cat="hardware" data-story-id="cisco-supermicro-rack-scale">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#4</span> <span class="cat">HARDWARE · SYSTEMS</span></div>
+      <h4>Cisco takes the Secure AI Factory rack-scale with Supermicro, past 200kW a rack, on Vera Rubin NVL72</h4>
+      <div class="body">Announced <strong>25 August</strong>: Cisco is expanding the <strong>Secure AI Factory with NVIDIA</strong> to a rack-scale architecture and adding <strong>Supermicro</strong> as a compute partner for high-density liquid- and air-cooled systems. The technical content that matters: support for <strong>NVIDIA Vera Rubin NVL72</strong> and <strong>HGX Rubin NVL8</strong>; Cisco AI Networking spanning <strong>both Cisco Silicon One and NVIDIA Spectrum-X Ethernet</strong> silicon; and <strong>rack-to-fabric liquid cooling supporting systems beyond 200 kilowatts per rack</strong> for reasoning, agentic and trillion-parameter training workloads. Operationally it ships with <strong>NVIDIA AI Enterprise</strong> and Cisco's <strong>AgenticOps via Cloud Control</strong>, correlating job health against compute, NIC, optics and network performance. The target buyers named are <strong>enterprises, neoclouds and sovereign clouds</strong>. Supermicro compute becomes orderable inside the Secure AI Factory from <strong>October 2026</strong> (<a href="https://newsroom.cisco.com/c/r/newsroom/en/us/a/y2026/m08/cisco-secure-ai-factory-nvidia-rack-scale.html">Cisco newsroom, primary</a>, <a href="https://www.prnewswire.com/news-releases/cisco-expands-secure-ai-factory-with-nvidia-for-the-rack-scale-era-302858932.html">PR Newswire</a>, <a href="https://siliconangle.com/2026/08/25/nvidia-cisco-rack-scale-ai-factory-cisconvidiaaifactory/">SiliconANGLE</a>).</div>
+      <p class="sowhat">The number to write down is <strong>200kW per rack</strong>. Everything in this briefing's power and consent arc — the 75-plus blocked projects, the utility-bill politics in Developing #1 — is downstream of density like this becoming the standard unit. Note also the dual-silicon networking: Cisco is deliberately not making Spectrum-X the only path, which is what a supplier does when it expects buyers to want an exit. If you are specifying 2027 capacity, this is the reference design your integrator will quote against, and the cooling plant is the long-lead item, not the GPUs.</p>
+      <div><span class="chip arc">ARC: COMPUTE-BUILDOUT · D44</span><span class="chip">PRIMARY + 2x SRC</span><span class="chip">ANNOUNCED 25 AUG</span></div>
+      <div class="src"><a href="https://newsroom.cisco.com/c/r/newsroom/en/us/a/y2026/m08/cisco-secure-ai-factory-nvidia-rack-scale.html">Cisco newsroom</a> · <a href="https://investor.cisco.com/news/news-details/2026/Cisco-Expands-Secure-AI-Factory-with-NVIDIA-for-the-Rack-Scale-Era/default.aspx">Cisco investor relations</a> · <a href="https://www.prnewswire.com/news-releases/cisco-expands-secure-ai-factory-with-nvidia-for-the-rack-scale-era-302858932.html">PR Newswire</a> · <a href="https://siliconangle.com/2026/08/25/nvidia-cisco-rack-scale-ai-factory-cisconvidiaaifactory/">SiliconANGLE</a> · <a href="https://www.hpcwire.com/aiwire/2026/08/25/cisco-expands-secure-ai-factory-with-nvidia-for-the-rack-scale-era/">AIwire</a> · <a href="https://blogs.cisco.com/news/new-cisco-secure-ai-factory-with-nvidia-built-for-rack-scale-era">Cisco Blogs</a></div>
+    </article>
+
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="x-ads-mcp">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#5</span> <span class="cat">ENTERPRISE · AGENTS</span></div>
+      <h4>X ships an Ads MCP server with 23 tools, and agents can now buy media on the fifth major social platform</h4>
+      <div class="body">Announced <strong>27–28 August</strong>: X launched an <strong>Ads Model Context Protocol server</strong> that connects any MCP-compatible agent — <strong>Grok</strong> and <strong>Claude Code</strong> are the two named — to <strong>23 X Ads tools</strong> covering reading campaign data, running analytics, and creating, managing, optimising and measuring live campaigns through natural-language instructions. The strategic fact is not X's launch but the pattern it completes: <strong>Meta, TikTok, Pinterest and Snapchat</strong> have all shipped advertiser MCP integrations over the past year, which makes X the fifth (<a href="https://www.mediapost.com/publications/article/417438/x-launches-advertiser-mcp-enables-third-party-ai.html">MediaPost</a>, <a href="https://www.socialmediatoday.com/news/x-launches-mcp-server/828552/">Social Media Today</a>, <a href="https://ppc.land/x-ads-mcp-gives-grok-and-claude-code-23-tools-to-run-ad-campaigns/">PPC Land</a>, <a href="https://www.socialsamosa.com/news-2/x-launches-mcp-server-advertisers-use-ai-tools-campaign-guidance-12427830">Social Samosa</a>).</div>
+      <p class="sowhat">Media buying is now an agent-addressable surface across essentially the whole social duopoly-plus, and it happened without a single announcement anyone treated as important. The governance question arrives ahead of the capability: an MCP client with campaign-management scope can <em>spend money</em> on your behalf, and the injection results this briefing carded on 29 August — Forcepoint hijacking ten out of ten unguarded summariser runs with invisible HTML — apply directly to an agent reading campaign copy and analytics text. Before you connect this, decide what the agent's spend ceiling is and who reviews the diff, because the platform is not going to decide that for you.</p>
+      <div><span class="chip arc">ARC: AGENT-PROTOCOL-CONSOLIDATION · D5</span><span class="chip">2x SRC</span><span class="chip">BROKE 27–28 AUG</span></div>
+      <div class="src"><a href="https://www.mediapost.com/publications/article/417438/x-launches-advertiser-mcp-enables-third-party-ai.html">MediaPost</a> · <a href="https://www.socialmediatoday.com/news/x-launches-mcp-server/828552/">Social Media Today</a> · <a href="https://ppc.land/x-ads-mcp-gives-grok-and-claude-code-23-tools-to-run-ad-campaigns/">PPC Land</a> · <a href="https://www.socialsamosa.com/news-2/x-launches-mcp-server-advertisers-use-ai-tools-campaign-guidance-12427830">Social Samosa</a> · <a href="https://marketingmind.in/x-introduces-ads-mcp-to-let-ai-connectors-create-and-manage-ad-campaigns/">Marketing Mind</a></div>
+    </article>
+
+
+    <article class="card w3 note" data-cat="business" data-story-id="arintra-25m-series-b">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#6</span> <span class="cat">BUSINESS · VERTICAL AI</span></div>
+      <h4>Arintra raises $25M Series B on a medical-coding platform already processing $5B in annual claims</h4>
+      <div class="body">Announced across <strong>24–28 August</strong>: <strong>Arintra</strong> — Texas-headquartered with a <strong>Bengaluru</strong> engineering base, founded by <strong>Preeti Bhargava</strong> and <strong>Nitesh Shroff</strong> — raised about <strong>$25 million</strong> in a Series B led by <strong>Define Ventures</strong>, taking total funding to <strong>$51 million</strong>. Existing investors participating: <strong>Peak XV Partners</strong>, the <strong>Yale New Haven Health Center for Health Care Innovation</strong>, <strong>Endeavor Health Ventures</strong>, <strong>Y Combinator</strong>, Counterpart Ventures, Ten13 and Spider Capital. The product is <strong>autonomous medical coding</strong>: LLMs combined with <strong>clinical knowledge graphs</strong> to read patient charts in context and apply specialty-specific coding rules. The traction numbers are the reason this is carded rather than filed — the platform processes more than <strong>$5 billion in annual claim value</strong> for organisations representing more than <strong>$50 billion in combined net patient revenue</strong>, across <strong>23-plus specialties</strong> in ambulatory, emergency, diagnostic and inpatient settings (<a href="https://www.fiercehealthcare.com/finance/arintra-banks-25m-series-b-funding-round-ai-driven-revenue-assurance-platform">Fierce Healthcare</a>, <a href="https://hitconsultant.net/2026/08/24/arintra-autonomous-medical-coding-funding/">HIT Consultant</a>, <a href="https://www.prnewswire.com/news-releases/arintra-raises-25m-to-pioneer-revenue-assurance-for-americas-health-systems-302860106.html">PR Newswire</a>).</div>
+      <p class="sowhat">This is what vertical AI looks like when it stops being a pitch: a boring, regulated, high-volume back office where the output is auditable in dollars and the failure mode is a denied claim rather than a bad paragraph. Note who is on the cap table — <strong>two provider systems investing directly</strong>. When your customers become your investors in a compliance-heavy vertical, that is a distribution moat, not a valuation signal. It also lands on the same beat as New #1: revenue-cycle coding is exactly the kind of "entry-level back office" work the layoff ledger in Developing #3 keeps counting.</p>
+      <div><span class="chip arc">ARC: VERTICAL-AI-REVENUE-CYCLE · D1</span><span class="chip">2x SRC + PRIMARY</span><span class="chip">DATED 24–28 AUG</span></div>
+      <div class="src"><a href="https://www.fiercehealthcare.com/finance/arintra-banks-25m-series-b-funding-round-ai-driven-revenue-assurance-platform">Fierce Healthcare</a> · <a href="https://hitconsultant.net/2026/08/24/arintra-autonomous-medical-coding-funding/">HIT Consultant</a> · <a href="https://www.prnewswire.com/news-releases/arintra-raises-25m-to-pioneer-revenue-assurance-for-americas-health-systems-302860106.html">PR Newswire</a> · <a href="https://dealroom.co/news/146173-arintra-lands-25m-series-b-for-autonomous-medical-coding/">Dealroom</a> · <a href="https://pulse2.com/arintra-raises-25-million-series-b-as-ai-revenue-platform-processes-5-billion-in-annual-claims/">Pulse 2</a> · <a href="https://www.biospace.com/press-releases/arintra-raises-25m-to-pioneer-revenue-assurance-for-americas-health-systems">BioSpace</a></div>
+    </article>
+
+
+    <article class="card w3 note" data-cat="research" data-story-id="transfyr-25m-seed">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#7</span> <span class="cat">RESEARCH · AGENTIC SCIENCE</span></div>
+      <h4>Transfyr launches with $25M from General Catalyst to build an observability layer for the laboratory</h4>
+      <div class="body">Reported <strong>27–28 August</strong>: <strong>Transfyr</strong>, based in <strong>Cambridge</strong>, launched with <strong>$25 million in seed funding led by General Catalyst</strong>. The thesis is narrow and unusually concrete for a seed at that size: an <strong>observability layer for science</strong>, using <strong>sensors plus multimodal models</strong> to capture what actually happens on the bench — the activity in a laboratory that never reaches the notebook, the protocol, or the paper (<a href="https://techstartups.com/2026/08/28/startup-funding-news-today-august-28-2026-ausperbio-civilgrid-transfyr-yardstik-more/">Tech Startups, 28 Aug</a>). This scan found the item in a dated funding roundup and could not locate a second independent write-up or a company primary post, so it is carded at <strong>Agg 1x</strong> and the round terms beyond "$25M seed, General Catalyst" should be treated as unconfirmed.</div>
+      <p class="sowhat">Read this directly against yesterday's hero. <strong>Anthropic's Model Hardware Standard</strong> gives agents a way to <em>drive</em> instruments; Transfyr is funding the inverse — a way to <em>watch</em> what instruments and humans did. Both are bets that the binding constraint in AI-for-science is not model capability but the missing telemetry layer between the model and the bench, and a $25M seed at that thesis two days after MHS opened is not a coincidence. The research beat was thin this weekend and this is the one item in it with money and a date attached; it is carded with that caveat visible rather than inflated.</p>
+      <div><span class="chip arc">ARC: AGENTIC-SCIENCE · D3</span><span class="chip rumor">AGG 1x — SINGLE ROUNDUP, NO PRIMARY POST FOUND</span></div>
+      <div class="src"><a href="https://techstartups.com/2026/08/28/startup-funding-news-today-august-28-2026-ausperbio-civilgrid-transfyr-yardstik-more/">Tech Startups (funding roundup, 28 Aug)</a></div>
+    </article>
+
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="metriport-26m">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#8</span> <span class="cat">ENTERPRISE · HEALTH DATA</span></div>
+      <h4>Metriport raises $26M with Amazon One Medical and Color Health already on the platform</h4>
+      <div class="body">Announced <strong>27 August</strong>: <strong>Metriport</strong> raised <strong>$26 million</strong> led by <strong>TJ Parker</strong>, general partner at <strong>Matrix</strong>, with <strong>ARTIS</strong> and <strong>Y Combinator</strong> participating, taking total funding to <strong>$28.4 million</strong>. The product is <strong>open-source data infrastructure</strong> that turns scattered, fragmented patient records into structured information available at the point of care. Named users: <strong>Amazon One Medical</strong>, <strong>Sollis Health</strong> and <strong>Color Health</strong>. The stated use of funds is scaling the platform and expanding its <strong>AI/ML and agentic capabilities</strong> (<a href="https://www.prnewswire.com/news-releases/metriport-raises-26-million-to-give-clinicians-insight-into-any-patient-question-at-the-point-of-care-302862056.html">PR Newswire</a>, <a href="https://endpoints.news/metriport-raises-26m-to-help-doctors-retrieve-patient-data/">Endpoints News</a>, <a href="https://www.citybiz.co/article/895691/metriport-secures-26m-led-by-matrix-to-aggregate-clinical-data/">citybiz</a>).</div>
+      <p class="sowhat">Two health-data rounds on consecutive days — this and Arintra at #6 — and neither is selling a model. Both are selling <em>the substrate a model needs to be useful in a clinic</em>: structured records on one side, coded claims on the other. That is the shape of applied AI money right now, and it is worth noticing that the open-source infrastructure play and the autonomous-agent play are being funded by the same thesis from opposite directions.</p>
+      <div><span class="chip arc">ARC: CLINICAL-AI-DEPLOYMENT · D2</span><span class="chip">2x SRC + PRIMARY</span></div>
+      <div class="src"><a href="https://www.prnewswire.com/news-releases/metriport-raises-26-million-to-give-clinicians-insight-into-any-patient-question-at-the-point-of-care-302862056.html">PR Newswire</a> · <a href="https://endpoints.news/metriport-raises-26m-to-help-doctors-retrieve-patient-data/">Endpoints News</a> · <a href="https://pulse2.com/metriport-raises-26-million-as-healthcare-data-platform-reaches-amazon-one-medical-sollis-health-and-color-health/">Pulse 2</a> · <a href="https://www.citybiz.co/article/895691/metriport-secures-26m-led-by-matrix-to-aggregate-clinical-data/">citybiz</a></div>
+    </article>
+
+
+    <article class="card w2 mon" data-cat="policy" data-story-id="techbbq-europe-control">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#9</span> <span class="cat">POLICY · SOVEREIGNTY</span></div>
+      <h4>At TechBBQ in Copenhagen, Europe's AI conversation kept returning to one question: who is actually in control</h4>
+      <div class="body">Reported <strong>29 August</strong> — the only item in this edition that broke inside the last 24 hours. At <strong>TechBBQ</strong> in Copenhagen, TechCrunch reports that conversations among investors, founders and operators from across Europe repeatedly circled back to <strong>how Europe gains more control over the technology powering AI</strong>, rather than to model capability, funding levels or product (<a href="https://techcrunch.com/2026/08/29/at-techbbq-europes-ai-conversations-kept-coming-back-to-whos-actually-in-control/">TechCrunch</a>). This is a conference-mood dispatch, not an event: no policy, funding vehicle or company action attaches to it, and it is carded at <strong>Agg 1x</strong> on a single outlet with that limitation stated rather than dressed up.</div>
+      <p class="sowhat">Carded because sentiment at a founder conference is a leading indicator for where European capital and policy pressure go next, and because it is the honest freshest thing this scan found. Set it against the EU regulatory clock this briefing already tracks — Article 50 transparency in force since 2 August, machine-readable marking biting 2 December — and the read is that the continent's builders have moved past compliance as the frame and onto <em>ownership</em> as the frame. Watch for that language showing up in sovereign-cloud procurement before it shows up in legislation.</p>
+      <div><span class="chip arc">ARC: AI-SOVEREIGNTY-EUROPE · D1</span><span class="chip rumor">AGG 1x — SINGLE OUTLET, MOOD NOT EVENT</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/08/29/at-techbbq-europes-ai-conversations-kept-coming-back-to-whos-actually-in-control/">TechCrunch (29 Aug)</a></div>
+    </article>
+
+
+    <article class="card w2 mon" data-cat="business" data-story-id="legato-hearing-glasses">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#10</span> <span class="cat">BUSINESS · DEVICES</span></div>
+      <h4>Legato leaves stealth with $12M and hearing assistance built into the arms of ordinary eyewear</h4>
+      <div class="body">On <strong>26 August</strong>, hearing-tech startup <strong>Legato</strong> emerged from stealth with <strong>$12 million</strong> and a first look at <strong>Legato Frames</strong> — the company's patented hearing-assistance technology integrated into the arms of eyeglass frames rather than worn in or behind the ear. Launch is expected <strong>later in the autumn</strong> (<a href="https://techcrunch.com/2026/08/26/hearing-tech-startup-legato-emerges-from-stealth-with-12m-and-a-peek-at-its-ai-hearing-glasses/">TechCrunch</a>).</div>
+      <p class="sowhat">The interesting bet is the form factor as a <em>stigma</em> play, not a technology play: hearing aids are notoriously under-adopted because of how they look, and glasses are already socially invisible. It also lands in the same week this briefing carded Meta closing a smart-glasses recording bypass — the face is becoming crowded compute real estate, and the assistive use case is the one with the clearest willingness to pay and the least resistance.</p>
+      <div><span class="chip arc">ARC: AI-WEARABLES · D1</span><span class="chip rumor">AGG 1x — SINGLE OUTLET</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/08/26/hearing-tech-startup-legato-emerges-from-stealth-with-12m-and-a-peek-at-its-ai-hearing-glasses/">TechCrunch (26 Aug)</a></div>
+    </article>
+
+  </div>
+
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="datacenter-consent-backlash">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">D1</span> <span class="cat">POLICY · CONSENT</span></div>
+      <h4>Day 43: the data-centre consent fight stops being local and becomes a Senate map</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> This thread has sat in Tracking as a <em>project ledger</em> — 75-plus projects worth ~$130B blocked or delayed in Q1 2026. Today it moves, and the movement is jurisdictional. <strong>CNBC on 29 August</strong> reports the tech backlash at "fever pitch" as AI angst converges with social-media fears heading into November. <strong>Newsweek</strong> and <strong>The Hill</strong> both place data-centre opposition inside the <strong>six Senate races the Cook Political Report rates toss-ups</strong> — <strong>Michigan, Ohio, Texas, Maine, Iowa and Alaska</strong>. And the polling hardened: the <strong>Annenberg Public Policy Center</strong> finds <strong>61% of Americans oppose new data centres in their area — 69% of Democrats and 54% of Republicans</strong>, while <strong>Echelon Insights</strong> found voters would rather have a <em>nuclear plant</em> in their community than an AI data centre.</div>
+      <div class="body">Escalated from Tracking to critical because the venue changed, not because the numbers did. The Q1 ledger is unchanged; what is new is that opposition now has a <em>ballot expression</em> in races that decide Senate control, and it is bipartisan by a 15-point spread rather than a partisan cause. The nuclear-plant comparison is the detail to keep: opposition is not tracking measurable harm — nobody polls that way about radiation — it is tracking the <strong>absence of local consent and local benefit</strong>. That is a much harder thing for a developer to negotiate away with a tax abatement. Note the honest limit on this card: the 29 August reporting is <strong>analysis and polling aggregation</strong>, not a dated regulatory or corporate event, which is why this escalates a thread rather than leading the edition.</div>
+      <p class="sowhat">If you have a site in Michigan, Ohio, Texas, Maine, Iowa or Alaska, your permitting timeline is now coupled to a federal election calendar you do not control, and the window between now and November is the one where local commitments get made or refused. The specific ask that moves these numbers is not jobs — it is <strong>utility bills</strong>. Whoever can put a signed, enforceable ratepayer-protection term in front of a county commission before the campaign season prices it will build; whoever arrives with a jobs slide will not.</p>
+      <div><span class="chip arc">ARC: DATACENTER-CONSENT-BACKLASH · D43</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/08/29/tech-backlash-ai-data-centers-elections.html">CNBC (29 Aug)</a> · <a href="https://www.newsweek.com/ai-data-center-war-where-democrats-republicans-in-key-senate-races-stand-12354265">Newsweek (Senate races)</a> · <a href="https://thehill.com/homenews/campaign/6044618-ai-data-center-backlash-michigan-ohio-pennsylvania/">The Hill</a> · <a href="https://www.newsweek.com/ai-data-center-pushback-republicans-democrats-12348522">Newsweek (Rage Against the Data Centers)</a> · <a href="https://www.brookings.edu/articles/data-center-backlash-signals-a-fight-over-ai-power/">Brookings</a></div>
+    </article>
+
+
+    <article class="card w3 note" data-cat="policy" data-story-id="workforce">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D2</span> <span class="cat">POLICY · LABOUR</span></div>
+      <h4>Day 62: the layoff ledger steps to 365 events and 209,032 workers</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The ledger this briefing has carried unchanged for several editions finally moved. <strong>As of 28 August 2026</strong> the tracker records <strong>365 layoff events in 2026 affecting 209,032 workers</strong>, against <strong>322 events and ~205,832 workers</strong> at the last reading — <strong>43 more events and roughly 3,200 more workers</strong>. The AI-attributed subset stands at about <strong>205,000</strong>, which has already <strong>matched the full-year 2025 figure in under eight months</strong>. Run-rate: about <strong>871 job losses per day in 2026</strong> against <strong>564 per day in 2025</strong>.</div>
+      <div class="body">Escalated on movement, but read with the caveat the source itself supplies and which most coverage drops: <strong>77% of recent AI-attributed layoffs were anticipatory</strong> — the technology had not yet replaced the workers when the cut was announced. That is a materially different claim from "AI eliminated 205,000 jobs," and this briefing will keep the distinction on the card. Automation is cited as a primary or contributing driver in more than half of major documented reductions, concentrated in <strong>customer service, data operations, entry-level software and finance back offices</strong>. Named large AI-attributed cuts in the underlying ledger: <strong>Amazon</strong> (16,000-plus warehouse and logistics roles to robotics), <strong>BT Group</strong> (10,000 customer service), <strong>SAP</strong> (8,000), <strong>IBM</strong> (7,800). Confidence is <strong>Agg 1x</strong>: these are tracker aggregations, not government statistics, and the methodology is the trackers' own.</div>
+      <p class="sowhat">Put this beside today's hero and the shape is clear. Mechanical Turk closing is the <em>supply</em> side of the same story — the anonymous micro-task tier disappearing — while the ledger counts the salaried tier. Both point at the same stratification: the middle of the human-work distribution is thinning, the vetted-specialist top is being bid up, and "anticipatory" means a large share of the announced cuts are a bet on capability that has not been demonstrated yet. If you are planning headcount on that bet, the 77% figure is the one to argue with internally.</p>
+      <div><span class="chip arc">ARC: WORKFORCE · D62</span><span class="chip rumor">AGG 1x — TRACKER AGGREGATIONS, NOT OFFICIAL DATA</span></div>
+      <div class="src"><a href="https://displaceindex.com/trends/ai-layoffs-tracker/">DisplaceIndex AI Layoffs Tracker</a> · <a href="https://news.outsourceaccelerator.com/ai-layoffs-205000/">Outsource Accelerator</a> · <a href="https://programs.com/resources/ai-layoffs/">Programs.com ledger</a> · <a href="https://www.informationweek.com/it-staffing-careers/2026-tech-company-layoffs">InformationWeek</a></div>
+    </article>
+
+
+    <article class="card w3 note" data-cat="models" data-story-id="glm-53-launch">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D3</span> <span class="cat">MODELS · OPEN-WEIGHT</span></div>
+      <h4>Day 42: the GLM-5.3 weights date has now been missed by two days, and the answer is finally on the record</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Yesterday this card said the outcome could not be verified. Today it can be stated: <strong>the 28 August staged open-weights date for the GLM-5.3 flagship passed with nothing published</strong> on the <code>zai-org</code> organisation, per two model trackers that watched the placeholder through the deadline. That is a de-escalation of the open-frontier thread, not a carry — a missed release date is information. Separately, and this is the consolation the arc actually got: <strong>GLM-5.3-Flash</strong> — the <strong>320B</strong> model Z.ai had been running anonymously as <strong>Ox Alpha</strong> — is reported released under <strong>MIT on 26 August</strong>, which closes the stealth-model question this briefing has carried at <code>zai-ox-alpha</code>.</div>
+      <div class="body">The honest limit, restated because it has not changed: <code>huggingface.co</code> is blocked by this environment's egress proxy, so <strong>neither the absence of the flagship weights nor the presence of the Flash weights was confirmed at the source</strong>. Both rest on secondary trackers — <a href="https://www.modemguides.com/blogs/ai-news/glm-5-3-open-weights-security-findings">Modem Guides</a>, <a href="https://apidog.com/blog/what-is-glm-5-3/">Apidog</a>, <a href="https://www.progressiverobot.com/2026/08/28/glm-5-3-flash-open-weight-320b-model/">Progressive Robot</a> — which is why the confidence chip reads <strong>Agg 2x</strong> rather than Primary. The pattern worth extracting is the one this card flagged before the date arrived: the flagship's release was gated on a safety review tied to its unusual strength at vulnerability discovery, its licence was never stated publicly, and the gate has now expired without an announcement in either direction. <strong>A quiet non-release is the most likely shape of an open-weight retreat</strong>, and it looks exactly like this.</div>
+      <p class="sowhat">If your 2026 open-weight plan assumed a GLM-5.3-class flagship under a permissive licence, that assumption is two days overdue and unacknowledged — replan against <strong>GLM-5.3-Flash at 320B under MIT</strong> if the report holds, or against Qwen3.8 and DeepSeek V4 Pro, and verify the licence yourself before you benchmark. Nineteen consecutive editions with no Western frontier flagship and now a missed Chinese open-weight date is the same sentence twice: the release calendar everyone is planning against does not exist.</p>
+      <div><span class="chip arc">ARC: OPEN-FRONTIER · D42</span><span class="chip">AGG 2x</span><span class="chip rumor">HUGGINGFACE.CO BLOCKED — NOT CONFIRMED AT SOURCE</span></div>
+      <div class="src"><a href="https://www.modemguides.com/blogs/ai-news/glm-5-3-open-weights-security-findings">Modem Guides</a> · <a href="https://apidog.com/blog/what-is-glm-5-3/">Apidog</a> · <a href="https://www.progressiverobot.com/2026/08/28/glm-5-3-flash-open-weight-320b-model/">Progressive Robot</a> · <a href="https://www.eigent.ai/blog/glm-5-3-coding-cyber-model">Eigent</a> · <a href="https://huggingface.co/zai-org">huggingface.co/zai-org (blocked from this session)</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING / RESOLVED / FOOTER ══════════ -->
+
+<details class="fold" id="fold-tracking">
+  <summary>Still Tracking <small>40 LONG-RUNNERS · NO MOVEMENT THIS EDITION</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="tracking-strip" id="tracking-strip"></div></div>
+</details>
+
+<details class="fold" id="fold-resolved">
+  <summary>Resolved <small>OPEN THREADS, CLOSED</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="resolved-strip" id="resolved-strip"></div></div>
+</details>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 072 · 2026-08-30 (IST) · FORMAT v2</strong></p>
+    <details class="fold" id="fold-method">
+      <summary>Method, scan gaps &amp; caveats <span class="caret"></span></summary>
+      <div class="fold-body">
+        <p>METHOD: <strong>43 web searches</strong> plus five attempted page fetches, across the three scan buckets — Models &amp; core technology (frontier and open-weight releases, agents &amp; tooling, hardware/compute, research, AI security), Applied AI (enterprise adoption, products, startups, partnerships, vertical AI, money) and People/policy/society (workforce, AI jobs by geography, talent moves, culture, regulation). The split ran roughly <strong>15 / 15 / 13</strong>. Sunday's rotating deep beat is <strong>money, startups &amp; new ideas</strong> and it took six queries — weekend funding rounds, stealth exits, AI M&amp;A, YC batch composition, India startup funding, and a targeted a16z verification. It produced <strong>five of the ten New cards</strong> (#3 a16z, #6 Arintra, #7 Transfyr, #8 Metriport, #10 Legato), which is the beat working as intended. v2 format splits the feed into NEW ON THE WIRE (ids absent last edition), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING (long-runners with no movement). Aggregator claims cross-checked against ≥2 outlets; single-source items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act.</p>
+
+        <p>SCAN COUNT, DECLARED: <strong>43 against a 20–28 target.</strong> The overrun is smaller than the last three editions but has the same cause: general-date queries ("AI news August 30 2026", "AI announcement Saturday August 29 2026") return SEO aggregator pages — llm-stats, llmgateway, aiagentstore, aiweekly, aitoolsrecap, explainx and similar — whose claims each cost a verification search. About a third of this edition's queries were verification rather than discovery, and four candidate items were killed by that verification rather than carded.</p>
+
+        <p>THE FRESHNESS TARGET WAS MET, BARELY, AND THE 24-HOUR NUMBER IS BAD: <strong>ten new items against a target of ten, but only ONE carries NEW.24H</strong> — the TechBBQ dispatch at #9, which is a conference-mood piece rather than an event. The lead broke <strong>25 August</strong>; Cisco is <strong>25 August</strong>; Legato is <strong>26 August</strong>; Google Play, Transfyr and Metriport are <strong>27 August</strong>; a16z and X are <strong>27–28 August</strong>; Arintra spans <strong>24–28 August</strong>. Every one carries <code>new:true</code> with <code>new24h:false</code> and its real date on the card face. In Developing, the data-centre escalation rests on <strong>29 August</strong> reporting and is the only genuinely 24-hour item in the edition. <strong>This is a thin 24-hour window and it is reported as one rather than papered over.</strong> The honest reading of the weekend: Saturday and Sunday produced almost no dated AI events, which is normal and is not worth inventing around.</p>
+
+        <p>WHY THE HERO IS NOT THE FRESHEST ITEM. Under the v2 rule the hero is the biggest genuinely new item unless a developing thread escalates <em>decisively</em>. The data-centre thread escalated on 29 August analysis and polling aggregation — real, and enough to move it from Tracking to a critical Developing card at D1 in the triptych — but not a dated event. Mechanical Turk is an irreversible, dated, primary corporate action with 31 days on the clock. It leads at <code>new24h:false</code>, the same way MHS did yesterday.</p>
+
+        <p>SCAN GAPS, STATED PLAINLY. <strong>(1) The research beat was thin.</strong> arXiv and journal queries returned 2026 papers from January–May and evergreen benchmark-explainer pages; no dated late-August research result survived verification. <strong>Transfyr is the only research-category card</strong>, it is a funding round rather than a finding, and it is carded at Agg 1x from a single dated funding roundup with no company primary post located. That is a gap, not a beat. <strong>(2) Regional coverage outside the US was almost absent.</strong> The India sweep re-surfaced the GCC 510,452 projection and Ringg AI's round, both already tracked; Arintra's Bengaluru engineering base is the only Indian thread in a New card. Nothing dated surfaced for the <strong>UK, UAE/Dubai, Singapore, Canada or Saudi</strong>. <strong>(3) Nine hosts could not be read directly</strong> because they are blocked by this environment's egress proxy — <code>cnbc.com</code>, <code>techcrunch.com</code>, <code>theregister.com</code>, <code>newsroom.cisco.com</code> and <code>huggingface.co</code> among them. Every card resting on those outlets rests on search-index text plus cross-outlet corroboration, and Developing #3 records the GLM-5.3 outcome as tracker-sourced rather than source-confirmed for exactly this reason. <strong>Every link in this edition appeared in a search result during this scan; none was constructed.</strong></p>
+
+        <p>KILLS — claims that surfaced and are deliberately <strong>not</strong> in this edition. <strong>(1) "OpenAI retires the DALL·E GPT on 30 August."</strong> True, and it happens today — but this briefing has carried it since <strong>6 August</strong> under <code>openai-august-retirements</code>, so it is not new. It moves to Resolved, where a date arriving on a carried thread belongs. <strong>(2) "Microsoft's $190B 2026 capex, with $25B attributable to memory and storage price rises."</strong> A genuinely useful number for the DRAM arc, but it is dated <strong>April and July 2026</strong> earnings material re-surfaced by aggregators. Too old to card. <strong>(3) "Stripe acquires OpenRouter for $7B-plus."</strong> Dated <strong>16–21 August</strong> and already carded at <code>stripe-openrouter-7b</code>. <strong>(4) "AccuKnox launches AgentZ."</strong> Already killed in edition 071 as single-source and thinly specified; it resurfaced in this scan and is killed again for the same reason. <strong>(5) "Dario Amodei says the AI backlash is fundamentally a crisis of trust."</strong> Dated <strong>16 August</strong>; a real and quotable statement, but two weeks old and it would displace a dated item. It is the correct frame for Developing #1 and is noted here rather than carded. <strong>(6) QueryStory, YuVerse's Yunite launches and several weekend funding roundups</strong> — dated but available only through aggregator index pages with no deep link and no primary post; dropped rather than padded, because the routine's rule is to ship fewer rather than recycle.</p>
+
+        <p>AUTO-RETIREMENTS THIS EDITION: <strong>eighteen</strong> Tracking one-liners retired silently after multiple editions without a dated step — the cyber-defence open letter, Claudeforce, Instinct's Series B, the Gates essay, Barret Zoph's Google role, the <em>Nature</em> self-research field test, the Microduck biped, Grok 4.6 in Foundry, NVIDIA's AVO ARC-AGI-3 result, Qwen3.8-27B's weights, the Vera Olympus CPU, the unified Copilot app, the Poolside licence, Adversa's Cryptographic Context Injection, Mandiant's vulnerability harness, OpenAI's July security overhaul, the Nscale lease and the AWS 2M-GPU commitment's standalone line. <strong>Two Developing threads were demoted</strong> to one-liners: <code>huggingface-13b-sale</code> after five editions as a card, with no reporting later than 28 August surfacing in this scan, and <code>nvidia-server-price-hike</code>, whose arc moved today through New #2 instead. <strong>One Tracking thread was promoted</strong> to a Developing card — <code>datacenter-consent-backlash</code>, on the Senate-race escalation — and <strong>one</strong> more, <code>workforce</code>, on the updated ledger. Ten New cards from edition 071 auto-demoted to Tracking; the eleventh, <code>zai-ox-alpha</code>, resolved.</p>
+
+        <p>NOT INVENTED: no story, quote, number or link in this edition was produced without a source found in this scan. Where a figure could not be confirmed — the GLM-5.3 flagship's release status, Transfyr's round terms, the layoff ledger's methodology — the card says so on its face rather than rounding the uncertainty away.</p>
+      </div>
+    </details>
+    <p style="margin-top:10px">Next edition: Monday 31 August 2026. Rotating deep beat: <strong>research</strong> — with a note to self that this weekend's research sweep came up empty and Monday's needs to go deeper than arXiv listing pages.</p>
+  </div>
+</footer>
+
+<script id="signal-state" type="application/json">
+{
+ "edition": 72,
+ "date": "2026-08-30",
+ "tz": "Asia/Kolkata",
+ "format": "v2",
+ "scanCount": 43,
+ "counts": {
+  "new": 10,
+  "developing": 3,
+  "tracking": 40
+ },
+ "tiers": {
+  "critical": 3,
+  "notable": 7,
+  "monitor": 3
+ },
+ "stories": [
+  {
+   "id": "mturk-shutdown",
+   "section": "new",
+   "rank": 1,
+   "title": "Amazon will shut Amazon Mechanical Turk on 30 September 2026, closing after 21 years the crowdsourced task marketplace it launched in 2005 and which at peak carried more than 500,000 registered workers. New customer signups closed on 30 July 2026, and AWS SageMaker Ground Truth and Amazon Augmented AI (A2I) shut alongside it. Amazon attributes the decision to an internal assessment of its programs and services and has not publicly blamed AI. Jeff Bezos originally called the service 'artificial artificial intelligence'. Demand for human data work has migrated to Scale AI, Mercor and Prolific, which recruit vetted domain specialists on hourly rates rather than an open pool on cents-per-task. A 2023 study by Swiss academic researchers found up to 46% of MTurk workers were already using large language models to complete their assigned tasks",
+   "tier": "critical",
+   "impact": 8,
+   "delta": "new",
+   "arc": "human-labour-behind-ai",
+   "arcDay": 1,
+   "confidence": "2x src",
+   "new24h": false,
+   "firstSeen": "2026-08-25",
+   "lastUpdate": "2026-08-30",
+   "category": "policy"
+  },
+  {
+   "id": "android-memory-limits",
+   "section": "new",
+   "rank": 2,
+   "title": "Google published two new Google Play app-quality requirements on 27 August, the principal one being memory. From February 2027 apps must meet new thresholds for dynamic memory usage, bitmap usage and code optimisation, with developers expected to shrink and optimise code by at least 25%. Apps that miss the thresholds are not banned but lose Play Store visibility and publishing capabilities. The stated cause is AI: Samsung, SK hynix and Micron are allocating fab capacity to higher-margin HBM for AI accelerators rather than commodity mobile DRAM. Flagship LPDDR5/LPDDR5X bulk contract pricing moved from roughly $3.50-$5.50 per GB in mid-2025 to $19.00-$21.00 per GB this year. This is the first consumer-side compliance deadline created by AI accelerator demand",
+   "tier": "critical",
+   "impact": 7,
+   "delta": "new",
+   "arc": "dram-hbm-supercycle",
+   "arcDay": 10,
+   "confidence": "2x src",
+   "new24h": false,
+   "firstSeen": "2026-08-27",
+   "lastUpdate": "2026-08-30",
+   "category": "hardware"
+  },
+  {
+   "id": "a16z-machine-age-fund",
+   "section": "new",
+   "rank": 3,
+   "title": "Andreessen Horowitz announced in a firm blog post on Friday 28 August that it has closed $1.1 billion for the Machine Age Fund, aimed at the physical buildout of AI. Scope named: chips, memory, networking and storage; data centres, robotics and home appliances; and cooling, materials, electrical infrastructure and real estate. The firm frames AI demand as hitting supply-chain, physics and computer-science constraints simultaneously and calls it a once-in-a-generation opportunity to redesign these systems as platforms extending all the way to electricity. Specific gaps named: faster and more efficient systems, higher-bandwidth and lower-cost memory, scalable interconnects and power-efficient edge devices",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "ai-capital-markets",
+   "arcDay": 22,
+   "confidence": "Primary",
+   "new24h": false,
+   "firstSeen": "2026-08-28",
+   "lastUpdate": "2026-08-30",
+   "category": "business"
+  },
+  {
+   "id": "cisco-supermicro-rack-scale",
+   "section": "new",
+   "rank": 4,
+   "title": "Cisco announced on 25 August that it is expanding the Secure AI Factory with NVIDIA to a rack-scale architecture and adding Supermicro as a compute partner for high-density liquid- and air-cooled systems. Support for NVIDIA Vera Rubin NVL72 and HGX Rubin NVL8; Cisco AI Networking spanning both Cisco Silicon One and NVIDIA Spectrum-X Ethernet silicon; rack-to-fabric liquid cooling supporting systems beyond 200 kilowatts per rack for reasoning, agentic AI and trillion-parameter training. Ships with NVIDIA AI Enterprise and Cisco AgenticOps through Cloud Control, correlating job health against compute, NIC, optics and network performance. Target buyers named as enterprises, neoclouds and sovereign clouds. Supermicro compute becomes orderable inside the Secure AI Factory from October 2026",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "compute-buildout",
+   "arcDay": 44,
+   "confidence": "Primary",
+   "new24h": false,
+   "firstSeen": "2026-08-25",
+   "lastUpdate": "2026-08-30",
+   "category": "hardware"
+  },
+  {
+   "id": "x-ads-mcp",
+   "section": "new",
+   "rank": 5,
+   "title": "X launched an Ads Model Context Protocol server on 27-28 August connecting any MCP-compatible agent - Grok and Claude Code named - to 23 X Ads tools covering reading campaign data, running analytics, and creating, managing, optimising and measuring live campaigns through natural-language instruction. Meta, TikTok, Pinterest and Snapchat have each shipped advertiser MCP integrations over the past year, making X the fifth major social platform with an agent-addressable media-buying surface. The governance question - an MCP client with campaign-management scope can spend money - arrives ahead of any published spend-control guidance",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "agent-protocol-consolidation",
+   "arcDay": 5,
+   "confidence": "2x src",
+   "new24h": false,
+   "firstSeen": "2026-08-27",
+   "lastUpdate": "2026-08-30",
+   "category": "enterprise"
+  },
+  {
+   "id": "arintra-25m-series-b",
+   "section": "new",
+   "rank": 6,
+   "title": "Arintra - Texas-headquartered with a Bengaluru engineering base, founded by Preeti Bhargava and Nitesh Shroff - raised about $25 million in a Series B led by Define Ventures across 24-28 August, taking total funding to $51 million. Participating: Peak XV Partners, the Yale New Haven Health Center for Health Care Innovation, Endeavor Health Ventures, Y Combinator, Counterpart Ventures, Ten13 and Spider Capital. The product is autonomous medical coding combining large language models with clinical knowledge graphs to read patient charts in context and apply specialty-specific coding rules. The platform processes more than $5 billion in annual claim value for organisations representing more than $50 billion in combined net patient revenue, across 23-plus specialties in ambulatory, emergency, diagnostic and inpatient settings",
+   "tier": "notable",
+   "impact": 5,
+   "delta": "new",
+   "arc": "vertical-ai-revenue-cycle",
+   "arcDay": 1,
+   "confidence": "2x src",
+   "new24h": false,
+   "firstSeen": "2026-08-24",
+   "lastUpdate": "2026-08-30",
+   "category": "business"
+  },
+  {
+   "id": "transfyr-25m-seed",
+   "section": "new",
+   "rank": 7,
+   "title": "Transfyr, based in Cambridge, launched on 27 August with $25 million in seed funding led by General Catalyst to build an observability layer for science - sensors plus multimodal models capturing laboratory activity that never reaches the notebook, the protocol or the paper. This scan located the item only in a dated funding roundup and found no second independent write-up or company primary post, so round terms beyond '$25M seed, General Catalyst' are unconfirmed. Read against Anthropic's Model Hardware Standard, opened 27 August: MHS gives agents a way to drive instruments, Transfyr proposes a way to watch what instruments and humans did",
+   "tier": "notable",
+   "impact": 5,
+   "delta": "new",
+   "arc": "agentic-science",
+   "arcDay": 3,
+   "confidence": "Agg 1x",
+   "new24h": false,
+   "firstSeen": "2026-08-27",
+   "lastUpdate": "2026-08-30",
+   "category": "research"
+  },
+  {
+   "id": "metriport-26m",
+   "section": "new",
+   "rank": 8,
+   "title": "Metriport raised $26 million on 27 August led by TJ Parker, general partner at Matrix, with ARTIS and Y Combinator participating, taking total funding to $28.4 million. The product is open-source data infrastructure that turns scattered, fragmented patient records into structured information available to clinicians at the point of care. Named users: Amazon One Medical, Sollis Health and Color Health. Stated use of funds is scaling the platform and expanding its AI/ML and agentic capabilities. Two health-data rounds on consecutive days - this and Arintra - and neither is selling a model; both sell the substrate a model needs to be useful in a clinic",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "clinical-ai-deployment",
+   "arcDay": 2,
+   "confidence": "Primary",
+   "new24h": false,
+   "firstSeen": "2026-08-27",
+   "lastUpdate": "2026-08-30",
+   "category": "enterprise"
+  },
+  {
+   "id": "techbbq-europe-control",
+   "section": "new",
+   "rank": 9,
+   "title": "TechCrunch reported on 29 August from TechBBQ in Copenhagen that conversations among investors, founders and operators from across Europe repeatedly returned to how Europe gains more control over the technology powering AI, rather than to model capability, funding levels or product. This is a conference-mood dispatch rather than an event: no policy, funding vehicle or company action attaches to it, and it rests on a single outlet. It is the only item in this edition that broke inside the last 24 hours. Carded because founder-conference sentiment is a leading indicator for where European capital and procurement pressure move next, against an EU regulatory clock already running - Article 50 transparency in force since 2 August, machine-readable marking biting 2 December",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "ai-sovereignty-europe",
+   "arcDay": 1,
+   "confidence": "Agg 1x",
+   "new24h": true,
+   "firstSeen": "2026-08-29",
+   "lastUpdate": "2026-08-30",
+   "category": "policy"
+  },
+  {
+   "id": "legato-hearing-glasses",
+   "section": "new",
+   "rank": 10,
+   "title": "Hearing-tech startup Legato emerged from stealth on 26 August with $12 million and a first look at Legato Frames - the company's patented hearing-assistance technology integrated into the arms of eyeglass frames rather than worn in or behind the ear, with launch expected later in the autumn. The bet is on form factor as a stigma play rather than a technology play: hearing aids are under-adopted largely because of how they look, and glasses are socially invisible. Single-outlet reporting",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "ai-wearables",
+   "arcDay": 1,
+   "confidence": "Agg 1x",
+   "new24h": false,
+   "firstSeen": "2026-08-26",
+   "lastUpdate": "2026-08-30",
+   "category": "business"
+  },
+  {
+   "id": "datacenter-consent-backlash",
+   "section": "developing",
+   "rank": 1,
+   "title": "Day 43. The data-centre consent fight moved venue: from a project ledger to a Senate map. CNBC reported on 29 August that the tech backlash has reached fever pitch as AI angst converges with social-media fears heading into November. Newsweek and The Hill both place data-centre opposition inside the six Senate races the Cook Political Report rates toss-ups - Michigan, Ohio, Texas, Maine, Iowa and Alaska. Annenberg Public Policy Center polling finds 61% of Americans oppose new data centres in their area, including 69% of Democrats and 54% of Republicans; Echelon Insights found voters would rather have a nuclear plant in their community than an AI data centre. The Q1 2026 ledger is unchanged at 75-plus projects worth about $130B blocked or delayed; what changed is where it is being litigated. Honest limit: the 29 August reporting is analysis and polling aggregation, not a dated regulatory or corporate event",
+   "tier": "critical",
+   "impact": 8,
+   "delta": "escalated",
+   "arc": "datacenter-consent-backlash",
+   "arcDay": 43,
+   "confidence": "2x src",
+   "new24h": true,
+   "update": "Promoted from Still Tracking. Opposition acquired a ballot expression: six Cook-rated toss-up Senate races, Annenberg at 61% opposed with a 15-point bipartisan spread, and the nuclear-plant comparison showing the driver is absent consent rather than measured harm.",
+   "firstSeen": "2026-07-19",
+   "lastUpdate": "2026-08-30",
+   "category": "policy"
+  },
+  {
+   "id": "workforce",
+   "section": "developing",
+   "rank": 2,
+   "title": "Day 62. The AI-attribution layoff ledger moved after several static editions. As of 28 August 2026 the tracker records 365 layoff events in 2026 affecting 209,032 workers, against 322 events and about 205,832 workers at the last reading - 43 more events and roughly 3,200 more workers. The AI-attributed subset stands at about 205,000, already matching the full-year 2025 figure in under eight months, at a run rate of about 871 job losses per day in 2026 against 564 per day in 2025. Automation is cited as a primary or contributing driver in more than half of major documented reductions, concentrated in customer service, data operations, entry-level software and finance back offices. Named large AI-attributed cuts: Amazon 16,000-plus warehouse and logistics roles to robotics, BT Group 10,000 customer service, SAP 8,000, IBM 7,800. Carried caveat: 77% of recent AI-attributed layoffs were anticipatory - the technology had not yet replaced the workers when the cut was announced",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "escalated",
+   "arc": "workforce",
+   "arcDay": 62,
+   "confidence": "Agg 1x",
+   "new24h": false,
+   "update": "Ledger stepped from 322 events / ~205,832 workers to 365 events / 209,032 workers as of 28 August. The 77%-anticipatory caveat is retained on the card because most coverage drops it.",
+   "firstSeen": "2026-06-30",
+   "lastUpdate": "2026-08-30",
+   "category": "policy"
+  },
+  {
+   "id": "glm-53-launch",
+   "section": "developing",
+   "rank": 3,
+   "title": "Day 42. Yesterday this card recorded the GLM-5.3 flagship open-weights outcome as unverifiable. Today it is on the record: the 28 August staged date passed with nothing published on the zai-org organisation, per two model trackers that watched the placeholder through the deadline. That is a de-escalation of the open-frontier thread - a missed release date is information. Separately, GLM-5.3-Flash - the 320B model Z.ai had been running anonymously as Ox Alpha - is reported released under MIT on 26 August, closing the stealth-model question carried at zai-ox-alpha. Honest limit unchanged: huggingface.co is blocked by this environment's egress proxy, so neither the absence of the flagship weights nor the presence of the Flash weights was confirmed at source; both rest on secondary trackers. The flagship's release was gated on a safety review tied to its strength at vulnerability discovery, its licence was never stated publicly, and the gate has now expired without an announcement in either direction",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "deescalated",
+   "arc": "open-frontier",
+   "arcDay": 42,
+   "confidence": "Agg 1x",
+   "new24h": false,
+   "update": "The 28 August staged weights date is now two days overdue with nothing published and no statement from Z.ai. GLM-5.3-Flash at 320B is reported under MIT from 26 August, which resolves the Ox Alpha identity thread.",
+   "firstSeen": "2026-07-20",
+   "lastUpdate": "2026-08-30",
+   "category": "models"
+  }
+ ],
+ "tracking": [
+  { "id": "anthropic-mhs", "label": "AUTO-DEMOTED FROM NEW: Anthropic's Model Hardware Standard research preview of 27 August holds - Genentech's BCA assay, Carnegie Mellon's 3x-faster dose-response work, Universal Robots, Tecan and AWS named. Access still waitlisted, open-sourcing still intent rather than shipped", "arc": "agent-protocol-consolidation", "arcDay": 5 },
+  { "id": "nvidia-revshare-pause", "label": "AUTO-DEMOTED FROM NEW: the pause on parts of NVIDIA's July AI Compute Partnership, on antitrust exposure flagged internally, holds. NVIDIA's line that the July model 'is still in place' is unchanged and unelaborated", "arc": "ai-capex-financing", "arcDay": 5 },
+  { "id": "jalapeno-benchmarks", "label": "AUTO-DEMOTED FROM NEW: OpenAI's first published Jalapeno numbers hold - 1.5-1.9x work per watt, 1.7-3.6x lower latency, 13.4 PFLOPs MXFP4 at 700W - as does SemiAnalysis's disclaimer that the Blackwell comparison is unfair on HBM4 grounds and Rubin is the like-for-like part", "arc": "custom-silicon", "arcDay": 2 },
+  { "id": "openweight-acquisition-targets", "label": "AUTO-DEMOTED FROM NEW: the reading of open-weight labs as the Valley's most contested acquisition targets holds, and today's missed GLM-5.3 weights date is a data point for rather than against it", "arc": "open-commons-ownership", "arcDay": 6 },
+  { "id": "huggingface-13b-sale", "label": "DEMOTED FROM DEVELOPING: no reporting later than 28 August surfaced in this scan. The $12.9B still rests on one originating source, Reuters and Business Insider still have no signed agreement, and neither NVIDIA nor Hugging Face has commented", "arc": "open-commons-ownership", "arcDay": 6 },
+  { "id": "nvidia-server-price-hike", "label": "DEMOTED FROM DEVELOPING: the 15%-plus 2027 system price notice, the reported Vera rack memory cut from ~55TB to ~28TB and TrendForce's 50-60% 2027 HBM bit-growth forecast all hold. The arc moved today through New #2 instead", "arc": "dram-hbm-supercycle", "arcDay": 10 },
+  { "id": "forcepoint-email-summarizer", "label": "AUTO-DEMOTED FROM NEW: the invisible-HTML test that hijacked ten out of ten injected summarisation runs holds, and applies directly to today's X Ads MCP card", "arc": "agent-security", "arcDay": 64 },
+  { "id": "pew-health-chatbots", "label": "AUTO-DEMOTED FROM NEW: Pew's 25 August finding that 34% of US adults use AI chatbots for at least one health-related reason holds", "arc": "ai-public-adoption", "arcDay": 2 },
+  { "id": "deloitte-agentic-readiness", "label": "AUTO-DEMOTED FROM NEW: Deloitte's agentic readiness gap - 53% deployed against 5% prepared - holds", "arc": "enterprise-ai-execution", "arcDay": 5 },
+  { "id": "dice-ai-skills-79", "label": "AUTO-DEMOTED FROM NEW: Dice's 79% of US tech job postings naming AI skills in July, up from 75% in June and 144% year on year against total tech postings down 10%, holds", "arc": "ai-jobs-us", "arcDay": 2 },
+  { "id": "meta-glasses-led-loophole", "label": "AUTO-DEMOTED FROM NEW: Meta's software update stopping smart-glasses recording when the capture indicator LED is covered holds, and pairs with today's Legato card as the assistive-versus-surveillance split on the same face", "arc": "wearable-privacy", "arcDay": 2 },
+  { "id": "cashfree-relay-smb", "label": "AUTO-DEMOTED FROM NEW: Cashfree's Relay agentic layer for SMB payment operations reaching general availability holds", "arc": "india-applied-ai", "arcDay": 2 },
+  { "id": "fdb-script-agent", "label": "AUTO-DEMOTED FROM NEW: FDB Script Agent's first commercial deployment as an AI prescribing agent holds, alongside today's two health-data rounds", "arc": "clinical-ai-deployment", "arcDay": 2 },
+  { "id": "compute-buildout", "label": "the capital-silicon-power-land arc; today's dated step is carded at New #4 (Cisco, Supermicro, 200kW racks) rather than here", "arc": "compute-buildout", "arcDay": 44 },
+  { "id": "skhynix-indiana-hbm", "label": "the West Lafayette groundbreaking and the CEO's 'critical global HBM shortage' line hold; cleanroom October target unchanged, and New #2 is the consumer-side consequence", "arc": "dram-hbm-supercycle", "arcDay": 10 },
+  { "id": "frontier-act-containment", "label": "the push to write AI-agent containment language into the FRONTIER Act (H.R.9925) ahead of a September markup holds", "arc": "reg-clock", "arcDay": 6 },
+  { "id": "ftc-personalized-pricing", "label": "the FTC's 2-0 proposed enforcement policy statement on personalised pricing holds, comments closing 18 September", "arc": "algorithmic-pricing-enforcement", "arcDay": 4 },
+  { "id": "alibaba-hk80b-ai-placement", "label": "Alibaba's HK$80bn (US$10.21bn) placing of 710,000,000 shares at HK$112.70 holds as stated AI and cloud capex funding", "arc": "ai-capital-markets", "arcDay": 5 },
+  { "id": "frontier-models", "label": "no Western frontier flagship shipped in this window for a nineteenth consecutive edition; Gemini 3.5 Pro remains the standing reference point", "arc": "frontier-models", "arcDay": 36 },
+  { "id": "reg-clock", "label": "no new dated enforcement step under the EU Article 50 transparency regime survived verification; the 2 December 2026 marking date is unchanged", "arc": "reg-clock", "arcDay": 32 },
+  { "id": "nsa-cisa-ai-plc-advisory", "label": "the joint NSA/CISA/FBI/DOE/EPA advisory of 19 August on AI-generated exploitation scripts aimed at internet-exposed PLCs holds", "arc": "ai-critical-infrastructure", "arcDay": 8 },
+  { "id": "nvidia-openai-ohio-105b", "label": "the up-to-$105B backing for the PORTS-Pike campus holds - SB Energy building and owning, OpenAI leasing 20 years - and now sits inside a thread with an electoral dimension", "arc": "compute-buildout", "arcDay": 43 },
+  { "id": "india-gcc-510k-ai", "label": "India's GCC hiring peak holds - 227,991 H1 hires across ~2,120 GCCs, the 510,452 full-year projection, 64% of new roles requiring AI or data skills at a 30-50% salary premium, Bengaluru taking 30%", "arc": "ai-jobs-india", "arcDay": 8 },
+  { "id": "ipo-wave", "label": "the confidential filings and autumn listing expectation hold with no new dated step", "arc": "ipo-wave", "arcDay": 21 },
+  { "id": "anthropic-openai-q2-crossover", "label": "Anthropic's Q2 revenue passing OpenAI's for the first time holds, with the $11.6B / $10.9B discrepancy unresolved", "arc": "ipo-wave", "arcDay": 21 },
+  { "id": "nvidia-h200-china-shipments", "label": "H200s reaching ByteDance and Tencent at roughly 10,000 units each under BIS case-by-case licensing holds", "arc": "chip-export-valve", "arcDay": 9 },
+  { "id": "silicon-data-compute-futures", "label": "CME's 5 October launch of cash-settled H100 and B200 Rental Index Futures holds, with Silicon Data's $30.5M Series A behind the index", "arc": "ai-capital-markets", "arcDay": 21 },
+  { "id": "broadcom-60b-ai-debt", "label": "Broadcom's $60B-plus, potentially ~$100B all-in SPV with Blackstone and Apollo for Anthropic-bound silicon remains unpriced", "arc": "ai-capex-financing", "arcDay": 21 },
+  { "id": "softbank-1t-retail-bond", "label": "the record 1 trillion yen ($6.3B) seven-year retail bond holds, pricing 4 September at an indicative 4.3-4.9%", "arc": "ai-capex-financing", "arcDay": 5 },
+  { "id": "gpt56-cyber-daybreak-red", "label": "GPT-5.6-Cyber and the Daybreak Red access tier hold, still read against an unpatched encrypted-payload bypass", "arc": "offensive-ai-tooling", "arcDay": 9 },
+  { "id": "openai-chatgpt-teens", "label": "the 13-17 ChatGPT experience and its age-prediction routing reach their roughly 1 September target in two days, still with no published classifier error rate", "arc": "ai-minors-safety", "arcDay": 10 },
+  { "id": "rentosertib-fast-track", "label": "the estimated Phase III start under FDA fast-track designation was today, 30 August; no confirmation of enrolment surfaced in this scan, so the thread stays open rather than being called done", "arc": "ai-drug-approval", "arcDay": 20 },
+  { "id": "openai-sb53-strengthen", "label": "OpenAI's 22 August call to amend California's SB 53 holds, with no legislative response", "arc": "lab-self-regulation", "arcDay": 6 },
+  { "id": "agent-security", "label": "the arc's live evidence is unchanged since Forcepoint; today's X Ads MCP card extends the attack surface to media buying without adding a new finding", "arc": "agent-security", "arcDay": 64 },
+  { "id": "agent-platform-war", "label": "no dated platform step this edition beyond X's advertiser MCP, which is carded at New #5", "arc": "agent-platform-war", "arcDay": 21 },
+  { "id": "a2a-aaif-transfer", "label": "A2A's move to the Agentic AI Foundation alongside MCP holds, with AAIF now past 250 members including AWS, Anthropic, Block, Bloomberg, Cloudflare, Google, Microsoft and OpenAI", "arc": "agent-protocol-consolidation", "arcDay": 5 },
+  { "id": "sonnet5-price-permanent", "label": "Claude Sonnet 5's standard price rises to $3/$15 from $2/$10 in two days, on 1 September", "arc": "frontier-price-floor", "arcDay": 6 },
+  { "id": "openai-sol-price-cut", "label": "the GPT-5.6 Sol promotional window - over 20% off input and output from 21 August, for three months - is unchanged and unanswered", "arc": "frontier-price-floor", "arcDay": 6 },
+  { "id": "fda-genai-device-paper", "label": "the FDA discussion paper on generative-AI medical devices holds, docket FDA-2026-N-7874, comments to 19 October", "arc": "ai-medical-regulation", "arcDay": 5 },
+  { "id": "openai-august-retirements", "label": "the August retirement schedule reaches its last date today; see Resolved", "arc": "openai-product-pruning", "arcDay": 25 }
+ ],
+ "movers": [
+  { "dir": "down", "text": "HUMAN-IN-THE-LOOP MARKETPLACES - Amazon closes Mechanical Turk on 30 September after 21 years, with SageMaker Ground Truth and Augmented A2I going with it. Signups already ended 30 July. The demand moved to Scale AI, Mercor and Prolific, and stratified on the way: fewer anonymous micro-taskers, more vetted specialists on hourly rates." },
+  { "dir": "up", "text": "AI AS A BALLOT ISSUE - data-centre opposition is now inside the six Senate races Cook rates toss-up. Annenberg has 61% of Americans against one nearby, 69% of Democrats and 54% of Republicans, and Echelon found voters would rather have a nuclear plant." },
+  { "dir": "up", "text": "MEMORY AS A COMPLIANCE COST - flagship LPDDR5X contract pricing at $19-$21 per GB against $3.50-$5.50 in mid-2025, and Google Play now writes a February 2027 memory ceiling, with at least 25% code shrink, for every Android app whether or not it touches AI." },
+  { "dir": "up", "text": "HARDWARE AS A VENTURE THESIS - a16z closes $1.1B for the Machine Age Fund and names chips, memory, networking, storage, cooling, materials, electrical infrastructure and real estate. The most software-committed firm in the Valley wrote a cheque against atoms." },
+  { "dir": "down", "text": "OPEN-WEIGHT PROMISE-KEEPING - the GLM-5.3 flagship's 28 August staged weights date has now passed by two days with nothing published and no statement from Z.ai. A safety-gated release whose gate expires quietly is what an open-weight retreat looks like." },
+  { "dir": "up", "text": "AGENTS INSIDE AD BUYING - X's Ads MCP exposes 23 campaign tools to any MCP client, making it the fifth major social platform with an advertiser MCP after Meta, TikTok, Pinterest and Snapchat. Spend authority arrived before spend controls." },
+  { "dir": "up", "text": "THE LAYOFF LEDGER - 365 events and 209,032 workers in 2026 as of 28 August, from 322 events and ~205,832. Run rate 871 a day against 564 in 2025 - with 77% of recent AI-attributed cuts recorded as anticipatory." }
+ ],
+ "arcs": {
+  "human-labour-behind-ai": { "day": 1, "note": "The people inside the machine, and what happens when the machine no longer needs them" },
+  "dram-hbm-supercycle": { "day": 10, "note": "The memory constraint, now issuing compliance deadlines to people who do not build AI" },
+  "ai-capital-markets": { "day": 22, "note": "Where AI capital is being priced - and this week, redirected at atoms" },
+  "compute-buildout": { "day": 44, "note": "The capital, silicon, power, land and consent behind the buildout; 200kW a rack is the new unit" },
+  "agent-protocol-consolidation": { "day": 5, "note": "Standards for how agents reach things they do not own; today the surface is media buying" },
+  "vertical-ai-revenue-cycle": { "day": 1, "note": "AI in the regulated back office, where the output is auditable in dollars" },
+  "agentic-science": { "day": 3, "note": "Machines doing science - and now money betting on watching what the bench actually did" },
+  "clinical-ai-deployment": { "day": 2, "note": "AI reaching the point of care, and the data substrate underneath it" },
+  "ai-sovereignty-europe": { "day": 1, "note": "Europe moving from compliance as the frame to ownership as the frame" },
+  "ai-wearables": { "day": 1, "note": "Compute on the face, and the assistive use case with the clearest willingness to pay" },
+  "datacenter-consent-backlash": { "day": 43, "note": "Local consent, now with a ballot expression in six toss-up Senate races" },
+  "workforce": { "day": 62, "note": "The AI-attribution layoff ledger, three-quarters of it anticipatory" },
+  "open-frontier": { "day": 42, "note": "Open-weight frontier releases; a staged deadline came and went in silence" },
+  "open-commons-ownership": { "day": 6, "note": "Who ends up owning the open-weight commons; still no signature" },
+  "ai-capex-financing": { "day": 5, "note": "How the buildout is being paid for, and the first structure pulled back on antitrust" },
+  "custom-silicon": { "day": 2, "note": "Buyers building their own inference parts" },
+  "agent-security": { "day": 64, "note": "Agents and the infrastructure under them" },
+  "ai-public-adoption": { "day": 2, "note": "What ordinary people actually do with these systems, measured rather than asserted" },
+  "enterprise-ai-execution": { "day": 5, "note": "Enterprise AI past the pilot stage - deployment is common, readiness is not" },
+  "ai-jobs-us": { "day": 2, "note": "The US AI labour market as a composition shift inside a flat hiring base" },
+  "ai-jobs-india": { "day": 8, "note": "India's GCC and AI hiring engine" },
+  "india-applied-ai": { "day": 2, "note": "Indian operators shipping agents into revenue-critical workflows" },
+  "wearable-privacy": { "day": 2, "note": "Always-on cameras and the consent signal, patched one bypass at a time" },
+  "reg-clock": { "day": 32, "note": "Dated regulatory obligations, counted down" },
+  "algorithmic-pricing-enforcement": { "day": 4, "note": "Personalised pricing meets Section 5" },
+  "ai-critical-infrastructure": { "day": 8, "note": "AI against OT and the agencies answering" },
+  "ipo-wave": { "day": 21, "note": "Lab listings and the revenue numbers under them" },
+  "chip-export-valve": { "day": 9, "note": "What silicon crosses which border" },
+  "offensive-ai-tooling": { "day": 9, "note": "Models sold to attack, and who gets them" },
+  "ai-minors-safety": { "day": 10, "note": "Under-18 experiences and the classifiers behind them" },
+  "ai-drug-approval": { "day": 20, "note": "AI-discovered molecules through the regulator; today's date arrived unconfirmed" },
+  "frontier-price-floor": { "day": 6, "note": "What frontier tokens cost, and when that changes - in two days, upward" },
+  "ai-medical-regulation": { "day": 5, "note": "The FDA's framework for generative-AI devices" },
+  "lab-self-regulation": { "day": 6, "note": "Labs writing rules for labs" },
+  "agent-platform-war": { "day": 21, "note": "Where agents get bought, governed and billed" },
+  "frontier-models": { "day": 36, "note": "The Western frontier flagship that has not shipped, for a nineteenth edition" },
+  "openai-product-pruning": { "day": 25, "note": "OpenAI's retirement schedule; the last August date lands today" }
+ },
+ "resolved": [
+  "RESOLVED: openai-august-retirements. The DALL-E GPT is retired from ChatGPT today, 30 August - the date this briefing has carried since 6 August. Users were advised to download stored images and OpenAI did not say what becomes of them; user-created GPTs with image generation are unaffected, and ChatGPT Images 2.0 remains on all tiers including free. GPT-5.4 and GPT-5.4 mini leave Codex for signed-in users tomorrow, 31 August. Carded as a Resolved date rather than a New item, because it is not new.",
+  "RESOLVED: zai-ox-alpha. The stealth model is GLM-5.3-Flash, reported at 320B under MIT from 26 August. The identity question closes; the flagship-weights question does not, and stays on the open-frontier arc at Developing #3.",
+  "NOT RESOLVED, RESTATED: the GLM-5.3 flagship open weights. The 28 August staged date has now passed by two days with nothing published and no statement in either direction. The thread de-escalates rather than closes, and huggingface.co remains blocked from this session so the finding rests on secondary trackers.",
+  "NOT RESOLVED, RESTATED: rentosertib-fast-track. The estimated Phase III start under FDA fast-track designation was today, 30 August. No confirmation of enrolment surfaced in this scan, so the deadline tile is retired and the thread stays in Tracking rather than being called done.",
+  "NOT RESOLVED, RESTATED: no Western frontier flagship shipped, for a nineteenth consecutive edition.",
+  "PROMOTED (Tracking to Developing, 2 items): datacenter-consent-backlash on the six-Senate-race escalation and Annenberg's 61%, and workforce on the ledger stepping to 365 events / 209,032 workers.",
+  "DEMOTED (Developing to Tracking, 2 items): huggingface-13b-sale after five editions as a card, with no reporting later than 28 August surfacing in this scan; and nvidia-server-price-hike, whose arc moved today through New #2 instead of through the thread.",
+  "AUTO-DEMOTE (New to Tracking, 10 items): every New card from edition 071 that did not resolve drops to a one-liner - Anthropic's MHS, NVIDIA's financing pause, the Jalapeno benchmarks, the open-weight acquisition read, the Forcepoint summariser test, Pew's health-chatbot numbers, Deloitte's readiness gap, the Dice 79% figure, Meta's glasses LED fix, Cashfree's Relay and FDB's prescribing agent.",
+  "AUTO-RETIRED (silent, 18 items): the cyber-defence open letter, Claudeforce, Instinct's $250M Series B, the Gates 'turbulent AI era' essay, Barret Zoph's Google role, the Nature self-research field test, the Microduck biped, Grok 4.6 in Foundry, NVIDIA's AVO ARC-AGI-3 result, Qwen3.8-27B's weights, the Vera Olympus CPU, the unified Copilot app, the Poolside licence, Adversa's Cryptographic Context Injection, Mandiant's vulnerability harness, OpenAI's July security overhaul, the Anthropic-Nscale lease and the AWS 2M-GPU line - each without a dated step across multiple editions."
+ ],
+ "deadlines": [
+  { "date": "2026-09-01", "label": "OpenAI's 13-17 ChatGPT experience and its age-prediction routing reach their roughly 1 September target with no published classifier error rate. Claude Sonnet 5's standard price rises to $3/$15 from $2/$10 the same day.", "severity": "high" },
+  { "date": "2026-09-04", "label": "SoftBank's record 1 trillion yen ($6.3B) seven-year retail bond prices, indicative coupon 4.3-4.9% - the largest retail bond ever offered by a Japanese company, proceeds to bond repayment and AI investment.", "severity": "medium" },
+  { "date": "2026-09-18", "label": "Comments close on the FTC's proposed personalised-pricing enforcement policy statement, issued 2-0 on 19 August - the cheap moment to shape what counts as adequate disclosure before Section 5 enforcement prices it for you.", "severity": "high" },
+  { "date": "2026-09-30", "label": "Amazon Mechanical Turk closes after 21 years, taking AWS SageMaker Ground Truth and Amazon Augmented AI (A2I) with it. Thirty-one days to migrate any live annotation, labelling or human-review pipeline off three services at once.", "severity": "high" },
+  { "date": "2026-10-19", "label": "Comments close on the FDA's discussion paper for generative-AI medical devices, docket FDA-2026-N-7874 - the window to shape a competency-based premarket framework before it hardens into guidance.", "severity": "medium" },
+  { "date": "2026-12-02", "label": "EU triple date under Regulation (EU) 2026/1744: Article 50(2) machine-readable marking bites for synthetic content, and high-risk conformity assessment is pushed to 2 December 2027 by the Digital Omnibus.", "severity": "high" }
+ ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── deep-link support: #still-tracking / #resolved / #method open the collapsed folds ──
+  var foldMap = {'still-tracking':'fold-tracking','resolved':'fold-resolved','method':'fold-method'};
+  var openFromHash = function(){
+    var id = foldMap[(location.hash||'').replace('#','')];
+    if(id){ var el = document.getElementById(id); if(el){ el.open = true; el.scrollIntoView(); } }
+  };
+  window.addEventListener('hashchange', openFromHash); openFromHash();
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
