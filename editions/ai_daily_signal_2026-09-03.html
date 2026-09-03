@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 076 — 3 September 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+
+  /* collapsible archive sections (Still Tracking / Resolved / method notes) */
+  .fold{border-bottom:3px solid var(--ink);margin-top:26px}
+  .fold[open]{border-bottom-color:var(--rule)}
+  .fold > summary{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:0 0 8px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary small{font-size:10px;color:#6b6353;letter-spacing:1px;font-weight:400}
+  .fold > summary .caret{font-size:11px;color:#6b6353;letter-spacing:0}
+  .fold > summary:hover{color:var(--crit)}
+  .fold[open] > summary .caret::after{content:"▴ HIDE"}
+  .fold:not([open]) > summary .caret::after{content:"▾ SHOW"}
+  .fold .fold-body{padding-bottom:16px}
+  footer .fold{border-bottom:none;margin-top:12px}
+  footer .fold > summary{font-size:11px;letter-spacing:2px}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>GOOGLE</b> Gemini 3.8 Flash and a gated <b>Flash Cyber</b> variant ship 2 September — autonomous vulnerability discovery sold to governments and critical-infrastructure operators &nbsp;◆&nbsp; <b>ANTHROPIC</b> Claude Fable 5.1 and Mythos 5.1 land 1 September; cache reads cut 75%; the twenty-two-edition Western flagship drought ends &nbsp;◆&nbsp; <b>NEW YORK CITY</b> bans generative AI for ~600,000 students from 2-K through 8th grade — the broadest student-facing moratorium in the US &nbsp;◆&nbsp; <b>Z.AI</b> GLM-5.3's 743B weights finally published — under a custom licence, not the Apache-2.0 that was trailed &nbsp;◆&nbsp; <b>AGENT SECURITY</b> $77M into two startups in 48 hours; AIR counts 17,800 public AI add-ons wired to untrusted sources &nbsp;◆&nbsp; <b>CHATGPT ADS</b> $1B annualised run rate in under 200 days; self-service opens to India, Europe and MENA &nbsp;◆&nbsp; <b>FOUR</b> items in this edition broke inside the last 24 hours &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>076</b></span>
+    <span>THURSDAY, 3 SEPTEMBER 2026</span>
+    <span class="seg">NEW <b>11</b> · DEVELOPING <b>4</b> · TRACKING <b>36</b></span>
+    <span>CRITICAL <b>4</b> / NOTABLE 8 / MONITOR 3</span>
+    <span>SCAN: 36 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="gemini-38-flash-cyber">
+  <div>
+    <div class="kicker">■ Today's Lead · New · Models · Day 40 of the frontier-models arc</div>
+    <h2>Google shipped a model whose product is finding vulnerabilities — and put it behind a programme instead of an API key</h2>
+    <p class="dek">On <strong>2 September 2026</strong> Google released <strong>Gemini 3.8 Flash</strong> and, alongside it, <strong>Gemini 3.8 Flash Cyber</strong>. The general model is an incremental step — the fourth Flash release in under four months, <strong>59 on the Artificial Analysis Intelligence Index</strong> at high reasoning (up three points on 3.7 Flash), held at the same introductory <strong>$0.75 per million input / $3.75 per million output</strong> through <strong>31 December</strong>, available immediately through the Gemini API, AI Studio, Android Studio and Gemini Enterprise. <strong>The Cyber variant is the story.</strong> Google claims frontier-level performance on <strong>CyberGym</strong>, the standard real-world vulnerability-discovery benchmark, beating <em>significantly larger frontier models</em>; over a <strong>70% success rate</strong> on an internal real-world vulnerability benchmark spanning <strong>20 languages</strong>; and a place on the <strong>CWE-Bench patching Pareto frontier at 47.2% pass@1</strong>. Its named field results: Google's <strong>Chrome Security team reports 2.6× more correct patches</strong> than comparable commercial models, <strong>Wiz reports 7.5–9.7% higher recall</strong> on its internal penetration-testing benchmark at <strong>2.3–5.2× lower cost</strong>, and Google's Cloud Vulnerability Research team says it found a critical vulnerability <strong>in under two hours</strong> against a task that normally takes months. Cyber is <strong>not generally available</strong>: access runs through a new <strong>Fairwind Program</strong> restricted to government authorities, critical-infrastructure operators and software maintainers (<a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/">Google</a>, <a href="https://deepmind.google/models/gemini/cyber/">Google DeepMind</a>, <a href="https://www.theregister.com/ai-and-ml/2026/09/02/with-gemini-38-flash-google-reminds-everyone-its-still-in-the-race/5294049">The Register</a>, <a href="https://cybersecuritynews.com/gemini-3-8-flash-cyber/">Cybersecurity News</a>).</p>
+    <p class="sowhat">So what: the distribution decision is the news. A frontier lab has concluded that a model good enough at finding software flaws to be worth selling is <strong>not safe to sell to everyone</strong>, and has built an allow-list programme rather than a rate limit. That is the first time a mainstream vendor has drawn that line around a shipping product tier — and it is a line every defender should now assume the attacker side is trying to route around, because <strong>the open-weight equivalent already exists</strong> (see Developing #2).</p>
+    <span class="chip arc">ARC: FRONTIER-MODELS · D40</span><span class="chip">CONFIDENCE: PRIMARY + 2x SRC</span><span class="chip">ANNOUNCED 2 SEP — NEW.24H</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/">Google (primary)</a> ·
+      <a href="https://deepmind.google/models/gemini/cyber/">Google DeepMind — Flash Cyber (primary)</a> ·
+      <a href="https://www.theregister.com/ai-and-ml/2026/09/02/with-gemini-38-flash-google-reminds-everyone-its-still-in-the-race/5294049">The Register</a> ·
+      <a href="https://9to5google.com/2026/09/02/gemini-3-8-flash-launch/">9to5Google</a> ·
+      <a href="https://artificialanalysis.ai/articles/gemini-3-8-flash">Artificial Analysis</a> ·
+      <a href="https://cybersecuritynews.com/gemini-3-8-flash-cyber/">Cybersecurity News</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>Why this leads rather than Anthropic's flagship.</strong> New #2 — Claude Fable 5.1 and Mythos 5.1 — is the larger model event and ends a drought this briefing has carried for twenty-two editions. It is not the lead because its shape is familiar: a better flagship, cheaper to run, generally available. <strong>Today's lead is a shape that has not existed before.</strong> Google has taken a specific capability, established that it is commercially valuable, published numbers to prove it, and then <em>declined to sell it openly</em>. The Fairwind Program is a distribution control on a capability tier, not a pricing tier, and it is the concrete instance of a thing the safety literature has argued about abstractly for three years.</p>
+      <p><strong>What the numbers do and do not say.</strong> CyberGym — the benchmark Google leads with — is a real, published artefact: <strong>1,507 real-world vulnerabilities across 188 open-source projects</strong>, where the agent gets a text description and the codebase and must produce a proof-of-concept that reproduces the flaw. Its authors reported that running it <strong>surfaced 34 zero-days and 18 historically incomplete patches</strong> (<a href="https://arxiv.org/abs/2506.02548">arXiv 2506.02548</a>). So the benchmark measures something that has already produced real findings. But two of the three headline field results — the <strong>2.6×</strong> Chrome patch figure and the <strong>under-two-hours</strong> critical-vulnerability find — are <strong>Google measuring Google</strong>, on Google's own code, reported by Google. Only the <strong>Wiz</strong> numbers come from outside the house, and Wiz is a Google subsidiary. <strong>There is no independent third-party evaluation of Flash Cyber in today's record, and this briefing is not treating vendor benchmark claims as verified capability.</strong></p>
+      <p><strong>The gating is real but it is a speed bump, not a wall.</strong> Nineteen days before this release, Z.ai shipped <strong>GLM-5.3</strong>, whose own headline is the same capability — chaining vulnerability discovery, validation and exploitation into one reasoning process — and whose <strong>743-billion-parameter weights went public on 28 August</strong> (Developing #2). Z.ai delayed those weights by two weeks explicitly for a safety evaluation, then published them anyway. So the practical situation as of today is: <strong>the closed version of this capability is allow-listed to governments and infrastructure operators; the open version is a 755 GB download.</strong> Any threat model that assumes gating limits access to autonomous vulnerability discovery is already out of date.</p>
+      <p><strong>What the general model is worth on its own.</strong> Gemini 3.8 Flash is a cost-curve release, and the cost curve is where almost all released capability has moved since July. Fourth Flash in under four months; three weeks after 3.7 Flash; introductory pricing held rather than cut, which is itself a signal that Google is defending a price point rather than chasing one. The claimed gains are in software engineering, agentic tasks and multi-step reasoning, with <strong>DeepSWE v1.1</strong> cited for long-horizon coding. If you are running 3.7 Flash in production the migration question is narrow — same price, same interfaces, a claimed three-point index gain — and the honest answer is to A/B it on your own long-horizon tasks rather than on the index.</p>
+      <p><strong>What to do this week, concretely.</strong> (1) If you maintain widely-deployed open-source software, the Fairwind Program lists <em>software maintainers</em> as an eligible category — that is a free capability upgrade for exactly the people who most need it, and applying costs nothing. (2) If you run a security programme, assume your adversary has GLM-5.3 weights and budget accordingly; the gating question is about who gets the <em>convenient</em> version. (3) If you are writing an AI acceptable-use policy, note that "cyber capability" is now a product tier with its own access programme — your policy language should distinguish tiers, not vendors. (4) Do not quote the 2.6× or the two-hour figure as independent evidence. They are first-party.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Fact Sheet</h3>
+    <dl>
+      <dt>Announced</dt><dd>2 September 2026</dd>
+      <dt>Models</dt><dd>Gemini 3.8 Flash · Gemini 3.8 Flash Cyber</dd>
+      <dt>Cadence</dt><dd>Fourth Flash release in under four months; three weeks after 3.7 Flash</dd>
+      <dt>Pricing</dt><dd>$0.75 / 1M input · $3.75 / 1M output — introductory, held to 31 Dec</dd>
+      <dt>Intelligence index</dt><dd>59 at high reasoning (+3 vs 3.7 Flash), per Artificial Analysis</dd>
+      <dt>Cyber — CyberGym</dt><dd>Claimed frontier-level, beating significantly larger models</dd>
+      <dt>Cyber — internal bench</dt><dd>&gt;70% success across 20 languages</dd>
+      <dt>Cyber — patching</dt><dd>CWE-Bench Pareto frontier, 47.2% pass@1</dd>
+      <dt>Chrome Security</dt><dd>2.6× more correct patches vs comparable commercial models (first-party)</dd>
+      <dt>Wiz</dt><dd>+7.5–9.7% recall at 2.3–5.2× lower cost (Google subsidiary)</dd>
+      <dt>Cyber access</dt><dd>Fairwind Program only — governments, critical infrastructure, software maintainers</dd>
+      <dt>Safeguards</dt><dd>Both models carry CBRN and cyber-offence misuse safeguards</dd>
+      <dt>Independent eval</dt><dd>None located as of this edition</dd>
+      <dt>Confidence</dt><dd>Google primary + DeepMind primary + The Register + 9to5Google</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="gemini-38-flash-cyber">
+      <div class="num">1</div>
+      <h4>A vulnerability-finding model that Google will not sell you</h4>
+      <p><strong>Gemini 3.8 Flash</strong> and <strong>3.8 Flash Cyber</strong> shipped <strong>2 September</strong>. Cyber claims frontier <strong>CyberGym</strong> performance, <strong>&gt;70%</strong> on an internal 20-language benchmark and <strong>47.2% pass@1</strong> patching — and is gated to the new <strong>Fairwind Program</strong>: governments, critical infrastructure, maintainers. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="claude-fable-mythos-51">
+      <div class="num">2</div>
+      <h4>The Western flagship drought ended, and this briefing missed the day it happened</h4>
+      <p><strong>Claude Fable 5.1</strong> and <strong>Mythos 5.1</strong> landed <strong>1 September</strong> — one model at two safeguard levels, <strong>cache reads cut 75%</strong>, list price unchanged at <strong>$10/$50</strong> per million, ~<strong>25% cheaper to run</strong> for most customers, fewer over-refusals. Edition 075 did not carry it. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="nyc-schools-ai-ban">
+      <div class="num">3</div>
+      <h4>America's largest school district switched generative AI off for 600,000 children</h4>
+      <p>On <strong>2 September</strong> Mayor <strong>Mamdani</strong> and Chancellor <strong>Samuels</strong> imposed a <strong>one-year moratorium</strong> on student AI use from <strong>2-K through 8th grade</strong> — nearly <strong>two-thirds</strong> of NYC enrolment. Teachers keep AI for planning, lose it for <strong>grading and assessment</strong>. <strong>NEW.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>THE MODELS CAME BACK, AND THEY CAME BACK POINTED AT SECURITY.</strong> After twenty-two editions of nothing but Flash, Lite and mini tiers, <strong>two Western frontier releases landed inside 48 hours</strong> — Anthropic's Fable 5.1 / Mythos 5.1 on 1 September, Google's Gemini 3.8 Flash and Flash Cyber on 2 September — and the <code>frontier-models</code> thread that was scheduled to demote to Tracking at <em>this</em> edition instead escalates (Developing #1). <strong>Four items broke inside 24 hours</strong>, the best 24-hour number in a week. The common thread across the top of the edition is uncomfortable and not manufactured: <strong>Google's new tier is a cyber model gated to governments; Anthropic's Mythos 5.1 is a trusted-access tier explicitly built for cybersecurity and life-sciences work; Z.ai's GLM-5.3 published 743B open weights on 28 August whose headline claim is autonomous vulnerability discovery; and $77M went into two agent-security startups in 48 hours.</strong> Four independent decisions, one direction. <strong>Elsewhere:</strong> <strong>New York City banned generative AI</strong> for ~600,000 students through 8th grade, the broadest such moratorium in the US, with Washington DC issuing narrower teacher-side rules the same week · <strong>ChatGPT Ads hit a $1B annualised run rate in under 200 days</strong> and opened self-service buying to India, Europe and MENA · <strong>Beijing's retroactive unwind of Meta's $2B Manus acquisition completed</strong>, with Manus independent again from 1 September · <strong>AI skills now appear in 79% of US tech job postings</strong>, up 144% year on year, while posting volume fell 10% month on month. <strong>Thursday's deep beat is hardware and compute</strong> and it came back thin: the only dated item is <strong>DLSS 5 shipping today</strong>; <strong>Microsoft's Maia 300 September window is now three days old with no announcement</strong>. <strong>Correction owed:</strong> this briefing's edition 075, published on 2 September, did not carry Anthropic's 1 September flagship release and stated on the same page that no Western flagship had shipped. That is stated in full in the method note.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR / MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (15)</button>
+    <button class="tab" data-cat="business">BUSINESS (5)</button>
+    <button class="tab" data-cat="models">MODELS (4)</button>
+    <button class="tab" data-cat="policy">POLICY (3)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (1)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (1)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+  </div>
+
+<!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>11 ITEMS · IDS ABSENT FROM EVERY PRIOR EDITION · FOUR BROKE IN THE LAST 24H</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="models" data-story-id="gemini-38-flash-cyber">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">#1</span> <span class="cat">MODELS · CYBER · DISTRIBUTION</span></div>
+      <h4>Gemini 3.8 Flash shipped with a Cyber variant Google will only sell to governments, infrastructure operators and maintainers</h4>
+      <div class="body">Full detail in the lead above. Compressed: on <strong>2 September 2026</strong> Google released <strong>Gemini 3.8 Flash</strong> — fourth Flash in under four months, <strong>59</strong> on the Artificial Analysis Intelligence Index at high reasoning, <strong>$0.75/$3.75</strong> per million tokens held as introductory pricing to <strong>31 December</strong>, live in the Gemini API, AI Studio, Android Studio and Gemini Enterprise — and <strong>Gemini 3.8 Flash Cyber</strong>, gated to the new <strong>Fairwind Program</strong> for government authorities, critical-infrastructure operators and software maintainers. Cyber's claimed numbers: frontier-level on <strong>CyberGym</strong> against significantly larger models, <strong>&gt;70%</strong> on an internal real-world vulnerability benchmark across <strong>20 languages</strong>, <strong>47.2% pass@1</strong> on CWE-Bench patching, <strong>2.6×</strong> more correct Chrome patches than comparable commercial models, and a critical vulnerability found by Google Cloud's own research team <strong>in under two hours</strong>. Both models carry stated CBRN and cyber-offence safeguards (<a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/">Google</a>, <a href="https://deepmind.google/models/gemini/cyber/">DeepMind</a>, <a href="https://www.theregister.com/ai-and-ml/2026/09/02/with-gemini-38-flash-google-reminds-everyone-its-still-in-the-race/5294049">The Register</a>).</div>
+      <p class="sowhat">A frontier lab has decided a shipping capability is too dangerous for open sale and built an allow-list around it. Treat that as a template, not an exception — and note that the equivalent open-weight capability was published four days earlier, so gating buys convenience asymmetry, not access asymmetry. All field numbers above are first-party; no independent evaluation of Flash Cyber exists yet.</p>
+      <div><span class="chip arc">ARC: FRONTIER-MODELS · D40</span><span class="chip">PRIMARY + 2x SRC</span><span class="chip">2 SEP</span></div>
+      <div class="src"><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/">Google (primary)</a> · <a href="https://deepmind.google/models/gemini/cyber/">DeepMind (primary)</a> · <a href="https://9to5google.com/2026/09/02/gemini-3-8-flash-launch/">9to5Google</a> · <a href="https://cybersecuritynews.com/gemini-3-8-flash-cyber/">Cybersecurity News</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="models" data-story-id="claude-fable-mythos-51">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#2</span> <span class="cat">MODELS · FLAGSHIP · SAFEGUARD TIERS</span></div>
+      <h4>Anthropic shipped one flagship at two safeguard levels — and the second one exists so that cyber and life-sciences work can be done at all</h4>
+      <div class="body">On <strong>1 September 2026</strong> Anthropic released <strong>Claude Fable 5.1</strong> and <strong>Claude Mythos 5.1</strong>, positioned as its most capable models for coding, knowledge work and long-running problem-solving. The structural detail is the interesting one: <strong>they are the same model with different levels of safeguards</strong>. <strong>Fable 5.1 is generally available</strong>; <strong>Mythos 5.1 is available only through trusted-access programmes</strong>, with safeguards specifically designed to support work in <strong>cybersecurity and the life sciences</strong> — i.e. the tier exists because the general safeguards block legitimate work in exactly those two domains. On economics: <strong>list prices are unchanged at $10 per million input and $50 per million output</strong>, but <strong>cache-read pricing is cut 75%</strong>, which Anthropic frames as roughly <strong>25% cheaper to run for most customers</strong>. On behaviour: similar or better results than Fable 5 at low and medium effort, materially higher performance at high effort, and <strong>fewer false positives</strong> — fewer refusals of benign requests (<a href="https://www.anthropic.com/claude-fable-and-mythos-5-1">Anthropic</a>, <a href="https://www.thurrott.com/a-i/anthropic/340951/anthropic-releases-claude-fable-5-1-and-mythos-5-1">Thurrott</a>, <a href="https://www.macrumors.com/2026/09/01/anthropic-claude-fable-5-1/">MacRumors</a>, <a href="https://9to5mac.com/2026/09/01/anthropic-upgrades-claude-with-new-fable-5-1-model-details-here/">9to5Mac</a>).</div>
+      <p class="sowhat">Two planning consequences. <strong>First, the cost change is bigger than the headline price:</strong> a 75% cut on cache reads reprices long-context and repeated-prefix workloads specifically, so re-run your own cost model on prompt structure rather than on the per-token card. <strong>Second, "same model, two safeguard tiers" is now the industry pattern</strong> — Google shipped it the next day. If your work is in security or bio, the question you ask a vendor is no longer "which model" but "which access programme", and that has procurement and contracting consequences a model card will not tell you about.</p>
+      <div><span class="chip arc">ARC: FRONTIER-MODELS · D40</span><span class="chip">PRIMARY + 2x SRC</span><span class="chip">1 SEP — MISSED BY EDITION 075</span></div>
+      <div class="src"><a href="https://www.anthropic.com/claude-fable-and-mythos-5-1">Anthropic (primary)</a> · <a href="https://www.thurrott.com/a-i/anthropic/340951/anthropic-releases-claude-fable-5-1-and-mythos-5-1">Thurrott</a> · <a href="https://www.macrumors.com/2026/09/01/anthropic-claude-fable-5-1/">MacRumors</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="nyc-schools-ai-ban">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#3</span> <span class="cat">POLICY · EDUCATION · US</span></div>
+      <h4>New York City switched generative AI off for ~600,000 students through 8th grade — the broadest student-facing moratorium in the country</h4>
+      <div class="body">On <strong>2 September 2026</strong> Mayor <strong>Zohran Mamdani</strong> and Schools Chancellor <strong>Kamar Samuels</strong> announced a <strong>one-year moratorium</strong> on student generative-AI use across <strong>2-K through 8th grade</strong> in the nation's largest school system, together with new screen-time limits. The moratorium reaches <strong>nearly 600,000 students — close to two-thirds of district enrolment</strong>. Teachers are <strong>permitted</strong> to use AI for lesson planning and other operational tasks and <strong>prohibited</strong> from using it for grading or student assessment. There are carve-outs for <strong>students with disabilities and English-language learners</strong>, where assistive use continues. The city's own framing calls it the nation's broadest generative-AI moratorium in schools (<a href="https://www.nyc.gov/mayors-office/news/2026/09/mayor-mamdani-and-chancellor-samuels-put-students-first-with-nat">NYC Mayor's Office</a>, <a href="https://edition.cnn.com/2026/09/02/tech/new-york-city-classroom-ai-ban">CNN</a>, <a href="https://ny1.com/nyc/all-boroughs/news/2026/09/02/new-york-city-bans-ai-use-in-schools-through-eighth-grade">NY1</a>, <a href="https://www.chalkbeat.org/newyork/2026/09/02/nyc-schools-to-set-ai-policy-ban-screen-time-limits/">Chalkbeat</a>).</div>
+      <p class="sowhat">Read the asymmetry carefully, because it is the transferable part. The ban is on <strong>students consuming AI</strong>; the prohibition on teachers is narrower and lands exactly where AI touches a <strong>consequential decision about a child</strong> — grading and assessment. That is the same line Washington DC drew this week (New #11) and the same line most regulated-sector AI policy is converging on: <strong>tool use is permitted, decision authority is not.</strong> For edtech vendors the near-term commercial reality is blunter — the largest US district just removed the bottom nine grades from the addressable market for a year, and district procurement cycles do not restart in twelve months.</p>
+      <div><span class="chip arc">ARC: AI-IN-EDUCATION · D1</span><span class="chip">PRIMARY + 2x SRC</span><span class="chip">2 SEP — NEW.24H</span></div>
+      <div class="src"><a href="https://www.nyc.gov/mayors-office/news/2026/09/mayor-mamdani-and-chancellor-samuels-put-students-first-with-nat">NYC Mayor's Office (primary)</a> · <a href="https://edition.cnn.com/2026/09/02/tech/new-york-city-classroom-ai-ban">CNN</a> · <a href="https://www.chalkbeat.org/newyork/2026/09/02/nyc-schools-to-set-ai-policy-ban-screen-time-limits/">Chalkbeat</a> · <a href="https://www.washingtontimes.com/news/2026/sep/2/nyc-nations-largest-school-system-banning-ai-students-8th-grade/">Washington Times</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="air-security-50m">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#4</span> <span class="cat">BUSINESS · AGENT SECURITY · SEED</span></div>
+      <h4>AIR came out of stealth with $50M and a census: 17,800 public AI add-ons wired to untrusted sources, across 6.7 million installations</h4>
+      <div class="body">On <strong>1 September 2026</strong> Israeli startup <strong>AIR</strong> emerged from stealth with a <strong>$50 million seed round led by Sequoia Capital and Greenoaks</strong> — an unusually large seed for a company <strong>founded in February 2026</strong>, seven months ago, now <strong>40 people</strong>. Founders <strong>Yair Saban</strong> and <strong>Niv Hoffman</strong> come from offensive cybersecurity, enterprise infrastructure and AI security research. The product is framed as an <strong>inline firewall for AI agents</strong>, and the framing carries the thesis: it governs <strong>what enters an agent's context</strong> rather than restricting what the agent is permitted to do. Operationally it continuously discovers and evaluates <strong>every skill, plugin, MCP server and add-on</strong> across an organisation's agent supply chain, before and after deployment; when one is found malicious, vulnerable or unapproved, teams can trace every workflow that depends on it and revoke it. The number worth carrying: AIR's own scan found <strong>over 17,800 public AI add-ons linked to untrusted external sources, accounting for roughly 6.7 million installations</strong> (<a href="https://siliconangle.com/2026/09/01/air-security-launches-with-50m-to-build-a-firewall-for-ai-agents/">SiliconANGLE</a>, <a href="https://www.calcalistech.com/ctechnews/article/r13apdnugg">Calcalist</a>, <a href="https://dealroom.co/news/148163-air-raises-50m-seed-to-build-a-firewall-for-ai-agents/">Dealroom</a>).</div>
+      <p class="sowhat">The 17,800 / 6.7 million figure is a vendor census and should be read as a sales argument — but it is a <strong>falsifiable</strong> one, and nobody has published a competing count. The design claim underneath is the part to take seriously: <strong>permission models constrain what an agent may do; they do not constrain what an agent is told</strong>, and the industry's controls have overwhelmingly been built on the first. If you run agents in production, the actionable question this week is simply whether you can enumerate every MCP server and plugin in your fleet. Most organisations cannot.</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D68</span><span class="chip">2x SRC</span><span class="chip">1 SEP</span></div>
+      <div class="src"><a href="https://siliconangle.com/2026/09/01/air-security-launches-with-50m-to-build-a-firewall-for-ai-agents/">SiliconANGLE</a> · <a href="https://www.calcalistech.com/ctechnews/article/r13apdnugg">Calcalist (Ctech)</a> · <a href="https://www.newswire.com/news/air-emerges-from-stealth-with-50m-to-build-a-firewall-for-agents-22853509">Newswire (company release)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="huskeys-27m-blackstone">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#5</span> <span class="cat">BUSINESS · EDGE SECURITY · SERIES A</span></div>
+      <h4>Blackstone led a $27M Series A into telling good agent traffic from bad — a category that did not exist eighteen months ago</h4>
+      <div class="body">Around <strong>2 September 2026</strong>, Tel Aviv-based <strong>Huskeys</strong> closed a <strong>$27 million Series A led by Blackstone Innovations Investments</strong> at a valuation above <strong>$100 million</strong>, taking total funding to <strong>$35 million</strong> for a company <strong>founded in 2025</strong>. Participants include <strong>Skinos Ventures, Zscaler Ventures and Okta Ventures</strong>, plus individual investors from Google, Microsoft and Intel. The problem it addresses is the mirror image of AIR's: not what reaches an agent, but <strong>what agents do to everyone else's infrastructure</strong>. Huskeys describes an <strong>agentic-AI layer that augments existing edge defences rather than replacing them</strong>, analysing traffic patterns to separate legitimate AI agents from malicious ones, and says it processes <strong>over a trillion web requests daily</strong> across its client base while managing thousands of network configurations in real time (<a href="https://thenextweb.com/news/huskeys-raises-27m-series-a-led-by-blackstone">TNW</a>, <a href="https://coindesk.cc/blackstone-invests-27m-in-israeli-startup-huskeys-series-a-to-tackle-ai-agent-traffic-109150.html">CoinDesk</a>, <a href="https://cryptobriefing.com/blackstone-huskeys-series-a-ai-security/">Crypto Briefing</a>).</div>
+      <p class="sowhat">Two rounds, two directions, 48 hours, <strong>$77 million</strong>: capital has decided that agent traffic is a distinct security surface at both ends of the wire. The near-term consequence for anyone running a public web property is that <strong>your bot policy is now a business decision, not an ops setting</strong> — blocking agents blocks buyers, and allowing them allows scrapers. Note the sourcing honestly: the round is carried by trade press and wire releases rather than a company primary post this briefing could reach, and the <strong>trillion-requests-daily</strong> figure is the company's own.</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D68</span><span class="chip">2x SRC · WIRE-LED</span><span class="chip">~2 SEP — NEW.24H</span></div>
+      <div class="src"><a href="https://thenextweb.com/news/huskeys-raises-27m-series-a-led-by-blackstone">The Next Web</a> · <a href="https://coindesk.cc/blackstone-invests-27m-in-israeli-startup-huskeys-series-a-to-tackle-ai-agent-traffic-109150.html">CoinDesk</a> · <a href="https://www.finanzwire.com/press-release/huskeys-closes-27m-series-a-with-blackstone-innovations-investments-to-build-a-control-plane-for-the-network-edge-BfSmtKeJVGh">Company release</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="manus-independence">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#6</span> <span class="cat">BUSINESS · M&amp;A · GEOPOLITICS</span></div>
+      <h4>Manus is an independent company again — Beijing unwound a closed $2B Meta acquisition, and the Singapore wrapper did not help</h4>
+      <div class="body">On <strong>1 September 2026</strong> AI-agent startup <strong>Manus</strong> formally resumed independent operations, completing the unwinding of <strong>Meta's roughly $2 billion acquisition announced 29 December 2025</strong>. China's <strong>foreign-investment security review mechanism, housed in the National Development and Reform Commission</strong>, prohibited the investment and ordered the transaction revoked on grounds tied to the transfer of Chinese technology; Manus said in <strong>August</strong> it would soon return to independence. Manus was <strong>founded in China in 2022 and relocated to Singapore</strong> — a structure widely used to raise Western capital, access high-end NVIDIA GPUs and integrate OpenAI and Anthropic models without triggering foreign-investment restrictions. It did not work: the review mechanism does <strong>not depend on where the target is incorporated</strong>. This is reported as the <strong>first time Beijing has retroactively unwound a completed cross-border AI acquisition</strong> (<a href="https://www.cnbc.com/2026/08/11/manus-china-meta-acquisition.html">CNBC</a>, <a href="https://techstartups.com/2026/09/01/ai-startup-manus-resumes-independent-operations-after-china-kills-metas-2-billion-deal/">Tech Startups</a>).</div>
+      <p class="sowhat">If you are doing AI M&amp;A with any China-origin target, the diligence question just changed from <em>where is it incorporated</em> to <strong>where did the technology originate, and can that be traced</strong>. Redomiciliation is not a shield, closing is not finality, and the precedent now exists in a completed transaction rather than a blocked one. The most expensive detail for acquirers: this was reversed <em>after</em> close.</p>
+      <div><span class="chip arc">ARC: CROSS-BORDER-AI-CONTROL · D1</span><span class="chip">2x SRC · RESUMPTION DATE VIA TRADE PRESS</span><span class="chip">1 SEP</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/08/11/manus-china-meta-acquisition.html">CNBC</a> · <a href="https://techstartups.com/2026/09/01/ai-startup-manus-resumes-independent-operations-after-china-kills-metas-2-billion-deal/">Tech Startups</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="gemini-enterprise-finserv-db">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#7</span> <span class="cat">ENTERPRISE · BANKING · AGENTS</span></div>
+      <h4>Google put agents inside a global bank's compliance perimeter — and split the architecture in two to do it</h4>
+      <div class="body">Google Cloud launched <strong>Gemini Enterprise for Financial Services</strong> on <strong>25 August 2026</strong>, in preview for <strong>capital markets and corporate banking</strong>, with <strong>CME Group</strong> and <strong>Deutsche Bank</strong> named as users and Deutsche Bank as <strong>design partner</strong> for the Financial Research agent. The agent ships with <strong>over 50 specialised financial skills</strong> and uses <strong>MCP connectors</strong> into licensed data sources including D&amp;B and S&amp;P Global. The design detail worth carrying is the <strong>dual orchestration</strong>: <strong>LangGraph</strong> drives regulator-aligned workflows through a traceable process that records how inputs led to outputs, while the <strong>Google Agent Development Kit</strong> drives investigative work where agents assess conditions without a predefined execution path. Audit logging, governance and grounded citation of outputs are built in to meet data-provenance requirements; Deutsche Bank contributed the security, governance and <strong>data-residency</strong> requirements. The bank is deploying first in its <strong>Corporate Bank for German MidCorp clients</strong>, with Private and Investment banking to be evaluated later (<a href="https://www.hpcwire.com/aiwire/2026/08/25/google-cloud-launches-gemini-enterprise-for-financial-services/">AIwire</a>, <a href="https://www.pymnts.com/news/artificial-intelligence/2026/deutsche-bank-google-build-ai-agents-patrol-trading/">PYMNTS</a>, <a href="https://cloud.google.com/blog/topics/financial-services/deutsche-bank-delivers-ai-powered-financial-research-with-db-lumina">Google Cloud</a>).</div>
+      <p class="sowhat">This is the most useful enterprise-agent architecture published this month, and the reusable idea is not the product. <strong>Split your agent estate by evidentiary requirement, not by department:</strong> anything that must be defended to a regulator runs on a deterministic, traceable graph; anything exploratory runs on an open planner; the two do not share a runtime. Firms that have been trying to make one orchestration layer satisfy both have been solving an unnecessary problem. Note that "preview" and "one client segment in one division" is the actual deployment state — this is a design partnership, not a rollout.</p>
+      <div><span class="chip arc">ARC: ENTERPRISE-AI-EXECUTION · D9</span><span class="chip">2x SRC</span><span class="chip">25 AUG</span></div>
+      <div class="src"><a href="https://www.hpcwire.com/aiwire/2026/08/25/google-cloud-launches-gemini-enterprise-for-financial-services/">AIwire</a> · <a href="https://www.pymnts.com/news/artificial-intelligence/2026/deutsche-bank-google-build-ai-agents-patrol-trading/">PYMNTS</a> · <a href="https://www.capitalbrief.com/briefing/deutsche-bank-adopts-googles-new-financial-research-ai-c244df4f-d161-46ea-8932-f4420bd2a59e/">Capital Brief</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="dice-ai-skills-79pc">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#8</span> <span class="cat">POLICY · LABOUR · US</span></div>
+      <h4>AI skills now appear in 79% of US tech job postings — and the fastest-growing adjacent skills are change management, not model training</h4>
+      <div class="body">Dice's <strong>August 2026 tech jobs report</strong>, covering <strong>July</strong> data, puts <strong>AI skill requirements in 79% of US tech job postings</strong>, up from <strong>75% in June</strong> and <strong>up 144% year on year</strong> against July 2025. The volume picture is the opposite direction: <strong>tech postings fell 10% month on month in July</strong> after several months of expansion, though they remain <strong>up 10% year on year</strong>. The composition detail is the one that resists the obvious reading — the fastest-growing skills in the month were <strong>Organizational Change Management (+42%)</strong>, <strong>Quality Improvement (+37%)</strong> and <strong>Ruby (+32%)</strong>, which point at the <em>people and process</em> side of AI adoption rather than at model building. <strong>Sourcing caveat, stated:</strong> several outlets are simultaneously running a Dice-sourced headline of <strong>"73% of tech job postings"</strong> from an earlier edition of the same report series; the 79% figure is the later, July-data reading, and anyone quoting either number should name the month (<a href="https://www.dice.com/hiring/recruitment/reports/dice-tech-job-report">Dice</a>, <a href="https://www.ciodive.com/news/dice-report-tech-hiring-AI/824893/">CIO Dive</a>, <a href="https://hiringlab.indeed.com/2026/08/24/us-labor-market-snapshot-august-2026/">Indeed Hiring Lab</a>).</div>
+      <p class="sowhat">Fewer openings, more requirements per opening. That is a market where the <strong>bar rises faster than the door widens</strong>, and it explains the otherwise contradictory experience of employers reporting talent shortages while candidates report a frozen market. For workforce planning: the growth skills in this data are <strong>organisational</strong>, which means the constraint most firms will hit in the next two quarters is change capacity, not model access.</p>
+      <div><span class="chip arc">ARC: WORKFORCE · D66</span><span class="chip">PRIMARY · SERIES DISCREPANCY FLAGGED</span><span class="chip">AUG REPORT / JULY DATA</span></div>
+      <div class="src"><a href="https://www.dice.com/hiring/recruitment/reports/dice-tech-job-report">Dice tech job report (primary)</a> · <a href="https://www.ciodive.com/news/dice-report-tech-hiring-AI/824893/">CIO Dive</a> · <a href="https://hiringlab.indeed.com/2026/08/24/us-labor-market-snapshot-august-2026/">Indeed Hiring Lab</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="humain-arabic-ai-tarjama">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#9</span> <span class="cat">BUSINESS · GULF · SOVEREIGN AI</span></div>
+      <h4>Saudi Arabia's HUMAIN bought into Arabic language tooling — the layer above the data centre, and the one it has been missing</h4>
+      <div class="body">In <strong>early September 2026</strong>, PIF-backed <strong>HUMAIN</strong> announced a <strong>strategic investment in and partnership with Arabic.AI and Tarjama</strong>, extending its stack from infrastructure into <strong>translation and document intelligence</strong>. Three named workstreams: an <strong>Arabic-first translation management platform</strong> built on Arabic.AI's <strong>Cleverso</strong> system and Arabic language models; an <strong>archive digitisation engine</strong> converting legacy documents into searchable Arabic knowledge; and <strong>document-intelligence agents</strong> for analysing contracts and regulatory filings. HUMAIN supplies <strong>locally operated AI infrastructure and compute</strong>; the partners bring <strong>18-plus years</strong> of language-technology work. Initial solutions go to early enterprise customers with offerings to be unveiled at <strong>LEAP 2026 in Riyadh</strong>. <strong>The investment amount is undisclosed</strong> (<a href="https://www.wamda.com/2026/09/arabicai-secures-strategic-investment-humain">Wamda</a>, <a href="https://mena.entrepreneur.com/business-news/humain-invests-in-and-partners-with-arabic-ai-and-tarjama-to-advance-arabic-language-translation-and-document-intelligence">Entrepreneur Middle East</a>, <a href="https://www.middleeastainews.com/p/humain-invests-in-arabic-ai-tarjama">Middle East AI News</a>).</div>
+      <p class="sowhat">Gulf sovereign AI has spent two years buying gigawatts. This is the first visible move up the stack into the thing gigawatts cannot produce — <strong>domain-specific, language-specific working software with two decades of accumulated data behind it</strong>. Watch whether this becomes the pattern: infrastructure players acquiring vertical language assets rather than training their own. Undisclosed terms and a not-yet-launched product mean this is a direction-of-travel signal, not a result.</p>
+      <div><span class="chip arc">ARC: SOVEREIGN-AI-STACK · D1</span><span class="chip">2x SRC · TERMS UNDISCLOSED</span><span class="chip">EARLY SEP</span></div>
+      <div class="src"><a href="https://www.wamda.com/2026/09/arabicai-secures-strategic-investment-humain">Wamda</a> · <a href="https://mena.entrepreneur.com/business-news/humain-invests-in-and-partners-with-arabic-ai-and-tarjama-to-advance-arabic-language-translation-and-document-intelligence">Entrepreneur Middle East</a> · <a href="https://www.middleeastainews.com/p/humain-invests-in-arabic-ai-tarjama">Middle East AI News</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="hardware" data-story-id="dlss5-neural-rendering">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#10</span> <span class="cat">HARDWARE · NEURAL RENDERING · DEEP BEAT</span></div>
+      <h4>DLSS 5 ships today, and it stops being upscaling — the network now renders parts of the scene</h4>
+      <div class="body"><strong>NVIDIA's DLSS 5 releases today, 3 September 2026</strong>, at <strong>21:00 Pacific</strong>, with <strong>NBA 2K27</strong> as the first supported title. The change of kind is <strong>3D-Guided Neural Rendering</strong>: the network is fed game-engine <strong>geometry, lighting, normals, motion vectors and artist-controlled masks</strong>, and uses them to add effects — <strong>subsurface scattering, hair transmission, contact shadows</strong> — rather than reconstructing pixels after the fact. Previous DLSS generations upscaled and interpolated frames; this one participates in rendering. Availability is <strong>GeForce RTX 50-series desktop and laptop GPUs plus GeForce NOW</strong> (<a href="https://www.club386.com/nvidia-dlss-5-release-date/">Club386</a>, <a href="https://www.thefpsreview.com/2026/09/02/dlss-5-makes-its-official-debut-on-september-3rd-in-nba-2k27-bringing-3d-guided-neural-rendering-to-games/">The FPS Review</a>, <a href="https://www.gamenguide.com/articles/108923/20260901/nvidia-dlss-5-launches-september-3-nba-2k27-getting-new-3d-guided-neural-rendering.htm">Gamenguide</a>).</div>
+      <p class="sowhat">This is Thursday's deep beat and it is a small item carrying a large idea. <strong>Neural networks are moving from post-processing into the render pipeline itself</strong>, which makes GPU value a function of tensor throughput rather than raster throughput — and hard-gates the capability to one vendor's current generation. For anyone forecasting client-side AI silicon demand, real-time neural rendering is a workload that does not batch, does not tolerate latency and does not run in a data centre. It is the strongest near-term argument for capable NPUs and GPUs on the device.</p>
+      <div><span class="chip arc">ARC: EDGE-AI-SILICON · D2</span><span class="chip">2x SRC</span><span class="chip">SHIPS TODAY — NEW.24H</span></div>
+      <div class="src"><a href="https://www.club386.com/nvidia-dlss-5-release-date/">Club386</a> · <a href="https://www.thefpsreview.com/2026/09/02/dlss-5-makes-its-official-debut-on-september-3rd-in-nba-2k27-bringing-3d-guided-neural-rendering-to-games/">The FPS Review</a> · <a href="https://www.gamenguide.com/articles/108923/20260901/nvidia-dlss-5-launches-september-3-nba-2k27-getting-new-3d-guided-neural-rendering.htm">Gamenguide</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="policy" data-story-id="dc-osse-ai-guidance">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#11</span> <span class="cat">POLICY · EDUCATION · US</span></div>
+      <h4>Washington DC drew the same line as New York, from the other side: teachers may use AI, but not to grade, discipline or write an IEP</h4>
+      <div class="body">The District of Columbia's <strong>Office of the State Superintendent of Education (OSSE)</strong> issued new AI guidance for public-school teachers for the <strong>2026–27 school year</strong>, prohibiting AI use in <strong>grading, discipline and IEP decisions</strong> and providing a <strong>stoplight-style framework</strong> — red / amber / green — for judging when AI belongs in a teacher's work. Where New York City's action (New #3) restricts <strong>students</strong> broadly and teachers narrowly, DC's restricts <strong>teachers</strong> at precisely the points where a tool would touch a legally consequential determination about an individual child. IEPs are the sharpest of the three: an individualised education programme is a statutory entitlement document under US special-education law (<a href="https://hoodline.com/2026/09/dc-schools-get-new-ai-rules-grading-and-iep-decisions-stay-off-limits/">Hoodline</a>).</div>
+      <p class="sowhat">Two districts, one week, converging on the same principle from opposite directions: <strong>AI may assist the work, but may not make the determination.</strong> That is worth lifting out of education entirely — it is the cleanest available statement of where the emerging US public-sector line sits, and it maps directly onto lending decisions, clinical triage and HR actions. <strong>Sourcing caveat, stated plainly:</strong> this rests on a <strong>single local outlet</strong>; the OSSE guidance document itself was not reachable in this scan, so treat the stoplight framing as reported rather than verified.</p>
+      <div><span class="chip arc">ARC: AI-IN-EDUCATION · D1</span><span class="chip">AGG 1x — SINGLE OUTLET</span><span class="chip">SEP 2026</span></div>
+      <div class="src"><a href="https://hoodline.com/2026/09/dc-schools-get-new-ai-rules-grading-and-iep-decisions-stay-off-limits/">Hoodline</a> · <a href="https://osse.dc.gov/">OSSE (outlet root — guidance document not reachable in this scan)</a></div>
+    </article>
+
+  </div>
+
+<!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="models" data-story-id="frontier-models">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">D1</span> <span class="cat">MODELS · THE ABSENCE, ENDED</span></div>
+      <h4>Day 40: the thread scheduled to die at this edition instead escalates — two Western frontier releases in 48 hours</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> <strong>The drought ended, and it ended the day before this thread was due to be retired.</strong> Edition 075 stated on its face that <code>frontier-models</code> would demote to Tracking at edition 076 absent a flagship, and that no Western frontier flagship had shipped for a twenty-second consecutive edition. <strong>Both statements were already wrong when they were published:</strong> Anthropic released <strong>Claude Fable 5.1 and Mythos 5.1 on 1 September</strong>, the day before edition 075 went out. On <strong>2 September</strong> Google added <strong>Gemini 3.8 Flash and 3.8 Flash Cyber</strong>. <strong>Two frontier vendors, 48 hours, and the thread escalates from Monitor to Critical rather than retiring.</strong> The pattern the thread has tracked for forty days — capability moving down the cost curve, not up the capability curve — is not refuted so much as complicated: Fable 5.1 holds list price and cuts cache reads 75%, Gemini 3.8 Flash holds price entirely. <strong>The releases are real; the price direction is unchanged.</strong></div>
+      <div class="body">What is genuinely new in shape, across both releases, is <strong>safeguard-tiering</strong>. Anthropic shipped <strong>one model at two safeguard levels</strong> — Fable 5.1 general, <strong>Mythos 5.1 trusted-access only</strong>, its safeguards built to permit cybersecurity and life-sciences work that the general tier blocks. Google shipped <strong>Gemini 3.8 Flash generally and Flash Cyber behind the Fairwind Program</strong> for governments, critical-infrastructure operators and maintainers. Neither company framed this as a response to the other, and the releases are a day apart, so this is convergence rather than reaction. <strong>The competitive axis for the first time in a year is not benchmark score but access architecture.</strong> The open-weight side, meanwhile, has no such tier: <strong>GLM-5.3's 743B weights went public on 28 August</strong> with autonomous vulnerability discovery as a headline claim (Developing #2).</div>
+      <p class="sowhat">Migrations held for a flagship can stop being held — there are two. But re-scope what you are migrating <em>for</em>: both releases move on <strong>cost structure and access terms</strong>, not on a capability discontinuity, so a plan built on "wait for the step change" should convert into a plan built on <strong>cheaper long-context execution and a vendor conversation about which access tier your workload requires</strong>. If your work is in security or bio, start that conversation now; the tier, not the model, is what gates you.</p>
+      <div><span class="chip arc">ARC: FRONTIER-MODELS · D40</span><span class="chip">ESCALATED — MONITOR → CRITICAL</span><span class="chip">CORRECTS EDITION 075</span></div>
+      <div class="src"><a href="https://www.anthropic.com/claude-fable-and-mythos-5-1">Anthropic (primary)</a> · <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/">Google (primary)</a> · <a href="https://www.theregister.com/ai-and-ml/2026/09/02/with-gemini-38-flash-google-reminds-everyone-its-still-in-the-race/5294049">The Register</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="glm-53-launch">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D2</span> <span class="cat">MODELS · OPEN WEIGHTS · LICENCE</span></div>
+      <h4>Day 46: GLM-5.3's 743B weights are out — under a custom licence, not the Apache-2.0 that was trailed</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> <strong>The weights landed, and the licence is not what was reported in advance.</strong> This thread has been carried for five editions on one open question: Z.ai shipped GLM-5.3 on <strong>14 August</strong> with weights promised roughly two weeks later, then held them for a stated <strong>safety evaluation</strong>, and edition 075 recorded them as unpublished and roughly five days past window. <strong>They are published.</strong> The full flagship checkpoint went live on <strong>28 August 2026</strong> — a <strong>753.33B-parameter FP8</strong> release, <strong>755.7 GB across 141 shards</strong>, needing roughly <strong>eight GPUs</strong> to run. <strong>The licence is a custom "GLM-5.3 License", not the Apache-2.0 that several advance reports had trailed.</strong> That is the material change and it is the one most likely to be quoted wrongly this week.</div>
+      <div class="body">On capability: GLM-5.3 reuses the <strong>same 743B mixture-of-experts base as GLM-5.2</strong>, with every reported gain coming from <strong>scaled-up post-training rather than new pretraining or architecture</strong> — up to 30 points over 5.2 on Z.ai's own reporting. The security angle is why it sits beside today's hero: Z.ai says the post-training run produced, without being explicitly planned, a model markedly better at <strong>chaining vulnerability discovery, validation and exploitation into one reasoning process</strong>, claims <strong>2,436 real vulnerabilities found</strong> and a lead on <strong>CyberGym</strong>. Z.ai further says the model found a <strong>serious flaw in the Cursor editor</strong> — an arbitrary-file-write weakness — flagged by researcher <strong>Joshua Saxe</strong> and reported privately, with Cursor working on a fix. <strong>RUMOR-FLAG on that specific claim: it is a vendor assertion with no published CVE and no independent confirmation located</strong> (<a href="https://venturebeat.com/technology/glm-5-3-is-here-with-advanced-cyber-capabilities-and-reportedly-already-found-a-serious-vulnerability-in-cursor">VentureBeat</a>, <a href="https://www.interconnects.ai/p/glm-53-how-chinese-labs-keep-stride">Interconnects</a>, <a href="https://kingy.ai/blog/glm-5-3-specs-benchmarks-api-how-to-use/">Kingy AI on the checkpoint</a>).</div>
+      <p class="sowhat">Two actions. <strong>(1) Re-read the licence before you build on it.</strong> Anyone who planned around an Apache-2.0 GLM-5.3 — and advance coverage encouraged that — has a legal review to redo; custom model licences typically carry field-of-use and downstream-distribution terms that Apache does not. <strong>(2) Update your threat model.</strong> The capability that Google gated behind an application form four days later is downloadable, and a two-week safety hold followed by publication is the operative precedent for what open-weight "safety delay" means in practice.</p>
+      <div><span class="chip arc">ARC: OPEN-FRONTIER · D46</span><span class="chip">ESCALATED · 2x SRC · CURSOR CLAIM RUMOR-FLAGGED</span><span class="chip">WEIGHTS 28 AUG</span></div>
+      <div class="src"><a href="https://venturebeat.com/technology/glm-5-3-is-here-with-advanced-cyber-capabilities-and-reportedly-already-found-a-serious-vulnerability-in-cursor">VentureBeat</a> · <a href="https://www.interconnects.ai/p/glm-53-how-chinese-labs-keep-stride">Interconnects</a> · <a href="https://kingy.ai/blog/glm-5-3-specs-benchmarks-api-how-to-use/">Kingy AI (checkpoint detail)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="research" data-story-id="agent-security">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D3</span> <span class="cat">RESEARCH · CYBER CAPABILITY · MEASUREMENT</span></div>
+      <h4>Day 68: the security thread finally has numbers instead of incidents — and they are all pointing the same way at once</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> <strong>Yesterday's deep beat came back empty; today the same beat is the spine of the edition, because the movement is in measurement rather than incidents.</strong> Inside nineteen days: <strong>Z.ai published a 743B open-weight model claiming a CyberGym lead and 2,436 vulnerabilities found</strong> (28 August weights); <strong>Anthropic shipped a trusted-access safeguard tier explicitly to enable cybersecurity work</strong> (1 September); <strong>Google shipped a cyber-specialised model gated to governments and infrastructure operators</strong> (2 September); and <strong>$77M of venture capital went into two agent-security startups in 48 hours</strong> (New #4, New #5). Edition 075 recorded no dated security event at all. <strong>The thread's character has changed from breach forensics to capability measurement.</strong></div>
+      <div class="body">The benchmark everyone is now citing deserves stating on its own terms, because it is the load-bearing artefact. <strong>CyberGym</strong> comprises <strong>1,507 real-world vulnerabilities across 188 open-source projects</strong>; the agent receives only a <strong>text description of the vulnerability and the corresponding codebase</strong>, and must generate a proof-of-concept test that reproduces it. Its authors report the benchmark's own runs surfaced <strong>34 zero-days and 18 historically incomplete patches</strong> — so it measures something with demonstrated real-world yield rather than a synthetic proxy. Published baselines in the paper are modest: <strong>roughly 20% single-trial success</strong>, with OpenHands + Claude Sonnet 4 at <strong>17.9%</strong> and GPT-5 moving from <strong>7.7% to 22.0%</strong> when reasoning is enabled. <strong>Against those baselines, the 2026 vendor claims are very large, and none of them is independently verified.</strong> Google's own additional patching figure is <strong>47.2% pass@1 on CWE-Bench</strong> (<a href="https://arxiv.org/abs/2506.02548">CyberGym, arXiv 2506.02548</a>, <a href="https://deepmind.google/models/gemini/cyber/">Google DeepMind</a>, <a href="https://venturebeat.com/technology/glm-5-3-is-here-with-advanced-cyber-capabilities-and-reportedly-already-found-a-serious-vulnerability-in-cursor">VentureBeat</a>).</div>
+      <p class="sowhat">The defensive planning assumption for the next two quarters should be that <strong>automated vulnerability discovery against your codebase is cheap and available to anyone</strong>, because the open-weight version is a download and the gated version leaks capability into the ecosystem regardless. The concrete move is unglamorous and immediate: <strong>run the finder against yourself first.</strong> Every published result in this thread — the Chrome patches, the 34 zero-days, the Cursor claim — comes from someone pointing these systems at code before an adversary did.</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D68</span><span class="chip">ESCALATED · PRIMARY BENCHMARK + 2x SRC</span><span class="chip">VENDOR CLAIMS UNVERIFIED</span></div>
+      <div class="src"><a href="https://arxiv.org/abs/2506.02548">CyberGym (arXiv, primary)</a> · <a href="https://deepmind.google/models/gemini/cyber/">Google DeepMind</a> · <a href="https://siliconangle.com/2026/09/01/air-security-launches-with-50m-to-build-a-firewall-for-ai-agents/">SiliconANGLE</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="openai-chatgpt-ads-europe">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D4</span> <span class="cat">BUSINESS · MONETISATION · INDIA</span></div>
+      <h4>Day 4: ChatGPT Ads reached a $1B annualised run rate in under 200 days, and self-service buying opened to India, Europe and MENA</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> <strong>The thread moves from geography to mechanism, and gets its first revenue number.</strong> This card has been carried on one fact — ChatGPT Ads live in <strong>31 European markets since 24 August</strong>, separated from responses and non-personalised. Two things changed. <strong>From 31 August, advertisers in India, Europe, the Middle East and North Africa can buy directly through OpenAI's self-service Ads Manager</strong>, rather than through a managed pilot. And OpenAI's ad business is reported at a <strong>$1 billion annualised run rate in under 200 days</strong> from launch. Reported alongside: the <strong>pilot entry minimum falling to $50,000</strong>. Self-service plus a lower floor is the step that converts an ad product from a partnership motion into a market.</div>
+      <div class="body">India matters disproportionately here and it is worth separating from the rest of the list. It is ChatGPT's largest user market by most public counts, it is the market where a $50,000 floor is the difference between a handful of buyers and a long tail of them, and it is the first of these three regions where OpenAI is selling advertising directly to a domestic advertiser base rather than to multinationals buying European inventory. The <strong>$1B run rate</strong> figure is a <strong>run rate</strong> — an annualisation of a recent period, not booked annual revenue — and should be quoted that way (<a href="https://openai.com/index/expanding-access-to-ai-with-chatgpt-ads/">OpenAI</a>, <a href="https://www.forbes.com/sites/gabrielalinzainescu/2026/08/31/openais-chatgpt-ads-hit-1-billion-run-rate-in-just-200-days/">Forbes</a>, <a href="https://www.tribuneindia.com/news/ads-manager/indian-advertisers-to-get-direct-access-to-chatgpt-ads-as-openais-ad-business-hits-1-billion-annualised-run-rate">The Tribune</a>, <a href="https://www.emarketer.com/content/openai-launches-ads-manager--reduces-chatgpt-ad-pilot-cost--50-000">eMarketer</a>).</div>
+      <p class="sowhat">Two consequences, one commercial and one regulatory. <strong>Commercially:</strong> if you buy performance media in India or MENA, a new inventory source with self-service access and a $50,000 floor is now testable this quarter, and early-market pricing is the only pricing you will get. <strong>Regulatorily:</strong> ChatGPT was designated a Very Large Online Search Engine under the DSA on 1 September, and the VLOP/VLOSE regime requires an <strong>advertisement repository</strong>. An ad product that scales into Europe at the same moment its host is designated is going to have to become inspectable, and nobody has yet defined what an ad repository looks like for an assistant.</p>
+      <div><span class="chip arc">ARC: AI-MONETISATION-SURFACE · D4</span><span class="chip">ESCALATED · PRIMARY + 2x SRC</span><span class="chip">SELF-SERVICE 31 AUG</span></div>
+      <div class="src"><a href="https://openai.com/index/expanding-access-to-ai-with-chatgpt-ads/">OpenAI (primary)</a> · <a href="https://www.forbes.com/sites/gabrielalinzainescu/2026/08/31/openais-chatgpt-ads-hit-1-billion-run-rate-in-just-200-days/">Forbes</a> · <a href="https://www.emarketer.com/content/openai-launches-ads-manager--reduces-chatgpt-ad-pilot-cost--50-000">eMarketer</a></div>
+    </article>
+
+  </div>
+</section>
+
+<details class="fold" id="fold-tracking">
+  <summary>Still Tracking <small>36 LONG-RUNNERS · NO MOVEMENT THIS EDITION</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="tracking-strip" id="tracking-strip"></div></div>
+</details>
+
+<details class="fold" id="fold-resolved">
+  <summary>Resolved <small>OPEN THREADS, CLOSED</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="resolved-strip" id="resolved-strip"></div></div>
+</details>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 076 · 2026-09-03 (IST) · FORMAT v2</strong></p>
+    <details class="fold" id="fold-method">
+      <summary>Method, scan gaps &amp; caveats <span class="caret"></span></summary>
+      <div class="fold-body">
+        <p>METHOD: <strong>36 web searches</strong> plus <strong>eleven attempted page fetches, nine of them blocked</strong> by this session's egress proxy. The split across the three scan buckets ran roughly <strong>13 Models &amp; core technology / 12 Applied AI / 11 People, policy &amp; society</strong>. Thursday's rotating deep beat is <strong>hardware &amp; compute</strong> and took four queries — silicon announcements, data-centre and capex transactions, custom accelerators, and edge/client AI. <strong>It produced one card</strong> (New #10, DLSS 5) <strong>and two negative findings reported below.</strong> v2 format splits the feed into NEW ON THE WIRE, DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING. Aggregator claims cross-checked against ≥2 outlets; single-source and unconfirmed items are chip-flagged (2x SRC / Primary / Agg 1x / Rumor-flag). Impact /10 = breadth of who must act. The scan ran to 36 rather than the routine's 28 ceiling because four items — the Fable 5.1 release date, the GLM-5.3 weights date and licence, the Huskeys round date, and the Manus resumption date — each required a dedicated verification pass after the primary sources were unreachable.</p>
+
+        <p>THE CORRECTION THIS EDITION OWES, AND IT IS A LARGE ONE. <strong>Edition 075, published 2 September, did not carry Anthropic's release of Claude Fable 5.1 and Mythos 5.1 — which had shipped on 1 September, the previous day.</strong> Worse, on the same page, edition 075's Developing #3 stated that no Western frontier flagship had shipped for a twenty-second consecutive edition, and scheduled the <code>frontier-models</code> thread for demotion to Tracking at this edition on that basis. <strong>That statement was already false when it was published.</strong> The cause was a scan gap, not a judgement error: yesterday's thirty-six searches included model-release queries, but none phrased so as to surface a same-week Anthropic release, and the frontier-models card's own "scan-level claim, not a census" caveat did not prevent the stronger claim from being written into the fold-line and the demotion schedule. The release is carded today at <strong>New #2</strong> with its real date of <strong>1 September</strong> and is correctly marked <code>new24h:false</code>. The thread is corrected in place at <strong>Developing #1</strong> and <strong>escalated rather than retired</strong>. Under the routine's own rule an item missed by an earlier narrow scan still counts as new the first time it is covered, with its real date labelled honestly — which is what has been done, but the miss is the briefing's and is recorded here with the edition number attached.</p>
+
+        <p>THE 24-HOUR NUMBER IS FOUR, THE BEST THIS WEEK. Four items broke inside the last 24 hours: <strong>Gemini 3.8 Flash and Flash Cyber</strong> (2 September, the hero), the <strong>New York City schools moratorium</strong> (2 September), the <strong>Huskeys Series A</strong> (approximately 2 September), and <strong>DLSS 5</strong>, which ships during today. The remaining seven New items are dated <strong>25 August – 1 September</strong>, carry their real dates on the card face, and are marked <code>new24h:false</code>. Under the stricter test adopted at edition 074, an item is New only if its id is absent from <em>every</em> prior edition, not merely from yesterday's; all eleven were checked against the full archive before carding.</p>
+
+        <p>THE PATTERN AT THE TOP OF THIS EDITION IS OBSERVED, NOT CONSTRUCTED. Four independent events inside nineteen days point at the same surface: Z.ai's open-weight cyber-capable model (28 August weights), Anthropic's Mythos 5.1 trusted-access tier for cybersecurity and life sciences (1 September), Google's Fairwind-gated Flash Cyber (2 September), and $77M into two agent-security startups (1–2 September). <strong>This briefing is not claiming these are causally linked</strong> — the two model releases are a day apart and neither vendor referenced the other. What is claimed is narrower and defensible: <strong>within a three-week window, two frontier labs independently concluded that cyber capability requires its own access tier, an open-weight lab published the same capability without one, and capital priced the resulting exposure.</strong></p>
+
+        <p>SCAN GAPS, STATED PLAINLY. <strong>(1) The deep beat was thin.</strong> Thursday is hardware and compute, and four queries produced exactly one dated item — DLSS 5, shipping today. Two negative findings are recorded rather than padded into cards: <strong>Microsoft's reported September window for the Maia 300 unveil is now three days old with nothing announced</strong>, which remains a calendar advancing rather than movement and stays in Tracking; and <strong>"Meta Compute" surfaced repeatedly in searches as though current but dates to 12 January 2026</strong> and was killed before carding. No new dated data-centre or silicon transaction for 1–3 September surfaced beyond items already tracked. <strong>(2) The research beat is represented but thin.</strong> No dated new paper or benchmark for 1–3 September surfaced; the research card (Developing #3) is built on the <em>published</em> CyberGym benchmark and its stated baselines, used to put this week's vendor claims in proportion, rather than on a new release. Candidate research items found and rejected on date: NVIDIA's <strong>Proteina-Complexa</strong> protein-binder work (March–April 2026) and the Nature papers on automated AI research (earlier in 2026). <strong>(3) Regional coverage remains partial.</strong> India is covered through Developing #4 and the Gulf through New #9, and US coverage is heavy, but dedicated sweeps again produced <strong>no dated item for the UK, Singapore, Canada or the EU jobs market</strong> — fifth consecutive edition with that hole. India's own dated labour data did not refresh this edition; the standing foundit and CBRE numbers remain in Tracking. <strong>(4) One card is single-sourced.</strong> New #11 (DC OSSE) rests on one local outlet, is chipped <em>Agg 1x</em>, and links the OSSE root because the guidance document was not reachable. <strong>(5) Nine of eleven page fetches were blocked</strong> by the egress proxy — including anthropic.com, blog.google, nyc.gov, theregister.com, macrumors.com, engadget.com and datacenterdynamics.com — so several items rest on search-result summaries cross-checked across multiple outlets rather than on the underlying primary page. Primary URLs are linked where they exist and are named as primary; readers should treat the linked primary as the authority over this briefing's paraphrase. <strong>(6) Four candidates were dropped for date or sourcing failures</strong> rather than carded: <strong>"Meta Compute"</strong> (January 2026, surfaced as current); an aggregator claim that <strong>Qwen3.8-27B released on 2 September</strong> when ModelScope metadata dates it to <strong>14 August</strong>; <strong>UBTech's UWORLD U1</strong> consumer humanoid, where "shipping from September" could not be pinned to a dated announcement; and the reported <strong>€47M in first EU AI Act fines</strong>, which remains unconfirmed for a fourth consecutive edition and stays in Tracking. <strong>(7) Two live deadlines rotated off the radar</strong> to keep it at six tiles — the January 2027 DSA compliance date and the FDA generative-AI device docket (19 October); both remain in Tracking and neither has passed.</p>
+
+        <p>ON VENDOR BENCHMARK CLAIMS IN THIS EDITION. Today's hero, its Developing counterpart and the research card all rest partly on numbers published by the vendor whose product they describe. This is stated on each card and repeated here: <strong>Google's 2.6× Chrome patch figure and its under-two-hours vulnerability find are first-party; Wiz is a Google subsidiary; Z.ai's 2,436-vulnerability count and its Cursor finding are first-party, and the Cursor claim has no published CVE.</strong> The published CyberGym paper and its stated baselines are independent and are used here as the measuring stick precisely because the vendor claims are not. <strong>No independent third-party evaluation of Gemini 3.8 Flash Cyber or of GLM-5.3's security claims existed at the time of writing.</strong></p>
+
+        <p>AUTO-RETIREMENTS THIS EDITION (16, each without movement across roughly three consecutive editions): <code>gemini-35-transcribe</code>, <code>anthropic-science-seats</code>, <code>ibm-openai-practice</code>, <code>urbanground-benchmark</code>, <code>jit-agent-harness-synthesis</code>, <code>nsa-cisa-ai-plc-advisory</code>, <code>caterpillar-ai-deployment</code>, <code>ge-mim-protegeai-pccp</code>, <code>sun-west-angel-agents</code>, <code>openai-dalle-gpt-retirement</code>, <code>dnb-gemini-financial-services</code>, <code>plos-ai-device-evidence</code>, <code>india-gcc-ai-two-thirds</code>, <code>ipo-wave</code>, <code>broadcom-60b-ai-debt</code> and <code>deepseek-74b-round</code>. PROMOTIONS TO DEVELOPING (3), each on genuine dated movement: <code>glm-53-launch</code> (weights published 28 August under a custom licence), <code>agent-security</code> (four dated events in nineteen days) and <code>openai-chatgpt-ads-europe</code> (self-service opened 31 August, $1B run rate). ESCALATED (1): <code>frontier-models</code>, Monitor → Critical, reversing a scheduled retirement. DEMOTIONS TO TRACKING (14): all twelve of edition 075's New items on the no-movement rule (<code>chatgpt-vlose-dsa</code>, <code>genai-mil-chatgpt-grok</code>, <code>anthropic-lambda-35b</code>, <code>ftc-amazon-ads-lawsuit</code>, <code>lumi-ai-eurohpc-amd</code>, <code>anthropic-pentagon-injunction</code>, <code>stripe-openrouter</code>, <code>agents-last-exam</code>, <code>gatik-series-d-200m</code>, <code>foundit-india-ai-32pc</code>, <code>nvidia-jetson-orin-nano-2</code>, <code>amazon-prime-air-500-cities</code>) plus two of its three Developing threads (<code>openai-chatgpt-teens</code>, whose 8 September Australia date has not yet arrived, and <code>ai-layoffs-205k</code>, superseded in part by New #8).</p>
+
+        <p>NEVER INVENTED: no story, quote, number or link in this edition is fabricated. Where a deep link could not be verified, an outlet root is linked and the limitation is printed on the card. Where a claim could not be confirmed, it is chip-flagged Rumor-flag with its evidence base named. Where this briefing got something wrong — and today it got something substantial wrong — the correction is printed above with the edition number attached.</p>
+      </div>
+    </details>
+    <p style="margin-top:14px">Generated for Asia/Kolkata (IST). Buckets: <a href="#still-tracking">Still Tracking</a> · <a href="#resolved">Resolved</a> · <a href="#method">Method</a>.</p>
+  </div>
+</footer>
+
+
+<script id="signal-state" type="application/json">
+{
+ "edition": 76,
+ "date": "2026-09-03",
+ "tz": "Asia/Kolkata",
+ "format": "v2",
+ "scanCount": 36,
+ "counts": { "new": 11, "developing": 4, "tracking": 36 },
+ "tiers": { "critical": 4, "notable": 8, "monitor": 3 },
+ "stories": [
+  {
+   "id": "gemini-38-flash-cyber",
+   "section": "new",
+   "rank": 1,
+   "title": "On 2 September 2026 Google released Gemini 3.8 Flash and Gemini 3.8 Flash Cyber. The general model is the fourth Flash release in under four months, scoring 59 on the Artificial Analysis Intelligence Index at high reasoning, up three points on 3.7 Flash, held at introductory pricing of $0.75 per million input and $3.75 per million output tokens through 31 December, and available through the Gemini API, AI Studio, Android Studio and Gemini Enterprise. The Cyber variant is the substance: Google claims frontier-level CyberGym performance against significantly larger models, over 70% success on an internal real-world vulnerability benchmark spanning 20 languages, and a place on the CWE-Bench patching Pareto frontier at 47.2% pass@1. Named field results are Chrome Security reporting 2.6x more correct patches than comparable commercial models, Wiz reporting 7.5-9.7% higher recall at 2.3-5.2x lower cost, and Google Cloud Vulnerability Research finding a critical vulnerability in under two hours. Cyber is not generally available: access runs through a new Fairwind Program restricted to government authorities, critical-infrastructure operators and software maintainers. All field figures are first-party and no independent evaluation exists.",
+   "tier": "critical",
+   "impact": 9,
+   "delta": "new",
+   "arc": "frontier-models",
+   "arcDay": 40,
+   "confidence": "Primary",
+   "new24h": true,
+   "firstSeen": "2026-09-02",
+   "lastUpdate": "2026-09-03",
+   "category": "models"
+  },
+  {
+   "id": "claude-fable-mythos-51",
+   "section": "new",
+   "rank": 2,
+   "title": "Anthropic released Claude Fable 5.1 and Claude Mythos 5.1 on 1 September 2026, positioned as its most capable models for coding, knowledge work and long-running problem-solving. The two are the same model at different safeguard levels: Fable 5.1 is generally available, while Mythos 5.1 is available only through trusted-access programmes, with safeguards specifically designed to support work in cybersecurity and the life sciences. List prices are unchanged at $10 per million input and $50 per million output tokens, but cache-read pricing is cut 75%, which Anthropic frames as roughly 25% cheaper to run for most customers. Behaviourally the models deliver similar or better results than Fable 5 at low and medium effort with materially higher performance at high effort, and fewer false positives - fewer refusals of benign requests. Edition 075 of this briefing, published the following day, did not carry this release and stated on the same page that no Western frontier flagship had shipped.",
+   "tier": "critical",
+   "impact": 8,
+   "delta": "new",
+   "arc": "frontier-models",
+   "arcDay": 40,
+   "confidence": "Primary",
+   "new24h": false,
+   "firstSeen": "2026-09-01",
+   "lastUpdate": "2026-09-03",
+   "category": "models"
+  },
+  {
+   "id": "nyc-schools-ai-ban",
+   "section": "new",
+   "rank": 3,
+   "title": "On 2 September 2026 Mayor Zohran Mamdani and Schools Chancellor Kamar Samuels announced a one-year moratorium on student generative-AI use across grades 2-K through 8 in New York City, the largest school system in the United States, together with new screen-time limits. The moratorium reaches nearly 600,000 students, close to two-thirds of district enrolment. Teachers are permitted to use AI for lesson planning and other operational tasks and prohibited from using it for grading or student assessment, with carve-outs for students with disabilities and English-language learners. The city describes it as the nation's broadest generative-AI moratorium in schools. The structural line it draws - tool use permitted, decision authority withheld - matches the guidance the District of Columbia issued the same week from the teacher side.",
+   "tier": "critical",
+   "impact": 8,
+   "delta": "new",
+   "arc": "ai-in-education",
+   "arcDay": 1,
+   "confidence": "Primary",
+   "new24h": true,
+   "firstSeen": "2026-09-02",
+   "lastUpdate": "2026-09-03",
+   "category": "policy"
+  },
+  {
+   "id": "air-security-50m",
+   "section": "new",
+   "rank": 4,
+   "title": "Israeli startup AIR emerged from stealth on 1 September 2026 with a $50 million seed round led by Sequoia Capital and Greenoaks - an unusually large seed for a company founded in February 2026, now 40 people. Founders Yair Saban and Niv Hoffman come from offensive cybersecurity, enterprise infrastructure and AI security research. The product is an inline firewall for AI agents that governs what enters an agent's context rather than restricting what the agent is permitted to do. It continuously discovers and evaluates every skill, plugin, MCP server and add-on across an organisation's agent supply chain, before and after deployment; when one is found malicious, vulnerable or unapproved, teams can trace every dependent workflow and revoke it. AIR's own scan reports over 17,800 public AI add-ons linked to untrusted external sources, accounting for roughly 6.7 million installations - a vendor census, but a falsifiable one with no competing count published.",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "new",
+   "arc": "agent-security",
+   "arcDay": 68,
+   "confidence": "2x src",
+   "new24h": false,
+   "firstSeen": "2026-09-01",
+   "lastUpdate": "2026-09-03",
+   "category": "business"
+  },
+  {
+   "id": "huskeys-27m-blackstone",
+   "section": "new",
+   "rank": 5,
+   "title": "Around 2 September 2026 Tel Aviv-based Huskeys closed a $27 million Series A led by Blackstone Innovations Investments at a valuation above $100 million, taking total funding to $35 million for a company founded in 2025. Skinos Ventures, Zscaler Ventures and Okta Ventures participated, alongside individual investors from Google, Microsoft and Intel. The problem is the mirror image of AIR's: not what reaches an agent, but what agents do to everyone else's infrastructure. Huskeys describes an agentic-AI layer that augments existing edge defences rather than replacing them, analysing traffic patterns to separate legitimate AI agents from malicious ones, and says it processes over a trillion web requests daily across its client base while managing thousands of network configurations in real time. The round is carried by trade press and wire releases rather than a reachable company primary post, and the traffic figure is the company's own.",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "agent-security",
+   "arcDay": 68,
+   "confidence": "2x src",
+   "new24h": true,
+   "firstSeen": "2026-09-02",
+   "lastUpdate": "2026-09-03",
+   "category": "business"
+  },
+  {
+   "id": "manus-independence",
+   "section": "new",
+   "rank": 6,
+   "title": "On 1 September 2026 AI-agent startup Manus formally resumed independent operations, completing the unwinding of Meta's roughly $2 billion acquisition announced on 29 December 2025. China's foreign-investment security review mechanism, housed in the National Development and Reform Commission, prohibited the investment and ordered the transaction revoked on grounds tied to the transfer of Chinese technology; Manus said in August that it would soon return to independence. Manus was founded in China in 2022 and relocated to Singapore, a structure widely used to raise Western capital, access high-end NVIDIA GPUs and integrate OpenAI and Anthropic models without triggering foreign-investment restrictions. It did not work: the review mechanism does not depend on where the target is incorporated. This is reported as the first time Beijing has retroactively unwound a completed cross-border AI acquisition, reversing it after close rather than blocking it before.",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "new",
+   "arc": "cross-border-ai-control",
+   "arcDay": 1,
+   "confidence": "2x src",
+   "new24h": false,
+   "firstSeen": "2026-09-01",
+   "lastUpdate": "2026-09-03",
+   "category": "business"
+  },
+  {
+   "id": "gemini-enterprise-finserv-db",
+   "section": "new",
+   "rank": 7,
+   "title": "Google Cloud launched Gemini Enterprise for Financial Services on 25 August 2026, in preview for capital markets and corporate banking, with CME Group and Deutsche Bank named as users and Deutsche Bank as design partner for the Financial Research agent. The agent ships with over 50 specialised financial skills and uses MCP connectors into licensed data sources including D&B and S&P Global. The architecture is the transferable part: a dual orchestration in which LangGraph drives regulator-aligned workflows through a traceable process recording how inputs led to outputs, while the Google Agent Development Kit drives investigative work where agents assess conditions without a predefined execution path. Audit logging, governance and grounded citation are built in to meet data-provenance requirements, with Deutsche Bank contributing security, governance and data-residency requirements. The bank is deploying first in its Corporate Bank for German MidCorp clients, with Private and Investment banking to be evaluated later.",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "new",
+   "arc": "enterprise-ai-execution",
+   "arcDay": 9,
+   "confidence": "2x src",
+   "new24h": false,
+   "firstSeen": "2026-08-25",
+   "lastUpdate": "2026-09-03",
+   "category": "enterprise"
+  },
+  {
+   "id": "dice-ai-skills-79pc",
+   "section": "new",
+   "rank": 8,
+   "title": "Dice's August 2026 tech jobs report, covering July data, puts AI skill requirements in 79% of US tech job postings, up from 75% in June and up 144% year on year against July 2025. Volume moved the other way: tech postings fell 10% month on month in July after several months of expansion, though they remain up 10% year on year. The composition detail resists the obvious reading - the fastest-growing skills in the month were Organizational Change Management at +42%, Quality Improvement at +37% and Ruby at +32%, which point at the people and process side of AI adoption rather than at model building. Sourcing caveat: several outlets are simultaneously running a Dice-sourced headline of 73% of tech job postings from an earlier edition of the same report series, so anyone quoting either figure should name the month.",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "workforce",
+   "arcDay": 66,
+   "confidence": "Primary",
+   "new24h": false,
+   "firstSeen": "2026-08-24",
+   "lastUpdate": "2026-09-03",
+   "category": "policy"
+  },
+  {
+   "id": "humain-arabic-ai-tarjama",
+   "section": "new",
+   "rank": 9,
+   "title": "In early September 2026 PIF-backed HUMAIN announced a strategic investment in and partnership with Arabic.AI and Tarjama, extending its stack from infrastructure into translation and document intelligence. Three named workstreams: an Arabic-first translation management platform built on Arabic.AI's Cleverso system and Arabic language models; an archive digitisation engine converting legacy documents into searchable Arabic knowledge; and document-intelligence agents for analysing contracts and regulatory filings. HUMAIN supplies locally operated AI infrastructure and compute while the partners bring more than 18 years of language-technology work. Initial solutions go to early enterprise customers, with offerings to be unveiled at LEAP 2026 in Riyadh. The investment amount is undisclosed and the product has not launched, so this is a direction-of-travel signal rather than a result: Gulf sovereign AI moving up the stack from gigawatts into vertical language assets.",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "sovereign-ai-stack",
+   "arcDay": 1,
+   "confidence": "2x src",
+   "new24h": false,
+   "firstSeen": "2026-09-01",
+   "lastUpdate": "2026-09-03",
+   "category": "business"
+  },
+  {
+   "id": "dlss5-neural-rendering",
+   "section": "new",
+   "rank": 10,
+   "title": "NVIDIA's DLSS 5 releases on 3 September 2026 at 21:00 Pacific, with NBA 2K27 as the first supported title. The change of kind is 3D-Guided Neural Rendering: the network is fed game-engine geometry, lighting, normals, motion vectors and artist-controlled masks, and uses them to add effects including subsurface scattering, hair transmission and contact shadows, rather than reconstructing pixels after the fact. Previous DLSS generations upscaled and interpolated frames; this one participates in rendering. Availability is GeForce RTX 50-series desktop and laptop GPUs plus GeForce NOW. As Thursday's hardware deep beat this is a small item carrying a large idea: neural networks moving from post-processing into the render pipeline makes GPU value a function of tensor rather than raster throughput, and real-time neural rendering is a workload that does not batch, does not tolerate latency and does not run in a data centre.",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "edge-ai-silicon",
+   "arcDay": 2,
+   "confidence": "2x src",
+   "new24h": true,
+   "firstSeen": "2026-09-03",
+   "lastUpdate": "2026-09-03",
+   "category": "hardware"
+  },
+  {
+   "id": "dc-osse-ai-guidance",
+   "section": "new",
+   "rank": 11,
+   "title": "The District of Columbia's Office of the State Superintendent of Education issued new AI guidance for public-school teachers for the 2026-27 school year, prohibiting AI use in grading, discipline and IEP decisions and providing a stoplight-style red/amber/green framework for judging when AI belongs in a teacher's work. Where New York City's action restricts students broadly and teachers narrowly, DC's restricts teachers at precisely the points where a tool would touch a legally consequential determination about an individual child; an individualised education programme is a statutory entitlement document under US special-education law. Two districts in one week converge on the same principle from opposite directions: AI may assist the work but may not make the determination. Sourcing caveat: this rests on a single local outlet and the OSSE guidance document itself was not reachable in this scan, so the stoplight framing is reported rather than verified.",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "ai-in-education",
+   "arcDay": 1,
+   "confidence": "Agg 1x",
+   "new24h": false,
+   "firstSeen": "2026-09-01",
+   "lastUpdate": "2026-09-03",
+   "category": "policy"
+  },
+  {
+   "id": "frontier-models",
+   "section": "developing",
+   "rank": 1,
+   "title": "The thread scheduled to demote to Tracking at this edition instead escalates from Monitor to Critical. Two Western frontier releases landed inside 48 hours: Anthropic's Claude Fable 5.1 and Mythos 5.1 on 1 September, and Google's Gemini 3.8 Flash and 3.8 Flash Cyber on 2 September. Edition 075's statement that no Western frontier flagship had shipped for a twenty-second consecutive edition was already false when published. The forty-day pattern the thread has tracked - capability moving down the cost curve rather than up the capability curve - is complicated rather than refuted: Fable 5.1 holds list price and cuts cache reads 75%, Gemini 3.8 Flash holds price entirely. What is genuinely new in shape is safeguard-tiering, with both vendors independently shipping one model at two access levels, making access architecture rather than benchmark score the competitive axis for the first time in a year.",
+   "tier": "critical",
+   "impact": 8,
+   "delta": "escalated",
+   "arc": "frontier-models",
+   "arcDay": 40,
+   "confidence": "Primary",
+   "new24h": false,
+   "update": "The drought ended the day before this thread was due to be retired. Anthropic shipped Fable 5.1 and Mythos 5.1 on 1 September and Google shipped Gemini 3.8 Flash and Flash Cyber on 2 September, so the thread escalates Monitor to Critical instead of demoting. Both releases move on cost structure and access terms rather than on a capability discontinuity, and both introduce a general tier plus a restricted tier.",
+   "firstSeen": "2026-07-26",
+   "lastUpdate": "2026-09-03",
+   "category": "models"
+  },
+  {
+   "id": "glm-53-launch",
+   "section": "developing",
+   "rank": 2,
+   "title": "GLM-5.3's flagship open weights are published. Z.ai shipped the model on 14 August 2026 with weights promised roughly two weeks later, then held them for a stated safety evaluation; edition 075 recorded them as unpublished and roughly five days past window. The full checkpoint went live on 28 August 2026 - a 753.33B-parameter FP8 release, 755.7 GB across 141 shards, requiring roughly eight GPUs to run - under a custom GLM-5.3 License rather than the Apache-2.0 that several advance reports had trailed. The model reuses the same 743B mixture-of-experts base as GLM-5.2 with all reported gains from scaled-up post-training rather than new pretraining. Z.ai says the post-training run produced an unplanned improvement in chaining vulnerability discovery, validation and exploitation, claims 2,436 real vulnerabilities found and a CyberGym lead, and says the model found a serious arbitrary-file-write flaw in the Cursor editor, reported privately with no published CVE and no independent confirmation.",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "escalated",
+   "arc": "open-frontier",
+   "arcDay": 46,
+   "confidence": "2x src",
+   "new24h": false,
+   "update": "The weights landed on 28 August and the licence is not what was reported in advance: a custom GLM-5.3 License, not Apache-2.0. That is the material change and the one most likely to be quoted wrongly. Anyone who planned around an Apache-2.0 GLM-5.3 has a legal review to redo, and the capability Google gated behind an application form four days later is now a download.",
+   "firstSeen": "2026-08-14",
+   "lastUpdate": "2026-09-03",
+   "category": "models"
+  },
+  {
+   "id": "agent-security",
+   "section": "developing",
+   "rank": 3,
+   "title": "The security thread's character has changed from breach forensics to capability measurement. Inside nineteen days: Z.ai published a 743B open-weight model claiming a CyberGym lead and 2,436 vulnerabilities found; Anthropic shipped a trusted-access safeguard tier explicitly to enable cybersecurity work; Google shipped a cyber-specialised model gated to governments and infrastructure operators; and $77 million of venture capital went into two agent-security startups in 48 hours. The load-bearing artefact is CyberGym: 1,507 real-world vulnerabilities across 188 open-source projects, where the agent receives only a text description and the codebase and must generate a proof-of-concept reproducing the flaw. Its authors report the benchmark's own runs surfaced 34 zero-days and 18 historically incomplete patches. Published baselines are modest - roughly 20% single-trial success, OpenHands with Claude Sonnet 4 at 17.9%, GPT-5 moving from 7.7% to 22.0% with reasoning enabled - which makes the 2026 vendor claims very large and, so far, unverified.",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "escalated",
+   "arc": "agent-security",
+   "arcDay": 68,
+   "confidence": "Primary",
+   "new24h": false,
+   "update": "Yesterday's deep beat returned no dated security event at all; today the same beat is the spine of the edition because the movement is in measurement rather than incidents. Four dated events in nineteen days - an open-weight cyber-capable model, two frontier safeguard tiers, and $77M into two startups - and the published CyberGym baselines now sit far below every vendor claim being made against them.",
+   "firstSeen": "2026-06-28",
+   "lastUpdate": "2026-09-03",
+   "category": "research"
+  },
+  {
+   "id": "openai-chatgpt-ads-europe",
+   "section": "developing",
+   "rank": 4,
+   "title": "ChatGPT Ads moves from geography to mechanism and gets its first revenue number. The thread has been carried on one fact - ads live in 31 European markets since 24 August, separated from responses and non-personalised. From 31 August 2026 advertisers in India, Europe, the Middle East and North Africa can buy directly through OpenAI's self-service Ads Manager rather than through a managed pilot, and OpenAI's ad business is reported at a $1 billion annualised run rate in under 200 days from launch, with the pilot entry minimum falling to $50,000. Self-service plus a lower floor converts an ad product from a partnership motion into a market. India matters disproportionately: it is ChatGPT's largest user market by most public counts and the first of these regions where OpenAI sells directly to a domestic advertiser base. The $1B figure is a run rate - an annualisation of a recent period, not booked annual revenue.",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "escalated",
+   "arc": "ai-monetisation-surface",
+   "arcDay": 4,
+   "confidence": "Primary",
+   "new24h": false,
+   "update": "Self-service buying opened to India, Europe and MENA on 31 August, the pilot minimum fell to $50,000, and the ad business is reported at a $1B annualised run rate in under 200 days. This lands at the same moment ChatGPT was designated a VLOSE under the DSA, a regime requiring an advertisement repository that nobody has yet defined for an assistant.",
+   "firstSeen": "2026-08-24",
+   "lastUpdate": "2026-09-03",
+   "category": "business"
+  }
+ ],
+ "tracking": [
+  { "id": "chatgpt-vlose-dsa", "label": "no movement: the 1 September designation of ChatGPT as a Very Large Online Search Engine under the DSA holds, with no Commission follow-up step and no other assistant designated. The January 2027 compliance date stands.", "arc": "reg-clock", "arcDay": 36 },
+  { "id": "genai-mil-chatgpt-grok", "label": "no movement: ChatGPT Mil and Grok for Government remain live on GenAI.mil at Impact Level 5 alongside Gemini; no new onboarding figure past 1.7M of 3M personnel, and Claude is still absent.", "arc": "defense-ai-procurement", "arcDay": 2 },
+  { "id": "anthropic-lambda-35b", "label": "no movement: the $35B Lambda agreement on the Hut 8 Nueces County site holds, with no new counterparty, financing detail or construction milestone dated.", "arc": "compute-buildout", "arcDay": 48 },
+  { "id": "ftc-amazon-ads-lawsuit", "label": "no movement: no scheduling order, answer or Amazon motion located since the 31 August filing by the FTC and 22 states over $20B of undisclosed ad-auction surcharges.", "arc": "algorithmic-pricing-enforcement", "arcDay": 2 },
+  { "id": "lumi-ai-eurohpc-amd", "label": "no movement: the EUR 387.8M Bull/AMD MI430X contract for LUMI-AI in Kajaani holds; H2 2027 deployment unchanged.", "arc": "eu-sovereign-compute", "arcDay": 2 },
+  { "id": "anthropic-pentagon-injunction", "label": "no movement: Judge Lin's order striking the Pentagon's supply-chain-risk designation of Anthropic holds, with no appeal, no contract award and Claude still off GenAI.mil.", "arc": "defense-ai-procurement", "arcDay": 2 },
+  { "id": "stripe-openrouter", "label": "no movement: Stripe's agreement to acquire OpenRouter holds with no close date, no regulatory filing and no confirmed price beyond the reported $7B-plus.", "arc": "ai-inference-middleware", "arcDay": 2 },
+  { "id": "agents-last-exam", "label": "no movement on the benchmark itself: frontier agents at 26% across tiers, 2.6% on the hardest tier and 0% for every system tested there. Today's cyber claims are measured on CyberGym, a different instrument - see Developing #3.", "arc": "agent-eval-reality", "arcDay": 4 },
+  { "id": "gatik-series-d-200m", "label": "no movement: the $200M Series D against $600M of contracted revenue holds with no new route, customer or regulatory step dated.", "arc": "autonomous-logistics", "arcDay": 2 },
+  { "id": "foundit-india-ai-32pc", "label": "no movement: the projected +32% to roughly 3.8 lakh Indian AI roles in 2026 stands, with no refreshed monthly reading this edition.", "arc": "india-ai-labour", "arcDay": 12 },
+  { "id": "nvidia-jetson-orin-nano-2", "label": "no movement: Jetson Orin Nano 2 at 78 TOPS holds; today's edge-silicon step is DLSS 5 at New #10, on the client rather than the embedded side.", "arc": "edge-ai-silicon", "arcDay": 2 },
+  { "id": "amazon-prime-air-500-cities", "label": "no movement: the plan for nearly 500 US cities by year-end holds, still gated on per-site FAA clearance, with no new site count published.", "arc": "autonomous-logistics", "arcDay": 2 },
+  { "id": "openai-chatgpt-teens", "label": "no movement, and the date has not yet arrived: full Australian availability is expected 8 September, five days out. The age-prediction classifier's misclassification rate is unpublished for a fourteenth edition.", "arc": "openai-chatgpt-teens", "arcDay": 14 },
+  { "id": "ai-layoffs-205k", "label": "superseded in part: the 205,000 AI-attributed US cuts through August and the 25% rise in hiring plans both stand; New #8 supplies the demand-side reading the ledger has lacked.", "arc": "workforce", "arcDay": 66 },
+  { "id": "aws-nvidia-2m-gpus", "label": "no movement: the AWS/NVIDIA commitment to roughly 2,000,000 additional Blackwell Ultra, Rubin and Rubin Ultra GPUs holds with no new delivery milestone.", "arc": "compute-buildout", "arcDay": 48 },
+  { "id": "nyt-openai-claims-narrowed", "label": "no movement: the New York Times case losing two theories and keeping three holds, with no scheduling order located.", "arc": "copyright-litigation", "arcDay": 4 },
+  { "id": "mturk-shutdown", "label": "no movement, and 27 days remain: Amazon closes Mechanical Turk on 30 September, taking SageMaker Ground Truth and Augmented AI with it.", "arc": "human-labour-behind-ai", "arcDay": 5 },
+  { "id": "datacenter-consent-backlash", "label": "no movement: the six toss-up Senate races, the Annenberg 61% and the Echelon nuclear-plant comparison hold with no new dated step.", "arc": "datacenter-consent-backlash", "arcDay": 47 },
+  { "id": "workforce", "label": "the carried ledger holds; the arc's dated step this edition is New #8, Dice's 79% AI-skills reading against a 10% month-on-month fall in posting volume.", "arc": "workforce", "arcDay": 66 },
+  { "id": "compute-buildout", "label": "no dated transaction this edition. The capital-silicon-power-land arc had no new step for 1-3 September beyond items already tracked; Thursday's deep beat is reported as thin in the method note.", "arc": "compute-buildout", "arcDay": 48 },
+  { "id": "ftc-personalized-pricing", "label": "no movement, and 15 days remain: comments on the FTC's 2-0 proposed personalised-pricing enforcement policy statement close 18 September.", "arc": "reg-clock", "arcDay": 7 },
+  { "id": "reg-clock", "label": "no new dated European enforcement step this edition. The verified step of record remains the DSA designation of 1 September, not an AI Act penalty.", "arc": "reg-clock", "arcDay": 36 },
+  { "id": "nvidia-openai-ohio-105b", "label": "no movement: the up-to-$105B backing for the PORTS-Pike campus holds, SB Energy building and owning, OpenAI leasing 20 years.", "arc": "compute-buildout", "arcDay": 47 },
+  { "id": "india-gcc-510k-ai", "label": "no movement: the 227,991 H1 hires and 510,452 full-year projection stand with no refreshed reading this edition.", "arc": "india-ai-labour", "arcDay": 12 },
+  { "id": "anthropic-openai-q2-crossover", "label": "no movement: Anthropic's Q2 revenue passing OpenAI's holds, with the $11.6B / $10.9B discrepancy unresolved.", "arc": "ai-capital-markets", "arcDay": 25 },
+  { "id": "silicon-data-compute-futures", "label": "no movement, and 32 days remain: CME's cash-settled H100 and B200 Rental Index Futures launch 5 October.", "arc": "ai-capital-markets", "arcDay": 25 },
+  { "id": "softbank-1t-retail-bond", "label": "no movement, and one day remains: the record 1 trillion yen ($6.3B) seven-year retail bond prices 4 September at an indicative 4.3-4.9% coupon.", "arc": "ai-capital-markets", "arcDay": 8 },
+  { "id": "agent-platform-war", "label": "no dated step this edition; the enterprise-agent step of record is New #7, Google's dual-orchestration financial-services stack rather than a platform launch.", "arc": "agent-platform-war", "arcDay": 25 },
+  { "id": "openai-sol-price-cut", "label": "no movement: the GPT-5.6 Sol promotional window of over 20% off input and output from 21 August runs out around 11 September.", "arc": "model-pricing", "arcDay": 9 },
+  { "id": "fda-genai-device-paper", "label": "no movement: the FDA discussion paper on generative-AI medical devices holds, docket FDA-2026-N-7874, comments closing 19 October.", "arc": "clinical-ai-evidence", "arcDay": 8 },
+  { "id": "claude-code-weekly-limits", "label": "no movement, and 11 days remain: Claude Code's weekly limits become permanent at 25% above the pre-promotion baseline on 14 September, roughly a 17% cut against the temporary boost held until 13 September.", "arc": "model-pricing", "arcDay": 10 },
+  { "id": "glm-53-flash-weights", "label": "superseded in part: GLM-5.3-Flash's 320B/18B MIT weights of 26 August stand; the flagship weights question this thread paired with is closed at Developing #2.", "arc": "open-frontier", "arcDay": 46 },
+  { "id": "apple-ceo-ternus", "label": "no movement: John Ternus in post as Apple CEO since 1 September with Tim Cook as executive chairman, and no AI-strategy step announced in three editions.", "arc": "platform-leadership", "arcDay": 3 },
+  { "id": "salesforce-anthropic-claudeforce", "label": "no movement: Claudeforce remains in select pilot with a stated September open beta and no beta date announced; three days of September have passed.", "arc": "enterprise-ai-execution", "arcDay": 9 },
+  { "id": "microsoft-maia-300", "label": "no movement, and the calendar keeps advancing: the reported September unveil window for Maia 300 is three days old with nothing announced. A calendar advancing is not movement.", "arc": "custom-silicon-escape", "arcDay": 4 },
+  { "id": "eu-ai-act-first-fines", "label": "STILL UNCONFIRMED after four editions: no Commission decision, no named defendant and no wire report for the reported EUR 47M in first AI Act penalties. Anyone quoting the figure should stop.", "arc": "reg-clock", "arcDay": 36 }
+ ],
+ "movers": [
+  { "dir": "up", "text": "WESTERN FRONTIER RELEASES - the twenty-two-edition drought ends inside 48 hours. Anthropic's Claude Fable 5.1 and Mythos 5.1 on 1 September, Google's Gemini 3.8 Flash and 3.8 Flash Cyber on 2 September. The frontier-models thread escalates Monitor to Critical on the edition it was scheduled to be retired." },
+  { "dir": "up", "text": "CYBER CAPABILITY AS A PRODUCT TIER - two frontier labs independently shipped a restricted access tier for cyber and life-sciences work in two days: Anthropic's Mythos 5.1 by trusted-access programme, Google's Flash Cyber by the new Fairwind Program for governments, critical infrastructure and maintainers." },
+  { "dir": "down", "text": "THE VALUE OF GATING - four days before Google gated Flash Cyber, Z.ai published GLM-5.3's 753.33B FP8 weights, whose headline claim is autonomous vulnerability discovery. The closed version is allow-listed; the open version is a 755.7 GB download." },
+  { "dir": "down", "text": "OPEN-WEIGHT LICENCE TERMS - GLM-5.3's flagship weights shipped 28 August under a custom GLM-5.3 License, not the Apache-2.0 several advance reports had trailed. Anyone who planned around Apache terms has a legal review to redo." },
+  { "dir": "up", "text": "AGENT-SECURITY CAPITAL - $77M into two startups in 48 hours: AIR's $50M Sequoia/Greenoaks seed seven months after founding, and Huskeys' $27M Series A led by Blackstone at a $100M-plus valuation. Both ends of the wire, funded in the same week." },
+  { "dir": "down", "text": "AI IN AMERICAN CLASSROOMS - New York City switched generative AI off for ~600,000 students through 8th grade for a year, and Washington DC barred teachers from using it for grading, discipline or IEP decisions. Two districts, one week, one principle: AI may assist the work, not make the determination." },
+  { "dir": "up", "text": "CHATGPT AD REVENUE - $1B annualised run rate in under 200 days, self-service buying open to India, Europe and MENA from 31 August, pilot minimum down to $50,000 - inside a DSA regime that will require an advertisement repository nobody has defined for an assistant." },
+  { "dir": "down", "text": "THE SINGAPORE WRAPPER - Manus is independent again from 1 September after Beijing's NDRC review retroactively unwound Meta's closed $2B acquisition. Redomiciliation is not a shield and closing is not finality." },
+  { "dir": "up", "text": "AI SKILLS IN US TECH HIRING - 79% of tech job postings in July, up from 75% in June and up 144% year on year, while posting volume fell 10% month on month. The bar is rising faster than the door is widening." },
+  { "dir": "down", "text": "THIS BRIEFING'S OWN ACCURACY - edition 075 shipped on 2 September without Anthropic's 1 September flagship release, and asserted on the same page that no Western flagship had shipped for twenty-two editions. Corrected in full in the method note, with the edition number attached." }
+ ],
+ "arcs": {
+  "frontier-models": { "day": 40, "note": "Escalated Monitor to Critical. The drought ended 1-2 September with Anthropic's Fable 5.1 / Mythos 5.1 and Google's Gemini 3.8 Flash / Flash Cyber. The new competitive axis is access architecture, not benchmark score." },
+  "agent-security": { "day": 68, "note": "Character change from breach forensics to capability measurement. Four dated events in nineteen days; published CyberGym baselines sit far below every vendor claim being made against them." },
+  "ai-in-education": { "day": 1, "note": "Opens with two US districts in one week: New York City's one-year moratorium for ~600,000 students through 8th grade, and DC's teacher-side ban on AI in grading, discipline and IEP decisions." },
+  "open-frontier": { "day": 46, "note": "GLM-5.3's 753.33B FP8 flagship weights published 28 August under a custom GLM-5.3 License, not the trailed Apache-2.0. The two-week safety hold ended in publication." },
+  "cross-border-ai-control": { "day": 1, "note": "Opens with Manus resuming independent operations on 1 September, completing Beijing's retroactive unwind of Meta's closed $2B acquisition via the NDRC foreign-investment security review." },
+  "sovereign-ai-stack": { "day": 1, "note": "Opens with HUMAIN's undisclosed strategic investment in Arabic.AI and Tarjama - Gulf sovereign AI moving up from gigawatts into vertical language assets." },
+  "ai-monetisation-surface": { "day": 4, "note": "Self-service ChatGPT Ads buying opened to India, Europe and MENA on 31 August; $1B annualised run rate in under 200 days; pilot minimum down to $50,000." },
+  "enterprise-ai-execution": { "day": 9, "note": "Gemini Enterprise for Financial Services, 25 August, with Deutsche Bank as design partner and a dual orchestration splitting regulator-aligned from investigative work. Claudeforce still has no beta date." },
+  "workforce": { "day": 66, "note": "Dice's August report puts AI skills in 79% of US tech postings, up 144% year on year, against a 10% month-on-month fall in posting volume." },
+  "edge-ai-silicon": { "day": 2, "note": "Thursday's hardware deep beat produced one dated item: DLSS 5 ships 3 September with 3D-Guided Neural Rendering, moving the network into the render pipeline." },
+  "reg-clock": { "day": 36, "note": "No new dated European enforcement step. The DSA designation of 1 September remains the verified step of record; the reported EUR 47M in AI Act fines is unconfirmed for a fourth edition." },
+  "compute-buildout": { "day": 48, "note": "No dated transaction for 1-3 September. Thursday's deep beat is reported thin; Meta Compute surfaced as current but dates to 12 January 2026 and was killed before carding." },
+  "custom-silicon-escape": { "day": 4, "note": "Maia 300's reported September unveil window is three days old with nothing announced." },
+  "defense-ai-procurement": { "day": 2, "note": "No dated step. Claude remains absent from GenAI.mil despite the injunction." },
+  "algorithmic-pricing-enforcement": { "day": 2, "note": "No dated step since the 31 August filing." },
+  "eu-sovereign-compute": { "day": 2, "note": "No dated step this edition." },
+  "ai-inference-middleware": { "day": 2, "note": "No dated step; the Stripe/OpenRouter close remains undated." },
+  "agent-eval-reality": { "day": 4, "note": "No dated step. Agents' Last Exam and CyberGym measure different things and should not be quoted against one another." },
+  "autonomous-logistics": { "day": 2, "note": "No dated step this edition." },
+  "india-ai-labour": { "day": 12, "note": "No refreshed Indian labour reading this edition; the dated labour step is Dice's US data at New #8." },
+  "openai-chatgpt-teens": { "day": 14, "note": "No movement; full Australian availability expected 8 September. The classifier error rate is unpublished for a fourteenth edition." },
+  "human-labour-behind-ai": { "day": 5, "note": "Mechanical Turk closes 30 September; 27 days remain." },
+  "ai-capital-markets": { "day": 25, "note": "SoftBank's retail bond prices 4 September; CME's rental-index futures launch 5 October." },
+  "model-pricing": { "day": 10, "note": "Claude Code's permanent weekly limit lands 14 September. Anthropic's Fable 5.1 cut cache reads 75% while holding list price." },
+  "copyright-litigation": { "day": 4, "note": "No dated step this edition." },
+  "datacenter-consent-backlash": { "day": 47, "note": "No dated step this edition." },
+  "platform-leadership": { "day": 3, "note": "Ternus in post at Apple since 1 September; no AI-strategy step announced." },
+  "agent-platform-war": { "day": 25, "note": "No dated platform launch; the enterprise-agent step of record is Google's financial-services stack." },
+  "clinical-ai-evidence": { "day": 8, "note": "No dated step; FDA docket FDA-2026-N-7874 closes 19 October." }
+ },
+ "resolved": [
+  "RESOLVED: glm-53-launch. After five editions carrying the same open question - whether Z.ai would publish GLM-5.3's flagship weights after a stated two-week safety hold - the answer is yes. The full 753.33B-parameter FP8 checkpoint went live on 28 August 2026, 755.7 GB across 141 shards. One material detail differs from the advance reporting and is corrected here: the licence is a custom GLM-5.3 License, not the Apache-2.0 that several outlets had trailed. The thread stays at Developing #2 because the licence question and the unverified Cursor vulnerability claim are both live.",
+  "RESOLVED, BY REVERSAL: frontier-models. Edition 075 scheduled this thread for demotion to Tracking at edition 076 absent a Western frontier flagship. Two arrived inside 48 hours - Anthropic's Fable 5.1 and Mythos 5.1 on 1 September, Google's Gemini 3.8 Flash and Flash Cyber on 2 September - so the thread escalates from Monitor to Critical instead of retiring. The twenty-two-edition drought this briefing tracked is over.",
+  "CORRECTION, NOT RESOLUTION: this briefing's own scan. Edition 075 was published on 2 September 2026 without carrying Anthropic's release of Claude Fable 5.1 and Claude Mythos 5.1, which had shipped on 1 September, and asserted on the same page that no Western frontier flagship had shipped for twenty-two consecutive editions. That assertion was already false when published. The release is carded today at New #2 with its real date and marked new24h:false; the thread is corrected in place at Developing #1. The cause was a scan gap in yesterday's model-release queries, not a judgement call, and it is recorded with the edition number attached.",
+  "DEEP BEAT WAS THIN AND IS REPORTED AS SUCH: Thursday's rotation is hardware and compute. Four queries produced one dated card - DLSS 5, shipping today - and two negative findings. Microsoft's reported September window for the Maia 300 unveil is three days old with nothing announced, and stays in Tracking because a calendar advancing is not movement. No new dated data-centre or silicon transaction surfaced for 1-3 September beyond items already tracked.",
+  "AUTO-RETIRED (16, each without movement across roughly three consecutive editions): gemini-35-transcribe, anthropic-science-seats, ibm-openai-practice, urbanground-benchmark, jit-agent-harness-synthesis, nsa-cisa-ai-plc-advisory, caterpillar-ai-deployment, ge-mim-protegeai-pccp, sun-west-angel-agents, openai-dalle-gpt-retirement, dnb-gemini-financial-services, plos-ai-device-evidence, india-gcc-ai-two-thirds, ipo-wave, broadcom-60b-ai-debt and deepseek-74b-round.",
+  "PROMOTED (Tracking to Developing, 3), each on genuine dated movement: glm-53-launch on the 28 August weights publication and its licence terms; agent-security on four dated events in nineteen days; openai-chatgpt-ads-europe on the 31 August self-service opening and the $1B run rate. ESCALATED (1): frontier-models, Monitor to Critical.",
+  "DEMOTED TO TRACKING (14): all twelve of edition 075's New items on the no-movement rule, plus two of its three Developing threads - openai-chatgpt-teens, whose 8 September Australia date has not yet arrived, and ai-layoffs-205k, superseded in part by New #8.",
+  "KILLED BEFORE CARDING (4), for date or sourcing failures: 'Meta Compute', which surfaced repeatedly as current but was announced 12 January 2026; an aggregator claim that Qwen3.8-27B released on 2 September when ModelScope metadata dates it to 14 August; UBTech's UWORLD U1 consumer humanoid, where 'shipping from September' could not be pinned to a dated announcement; and NVIDIA's Proteina-Complexa protein-binder work, which is real but dates to March-April 2026.",
+  "SCAN NOTE: four items in this edition broke inside the last 24 hours - Gemini 3.8 Flash and Flash Cyber, the New York City schools moratorium, the Huskeys Series A, and DLSS 5, which ships during today. That is the best 24-hour number this week. Nine of eleven attempted page fetches were blocked by the session's egress proxy, including anthropic.com, blog.google and nyc.gov, so several items rest on multi-outlet cross-checks rather than the primary page."
+ ],
+ "deadlines": [
+  { "date": "2026-09-04", "label": "SoftBank's record 1 trillion yen ($6.3B) seven-year retail bond prices, indicative coupon 4.3-4.9% - the largest retail bond ever offered by a Japanese company, proceeds to bond repayment and AI investment.", "severity": "medium" },
+  { "date": "2026-09-08", "label": "ChatGPT for Teens reaches full availability in Australia, completing the global rollout that began 18 August. The age-prediction classifier's misclassification rate is still unpublished in both directions, now for a fourteenth edition.", "severity": "medium" },
+  { "date": "2026-09-14", "label": "Claude Code's weekly limits become permanent at 25% above the pre-promotion baseline for Pro, Max, Team and seat-based Enterprise - roughly a 17% cut against the temporary 50% boost users hold until 13 September. Eleven days to measure actual weekly consumption.", "severity": "high" },
+  { "date": "2026-09-18", "label": "Comments close on the FTC's proposed personalised-pricing enforcement policy statement, issued 2-0 on 19 August - read against the FTC and 22 states suing Amazon over $20B of undisclosed ad-auction surcharges. The docket is the cheaper of the two venues.", "severity": "high" },
+  { "date": "2026-09-29", "label": "OpenAI DevDay 2026 in San Francisco. The last two DevDays each carried a model or platform announcement; with ChatGPT Ads now at a $1B run rate and self-service live in three regions, the monetisation surface is the thing to watch.", "severity": "medium" },
+  { "date": "2026-09-30", "label": "Amazon Mechanical Turk closes after 21 years, taking AWS SageMaker Ground Truth and Amazon Augmented AI (A2I) with it. Twenty-seven days to migrate any live annotation, labelling or human-review pipeline off three services at once.", "severity": "high" }
+ ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── deep-link support: #still-tracking / #resolved / #method open the collapsed folds ──
+  var foldMap = {'still-tracking':'fold-tracking','resolved':'fold-resolved','method':'fold-method'};
+  var openFromHash = function(){
+    var id = foldMap[(location.hash||'').replace('#','')];
+    if(id){ var el = document.getElementById(id); if(el){ el.open = true; el.scrollIntoView(); } }
+  };
+  window.addEventListener('hashchange', openFromHash); openFromHash();
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
