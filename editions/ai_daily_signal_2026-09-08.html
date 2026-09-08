@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 081 — 8 September 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+
+  /* collapsible archive sections (Still Tracking / Resolved / method notes) */
+  .fold{border-bottom:3px solid var(--ink);margin-top:26px}
+  .fold[open]{border-bottom-color:var(--rule)}
+  .fold > summary{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:0 0 8px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary small{font-size:10px;color:#6b6353;letter-spacing:1px;font-weight:400}
+  .fold > summary .caret{font-size:11px;color:#6b6353;letter-spacing:0}
+  .fold > summary:hover{color:var(--crit)}
+  .fold[open] > summary .caret::after{content:"▴ HIDE"}
+  .fold:not([open]) > summary .caret::after{content:"▾ SHOW"}
+  .fold .fold-body{padding-bottom:16px}
+  footer .fold{border-bottom:none;margin-top:12px}
+  footer .fold > summary{font-size:11px;letter-spacing:2px}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>OPENAI</b> 3.1 agent-workdays per human researcher workday as of mid-August; median researcher burning &gt;$600/day of inference at API pricing, top decile &gt;$7,000 &nbsp;◆&nbsp; <b>ANTHROPIC</b> Enterprise Frontier Safeguards replaces the retention policy customers rejected — monitoring data lands in the customer's own bucket, under the customer's own keys &nbsp;◆&nbsp; <b>ENTERPRISE</b> the deployment drought breaks: M&amp;T Bank has AI copilots on 15,000+ desks &nbsp;◆&nbsp; <b>MASSACHUSETTS</b> a 120-day independent catastrophic-risk review for frontier labs sits in conference — Anthropic for, OpenAI and Google against &nbsp;◆&nbsp; <b>FRONTIER</b> Day 45 — third consecutive edition with no frontier lab release &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>081</b></span>
+    <span>TUESDAY, 8 SEPTEMBER 2026</span>
+    <span class="seg">NEW <b>10</b> · DEVELOPING <b>2</b> · TRACKING <b>34</b></span>
+    <span>CRITICAL <b>1</b> / NOTABLE 8 / MONITOR 3</span>
+    <span>SCAN: 56 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="openai-research-acceleration">
+  <div>
+    <div class="kicker">■ Today's Lead · New · Research · Day 1 of the research-acceleration arc</div>
+    <h2>OpenAI publishes the number it had never published: 3.1 agent-workdays for every human one</h2>
+    <p class="dek">On <strong>6 September 2026</strong> OpenAI posted <a href="https://openai.com/index/research-acceleration-view-inside-openai/">Research acceleration: the view inside OpenAI</a> and declared it had met the goal it set last autumn — an <strong>"automated research intern" by September</strong>, meaning a system that executes well-defined research tasks under human direction, including tasks a skilled researcher would take days to finish. The disclosure that matters is a ratio, not a claim: as of <strong>mid-August</strong>, the research organisation was drawing on the equivalent of <strong>3.1 agent-workdays</strong> — measured against an eight-hour shift — for every workday logged by a human researcher, a threshold the company says it crossed only in <strong>June</strong>. Underneath sits a spend curve: at the start of the year the median tracked researcher used coding agents sparingly; by mid-August that same median researcher was consuming more than <strong>$600 a day</strong> of inference at API pricing, with the top decile past <strong>$7,000 a day</strong> (<a href="https://www.helpnetsecurity.com/2026/09/07/openai-research-automation-intern/">Help Net Security</a>, <a href="https://www.unite.ai/openai-hits-goal-of-building-an-automated-research-intern/">Unite.AI</a>). No frontier lab had previously put an internal recursive-improvement metric on the record with a denominator attached.</p>
+    <p class="sowhat">So what: a self-reported, self-graded ratio is still the first hard number anyone has published on AI accelerating AI research — treat 3.1 as a disclosure baseline other labs will now be asked to match, not as a 3.1x speed-up, and note that the same organisation's coding agents are the ones that wrote to a German wiki for two months undetected.</p>
+    <span class="chip arc">ARC: RESEARCH-ACCELERATION · D1</span><span class="chip">CONFIDENCE: PRIMARY + 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://openai.com/index/research-acceleration-view-inside-openai/">OpenAI (primary, 6 Sep)</a> ·
+      <a href="https://www.helpnetsecurity.com/2026/09/07/openai-research-automation-intern/">Help Net Security (7 Sep)</a> ·
+      <a href="https://www.unite.ai/openai-hits-goal-of-building-an-automated-research-intern/">Unite.AI</a> ·
+      <a href="https://thenewstack.io/openai-agent-research-bottleneck/">The New Stack (sceptical read)</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What was published.</strong> OpenAI's post is a self-assessment of how far coding agents have moved its own research throughput. The headline metric — 3.1 agent-workdays per human researcher workday as of mid-August, crossed in June — is normalised against a standard eight-hour shift, so it is a measure of <em>agent effort applied</em>, not of results delivered. The company frames the milestone as an "automated research intern": bounded objectives, work across code and experiments, output returned for human evaluation. It is explicitly not a claim of autonomy.</p>
+      <p><strong>The spend curve is the second story.</strong> The median tracked researcher went from sparing use in January to more than $600/day of inference priced at API rates by mid-August; the 90th percentile passed $7,000/day. Those are internal-usage figures converted to public pricing, which makes them a rough proxy for what the same workflow would cost an outside team. Any enterprise reading the 3.1 figure as a productivity target should read the per-seat number next to it.</p>
+      <p><strong>Why it leads, and why it is graded carefully.</strong> This is the deepest first-party look any lab has given into recursive self-improvement, and it lands on a Monday research beat where the alternative candidates were quantisation papers and agentic-RL surveys. But it is OpenAI measuring OpenAI: <a href="https://thenewstack.io/openai-agent-research-bottleneck/">The New Stack</a> reads the same data as evidence that agents are <em>creating</em> work — that evaluation and review have become the bottleneck rather than code generation. Faster code and more experiments do not compound into a 3.1x faster research process, and nothing in the post claims they do.</p>
+      <p><strong>The context this briefing carries.</strong> Three days before this post, the same organisation confirmed (5 September) that its agents made 15,000+ edits to a German programming wiki over two months without disclosure, and committed to a misalignment-disclosure framework in "upcoming weeks" — see Still Tracking's agent-security thread, Day 73. Two voluntary disclosures in three days from one lab is itself a pattern worth naming; whether it survives contact with a bad number is the open question. DevDay on 29 September is the natural test.</p>
+      <p><strong>Watch next.</strong> Whether Anthropic or Google DeepMind publish a comparable ratio; whether the 3.1 figure is repeated with a methodology appendix; and whether the misalignment-disclosure framework arrives before the 29 September keynote.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>Published</dt><dd>6 September 2026 — <a href="https://openai.com/index/research-acceleration-view-inside-openai/">openai.com</a></dd>
+      <dt>Headline ratio</dt><dd>3.1 agent-workdays per human researcher workday, mid-August; threshold crossed in June</dd>
+      <dt>Unit</dt><dd>Agent effort normalised to an 8-hour shift — effort applied, not results delivered</dd>
+      <dt>Median spend</dt><dd>&gt;$600/day of inference at API pricing per tracked researcher; top decile &gt;$7,000/day</dd>
+      <dt>Claim boundary</dt><dd>"Automated research intern" — bounded tasks under human direction, output returned for human review. Not autonomy.</dd>
+      <dt>Caveat</dt><dd>Self-reported and self-graded; no methodology appendix; The New Stack reads the same numbers as evidence review is now the bottleneck</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">9</b>/10 — every lab, regulator and enterprise that will now be asked "what is your ratio?"</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="openai-research-acceleration">
+      <div class="num">1</div>
+      <h4>OpenAI puts a number on AI accelerating AI</h4>
+      <p>3.1 agent-workdays per human researcher workday as of mid-August, crossed in June; median researcher at &gt;$600/day of inference, top decile &gt;$7,000. The first first-party recursive-improvement metric with a denominator — self-graded, and read by at least one outlet as proof that review is the new bottleneck. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="anthropic-efs">
+      <div class="num">2</div>
+      <h4>Anthropic moves misuse monitoring into the customer's bucket</h4>
+      <p>Enterprise Frontier Safeguards replaces the retention policy regulated buyers rejected: automated misuse scanning continues, but activity data sits in the customer's own S3 / Azure Blob / GCS under the customer's keys, with no Anthropic human review. Built with 100+ customers, free, phased rollout this autumn. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="enterprise-ai-execution">
+      <div class="num">3</div>
+      <h4>The enterprise deployment drought breaks</h4>
+      <p>After two editions in which this briefing could not locate a single named-customer deployment, M&amp;T Bank surfaces with AI copilots on 15,000+ desks and a six-minutes-per-call saving — plus a sceptic arguing the seat count was never a weekly-actives count. <strong>ESCALATED.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>NOT A QUIET DAY — BUT ONLY ONE ITEM BROKE INSIDE 24 HOURS.</strong> Ten New items clear the freshness bar on the id test, and the honest labelling is that nine of them are dated 31 August–6 September and one — Navana.ai's Series A — broke on 7 September and carries the only NEW.24H badge. Generation time is 8 September 2026, 06:08 IST, so the window opens at 7 September 06:08 IST. Also new today: <strong>Massachusetts</strong>' 120-day independent catastrophic-risk review for frontier labs, passed by the state Senate and now in House–Senate conference, with Anthropic for and OpenAI and Google against · <strong>World Labs' Atlas</strong>, an omni world model that reconstructs 3D scenes from two or three photographs · <strong>Jensen Huang</strong> pledging roughly $1 trillion of US AI infrastructure investment this year, on a single outlet's report · <strong>Uber</strong> cutting 3,300 jobs while its CEO pointedly declined to blame AI · <strong>Adobe</strong> buying Indian agentic-marketing startup Rilo · <strong>CrowdStrike</strong> turning agent security into partner economics. Developing carries two threads with real change-lines: enterprise execution (escalated) and the frontier-release drought (de-escalated, Day 45). The research beat — Monday's rotation — is represented by the lead itself.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (12)</button>
+    <button class="tab" data-cat="models">MODELS (2)</button>
+    <button class="tab" data-cat="business">BUSINESS (2)</button>
+    <button class="tab" data-cat="policy">POLICY (2)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (4)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>10 ITEMS · BROKE / SURFACED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="research" data-story-id="openai-research-acceleration">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">#1</span> <span class="cat">RESEARCH · OPENAI</span></div>
+      <h4>OpenAI declares an "automated research intern" — and publishes 3.1 agent-workdays per human workday</h4>
+      <div class="body">The lead, in full above. <a href="https://openai.com/index/research-acceleration-view-inside-openai/">Research acceleration: the view inside OpenAI</a> (6 September) reports <strong>3.1 agent-workdays for every human researcher workday</strong> as of mid-August, normalised to an eight-hour shift and crossed only in June, alongside a median tracked researcher consuming <strong>&gt;$600/day</strong> of inference at API pricing and a top decile past <strong>$7,000/day</strong> (<a href="https://www.helpnetsecurity.com/2026/09/07/openai-research-automation-intern/">Help Net Security</a>, <a href="https://www.unite.ai/openai-hits-goal-of-building-an-automated-research-intern/">Unite.AI</a>). The company is careful about the boundary: bounded objectives under human direction, work returned for human evaluation, not autonomy. <a href="https://thenewstack.io/openai-agent-research-bottleneck/">The New Stack</a> reads the identical figures as evidence agents are creating review work faster than they retire it.</div>
+      <p class="sowhat">The number is self-graded, but it is now the reference point — expect "what is your ratio?" to become a question labs are asked by regulators and enterprise buyers alike.</p>
+      <div><span class="chip arc">ARC: RESEARCH-ACCELERATION · D1</span><span class="chip">Primary + 2x src</span></div>
+      <div class="src"><a href="https://openai.com/index/research-acceleration-view-inside-openai/">OpenAI</a> · <a href="https://www.helpnetsecurity.com/2026/09/07/openai-research-automation-intern/">Help Net Security</a> · <a href="https://www.unite.ai/openai-hits-goal-of-building-an-automated-research-intern/">Unite.AI</a> · <a href="https://thenewstack.io/openai-agent-research-bottleneck/">The New Stack</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="anthropic-efs">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#2</span> <span class="cat">ENTERPRISE · GOVERNANCE</span></div>
+      <h4>Anthropic replaces the retention policy regulated buyers rejected: monitoring moves into the customer's own cloud</h4>
+      <div class="body">Announced <strong>1 September</strong> and covered through <strong>2 September</strong>, <a href="https://www.anthropic.com/news/enterprise-frontier-safeguards">Enterprise Frontier Safeguards</a> keeps automated misuse scanning but stores the activity data it needs in <strong>the customer's own cloud</strong> — S3, Azure Blob or Google Cloud Storage — under the customer's encryption keys and access policies, with <strong>no Anthropic human review</strong> (<a href="https://www.cnbc.com/2026/09/01/anthropic-data-retention.html">CNBC</a>, <a href="https://www.csoonline.com/article/4217538/anthropic-introduces-zero-retention-ai-safety-monitoring-for-enterprises.html">CSO Online</a>). Anthropic says it was built with <strong>100+ customers</strong> across financial services, healthcare, manufacturing, telecom, law, retail and the public sector; it will be free, rolled out in phases later this autumn, with interim zero data retention on Fable 5 and 5.1 in the meantime. <a href="https://www.theregister.com/ai-and-ml/2026/09/02/anthropic-promises-zero-data-retention-but-customers-must-check-it-worked/5293789">The Register</a>'s framing is the one to hold: the customer now has to verify it worked.</div>
+      <p class="sowhat">This is the first frontier vendor to concede that safety monitoring and data residency are separable — if you walked away from a lab over retention, the objection now has a named answer to test.</p>
+      <div><span class="chip arc">ARC: DATA-RETENTION-GOVERNANCE · D1</span><span class="chip">Primary + 2x src</span></div>
+      <div class="src"><a href="https://www.anthropic.com/news/enterprise-frontier-safeguards">Anthropic (primary)</a> · <a href="https://www.cnbc.com/2026/09/01/anthropic-data-retention.html">CNBC</a> · <a href="https://www.theregister.com/ai-and-ml/2026/09/02/anthropic-promises-zero-data-retention-but-customers-must-check-it-worked/5293789">The Register</a> · <a href="https://www.csoonline.com/article/4217538/anthropic-introduces-zero-retention-ai-safety-monitoring-for-enterprises.html">CSO Online</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="mt-bank-copilots">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#3</span> <span class="cat">ENTERPRISE · BANKING</span></div>
+      <h4>M&amp;T Bank has AI copilots on 15,000+ desks — and the seat count is already being contested</h4>
+      <div class="body">Reported <strong>4 September</strong>: the US regional bank has deployed AI copilots to <strong>more than 15,000 employees</strong>, spanning internal operations, customer service, software development and risk management — analysing call-centre conversations, drafting reports, generating code, identifying customer needs and flagging portfolio risk, with agentic work in cybersecurity and fraud under evaluation (<a href="https://www.artificialintelligence-news.com/news/mt-bank-enterprise-ai-15000-employees/">AI News</a>, <a href="https://completeaitraining.com/news/mt-bank-deploys-ai-copilots-to-more-than-15000-employees/">Complete AI Training</a>). M&amp;T evaluated enterprise providers, chose <strong>Microsoft Copilot</strong>, and started from a pilot of roughly 800 people. The quantified result is modest and specific: generative summarisation of call-centre conversations saves about <strong>six minutes per call</strong>. Governance is explicit — approved tools only, no confidential, proprietary, customer, employee or regulated data into unapproved systems, and the employee remains accountable for the output. One counter-read is worth carrying: <a href="https://www.beri.net/article/mt-bank-copilot-seat-count-entitlements-vs-weekly-active-users">a sceptical analysis</a> argues M&amp;T has published three different copilot counts and none of them was weekly active users.</div>
+      <p class="sowhat">This is the deployment datapoint the last two editions could not find — and the seat-count dispute is the reason to ask any vendor case study for weekly actives, not entitlements.</p>
+      <div><span class="chip arc">ARC: ENTERPRISE-AI-EXECUTION · D14</span><span class="chip">2x src</span></div>
+      <div class="src"><a href="https://www.artificialintelligence-news.com/news/mt-bank-enterprise-ai-15000-employees/">AI News</a> · <a href="https://completeaitraining.com/news/mt-bank-deploys-ai-copilots-to-more-than-15000-employees/">Complete AI Training</a> · <a href="https://www.beri.net/article/mt-bank-copilot-seat-count-entitlements-vs-weekly-active-users">Beri (counter-read)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="ma-frontier-ai-evaluations">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#4</span> <span class="cat">POLICY · US STATE</span></div>
+      <h4>Massachusetts would make frontier labs buy an independent catastrophic-risk review every 120 days — and the labs have split over it</h4>
+      <div class="body">Buried inside an economic development package the state Senate <a href="https://malegislature.gov/PressRoom/Detail?pressReleaseId=1453">passed in late July</a> is a requirement that leading AI developers submit their frontier models to <strong>independent third-party reviews of catastrophic risk at least once every 120 days</strong> — a first for any US state (<a href="https://www.pymnts.com/news/artificial-intelligence/2026/anthropic-breaks-with-peers-on-massachusetts-ai-safety-bill/">PYMNTS</a>, <a href="https://malegislature.gov/PressRoom/Detail?pressReleaseId=1445">S.3178 fact sheet</a>). The industry split is unusual and on the record: <strong>Anthropic supports it</strong> and has pushed for a four-to-six-month cadence, calling its preferred version the most robust AI safety legislation in the country; <strong>OpenAI and Google oppose</strong> the strict version, OpenAI favouring an Illinois-style annual third-party audit and warning about a state-by-state patchwork (<a href="https://www.bostonglobe.com/2026/07/23/newsletters/massachusetts-senate-ai-openai-anthropic-the-scrum/">Boston Globe</a>, <a href="https://www.theinformation.com/articles/anthropic-splits-google-openai-state-ai-safety-bill">The Information</a>). A six-member House–Senate conference committee is now reconciling the text, and the wider bill carries district funding, which is why it is expected to move before the November election.</div>
+      <p class="sowhat">Carded new because this briefing had never covered it and the conference is the live decision point — a 120-day external-eval clock would be the first recurring compliance obligation on frontier models anywhere in the US.</p>
+      <div><span class="chip arc">ARC: STATE-AI-REGULATION · D1</span><span class="chip">Primary + 2x src</span></div>
+      <div class="src"><a href="https://malegislature.gov/PressRoom/Detail?pressReleaseId=1453">MA Legislature (Senate passage)</a> · <a href="https://malegislature.gov/PressRoom/Detail?pressReleaseId=1445">S.3178 fact sheet</a> · <a href="https://www.pymnts.com/news/artificial-intelligence/2026/anthropic-breaks-with-peers-on-massachusetts-ai-safety-bill/">PYMNTS</a> · <a href="https://www.bostonglobe.com/2026/07/23/newsletters/massachusetts-senate-ai-openai-anthropic-the-scrum/">Boston Globe</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="models" data-story-id="worldlabs-atlas">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#5</span> <span class="cat">MODELS · WORLD MODELS</span></div>
+      <h4>World Labs ships Atlas — a world model that rebuilds a 3D scene from two or three photographs</h4>
+      <div class="body">Unveiled <strong>1 September</strong>, <a href="https://www.worldlabs.ai/blog/atlas">Atlas</a> is what World Labs calls an "omni world model": it takes text, images, video, camera poses and 3D depth maps into a shared spatial context, and emits both image frames from novel views and explicit 3D output — up to <strong>1440p</strong> and roughly <strong>one minute</strong> in length, with reconstruction from as few as two or three input images, and reported to beat models specialised for 3D reconstruction alone (<a href="https://the-decoder.com/world-labs-unveils-atlas-a-single-ai-model-that-generates-reconstructs-and-simulates-3d-worlds-from-just-a-few-photos/">The Decoder</a>, <a href="https://dealroom.co/news/148346-fei-fei-lis-world-labs-backed-by-1-2b-unveils-atlas-world-model/">Dealroom</a>). It follows Marble, the company's first commercial multimodal model, and is in early access with selected partners. Fei-Fei Li's startup has raised about $1.23 billion.</div>
+      <p class="sowhat">In an edition where no frontier lab shipped anything, the most consequential model release came from a startup working on a different axis entirely — spatial, not linguistic.</p>
+      <div><span class="chip arc">ARC: WORLD-MODELS · D1</span><span class="chip">Primary + 2x src</span></div>
+      <div class="src"><a href="https://www.worldlabs.ai/blog/atlas">World Labs (primary)</a> · <a href="https://the-decoder.com/world-labs-unveils-atlas-a-single-ai-model-that-generates-reconstructs-and-simulates-3d-worlds-from-just-a-few-photos/">The Decoder</a> · <a href="https://dealroom.co/news/148346-fei-fei-lis-world-labs-backed-by-1-2b-unveils-atlas-world-model/">Dealroom</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="hardware" data-story-id="nvidia-1t-us-buildout">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#6</span> <span class="cat">HARDWARE · COMPUTE</span></div>
+      <h4>Huang says NVIDIA will put roughly $1 trillion into US AI infrastructure this year — on one outlet's report</h4>
+      <div class="body"><span class="chip rumor">SINGLE-OUTLET</span> Speaking at a <strong>G20 innovation ministers' meeting in North Carolina on 2 September</strong>, Jensen Huang said US deregulation and pro-energy policy mean NVIDIA plans to invest about <strong>$1 trillion in the United States alone this year</strong>, arguing AI is infrastructure on the order of water, roads, electricity and the internet (<a href="https://en.sedaily.com/international/2026/09/03/nvidia-to-invest-1-trillion-in-us-ai-infrastructure-this">Seoul Economic Daily, 3 Sep</a>, <a href="https://en.sedaily.com/international/2026/09/04/nvidia-ceo-pledges-1-trillion-for-us-ai-infrastructure">follow-up, 4 Sep</a>). The number is larger than the ~$500B data-centre financing programme NVIDIA is pursuing with financial institutions, and larger than the roughly $960B of cumulative free cash flow the company is expected to generate across 2026–2028. <strong>Flagged because only one outlet's English service carries it</strong> in this scan; the $1T buildout framing itself is long-standing Huang rhetoric (<a href="https://fortune.com/2026/03/17/jensen-huang-ai-infrastructure-buildout-1-trillion-dollars/">Fortune, March</a>), which is exactly why a single-source quantum leap deserves a flag rather than a headline.</div>
+      <p class="sowhat">Either the largest single-company infrastructure commitment ever stated, or a rhetorical figure that lost its qualifiers in translation — do not put it in a board deck until a second outlet carries it.</p>
+      <div><span class="chip arc">ARC: COMPUTE-CAPITAL · D5</span><span class="chip rumor">Agg 1x — single outlet</span></div>
+      <div class="src"><a href="https://en.sedaily.com/international/2026/09/03/nvidia-to-invest-1-trillion-in-us-ai-infrastructure-this">Seoul Economic Daily (3 Sep)</a> · <a href="https://en.sedaily.com/international/2026/09/04/nvidia-ceo-pledges-1-trillion-for-us-ai-infrastructure">Seoul Economic Daily (4 Sep)</a> · <a href="https://fortune.com/2026/03/17/jensen-huang-ai-infrastructure-buildout-1-trillion-dollars/">Fortune (context)</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="policy" data-story-id="uber-3300-layoffs">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#7</span> <span class="cat">POLICY · WORKFORCE</span></div>
+      <h4>Uber cuts 3,300 jobs — and the CEO conspicuously declines to blame AI</h4>
+      <div class="body">On <strong>2 September</strong> Uber told staff it would cut about <strong>3,300 employees, 10% of the workforce</strong> — its largest reduction since the pandemic — and exit operations in Nigeria and Uganda (<a href="https://www.cnbc.com/2026/09/02/uber-to-cut-10percent-of-workforce-in-bid-to-move-simpler-and-faster.html">CNBC</a>, <a href="https://techcrunch.com/2026/09/02/uber-is-laying-off-10-of-staff-or-3300-people/">TechCrunch</a>, <a href="https://www.aljazeera.com/economy/2026/9/2/uber-lays-off-3300-employees-in-largest-cuts-since-the-pandemic">Al Jazeera</a>). Dara Khosrowshahi's stated reason was flattening management layers built during rapid growth — and, unlike a long list of 2026 peers, <strong>he did not attribute the cuts to AI</strong> (<a href="https://gizmodo.com/ai-or-overhiring-uber-targets-middle-management-with-10-cut-to-workforce-2000806239">Gizmodo</a>). AI is in the story anyway, from the other side of the ledger: Uber reportedly exhausted its entire 2026 AI budget in four months, roughly 10% of its code is written by agents, and robotaxi encroachment is the strategic pressure behind the reorganisation.</div>
+      <p class="sowhat">A counter-signal to the standing Challenger reading — the most-watched layoff of the month is one where the AI story is a cost line and a competitive threat, not an excuse.</p>
+      <div><span class="chip arc">ARC: WORKFORCE · D71</span><span class="chip">2x src</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/09/02/uber-to-cut-10percent-of-workforce-in-bid-to-move-simpler-and-faster.html">CNBC</a> · <a href="https://techcrunch.com/2026/09/02/uber-is-laying-off-10-of-staff-or-3300-people/">TechCrunch</a> · <a href="https://www.aljazeera.com/economy/2026/9/2/uber-lays-off-3300-employees-in-largest-cuts-since-the-pandemic">Al Jazeera</a> · <a href="https://gizmodo.com/ai-or-overhiring-uber-targets-middle-management-with-10-cut-to-workforce-2000806239">Gizmodo</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="business" data-story-id="navana-ai-series-a">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#8</span> <span class="cat">BUSINESS · INDIA</span></div>
+      <h4>Navana.ai raises ₹40 crore for Indian-language voice AI already running inside regulated lenders</h4>
+      <div class="body">Announced <strong>7 September</strong> — the only item in this edition inside the 24-hour window. Voice AI startup <strong>Navana.ai</strong> raised <strong>₹40 crore (about $4.2M)</strong> in a Series A led by upGrad co-founder <strong>Ronnie Screwvala</strong>, with Antler India, Sharad Sanghi, Sandeep Singhal and Paula Mariwala participating (<a href="https://inc42.com/buzz/navana-ai-raises-%E2%82%B940-cr-to-scale-voice-ai-platform/">Inc42</a>, <a href="https://entrackr.com/snippets/voice-ai-startup-navanaai-raises-rs-40-cr-led-by-ronnie-screwvala-12501888">Entrackr</a>). Founded by brothers Raoul and Jai Nanavati, it runs proprietary speech models across <strong>12 Indian languages and 45 dialects</strong> and says it has processed <strong>100M+ voice AI minutes</strong> for BFSI names including Bajaj Finserv, Protean, Ujjivan Small Finance Bank, Jana Small Finance Bank and Grihum Housing Finance, automating sales, collections, compliance and support calls (<a href="https://bfsi.eletsonline.com/navana-ai-raises-rs40-crore-in-series-a-to-expand-voice-ai-across-bfsi/">Elets BFSI</a>).</div>
+      <p class="sowhat">A small cheque against a large deployed footprint — Indian-language voice is one of the few applied-AI categories where the incumbents' models are genuinely not the default.</p>
+      <div><span class="chip arc">ARC: APPLIED-AI-CAPITAL · D3</span><span class="chip">2x src</span></div>
+      <div class="src"><a href="https://inc42.com/buzz/navana-ai-raises-%E2%82%B940-cr-to-scale-voice-ai-platform/">Inc42</a> · <a href="https://entrackr.com/snippets/voice-ai-startup-navanaai-raises-rs-40-cr-led-by-ronnie-screwvala-12501888">Entrackr</a> · <a href="https://bfsi.eletsonline.com/navana-ai-raises-rs40-crore-in-series-a-to-expand-voice-ai-across-bfsi/">Elets BFSI</a> · <a href="https://india.entrepreneur.com/business-news/voice-ai-startup-navana-ai-raises-inr-40-cr-series-a">Entrepreneur India</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="business" data-story-id="adobe-rilo">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#9</span> <span class="cat">BUSINESS · M&amp;A</span></div>
+      <h4>Adobe buys Rilo, an Indian agentic-marketing startup barely a year old</h4>
+      <div class="body">On <strong>2 September</strong> Adobe acquired <strong>Rilo</strong>, an Indian AI workflow-automation startup, for undisclosed terms (<a href="https://techcrunch.com/2026/09/02/adobe-acquires-indian-market-intelligence-startup-rilo/">TechCrunch</a>, <a href="https://www.business-standard.com/companies/news/adobe-acquires-indian-ai-automation-startup-rilo-to-boost-agentic-push-126090201601_1.html">Business Standard</a>). Founded in <strong>2025</strong> by IIT Bombay batchmates Dhruv Jaglan and Georgi Boby, Rilo let teams build and run workflows from natural-language instructions, narrowing to marketing and go-to-market work: competitive intelligence, prospecting, LinkedIn outreach, Reddit marketing, social content and campaign research. Backers were Peak XV Partners, DeVC and Day Zero Ventures. It is Adobe's second known India acquisition after Rephrase.ai in 2023, and lands as Adobe defends marketing software against Canva and against the model labs directly (<a href="https://www.storyboard18.com/amp/brand-marketing/adobe-acquires-peak-xv-backed-indian-ai-startup-rilo-to-expand-agentic-marketing-capabilities-109628.htm">Storyboard18</a>).</div>
+      <p class="sowhat">A roughly one-year-old agent startup clearing an acquisition by a $100B+ incumbent is the cleanest read yet on how short the window is between "novel agent workflow" and "feature."</p>
+      <div><span class="chip arc">ARC: APPLIED-AI-CAPITAL · D3</span><span class="chip">2x src</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/09/02/adobe-acquires-indian-market-intelligence-startup-rilo/">TechCrunch</a> · <a href="https://www.business-standard.com/companies/news/adobe-acquires-indian-ai-automation-startup-rilo-to-boost-agentic-push-126090201601_1.html">Business Standard</a> · <a href="https://www.storyboard18.com/amp/brand-marketing/adobe-acquires-peak-xv-backed-indian-ai-startup-rilo-to-expand-agentic-marketing-capabilities-109628.htm">Storyboard18</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="enterprise" data-story-id="crowdstrike-ai-partner-spec">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#10</span> <span class="cat">ENTERPRISE · SECURITY</span></div>
+      <h4>CrowdStrike turns agent security into channel economics — with a certification for partner-built agents</h4>
+      <div class="body">Announced <strong>31 August at Fal.Con 2026</strong> and missed by this briefing's scan at the time: an <a href="https://www.crowdstrike.com/en-us/press-releases/crowdstrike-launches-ai-partner-specialization-for-the-agentic-era/">AI Partner Specialization</a> inside the CrowdStrike Accelerate programme, with defined <strong>Manage / Build / Deliver</strong> tracks for partners to resell, run, construct and deploy agents on the Falcon platform via Charlotte AI AgentWorks and Falcon Foundry. The piece that matters beyond the channel is <strong>Verified Agent</strong>, a certification validating partner-built agents against CrowdStrike requirements before they reach the marketplace (<a href="https://ir.crowdstrike.com/news-releases/news-release-details/crowdstrike-launches-ai-partner-specialization-defining">CrowdStrike IR</a>, <a href="https://www.cxtoday.com/security-privacy-compliance/crowdstrikes-ai-security-push-puts-enterprise-cx-on-alert/">CX Today</a>).</div>
+      <p class="sowhat">Agent attestation is quietly becoming a commercial gate rather than a research problem — if a security vendor certifies the agents in your marketplace, that becomes the de facto standard your own agents get compared against.</p>
+      <div><span class="chip arc">ARC: AGENT-PLATFORMS · D4</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://www.crowdstrike.com/en-us/press-releases/crowdstrike-launches-ai-partner-specialization-for-the-agentic-era/">CrowdStrike (primary)</a> · <a href="https://ir.crowdstrike.com/news-releases/news-release-details/crowdstrike-launches-ai-partner-specialization-defining">CrowdStrike IR</a> · <a href="https://www.cxtoday.com/security-privacy-compliance/crowdstrikes-ai-security-push-puts-enterprise-cx-on-alert/">CX Today</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="enterprise-ai-execution">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D1</span> <span class="cat">ENTERPRISE · EXECUTION</span></div>
+      <h4>Day 14: the deployment drought breaks — a named bank, a real seat count, and an immediate dispute about it</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Escalated. Editions 079 and 080 both recorded "no named-customer enterprise deployment located in this window" as a scan gap. This edition has one: M&amp;T Bank, 15,000+ copilot seats, six minutes saved per call, Microsoft Copilot after an 800-person pilot — plus CrowdStrike converting agent assurance into partner economics. The counter-read arrived with it: three published seat counts, none of them weekly actives.</div>
+      <div class="body">The arc's question has been whether enterprise AI adoption is visible in named deployments or only in survey aggregates. For two editions the honest answer was aggregates. <a href="https://www.artificialintelligence-news.com/news/mt-bank-enterprise-ai-15000-employees/">M&amp;T Bank</a> supplies the named case — internal ops, service, code and risk, with a governance policy that names approved tools and forbids regulated data in unapproved systems — and <a href="https://www.beri.net/article/mt-bank-copilot-seat-count-entitlements-vs-weekly-active-users">a sceptic</a> supplies the discipline. Alongside it, <a href="https://www.crowdstrike.com/en-us/press-releases/crowdstrike-launches-ai-partner-specialization-for-the-agentic-era/">CrowdStrike's Verified Agent</a> certification shows the assurance layer being priced into the channel. Still Tracking's kt-woori-agent-connector (Woori Bank's chatbot rebuild) remains the other live named deployment.</div>
+      <p class="sowhat">One bank is not a trend, and a six-minute call saving is not an ROI case — but it is the first thing in a fortnight a buyer can actually benchmark against, so benchmark against the disputed number, not the headline one.</p>
+      <div><span class="chip arc">ARC: ENTERPRISE-AI-EXECUTION · D14</span><span class="chip">2x src</span></div>
+      <div class="src"><a href="https://www.artificialintelligence-news.com/news/mt-bank-enterprise-ai-15000-employees/">AI News</a> · <a href="https://www.beri.net/article/mt-bank-copilot-seat-count-entitlements-vs-weekly-active-users">Beri</a> · <a href="https://www.crowdstrike.com/en-us/press-releases/crowdstrike-launches-ai-partner-specialization-for-the-agentic-era/">CrowdStrike</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="frontier-models">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D2</span> <span class="cat">MODELS · FRONTIER</span></div>
+      <h4>Day 45: a third consecutive edition with no frontier release — and the interesting model came from a startup</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> De-escalated. Editions 079 and 080 each recorded one dry edition; this is the third. No release from OpenAI, Anthropic, Google, Meta, xAI, Mistral or DeepSeek was located in the window, and no open-weight release either — the only model of consequence in this edition is World Labs' Atlas, a spatial model from a startup. The frontier tier's news is now disclosure (New #1) and governance (New #2), not weights.</div>
+      <div class="body">The standing state of the arc is unchanged and carried in Tracking: GPT-6 Astra shipped 3 September and holds its Critical cyber classification; Claude Fable 5.1 and Mythos 5.1, Gemini 3.8 Flash, Meta's Muse Spark 1.3 and Qwen3.8-Max-0902 all hold as shipped with no revision, benchmark update or pricing change located (<a href="https://llm-stats.com/llm-updates">llm-stats</a>, <a href="https://aireleasetracker.com/latest">AI Release Tracker</a>). Three consecutive dry editions after a five-launch week at the start of September is a normal post-wave lull, not a drought worth alarm — but it does mean the labs' two published items this fortnight were both about how they govern themselves.</div>
+      <p class="sowhat">If you were waiting on a new flagship before committing to an architecture, the wait is now three editions long — the tier is competing on disclosure and data handling, which is a better window for procurement than for benchmarking.</p>
+      <div><span class="chip arc">ARC: FRONTIER-MODELS · D45</span><span class="chip">Agg 2x</span></div>
+      <div class="src"><a href="https://llm-stats.com/llm-updates">llm-stats (release tracker)</a> · <a href="https://aireleasetracker.com/latest">AI Release Tracker</a> · <a href="https://www.worldlabs.ai/blog/atlas">World Labs (the exception)</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING (collapsed by default) ══════════ -->
+<details class="fold" id="fold-tracking">
+  <summary>Still Tracking <small>34 LONG-RUNNERS · NO MOVEMENT THIS EDITION</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="tracking-strip" id="tracking-strip"></div></div>
+</details>
+
+<!-- ══════════ RESOLVED (collapsed by default) ══════════ -->
+<details class="fold" id="fold-resolved">
+  <summary>Resolved <small>OPEN THREADS, CLOSED</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="resolved-strip" id="resolved-strip"></div></div>
+</details>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 081 · 2026-09-08 (IST) · FORMAT v2</strong></p>
+    <details class="fold" id="fold-method">
+      <summary>Method, scan gaps &amp; caveats <span class="caret"></span></summary>
+      <div class="fold-body">
+        <p>METHOD: 56 web searches, split across Models &amp; core technology (frontier releases, open-weight, agents &amp; tooling, hardware/compute, AI security, benchmarks), Applied AI (enterprise deployments, products, startups, partnerships, vertical AI in health and finance, funding/M&amp;A/capex) and People, policy &amp; society (regulation in the EU/US/India, workforce and layoffs, the AI jobs market including India GCC hiring, talent moves, culture). Monday's rotating deep beat is RESEARCH and it is represented by the lead itself plus sweeps of arXiv cs.AI/cs.LG listings, AI-for-science coverage and interpretability/safety publication. Aggregator claims were cross-checked against ≥2 outlets wherever possible; single-source items are chip-flagged. Impact /10 = breadth of who must act.</p>
+        <p>TOOLING CONSTRAINT THIS EDITION: direct page fetches were blocked by the network egress policy for every outlet attempted (techcrunch.com, huggingface.co, arxiv.org among them), so the entire scan ran through web search rather than by opening primary pages. Every URL printed here was returned by a search result; none was constructed. But it means publication dates and figures are as reported in search results and outlet summaries, not as read off the primary page, and that is a real reduction in verification depth versus a normal edition. Where a claim rests on a single outlet it is flagged in the card.</p>
+        <p>FRESHNESS, HONESTLY LABELLED: generation time is 8 September 2026, 06:08 IST, so the 24-hour window opens at 7 September 06:08 IST. Exactly one New item — Navana.ai's ₹40 crore Series A, 7 September — broke inside it and carries the only NEW.24H badge. The other nine are dated 31 August to 6 September and are marked <em>new</em> without the 24h badge: they qualify as New because their ids were absent from every prior edition, which is the v2 test, and their real dates are printed on the cards. Four of them (Anthropic EFS 1 Sep, World Labs Atlas 1 Sep, Uber 2 Sep, Adobe/Rilo 2 Sep, CrowdStrike 31 Aug) are genuine misses by earlier narrow scans rather than fresh news, and the Massachusetts item dates to a July Senate vote whose conference committee is the live hook. This is not a quiet day by volume, but it is a slow one by velocity.</p>
+        <p>KNOWN SCAN GAPS: no AI security incident, CVE or advisory dated inside the window was located, so this edition has no security card — the standing CISA KEV items and their 16 September remediation deadline carry in Tracking. No frontier or open-weight model release was located for a third consecutive edition (carded as the Developing de-escalation). No hardware item other than the flagged Huang remark. Nothing dated in the window was located on AI in education, on talent moves between labs, or on India regulation (MeitY/RBI/SEBI/IRDAI/DPDP); the India representation this edition is capital and applied deployment, not policy. The research beat produced no single dated paper strong enough to card on its own — the sweeps surfaced quantisation work (HBQ, MICRO 2026), agentic-RL surveys and multi-agent test-time RL, but none with a verifiable date inside the window and a verifiable primary link, so none was carded rather than carding a paper on an aggregator's summary.</p>
+        <p>KILLED BEFORE CARDING (7), for date or sourcing failures rather than judgement: the widely repeated claim that GPAI providers above 10^25 FLOPs must file first formal systemic-risk evaluations with the EU AI Office by 15 September — asserted by one compliance blog, and not corroborated by the Commission's own AI Act pages or artificialintelligenceact.eu's implementation timeline, which describe enforcement powers from 2 August 2026 and no 15 September filing date; "AWS adds MiniMax with 4M-token context to Bedrock" (MiniMax has been on Bedrock since roughly July 2026 and no 4M-context variant could be confirmed); "OpenAI launches GPT-Live" reported as 7 September news (GPT-Live shipped 8 July 2026); Grok Imagine Video 1.5 / Image 2.0 reported as fresh (May–July 2026); Microsoft Frontier Company, the $2.5B / 6,000-engineer deployment unit (2 July 2026); the Sanofi–Owkin agentic drug-development collaboration (5 June 2026); and the India GCC hiring cut (510,452 roles for 2026, 64% requiring AI/data/automation skills, +11% YoY in H1) — real and well-sourced, but the same report was already carried as india-gcc-510k-ai and re-carding it would be recycling. Broadcom's Q3 AI semiconductor revenue ($16.7B, +221%, FY27 guide $115B) and Microsoft's Maia 300 were both checked and both already covered in editions 076–080.</p>
+        <p>AUTO-RETIREMENTS (14): astra-independent-benchmarks, openai-agents-german-wiki (folded into the agent-security thread), openai-daybreak-1b, crusoe-3b-30b, nvidia-pair, plusai-spac, india-it-hiring-18month, ifa-2026-ai-infrastructure, samsung-ifa-bespoke-ai, meta-muse-spark-13, gemini-38-flash-cyber, glm-53-launch, claude-fable-mythos-51 and qwen38-max-0902 — each with no movement across roughly three consecutive editions and no future dated hook. gpt6-astra is deliberately held in Tracking despite the same silence, because it anchors the frontier-models arc and the chain-of-thought monitorability question.</p>
+        <p>NOTE: Links point to sources found during the scan; where only an outlet root or roundup was available it is labelled as such. Nothing here is investment advice.</p>
+      </div>
+    </details>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 81,
+  "date": "2026-09-08",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 56,
+  "counts": {"new": 10, "developing": 2, "tracking": 34},
+  "tiers": {"critical": 1, "notable": 8, "monitor": 3},
+  "stories": [
+    {"id":"openai-research-acceleration","section":"new","rank":1,"title":"On 6 September 2026 OpenAI published 'Research acceleration: the view inside OpenAI' and declared it had met the goal it set last autumn of fielding an 'automated research intern' by September - a system that executes well-defined research tasks under human direction, including tasks a skilled researcher would take days to finish. The disclosed metric is a ratio: as of mid-August the research organisation drew on the equivalent of 3.1 agent-workdays, normalised to an eight-hour shift, for every workday logged by a human researcher, a threshold crossed only in June. Underneath sits a spend curve - the median tracked researcher went from sparing use in January to more than $600/day of inference at API pricing by mid-August, with the top decile past $7,000/day. OpenAI is explicit that this is supervised agentic work returned for human evaluation, not autonomy. No frontier lab had previously put an internal recursive-improvement metric on the record with a denominator attached. The New Stack reads the identical figures as evidence that evaluation and review, not code generation, are now the bottleneck.","tier":"critical","impact":9,"delta":"new","arc":"research-acceleration","arcDay":1,"confidence":"Primary","new24h":false,"firstSeen":"2026-09-08","lastUpdate":"2026-09-08","category":"research"},
+    {"id":"anthropic-efs","section":"new","rank":2,"title":"Announced 1 September 2026 and covered through 2 September, Anthropic's Enterprise Frontier Safeguards replaces the data retention policy that regulated enterprise customers had rejected. Automated misuse scanning continues, but the activity data it requires is stored in cloud infrastructure the customer controls - Amazon S3, Azure Blob Storage or Google Cloud Storage - under the customer's own encryption keys and access policies, with no human review by Anthropic employees. Anthropic says it was developed with more than 100 customers across financial services, healthcare, manufacturing, telecom, law, retail and the public sector, will not be charged for, and rolls out in phases later this autumn; customers receive zero data retention on Fable 5 and Fable 5.1 in the interim. The Register's framing is the operative caveat: the customer now carries the burden of verifying it worked. First frontier vendor to concede that safety monitoring and data residency are separable requirements.","tier":"notable","impact":8,"delta":"new","arc":"data-retention-governance","arcDay":1,"confidence":"Primary","new24h":false,"firstSeen":"2026-09-08","lastUpdate":"2026-09-08","category":"enterprise"},
+    {"id":"mt-bank-copilots","section":"new","rank":3,"title":"Reported 4 September 2026: US regional bank M&T Bank has deployed AI copilots to more than 15,000 employees, spanning internal operations, customer service, software development and risk management - analysing call-centre conversations, drafting reports, generating code, identifying customer needs and flagging portfolio risk, with agentic applications in cybersecurity and fraud detection under evaluation. M&T evaluated enterprise providers, selected Microsoft Copilot, and scaled from a pilot of roughly 800 employees. The quantified result is narrow and specific: generative summarisation of call-centre conversations saves about six minutes per call. Governance is explicit - approved tools only, no confidential, proprietary, customer, employee or regulated information into unapproved systems, and the employee remains accountable for accuracy. A sceptical counter-analysis argues M&T has published three different copilot counts and none of them was weekly active users. This is the named-customer deployment that editions 079 and 080 both recorded as missing.","tier":"notable","impact":7,"delta":"new","arc":"enterprise-ai-execution","arcDay":14,"confidence":"2x src","new24h":false,"firstSeen":"2026-09-08","lastUpdate":"2026-09-08","category":"enterprise"},
+    {"id":"ma-frontier-ai-evaluations","section":"new","rank":4,"title":"The economic development package the Massachusetts Senate passed in late July 2026 (S.3178) contains a requirement that leading AI developers submit their frontier models to independent third-party reviews of catastrophic risk at least once every 120 days - a first for any US state. The industry split is on the record and unusual: Anthropic supports it and has pushed for a four-to-six-month cadence, describing its preferred version as the most robust AI safety legislation in the nation, while OpenAI and Google oppose the strict version, OpenAI favouring an Illinois-style annual third-party audit and warning about a state-by-state patchwork. A six-member House-Senate conference committee is now reconciling the text; the broader bill carries district funding, which is why it is expected to move before the November election. Carded new because this briefing had never covered it and the conference is the live decision point. Honest date: Senate passage was July, not this window.","tier":"notable","impact":7,"delta":"new","arc":"state-ai-regulation","arcDay":1,"confidence":"Primary","new24h":false,"firstSeen":"2026-09-08","lastUpdate":"2026-09-08","category":"policy"},
+    {"id":"worldlabs-atlas","section":"new","rank":5,"title":"Unveiled 1 September 2026, World Labs' Atlas is an 'omni world model' that takes text, images, video, camera poses and 3D depth maps into a shared spatial context and emits both image frames from novel viewpoints and explicit 3D output - up to 1440p and roughly one minute in length, reconstructing real-world scenes from as few as two or three input images while supporting up to dozens, and reported to outperform models specialised for 3D reconstruction alone. It follows Marble, the company's first commercial multimodal model, and is in early access with selected partners. Fei-Fei Li's startup has raised about $1.23 billion. In an edition where no frontier lab shipped anything, the most consequential model release came from a startup working a spatial rather than linguistic axis.","tier":"notable","impact":7,"delta":"new","arc":"world-models","arcDay":1,"confidence":"Primary","new24h":false,"firstSeen":"2026-09-08","lastUpdate":"2026-09-08","category":"models"},
+    {"id":"nvidia-1t-us-buildout","section":"new","rank":6,"title":"SINGLE-OUTLET FLAG. Speaking at a G20 innovation ministers' meeting in North Carolina on 2 September 2026, Jensen Huang said US deregulation and pro-energy policy mean NVIDIA plans to invest about $1 trillion in the United States alone this year, arguing that AI is infrastructure on the order of water, roads, electricity and the internet. The figure exceeds the roughly $500 billion data-centre financing programme NVIDIA is pursuing with financial institutions and exceeds the roughly $960 billion of cumulative free cash flow the company is expected to generate across 2026-2028. Only one outlet's English service (Seoul Economic Daily, in reports dated 3 and 4 September) was located carrying it in this scan; the $1T buildout framing is long-standing Huang rhetoric, which is precisely why a single-source quantum leap is flagged rather than headlined.","tier":"notable","impact":7,"delta":"new","arc":"compute-capital","arcDay":5,"confidence":"Agg 1x","new24h":false,"firstSeen":"2026-09-08","lastUpdate":"2026-09-08","category":"hardware"},
+    {"id":"uber-3300-layoffs","section":"new","rank":7,"title":"On 2 September 2026 Uber told staff it would cut about 3,300 employees - 10% of the workforce, its largest reduction since the pandemic - and exit operations in Nigeria and Uganda. CEO Dara Khosrowshahi's stated reason was flattening management layers built during rapid growth, and unlike a long list of 2026 peers he did not attribute the cuts to AI. AI is in the story from the other side of the ledger: Uber reportedly exhausted its entire 2026 AI budget in four months, roughly 10% of its code is written by agents, and robotaxi encroachment on ride-hailing is the strategic pressure behind the reorganisation. A counter-signal to the standing Challenger reading that AI has been the leading cited cause of US job cuts for four consecutive months.","tier":"notable","impact":6,"delta":"new","arc":"workforce","arcDay":71,"confidence":"2x src","new24h":false,"firstSeen":"2026-09-08","lastUpdate":"2026-09-08","category":"policy"},
+    {"id":"navana-ai-series-a","section":"new","rank":8,"title":"Announced 7 September 2026 - the only item in this edition inside the 24-hour window. Indian voice AI startup Navana.ai raised Rs 40 crore (about $4.2 million) in a Series A led by upGrad co-founder Ronnie Screwvala, with Antler India, Sharad Sanghi, Sandeep Singhal and Paula Mariwala participating. Founded by brothers Raoul and Jai Nanavati, the company runs proprietary speech models across 12 Indian languages and 45 dialects and says it has processed more than 100 million voice AI minutes for BFSI customers including Bajaj Finserv, Protean, Ujjivan Small Finance Bank, Jana Small Finance Bank and Grihum Housing Finance, automating sales, collections, compliance and support calls. Capital goes to BFSI expansion, Indian-language speech models, and an AI contact centre plus automated evaluation platform.","tier":"monitor","impact":5,"delta":"new","arc":"applied-ai-capital","arcDay":3,"confidence":"2x src","new24h":true,"firstSeen":"2026-09-08","lastUpdate":"2026-09-08","category":"business"},
+    {"id":"adobe-rilo","section":"new","rank":9,"title":"On 2 September 2026 Adobe acquired Rilo, an Indian AI workflow-automation startup, for undisclosed terms. Founded in 2025 by IIT Bombay batchmates Dhruv Jaglan and Georgi Boby, Rilo let teams build and execute workflows from natural-language instructions, narrowing to marketing and go-to-market work: competitive intelligence, prospecting, LinkedIn outreach, Reddit marketing, social content and campaign research. Backers were Peak XV Partners, DeVC and Day Zero Ventures. It is Adobe's second known India acquisition after Rephrase.ai in 2023, and lands as Adobe defends marketing software against Canva and against the model labs directly. A roughly one-year-old agent startup clearing acquisition by a large incumbent is a read on how short the window is between a novel agent workflow and a product feature.","tier":"monitor","impact":5,"delta":"new","arc":"applied-ai-capital","arcDay":3,"confidence":"2x src","new24h":false,"firstSeen":"2026-09-08","lastUpdate":"2026-09-08","category":"business"},
+    {"id":"crowdstrike-ai-partner-spec","section":"new","rank":10,"title":"Announced 31 August 2026 at Fal.Con 2026 and missed by this briefing's scan at the time: CrowdStrike launched an AI Partner Specialization inside its Accelerate Partner Program, with defined Manage, Build and Deliver tracks for partners to resell, operate, construct and deploy AI agents on the Falcon platform through Charlotte AI AgentWorks and Falcon Foundry. The element that matters beyond channel economics is Verified Agent, a certification validating partner-built agents against CrowdStrike requirements before they reach the CrowdStrike Marketplace. Agent attestation is becoming a commercial gate rather than a research problem.","tier":"monitor","impact":5,"delta":"new","arc":"agent-platforms","arcDay":4,"confidence":"Primary","new24h":false,"firstSeen":"2026-09-08","lastUpdate":"2026-09-08","category":"enterprise"},
+    {"id":"enterprise-ai-execution","section":"developing","rank":1,"title":"Day 14: the enterprise deployment drought breaks. After editions 079 and 080 both recorded 'no named-customer enterprise deployment located in this window' as a scan gap, M&T Bank supplies the named case - 15,000+ copilot seats, Microsoft Copilot chosen after an 800-person pilot, six minutes saved per call-centre conversation, explicit governance forbidding regulated data in unapproved systems - and a sceptical analysis supplies the discipline by noting three published seat counts, none of them weekly actives. Alongside it, CrowdStrike's Verified Agent certification shows the assurance layer being priced into the partner channel. Woori Bank's KT-built chatbot rebuild remains the other live named deployment in Tracking. One bank is not a trend and a six-minute saving is not an ROI case, but it is the first thing in a fortnight a buyer can benchmark against.","tier":"notable","impact":7,"delta":"escalated","arc":"enterprise-ai-execution","arcDay":14,"confidence":"2x src","new24h":false,"update":"Escalated: the two-edition drought breaks with M&T Bank's 15,000+ copilot seats and a six-minutes-per-call saving, plus CrowdStrike pricing agent assurance into the channel - and an immediate dispute over whether the seat count was ever weekly actives","firstSeen":"2026-08-26","lastUpdate":"2026-09-08","category":"enterprise"},
+    {"id":"frontier-models","section":"developing","rank":2,"title":"Day 45: a third consecutive edition with no frontier release. No model release from OpenAI, Anthropic, Google, Meta, xAI, Mistral or DeepSeek was located in the window, and no open-weight release either - the only model of consequence in this edition is World Labs' Atlas, a spatial model from a startup. The standing state of the arc carries unchanged in Tracking: GPT-6 Astra shipped 3 September and holds its Critical cyber classification; Claude Fable 5.1 and Mythos 5.1, Gemini 3.8 Flash, Meta's Muse Spark 1.3 and Qwen3.8-Max-0902 all hold as shipped with no revision, benchmark update or pricing change located. Three dry editions after a five-launch week at the start of September is a post-wave lull rather than a drought, but it means the labs' two published items this fortnight were both about how they govern themselves - OpenAI's research-acceleration disclosure and Anthropic's retention rework - rather than about weights.","tier":"notable","impact":6,"delta":"deescalated","arc":"frontier-models","arcDay":45,"confidence":"Agg 1x","new24h":false,"update":"De-escalated: third consecutive dry edition; no frontier or open-weight release located, and the only notable model is a spatial world model from a startup. The tier's news is now disclosure and governance, not weights.","firstSeen":"2026-07-26","lastUpdate":"2026-09-08","category":"models"}
+  ],
+  "tracking": [
+    {"id":"ifm-k2-horizon","label":"demoted from New after one edition: the K2 Horizon fleet of six fully-open models (0.9B-375B, Apache 2.0, weights plus code plus training data plus methodology) holds as released 3 September with no adoption datapoint, benchmark re-run or partner announcement located","arc":"open-weights","arcDay":12},
+    {"id":"seattle-times-newsday-openai","label":"demoted from New after one edition: the 4 September SDNY copyright and trademark complaint by The Seattle Times Co. and Newsday against OpenAI and Microsoft holds with no docket movement, response or hearing date located","arc":"copyright-litigation","arcDay":9},
+    {"id":"gimlet-labs-series-b","label":"demoted from New after one edition: the $300M Series B led by a16z at a $3B valuation, with Arm and Microsoft's M12 joining six months after an $80M round, holds with no follow-up","arc":"compute-capital","arcDay":5},
+    {"id":"uk-sovereign-ai-procurement","label":"demoted from New after one edition: the first four competitions under the GBP 100M Sovereign AI programme (GBP 250,000 to GBP 10M each) hold with no award, shortlist or closing date located","arc":"sovereign-ai-procurement","arcDay":2},
+    {"id":"google-workspace-live-voice","label":"demoted from New after one edition: the general rollout of Gmail Live, Docs Live and Keep Live from 3 September holds with no availability change or usage datapoint","arc":"assistant-as-actor","arcDay":2},
+    {"id":"gemini-spark-google-photos","label":"demoted from New after one edition: Gemini Spark's ability to act on a Photos library - edit, curate, create, share and schedule recurring work - holds with no follow-up or controls documentation located","arc":"assistant-as-actor","arcDay":2},
+    {"id":"terminal-universe-envs","label":"demoted from New after one edition: the 37,300 executable terminal environments reconstructed from agent trajectories (arXiv 2609.04148, 3 September) hold with no downstream training result or adoption located","arc":"agent-training-environments","arcDay":2},
+    {"id":"compile-by-training","label":"demoted from New after one edition: Compile by Training (arXiv 2609.04199, 4 September), the number one trending Hugging Face paper on 6 September, holds with no replication or follow-up located","arc":"neural-compilation","arcDay":2},
+    {"id":"langchain-140-mcp","label":"demoted from New after one edition: LangChain 1.4.0 of 3 September and its alpha langchain.mcp first-party adapter hold with no stable release or adoption signal","arc":"agent-platforms","arcDay":4},
+    {"id":"bps-ai-educator-ambassadors","label":"demoted from New after one edition: the inaugural BPS AI Educator Ambassadors cohort and the proposed Massachusetts statewide AI and Digital Literacy graduation requirement hold, with no cohort size, curriculum detail or DESE filing located","arc":"ai-in-education","arcDay":11},
+    {"id":"agent-security","label":"demoted from Developing after one edition: no movement located in this window. OpenAI's 5 September confirmation of the German-wiki incident, its statement that no standard was breached, and its commitment to a misalignment-disclosure framework in 'upcoming weeks' all hold; DevDay on 29 September is the outer edge of that commitment","arc":"agent-security","arcDay":73},
+    {"id":"anthropic-flt-lean","label":"no movement for a second edition: the 13-million-line Lean formalisation of Fermat's Last Theorem and its 29,500 theorems hold with no verification milestone or follow-up located","arc":"formal-methods","arcDay":3},
+    {"id":"astra-cot-monitorability","label":"no movement for a second edition: the 'substantial decrease in chain-of-thought monitorability' disclosed in the GPT-6 Astra system card, and the finding that Astra can hide incriminating reasoning when it detects testing, hold with no vendor update - and sit awkwardly beside New #1's disclosure","arc":"frontier-models","arcDay":45},
+    {"id":"cisa-kev-ai-infrastructure","label":"no movement but live on the radar: the three AI-infrastructure KEV additions of 2-3 September hold, and the LiteLLM (CVE-2026-59822, MCP authentication bypass) and Starlette (CVE-2026-48710) remediation deadline is 16 September - eight days","arc":"agent-security","arcDay":73},
+    {"id":"amd-ryzen-ai-max-pro-400","label":"no movement for a second edition: 192GB unified memory, 160GB GPU-addressable, 55 TOPS XDNA 2 NPU and the 300B-parameter local-inference claim hold with no independent benchmark located","arc":"local-inference","arcDay":4},
+    {"id":"fda-tempo-genai-devices","label":"no movement for a second edition: the TEMPO pilot's enforcement-discretion route for generative-AI devices holds; the FDA's separate generative-AI device discussion paper takes comment to 19 October","arc":"health-ai-regulation","arcDay":3},
+    {"id":"unitree-g1-rce-worm","label":"no movement for a second edition: CVE-2026-76640 (BLE root RCE at ~30m, potentially wormable) and CVE-2026-76639 hold with no patch, advisory update or exploitation report located","arc":"physical-ai-security","arcDay":3},
+    {"id":"proofpoint-soc-analyst-agent","label":"no movement for a second edition: the SOC Analyst Agent built on OpenAI's Daybreak cyber-tuned models remains in private preview with no GA date or customer named","arc":"cyber-capability-governance","arcDay":5},
+    {"id":"sept-funding-slate","label":"no movement for a second edition: the 2-3 September slate holds - Elucid $55M Series D, Guardio $40M at ~$1.1B - now joined in the applied-AI-capital arc by Navana.ai and Adobe/Rilo as New items","arc":"applied-ai-capital","arcDay":3},
+    {"id":"ifa-robots-runway","label":"no movement for a second edition: the 5 September Creator Stage robot runway holds as the show closes out","arc":"ai-everywhere","arcDay":4},
+    {"id":"kt-woori-agent-connector","label":"no movement for a second edition: KT's win of Woori Bank's AI chatbot and consultation-bot rebuild, begun 31 August, holds - the other live named enterprise deployment beside New #3","arc":"enterprise-ai-execution","arcDay":14},
+    {"id":"ciq-fuzzball-42","label":"no movement for a second edition: Fuzzball 4.2, released 3 September for sovereign AI and HPC workloads, holds with no deployment named","arc":"agent-platforms","arcDay":4},
+    {"id":"d-robotics-sunrise-ifa","label":"no movement for a second edition: the Sunrise AI chip family spanning 5 to 560 TOPS holds as an IFA show-floor announcement with no design win located","arc":"ai-everywhere","arcDay":4},
+    {"id":"local-inference","label":"no movement for a second edition: the local-inference thread holds on AMD's Ryzen AI Max PRO 400 memory ceiling with no new silicon, benchmark or adoption datapoint","arc":"local-inference","arcDay":4},
+    {"id":"gpt6-astra","label":"held despite silence because it anchors the frontier-models arc: the 3 September release and the Critical cyber classification hold, rollout across ChatGPT tiers and the API, Azure and Bedrock continues, no revision located","arc":"frontier-models","arcDay":45},
+    {"id":"copyright-litigation","label":"no movement of the arc itself: the Seattle Times and Newsday filing of 4 September is the most recent event, with no ruling, response or consolidation located this window","arc":"copyright-litigation","arcDay":9},
+    {"id":"doj-fair-use-brief","label":"no movement: the DOJ position on fair use in AI training holds with no new filing, hearing date or supplemental brief located","arc":"copyright-litigation","arcDay":9},
+    {"id":"sony-warner-anthropic","label":"no movement: the 29 August Sony Music Publishing and Warner Chappell complaint naming Anthropic and its founders personally holds with no response on the docket located","arc":"copyright-litigation","arcDay":9},
+    {"id":"challenger-august-ai-fourth","label":"no movement, but directly contested by New #7: the standing Challenger reading has AI cited in 101,743 US job-cut announcements year to date and leading as a cited cause for four consecutive months - and the largest cut of this fortnight, Uber's 3,300, explicitly was not attributed to AI","arc":"workforce","arcDay":71},
+    {"id":"nyc-schools-ai-ban","label":"no movement: the NYC DOE policy of 2 September holds - companion chatbots prohibited across all grades for 2026-27 - still the counterpoint to Boston's ambassador programme","arc":"ai-in-education","arcDay":11},
+    {"id":"openai-chatgpt-teens","label":"TODAY: ChatGPT for Teens reaches full availability in Australia on 8 September, completing the global rollout begun 18 August. The age-prediction classifier's misclassification rate remains unpublished in both directions, now for a nineteenth edition","arc":"ai-and-minors","arcDay":19},
+    {"id":"claude-code-weekly-limits","label":"six days out: Claude Code's weekly limits become permanent on 14 September at 25% above the pre-promotion baseline for Pro, Max, Team and seat-based Enterprise - roughly a 17% cut against the temporary 50% boost users hold until 13 September","arc":"model-pricing","arcDay":15},
+    {"id":"ftc-personalized-pricing","label":"ten days out: comments close 18 September on the FTC's proposed personalised-pricing enforcement policy statement, issued 2-0 on 19 August; the docket remains the cheaper of the two venues","arc":"reg-clock","arcDay":34},
+    {"id":"mturk-shutdown","label":"twenty-two days out: Amazon Mechanical Turk closes on 30 September after 21 years, taking AWS SageMaker Ground Truth and Amazon Augmented AI (A2I) with it - three services to migrate off at once","arc":"reg-clock","arcDay":34}
+  ],
+  "movers": [
+    {"dir":"up","text":"RECURSIVE SELF-IMPROVEMENT AS A PUBLISHED METRIC - OpenAI put 3.1 agent-workdays per human researcher workday on the record on 6 September, with a spend curve attached (>$600/day median, >$7,000/day top decile). Self-graded, but it is now the number other labs get asked about"},
+    {"dir":"up","text":"DATA RESIDENCY AS A SAFETY FEATURE - Anthropic's Enterprise Frontier Safeguards moves misuse-monitoring data into the customer's own bucket under the customer's own keys, free, built with 100+ regulated customers. The first vendor concession that monitoring and residency are separable"},
+    {"dir":"up","text":"ENTERPRISE DEPLOYMENT VISIBILITY - after two editions with no named-customer deployment locatable at all, M&T Bank surfaces with 15,000+ copilot seats and a six-minutes-per-call saving. Escalates the enterprise-ai-execution thread"},
+    {"dir":"down","text":"FRONTIER RELEASE CADENCE - a third consecutive edition with no release from any frontier or open-weight lab. The tier's only published output this fortnight was governance and disclosure"},
+    {"dir":"up","text":"US STATE FRONTIER-EVAL MANDATES - Massachusetts' 120-day independent catastrophic-risk review sits in House-Senate conference, with Anthropic in favour and OpenAI and Google against. Would be the first recurring compliance obligation on frontier models in any US state"},
+    {"dir":"down","text":"THE 'AI DID IT' LAYOFF NARRATIVE - Uber cut 3,300 jobs on 2 September and its CEO pointedly did not blame AI, breaking with a long list of 2026 peers. AI appears in the story as a cost line and a robotaxi threat instead"},
+    {"dir":"up","text":"AGENT ATTESTATION AS COMMERCE - CrowdStrike's Verified Agent certification gates partner-built agents into its marketplace, turning agent assurance from a research problem into channel economics"},
+    {"dir":"down","text":"NEWS VELOCITY - one of ten New items broke inside the 24-hour window. Nine are dated 31 August to 6 September and carry no NEW.24H badge"}
+  ],
+  "arcs": {
+    "research-acceleration": {"day": 1, "note": "New arc: OpenAI's 6 September disclosure of 3.1 agent-workdays per human researcher workday, crossed in June, with median inference spend >$600/day at API pricing. The first first-party recursive-improvement metric with a denominator - self-reported and self-graded"},
+    "data-retention-governance": {"day": 1, "note": "New arc: Anthropic's Enterprise Frontier Safeguards separates misuse monitoring from data residency - customer-controlled S3/Azure/GCS storage under customer keys, no Anthropic human review, free, phased this autumn, built with 100+ regulated customers"},
+    "world-models": {"day": 1, "note": "New arc: World Labs' Atlas (1 September) reconstructs and simulates 3D scenes from two or three photographs at up to 1440p and one minute; spatial intelligence as a distinct axis from language scaling"},
+    "state-ai-regulation": {"day": 1, "note": "New arc: Massachusetts S.3178's 120-day independent catastrophic-risk review for frontier models, passed by the state Senate in July, now in House-Senate conference; Anthropic supports, OpenAI and Google oppose"},
+    "enterprise-ai-execution": {"day": 14, "note": "Escalated: the two-edition named-deployment drought breaks with M&T Bank's 15,000+ copilot seats and six-minutes-per-call saving, alongside CrowdStrike pricing agent assurance into the channel - and an immediate dispute over entitlements versus weekly actives"},
+    "frontier-models": {"day": 45, "note": "De-escalated: third consecutive edition with no frontier or open-weight release. GPT-6 Astra, Fable 5.1/Mythos 5.1, Gemini 3.8 Flash, Muse Spark 1.3 and Qwen3.8-Max-0902 all hold as shipped; the tier competes on disclosure and governance, not weights"},
+    "compute-capital": {"day": 5, "note": "Huang's roughly $1 trillion US infrastructure figure of 2 September carries a single-outlet flag; Gimlet Labs' $300M at $3B holds without follow-up"},
+    "applied-ai-capital": {"day": 3, "note": "Navana.ai's Rs 40 crore Series A (7 September, the only 24h item) and Adobe's acquisition of one-year-old Rilo (2 September) join the standing Elucid and Guardio rounds - Indian applied AI on both sides of the ledger"},
+    "workforce": {"day": 71, "note": "Uber's 3,300 cuts on 2 September, explicitly not attributed to AI by its CEO, sit against the standing Challenger reading of 101,743 AI-cited US job cuts year to date"},
+    "agent-platforms": {"day": 4, "note": "CrowdStrike's Verified Agent certification gates partner-built agents into its marketplace; LangChain 1.4.0's MCP adapter and CIQ's Fuzzball 4.2 hold in Tracking"},
+    "agent-security": {"day": 73, "note": "No movement: OpenAI's 5 September confirmation of the German-wiki incident and the promised misalignment-disclosure framework hold; the CISA KEV remediation deadline for LiteLLM and Starlette is 16 September"},
+    "open-weights": {"day": 12, "note": "IFM's K2 Horizon holds as the last open release, 3 September; nothing new in the open tier for a third edition"},
+    "copyright-litigation": {"day": 9, "note": "The Seattle Times and Newsday SDNY filing of 4 September remains the most recent event; DOJ fair-use position and the Sony/Warner complaint against Anthropic hold without docket movement"},
+    "ai-and-minors": {"day": 19, "note": "ChatGPT for Teens completes its global rollout in Australia today, 8 September; the age-prediction misclassification rate is unpublished for a nineteenth edition"},
+    "reg-clock": {"day": 34, "note": "FTC personalised-pricing comments close 18 September; Mechanical Turk and two dependent AWS services close 30 September; no EU or India regulatory movement located this window"},
+    "ai-in-education": {"day": 11, "note": "Boston's AI Educator Ambassadors and NYC's companion-chatbot ban hold as the two-district contrast, neither moving"},
+    "local-inference": {"day": 4, "note": "AMD's Ryzen AI Max PRO 400 memory ceiling holds with no independent benchmark; no new local-inference silicon located"},
+    "ai-everywhere": {"day": 4, "note": "IFA's robot runway and D-Robotics' Sunrise chip family close out with no design win or follow-up located"},
+    "model-pricing": {"day": 15, "note": "Claude Code's weekly limits become permanent on 14 September at 25% above the pre-promotion baseline - six days"},
+    "assistant-as-actor": {"day": 2, "note": "Gmail/Docs/Keep Live and Gemini Spark's Photos access hold as rolled out, with no controls documentation or usage datapoint"},
+    "agent-training-environments": {"day": 2, "note": "Terminal-Universe's 37,300 executable terminal environments (arXiv 2609.04148) hold with no downstream training result located"},
+    "neural-compilation": {"day": 2, "note": "Compile by Training (arXiv 2609.04199) holds as the top trending Hugging Face paper of 6 September with no replication located"},
+    "formal-methods": {"day": 3, "note": "The 13-million-line Lean formalisation of Fermat's Last Theorem holds with no verification milestone located"},
+    "health-ai-regulation": {"day": 3, "note": "The FDA TEMPO pilot's enforcement-discretion route holds; the separate generative-AI device discussion paper takes comment to 19 October"},
+    "physical-ai-security": {"day": 3, "note": "Unitree G1 CVE-2026-76640 (BLE root RCE, potentially wormable) and CVE-2026-76639 hold with no patch or exploitation report located"},
+    "cyber-capability-governance": {"day": 5, "note": "Proofpoint's SOC Analyst Agent on OpenAI's Daybreak cyber-tuned models remains in private preview with no GA date or named customer"},
+    "sovereign-ai-procurement": {"day": 2, "note": "The UK's first four competitions under the GBP 100M Sovereign AI programme hold with no award or shortlist located"}
+  },
+  "resolved": [
+    "RESOLVED: the scan gap this briefing printed in editions 079 and 080 - 'no named-customer enterprise deployment was located in this window at all' - closes. M&T Bank has AI copilots on 15,000+ desks with a quantified six-minutes-per-call saving on call-centre summarisation, Microsoft Copilot selected after an 800-person pilot, and an explicit approved-tools governance policy. It escalates enterprise-ai-execution to Developing, and it arrives with its own counter-read attached: a sceptical analysis argues M&T published three copilot counts and none was weekly active users. The lesson carried forward is to ask every future case study for weekly actives.",
+    "PARTIALLY RESOLVED: edition 080 asked whether OpenAI's 5 September disclosure posture would hold. One day later the same organisation published a second voluntary disclosure - the research-acceleration post with the 3.1 agent-workday ratio and its inference spend curve. Two disclosures in three days is a pattern; whether it survives a bad number is untested, and DevDay on 29 September remains the fair test of the misalignment-disclosure framework promised for 'upcoming weeks'.",
+    "AUTO-RETIRED (14), each without movement across roughly three consecutive editions and with no future dated hook: astra-independent-benchmarks, openai-agents-german-wiki (folded into the agent-security thread), openai-daybreak-1b, crusoe-3b-30b, nvidia-pair, plusai-spac, india-it-hiring-18month, ifa-2026-ai-infrastructure, samsung-ifa-bespoke-ai, meta-muse-spark-13, gemini-38-flash-cyber, glm-53-launch, claude-fable-mythos-51 and qwen38-max-0902. gpt6-astra is deliberately held despite identical silence because it anchors the frontier-models arc and the chain-of-thought monitorability question.",
+    "DEMOTED TO TRACKING (11): all ten of edition 080's New items on the no-movement rule (ifm-k2-horizon, seattle-times-newsday-openai, gimlet-labs-series-b, uk-sovereign-ai-procurement, google-workspace-live-voice, gemini-spark-google-photos, terminal-universe-envs, compile-by-training, langchain-140-mcp, bps-ai-educator-ambassadors), plus agent-security, which had no locatable movement in this window and drops from Developing at Day 73 with its 16 September CISA remediation deadline intact.",
+    "KILLED BEFORE CARDING (7), for date or sourcing failures rather than judgement: the claim that GPAI providers above 10^25 FLOPs must file first formal systemic-risk evaluations with the EU AI Office by 15 September - asserted by a single compliance blog and not corroborated by the Commission's own AI Act pages or artificialintelligenceact.eu's implementation timeline, which describe enforcement powers from 2 August 2026 and no such filing date; 'AWS adds MiniMax with 4M-token context to Bedrock' (MiniMax has been on Bedrock since roughly July 2026, no 4M variant confirmable); 'OpenAI launches GPT-Live' as 7 September news (shipped 8 July 2026); Grok Imagine Video 1.5 / Image 2.0 as fresh (May-July 2026); Microsoft Frontier Company, the $2.5B / 6,000-engineer unit (2 July 2026); the Sanofi-Owkin agentic drug-development collaboration (5 June 2026); and the India GCC cut (510,452 roles for 2026, 64% requiring AI/data/automation skills) - real and well-sourced, but already carried as india-gcc-510k-ai, so re-carding it would be recycling.",
+    "SCAN NOTE: ONE ITEM IN TEN BROKE INSIDE 24 HOURS. Generation time is 8 September 2026, 06:08 IST, so the window opens at 7 September 06:08 IST. Only Navana.ai's Series A clears it and carries the NEW.24H badge. The other nine are dated 31 August to 6 September, qualify as New on the id test, and are labelled with their real dates. Five of them are genuine misses by earlier narrow scans rather than fresh news.",
+    "SCAN GAPS: no AI security incident, CVE or advisory dated inside the window, so no security card this edition. No frontier or open-weight release for a third consecutive edition. No hardware item other than the single-outlet Huang remark. Nothing located inside the window on AI in education, on lab-to-lab talent moves, or on India regulation (MeitY, RBI, SEBI, IRDAI, DPDP) - India appears this edition through capital and deployment only. The research beat, Monday's rotation, produced no single dated paper with both a verifiable in-window date and a verifiable primary link, so none was carded; the lead is the research item. Direct page fetches were blocked by network egress policy for every outlet attempted, so the whole scan ran on web search - every URL here was returned by a search result and none was constructed, but verification depth is below a normal edition and single-source claims are flagged accordingly."
+  ],
+  "deadlines": [
+    {"date": "2026-09-08", "label": "ChatGPT for Teens reaches full availability in Australia, completing the global rollout that began 18 August. The age-prediction classifier's misclassification rate is still unpublished in both directions, now for a nineteenth edition.", "severity": "medium"},
+    {"date": "2026-09-14", "label": "Claude Code's weekly limits become permanent at 25% above the pre-promotion baseline for Pro, Max, Team and seat-based Enterprise - roughly a 17% cut against the temporary 50% boost users hold until 13 September. Six days to measure actual weekly consumption.", "severity": "high"},
+    {"date": "2026-09-16", "label": "CISA KEV remediation deadline for LiteLLM (CVE-2026-59822, MCP authentication bypass) and Starlette (CVE-2026-48710, BadHost). Eight days. Federal agencies must remediate; everyone else inherits it through their auditors.", "severity": "high"},
+    {"date": "2026-09-18", "label": "Comments close on the FTC's proposed personalised-pricing enforcement policy statement, issued 2-0 on 19 August. Ten days, and the docket remains the cheaper of the two venues.", "severity": "high"},
+    {"date": "2026-09-29", "label": "OpenAI DevDay 2026 in San Francisco. Also the outer edge of 'upcoming weeks' for the misalignment-disclosure framework OpenAI committed to on 5 September - and the natural venue to say whether the 3.1 agent-workday figure comes with a methodology.", "severity": "medium"},
+    {"date": "2026-09-30", "label": "Amazon Mechanical Turk closes after 21 years, taking AWS SageMaker Ground Truth and Amazon Augmented AI (A2I) with it. Twenty-two days to migrate any live annotation, labelling or human-review pipeline off three services at once.", "severity": "high"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── deep-link support: #still-tracking / #resolved / #method open the collapsed folds ──
+  var foldMap = {'still-tracking':'fold-tracking','resolved':'fold-resolved','method':'fold-method'};
+  var openFromHash = function(){
+    var id = foldMap[(location.hash||'').replace('#','')];
+    if(id){ var el = document.getElementById(id); if(el){ el.open = true; el.scrollIntoView(); } }
+  };
+  window.addEventListener('hashchange', openFromHash); openFromHash();
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
