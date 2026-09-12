@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 085 — 12 September 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+
+  /* collapsible archive sections (Still Tracking / Resolved / method notes) */
+  .fold{border-bottom:3px solid var(--ink);margin-top:26px}
+  .fold[open]{border-bottom-color:var(--rule)}
+  .fold > summary{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:0 0 8px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary small{font-size:10px;color:#6b6353;letter-spacing:1px;font-weight:400}
+  .fold > summary .caret{font-size:11px;color:#6b6353;letter-spacing:0}
+  .fold > summary:hover{color:var(--crit)}
+  .fold[open] > summary .caret::after{content:"▴ HIDE"}
+  .fold:not([open]) > summary .caret::after{content:"▾ SHOW"}
+  .fold .fold-body{padding-bottom:16px}
+  footer .fold{border-bottom:none;margin-top:12px}
+  footer .fold > summary{font-size:11px;letter-spacing:2px}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>COMPUTE</b> Microsoft says it will triple its data-centre footprint to more than 38GW by 2032 — and that it has been turning cloud customers away for years &nbsp;◆&nbsp; <b>MONEY</b> Oracle's contracted backlog hits $664B, up $209B year on year, with roughly half of it resting on one customer &nbsp;◆&nbsp; <b>SECURITY</b> Deadbugz: 23 GitHub pull requests in 74 minutes, pushing an MCP server that turns hostile after exactly three tool calls &nbsp;◆&nbsp; <b>ENTERPRISE</b> Salesforce ships seven named Agentforce agents and a 7-billion "agentic work unit" counter &nbsp;◆&nbsp; <b>MODELS</b> Sakana splits Fugu into Max and Ultra v2 — an orchestrator priced 40–60% under the frontier &nbsp;◆&nbsp; <b>APPLICATION LAYER</b> Adobe posts a record quarter, a billion monthly users and $650M+ AI ARR, and still gets marked down on guidance &nbsp;◆&nbsp; <b>CHINA</b> Moonshot tells investors ARR passed $1B in August and targets $2B annualised by year-end &nbsp;◆&nbsp; <b>EDUCATION</b> Los Angeles joins New York: the two largest US school districts now restrict student generative AI
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>085</b></span>
+    <span>SATURDAY, 12 SEPTEMBER 2026</span>
+    <span class="seg">NEW <b>15</b> · DEVELOPING <b>2</b> · TRACKING <b>43</b></span>
+    <span>CRITICAL <b>4</b> / NOTABLE 10 / MONITOR 3</span>
+    <span>SCAN: 60 SEARCHES · 24–72H · DEEP BEAT: REGIONAL &amp; AI JOBS HOTSPOTS</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="microsoft-38gw-2032">
+  <div>
+    <div class="kicker">■ Today's Lead · New · Hardware · Day 9 of the compute-capital arc</div>
+    <h2>Microsoft's capacity plan is also a confession: it wants 38 gigawatts because it has spent years saying no</h2>
+    <p class="dek">Reported <strong>10 September</strong> by <a href="https://www.bloomberg.com/news/features/2026-09-10/microsoft-ai-focused-data-center-plan-to-add-26-gigawatts-of-compute">Bloomberg</a> and carried widely on <strong>11 September</strong>: Microsoft intends to grow its global data-centre footprint to <strong>more than 38 gigawatts by 2032</strong>, from roughly <strong>12GW</strong> today — a more than threefold increase, with AI expected to account for about a third of the 2032 total against roughly <strong>2GW</strong> dedicated to AI now (<a href="https://techbriefly.com/2026/09/11/microsoft-triple-data-center-capacity-38-gigawatts/">TechBriefly</a>, <a href="https://dataconomy.com/2026/09/11/microsoft-triple-data-center-capacity-38-gigawatts/">Dataconomy</a>). The stated reason is not ambition but shortage: server constraints have forced Microsoft to turn away cloud and AI customers, and Temu is reported to have moved a major cloud deal to Oracle after Microsoft could not supply capacity in the regions it wanted (<a href="https://www.techtimes.com/articles/327304/20260911/microsoft-data-center-expansion-38-gw-triggered-lost-clients-capacity-crisis.htm">TechTimes</a>). The figure covers owned and leased facilities and <strong>excludes</strong> capacity rented from neoclouds such as CoreWeave.</p>
+    <p class="sowhat">So what: if you have been told by an Azure account team that a region is full, this is the document that says the constraint was real and that relief is a 2027-and-later event, not a quarter-end event. Plan dual-sourcing and region flexibility into anything you are signing now — and read the same day's Oracle numbers as the other half of the sentence.</p>
+    <span class="chip arc">ARC: COMPUTE-CAPITAL · D9</span><span class="chip">CONFIDENCE: 2x SRC · PAYWALLED ORIGINAL</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://www.bloomberg.com/news/features/2026-09-10/microsoft-ai-focused-data-center-plan-to-add-26-gigawatts-of-compute">Bloomberg (10 Sep, paywalled)</a> ·
+      <a href="https://techbriefly.com/2026/09/11/microsoft-triple-data-center-capacity-38-gigawatts/">TechBriefly (11 Sep)</a> ·
+      <a href="https://dataconomy.com/2026/09/11/microsoft-triple-data-center-capacity-38-gigawatts/">Dataconomy (11 Sep)</a> ·
+      <a href="https://www.technology.org/2026/09/11/microsoft-38-gigawatts-data-center-capacity-2032/">Technology.org (11 Sep)</a> ·
+      <a href="https://www.techtimes.com/articles/327304/20260911/microsoft-data-center-expansion-38-gw-triggered-lost-clients-capacity-crisis.htm">TechTimes (11 Sep)</a> ·
+      <a href="https://ca.finance.yahoo.com/news/microsoft-targets-38gw-data-center-150904165.html">Yahoo Finance</a> ·
+      <a href="https://www.financial-news.co.uk/microsoft-plans-38-gigawatts-of-data-centre-capacity-by-2032/">Financial News</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What is actually new here.</strong> Hyperscaler capex numbers are not new — Microsoft's capital expenditure and finance leases reached roughly <strong>$175 billion</strong> on an adjusted basis for calendar 2026, with guidance of about <strong>$50 billion</strong> for the first quarter of fiscal 2027. What is new is a <em>physical</em> target with a date attached, and an explanation that inverts the usual narrative. The story Microsoft has told publicly for two years is demand discipline. The story in this plan is that it could not serve demand it already had, lost at least one named deal over it, and is now committing to a footprint larger than New York state's peak electricity consumption in order to stop losing them.</p>
+      <p><strong>The numbers that matter, and the one that does not.</strong> 12GW today to 38GW+ by 2032 is the headline. The number to hold onto is the AI split: roughly <strong>2GW</strong> of AI capacity now, rising to about a third of 38GW — call it 12–13GW — by 2032. That is a sixfold increase in AI-specific capacity, which is a very different claim from a threefold increase in total footprint. The number that does <em>not</em> matter for planning is the gigawatt total in isolation: it excludes neocloud rental, which is exactly the lever Microsoft has been pulling to cover the gap, so the plan understates the compute Azure customers will actually be able to reach in the interim.</p>
+      <p><strong>Why this is the lead rather than Oracle.</strong> Both broke in the same 24 hours and they are the same story from opposite ends. Oracle's disclosure is about <em>contracted</em> demand: $664B of remaining performance obligations, roughly half of it one counterparty. Microsoft's is about <em>unserved</em> demand: capacity it turned away. Oracle's number tells you who is exposed if one customer wobbles. Microsoft's tells every enterprise buyer something operationally useful this week — that regional capacity refusals were structural, and that the fix is years out.</p>
+      <p><strong>What this does not say.</strong> Nothing here is a commissioning schedule. There is no per-year build curve, no regional allocation, no power-purchase detail, and no statement about which of the 26 incremental gigawatts are sited, permitted or financed. Data-centre targets announced at 2032 horizons have a long history of slipping, and this one is a company plan reported by a paywalled outlet rather than a filing. Treat 38GW as a statement of intent with a capex number behind it, not as capacity you can book.</p>
+      <p><strong>The grid question nobody answered today.</strong> A footprint on this scale is a utility-planning event in every jurisdiction that hosts part of it. The reporting located in this scan contains no interconnection detail, no generation mix, and no response from any grid operator. That is the thread to watch: the binding constraint on 38GW is unlikely to be silicon.</p>
+      <p><strong>Watch next.</strong> Whether Microsoft repeats the 38GW figure in a filing or an earnings call, where it will carry different liability; whether Amazon, Google or Meta answer with dated footprint targets of their own; and whether the "turned customers away" admission shows up in any competitor's sales motion — Oracle's $30B of new AI cloud contracts this quarter is the first place to look.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>Target</dt><dd>More than 38GW of data-centre capacity by 2032</dd>
+      <dt>Today</dt><dd>About 12GW total · about 2GW dedicated to AI</dd>
+      <dt>AI share by 2032</dt><dd>Roughly one third of the 38GW</dd>
+      <dt>Excluded</dt><dd>Capacity rented from neoclouds (e.g. CoreWeave)</dd>
+      <dt>Capex context</dt><dd>~$175B capex + finance leases, calendar 2026 adjusted; ~$50B guided for Q1 FY27</dd>
+      <dt>Stated cause</dt><dd>Server shortages; customers turned away; Temu deal reported lost to Oracle</dd>
+      <dt>Status</dt><dd>Company plan reported by Bloomberg — not a filing, no build curve published</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">8</b>/10 — every Azure capacity planner, every AI procurement team, every utility hosting part of it</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="microsoft-38gw-2032">
+      <div class="num">1</div>
+      <h4>38 gigawatts, and an admission</h4>
+      <p>Microsoft plans to more than triple its data-centre footprint to 38GW+ by 2032 from about 12GW, with AI going from ~2GW to roughly a third of the total — because server shortages made it turn cloud customers away, reportedly including a Temu deal that went to Oracle. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="oracle-664b-rpo">
+      <div class="num">2</div>
+      <h4>$664 billion booked, half of it one name</h4>
+      <p>Oracle's remaining performance obligations hit $664B, up $209B year on year; OCI revenue rose 121% to $7.4B; it delivered 850MW and 300,000+ GPUs since May at 97.9% utilisation. Roughly half the backlog rests on OpenAI. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="deadbugz-mcp-campaign">
+      <div class="num">3</div>
+      <h4>The MCP server that waits for call three</h4>
+      <p>Deadbugz: 23 GitHub pull requests in 74 minutes pushing a "productivity-suite" MCP server that behaves normally until a client makes exactly three tool calls, then rewrites its own tool metadata into instructions to hunt SSH keys, AWS credentials and kube configs — and hide it. <strong>NEW.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>FIFTEEN NEW ITEMS, FIVE OF THEM INSIDE 24 HOURS — AND THE CLEAREST READ ON THE AI CAPEX CYCLE IN WEEKS.</strong> Beyond the lead: <strong>Oracle</strong> books $664B and a single-counterparty problem · <strong>Deadbugz</strong> turns runtime-gated metadata poisoning into a live supply-chain campaign against agent toolchains · <strong>Salesforce</strong> ships seven named agents and a work-unit meter · <strong>Sakana</strong> splits Fugu into a cheap orchestrator and an expensive one · <strong>Adobe</strong> beats and gets marked down anyway · <strong>Moonshot</strong> targets $2B annualised · <strong>Ayar Labs</strong> reaches $650M for 2026 and opens in Bengaluru · <strong>Gemini</strong> lands on Windows with Alt+Space · <strong>Clearview</strong> is caught prototyping identity intelligence on top of a Grok model · <strong>TCS</strong> commits up to $7.4B for a 1GW campus in Telangana · embodied-AI money moves in <strong>Shenzhen and Seoul</strong> · <strong>MiniCPM5-2B</strong> takes the sub-4B open crown · <strong>UNESCO</strong> opens a consultation on governing AI in schools. Saturday's deep beat runs regional and on AI jobs. Two honest gaps: no research-beat item dated inside the window for a second consecutive edition, and no AI-jobs release dated inside the window either — the Saturday card says so in its own byline.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (17)</button>
+    <button class="tab" data-cat="policy">POLICY (5)</button>
+    <button class="tab" data-cat="business">BUSINESS (4)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (3)</button>
+    <button class="tab" data-cat="models">MODELS (3)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (2)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>15 ITEMS · BROKE / SURFACED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="hardware" data-story-id="microsoft-38gw-2032">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#1</span> <span class="cat">HARDWARE · COMPUTE BUILDOUT</span></div>
+      <h4>Microsoft wants 38GW by 2032 — and says the reason is customers it could not serve</h4>
+      <div class="body">The lead, in full above. From roughly <strong>12GW</strong> today to <strong>more than 38GW by 2032</strong>, with AI rising from about <strong>2GW</strong> to roughly a third of the total; owned and leased only, <strong>excluding</strong> neocloud rental. Capex and finance leases ran about <strong>$175B</strong> adjusted for calendar 2026 with ~<strong>$50B</strong> guided for Q1 FY27. Reported by <a href="https://www.bloomberg.com/news/features/2026-09-10/microsoft-ai-focused-data-center-plan-to-add-26-gigawatts-of-compute">Bloomberg</a> on 10 September; the capacity-refusal framing, including a Temu deal reported lost to Oracle, is carried in <a href="https://www.techtimes.com/articles/327304/20260911/microsoft-data-center-expansion-38-gw-triggered-lost-clients-capacity-crisis.htm">11 September coverage</a>. No build curve, no siting, no interconnection detail published.</div>
+      <p class="sowhat">Treat regional capacity refusals as structural rather than negotiable, and price dual-sourcing into anything you sign before 2027.</p>
+      <div><span class="chip arc">ARC: COMPUTE-CAPITAL · D9</span><span class="chip">2x SRC · PAYWALLED ORIGINAL</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/features/2026-09-10/microsoft-ai-focused-data-center-plan-to-add-26-gigawatts-of-compute">Bloomberg (10 Sep)</a> · <a href="https://techbriefly.com/2026/09/11/microsoft-triple-data-center-capacity-38-gigawatts/">TechBriefly</a> · <a href="https://dataconomy.com/2026/09/11/microsoft-triple-data-center-capacity-38-gigawatts/">Dataconomy</a> · <a href="https://www.technology.org/2026/09/11/microsoft-38-gigawatts-data-center-capacity-2032/">Technology.org</a> · <a href="https://ca.finance.yahoo.com/news/microsoft-targets-38gw-data-center-150904165.html">Yahoo Finance</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="business" data-story-id="oracle-664b-rpo">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#2</span> <span class="cat">BUSINESS · CONTRACTED AI REVENUE</span></div>
+      <h4>Oracle's backlog reaches $664 billion — and roughly half of it is one customer</h4>
+      <div class="body">Oracle reported <strong>Q1 FY2027</strong> results after the close on <strong>10 September</strong>, with the market reaction and the full transcript landing on <strong>11 September</strong>. Total revenue <strong>$19.3B, up 30%</strong>; cloud infrastructure revenue <strong>up 121% to $7.4B</strong>; <strong>remaining performance obligations $664B</strong>, up <strong>$209B</strong> year on year and $26B from the $638B reported in June; more than <strong>$30B</strong> of new AI cloud contracts signed in the quarter; <strong>850MW</strong> of AI capacity and more than <strong>300,000 GPUs</strong> delivered since the end of Q4, at <strong>97.9%</strong> GPU utilisation. Guidance: at least <strong>$90B</strong> of FY27 revenue, +34%, and $8.10 non-GAAP EPS. About half the RPO is expected to convert within 36 months. The caveat every reader should carry: roughly <strong>half the backlog rests on OpenAI</strong>, though management says the non-OpenAI portion more than doubled year on year (<a href="https://nemo.money/posts/oracle-jumps-on-an-ai-cloud-earnings-beat-and-a-664bn-backlog-but-half-of-it-rests-on-openai">Nemo</a>, <a href="https://erp.today/oracle-q1-fy27-results-664b-backlog-ai-contracts">ERP Today</a>, which also flags negative cash flow).</div>
+      <p class="sowhat">An RPO number is a promise, not cash — and a backlog half-owned by one counterparty is a concentration exposure for every supplier, lender and landlord in that chain, not just for Oracle's shareholders.</p>
+      <div><span class="chip arc">ARC: AI-BACKLOG-CONCENTRATION · D1</span><span class="chip">2x SRC + PRIMARY CALENDAR</span></div>
+      <div class="src"><a href="https://www.investing.com/news/company-news/oracle-q1-fy2027-slides-cloud-infrastructure-surges-121-guides-90b-93CH-4897025">Investing.com (Q1 FY27 slides)</a> · <a href="https://erp.today/oracle-q1-fy27-results-664b-backlog-ai-contracts">ERP Today</a> · <a href="https://247wallst.com/investing/2026/09/11/oracle-surges-7-as-ai-cloud-backlog-hits-664b-coreweave-and-nebius-climb-4/">24/7 Wall St (11 Sep)</a> · <a href="https://www.benzinga.com/news/26/09/61729962/oracle-reports-q1-2027-results-full-earnings-call-transcript">Benzinga (transcript)</a> · <a href="https://investor.oracle.com/investor-news/news-details/2026/Oracle-Sets-the-Date-for-its-First-Quarter-Fiscal-Year-2027-Earnings-Announcement/default.aspx">Oracle IR (primary, date)</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="deadbugz-mcp-campaign">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#3</span> <span class="cat">POLICY · AGENT SUPPLY-CHAIN SECURITY</span></div>
+      <h4>Deadbugz: an MCP server that behaves for exactly three tool calls, then goes looking for your keys</h4>
+      <div class="body">Pillar Security researchers documented an active campaign, codenamed <strong>Deadbugz</strong>, distributing a malicious Model Context Protocol server through <strong>public GitHub pull requests</strong>. The delivery burst was <strong>23 pull requests in 74 minutes</strong>, 21:52–23:07 UTC on <strong>10 August 2026</strong>, filed by the account <code>zellkernel</code> across unrelated AI and developer-tool projects — 17 remote-MCP configurations, four local-script configurations and two directory listings. The server calls itself <code>productivity-suite</code> and offers text formatting and summarisation. After a connected client makes <strong>exactly three tool calls</strong>, it rewrites the metadata it returns to the agent into instructions to hunt for <strong>SSH keys, AWS credentials, shell history and Kubernetes config</strong>, and to conceal the activity from the user. Pillar calls the technique <strong>runtime-gated MCP metadata poisoning</strong>: the payload ships inside the server but stays dormant through the window in which anyone would review it. Dated honestly — the activity is 10 August; the research write-up and its pickup are September, and this briefing is carding it for the first time.</div>
+      <p class="sowhat">Every MCP review process that inspects a server once, at install, is defeated by design here. Pin server versions, diff tool metadata on every call rather than on registration, and treat any agent workspace holding cloud credentials as the blast radius.</p>
+      <div><span class="chip arc">ARC: AGENT-SECURITY · D77</span><span class="chip">PRIMARY RESEARCH + 2x SRC</span></div>
+      <div class="src"><a href="https://www.pillar.security/blog/deadbugz-currently-active-mcp-supply-chain-campaign">Pillar Security (primary research)</a> · <a href="https://adversa.ai/blog/top-mcp-security-resources-september-2026/">Adversa (Sep 2026 roundup)</a> · <a href="https://nhimg.org/articles/deadbugz-shows-how-mcp-metadata-poisoning-evades-ai-agent-trust/">NHI Mgmt Group</a> · <a href="https://labs.cloudsecurityalliance.org/research/ciso-daily-briefing-20260902/">CSA CISO briefing (2 Sep)</a> · <a href="https://thehackernews.com/2026/08/threatsday-296k-iot-botnet-100-water.html">The Hacker News</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="salesforce-agentforce-job-ready">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#4</span> <span class="cat">ENTERPRISE · AGENT PLATFORMS</span></div>
+      <h4>Salesforce gives its agents names, job descriptions and a meter</h4>
+      <div class="body">Announced <strong>11 September</strong>: Salesforce expanded Agentforce with a portfolio of what it calls <strong>job-ready agents</strong> spanning sales, service, commerce, employee experience and the back office — <strong>Casey, Paige, Carter, Hunter, Marshall, Piper and Fin</strong>, each renameable by the customer. Six are generally available now; the outbound sales agent <strong>Hunter</strong> is in pilot with GA targeted for <strong>November 2026</strong>. Platform additions: <strong>Multi-Agent Orchestration</strong> (GA now), <strong>AI Skills in Agentforce Coworker</strong> (GA October 2026) and <strong>Agent Optimizer</strong> (GA October 2026). The number to argue about is the meter: Salesforce says it has delivered <strong>7 billion Agentic Work Units</strong> across Agentforce and Slack over two years, <strong>3.2 billion in Q2 alone</strong> — an AWU being defined by Salesforce as one discrete task accomplished by an agent. Fin arrives via the acquisition Salesforce <a href="https://www.salesforce.com/news/press-releases/2026/09/10/salesforce-completes-acquisition-of-fin/">completed on 10 September</a>.</div>
+      <p class="sowhat">A vendor-defined unit that counts tasks rather than outcomes is a billing primitive before it is a productivity measure — ask what an AWU costs you and what share of them a human had to redo.</p>
+      <div><span class="chip arc">ARC: AGENT-PLATFORMS · D8</span><span class="chip">PRIMARY + 2x SRC · VENDOR METRIC</span></div>
+      <div class="src"><a href="https://www.salesforce.com/news/stories/agentforce-job-ready-ai-agents/">Salesforce (primary)</a> · <a href="https://www.unite.ai/salesforce-debuts-job-ready-agentforce-agents-and-long-horizon-runtime/">Unite.AI</a> · <a href="https://futurumgroup.com/insights/salesforces-job-ready-agents-target-enterprise-ais-biggest-gap/">Futurum</a> · <a href="https://www.marketscreener.com/news/salesforce-launches-agentforce-job-ready-ai-agents-across-business-functions-ce785bdfdf89f52d">MarketScreener</a> · <a href="https://www.technobezz.com/news/salesforce-agentforce-seven-ai-agents-launch">Technobezz</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="sakana-fugu-max-ultra-v2">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#5</span> <span class="cat">MODELS · ORCHESTRATION</span></div>
+      <h4>Sakana splits its router in two: one to undercut the frontier, one to beat it</h4>
+      <div class="body">Announced <strong>10–11 September</strong>: <strong>Fugu Max</strong> and <strong>Fugu Ultra v2</strong>, the same orchestration architecture tuned in opposite directions. Fugu is not a monolithic model but a system trained to <strong>route tasks across a fixed pool of open and specialised models</strong> and to recursively call instances of itself. <strong>Max</strong> prices at <strong>$2 / $6</strong> per million input/output tokens, which Sakana puts <strong>40–60% below</strong> Sonnet 5, GPT-5.6 Terra and Kimi K3. <strong>Ultra v2</strong> goes the other way at <strong>$5 / $30</strong> per million, aimed at multi-step reasoning, autonomous research and full-stack software work; on Chartography, a visual-reasoning and data-interpretation eval, Sakana reports <strong>48.3</strong> for Ultra v2 against <strong>27.3</strong> for Opus 5 and <strong>29.5</strong> for Fable 5. Both are live through Sakana's OpenAI-compatible API and Fugu Ultra v2 is listed on <a href="https://openrouter.ai/sakana/fugu-ultra-v2">OpenRouter</a>. All benchmark and pricing comparisons here are the vendor's own; no independent reproduction was located. Badge discipline: trackers date the release 11 September while the first write-up carries 10 September, so this is <strong>new but not NEW.24H</strong>.</div>
+      <p class="sowhat">If orchestration is the product, the moat is the pool and the routing policy, not the weights — which means your eval has to test the whole system on your tasks, because a router's score does not transfer between workloads.</p>
+      <div><span class="chip arc">ARC: MODEL-ORCHESTRATION · D1</span><span class="chip">PRIMARY + 2x SRC · VENDOR BENCHMARKS</span></div>
+      <div class="src"><a href="https://sakana.ai/fugu-max-release/">Sakana AI (primary)</a> · <a href="https://www.marktechpost.com/2026/09/10/sakana-ai-launches-fugu-max-and-fugu-ultra-v2-for-cheaper-stronger-multi-agent-orchestration/">MarkTechPost</a> · <a href="https://openrouter.ai/sakana/fugu-ultra-v2">OpenRouter (pricing)</a> · <a href="https://alphasignal.ai/news/sakana-ai-splits-fugu-into-max-and-ultra-v2-to-cut-costs-60">AlphaSignal</a> · <a href="https://www.orcarouter.ai/blog/fugu-ultra-v2-explained">OrcaRouter</a> · <a href="https://x.com/SakanaAILabs/status/2098233826816205275">Sakana on X</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="adobe-q3-ai-pressure">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#6</span> <span class="cat">BUSINESS · APPLICATION LAYER</span></div>
+      <h4>Adobe posts a record quarter, a billion users and 150% AI growth — and gets marked down anyway</h4>
+      <div class="body">Adobe's <strong>Q3 FY2026</strong> results, released after the close on 10 September with the call and reaction on <strong>11 September</strong>: record revenue <strong>$6.76B, up 13%</strong> year on year, subscriptions <strong>$6.58B</strong> against $5.79B a year earlier, more than <strong>one billion monthly active users</strong> crossed, full-year targets raised, and <strong>AI-first ending ARR above $650M, up more than 150%</strong>. The stock fell anyway, because the sales outlook <strong>narrowly missed</strong> consensus and the miss reads as evidence of pressure from AI-native competitors (<a href="https://www.bloomberg.com/news/articles/2026-09-10/adobe-forecast-misses-estimates-renewing-fears-about-ai-impact">Bloomberg</a>). At least one analyst argues the dip is not only about disruption fear (<a href="https://invezz.com/en-ae/news/2026/09/11/analyst-adobe-stocks-post-earnings-dip-isnt-about-ai-disruption-fears-only/">Invezz</a>). The unresolved question is conversion: Adobe has proved users will try AI features; it has not yet proved those users generate proportional recurring revenue.</div>
+      <p class="sowhat">This is the cleanest public read on how markets now price the application layer: growing AI ARR fast is no longer sufficient if the core subscription line is where the doubt sits. Budget owners should expect incumbent vendors to start bundling AI rather than charging for it.</p>
+      <div><span class="chip arc">ARC: APPLICATION-LAYER-REPRICING · D1</span><span class="chip">2x SRC + TRANSCRIPT</span></div>
+      <div class="src"><a href="https://www.fool.com/earnings/call-transcripts/2026/09/11/adobe-adbe-q3-2026-earnings-call-transcript/">Motley Fool (transcript, 11 Sep)</a> · <a href="https://qz.com/adobe-earnings-billion-monthly-active-users-raised-outlook-091126">Quartz</a> · <a href="https://www.bloomberg.com/news/articles/2026-09-10/adobe-forecast-misses-estimates-renewing-fears-about-ai-impact">Bloomberg</a> · <a href="https://finance.yahoo.com/technology/ai/articles/adobe-forecast-misses-estimates-renewing-201136315.html">Yahoo Finance</a> · <a href="https://invezz.com/en-ae/news/2026/09/11/analyst-adobe-stocks-post-earnings-dip-isnt-about-ai-disruption-fears-only/">Invezz</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="moonshot-2b-arr-target">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#7</span> <span class="cat">BUSINESS · CHINA REVENUE DISCLOSURE</span></div>
+      <h4>Moonshot tells investors Kimi's ARR passed $1B in August, and aims at $2B annualised by year-end</h4>
+      <div class="body">Reported <strong>11 September</strong> by <a href="https://www.bloomberg.com/news/articles/2026-09-11/china-ai-star-moonshot-eyes-2-billion-annualized-sales-in-2026">Bloomberg</a> and <a href="https://techcrunch.com/2026/09/11/kimi-maker-moonshot-ai-targets-2-billion-in-annual-revenue/">TechCrunch</a>: Moonshot AI is targeting <strong>$2B in annualised revenue</strong> by the end of 2026, having told investors that annual recurring revenue <strong>passed $1B in August, up from $300M in June</strong>. The step change is credited to <strong>Kimi K3</strong>, released in July, which topped performance benchmarks at a fraction of US frontier pricing. Usage has eased slightly from the peak but OpenRouter data still shows as much as <strong>300 billion tokens a day</strong> generated by K3 models on that platform. Context for the ambition: recent reporting puts OpenAI near <strong>$40B</strong> and Anthropic near <strong>$65B</strong>, so Moonshot's target is roughly 3–5% of either. These are investor-briefing figures relayed by two outlets, not audited disclosure.</div>
+      <p class="sowhat">Chinese labs have started competing on disclosed revenue rather than benchmark tables — and with DeepSeek moving toward a STAR Market listing, the next stage is audited numbers that make the price-per-token argument checkable.</p>
+      <div><span class="chip arc">ARC: CHINA-AI-CAPITAL-MARKETS · D2</span><span class="chip">2x SRC · INVESTOR BRIEFING</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-09-11/china-ai-star-moonshot-eyes-2-billion-annualized-sales-in-2026">Bloomberg (11 Sep)</a> · <a href="https://techcrunch.com/2026/09/11/kimi-maker-moonshot-ai-targets-2-billion-in-annual-revenue/">TechCrunch (11 Sep)</a> · <a href="https://en.wikipedia.org/wiki/Moonshot_AI">Moonshot AI background</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="hardware" data-story-id="ayar-labs-650m-cpo">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#8</span> <span class="cat">HARDWARE · OPTICAL INTERCONNECT</span></div>
+      <h4>Ayar Labs adds $150M — and the copper wall gets a valuation</h4>
+      <div class="body">Announced <strong>10 September</strong>, carried through <strong>11 September</strong>: Ayar Labs raised an additional <strong>$150M</strong>, taking primary capital raised in 2026 to roughly <strong>$650M</strong> for its co-packaged optics business. Stated use of funds: the transition to <strong>high-volume manufacturing</strong> — product development, validation, scaling the manufacturing ecosystem — and a <strong>new design centre in Bengaluru</strong>. Strategic backers named across coverage include <strong>AMD, Intel, NVIDIA, MediaTek and Wiwynn</strong>. Separately reported: a <strong>$225M secondary</strong> share purchase led by Antero Peak Group at Artisan Partners valuing the company <strong>above $5B</strong>, up from $3.75B at the March Series E close — a secondary price, not a primary round valuation. CEO Mark Wade's framing is the thesis: "Copper interconnect is becoming the limiting factor for AI scale-up."</div>
+      <p class="sowhat">Scale-up beyond the rack is now an optics problem with a supply chain behind it — and the Bengaluru design centre is the quiet part: interconnect engineering, not just services, being sited in India.</p>
+      <div><span class="chip arc">ARC: COMPUTE-CAPITAL · D9</span><span class="chip">2x SRC · SECONDARY VALUATION REPORTED</span></div>
+      <div class="src"><a href="https://www.hpcwire.com/off-the-wire/ayar-labs-brings-2026-funding-to-650m-for-cpo-manufacturing/">HPCwire</a> · <a href="https://siliconangle.com/2026/09/10/ayar-labs-bags-150m-in-additional-series-e-funding-to-help-make-bigger-ai-chip-clusters/">SiliconANGLE (10 Sep)</a> · <a href="https://www.unite.ai/ayar-labs-secures-additional-150m-lifting-2026-capital-to-650m/">Unite.AI</a> · <a href="https://www.lightwaveonline.com/home/news/55404308/ayar-labs-scales-funding-to-650m">Lightwave</a> · <a href="https://convergedigest.com/ayar-labs-150m-cpo-ai-scale-up/">Converge Digest</a> · <a href="https://theaiinsider.tech/2026/09/11/ayar-labs-expands-2026-funding-to-650m-to-scale-manufacturing-ready-cpo-for-ai-scale-up-beyond-the-rack/">AI Insider (11 Sep)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="gemini-windows-app">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#9</span> <span class="cat">ENTERPRISE · DISTRIBUTION</span></div>
+      <h4>Google puts Gemini on Windows with its own keyboard shortcut</h4>
+      <div class="body">Announced <strong>10 September</strong>: a dedicated <strong>Gemini desktop app for Windows 10 and 11</strong>, opened by a quick-access overlay on <strong>Alt + Space</strong> that floats above whatever application is in focus — ask questions, fact-check a document, draft a reply, generate deck ideas. Google describes it as "lightweight and quiet" and says it runs without slowing the machine. It follows the macOS Gemini desktop app earlier this year. The strategic fact is the surface, not the feature: this is Google's assistant claiming a global hotkey on <strong>Microsoft's</strong> operating system, alongside Microsoft's own Copilot key and Win+C, across more than a billion Windows PCs.</div>
+      <p class="sowhat">Endpoint teams should assume a second always-listening assistant is now installable by any user who wants it — and that the data-egress question you answered for Copilot needs answering again for a different vendor.</p>
+      <div><span class="chip arc">ARC: MODEL-DISTRIBUTION · D3</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://chromeunboxed.com/google-launches-a-dedicated-gemini-app-for-windows-with-alt-space-shortcut/">ChromeUnboxed</a> · <a href="https://betanews.com/article/google-releases-a-gemini-app-for-windows/">BetaNews</a> · <a href="https://seekingalpha.com/news/4641746-google-launches-gemini-app-for-windows-pcs">Seeking Alpha</a> · <a href="https://www.mobigyaan.com/google-gemini-for-windows-10-11-desktop-app">MobiGyaan</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="clearview-inquiryiq-prototype">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#10</span> <span class="cat">POLICY · SURVEILLANCE</span></div>
+      <h4>Clearview's unshipped prototype was found in the JavaScript its login page serves to strangers</h4>
+      <div class="body">Disclosed <strong>10 September</strong> by WIRED and carried onward: Clearview AI built and tested <strong>InquiryIQ</strong>, a prototype pairing its face-matching system with a model from <strong>xAI</strong>. After a law-enforcement user runs a facial-recognition search, InquiryIQ assembles what the company calls a <strong>Candidate Graph</strong> of possible identities and associates, compiling potential <strong>addresses, phone numbers, employers, aliases, social-media accounts and arrest histories</strong> — automating the manual legwork that normally follows a match. Clearview told WIRED the tool is an <strong>internal prototype</strong>, has never been pitched, shipped or used by law enforcement, and that it has no current plans to release it in this form. The disclosure route is the detail worth keeping: reporters found the code in files Clearview's <strong>login page sends to any visitor's browser before sign-in</strong>.</div>
+      <p class="sowhat">The category shift is from identification to <em>identity intelligence</em> — and it arrived as an accident of client-side bundling, which is also a reminder that your own unshipped features ship with your front end.</p>
+      <div><span class="chip arc">ARC: SURVEILLANCE-AI · D1</span><span class="chip">2x SRC · ORIGINAL NOT LINKED</span></div>
+      <div class="src"><a href="https://www.biometricupdate.com/202609/clearview-ai-prototype-points-to-next-phase-of-facial-recognition-identity-intelligence">Biometric Update</a> · <a href="https://en.cryptonomist.ch/2026/09/10/clearview-ai-facial-recognition/">Cryptonomist (10 Sep)</a> · <a href="https://www.progressiverobot.com/2026/09/10/clearview-ai-inquiryiq-grok-police-tool/">Progressive Robot</a> · <a href="https://usaherald.com/clearview-ai-tests-police-surveillance-tool-to-profile-you/">USA Herald</a> · <a href="https://www.wired.com">WIRED (original; deep link not located in this scan)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="hardware" data-story-id="tcs-telangana-1gw">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#11</span> <span class="cat">HARDWARE · INDIA INFRASTRUCTURE</span></div>
+      <h4>SATURDAY DEEP BEAT — REGIONAL. TCS commits up to $7.4B to a one-gigawatt AI campus in Telangana</h4>
+      <div class="body">Dated <strong>5 September</strong> and surfaced here for the first time: a Tata Consultancy Services subsidiary and its partners will invest up to <strong>₹700 billion (about $7.41B)</strong> to build a <strong>1GW AI data-centre campus in Telangana</strong> (<a href="https://www.bloomberg.com/news/articles/2026-09-05/tcs-plans-one-gigawatt-capacity-data-center-in-southern-india">Bloomberg</a>, carried by <a href="https://www.thestar.com.my/tech/tech-news/2026/09/05/india039s-tcs-unit-to-invest-up-to-74-billion-in-ai-data-center-campus">The Star</a>). Read it against the other Indian gigawatt: a Reliance Industries joint venture — <strong>Digital Connexion</strong>, with <strong>Brookfield</strong> and <strong>Digital Realty</strong> — committing <strong>$11B over five years</strong> for 1GW in Andhra Pradesh. Colliers expects India's total data-centre capacity to more than triple to <strong>4.5GW by 2030</strong>. Two single projects therefore account for roughly two-thirds of the increment that forecast implies, which is a concentration risk as much as a boom.</div>
+      <p class="sowhat">India's AI story has shifted from services headcount to land, power and 2030 commissioning dates — and the binding constraints now sit with state electricity boards, not with hiring managers.</p>
+      <div><span class="chip arc">ARC: INDIA-AI-INFRASTRUCTURE · D1</span><span class="chip">2x SRC · 5 SEP, NOT 24H</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-09-05/tcs-plans-one-gigawatt-capacity-data-center-in-southern-india">Bloomberg (5 Sep)</a> · <a href="https://www.thestar.com.my/tech/tech-news/2026/09/05/india039s-tcs-unit-to-invest-up-to-74-billion-in-ai-data-center-campus">The Star (5 Sep)</a> · <a href="https://thedailyguardian.com/news/science-tech/indias-tcs-unit-to-invest-up-to-7-4-billion-in-ai-data-center-campus-754499/">Daily Guardian</a> · <a href="https://capacityglobal.com/news/tata-consultancy-services-ai-data-centre-deals/">Capacity</a> · <a href="https://in.marketscreener.com/news/reliance-industries-jv-partners-to-invest-11-billion-in-india-ai-data-capacity-ce7d5ed2d181f620">MarketScreener (Reliance JV)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="embodied-ai-money-asia">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#12</span> <span class="cat">BUSINESS · EMBODIED AI MONEY</span></div>
+      <h4>Two embodied-AI rounds in one day, and neither is in the United States</h4>
+      <div class="body">Both reported <strong>11 September</strong>. In <strong>Shenzhen</strong>, <strong>Kinetix AI</strong> disclosed more than <strong>RMB 500M</strong> across Angel+ financings, backed by <strong>Vertex Ventures</strong> (Temasek), Fangguang Capital and Vanshi Capital. Founded September 2025 by veterans of Huawei's autonomous-driving unit with researchers from the University of Hong Kong, it ships a native embodied model, the <strong>KAI Halo Lite</strong> data-collection headset and an embodied-AI infrastructure platform covering collection, training, simulation, deployment and iteration. In <strong>Seoul</strong>, <strong>AIDIN Robotics</strong> closed <strong>KRW 16B (about $12.1M)</strong> strategically: <strong>HD Hyundai Robotics</strong> put in KRW 13B and <strong>Samsung Venture Investment</strong> KRW 3B. AIDIN integrates force and torque sensors with force-control software; the money goes to surface-finishing automation for <strong>shipbuilding</strong>, a heavy-duty five-finger robotic hand for heavy industry, and annual capacity for <strong>30,000</strong> force/torque sensors.</div>
+      <p class="sowhat">The contrast is the point: one round funds a foundation-model-shaped bet on embodiment, the other funds sensors with a named industrial buyer attached. Strategic corporate money is going to the second kind.</p>
+      <div><span class="chip arc">ARC: PHYSICAL-AI · D3</span><span class="chip">2x SRC PER ROUND</span></div>
+      <div class="src"><a href="https://techstartups.com/2026/09/11/startup-funding-news-today-september-11-2026-kinetix-ai-aidin-robotics-enigmata-more/">Tech Startups (11 Sep)</a> · <a href="https://autonews.gasgoo.com/articles/market-industry/seeds-former-huawei-executive-develops-humanoid-robot-secures-500-million-yuan-financing-2098403770760597505">Gasgoo (Kinetix)</a> · <a href="https://en.wowtale.net/2026/09/11/235073/">WOWTALE (AIDIN)</a> · <a href="https://en.sedaily.com/finance/2026/09/11/hd-hyundai-invests-13-billion-won-in-korean-robot-sensor">Seoul Economic Daily</a> · <a href="https://news.crunchbase.com/robotics/embodied-ai-fuels-record-funding-china-ipo-momentum-builds/">Crunchbase News (context)</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="models" data-story-id="minicpm5-2b-open-weights">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#13</span> <span class="cat">MODELS · OPEN WEIGHTS</span></div>
+      <h4>A 2.5B Apache-2.0 model takes the sub-4B crown — with its training data published alongside</h4>
+      <div class="body">Released <strong>7 September</strong> and carded here for the first time: <strong>OpenBMB's MiniCPM5-2B</strong>, a dense <strong>2,516,756,480-parameter</strong> transformer (1.98B excluding embeddings), 42 layers, grouped-query attention with 16 query heads to 2 key-value heads, <strong>131,072-token</strong> context. OpenBMB reports an average of <strong>53.9 across 34 benchmarks</strong> spanning code, maths, instruction following, long context, tool use and agentic tasks — ahead of every 2B-class baseline in its comparison set and several 4B-class models, including a claimed win over Qwen3.5-4B. Weights ship <strong>Apache 2.0</strong> in BF16 with GGUF, MLX and GPTQ conversions and a <strong>DSpark</strong> draft model for speculative decoding, and the <strong>training data went out with them</strong>. Separately, Artificial Analysis scored a 2.6B MiniCPM5 variant at 15 on its Intelligence Index v4.2, above the 11 of the 3B Granite 4.2. Vendor-reported benchmarks; dated 7 September, so new but not NEW.24H.</div>
+      <p class="sowhat">Published training data at this size is the rarer thing — it makes contamination arguments checkable, which no frontier release currently permits, and it is what makes an on-device model defensible in a regulated deployment.</p>
+      <div><span class="chip arc">ARC: OPEN-WEIGHTS · D17</span><span class="chip">2x SRC · VENDOR BENCHMARKS</span></div>
+      <div class="src"><a href="https://www.marktechpost.com/2026/09/07/openbmb-releases-minicpm5-2b-a-2-52b-dense-model-averaging-53-9-across-34-benchmarks-and-built-to-run-on-device/">MarkTechPost (7 Sep)</a> · <a href="https://artificialanalysis.ai/articles/openbmb-releases-minicpm5-2b">Artificial Analysis</a> · <a href="https://datanorth.ai/news/openbmb-releases-minicpm5-2b">DataNorth</a> · <a href="https://rits.shanghai.nyu.edu/ai/minicpm5-2b-tops-open-models-under-4b">NYU Shanghai RITS</a> · <a href="https://www.orcarouter.ai/blog/minicpm5-2b-open-weights-dspark">OrcaRouter</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="policy" data-story-id="unesco-ai-education-consultation">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#14</span> <span class="cat">POLICY · EDUCATION GOVERNANCE</span></div>
+      <h4>UNESCO closes Digital Learning Week by opening a consultation — comments due 15 October</h4>
+      <div class="body">UNESCO convened <strong>Digital Learning Week 2026</strong> at its Paris headquarters from <strong>8 to 11 September</strong>, themed "Education in the age of AI: Facts | Frictions | Frontiers," with more than <strong>25 education ministers</strong>, industry representatives, researchers and students, and a <strong>ministerial statement</strong> for adoption. Alongside it UNESCO opened a <strong>global consultation</strong> running <strong>September to November 2026</strong> on keeping education a public good in the age of AI, with expert feedback invited to <code>aied@unesco.org</code> by <strong>15 October 2026</strong> and policy briefs due at Digital Learning Week 2027. The anchoring discussion paper, "Sustaining education as a common good in the age of AI: The case for deliberative governance," identifies six directional shifts where that purpose is undermined when AI tools spread without governance.</div>
+      <p class="sowhat">While US districts legislate bans, the multilateral track is writing the vocabulary those bans will eventually be argued in — and the comment window is open to anyone with an edtech deployment and an opinion.</p>
+      <div><span class="chip arc">ARC: AI-IN-EDUCATION · D15</span><span class="chip">PRIMARY + 2x SRC</span></div>
+      <div class="src"><a href="https://www.unesco.org/en/weeks/digital-learning">UNESCO Digital Learning Week (primary)</a> · <a href="https://www.unesco.org/en/articles/education-age-ai-ministerial-statement-be-adopted-unescos-digital-learning-week">UNESCO (ministerial statement)</a> · <a href="https://completeaitraining.com/news/unesco-launches-global-consultation-on-ai-governance-in/">Complete AI Training</a> · <a href="https://www.winssolutions.org/unesco-digital-learning-week-ai-statement/">WINS Solutions</a> · <a href="https://www.vialibre.org.ar/en/global-consultation-on-the-integration-of-ai-in-educational-processes/">Fundación Vía Libre</a></div>
+    </article>
+
+    <article class="card w3 mon" data-cat="policy" data-story-id="ai-jobs-geography-sep2026">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#15</span> <span class="cat">POLICY · AI JOBS GEOGRAPHY</span></div>
+      <h4>SATURDAY DEEP BEAT — AI JOBS. No fresh release inside the window, so here is the freshest honest picture</h4>
+      <div class="body"><strong>Stated up front: no AI-jobs data release dated inside this edition's window was located.</strong> What the beat does have, with dates attached. <strong>United States:</strong> Indeed Hiring Lab (<strong>14 July</strong>) finds <strong>six in every 1,000</strong> US job postings are data-centre related, up from two per 1,000 in May 2023; the largest ten tech firms account for <strong>71%</strong> of data-centre postings in 2026, and their share of local postings in smaller metros — Columbus OH, Jackson MS, Reno NV — has gone from under 2% in mid-2025 to over 10%. Installation and maintenance roles at data centres advertise wages about <strong>40% higher</strong> than comparable work elsewhere. The Economist's "jobs apocalypse is postponed" argument (circulating <strong>6–8 September</strong>) puts AI-linked US job creation above <strong>one million</strong>, with infrastructure roles approaching <strong>300,000</strong>. <strong>India:</strong> the freshest hard reading remains Naukri JobSpeak for August, published <strong>8 September</strong> — AI/ML hiring <strong>+31%</strong> year on year, Hyderabad <strong>+48%</strong>, Mumbai +36%, Bengaluru, Chennai and Pune +31% each, white-collar index 3,028 against 2,664 a year earlier. <strong>Singapore:</strong> AI/ML engineers at <strong>S$100,000–170,000</strong>, AI product managers S$90,000–170,000, with technology, AI and sustainability roles seeing <strong>6–18%</strong> increments against a market average near 4%. <strong>UAE:</strong> Abu Dhabi adding roles across finance, technology, energy and infrastructure; Dubai broad-based; tax-free bands running AED 10,000–18,000 monthly for junior developers to AED 32,000–55,000+ for senior engineering and security leads. <strong>UK and EU:</strong> no dated reading located this run — an open gap.</div>
+      <p class="sowhat">The AI labour market's centre of gravity has moved from model teams to the physical buildout, and the wage premium is now showing up in trades rather than only in research salaries. If you are hiring for AI in India, Hyderabad is the tighter market this quarter, not Bengaluru.</p>
+      <div><span class="chip arc">ARC: WORKFORCE · D75</span><span class="chip">AGG / MIXED DATES · NO IN-WINDOW RELEASE</span></div>
+      <div class="src"><a href="https://hiringlab.indeed.com/2026/07/14/hiring-for-the-data-center-build-out/">Indeed Hiring Lab (14 Jul)</a> · <a href="https://www.businesstoday.in/jobs/story/ai-jobs-boom-is-here-how-us-hiring-is-rising-across-tech-construction-and-infrastructure-553790-2026-09-08">Business Today (8 Sep)</a> · <a href="https://slashdot.org/story/26/09/06/214258/the-jobs-apocalypse-is-postponed-an-ai-jobs-boom-is-here">Slashdot on The Economist (6 Sep)</a> · <a href="https://www.tribuneindia.com/news/ai-roles/ai-ml-hiring-rises-31-pc-yoy-in-august-gcc-recruitment-grows-10-pc-naukri-jobspeak">Tribune India (Naukri, 8 Sep)</a> · <a href="https://www.morganmckinley.com/sg/salary-guide/data/ai-ml-engineer/singapore">Morgan McKinley (SG)</a> · <a href="https://academy.smu.edu.sg/insights/in-demand-jobs-in-singapore">SMU Academy (SG)</a> · <a href="https://gulfnews.com/business/markets/jobs-in-the-uae-these-sectors-are-hiring-and-these-skills-could-get-you-noticed-1.500642793">Gulf News (UAE)</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="nyc-schools-ai-ban">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">D1</span> <span class="cat">POLICY · AI IN EDUCATION</span></div>
+      <h4>Day 15: the second-largest district in America joins the first, and the bans stop looking like an outlier</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Escalated from Tracking. This thread has been carried as a single-district story: New York's DOE moratorium on student-facing generative AI for 2-K through 8th grade, announced by Mayor <strong>Mamdani</strong> and Chancellor <strong>Samuels</strong> for the 2026–27 year. It is now a pattern. <strong>Los Angeles Unified imposed a districtwide moratorium on AI use on school-issued devices for 2026–27</strong> — restricting <em>all</em> students, not a grade band (<a href="https://www.washingtonpost.com/education/2026/09/03/another-big-school-district-bans-generative-ai-this-time-all-students/">Washington Post, 3 Sep</a>; <a href="https://www.k12dive.com/news/lausd-restricts-all-students-from-using-ai-tools/829612/">K-12 Dive</a>). <a href="https://www.axios.com/2026/09/07/ai-schools-backlash-bans-new-york-los-angeles">Axios (7 Sep)</a> reads it as a growing movement; <a href="https://www.route-fifty.com/artificial-intelligence/2026/09/largest-us-school-districts-restrict-student-ai-use/415866/">Route Fifty</a> notes the two largest US systems are now both restrictive; and <strong>11 September</strong> reporting has <strong>Chicago</strong> school board candidates signing a pledge for a <strong>three-year moratorium</strong>.</div>
+      <div class="body">Three things make this more than a headcount. First, <strong>scope</strong>: New York's order is grade-banded and pairs the moratorium with twice-yearly AI critical-thinking modules for high schoolers, limited high-school pilots and screen-time limits; LAUSD's is device-scoped and covers every student. Second, the <strong>enforcement boundary both share</strong>: LAUSD has said plainly that it cannot regulate what students do on personal devices, which makes these policies procurement rules more than usage rules. Third, <strong>direction of travel</strong>: Chicago's pledge is a candidate commitment, not a policy, and belongs in the watch column rather than the count — but it is the first sign of the mechanism spreading through school-board elections rather than mayoral offices.</div>
+      <p class="sowhat">If you sell into K-12, the addressable market just contracted at the two largest districts and the deciding question moved from pedagogy to device management. If you are a district counsel elsewhere, the LAUSD framing — device-scoped, explicitly silent on personal hardware — is the template you will be handed.</p>
+      <div><span class="chip arc">ARC: AI-IN-EDUCATION · D15</span><span class="chip">PRIMARY + 3x SRC</span></div>
+      <div class="src"><a href="https://www.nyc.gov/mayors-office/news/2026/09/mayor-mamdani-and-chancellor-samuels-put-students-first-with-nat">NYC Mayor's Office (primary)</a> · <a href="https://www.washingtonpost.com/education/2026/09/03/another-big-school-district-bans-generative-ai-this-time-all-students/">Washington Post (3 Sep)</a> · <a href="https://www.nbclosangeles.com/news/local/lausd-generative-ai-ban/3936907/">NBC Los Angeles</a> · <a href="https://www.k12dive.com/news/lausd-restricts-all-students-from-using-ai-tools/829612/">K-12 Dive</a> · <a href="https://www.axios.com/2026/09/07/ai-schools-backlash-bans-new-york-los-angeles">Axios (7 Sep)</a> · <a href="https://www.route-fifty.com/artificial-intelligence/2026/09/largest-us-school-districts-restrict-student-ai-use/415866/">Route Fifty</a> · <a href="https://amgreatness.com/2026/09/11/ai-restrictions-continue-to-widen-as-new-school-year-begins/">American Greatness (11 Sep)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="deepseek-v41-flash">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D2</span> <span class="cat">MODELS · OPEN / LOW-COST</span></div>
+      <h4>Day 17: two days to the silent tier switch, and the benchmark case for it is now on the table</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Carry, with the clock inside the radar. The release itself resolved last edition. What is new this run is the <strong>evidence being used to justify the routing change</strong>: DeepSeek's reported <strong>DeepSWE 74.2%</strong> for V4.1 Flash against <strong>54.4%</strong> for the preceding V4 Flash, circulated in weekly model round-ups on <strong>11 September</strong>, and the accompanying claim that Flash surpasses <strong>V4 Pro</strong> on performance, cost, speed and total time. <strong>V4.1 Pro has still not shipped.</strong> So on <strong>14 September at 12:00 Beijing time</strong>, every <code>deepseek-v4-pro</code> request routes to V4.1 Flash at Flash prices, indefinitely, on the strength of vendor benchmarks that cannot be ranked against rivals' numbers because benchmark versions and execution settings differ.</div>
+      <div class="body">The operational shape of this has not changed and is worth restating because the deadline is Monday: the model identifier in your code stays valid, the model behind it changes, the price falls, and <strong>there is nothing in your repository to review afterwards</strong>. V4.1 Flash is a 552B-parameter mixture-of-experts model on a new encoder-decoder architecture with a 1M-token context, native image input and MIT-licensed open weights — a different system from what <code>v4-pro</code> callers have been evaluating against. Cheaper is not the same as equivalent, and a price cut you did not ask for is still a change you have to regression-test.</div>
+      <p class="sowhat">Pin the model id before Monday noon Beijing, or accept an uncontrolled swap in production. If you have an eval harness, run it once on <code>v4.1-flash</code> this weekend; if you do not, this is the cheapest possible argument for building one.</p>
+      <div><span class="chip arc">ARC: OPEN-WEIGHTS · D17</span><span class="chip">PRIMARY + 2x SRC · VENDOR BENCHMARKS</span></div>
+      <div class="src"><a href="https://api-docs.deepseek.com/updates/">DeepSeek API docs (primary)</a> · <a href="https://www.yottalabs.ai/post/deepseek-v4-1-flash-pricing-specs-v4-pro-routing-2026">Yotta Labs (routing detail)</a> · <a href="https://404kresearch.substack.com/p/404k-semi-ai-weekly-ai-model-update">404K weekly (11 Sep)</a> · <a href="https://panews.io/articles/01a0856e-2bce-75c8-bca5-2be6af74ffd9">PANews</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING (collapsed by default) ══════════ -->
+<details class="fold" id="fold-tracking">
+  <summary>Still Tracking <small>43 LONG-RUNNERS · NO MOVEMENT THIS EDITION</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="tracking-strip" id="tracking-strip"></div></div>
+</details>
+
+<!-- ══════════ RESOLVED (collapsed by default) ══════════ -->
+<details class="fold" id="fold-resolved">
+  <summary>Resolved <small>OPEN THREADS, CLOSED</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="resolved-strip" id="resolved-strip"></div></div>
+</details>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 085 · 2026-09-12 (IST) · FORMAT v2</strong></p>
+    <details class="fold" id="fold-method">
+      <summary>Method, scan gaps &amp; caveats <span class="caret"></span></summary>
+      <div class="fold-body">
+        <p>METHOD: <strong>60 web searches</strong> split roughly evenly across Models &amp; core technology (frontier and open-weight releases, agents and tooling, hardware, research, AI security), Applied AI (enterprise deployments, products, startups, partnerships, vertical AI, money) and People/policy/society (workforce, AI jobs by geography, talent, regulation, education), with Saturday's rotating deep beat on <strong>regional coverage and AI jobs hotspots</strong> — India, US, UK, UAE/Dubai, EU and Singapore. Window: the 24 hours to <strong>12 September 2026, 06:30 IST</strong>, widened to 72h and beyond only where an item had not previously been carded. Aggregator claims were cross-checked against at least two outlets before carding; single-source items were either labelled or dropped. Nine direct page fetches were attempted and blocked by this environment’s network egress policy (sakana.ai, anthropic.com, nature.com, pubmed, pillar.security, techstartups.com, hipther.com, aiweekly.co, radicaldatascience.wordpress.com); every claim sourced from those pages is therefore taken from search-result text plus at least one independent outlet, and the primary link is still given so a reader can check it directly.</p>
+        <p>NEW.24H DISCIPLINE THIS EDITION: <strong>five of fifteen</strong> New items carry the badge — Oracle's Q1 FY27 numbers and market reaction, Salesforce's Agentforce portfolio, Adobe's Q3 call, Moonshot's revenue target, and the Kinetix/AIDIN embodied-AI rounds, all reported on <strong>11 September</strong>. Ten items are <strong>new but deliberately not badged</strong>, with their real dates on the card: Microsoft's 38GW plan and the Gemini Windows app (10 September), Ayar Labs (10 September), Clearview's InquiryIQ (10 September), MiniCPM5-2B (7 September), TCS Telangana (5 September), UNESCO's Digital Learning Week and consultation (8–11 September), the Deadbugz campaign (activity 10 August, research published September), and the AI-jobs beat card (mixed dates, stated on the card). <strong>Sakana's Fugu split is the one judgement call:</strong> model trackers date the release 11 September while the earliest write-up carries 10 September, so it is filed as new <em>without</em> the 24h badge rather than claiming a window it may not be inside.</p>
+        <p>KNOWN SCAN GAPS AND CAVEATS THIS EDITION: (1) <strong>No research-beat item dated inside the window — second consecutive edition.</strong> Searches across arXiv cs.AI and cs.LG, Nature, Nature Machine Intelligence, DeepMind publications and benchmark trackers surfaced only older material: the Sakana/UBC/Vector/Oxford "AI Scientist" paper (Nature 651, 914–919, issue 8107, earlier in 2026), the Robin multi-agent discovery paper (Nature, 19 May 2026), Gemma Scope 2 (July 2026) and Nature's "AI isn't ready to research itself" (13 August 2026). None is inside the window and none is carded. (2) <strong>No AI-jobs data release dated inside the window</strong> — the Saturday deep-beat card says so in its own headline and labels every figure with its publication date; the freshest hard Indian reading is still Naukri JobSpeak for August, published 8 September and already in Tracking. (3) <strong>No UK or EU AI-jobs reading was located at all this run</strong>, which leaves two named beats in the Saturday rotation unserved. (4) <strong>No frontier release from OpenAI, Anthropic, Google, Meta, xAI or Mistral inside the window</strong> — the models tab is carried by an orchestrator, a 2.5B open-weight model and a Chinese API tier change. (5) <strong>Bloomberg, Washington Post and WIRED originals are paywalled or were not deep-linkable;</strong> each is cited alongside corroborating coverage, and the WIRED Clearview piece is credited with an outlet-root link because no deep link was located. (6) Oracle, Adobe and Moonshot figures are company or investor-briefing disclosures; Sakana, DeepSeek, OpenBMB and Salesforce benchmarks and meters are vendor-reported, with no independent reproduction located.</p>
+        <p>CORRECTION CARRIED FROM EDITION 084: the radar dated the Department of Defense's Anthropic-removal window to 30 September. The DoD-wide deadline is <strong>29 September 2026</strong> per reporting of the 180-day memo, with the Air Force Research Laboratory's contractor purge deadline having fallen on 1 September. The radar tile is corrected in this edition and the Mechanical Turk shutdown (30 September) is stated separately.</p>
+        <p>NOTE: Links point to sources found during the scan; where only an outlet root, an affiliate carrier or an aggregator was available it is labelled as such. Nothing here is invented — no story, quote, number or link in this edition exists without a source located during this scan, and where a claim could not be corroborated it is marked rather than smoothed.</p>
+      </div>
+    </details>
+  </div>
+</footer>
+
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 85,
+  "date": "2026-09-12",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 60,
+  "counts": {
+    "new": 15,
+    "developing": 2,
+    "tracking": 43
+  },
+  "tiers": {
+    "critical": 4,
+    "notable": 10,
+    "monitor": 3
+  },
+  "stories": [
+    {
+      "id": "microsoft-38gw-2032",
+      "section": "new",
+      "rank": 1,
+      "title": "Reported 10 September 2026 by Bloomberg and carried widely on 11 September: Microsoft intends to grow its global data-centre footprint to more than 38 gigawatts by 2032, from roughly 12GW today - a more than threefold increase - with AI expected to account for about one third of the 2032 total against roughly 2GW dedicated to AI now. The figure covers owned and leased facilities and excludes capacity rented from neoclouds such as CoreWeave. The stated cause is shortage rather than ambition: server constraints have forced Microsoft to turn away cloud and AI customers, and Temu is reported to have moved a major cloud deal to Oracle after Microsoft could not supply capacity in the regions it wanted. Capital expenditure and finance leases reached roughly $175 billion on an adjusted basis for calendar 2026, with about $50 billion guided for the first quarter of fiscal 2027. No build curve, siting detail, generation mix or interconnection detail was published, and this is a company plan reported by a paywalled outlet rather than a filing.",
+      "tier": "critical",
+      "impact": 8,
+      "delta": "new",
+      "arc": "compute-capital",
+      "arcDay": 9,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-09-12",
+      "lastUpdate": "2026-09-12",
+      "category": "hardware"
+    },
+    {
+      "id": "oracle-664b-rpo",
+      "section": "new",
+      "rank": 2,
+      "title": "Oracle reported first-quarter fiscal 2027 results after the close on 10 September 2026, with the market reaction and full transcript landing on 11 September. Total revenue $19.3 billion, up 30% year on year; cloud infrastructure revenue up 121% to $7.4 billion; remaining performance obligations $664 billion, up $209 billion year on year and $26 billion from the $638 billion reported in June; more than $30 billion of new AI cloud contracts signed in the quarter; 850MW of AI capacity and more than 300,000 GPUs delivered since the end of the fiscal fourth quarter at 97.9% GPU utilisation. Guidance is at least $90 billion of FY27 revenue, up 34%, and $8.10 non-GAAP EPS, with about half the RPO expected to convert within 36 months. Roughly half the backlog rests on a single counterparty, OpenAI, although management says the non-OpenAI portion more than doubled year on year; at least one outlet also flags negative cash flow in the quarter.",
+      "tier": "critical",
+      "impact": 8,
+      "delta": "new",
+      "arc": "ai-backlog-concentration",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": true,
+      "firstSeen": "2026-09-12",
+      "lastUpdate": "2026-09-12",
+      "category": "business"
+    },
+    {
+      "id": "deadbugz-mcp-campaign",
+      "section": "new",
+      "rank": 3,
+      "title": "Pillar Security researchers documented an active supply-chain campaign, codenamed Deadbugz, distributing a malicious Model Context Protocol server through public GitHub pull requests. The delivery burst was 23 pull requests in 74 minutes, 21:52-23:07 UTC on 10 August 2026, filed by the account zellkernel across unrelated AI and developer-tool projects: 17 remote-MCP configurations, four local-script configurations and two directory listings. The server presents itself as productivity-suite offering text formatting and summarisation, and after a connected client makes exactly three tool calls it rewrites the metadata it returns to the agent into instructions to hunt for SSH keys, AWS credentials, shell history and Kubernetes configuration while concealing the activity from the user. Pillar describes the technique as runtime-gated MCP metadata poisoning: the payload ships inside the server but stays dormant through any review window. The activity is dated 10 August; the research write-up and its pickup are September, and this briefing is carding it for the first time.",
+      "tier": "critical",
+      "impact": 8,
+      "delta": "new",
+      "arc": "agent-security",
+      "arcDay": 77,
+      "confidence": "Primary",
+      "new24h": false,
+      "firstSeen": "2026-09-12",
+      "lastUpdate": "2026-09-12",
+      "category": "policy"
+    },
+    {
+      "id": "salesforce-agentforce-job-ready",
+      "section": "new",
+      "rank": 4,
+      "title": "Announced 11 September 2026: Salesforce expanded Agentforce with a portfolio of job-ready agents spanning sales, service, commerce, employee experience and the back office - Casey, Paige, Carter, Hunter, Marshall, Piper and Fin, each renameable by the customer. Six are generally available now; the outbound sales agent Hunter is in pilot with general availability targeted for November 2026. Platform additions are Multi-Agent Orchestration (GA now), AI Skills in Agentforce Coworker (GA October 2026) and Agent Optimizer (GA October 2026). Salesforce says it has delivered 7 billion Agentic Work Units across Agentforce and Slack over two years, including 3.2 billion in the second quarter alone, defining an AWU as one discrete task accomplished by an agent - a vendor-defined metric that counts tasks rather than outcomes. Fin arrives via the acquisition Salesforce completed on 10 September 2026.",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "agent-platforms",
+      "arcDay": 8,
+      "confidence": "Primary",
+      "new24h": true,
+      "firstSeen": "2026-09-12",
+      "lastUpdate": "2026-09-12",
+      "category": "enterprise"
+    },
+    {
+      "id": "sakana-fugu-max-ultra-v2",
+      "section": "new",
+      "rank": 5,
+      "title": "Announced 10-11 September 2026: Sakana AI released Fugu Max and Fugu Ultra v2, the same multi-agent orchestration architecture tuned in opposite directions. Fugu is a learned orchestration system - a model trained to route tasks across a fixed pool of open and specialised models and to recursively call instances of itself - rather than a monolithic model. Fugu Max prices at $2 per million input tokens and $6 per million output, which Sakana puts 40-60% below Sonnet 5, GPT-5.6 Terra and Kimi K3. Fugu Ultra v2 prices at $5 input and $30 output per million and targets complex multi-step reasoning, autonomous research and full-stack software development; on Chartography, a visual-reasoning and data-interpretation evaluation, Sakana reports 48.3 for Ultra v2 against 27.3 for Opus 5 and 29.5 for Fable 5. Both are live through Sakana's OpenAI-compatible API and Fugu Ultra v2 is listed on OpenRouter. All pricing and benchmark comparisons are vendor-reported with no independent reproduction located. Badge note: trackers date the release 11 September while the earliest write-up carries 10 September, so it is filed as new without the 24h badge.",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "model-orchestration",
+      "arcDay": 1,
+      "confidence": "Primary",
+      "new24h": false,
+      "firstSeen": "2026-09-12",
+      "lastUpdate": "2026-09-12",
+      "category": "models"
+    },
+    {
+      "id": "adobe-q3-ai-pressure",
+      "section": "new",
+      "rank": 6,
+      "title": "Adobe's third-quarter fiscal 2026 results were released after the close on 10 September 2026 with the earnings call and market reaction on 11 September: record revenue $6.76 billion, up 13% year on year; subscriptions $6.58 billion against $5.79 billion a year earlier; more than one billion monthly active users crossed; full-year targets raised; and AI-first ending annual recurring revenue above $650 million, up more than 150% year on year. The stock nonetheless fell because the sales outlook narrowly missed consensus, which Bloomberg framed as renewing fears about pressure from AI-native competitors; at least one analyst argues the dip is not only about disruption fear. The unresolved question is conversion: Adobe has shown users will try AI features but has not yet shown those users generate proportional recurring revenue.",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "application-layer-repricing",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": true,
+      "firstSeen": "2026-09-12",
+      "lastUpdate": "2026-09-12",
+      "category": "business"
+    },
+    {
+      "id": "moonshot-2b-arr-target",
+      "section": "new",
+      "rank": 7,
+      "title": "Reported 11 September 2026 by Bloomberg and TechCrunch: Moonshot AI is targeting $2 billion in annualised revenue by the end of 2026, having told investors that annual recurring revenue passed $1 billion in August, up from $300 million in June. The step change is credited to Kimi K3, released in July 2026, which reached the top of performance benchmarks at a fraction of US frontier pricing. Usage has eased slightly from its peak but OpenRouter data still shows as much as 300 billion tokens a day generated by K3 models on that platform. For scale, recent reporting puts OpenAI near $40 billion and Anthropic near $65 billion, making Moonshot's target roughly 3-5% of either. These are investor-briefing figures relayed by two outlets rather than audited disclosure.",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "china-ai-capital-markets",
+      "arcDay": 2,
+      "confidence": "2x src",
+      "new24h": true,
+      "firstSeen": "2026-09-12",
+      "lastUpdate": "2026-09-12",
+      "category": "business"
+    },
+    {
+      "id": "ayar-labs-650m-cpo",
+      "section": "new",
+      "rank": 8,
+      "title": "Announced 10 September 2026 and carried through 11 September: Ayar Labs raised an additional $150 million, taking primary capital raised in 2026 to roughly $650 million for its co-packaged optics business. The stated use of funds is the transition to high-volume manufacturing - product development, validation and scaling the manufacturing ecosystem - plus a new design centre in Bengaluru, India. Strategic backers named across coverage include AMD, Intel, NVIDIA, MediaTek and Wiwynn. Separately reported is a $225 million secondary share purchase led by Antero Peak Group at Artisan Partners valuing the company above $5 billion, up from $3.75 billion at the March Series E close - a secondary price rather than a primary round valuation. CEO Mark Wade's stated thesis is that copper interconnect is becoming the limiting factor for AI scale-up.",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "compute-capital",
+      "arcDay": 9,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-09-12",
+      "lastUpdate": "2026-09-12",
+      "category": "hardware"
+    },
+    {
+      "id": "gemini-windows-app",
+      "section": "new",
+      "rank": 9,
+      "title": "Announced 10 September 2026: Google launched a dedicated Gemini desktop application for Windows 10 and 11, opened by a quick-access overlay on Alt + Space that appears on top of the active application for questions, document fact-checking, drafting and idea generation. Google describes the app as lightweight and quiet and says it runs without slowing the machine. It follows the macOS Gemini desktop app released earlier in 2026. The strategic fact is the surface rather than the feature set: Google's assistant claiming a global hotkey on Microsoft's operating system, alongside Microsoft's own Copilot key and Win+C shortcut, across more than a billion Windows PCs.",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "model-distribution",
+      "arcDay": 3,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-09-12",
+      "lastUpdate": "2026-09-12",
+      "category": "enterprise"
+    },
+    {
+      "id": "clearview-inquiryiq-prototype",
+      "section": "new",
+      "rank": 10,
+      "title": "Disclosed 10 September 2026 by WIRED and carried onward: Clearview AI built and tested InquiryIQ, a prototype pairing its face-matching system with a model from xAI. After a law-enforcement user runs a facial-recognition search, InquiryIQ assembles what the company calls a Candidate Graph of possible identities and associates while compiling potential addresses, phone numbers, employers, aliases, social-media accounts and arrest histories - automating the manual work that normally follows a facial match. Clearview told WIRED the tool is an internal prototype that has never been pitched, shipped or used by law enforcement and that it has no current plans to release it in this form. The disclosure route is itself the story: reporters found the code in files Clearview's login page sends to any visitor's browser before sign-in. The WIRED original is credited with an outlet-root link because no deep link was located in this scan.",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "surveillance-ai",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-09-12",
+      "lastUpdate": "2026-09-12",
+      "category": "policy"
+    },
+    {
+      "id": "tcs-telangana-1gw",
+      "section": "new",
+      "rank": 11,
+      "title": "SATURDAY DEEP BEAT - REGIONAL. Dated 5 September 2026 and surfaced by this briefing for the first time: a Tata Consultancy Services subsidiary and its partners will invest up to 700 billion rupees, about $7.41 billion, to build a 1-gigawatt AI data-centre campus in the Indian state of Telangana. Read against the other Indian gigawatt project, a Reliance Industries joint venture named Digital Connexion with Brookfield and Digital Realty committing $11 billion over five years for 1GW in Andhra Pradesh. Colliers expects India's total data-centre capacity to more than triple to 4.5GW by 2030, which means two single projects account for roughly two-thirds of the increment that forecast implies - a concentration risk as much as a boom. Labelled honestly as a 5 September item, not a 24-hour one.",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "india-ai-infrastructure",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-09-12",
+      "lastUpdate": "2026-09-12",
+      "category": "hardware"
+    },
+    {
+      "id": "embodied-ai-money-asia",
+      "section": "new",
+      "rank": 12,
+      "title": "Both reported 11 September 2026. In Shenzhen, Kinetix AI disclosed more than RMB 500 million across Angel+ financings, backed by Vertex Ventures - a venture arm of Singapore's Temasek - together with Fangguang Capital and Vanshi Capital. Founded in September 2025 by veterans of Huawei's autonomous-driving unit with researchers from the University of Hong Kong, it ships a native embodied model, the KAI Halo Lite data-collection headset and an embodied-AI infrastructure platform covering collection, training, simulation, deployment and iteration. In Seoul, AIDIN Robotics closed KRW 16 billion, about $12.1 million, in strategic financing: HD Hyundai Robotics contributed KRW 13 billion and Samsung Venture Investment KRW 3 billion. AIDIN integrates force and torque sensors with force-control software and will spend the money on surface-finishing automation for shipbuilding, a heavy-duty five-finger robotic hand for heavy industry, and annual production capacity for 30,000 force and torque sensors.",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "new",
+      "arc": "physical-ai",
+      "arcDay": 3,
+      "confidence": "2x src",
+      "new24h": true,
+      "firstSeen": "2026-09-12",
+      "lastUpdate": "2026-09-12",
+      "category": "business"
+    },
+    {
+      "id": "minicpm5-2b-open-weights",
+      "section": "new",
+      "rank": 13,
+      "title": "Released 7 September 2026 and carded here for the first time: OpenBMB's MiniCPM5-2B, a dense transformer of 2,516,756,480 total parameters (1.98B excluding embeddings), 42 layers, grouped-query attention with 16 query heads to 2 key-value heads and a 131,072-token context window. OpenBMB reports an average of 53.9 across 34 benchmarks spanning code, mathematics, instruction following, long context, tool use and agentic tasks, ahead of every 2B-class baseline in its comparison set and several 4B-class models including a claimed win over Qwen3.5-4B. Weights ship under Apache 2.0 in BF16 with GGUF, MLX and GPTQ conversions and a DSpark draft model for speculative decoding, and the training data was published alongside them. Separately, Artificial Analysis scored a 2.6B MiniCPM5 variant at 15 on its Intelligence Index v4.2 against 11 for the 3B Granite 4.2. Benchmarks are vendor-reported; the item is new but dated 7 September, so not NEW.24H.",
+      "tier": "monitor",
+      "impact": 6,
+      "delta": "new",
+      "arc": "open-weights",
+      "arcDay": 17,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-09-12",
+      "lastUpdate": "2026-09-12",
+      "category": "models"
+    },
+    {
+      "id": "unesco-ai-education-consultation",
+      "section": "new",
+      "rank": 14,
+      "title": "UNESCO convened Digital Learning Week 2026 at its Paris headquarters from 8 to 11 September 2026 under the theme 'Education in the age of AI: Facts | Frictions | Frontiers', with more than 25 education ministers, industry representatives, researchers and students, and a ministerial statement for adoption. Alongside it UNESCO opened a global consultation running from September to November 2026 on keeping education a public good in the age of AI, with expert feedback invited to aied@unesco.org by 15 October 2026 and resulting policy briefs due at Digital Learning Week 2027. The anchoring discussion paper, 'Sustaining education as a common good in the age of AI: The case for deliberative governance', establishes education as a common good and identifies six directional shifts where that purpose is undermined when AI tools spread without governance.",
+      "tier": "monitor",
+      "impact": 6,
+      "delta": "new",
+      "arc": "ai-in-education",
+      "arcDay": 15,
+      "confidence": "Primary",
+      "new24h": false,
+      "firstSeen": "2026-09-12",
+      "lastUpdate": "2026-09-12",
+      "category": "policy"
+    },
+    {
+      "id": "ai-jobs-geography-sep2026",
+      "section": "new",
+      "rank": 15,
+      "title": "SATURDAY DEEP BEAT - AI JOBS HOTSPOTS. No AI-jobs data release dated inside this edition's window was located, which is stated on the card itself; the figures below each carry their publication date. United States: Indeed Hiring Lab (14 July 2026) finds six in every 1,000 US job postings are data-centre related, up from two per 1,000 in May 2023; the largest ten tech firms account for 71% of data-centre postings in 2026, and their share of local postings in smaller metros such as Columbus OH, Jackson MS and Reno NV has risen from under 2% in mid-2025 to over 10%; installation and maintenance roles at data centres advertise wages about 40% higher than comparable work elsewhere. The Economist's argument that the jobs apocalypse is postponed, circulating 6-8 September 2026, puts AI-linked US job creation above one million with infrastructure roles approaching 300,000. India: the freshest hard reading remains Naukri JobSpeak for August, published 8 September - AI/ML hiring up 31% year on year, Hyderabad +48%, Mumbai +36%, Bengaluru, Chennai and Pune +31% each, white-collar index 3,028 against 2,664 a year earlier. Singapore: AI/ML engineers at S$100,000-170,000 and AI product managers at S$90,000-170,000, with technology, AI and sustainability roles seeing 6-18% increments against a market average near 4%. UAE: Abu Dhabi adding roles across finance, technology, energy and infrastructure, Dubai broad-based, with tax-free bands from AED 10,000-18,000 monthly for junior developers to AED 32,000-55,000+ for senior engineering and security leads. UK and EU: no dated reading located this run, which is an open gap.",
+      "tier": "monitor",
+      "impact": 6,
+      "delta": "new",
+      "arc": "workforce",
+      "arcDay": 75,
+      "confidence": "Agg 1x",
+      "new24h": false,
+      "firstSeen": "2026-09-12",
+      "lastUpdate": "2026-09-12",
+      "category": "policy"
+    },
+    {
+      "id": "nyc-schools-ai-ban",
+      "section": "developing",
+      "rank": 1,
+      "title": "The New York City DOE moratorium on student-facing generative AI for 2-K through 8th grade for 2026-27, announced by Mayor Mamdani and Chancellor Samuels, is no longer a single-district story. Los Angeles Unified has imposed a districtwide moratorium on AI use on school-issued devices for 2026-27 covering all students rather than a grade band, making the two largest US school systems both restrictive. Reporting on 11 September 2026 has Chicago school board candidates signing a pledge for a three-year moratorium, a candidate commitment rather than policy. Three structural points: New York's order is grade-banded and paired with twice-yearly AI critical-thinking modules for high schoolers, limited high-school pilots and screen-time limits, while LAUSD's is device-scoped; LAUSD has said plainly it cannot regulate what students do on personal devices, which makes these policies procurement rules more than usage rules; and the mechanism is now spreading through school-board elections rather than mayoral offices.",
+      "tier": "critical",
+      "impact": 8,
+      "delta": "escalated",
+      "arc": "ai-in-education",
+      "arcDay": 15,
+      "confidence": "Primary",
+      "update": "Escalated from Tracking. Los Angeles Unified imposed a districtwide moratorium on AI use on school-issued devices for 2026-27, restricting all students rather than a grade band (Washington Post, 3 September; K-12 Dive). Axios (7 September) reads it as a growing movement and Route Fifty notes the two largest US systems are now both restrictive; 11 September reporting has Chicago school board candidates pledging a three-year moratorium.",
+      "new24h": false,
+      "firstSeen": "2026-08-29",
+      "lastUpdate": "2026-09-12",
+      "category": "policy"
+    },
+    {
+      "id": "deepseek-v41-flash",
+      "section": "developing",
+      "rank": 2,
+      "title": "Two days from the silent tier switch. On 14 September 2026 at 12:00 Beijing time, and until V4.1 Pro ships, all requests to deepseek-v4-pro route to V4.1 Flash and are billed at Flash prices. New this edition is the evidence being used to justify it: DeepSeek's reported DeepSWE score of 74.2% for V4.1 Flash against 54.4% for the preceding V4 Flash, circulated in weekly model round-ups on 11 September, plus the claim that Flash surpasses V4 Pro on performance, cost, speed and total time. V4.1 Pro has still not shipped. These numbers cannot be ranked against rivals' results because benchmark versions and execution settings differ. V4.1 Flash is a 552B-parameter mixture-of-experts model on a new encoder-decoder architecture with a 1M-token context, native image input and MIT-licensed open weights - a different system from what v4-pro callers have been evaluating against. The model identifier in caller code stays valid, the model behind it changes, the price falls, and there is nothing in the repository to review afterwards.",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "carry",
+      "arc": "open-weights",
+      "arcDay": 17,
+      "confidence": "Primary",
+      "update": "Carry, with the clock inside the radar. The release itself resolved last edition. What moved is the justification: DeepSWE 74.2% for V4.1 Flash against 54.4% for V4 Flash, circulated 11 September, and a vendor claim that Flash beats V4 Pro on performance, cost, speed and total time. V4.1 Pro has still not shipped, so the 14 September routing switch stands.",
+      "new24h": false,
+      "firstSeen": "2026-08-27",
+      "lastUpdate": "2026-09-12",
+      "category": "models"
+    }
+  ],
+  "tracking": [
+    {
+      "id": "anthropic-threat-report-sep2026",
+      "label": "demoted from New after one edition: the September 2026 threat report, the seven harm areas and the GTG-20006 / GTG-10007 designators hold, with no other lab publishing comparable actor-level telemetry inside this window and no external audit located.",
+      "arc": "ai-threat-intel",
+      "arcDay": 2
+    },
+    {
+      "id": "california-ai-audit-laws",
+      "label": "demoted from New after one edition: AB 1405 and SB 813 hold as signed, with the AI Auditor Registry and the unregistered-auditor prohibition still dated 1 January 2029 and no implementing rulemaking published.",
+      "arc": "state-ai-regulation",
+      "arcDay": 6
+    },
+    {
+      "id": "gsa-onegov-openai-tokens",
+      "label": "demoted from New after one edition: the 27-month OneGov agreement holds, with the 50% token discount, no platform fee, no minimum and no spend commitment still dated 1 October.",
+      "arc": "gov-ai-procurement",
+      "arcDay": 2
+    },
+    {
+      "id": "pentagon-fluidstack-loan",
+      "label": "demoted from New after one edition: the roughly $5B Office of Strategic Capital loan talks with Fluidstack remain talks, with nothing signed and no confirmation of terms from either party.",
+      "arc": "compute-capital",
+      "arcDay": 9
+    },
+    {
+      "id": "openai-agents-api-beta",
+      "label": "demoted from New after one edition: the Agents API public beta and the managed Codex harness hold with no pricing change, no GA date and no adoption figure published.",
+      "arc": "agent-platforms",
+      "arcDay": 8
+    },
+    {
+      "id": "positron-series-c",
+      "label": "demoted from New after one edition: the $875M at $5B post-money holds, with Asimov still taping out on TSMC N3P at end-2026 for second-half-2027 production.",
+      "arc": "compute-capital",
+      "arcDay": 9
+    },
+    {
+      "id": "nvidia-australia-2gw",
+      "label": "demoted from New after one edition: the up-to-2GW-by-2027 target with eight Australian operators holds as a company statement, with no commissioned capacity figure.",
+      "arc": "compute-capital",
+      "arcDay": 9
+    },
+    {
+      "id": "deepseek-citic-star-ipo",
+      "label": "demoted from New after one edition: CITIC Securities engaged as sponsor for a STAR Market listing, with no prospectus, timetable, price or raise size, and WSJ separately reporting 2027.",
+      "arc": "china-ai-capital-markets",
+      "arcDay": 2
+    },
+    {
+      "id": "apple-reference-image",
+      "label": "demoted from New after one edition: cryptographic capture attestation on iPhone 18 Pro holds, still unavailable in China and with EU capture unavailable at launch.",
+      "arc": "content-provenance",
+      "arcDay": 2
+    },
+    {
+      "id": "us-china-ai-safety-dialogue",
+      "label": "the mid-September window is now open and nothing has been confirmed: Reuters' 5 September reporting of a Bessent-led bilateral dialogue still stands against a White House official's on-record statement that no AI-related meeting is planned, with Trump and Xi due to meet 24 September.",
+      "arc": "us-china-ai",
+      "arcDay": 2
+    },
+    {
+      "id": "christiano-openai-foundation-board",
+      "label": "demoted from New after one edition: the board appointment holds with no committee assignment, no first meeting date and no published remit.",
+      "arc": "lab-governance",
+      "arcDay": 2
+    },
+    {
+      "id": "dod-anthropic-removal-deadline",
+      "label": "date corrected: the DoD-wide removal deadline is 29 September, not 30, per reporting of the 180-day memo, with the AFRL contractor purge deadline having fallen on 1 September and the Pentagon saying removal will be complete by end-September.",
+      "arc": "gov-ai-procurement",
+      "arcDay": 2
+    },
+    {
+      "id": "microsoft-mai-transcribe-2",
+      "label": "demoted from New after one edition: the transcription price floor holds with no competitive response located.",
+      "arc": "model-pricing",
+      "arcDay": 19
+    },
+    {
+      "id": "india-it-hiring-september",
+      "label": "demoted from New after one edition: the reported 18-month high in Indian IT services hiring and roughly 57,000 open roles hold, with no fresh reading inside this window.",
+      "arc": "workforce",
+      "arcDay": 75
+    },
+    {
+      "id": "nsa-cisa-fbi-distillation",
+      "label": "demoted from Developing on the no-movement rule: AA26-251A and Anthropic's corroborating threat report both hold, with no response from the six accused firms and no further lab-side telemetry published.",
+      "arc": "model-ip-extraction",
+      "arcDay": 3
+    },
+    {
+      "id": "harvey-550m-guardrails",
+      "label": "no movement: the $550M round at $15.5B, the $400M+ ARR claim and the Guardrails AI acquisition hold with no audited figure.",
+      "arc": "applied-ai-capital",
+      "arcDay": 7
+    },
+    {
+      "id": "deepmind-alphagenome-atlas",
+      "label": "no movement: the precomputed atlas of all 9 billion single-nucleotide variants holds with no external validation study located.",
+      "arc": "ai-for-biology",
+      "arcDay": 3
+    },
+    {
+      "id": "meta-csam-ads-ttp",
+      "label": "no movement: the Tech Transparency Project's 332 AI-generated CSAM advertisements hold with no Meta enforcement disclosure.",
+      "arc": "genai-harms",
+      "arcDay": 3
+    },
+    {
+      "id": "meta-muse-agent",
+      "label": "no movement: Muse and its Secure VM architecture hold at US-only availability with no expansion date.",
+      "arc": "assistant-as-actor",
+      "arcDay": 6
+    },
+    {
+      "id": "humain-bsf-fund-ipo",
+      "label": "no movement: the $2.5B BSF Capital vehicle for 250MW and the 2029 dual Riyadh-New York listing plan hold.",
+      "arc": "compute-capital",
+      "arcDay": 9
+    },
+    {
+      "id": "crusoe-series-f",
+      "label": "no movement: roughly $3B at $30B holds, as does the reported $13B five-year Jane Street commitment.",
+      "arc": "compute-capital",
+      "arcDay": 9
+    },
+    {
+      "id": "gpt6-astra-bedrock",
+      "label": "no movement: GPT-6 Astra's general availability on Amazon Bedrock holds with no usage or pricing update.",
+      "arc": "model-distribution",
+      "arcDay": 3
+    },
+    {
+      "id": "maisi-launch",
+      "label": "no movement: the Mathematical AI Safety Institute holds at announcement with a January start.",
+      "arc": "safety-institutions",
+      "arcDay": 3
+    },
+    {
+      "id": "xpeng-iron-production-line",
+      "label": "no movement: the automated IRON humanoid production line holds with no output rate published.",
+      "arc": "physical-ai",
+      "arcDay": 3
+    },
+    {
+      "id": "savvy-wealth-series-c",
+      "label": "no movement: the $100M Series C at $600M holds with company-stated ARR and no new customer disclosure.",
+      "arc": "applied-ai-capital",
+      "arcDay": 7
+    },
+    {
+      "id": "lightfield-series-a",
+      "label": "no movement: the $47M Series A holds with no product milestone or customer count added.",
+      "arc": "applied-ai-capital",
+      "arcDay": 7
+    },
+    {
+      "id": "openai-research-acceleration",
+      "label": "no movement: the 3.1 agent-workdays-per-human-workday ratio and the Jalapeno internal tooling claims hold with no external verification.",
+      "arc": "research-acceleration",
+      "arcDay": 5
+    },
+    {
+      "id": "claude-code-weekly-limits",
+      "label": "two days out: Claude Code's weekly limits become permanent on 14 September at 25% above the pre-promotion baseline for Pro, Max, Team and seat-based Enterprise - roughly a 17% cut against the temporary boost expiring 13 September.",
+      "arc": "model-pricing",
+      "arcDay": 19
+    },
+    {
+      "id": "cisa-kev-ai-infrastructure",
+      "label": "four days out and no new additions: the KEV remediation deadline for LiteLLM (CVE-2026-59822, MCP authentication bypass) and Starlette (CVE-2026-48710, BadHost) is 16 September, and the Deadbugz campaign is the live argument for treating agent-workspace credentials as the exposed surface.",
+      "arc": "agent-security",
+      "arcDay": 77
+    },
+    {
+      "id": "ftc-personalized-pricing",
+      "label": "six days out: comments close 18 September on the FTC's proposed personalised-pricing enforcement policy statement, issued 2-0 on 19 August.",
+      "arc": "reg-clock",
+      "arcDay": 38
+    },
+    {
+      "id": "mturk-shutdown",
+      "label": "eighteen days out: Amazon Mechanical Turk closes on 30 September after 21 years, taking AWS SageMaker Ground Truth and Amazon Augmented AI with it.",
+      "arc": "reg-clock",
+      "arcDay": 38
+    },
+    {
+      "id": "agent-security",
+      "label": "the arc itself moved this edition via the Deadbugz card; no separate new agent-driven incident, EU AI Act incident report or vendor advisory was located inside the window.",
+      "arc": "agent-security",
+      "arcDay": 77
+    },
+    {
+      "id": "nvidia-huggingface",
+      "label": "no movement: the $12.93B acquisition holds with terms in an SEC 8-K and no antitrust filing, closing date or integration detail.",
+      "arc": "consolidation",
+      "arcDay": 4
+    },
+    {
+      "id": "china-miit-9800-eflops",
+      "label": "no movement: the MIIT 15th Five-Year Plan target of 9,800 EFLOPS by 2030 on RMB 3.8 trillion holds with no provincial allocation published.",
+      "arc": "compute-capital",
+      "arcDay": 9
+    },
+    {
+      "id": "naukri-aiml-august",
+      "label": "referenced as the freshest hard Indian reading in this edition's Saturday jobs card and otherwise unmoved: AI/ML hiring up 31% year on year in August with Hyderabad at +48%.",
+      "arc": "workforce",
+      "arcDay": 75
+    },
+    {
+      "id": "seattle-times-newsday-openai",
+      "label": "no movement: the 4 September SDNY copyright and trademark complaint seeking impoundment or destruction holds with no docket event located.",
+      "arc": "copyright-litigation",
+      "arcDay": 14
+    },
+    {
+      "id": "copyright-litigation",
+      "label": "no movement that could be confirmed: the Andersen v. Stability AI trial-date conflict between secondary trackers is unresolved in this scan.",
+      "arc": "copyright-litigation",
+      "arcDay": 14
+    },
+    {
+      "id": "uk-sovereign-ai-procurement",
+      "label": "no movement: the four competitions under the GBP 100M Sovereign AI programme hold with no award announced.",
+      "arc": "sovereign-ai-procurement",
+      "arcDay": 6
+    },
+    {
+      "id": "unitree-g1-rce-worm",
+      "label": "no movement for a sixth edition and still unpatched as far as this scan can establish: CVE-2026-76640, the BLE remote-code-execution path on the G1 humanoid.",
+      "arc": "physical-ai-security",
+      "arcDay": 7
+    },
+    {
+      "id": "ma-frontier-ai-evaluations",
+      "label": "no movement: Massachusetts S.3178 and its 120-day independent catastrophic-risk review hold in committee.",
+      "arc": "state-ai-regulation",
+      "arcDay": 6
+    },
+    {
+      "id": "enterprise-ai-execution",
+      "label": "partially served this edition by Salesforce's Agentforce portfolio, but still no named-customer enterprise deployment with independently disclosed metrics inside the window - a third consecutive edition.",
+      "arc": "enterprise-ai-execution",
+      "arcDay": 18
+    },
+    {
+      "id": "fda-genai-device-docket",
+      "label": "newly added to the radar rather than carded: the FDA's 18 August discussion paper on generative-AI-enabled medical devices, docket FDA-2026-N-7874, closes for comment on 19 October, with 26 discussion questions covering risk assessment, premarket evaluation, postmarket monitoring, foundation models and agentic systems.",
+      "arc": "reg-clock",
+      "arcDay": 38
+    },
+    {
+      "id": "eu-ai-act-omnibus",
+      "label": "context only, no movement: the AI Digital Omnibus entered force 27 July, deferring stand-alone Annex III high-risk obligations to 2 December 2027 and Annex I embedded systems to 2 August 2028, and adding an Article 5 prohibition on AI-generated non-consensual intimate imagery and CSAM.",
+      "arc": "reg-clock",
+      "arcDay": 38
+    }
+  ],
+  "movers": [
+    {
+      "dir": "up",
+      "text": "THE CAPACITY ADMISSION - Microsoft targets more than 38GW by 2032 from about 12GW today, and the stated reason is customers it turned away, with a Temu cloud deal reported lost to Oracle."
+    },
+    {
+      "dir": "up",
+      "text": "CONTRACTED AI REVENUE - Oracle's remaining performance obligations reach $664B, up $209B year on year; OCI revenue +121% to $7.4B; 850MW and 300,000+ GPUs delivered since May at 97.9% utilisation."
+    },
+    {
+      "dir": "down",
+      "text": "THE APPLICATION LAYER - Adobe posts record $6.76B revenue, a billion monthly actives and AI-first ARR above $650M growing 150%, and is marked down anyway on a narrow guidance miss."
+    },
+    {
+      "dir": "up",
+      "text": "CHINESE LAB REVENUE - Moonshot tells investors ARR passed $1B in August from $300M in June and targets $2B annualised by year-end, on roughly 300B tokens a day from K3 on OpenRouter."
+    },
+    {
+      "dir": "up",
+      "text": "AGENT SUPPLY CHAIN - Deadbugz: 23 GitHub pull requests in 74 minutes distributing an MCP server that rewrites its own tool metadata into credential-hunting instructions after exactly three tool calls."
+    },
+    {
+      "dir": "up",
+      "text": "SCHOOL AI RESTRICTIONS - Los Angeles Unified joins New York City; the two largest US districts now restrict student generative AI, and Chicago board candidates are pledging a three-year moratorium."
+    },
+    {
+      "dir": "up",
+      "text": "OPTICAL INTERCONNECT - Ayar Labs adds $150M for roughly $650M in 2026, a reported secondary values it above $5B against $3.75B in March, and a new design centre opens in Bengaluru."
+    },
+    {
+      "dir": "down",
+      "text": "ORCHESTRATION PRICING - Sakana's Fugu Max lands at $2/$6 per million tokens, which the company puts 40-60% below Sonnet 5, GPT-5.6 Terra and Kimi K3."
+    }
+  ],
+  "arcs": {
+    "compute-capital": {
+      "day": 9,
+      "note": "National, sovereign, defence and hyperscaler compute buildout commitments and how they are financed."
+    },
+    "ai-backlog-concentration": {
+      "day": 1,
+      "note": "Contracted AI revenue, counterparty concentration and what a backlog actually promises."
+    },
+    "agent-security": {
+      "day": 77,
+      "note": "Attacks on agent toolchains, MCP servers and agent workspace credentials."
+    },
+    "agent-platforms": {
+      "day": 8,
+      "note": "Managed agent runtimes, orchestration harnesses and the enterprise platforms built on them."
+    },
+    "model-orchestration": {
+      "day": 1,
+      "note": "Models trained to route and orchestrate other models rather than answer directly."
+    },
+    "application-layer-repricing": {
+      "day": 1,
+      "note": "How public markets price AI disruption risk onto incumbent application vendors."
+    },
+    "china-ai-capital-markets": {
+      "day": 2,
+      "note": "Chinese AI labs entering public capital markets and the revenue disclosure that follows."
+    },
+    "model-distribution": {
+      "day": 3,
+      "note": "How frontier models reach users: clouds, marketplaces, operating systems and default hotkeys."
+    },
+    "surveillance-ai": {
+      "day": 1,
+      "note": "Facial recognition and identity-intelligence tooling built on top of frontier models."
+    },
+    "india-ai-infrastructure": {
+      "day": 1,
+      "note": "Indian AI data-centre capacity, its financing and the power constraints behind it."
+    },
+    "physical-ai": {
+      "day": 3,
+      "note": "Humanoids, robot sensing and the money funding embodied intelligence."
+    },
+    "open-weights": {
+      "day": 17,
+      "note": "Open-weight and low-cost model releases and the leaderboards around them."
+    },
+    "ai-in-education": {
+      "day": 15,
+      "note": "Generative AI in schools: district moratoria, ministerial statements and the governance vocabulary forming around them."
+    },
+    "workforce": {
+      "day": 75,
+      "note": "AI-driven hiring, displacement and the geography of AI jobs."
+    }
+  },
+  "resolved": [
+    "CORRECTED: edition 084's radar dated the Department of Defense's Anthropic-removal window to 30 September. The DoD-wide deadline is 29 September 2026 per reporting of the 180-day memo, with the Air Force Research Laboratory's contractor purge deadline having fallen on 1 September and the Pentagon stating removal will be complete by end-September. The radar tile is corrected here and Mechanical Turk's 30 September shutdown is stated separately.",
+    "NOT RESOLVED, WINDOW NOW OPEN: edition 084 carried the reported mid-September US-China AI safety dialogue. The window has opened with nothing confirmed. Reuters' 5 September reporting of a Bessent-led bilateral still stands against a White House official's on-record statement that no AI-related meeting is planned for mid-September. Trump and Xi meet 24 September.",
+    "NOT RESOLVED: edition 084 asked whether any other frontier lab would publish actor-level misuse telemetry after Anthropic's September threat report. None did inside this window.",
+    "AUTO-RETIRED (15), each without movement across roughly three consecutive editions and with no future dated hook: coder-registry-hijack, frontier-models, gpt6-astra, astra-cot-monitorability, ifm-k2-horizon, euler-blowup-lean, openai-navier-stokes-claim, cognition-series-e, mistral-series-d, forus-series-c, accenture-gemini-enterprise, baidu-xiaodu-hardware, anthropic-flt-lean, anthropic-efs, mt-bank-copilots. The frontier-release drought they anchored is now carried by the models tab itself rather than by a placeholder thread.",
+    "PROMOTED TO DEVELOPING (1): nyc-schools-ai-ban moves from Tracking to Developing at D15 and to Critical, on Los Angeles Unified imposing a districtwide moratorium covering all students - the second-largest US district joining the largest.",
+    "DEMOTED TO TRACKING (15): all fourteen of edition 084's New items on the no-movement rule, plus nsa-cisa-fbi-distillation from Developing. Two carry live hooks rather than silence: us-china-ai-safety-dialogue (window open, nothing confirmed) and dod-anthropic-removal-deadline (date corrected to 29 September).",
+    "KILLED BEFORE CARDING (6), for staleness or for being older than they looked rather than for judgement. Real but not new: the Anthropic-Google-Broadcom 3.5GW TPU agreement (announced early April 2026, resurfacing in search); the Global Call for AI Red Lines (declared 22 September 2025); the Sakana/UBC/Vector/Oxford 'AI Scientist' paper in Nature 651, 914-919, issue 8107, earlier in 2026; the Robin multi-agent scientific-discovery paper in Nature, 19 May 2026; Nature's 'AI isn't ready to research itself', 13 August 2026. Folded rather than carded: Salesforce's completed Fin acquisition of 10 September, which appears inside the Agentforce card.",
+    "SCAN NOTE: FIVE OF FIFTEEN NEW ITEMS BROKE INSIDE 24 HOURS. Generation time is 12 September 2026, 06:30 IST, so the window opens at 11 September 06:30 IST. Oracle, Salesforce, Adobe, Moonshot and the Kinetix/AIDIN rounds are inside it. Ten items are new but honestly dated outside it, and Sakana's Fugu split is filed as new without the badge because trackers date it 11 September while the earliest write-up carries 10 September.",
+    "SCAN GAP CARRIED FORWARD: NO RESEARCH-BEAT ITEM DATED INSIDE THE WINDOW, for a second consecutive edition. arXiv cs.AI and cs.LG, Nature, Nature Machine Intelligence, DeepMind publications and benchmark trackers returned nothing newer than August. The candidates found are listed in the killed-before-carding line and none is carded.",
+    "SCAN GAP OPENED: NO UK OR EU AI-JOBS READING LOCATED. Saturday's deep beat covers the US, India, Singapore and the UAE with dated figures and states plainly that no UK or EU reading was found, leaving two named beats in the rotation unserved this run.",
+    "SCAN GAP: NO FRONTIER RELEASE FROM OPENAI, ANTHROPIC, GOOGLE, META, XAI OR MISTRAL inside the window. The models tab is carried by an orchestration system, a 2.5B open-weight model and a Chinese API tier change."
+  ],
+  "deadlines": [
+    {
+      "date": "2026-09-14",
+      "severity": "high",
+      "label": "Two days. Two price and tier changes land together. Claude Code's weekly limits become permanent at 25% above the pre-promotion baseline for Pro, Max, Team and seat-based Enterprise - roughly a 17% cut against the temporary boost expiring 13 September. And at 12:00 Beijing time DeepSeek routes all deepseek-v4-pro requests to V4.1 Flash at Flash prices until V4.1 Pro ships: a capability and cost change to an unchanged model identifier, with nothing in your codebase to review afterwards. Pin the id or run your eval this weekend."
+    },
+    {
+      "date": "2026-09-16",
+      "severity": "high",
+      "label": "Four days. CISA KEV remediation deadline for LiteLLM (CVE-2026-59822, MCP authentication bypass) and Starlette (CVE-2026-48710, BadHost). Federal agencies must remediate; everyone else inherits it through their auditors. This edition's Deadbugz card is the live argument for treating agent-workspace credentials, not the model, as the exposed surface."
+    },
+    {
+      "date": "2026-09-18",
+      "severity": "high",
+      "label": "Six days. Comments close on the FTC's proposed personalised-pricing enforcement policy statement, issued 2-0 on 19 August. The docket remains the cheaper of the two venues."
+    },
+    {
+      "date": "2026-09-24",
+      "severity": "medium",
+      "label": "Trump and Xi meet in Washington. Reuters reported on 5 September that a US-China AI safety dialogue - the first bilateral talks devoted exclusively to AI under this administration, led by Treasury Secretary Scott Bessent - was being prepared for mid-September ahead of it, with lab-to-lab threat sharing on the agenda. A White House official says no AI-related meeting is currently planned for mid-September. Both statements are on the record and the mid-September window is now open with nothing confirmed."
+    },
+    {
+      "date": "2026-09-29",
+      "severity": "high",
+      "label": "Corrected date. The Department of Defense's 180-day window to remove Anthropic products department-wide closes on 29 September, not 30, with defence vendors required to certify they are not using Claude in DoD work and the Air Force Research Laboratory's contractor purge deadline already passed on 1 September. One day later, 30 September, Amazon Mechanical Turk shuts after 21 years, taking AWS SageMaker Ground Truth and Amazon Augmented AI with it - the last day to migrate any live annotation, labelling or human-review pipeline off three services at once. Then on 1 October the GSA/OpenAI OneGov 50% token discount takes effect across federal, state, local and tribal agencies, with no platform fee, no minimum order and no spend commitment."
+    },
+    {
+      "date": "2026-10-19",
+      "severity": "medium",
+      "label": "Newly on the radar. Comments close on the FDA's 18 August discussion paper, 'Considerations for the Regulation of Generative AI-Enabled Medical Devices', docket FDA-2026-N-7874 on Regulations.gov. Not a draft guidance and not binding, but its 26 discussion questions - covering risk assessment, premarket evaluation, postmarket monitoring, foundation models and agentic systems - are the roadmap CDRH intends to follow, and the feedback collected will shape the evidence standards reviewers apply to future submissions. Separately, UNESCO's consultation on governing AI in education closes for expert feedback on 15 October."
+    }
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── deep-link support: #still-tracking / #resolved / #method open the collapsed folds ──
+  var foldMap = {'still-tracking':'fold-tracking','resolved':'fold-resolved','method':'fold-method'};
+  var openFromHash = function(){
+    var id = foldMap[(location.hash||'').replace('#','')];
+    if(id){ var el = document.getElementById(id); if(el){ el.open = true; el.scrollIntoView(); } }
+  };
+  window.addEventListener('hashchange', openFromHash); openFromHash();
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
