@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 095 — 22 September 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+
+  /* collapsible archive sections (Still Tracking / Resolved / method notes) */
+  .fold{border-bottom:3px solid var(--ink);margin-top:26px}
+  .fold[open]{border-bottom-color:var(--rule)}
+  .fold > summary{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:0 0 8px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary small{font-size:10px;color:#6b6353;letter-spacing:1px;font-weight:400}
+  .fold > summary .caret{font-size:11px;color:#6b6353;letter-spacing:0}
+  .fold > summary:hover{color:var(--crit)}
+  .fold[open] > summary .caret::after{content:"▴ HIDE"}
+  .fold:not([open]) > summary .caret::after{content:"▾ SHOW"}
+  .fold .fold-body{padding-bottom:16px}
+  footer .fold{border-bottom:none;margin-top:12px}
+  footer .fold > summary{font-size:11px;letter-spacing:2px}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>CAPITAL</b> SoftBank launches a record ~$11B junk-bond deal to fund its OpenAI bet; total stake heading to ~$64.6B (~13%), pricing 24 Sep &nbsp;◆&nbsp; <b>FEDERAL</b> Jensen Huang emerges as Trump's top AI ally; Bessent tells Congress the president is "completely aligned" with him; safety called a "hoax" on a live call &nbsp;◆&nbsp; <b>CHINA</b> Naive AI hits a $1.42B valuation on $400M before shipping a single model — and won't pre-train one &nbsp;◆&nbsp; <b>MODELS</b> Alibaba ships Qwen3.8-Omni-Flash, 1M-context omnimodal, ~98% cheaper per audio-hour, API-only &nbsp;◆&nbsp; <b>OPEN</b> Qwen-Image-2.1 ships open weights under a research-only licence, reversing the Apache line &nbsp;◆&nbsp; <b>AGENTS</b> Google's AX v0.3.0 orchestrator tops Hacker News; task state moves off Kubernetes to Redis Streams &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>095</b></span>
+    <span>TUESDAY, 22 SEPTEMBER 2026</span>
+    <span class="seg">NEW <b>10</b> · DEVELOPING <b>2</b> · TRACKING <b>20</b></span>
+    <span>CRITICAL <b>2</b> / NOTABLE 7 / MONITOR 3</span>
+    <span>SCAN: 30 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="softbank-11b-junk-bond-openai">
+  <div>
+    <div class="kicker">■ Today's Lead · New · Business · Day 1 of the OpenAI-financing arc</div>
+    <h2>SoftBank borrows a record $11 billion in junk debt to keep funding OpenAI</h2>
+    <p class="dek">Announced <strong>Sunday–Monday, 20–21 September</strong>: SoftBank Group launched a bond sale of <strong>more than $11 billion</strong> — $10 billion across dollar tranches of 3.5, 5.5 and 7.5 years, plus €1 billion at 4 and 6 years — with proceeds earmarked for its OpenAI investment (<a href="https://www.bloomberg.com/news/articles/2026-09-21/softbank-seeks-over-11-billion-in-junk-bond-deal-for-openai-bet">Bloomberg</a>, <a href="https://www.japantimes.co.jp/business/2026/09/21/companies/softbank-11-billion-junk-bonds-openai-bet/">Japan Times</a>, <a href="https://www.business-standard.com/world-news/softbank-raises-11-billion-bond-sale-to-fund-openai-investment-126092100332_1.html">Business Standard</a>). The notes are <strong>senior unsecured</strong> and high-yield — junk-rated — and if they close at size the deal would be the largest non-financial corporate bond ever out of Asia-Pacific and Japan, topping 7-Eleven's $10.93B in 2021. SoftBank's cumulative commitment to OpenAI is expected to reach roughly <strong>$64.6 billion</strong> once a third tranche completes, for a stake of about <strong>13%</strong>. Pricing is slated for <strong>24 September</strong> with settlement on <strong>29 September</strong>.</p>
+    <p class="sowhat">So what: the AI buildout has been financed mostly by equity and cash-rich balance sheets. A record junk-bond raise to fund a single private stake moves a chunk of that risk into the fixed-income market, priced against a company whose largest position is an unlisted lab still weeks from its own IPO. The people who now underwrite the AI boom are not only VCs and hyperscalers — they are high-yield bond buyers, and they will re-price the whole trade the day OpenAI's numbers or listing timetable wobble.</p>
+    <span class="chip arc">ARC: OPENAI-FINANCING · D1</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://www.bloomberg.com/news/articles/2026-09-21/softbank-seeks-over-11-billion-in-junk-bond-deal-for-openai-bet">Bloomberg (21 Sep)</a> ·
+      <a href="https://www.japantimes.co.jp/business/2026/09/21/companies/softbank-11-billion-junk-bonds-openai-bet/">Japan Times (21 Sep)</a> ·
+      <a href="https://www.business-standard.com/world-news/softbank-raises-11-billion-bond-sale-to-fund-openai-investment-126092100332_1.html">Business Standard (21 Sep)</a> ·
+      <a href="https://www.businesstoday.in/markets/story/softbank-plans-11-billion-junk-bond-sale-to-fuel-multi-billion-dollar-openai-bet-report-556732-2026-09-21">Business Today (21 Sep)</a> ·
+      <a href="https://www.gurufocus.com/news/9089352/softbank-plans-11-billion-junk-bond-offering-to-fund-openai-investment">GuruFocus</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What was actually launched.</strong> A single, very large high-yield offering: about $10 billion in dollar-denominated senior unsecured notes split across three maturities (3.5, 5.5 and 7.5 years) and a further €1 billion in euros at 4 and 6 years. The stated use of proceeds is SoftBank's OpenAI investment. Pricing is expected 24 September, settlement 29 September. The size and structure are as reported by Bloomberg and carried across Japanese, Indian and US business press; final coupons were not set at the time of this scan.</p>
+      <p><strong>Why the label matters.</strong> These are junk-rated notes, not investment-grade. That is not a scandal — SoftBank has issued high-yield paper before — but it changes who holds the risk and at what price. A record-size high-yield deal tied explicitly to one AI position means the cost of financing the AI boom is now visible as a credit spread, and that spread will move with sentiment on OpenAI specifically, not AI in the abstract.</p>
+      <p><strong>The stake it funds.</strong> SoftBank's total OpenAI commitment is expected to reach roughly $64.6 billion upon completion of the third tranche, for an ownership share around 13%. That makes SoftBank one of OpenAI's largest outside shareholders and concentrates an enormous amount of a public-market-adjacent balance sheet into a single private company whose own listing this briefing has tracked as slipping toward 2027.</p>
+      <p><strong>How it connects.</strong> Two live threads meet here. OpenAI's own IPO timetable (tracked as delayed to 2027) is the eventual exit for exactly this exposure; a junk-bond raise to hold the position longer is a bet that the exit arrives on acceptable terms. And Anthropic's reported November listing sits on the other side of the same market — the first of the two labs to price will set the comparable everyone else is measured against.</p>
+      <p><strong>Watch next.</strong> Final pricing and the coupon on 24 September; the order book's size relative to the $11B target; any rating-agency commentary; and whether the deal upsizes or trims. A blowout book says credit markets are comfortable underwriting AI concentration risk; a struggle to fill it at the target size would be the first market-priced signal that they are not.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>Launched</dt><dd>20–21 September 2026</dd>
+      <dt>Size</dt><dd>&gt;$11B — ~$10B USD (3.5/5.5/7.5-yr) + €1B (4/6-yr), senior unsecured, high-yield</dd>
+      <dt>Use of proceeds</dt><dd>SoftBank's OpenAI investment</dd>
+      <dt>Record</dt><dd>Would be the largest non-financial corporate bond from APAC/Japan (tops 7-Eleven's $10.93B, 2021)</dd>
+      <dt>Total OpenAI stake</dt><dd>~$64.6B cumulative on completion of a third tranche · ~13%</dd>
+      <dt>Timeline</dt><dd>Pricing 24 Sep · settlement 29 Sep</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">8</b>/10 — AI-infrastructure financing, credit markets, and every OpenAI-comparable listing</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="softbank-11b-junk-bond-openai">
+      <div class="num">1</div>
+      <h4>The AI boom gets a credit spread</h4>
+      <p>SoftBank launched a record <strong>&gt;$11B junk-bond</strong> deal on <strong>20–21 September</strong> to fund its OpenAI stake, heading to ~$64.6B and ~13%. Pricing 24 Sep. High-yield buyers now underwrite AI concentration risk. <strong>NEW.24H.</strong></p>
+    </article>
+    <article class="trip" data-story-id="us-federal-ai-posture">
+      <div class="num">2</div>
+      <h4>Huang becomes the administration's AI voice</h4>
+      <p>Days after the "AI Force" statement, <strong>Jensen Huang</strong> is described as Trump's top AI ally; Treasury's Bessent tells Congress the president is <strong>"completely aligned"</strong> with him, and Trump called safety fears a <strong>"hoax"</strong> on a live speakerphone call. Huang attends the Xi state dinner Thursday. <strong>▲ ESCALATED.</strong></p>
+    </article>
+    <article class="trip" data-story-id="naive-ai-142b-valuation">
+      <div class="num">3</div>
+      <h4>$1.42B before a single model, and it won't pre-train</h4>
+      <p>Beijing's <strong>Naive AI</strong>, founded February by a Tsinghua professor, hit a <strong>$1.42B</strong> valuation on <strong>$400M</strong> from Tencent, IDG and HSG — reported 20–21 Sep — before releasing anything, planning to build on an existing open-weight model rather than pre-train. <strong>NEW.24H.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>WHAT THIS EDITION IS:</strong> ten New items, of which <strong>two</strong> broke inside 24 hours and carry the badge — SoftBank's record OpenAI-bet bond and Naive AI's $1.42B valuation, both reported 20–21 September against a 22 September IST edition. The rest are honestly dated to 16–20 September and each says its real date in the card. Tuesday's rotating deep beat is <strong>open-source & models</strong>, and it carried the day: <strong>Qwen3.8-Omni-Flash</strong> (1M-context omnimodal, ~98% cheaper per audio-hour) · <strong>Qwen-Image-2.1</strong> shipping open weights under a research-only licence · <strong>Google's AX v0.3.0</strong> agent orchestrator topping Hacker News · <strong>TypeSafe's "System One" Jev</strong> model · and Naive AI's no-pre-training bet. Money is heavy today: SoftBank, Naive AI, and the <strong>Cohere–Aleph Alpha</strong> definitive merger. The research beat is kept alive by a <strong>provider-side token-inflation audit</strong>, and policy runs through <strong>OpenAI's __obi cross-site cookie</strong> and the <strong>unsealed publisher "existential threat" filings</strong>. Two Developing threads carry with change-lines. <strong>About a dozen entries auto-retired</strong>, four of yesterday's New folded into today's cards.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (12)</button>
+    <button class="tab" data-cat="business">BUSINESS (3)</button>
+    <button class="tab" data-cat="models">MODELS (3)</button>
+    <button class="tab" data-cat="policy">POLICY (4)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (1)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>10 ITEMS · BROKE / SURFACED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="business" data-story-id="softbank-11b-junk-bond-openai">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#1</span> <span class="cat">BUSINESS · CAPITAL</span></div>
+      <h4>SoftBank's record junk-bond raise to hold its OpenAI stake</h4>
+      <div class="body">The lead, in full above. Launched <strong>20–21 September</strong>: more than <strong>$11 billion</strong> in senior unsecured, high-yield notes — ~$10B across dollar tranches (3.5/5.5/7.5-yr) plus €1B (4/6-yr) — with proceeds for SoftBank's OpenAI investment. If it closes at size, the largest non-financial corporate bond ever from APAC/Japan. Cumulative OpenAI commitment heading to ~<strong>$64.6B</strong> and ~<strong>13%</strong>. Pricing <strong>24 Sep</strong>, settlement <strong>29 Sep</strong>.</div>
+      <p class="sowhat">The cost of financing the AI boom is now quotable as a credit spread on one name. Watch the order book on the 24th: a blowout says high-yield desks will underwrite AI concentration; a struggle at target size is the first market-priced doubt.</p>
+      <div><span class="chip arc">ARC: OPENAI-FINANCING · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-09-21/softbank-seeks-over-11-billion-in-junk-bond-deal-for-openai-bet">Bloomberg</a> · <a href="https://www.japantimes.co.jp/business/2026/09/21/companies/softbank-11-billion-junk-bonds-openai-bet/">Japan Times</a> · <a href="https://www.business-standard.com/world-news/softbank-raises-11-billion-bond-sale-to-fund-openai-investment-126092100332_1.html">Business Standard</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="naive-ai-142b-valuation">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#2</span> <span class="cat">BUSINESS · CHINA</span></div>
+      <h4>A $1.42B lab that has shipped nothing — and won't pre-train</h4>
+      <div class="body">Reported <strong>20–21 September</strong> (<a href="https://www.theinformation.com/articles/tsinghua-professors-stealth-llm-startup-hits-1-4-billion-valuation">The Information</a>): Beijing's <strong>Naive AI</strong>, founded February 2026 by Tsinghua associate professor <strong>Dai Jifeng</strong>, has raised <strong>$400M</strong> across three rounds ($100M / $180M / $120M) at a <strong>$1.42B</strong> valuation from <strong>Tencent, IDG Capital and HSG</strong>, with fewer than 100 staff. Its stated approach: build on an existing Chinese open-weight model rather than pre-train from scratch, and pursue recursive self-improvement research. Its first LLM is due "as early as this month" as an open-weight release.</div>
+      <p class="sowhat">The valuation is the signal, not the model: Chinese capital will now underwrite a $1.4B bet on <em>post-training and self-improvement</em> on top of open weights, decoupling frontier ambition from the cost of a from-scratch pre-train. If it works, the moat moves from pre-training compute to what you do after.</p>
+      <div><span class="chip arc">ARC: CHINA-MODEL-CAPITAL · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://cryptobriefing.com/tencent-backs-naive-ai-billion-valuation/">Crypto Briefing</a> · <a href="https://www.investing.com/news/stock-market-news/naive-ai-valuation-hits-14-billion-after-400-million-raise--information-93CH-4907451">Investing.com</a> · <a href="https://easternherald.com/2026/09/20/naive-ai-beijing-tencent-400m-open-weight-llm/">Eastern Herald</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="models" data-story-id="qwen38-omni-flash">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#3</span> <span class="cat">MODELS · MULTIMODAL</span></div>
+      <h4>Alibaba's omnimodal Flash: 1M context, audio-hours 98% cheaper</h4>
+      <div class="body">Released <strong>18 September</strong> (dated honestly; surfaced in this scan): Alibaba's <strong>Qwen3.8-Omni-Flash</strong>, a native omnimodal model that jointly processes text, images, audio and video at a <strong>1M-token</strong> context, tuned for agentic audio-video understanding and tool use. Across ~30 evals Alibaba reports it beats Qwen3.5-Omni-Plus by <strong>26%+</strong> on average with a <strong>45.7%</strong> token-usage cut on agentic video tasks. Priced at <strong>$0.15/M input, $0.47/M output</strong>, API-only via QwenCloud / Model Studio / Qwen Studio — <strong>no open weights at launch</strong>, so the "open" beat is licence-limited here. Per audio-hour it is reported ~<strong>98%</strong> cheaper than its predecessor.</div>
+      <p class="sowhat">Cheap, long-context, tool-using multimodality is the substrate for voice and video agents. A 98% audio-cost cut is the difference between demos and always-on deployments — but API-only means Alibaba keeps the weights and the pricing lever.</p>
+      <div><span class="chip arc">ARC: OMNIMODAL-AGENTS · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.marktechpost.com/2026/09/18/alibaba-qwen-releases-qwen3-8-omni-flash/">MarkTechPost</a> · <a href="https://pandaily.com/qwen3-8-omni-flash-native-omni-model">Pandaily</a> · <a href="https://aiweekly.co/alerts/alibaba-ships-qwen38-omni-flash-a-1m-context-omnimodal-model-with-26-average">AI Weekly</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="enterprise" data-story-id="google-ax-030-orchestrator">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#4</span> <span class="cat">ENTERPRISE · AGENTS</span></div>
+      <h4>Google's AX orchestrator moves task state off Kubernetes</h4>
+      <div class="body">Surfaced <strong>20–21 September</strong> and top of Hacker News: Google's open, Apache-2.0 agent orchestrator <strong>AX reached v0.3.0</strong>. It splits the runtime into three services — API frontend, reconciler, sandboxed task runner — and moves task state out of Kubernetes custom resources into <strong>Redis Streams</strong>, because etcd "was not built for the churn of millions of short-lived agent tasks." It runs on Agent Substrate and is pitched to run "billions of tasks per cluster." The release also removes the ATE client, the SQL event log and bundled skill examples.</div>
+      <p class="sowhat">The interesting admission is architectural: Google is telling you the Kubernetes control plane buckles under agent-task churn. If you are building agent infra on CRDs, that is a scaling warning from the people who wrote Kubernetes.</p>
+      <div><span class="chip arc">ARC: AGENT-ORCHESTRATION · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://github.com/google/ax">github.com/google/ax</a> · <a href="https://aiweekly.co/alerts/google-ships-ax-v030-splits-agent-runtime-into-three-services-and-moves-task">AI Weekly</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="policy" data-story-id="openai-obi-cookie-tracking">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#5</span> <span class="cat">POLICY · PRIVACY</span></div>
+      <h4>An analytics cookie that follows ChatGPT users across the web</h4>
+      <div class="body">Published mid-September (disclosed to OpenAI <strong>14 September</strong>, analysis out <strong>18–20 September</strong>): an independent researcher documented OpenAI's <strong>__obi</strong> cookie, set for <code>.openai.com</code> with <code>SameSite=None; Secure</code>, binding a 16-byte identifier to a ChatGPT account via an RS256-signed JWT. It was reproduced across <strong>936 advertiser pixels on 1,029 hostnames</strong>, with one identifier followed across 12 commercial sites (Chewy, Wayfair, HelloFresh, Coursera, SeatGeek and more). OpenAI classifies __obi as an <em>analytics</em> cookie though it functions as a cross-site ad identifier; users who accepted analytics but declined marketing cookies may have been tracked anyway. OpenAI did not answer questions on the classification.</div>
+      <p class="sowhat">This is the ad-tech business model arriving inside the assistant. The consent-mismatch — marketing behaviour filed under "analytics" — is exactly the kind of thing a European DPA turns into a fine. Cross-check: the finding rests on one researcher's reproduction, corroborated by security press.</p>
+      <div><span class="chip arc">ARC: ASSISTANT-ADTECH · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://cybersecuritynews.com/chatgpt-ad-tracking-cookie-follows-users/">Cybersecurity News</a> · <a href="https://eu.36kr.com/en/p/3992601441942274">36Kr</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="cohere-aleph-alpha-merger">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#6</span> <span class="cat">BUSINESS · M&amp;A</span></div>
+      <h4>Cohere and Aleph Alpha sign the sovereign-AI merger</h4>
+      <div class="body">Dated <strong>16 September</strong> (carded here for the first time): Cohere and Germany's <strong>Aleph Alpha</strong> signed a <strong>definitive business combination agreement</strong>, reported at a combined ~<strong>$20B</strong>, operating globally as <strong>Cohere</strong> and dual-headquartered in <strong>Berlin and Toronto</strong>, with Heidelberg kept as a research centre. The deal — first announced in April — remains subject to regulatory approvals and is expected to close later in 2026. It stitches two "sovereign AI" enterprise players into one transatlantic entity aimed at regulated buyers.</div>
+      <p class="sowhat">Consolidation, not a launch: the independent Western enterprise-LLM field keeps shrinking toward a few sovereign-branded options. For EU public-sector buyers who wanted a non-US, non-China vendor, the menu just got shorter and the survivor got bigger.</p>
+      <div><span class="chip arc">ARC: SOVEREIGN-AI-CONSOLIDATION · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.unite.ai/cohere-signs-definitive-combination-agreement-with-aleph-alpha/">Unite.AI</a> · <a href="https://finance.yahoo.com/news/cohere-aleph-alpha-combine-target-132337990.html">Yahoo/Reuters</a> · <a href="https://betakit.com/cohere-reaches-terms-with-german-peer-aleph-alpha-to-take-on-ai-giants/">BetaKit</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="policy" data-story-id="ai-publishers-existential-filings">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#7</span> <span class="cat">POLICY · COPYRIGHT</span></div>
+      <h4>Unsealed filings: executives called AI an "existential threat" to news</h4>
+      <div class="body">Surfaced <strong>17–18 September</strong>: publishers including the New York Times refiled their summary-judgment brief with most redactions lifted, exposing internal messages. One ChatGPT executive, <strong>Nick Turley</strong>, wrote that publishers faced an <em>"existential threat"</em> from products already "largely substitutive"; a Microsoft applied-science director called the underlying copying "an astonishing theft of unprecedented proportions." OpenAI and Microsoft moved for summary judgment on <strong>4 September</strong>; the publishers refiled on the <strong>17th</strong>. Separately, Microsoft's own measurement reportedly found Copilot cutting publisher clicks by up to <strong>94%</strong>.</div>
+      <p class="sowhat">Internal admissions that a product is "substitutive" and an "existential threat" to its data suppliers are the sentences plaintiffs build fair-use rebuttals on. This is the copyright-litigation arc acquiring its most quotable evidence yet — and the discovery is now public.</p>
+      <div><span class="chip arc">ARC: COPYRIGHT-LITIGATION · D23</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.mlex.com/mlex/articles/2527032/openai-an-existential-threat-to-publishers-unsealed-us-litigation-statements-say">MLex</a> · <a href="https://americanbazaaronline.com/2026/09/18/openai-microsoft-knew-ai-posed-existential-threat-to-news-industry-filings-reveal-488468/">American Bazaar</a> · <a href="https://ppc.land/microsoft-measured-copilot-cutting-publisher-clicks-by-up-to-94/">PPC Land</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="models" data-story-id="qwen-image-21-research-license">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#8</span> <span class="cat">MODELS · OPEN WEIGHTS</span></div>
+      <h4>Open weights you can run but can't ship</h4>
+      <div class="body">Released <strong>20 September</strong>: Alibaba open-sourced <strong>Qwen-Image-2.1</strong>, a 7B single-stream DiT image model with native 2048×2048 output at 40 steps, RGBA generation/editing and up to 10 reference images. The notable move is the licence: earlier Qwen-Image versions shipped under <strong>Apache 2.0</strong>, but 2.1 ships under the <strong>Qwen Research License Agreement</strong> — non-commercial only, with commercial use requiring a separate email grant. Anyone can run it locally within the hour; nobody can sell its output without permission.</div>
+      <p class="sowhat">A quiet but real narrowing of "open." The weights are downloadable, the rights are not. For anyone building a product on open image models, read the licence before the benchmark — the reversal from Apache is the story.</p>
+      <div><span class="chip arc">ARC: OPEN-WEIGHT-LICENSING · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://huggingface.co/Qwen/Qwen-Image-2.1/discussions/9">Hugging Face (licence thread)</a> · <a href="https://cellcog.ai/blog/qwen-image-2-1/">CellCog</a> · <a href="https://apidog.com/blog/what-is-qwen-image-2-1/">Apidog</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="models" data-story-id="typesafe-jev-system-one">
+      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#9</span> <span class="cat">MODELS · ARCHITECTURE</span></div>
+      <h4>A "System One" model that emits decisions, not text</h4>
+      <div class="body">Announced <strong>18 September</strong> by <strong>TypeSafe AI</strong> (founder Diego Almeida, who claims a ChatGPT-inventor role): <strong>Jev</strong>, pitched as a "System One" model that emits decisions directly rather than generating text, trained with <em>reinforcement learning from calibrated decisions</em> (RLCD). The company claims it is <strong>~100× faster and cheaper</strong> than LLMs on classification-style tasks. Coverage is developer-enthusiast and vendor-sourced; there is no independent benchmark of the speed/cost claims located in this scan.</div>
+      <p class="sowhat">If it holds up, the pitch is a wedge: not every task needs a token-by-token generator, and a decision-emitting model at 1% of the cost would eat a lot of classification and routing workloads. Treat the 100× as a vendor claim until someone reproduces it.</p>
+      <div><span class="chip arc">ARC: NON-GENERATIVE-MODELS · D1</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/09/18/a-new-kind-of-ai-model-from-a-chatgpt-inventor-is-thrilling-developers/">TechCrunch</a> · <a href="https://latent.space/p/ainews-jev-a-system-one-model-that">Latent Space</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="research" data-story-id="ptia-token-inflation-audit">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#10</span> <span class="cat">RESEARCH · SECURITY</span></div>
+      <h4>Your token bill can be inflated 10× and still look normal</h4>
+      <div class="body">Surfaced on arXiv this week (<strong>2609.20370</strong>, listed 21 September): <em>"The More It Says, the More You Pay,"</em> a black-box audit of <strong>Provider-Side Token Inflation</strong> in pay-per-token LLM services. It formalises a PTIA and instantiates five attacks at the query, prompt, representation and model levels, each raising mean output length to more than <strong>10.2×</strong> the clean baseline while largely preserving task utility. It also documents "PTIA saturation" (further strengthening has little effect) and proposes a single-probe black-box audit as a defence. A companion May-2026 paper showed reported reasoning length could be inflated <strong>~1,469%</strong> without tripping existing auditors.</div>
+      <p class="sowhat">Per-token billing has an incentive problem, and now a named attack surface. If you buy inference by the token, the audit method here is the practical takeaway — a cheap probe to check whether a provider's verbosity is honest.</p>
+      <div><span class="chip arc">ARC: LLM-BILLING-INTEGRITY · D1</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://arxiv.org/abs/2609.20370">arXiv 2609.20370</a> · <a href="https://www.alphaxiv.org/abs/2605.30040">alphaXiv (companion, 2605.30040)</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="us-federal-ai-posture">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">D1</span> <span class="cat">POLICY · FEDERAL</span></div>
+      <h4>The "AI Force" gets a face, and it belongs to Nvidia</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Yesterday's arc was a posture with no people. Today it has a principal: <strong>Jensen Huang</strong> is described as Trump's top ally on AI regulation, Treasury Secretary <strong>Bessent told Congress</strong> the president is <em>"completely aligned"</em> with him, and Trump called safety concerns a <em>"hoax"</em> on a <strong>live speakerphone call</strong> Huang held up on stage at the All-In Summit. Huang told Dreamforce that market forces suffice and no new laws are needed, and is set to attend Trump's <strong>state dinner for Xi on Thursday 24 September</strong>. Still absent: a named czar, an agency, a budget or an order.</div>
+      <div class="body">The arc in one line: a presidential statement on <strong>19 September</strong> announcing an "AI Force" and a coming czar and rejecting the pacing case; now the administration's AI voice is effectively the CEO whose chips the buildout runs on. That fuses industrial policy and commercial interest — the person telling the president no rules are needed sells the hardware that benefits most from no rules. The pacing debate that dominated this briefing for nine days is now fully inside this thread: the White House against slowing down, Huang as its megaphone, and not one lab having slowed a release.</div>
+      <p class="sowhat">If you were waiting for a US federal framework to align your controls to, the framework's spokesperson just told you there won't be one. The regulatory risk that matters shifts to states (Newsom's EO), courts (the pacing antitrust complaint) and foreign regimes (EU AI Act) — not Washington. Watch Thursday's Xi dinner for whether the China framing hardens into export or procurement action.</p>
+      <div><span class="chip arc">ARC: US-FEDERAL-AI-POSTURE · D2</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/09/20/nvidia-ceo-jensen-huang-emerges-as-trumps-top-ally-in-ai-debate.html">CNBC</a> · <a href="https://qz.com/jensen-huang-trump-ally-ai-safety-regulation-092126">Quartz</a> · <a href="https://techcrunch.com/2026/09/14/nvidia-ceo-jensen-huang-tells-trump-were-not-going-to-let-an-ai-slowdown-happen/">TechCrunch</a> · <a href="https://en.sedaily.com/international/2026/09/21/nvidias-jensen-huang-emerges-as-trumps-key-ally-in-ai">Seoul Economic Daily</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="policy" data-story-id="tech-layoffs-175k-2026">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D2</span> <span class="cat">POLICY · LABOUR</span></div>
+      <h4>September's cuts jumped, and AI is cited in more of them</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> A fresh monthly reading moves the tally: tracker aggregates put <strong>September layoffs up ~199%</strong> over August, with major internet companies driving <strong>77%</strong> of the month's cuts, and <strong>AI cited in ~13%</strong> of US layoffs year-to-date, up from 4.5% in 2025. Year-to-date 2026 stands at ~<strong>210,000+</strong> workers across ~383 events. These are tracker/outplacement aggregates, not official labour statistics.</div>
+      <div class="body">The structure under it is unchanged from yesterday's geography read: India's AI openings remain concentrated (~70% in Bengaluru, Delhi-NCR and Mumbai), IT-services fresh demand at an 18-month high, and emerging-tech roles commanding up to a 40% base-pay premium. The two-sided pattern holds — the same market cutting execution roles is bidding up AI-literate ones — and Paytm's earlier "cut 400, hire 4,000" restructuring (dated June, not carded as fresh) is the archetype. Caution carries: monthly percentage swings on small bases are noisy, and "AI-cited" is self-reported by employers.</div>
+      <p class="sowhat">A 199% month-over-month jump is a headline, not a trend — but the AI-attribution share climbing to 13% is the durable number to watch, because it is the one employers are increasingly willing to say out loud. If it keeps rising, the political pressure for a labour-transition response rises with it.</p>
+      <div><span class="chip arc">ARC: AI-LABOUR-IMPACT · D85</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://skillsyncer.com/layoffs-tracker">SkillSyncer tracker</a> · <a href="https://www.informationweek.com/it-staffing-careers/2026-tech-company-layoffs">InformationWeek</a> · <a href="https://founderreports.com/ai-layoffs-tracker/">Founder Reports</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING (collapsed by default) ══════════ -->
+<details class="fold" id="fold-tracking">
+  <summary>Still Tracking <small>20 LONG-RUNNERS · NO MOVEMENT THIS EDITION</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="tracking-strip" id="tracking-strip"></div></div>
+</details>
+
+<!-- ══════════ RESOLVED (collapsed by default) ══════════ -->
+<details class="fold" id="fold-resolved">
+  <summary>Resolved <small>OPEN THREADS, CLOSED</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="resolved-strip" id="resolved-strip"></div></div>
+</details>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 095 · 2026-09-22 (IST) · FORMAT v2</strong></p>
+    <details class="fold" id="fold-method">
+      <summary>Method, scan gaps &amp; caveats <span class="caret"></span></summary>
+      <div class="fold-body">
+        <p>METHOD: ~30 web searches split across models &amp; core technology (frontier &amp; open-weight releases, agents &amp; tooling, hardware/compute, AI security, research), applied AI (enterprise deployment, products, startups, partnerships, vertical AI, money) and people/policy (workforce &amp; AI jobs, talent, culture, regulation), plus direct fetches of two dated aggregators (a 2026-09-21 AI daily digest and a 2026-09-21 daily AI report) to anchor items to real dates and URLs. Tuesday's rotating deep beat is <strong>open-source &amp; models</strong>, dug across Qwen3.8-Omni-Flash, Qwen-Image-2.1's licence reversal, Google's AX v0.3.0, TypeSafe's Jev and Naive AI's no-pre-training bet. Aggregator claims were cross-checked against two or more outlets wherever the claim carried weight; confidence chips mark what each item rests on (2x SRC / Primary / Agg 1x / Rumor-flag). v2 buckets: NEW ON THE WIRE (id absent last edition), DEVELOPING (carried thread with an explicit change-line), STILL TRACKING (long-runner, no movement). Impact /10 = breadth of who must act.</p>
+        <p>DATING AND THE NEW.24H BADGE: <strong>two</strong> items are badged NEW.24H, both reported 20–21 September against a 22 September IST edition — SoftBank's OpenAI-bet bond launch (Bloomberg 21 Sep) and Naive AI's valuation (The Information, 20–21 Sep). Everything else is unbadged and dated in its own card: Qwen3.8-Omni-Flash and TypeSafe's Jev are <strong>18 September</strong>, Qwen-Image-2.1 and Google AX are <strong>20 September</strong>, OpenAI's __obi disclosure is <strong>18–20 September</strong> (disclosed to OpenAI 14 Sep), the unsealed publisher filings are <strong>17–18 September</strong>, Cohere–Aleph Alpha's definitive agreement is <strong>16 September</strong>, and the token-inflation preprint is arXiv 2609.20370 (listed 21 Sep). Cohere–Aleph Alpha is a deliberately older item carded for the first time under the standing rule that an item missed by an earlier narrow scan counts as new once, with its real date printed; it is not badged and not presented as breaking.</p>
+        <p>KNOWN SCAN GAPS AND CAVEATS THIS EDITION: <strong>no Western frontier model release</strong> inside the window for a fourth consecutive edition — the models beat produced Chinese/open-weight launches (Qwen ×2), a Google open-source orchestrator and one architecture startup, and nothing shippable from OpenAI, Anthropic, Google (models), Meta or Mistral. <strong>Enterprise deployment remains thin</strong>: the named-company deployments located (M&amp;T Bank's 15,000-seat copilots; Accenture/Google Cloud's Gemini Enterprise group, 8 Sep; Salesforce's Agentforce agents, 11 Sep) are all &gt;10 days old and were not carded as fresh. <strong>Talent moves searched and dropped</strong>: the strongest live names (Noam Shazeer to OpenAI, John Jumper to Anthropic, Andrew Tulloch to Anthropic) were reported earlier in September and are logged, not carded. <strong>Regional jobs beyond India remain a miss</strong>: no dated UK, EU, Singapore or fresh UAE reading was found this scan; India labour figures are tracker aggregates and projections, not official statistics. <strong>India regulation</strong>: a claim that MeitY would introduce a revised Digital India Act "in the session beginning 21 September" rested on a single low-confidence aggregator and conflicts with primary reporting that the Act is still in consultation; it was <strong>not carded</strong> and is flagged as unverified. Item-level caveats: SoftBank's coupons were unset at scan time and the record claim is conditional on the deal closing at target size; Naive AI's raise is company/outlet-sourced with its first model still unreleased; Qwen3.8-Omni-Flash's 26%+, 45.7% and 98% figures are Alibaba's own and the model is API-only (no weights); the __obi finding rests on one researcher's reproduction corroborated by security press; the publisher-filing quotes are drawn from unsealed litigation as reported by MLex and secondary outlets; TypeSafe's 100× claim is vendor-sourced and unbenchmarked; the token-inflation paper's figures are the authors' own. arXiv, nature.com, CNBC, TechCrunch and several primary domains were unreachable from this environment, so those items are anchored to reachable secondary coverage and labelled accordingly.</p>
+        <p>AUTO-RETIREMENTS: about a dozen entries left the active feed this edition. Yesterday's one-day New items that did not materially move folded into today's cards or dropped to Tracking — Plugin4Shell, StepFun's Step 5 Preview, CXMT's G5 DRAM, the ~37,000-agent virtual biotech and the FT clinician report all carry as one-line trackers; Paper2Agent, the end-to-end AI-Scientist Nature record, the biomedical marker-word study, AIR's seed round (folded under agent-security) and the ChatGPT Chrome-extensions feature were retired. The standalone <strong>frontier-pacing</strong> Developing thread closes into Resolved, merged into the US-federal-posture arc rather than concluded. Links point to sources located during the scan; where only an outlet root, a vendor release or a newswire reprint was available it is labelled as such. Nothing here is investment advice.</p>
+      </div>
+    </details>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 95,
+  "date": "2026-09-22",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 30,
+  "counts": { "new": 10, "developing": 2, "tracking": 20 },
+  "tiers": { "critical": 2, "notable": 7, "monitor": 3 },
+  "stories": [
+    {
+      "id": "softbank-11b-junk-bond-openai",
+      "section": "new",
+      "rank": 1,
+      "title": "Launched 20-21 September: SoftBank Group is selling more than $11 billion of senior unsecured high-yield notes - roughly $10 billion across dollar tranches of 3.5, 5.5 and 7.5 years plus 1 billion euros at 4 and 6 years - with proceeds earmarked for its OpenAI investment. At size it would be the largest non-financial corporate bond ever from Asia-Pacific and Japan, topping 7-Eleven's $10.93 billion in 2021. SoftBank's cumulative OpenAI commitment is expected to reach about $64.6 billion on completion of a third tranche, for a stake near 13 percent. Pricing is slated for 24 September and settlement for 29 September; coupons were unset at scan time and the record claim is conditional on closing at target size.",
+      "tier": "critical",
+      "impact": 8,
+      "delta": "new",
+      "arc": "openai-financing",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": true,
+      "firstSeen": "2026-09-21",
+      "lastUpdate": "2026-09-22",
+      "category": "business"
+    },
+    {
+      "id": "naive-ai-142b-valuation",
+      "section": "new",
+      "rank": 2,
+      "title": "Reported 20-21 September by The Information and others: Beijing's Naive AI, founded February 2026 by Tsinghua associate professor Dai Jifeng, has raised $400 million across three rounds ($100M/$180M/$120M) at a $1.42 billion valuation from Tencent, IDG Capital and HSG, with fewer than 100 staff and no product yet shipped. Its stated approach is to build on an existing Chinese open-weight model rather than pre-train from scratch, and to pursue recursive self-improvement research, with a first open-weight LLM due as early as this month. Valuation and raise are outlet-sourced and the first model is unreleased.",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "new",
+      "arc": "china-model-capital",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": true,
+      "firstSeen": "2026-09-20",
+      "lastUpdate": "2026-09-22",
+      "category": "business"
+    },
+    {
+      "id": "qwen38-omni-flash",
+      "section": "new",
+      "rank": 3,
+      "title": "Released 18 September and carded here for the first time: Alibaba's Qwen3.8-Omni-Flash, a native omnimodal model jointly processing text, images, audio and video at a 1M-token context and tuned for agentic audio-video understanding and tool use. Alibaba reports it beats Qwen3.5-Omni-Plus by 26%+ on average across roughly 30 evaluations with a 45.7% token-usage cut on agentic video tasks, and costs about 98% less per audio-hour than its predecessor. Priced at $0.15/M input and $0.47/M output, it is API-only via QwenCloud, Alibaba Cloud Model Studio and Qwen Studio, with no open weights at launch. All performance and cost figures are Alibaba's own.",
+      "tier": "notable",
+      "impact": 7,
+      "delta": "new",
+      "arc": "omnimodal-agents",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-09-18",
+      "lastUpdate": "2026-09-22",
+      "category": "models"
+    },
+    {
+      "id": "google-ax-030-orchestrator",
+      "section": "new",
+      "rank": 4,
+      "title": "Surfaced 20-21 September and top of Hacker News: Google's open, Apache-2.0 agent orchestrator AX reached v0.3.0, splitting the runtime into three services (API frontend, reconciler, sandboxed task runner) and moving task state out of Kubernetes custom resources into Redis Streams because etcd was not built for the churn of millions of short-lived agent tasks. It runs on Agent Substrate and is pitched to run billions of tasks per cluster; the release removes the ATE client, the SQL event log and bundled skill examples and adds design, concepts, manifest, networking, runner and sandbox docs.",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "new",
+      "arc": "agent-orchestration",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-09-20",
+      "lastUpdate": "2026-09-22",
+      "category": "enterprise"
+    },
+    {
+      "id": "openai-obi-cookie-tracking",
+      "section": "new",
+      "rank": 5,
+      "title": "Disclosed to OpenAI on 14 September and published 18-20 September: an independent researcher documented OpenAI's __obi cookie, set for .openai.com with SameSite=None and Secure, binding a 16-byte identifier to a ChatGPT account via an RS256-signed JWT. It was reproduced across 936 advertiser pixels on 1,029 hostnames, with one identifier followed across 12 commercial sites including Chewy, Wayfair, HelloFresh, Coursera and SeatGeek. OpenAI classifies __obi as an analytics cookie though it functions as a cross-site ad identifier, so users who accepted analytics but declined marketing cookies may have been tracked; OpenAI did not answer questions on the classification. The finding rests on one researcher's reproduction corroborated by security press.",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "new",
+      "arc": "assistant-adtech",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-09-18",
+      "lastUpdate": "2026-09-22",
+      "category": "policy"
+    },
+    {
+      "id": "cohere-aleph-alpha-merger",
+      "section": "new",
+      "rank": 6,
+      "title": "Dated 16 September and carded here for the first time under the standing missed-item rule: Cohere and Germany's Aleph Alpha signed a definitive business combination agreement, reported at a combined ~$20 billion, operating globally as Cohere and dual-headquartered in Berlin and Toronto with Heidelberg kept as a research centre. First announced in April, the deal remains subject to regulatory approvals and is expected to close later in 2026, stitching two sovereign-AI enterprise players into one transatlantic entity aimed at regulated buyers.",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "new",
+      "arc": "sovereign-ai-consolidation",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-09-16",
+      "lastUpdate": "2026-09-22",
+      "category": "business"
+    },
+    {
+      "id": "ai-publishers-existential-filings",
+      "section": "new",
+      "rank": 7,
+      "title": "Surfaced 17-18 September: publishers including the New York Times refiled their summary-judgment brief with most redactions lifted, exposing internal messages in which a ChatGPT executive, Nick Turley, wrote that publishers faced an 'existential threat' from products already 'largely substitutive', and a Microsoft applied-science director called the underlying copying 'an astonishing theft of unprecedented proportions'. OpenAI and Microsoft moved for summary judgment on 4 September and the publishers refiled on the 17th. Separately, Microsoft's own measurement reportedly found Copilot cutting publisher clicks by up to 94 percent. Quotes are drawn from unsealed litigation as reported by MLex and secondary outlets.",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "new",
+      "arc": "copyright-litigation",
+      "arcDay": 23,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-09-17",
+      "lastUpdate": "2026-09-22",
+      "category": "policy"
+    },
+    {
+      "id": "qwen-image-21-research-license",
+      "section": "new",
+      "rank": 8,
+      "title": "Released 20 September: Alibaba open-sourced Qwen-Image-2.1, a 7B single-stream DiT image model with native 2048x2048 output at 40 steps, RGBA generation and editing and up to 10 reference images. The notable change is the licence: earlier Qwen-Image versions shipped under Apache 2.0, but 2.1 ships under the Qwen Research License Agreement dated 20 September, which grants use for non-commercial purposes only and requires a separate commercial licence by email. The weights are downloadable within the hour but the output cannot be sold without permission.",
+      "tier": "monitor",
+      "impact": 5,
+      "delta": "new",
+      "arc": "open-weight-licensing",
+      "arcDay": 1,
+      "confidence": "2x src",
+      "new24h": false,
+      "firstSeen": "2026-09-20",
+      "lastUpdate": "2026-09-22",
+      "category": "models"
+    },
+    {
+      "id": "typesafe-jev-system-one",
+      "section": "new",
+      "rank": 9,
+      "title": "Announced 18 September by TypeSafe AI, whose founder Diego Almeida claims a ChatGPT-inventor role: Jev, pitched as a 'System One' model that emits decisions directly rather than generating text, trained with reinforcement learning from calibrated decisions (RLCD) and claimed to be about 100 times faster and cheaper than LLMs on classification-style tasks. Coverage is developer-enthusiast and vendor-sourced; no independent benchmark of the speed or cost claims was located in this scan, so the 100x figure is treated as a vendor claim.",
+      "tier": "monitor",
+      "impact": 5,
+      "delta": "new",
+      "arc": "non-generative-models",
+      "arcDay": 1,
+      "confidence": "Agg 1x",
+      "new24h": false,
+      "firstSeen": "2026-09-18",
+      "lastUpdate": "2026-09-22",
+      "category": "models"
+    },
+    {
+      "id": "ptia-token-inflation-audit",
+      "section": "new",
+      "rank": 10,
+      "title": "Surfaced on arXiv this week (2609.20370, listed 21 September): 'The More It Says, the More You Pay', a black-box audit of provider-side token inflation in pay-per-token LLM services. It formalises a Provider-Side Token Inflation Attack and instantiates five attacks at the query, prompt, representation and model levels, each raising mean output length to more than 10.2x the clean baseline while largely preserving task utility, documents PTIA saturation, and proposes a single-probe black-box audit as a defence. A companion May-2026 paper (2605.30040) showed reported reasoning length could be inflated about 1,469 percent without tripping existing auditors. All figures are the authors' own.",
+      "tier": "monitor",
+      "impact": 4,
+      "delta": "new",
+      "arc": "llm-billing-integrity",
+      "arcDay": 1,
+      "confidence": "Primary",
+      "new24h": false,
+      "firstSeen": "2026-09-21",
+      "lastUpdate": "2026-09-22",
+      "category": "research"
+    },
+    {
+      "id": "us-federal-ai-posture",
+      "section": "developing",
+      "rank": 1,
+      "title": "The federal AI posture announced 19 September acquires a principal: Jensen Huang is described as Trump's top ally on AI regulation, Treasury Secretary Bessent told Congress the president is 'completely aligned' with him, and Trump called safety concerns a 'hoax' on a live speakerphone call Huang held up on stage at the All-In Summit. Huang told Dreamforce that market forces suffice and no new laws are needed, and is set to attend Trump's state dinner for Xi on 24 September. Still absent: a named czar, an agency, a budget or an order.",
+      "tier": "critical",
+      "impact": 9,
+      "delta": "escalated",
+      "arc": "us-federal-ai-posture",
+      "arcDay": 2,
+      "confidence": "2x src",
+      "new24h": false,
+      "update": "Huang emerges as the administration's AI voice; Bessent says Trump 'completely aligned'; safety called a 'hoax' on a live call; Xi state dinner 24 Sep.",
+      "firstSeen": "2026-09-19",
+      "lastUpdate": "2026-09-22",
+      "category": "policy"
+    },
+    {
+      "id": "tech-layoffs-175k-2026",
+      "section": "developing",
+      "rank": 2,
+      "title": "A fresh monthly reading moves the labour tally: tracker aggregates put September layoffs up about 199 percent over August, with major internet companies driving 77 percent of the month's cuts, and AI cited in about 13 percent of US layoffs year-to-date, up from 4.5 percent in 2025; year-to-date 2026 stands at roughly 210,000-plus workers across about 383 events. The structure under it is unchanged from yesterday's geography read - India's AI openings ~70 percent concentrated in Bengaluru, Delhi-NCR and Mumbai, IT-services demand at an 18-month high, up to a 40 percent AI pay premium. These are tracker and outplacement aggregates, not official statistics, and monthly percentage swings on small bases are noisy.",
+      "tier": "notable",
+      "impact": 6,
+      "delta": "carry",
+      "arc": "ai-labour-impact",
+      "arcDay": 85,
+      "confidence": "Agg 1x",
+      "new24h": false,
+      "update": "September cuts up ~199% MoM; AI cited in ~13% of 2026 US layoffs vs 4.5% in 2025.",
+      "firstSeen": "2026-06-01",
+      "lastUpdate": "2026-09-22",
+      "category": "policy"
+    }
+  ],
+  "tracking": [
+    { "id": "plugin4shell-coding-agents", "label": "Plugin4Shell's SHA-pinning break across Claude Code, Codex, GitHub Copilot and Gemini CLI holds; Claude Code and Codex patched, Gemini CLI deprecated, Copilot's mitigation disputed, no new patch located and no exploitation in the wild claimed", "arc": "agent-security", "arcDay": 86 },
+    { "id": "stepfun-step5-preview", "label": "StepFun's Step 5 Preview (600B/27B MoE, Intelligence Index 44) holds with full open weights still dated 15 October; no movement this edition", "arc": "china-open-weights", "arcDay": 2 },
+    { "id": "cxmt-g5-dram-mass-production", "label": "CXMT's G5 DRAM mass-production claim at an 11.95nm half-pitch without EUV holds, all figures company-stated and no independent teardown located", "arc": "china-compute-substitution", "arcDay": 4 },
+    { "id": "virtual-biotech-37000-agents", "label": "The ~37,000-agent virtual biotech converging on B7-H3 from pre-January-2025 data holds as a retrospective comparison, not a prospective trial", "arc": "ai-for-science", "arcDay": 9 },
+    { "id": "ft-clinicians-medical-ai-limits", "label": "The FT report that clinicians are refusing medical AI beyond imaging on evidence grounds holds; physician daily AI use tripling while governance-policy awareness moved only 21% to 27%", "arc": "health-ai-adoption", "arcDay": 2 },
+    { "id": "naturebench-discovery-gap", "label": "The best-agent-versus-published-SOTA gap on Nature-family papers holds, uncontested and unreplicated", "arc": "ai-for-science", "arcDay": 9 },
+    { "id": "anthropic-ipo-november-model", "label": "The WSJ report that Anthropic is targeting a November IPO with a confidential S-1 filed 1 June holds; valuations reported ~$965B to $2T+, no filing update located", "arc": "anthropic-capital", "arcDay": 3 },
+    { "id": "openai-ipo-delay-2027", "label": "The OpenAI 2027 listing timetable holds with no filing or banker mandate located; SoftBank's bond raise funds the position in the interim", "arc": "openai-capital", "arcDay": 10 },
+    { "id": "us-china-ai-safety-dialogue", "label": "The Trump-Xi state dinner on 24 September is now the dated hook, with Huang attending; still no AI agenda item confirmed", "arc": "us-china-ai", "arcDay": 11 },
+    { "id": "dod-anthropic-removal-deadline", "label": "The Department of Defense department-wide removal deadline for Anthropic products is 29 September, with defence vendors required to certify", "arc": "dod-anthropic", "arcDay": 11 },
+    { "id": "mturk-shutdown", "label": "Amazon Mechanical Turk closes 30 September after 21 years, taking SageMaker Ground Truth and Augmented AI with it", "arc": "data-labour-market", "arcDay": 47 },
+    { "id": "huawei-cloud-aics-global", "label": "Huawei Cloud's AICS goes commercial in China on 30 September and elsewhere on 30 November", "arc": "china-compute-substitution", "arcDay": 4 },
+    { "id": "gsa-onegov-openai-tokens", "label": "The GSA/OpenAI OneGov 50% token discount takes effect 1 October across federal, state, local and tribal agencies", "arc": "public-sector-ai", "arcDay": 11 },
+    { "id": "fda-genai-device-docket", "label": "Comments close 19 October on the FDA's generative-AI-enabled medical devices discussion paper, docket FDA-2026-N-7874", "arc": "health-ai-regulation", "arcDay": 47 },
+    { "id": "unesco-ai-education-consultation", "label": "UNESCO's consultation on governing AI in education closes for expert feedback on 15 October", "arc": "ai-education-governance", "arcDay": 24 },
+    { "id": "newsom-ai-kill-switch-eo", "label": "California Executive Order N-9-26 still has no lab response, no bill text and no definition of a large frontier model, and is now cross-pressured by the federal deregulatory posture", "arc": "ca-ai-enforcement", "arcDay": 15 },
+    { "id": "openai-sb53-midas-allegation", "label": "The Midas Project's three alleged TFAIA breaches against OpenAI hold with no OpenAI response located", "arc": "ca-ai-enforcement", "arcDay": 7 },
+    { "id": "copyright-litigation", "label": "Andersen v. Stability AI is set for jury trial 5 April 2027 before Judge William H. Orrick; the NYT/OpenAI summary-judgment fight is carded separately today", "arc": "copyright-litigation", "arcDay": 23 },
+    { "id": "grok-47-slip-again", "label": "A fifth missed founder-announced date for xAI's Grok 4.7 holds, with no statement on the timetable", "arc": "xai-shipping", "arcDay": 9 },
+    { "id": "meity-krishnan-existential-risk", "label": "The MeitY secretary's on-record concession of the existential-risk point at SEMICON India holds; a claimed 21 September Digital India Act introduction was not verified and is not carded", "arc": "india-compute-sovereignty", "arcDay": 4 }
+  ],
+  "movers": [
+    { "dir": "up", "text": "AI CAPITAL STRUCTURE - SoftBank launches a record >$11B junk-bond deal to fund its OpenAI stake; total commitment heading to ~$64.6B (~13%), pricing 24 September" },
+    { "dir": "up", "text": "US FEDERAL AI POSTURE - Jensen Huang emerges as Trump's top AI ally; Bessent tells Congress the president is 'completely aligned'; safety called a 'hoax' on a live call" },
+    { "dir": "up", "text": "CHINA MODEL CAPITAL - Naive AI hits a $1.42B valuation on $400M before shipping a model, on a no-pre-training, build-on-open-weights bet" },
+    { "dir": "down", "text": "OPEN-WEIGHT LICENSING - Qwen-Image-2.1 ships open weights under a research-only licence, reversing the Apache line the Qwen-Image family shipped under" },
+    { "dir": "down", "text": "AGENTIC INFERENCE COST - Qwen3.8-Omni-Flash cuts per-audio-hour cost ~98% vs its predecessor at $0.15/$0.47 per million tokens, API-only" }
+  ],
+  "arcs": {
+    "openai-financing": { "day": 1, "note": "New arc: SoftBank launches a record >$11B senior-unsecured high-yield bond deal (20-21 Sep) to fund its OpenAI stake, heading to ~$64.6B and ~13%; pricing 24 Sep, settlement 29 Sep. Moves AI-buildout risk into the high-yield credit market against one private name." },
+    "china-model-capital": { "day": 1, "note": "New arc: Naive AI reaches a $1.42B valuation on $400M from Tencent, IDG and HSG before shipping a model, planning to build on an open-weight base rather than pre-train and to pursue recursive self-improvement. Chinese capital underwriting post-training over pre-training." },
+    "omnimodal-agents": { "day": 1, "note": "New arc: Alibaba's Qwen3.8-Omni-Flash, native omnimodal at 1M context, API-only at $0.15/$0.47, reported 26%+ over 3.5-Omni-Plus and ~98% cheaper per audio-hour. Cheap long-context multimodality as the substrate for voice/video agents; weights withheld." },
+    "agent-orchestration": { "day": 1, "note": "New arc: Google's Apache-2.0 AX orchestrator reaches v0.3.0, splitting into three services and moving task state from Kubernetes CRDs to Redis Streams because etcd cannot take agent-task churn. An architectural warning about running agents on the K8s control plane." },
+    "assistant-adtech": { "day": 1, "note": "New arc: OpenAI's __obi cookie binds a ChatGPT account to cross-site browsing via a signed JWT, reproduced across ~1,029 hostnames and classified as 'analytics' despite ad-tracking behaviour. Ad-tech arriving inside the assistant, with a consent mismatch." },
+    "sovereign-ai-consolidation": { "day": 1, "note": "New arc: Cohere and Aleph Alpha sign a definitive combination (~$20B, Berlin/Toronto, Heidelberg research centre), consolidating the independent Western sovereign-AI field aimed at regulated buyers; closing later in 2026 subject to approvals." },
+    "copyright-litigation": { "day": 23, "note": "Unsealed NYT/OpenAI summary-judgment filings expose internal messages calling AI an 'existential threat' to publishers and the copying 'an astonishing theft'; Microsoft's own data reportedly shows Copilot cutting publisher clicks up to 94%. The arc's most quotable evidence, now public." },
+    "open-weight-licensing": { "day": 1, "note": "New arc: Qwen-Image-2.1 ships downloadable weights under a research-only Qwen Research License (20 Sep), reversing the Apache 2.0 line of earlier Qwen-Image releases. 'Open' narrows to run-but-don't-ship." },
+    "non-generative-models": { "day": 1, "note": "New arc: TypeSafe's Jev, a decision-emitting 'System One' model trained with RLCD, claimed ~100x faster/cheaper than LLMs on classification. A wedge against token-by-token generators, unbenchmarked independently." },
+    "llm-billing-integrity": { "day": 1, "note": "New arc: an arXiv black-box audit formalises provider-side token inflation (>10.2x output length while preserving utility) and proposes a single-probe defence; a companion paper inflated reported reasoning ~1,469% undetected. Per-token billing has a named attack surface." },
+    "us-federal-ai-posture": { "day": 2, "note": "Jensen Huang emerges as Trump's top AI ally; Bessent says the president is 'completely aligned' with him; Trump calls safety a 'hoax' on a live call; Huang attends the Xi state dinner 24 Sep. Still no named czar, agency, budget or order. The pacing debate now sits wholly inside this arc." },
+    "ai-labour-impact": { "day": 85, "note": "Tracker aggregates put September layoffs up ~199% MoM with internet firms driving 77%, and AI cited in ~13% of 2026 US layoffs vs 4.5% in 2025; India's AI openings stay ~70% concentrated in three metros. Aggregates, not official statistics." }
+  },
+  "resolved": [
+    "FRONTIER-PACING closes as a standalone thread, merged rather than concluded: nine-plus days after Amodei's 12 September essay the pacing question is now wholly inside the US-federal-posture arc - the White House against it, Jensen Huang its named ally - and not one signatory has slowed a release.",
+    "Yesterday's watch-item - whether any lab would answer the federal posture - is unanswered after 24 hours: no lab issued a substantive public response and the administration's position hardened, with Huang named as its ally and safety called a 'hoax'.",
+    "AIR-AGENT-SUPPLY-CHAIN closes on the agent-security arc: the $50M seed and the Plugin4Shell disclosure are now folded together under one tracker rather than carried as separate items.",
+    "About a dozen entries auto-retired this edition, four of yesterday's one-day New items folded into today's cards: Paper2Agent, the end-to-end AI-Scientist Nature record, the biomedical marker-word study and the ChatGPT Chrome-extensions feature were retired, while Plugin4Shell, StepFun's Step 5, CXMT's G5 DRAM, the virtual biotech and the FT clinician report dropped to one-line trackers."
+  ],
+  "deadlines": [
+    { "date": "2026-09-24", "label": "Trump-Xi state dinner (Huang attending) - and SoftBank's >$11B OpenAI-bet bond prices the same day, settling 29 Sep", "severity": "high" },
+    { "date": "2026-09-29", "label": "DoD department-wide removal deadline for Anthropic products; defence vendors required to certify", "severity": "high" },
+    { "date": "2026-09-30", "label": "Amazon Mechanical Turk closes after 21 years with SageMaker Ground Truth and Augmented AI - and Huawei Cloud's AICS goes commercial in China the same day", "severity": "high" },
+    { "date": "2026-10-01", "label": "GSA/OpenAI OneGov 50% token discount takes effect across federal, state, local and tribal agencies", "severity": "medium" },
+    { "date": "2026-10-15", "label": "StepFun's full open weights for Step 5 Preview - a 600B/27B agentic model at Intelligence Index 44 becomes self-hostable, if the date holds", "severity": "medium" },
+    { "date": "2026-10-19", "label": "FDA comments close on the generative-AI-enabled medical devices discussion paper, docket FDA-2026-N-7874", "severity": "medium" }
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── deep-link support: #still-tracking / #resolved / #method open the collapsed folds ──
+  var foldMap = {'still-tracking':'fold-tracking','resolved':'fold-resolved','method':'fold-method'};
+  var openFromHash = function(){
+    var id = foldMap[(location.hash||'').replace('#','')];
+    if(id){ var el = document.getElementById(id); if(el){ el.open = true; el.scrollIntoView(); } }
+  };
+  window.addEventListener('hashchange', openFromHash); openFromHash();
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
