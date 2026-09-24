@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 096 — 24 September 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ticker */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
+  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166}
+
+  /* masthead */
+  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
+  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
+  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+  .meta-bar span b{color:var(--crit)}
+  .meta-bar .seg b{color:var(--accent)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
+  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
+  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:13px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
+  .facts dd{margin:1px 0 0}
+  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .brief-toggle:hover{background:var(--crit)}
+  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* badges & chips */
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--crit);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff}
+  .b-deesc{background:#3d5a4c;color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
+  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
+  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+
+  /* triptych */
+  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
+  .sec-head.new-band{border-bottom-color:var(--crit)}
+  .sec-head.dev-band{border-bottom-color:var(--mon)}
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
+  .trip{padding:18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
+  .trip p{font-size:13px;color:#4a4436}
+  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+
+  /* deadline radar */
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
+  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
+  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
+  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
+  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
+  .tile.today{outline:2px solid var(--crit)}
+  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+
+  /* movers strip */
+  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
+  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
+  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
+  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+
+  /* tabs + mosaic */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
+  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
+  .card.crit{border-top:4px solid var(--crit)}
+  .card.note{border-top:4px solid var(--note)}
+  .card.mon{border-top:4px solid var(--mon)}
+  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
+  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
+  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
+  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
+  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
+  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .impact b{font-size:14px;color:var(--ink)}
+  /* "what changed" line on developing cards */
+  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
+  .delta-line.nochange .dl-tag{color:#6b6353}
+
+  /* tracking + resolved + footer */
+  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
+  .tracking-strip strong{color:var(--accent)}
+
+  /* collapsible archive sections (Still Tracking / Resolved / method notes) */
+  .fold{border-bottom:3px solid var(--ink);margin-top:26px}
+  .fold[open]{border-bottom-color:var(--rule)}
+  .fold > summary{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:0 0 8px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary small{font-size:10px;color:#6b6353;letter-spacing:1px;font-weight:400}
+  .fold > summary .caret{font-size:11px;color:#6b6353;letter-spacing:0}
+  .fold > summary:hover{color:var(--crit)}
+  .fold[open] > summary .caret::after{content:"▴ HIDE"}
+  .fold:not([open]) > summary .caret::after{content:"▾ SHOW"}
+  .fold .fold-body{padding-bottom:16px}
+  footer .fold{border-bottom:none;margin-top:12px}
+  footer .fold > summary{font-size:11px;letter-spacing:2px}
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
+  footer p{margin-bottom:6px}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .card.w3,.card.w2{grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ TICKER ══════════ -->
+<div class="ticker"><div class="ticker-inner">
+  <b>AI FOR SCIENCE</b> Anthropic says Claude named a new enzyme family in phages — 950 agents, 21 hours, 210M tokens, 200,000 reverse transcriptases screened; gene-editing stocks fell &nbsp;◆&nbsp; <b>PACING, TESTED</b> Opus 5.5 ships 22 Sep as "our first release since we called for pacing the frontier" — METR and Frontier Design evaluated it pre-launch &nbsp;◆&nbsp; <b>PRICE WAR</b> GPT-6 Sol $2/$10 and Luna $0.10/$0.50 — half the previous tier, same day &nbsp;◆&nbsp; <b>OPEN WEIGHTS</b> Xiaomi MiMo-V2.6-Pro (1.02T/42B, MIT) scores 46 and ties Grok 4.7 — a new open ceiling &nbsp;◆&nbsp; <b>TODAY</b> Trump hosts Xi at the White House with AI and AI data centres on the agenda; officials expect no breakthrough &nbsp;◆&nbsp;
+</div></div>
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<header class="masthead wrap">
+  <h1>AI Daily Signal</h1>
+  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
+  <div class="meta-bar">
+    <span>EDITION <b>096</b></span>
+    <span>THURSDAY, 24 SEPTEMBER 2026</span>
+    <span class="seg">NEW <b>14</b> · DEVELOPING <b>5</b> · TRACKING <b>23</b></span>
+    <span>CRITICAL <b>8</b> / NOTABLE 10 / MONITOR 1</span>
+    <span>SCAN: 34 SEARCHES · 24–72H</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<article class="hero" data-story-id="claude-art-enzyme-discovery">
+  <div>
+    <div class="kicker">■ Today's Lead · New · Research · Day 11 of the AI-for-science arc</div>
+    <h2>Four days after confirming a wet lab, Anthropic says Claude found a new enzyme family hiding in bacterial viruses</h2>
+    <p class="dek">On <strong>23 September</strong> Anthropic published what it calls the first result from the biology research group it formed in the spring of 2026: Claude, running <strong>950 agents over 21 hours</strong> and processing <strong>210 million tokens</strong>, assembled a set of more than <strong>200,000 reverse transcriptases</strong>, flagged <strong>3,500 candidate systems</strong>, narrowed them to <strong>20</strong> for detailed analysis, and surfaced a previously uncharacterised enzyme system found mainly in <strong>bacteriophages</strong> — the viruses that infect bacteria (<a href="https://www.anthropic.com/news/claude-discovers-novel-enzyme-system">Anthropic</a>, <a href="https://thenextweb.com/news/anthropic-claude-enzyme-system-crispr-like-repeats">TNW</a>). The system, named <strong>array-associated reverse transcriptases (ART)</strong>, has three parts: the reverse transcriptase, a partner gene beside it, and a long array of evenly spaced DNA repeats — the structural signature behind <strong>CRISPR</strong> (<a href="https://www.unite.ai/anthropic-says-claude-discovered-a-new-enzyme-system-resembling-crispr/">Unite.AI</a>, <a href="https://interestingengineering.com/ai-robotics/claude-discovers-crispr-like-enzyme-system">Interesting Engineering</a>). The market read it as a capability claim rather than a press release: <strong>gene-editing stocks fell</strong> on the disclosure (<a href="https://www.tradingview.com/news/seekingalpha:8ce29f11b094b:0-gene-editing-stocks-fall-after-anthropic-s-crispr-like-discovery">Seeking Alpha via TradingView</a>). Edition 093 logged the Bay Area wet lab as a lease and a hiring plan. Eleven editions into this arc — M23 fell on Monday, OpenAI claims 100+ open math problems below — the lab has a finding with a name.</p>
+    <p class="sowhat">So what: the thing that changed is not "AI helps biologists" — it is the unit of work. A thousand agents screening a protein family overnight is a search budget no lab team can match by hand, and it lands in a week when a competitor claims a comparable sweep in mathematics. If your R&D roadmap prices AI as an assistant, reprice it as a screening layer — and note that peer review has not yet touched either claim.</p>
+    <span class="chip arc">ARC: AI-FOR-SCIENCE · D11</span><span class="chip">CONFIDENCE: 2x SRC</span>
+    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
+      <a href="https://www.anthropic.com/news/claude-discovers-novel-enzyme-system">Anthropic (primary)</a> ·
+      <a href="https://thenextweb.com/news/anthropic-claude-enzyme-system-crispr-like-repeats">TNW</a> ·
+      <a href="https://www.unite.ai/anthropic-says-claude-discovered-a-new-enzyme-system-resembling-crispr/">Unite.AI</a> ·
+      <a href="https://interestingengineering.com/ai-robotics/claude-discovers-crispr-like-enzyme-system">Interesting Engineering</a>
+    </div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>What was found.</strong> Anthropic says Claude identified a pattern marking a previously uncharacterised enzyme system, found mainly in bacteriophages, and named it <strong>array-associated reverse transcriptases (ART)</strong>. ART has three components: a reverse transcriptase, a partner gene sitting beside it, and a long array of evenly spaced DNA repeat sequences. Evenly spaced repeats are the structural hallmark of CRISPR loci, which is why the coverage frames ART as "CRISPR-like" — the resemblance is architectural, and Anthropic is not claiming a working gene-editing tool (<a href="https://www.anthropic.com/news/claude-discovers-novel-enzyme-system">Anthropic</a>).</p>
+      <p><strong>How it was run.</strong> The reported pipeline: <strong>950 agents</strong> over <strong>21 hours</strong>, <strong>210 million tokens</strong>, a gathered set of more than <strong>200,000 reverse transcriptases</strong>, <strong>3,500</strong> candidate systems identified, <strong>20</strong> taken forward for detailed analysis. The group's stated remit is fundamental biology using Claude — mining DNA datasets for uncharacterised protein families, generating hypotheses at scale, and testing them in the lab (<a href="https://interestingengineering.com/ai-robotics/claude-discovers-crispr-like-enzyme-system">Interesting Engineering</a>).</p>
+      <p><strong>Why it is the lead.</strong> Edition 093 recorded the Bay Area wet lab as a confirmed facility with no output. This is the output, four days later, with a mechanism, a name and a market reaction. It also anchors the edition's second thread: the same 72 hours produced OpenAI's claim that an internal model resolved more than 100 open mathematics problems in about 24 days of training. Two labs, two disciplines, one argument — that a model plus a large agent budget is now a discovery instrument.</p>
+      <p><strong>The caveats, stated plainly.</strong> This is a company announcement, amplified by trade and general press; this scan located no peer-reviewed paper, no independent replication and no third-party characterisation of ART's function. "Resembles CRISPR" describes repeat architecture, not demonstrated editing activity. The agent, token and candidate counts are Anthropic's own. Gene-editing share moves are a market reaction to a claim, not a verdict on it.</p>
+      <p><strong>Watch next.</strong> Whether ART appears in a preprint or journal with a characterised mechanism; whether any outside group reproduces the screen; and whether Anthropic's Novo Nordisk collaboration or the Adaptyv Bio protein-design competition (up to $1M in Claude credits, wet-lab validation for 5,000+ designs) produces a second result on the same cadence.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>Announced</dt><dd>23 September 2026, Anthropic — first published result from the biology research group formed spring 2026</dd>
+      <dt>The finding</dt><dd>ART — array-associated reverse transcriptases: RT + partner gene + long array of evenly spaced DNA repeats, mainly in bacteriophages</dd>
+      <dt>The run</dt><dd>950 agents · 21 hours · 210M tokens · 200,000+ reverse transcriptases · 3,500 candidates · 20 analysed</dd>
+      <dt>Market reaction</dt><dd>Gene-editing stocks fell on the disclosure</dd>
+      <dt>Caveat</dt><dd>Company announcement; no peer review, replication or independent characterisation located. "CRISPR-like" = repeat architecture, not demonstrated editing</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">9</b>/10 — every research org deciding whether agent fleets are a screening layer or a demo</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- ══════════ 30-SECOND READ ══════════ -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="triptych">
+    <article class="trip" data-story-id="claude-art-enzyme-discovery">
+      <div class="num">1</div>
+      <h4>Claude names a new enzyme family in phages</h4>
+      <p>950 agents, 21 hours, 210M tokens, 200,000 reverse transcriptases screened down to 20 — and ART, a CRISPR-like repeat architecture nobody had characterised. The first result from the wet lab confirmed four days ago. Gene-editing stocks fell. No peer review yet. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="claude-opus-55">
+      <div class="num">2</div>
+      <h4>Pacing meets the release calendar</h4>
+      <p>Opus 5.5 shipped 22 September labelled "our first release since we called for pacing the frontier" — $4/$20 down from $5/$25, ~40% cheaper per task, and METR plus Frontier Design evaluating before launch. METR: uplift slightly above Fable 5.1, full AI R&amp;D automation unlikely. <strong>NEW.</strong></p>
+    </article>
+    <article class="trip" data-story-id="gpt-6-sol-luna">
+      <div class="num">3</div>
+      <h4>OpenAI halves the GPT-6 tier the same day</h4>
+      <p>Sol at $2/$10 (from $4/$20), Luna at $0.10/$0.50 (from $0.20/$1.20), 90% off cached input reads — attributed to caching and inference efficiency, not a promotion. Two frontier labs cut prices within hours of each other. <strong>NEW.</strong></p>
+    </article>
+  </div>
+  <p class="fold-line"><strong>THE SHAPE OF TODAY:</strong> a 48-hour model burst that the last edition did not carry — <strong>Claude Opus 5.5</strong>, <strong>GPT-6 Sol &amp; Luna</strong> and <strong>Xiaomi's MiMo-V2.6</strong> all landed on 22 September and are <em>new</em> here with honest dates and <strong>no NEW.24H badge</strong>. Seven items did break inside 24h and carry the badge, all dated 23 September: Anthropic's <strong>ART</strong> enzyme result, the <strong>Claude Marketplace</strong> at 2,000+ connectors, <strong>plugins inside ChatGPT Voice</strong>, NPR's finding that the <strong>US Senate</strong> regulating agentic AI is not allowed to use any, and three funding rounds — <strong>Enveda</strong> $311M, <strong>Ema</strong> $77M, <strong>Numeral</strong> $100M. Money ran hot beyond those: <strong>Mirendil</strong> in talks at $5B for recursive self-improvement and <strong>Snorkel</strong> $350M at $3.5B on $375M ARR, both 22 September. Research beat is represented twice — ART and OpenAI's <strong>100+ open math problems</strong> with a nine-mathematician advisory group that cannot slow it down. Thursday's rotation is <strong>hardware/compute</strong> and it was the thinnest beat of the run: one card (<strong>Micron</strong>, into a 30 September print) and one mover (<strong>AMD</strong>'s record close). 14 New, 5 Developing, Tracking 23 after 8 auto-retirements.</p>
+</section>
+
+<!-- ══════════ DEADLINE RADAR ══════════ -->
+<section>
+  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
+  <div class="radar" id="radar"></div>
+</section>
+
+<!-- ══════════ MOVERS ══════════ -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
+  <div class="movers" id="movers"></div>
+</section>
+
+<!-- ══════════ FEED TABS ══════════ -->
+<section>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (19)</button>
+    <button class="tab" data-cat="models">MODELS (3)</button>
+    <button class="tab" data-cat="business">BUSINESS (4)</button>
+    <button class="tab" data-cat="policy">POLICY (6)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (3)</button>
+    <button class="tab" data-cat="research">RESEARCH (2)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (1)</button>
+  </div>
+
+  <!-- ══════════ NEW ON THE WIRE ══════════ -->
+  <div class="sec-head new-band">New on the Wire <small>14 ITEMS · BROKE / SURFACED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="research" data-story-id="claude-art-enzyme-discovery">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">#1</span> <span class="cat">RESEARCH · BIOLOGY</span></div>
+      <h4>Claude names ART, a CRISPR-like enzyme system in bacteriophages — the wet lab's first result</h4>
+      <div class="body">The lead, in full above. On <strong>23 September</strong> Anthropic reported that Claude screened more than <strong>200,000 reverse transcriptases</strong> using <strong>950 agents over 21 hours</strong> and <strong>210M tokens</strong>, narrowed <strong>3,500</strong> candidate systems to <strong>20</strong>, and characterised a previously unknown family it calls <strong>array-associated reverse transcriptases</strong> — an RT, a partner gene and a long array of evenly spaced DNA repeats, the architecture behind CRISPR (<a href="https://www.anthropic.com/news/claude-discovers-novel-enzyme-system">Anthropic</a>, <a href="https://thenextweb.com/news/anthropic-claude-enzyme-system-crispr-like-repeats">TNW</a>). <strong>Gene-editing stocks fell</strong> on the news (<a href="https://www.tradingview.com/news/seekingalpha:8ce29f11b094b:0-gene-editing-stocks-fall-after-anthropic-s-crispr-like-discovery">Seeking Alpha</a>). No peer review or independent replication located.</div>
+      <p class="sowhat">Treat this as a claim with a mechanism attached, not a published result — but price the screening budget it implies into your own discovery roadmap now.</p>
+      <div><span class="chip arc">ARC: AI-FOR-SCIENCE · D11</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.anthropic.com/news/claude-discovers-novel-enzyme-system">Anthropic</a> · <a href="https://thenextweb.com/news/anthropic-claude-enzyme-system-crispr-like-repeats">TNW</a> · <a href="https://www.unite.ai/anthropic-says-claude-discovered-a-new-enzyme-system-resembling-crispr/">Unite.AI</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="models" data-story-id="claude-opus-55">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">#2</span> <span class="cat">MODELS · ANTHROPIC</span></div>
+      <h4>Claude Opus 5.5 ships as "our first release since we called for pacing the frontier"</h4>
+      <div class="body">Released <strong>22 September</strong> — twelve days into the pacing argument this briefing has carried since Amodei's essay. Pricing drops to <strong>$4/$20</strong> per million tokens from $5/$25 on Opus 5; cache writes fall $6.25→$5 and cache reads $0.50→$0.20; output is <strong>&gt;30% faster</strong> and typical workloads cost about <strong>40% less</strong> because the model spends fewer tokens finishing a task (<a href="https://techcrunch.com/2026/09/22/anthropic-releases-opus-5-5-with-lower-prices-and-fable-level-performance/">TechCrunch</a>, <a href="https://venturebeat.com/technology/anthropic-releases-claude-opus-5-5-beating-fable-5-1-on-key-agentic-benchmarks-at-60-cheaper-api-price">VentureBeat</a>). It outscores Opus 5 on all nine benchmarks in Anthropic's own release table and leads Fable 5.1 and GPT-6 Astra on agentic coding, knowledge work and computer use, trailing Astra on two. <strong>METR</strong> and <strong>Frontier Design</strong> evaluated pre-launch; METR's published summary concludes acceleration is slightly higher than Fable 5.1 but that the model is <strong>unlikely to fully automate AI R&amp;D</strong> (<a href="https://metr.org/blog/2026-09-22-claude-opus-5-5/">METR</a>, <a href="https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf">system card</a>).</div>
+      <p class="sowhat">Pacing, in practice, turned out to mean shipping with external evaluators attached — not shipping less. Hold labs to the evaluator record, because that is the part that is actually novel here.</p>
+      <div><span class="chip arc">ARC: ANTHROPIC-MODEL-CADENCE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/09/22/anthropic-releases-opus-5-5-with-lower-prices-and-fable-level-performance/">TechCrunch</a> · <a href="https://venturebeat.com/technology/anthropic-releases-claude-opus-5-5-beating-fable-5-1-on-key-agentic-benchmarks-at-60-cheaper-api-price">VentureBeat</a> · <a href="https://metr.org/blog/2026-09-22-claude-opus-5-5/">METR</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="models" data-story-id="gpt-6-sol-luna">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">#3</span> <span class="cat">MODELS · OPENAI</span></div>
+      <h4>GPT-6 Sol and Luna land at half the previous tier's API price</h4>
+      <div class="body">Announced <strong>22 September</strong>, hours from the Opus 5.5 release. <strong>Sol</strong> is <strong>$2/$10</strong> per million input/output tokens against $4/$20 for GPT-5.6 Sol; <strong>Luna</strong> is <strong>$0.10/$0.50</strong> against $0.20/$1.20 — a flat <strong>50% cut</strong> on the prior promotional pricing, plus a <strong>90% discount on cached input reads</strong> (<a href="https://openai.com/index/introducing-gpt-6-sol-and-luna/">OpenAI</a>, <a href="https://thenewstack.io/openai-gpt-6-sol-luna-release/">The New Stack</a>). OpenAI attributes the cut to caching and inference efficiency rather than a promotion, saying caching upgrades more than halved the volume of tokens needing fresh processing across billions of GitHub Copilot requests. Both are live for Plus, Pro, Business, Enterprise and Edu users in ChatGPT Work and Codex and on the API; free and Go users get Luna in the desktop app (<a href="https://www.marktechpost.com/2026/09/22/openai-releases-gpt-6-sol-and-luna-50-cheaper-api-pricing-and-benchmarks/">MarkTechPost</a>).</div>
+      <p class="sowhat">Two frontier labs cut token prices on the same day and both credited efficiency, not discounting — re-run your unit economics this week, because the floor moved under every agent loop you budgeted in August.</p>
+      <div><span class="chip arc">ARC: FRONTIER-PRICE-WAR · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://openai.com/index/introducing-gpt-6-sol-and-luna/">OpenAI (primary)</a> · <a href="https://thenewstack.io/openai-gpt-6-sol-luna-release/">The New Stack</a> · <a href="https://www.marktechpost.com/2026/09/22/openai-releases-gpt-6-sol-and-luna-50-cheaper-api-pricing-and-benchmarks/">MarkTechPost</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="research" data-story-id="openai-math-100-problems-agmai">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#4</span> <span class="cat">RESEARCH · MATHEMATICS</span></div>
+      <h4>OpenAI says an unreleased model resolved 100+ open maths problems — and hands nine mathematicians no power to slow it</h4>
+      <div class="body">Reported <strong>21 September</strong>: OpenAI says an internal, unreleased model resolved more than <strong>100 long-standing open problems</strong> spanning most branches of mathematics, in roughly <strong>24 days of training</strong> begun <strong>28 August</strong> — on top of its earlier claimed Navier–Stokes Millennium Prize proof (<a href="https://techcrunch.com/2026/09/21/openai-forms-math-advisory-group-as-its-ai-resolves-more-than-100-open-problems/">TechCrunch</a>, <a href="https://the-decoder.com/openai-says-its-internal-model-solved-over-100-long-standing-math-problems-after-just-a-month-of-training/">The Decoder</a>). Alongside it, a nine-member <strong>Advisory Group on Mathematics and AI</strong> hosted at Princeton's <strong>Institute for Advanced Study</strong>: François Charles, Camillo De Lellis, <strong>Timothy Gowers</strong>, <strong>Martin Hairer</strong>, Nikhil Srivastava, Ulrike Tillmann, Ravi Vakil, <strong>Edward Witten</strong> and Melanie Matchett Wood. Members are <strong>unpaid and have no authority over OpenAI's research pace</strong>; their first task is coordinating release of results that remain unpublished (<a href="https://thenextweb.com/news/openai-maths-advisory-group-100-open-problems">TNW</a>).</div>
+      <p class="sowhat">The governance pattern is now legible: convene the field's most credible names, give them the release calendar, withhold the throttle. Read every "advisory group" announcement for which of the two it hands over.</p>
+      <div><span class="chip arc">ARC: AI-MATHEMATICS · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/09/21/openai-forms-math-advisory-group-as-its-ai-resolves-more-than-100-open-problems/">TechCrunch</a> · <a href="https://thenextweb.com/news/openai-maths-advisory-group-100-open-problems">TNW</a> · <a href="https://the-decoder.com/openai-says-its-internal-model-solved-over-100-long-standing-math-problems-after-just-a-month-of-training/">The Decoder</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="models" data-story-id="xiaomi-mimo-v26">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">#5</span> <span class="cat">MODELS · OPEN-WEIGHT</span></div>
+      <h4>Xiaomi's MiMo-V2.6 sets a new open-weights ceiling — and publishes 7,000+ RL environments with it</h4>
+      <div class="body">Released <strong>22 September</strong> on Hugging Face under <strong>MIT</strong> licences. <strong>MiMo-V2.6-Pro</strong> is a <strong>1.02T-parameter MoE with 42B active</strong>, omnimodal across text, image, video and audio, with up to a <strong>1M-token</strong> context; <strong>Flash</strong> is <strong>309B/15B active</strong> at 256K; a <strong>Distill-Qwen-9B</strong> checkpoint is fine-tuned from Alibaba's Qwen3.5-9B on MiMo-generated data (<a href="https://mimo.mi.com/docs/en-US/news/latest/v2-6">Xiaomi</a>, <a href="https://www.eweek.com/news/xiaomi-mimo-v26-open-source-rl-reproduction/">eWeek</a>). Pro scores <strong>46 on the Artificial Analysis Intelligence Index v4.3</strong>, effectively tying <strong>Grok 4.7</strong> — the model this briefing logged as shipped on Sunday — and setting a new top mark for open weights (<a href="https://venturebeat.com/technology/better-than-deepseek-xiaomis-mimo-v2-6-pro-debuts-as-the-top-open-weights-model-in-the-world-alongside-cheaper-v2-6-flash">VentureBeat</a>). Xiaomi also published more than <strong>7,000 RL task environments</strong> and an end-to-end training framework, and disclosed the RL phase cost: <strong>$854,044</strong> for Flash and <strong>$2,620,670</strong> for Pro, about <strong>$3.5M</strong> combined.</div>
+      <p class="sowhat">A handset maker just published a frontier-tying model, its RL environments and its training bill under MIT. The disclosed $3.5M RL cost is the number to argue with — it reframes what a credible open challenger has to spend.</p>
+      <div><span class="chip arc">ARC: OPEN-WEIGHT-CEILING · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://venturebeat.com/technology/better-than-deepseek-xiaomis-mimo-v2-6-pro-debuts-as-the-top-open-weights-model-in-the-world-alongside-cheaper-v2-6-flash">VentureBeat</a> · <a href="https://www.eweek.com/news/xiaomi-mimo-v26-open-source-rl-reproduction/">eWeek</a> · <a href="https://mimo.mi.com/docs/en-US/news/latest/v2-6">Xiaomi (primary)</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="claude-marketplace-2000">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#6</span> <span class="cat">ENTERPRISE · PLATFORM</span></div>
+      <h4>Claude Marketplace reopens at 2,000+ connectors — and lets buyers spend their Anthropic commitment on someone else's software</h4>
+      <div class="body">On <strong>23 September</strong> Anthropic consolidated plugins, connectors, agents, partner products and implementation firms into one catalogue with more than <strong>2,000</strong> entries, up from six partners at the <strong>6 March</strong> launch (<a href="https://venturebeat.com/technology/anthropic-launches-claude-marketplace-giving-enterprises-access-to-claude">VentureBeat</a>, <a href="https://claude.com/platform/marketplace">Anthropic</a>). Three sections — <em>add</em> (connectors and plugins into workplace apps and data), <em>buy</em> (Claude-powered products from <strong>Cursor, CrowdStrike, Harvey, Legora, Lovable, Replit, GitLab, Rogo, Snowflake</strong>) and <em>scale</em> (implementation partners including <strong>Accenture</strong> and <strong>Deloitte</strong>). The commercially interesting part is procurement: organisations can spend part of an existing Anthropic commitment on partner software (<a href="https://cryptobriefing.com/anthropic-expands-claude-marketplace-with-over-2000-connectors-and-plugins/">Crypto Briefing</a>).</div>
+      <p class="sowhat">Committed spend that can be redirected to third-party software is how a model vendor becomes a channel. If you hold an Anthropic commitment, re-read it before your next ISV renewal.</p>
+      <div><span class="chip arc">ARC: ENTERPRISE-AGENT-ADOPTION · D2</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://venturebeat.com/technology/anthropic-launches-claude-marketplace-giving-enterprises-access-to-claude">VentureBeat</a> · <a href="https://claude.com/platform/marketplace">Anthropic (primary)</a> · <a href="https://cryptobriefing.com/anthropic-expands-claude-marketplace-with-over-2000-connectors-and-plugins/">Crypto Briefing</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="enterprise" data-story-id="chatgpt-voice-plugins-work">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#7</span> <span class="cat">ENTERPRISE · ASSISTANTS</span></div>
+      <h4>Plugins arrive inside ChatGPT Voice — and Work tasks can now be started by speaking</h4>
+      <div class="body">On <strong>23 September</strong> OpenAI added plugin support to the Live voice experience across web, iOS and Android, and made <strong>ChatGPT Work</strong> — the task-automation layer — drivable by voice on both (<a href="https://techcrunch.com/2026/09/23/chatgpt-mobile-app-gets-voice-based-agentic-features/">TechCrunch</a>). Mid-conversation, Voice can now reach connected apps including <strong>Gmail, Google Calendar and Slack</strong>, so a spoken request can create a document, draft an email or summarise a channel, with the written response following in the chat; sessions are powered by <strong>GPT-6 Astra, Sol or Luna</strong> (<a href="https://www.unite.ai/openai-brings-plugins-to-live-voice-and-voice-to-work-in-chatgpt/">Unite.AI</a>). An account's existing app connections, permissions and usage limits carry over; free and Go users get Voice in Chat with whatever plugins their plan supports.</div>
+      <p class="sowhat">Voice stops being a reading mode and becomes an execution surface — which means every permission you granted a connector is now reachable without a screen. Audit connector scopes before someone's commute does it for you.</p>
+      <div><span class="chip arc">ARC: ASSISTANT-AGENTIFICATION · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/09/23/chatgpt-mobile-app-gets-voice-based-agentic-features/">TechCrunch</a> · <a href="https://www.unite.ai/openai-brings-plugins-to-live-voice-and-voice-to-work-in-chatgpt/">Unite.AI</a></div>
+    </article>
+
+    <article class="card w3 note" data-cat="business" data-story-id="mirendil-5b-valuation">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">#8</span> <span class="cat">BUSINESS · FUNDING</span></div>
+      <h4>A six-month-old recursive-self-improvement startup is in talks at $5B — five times its June mark</h4>
+      <div class="body"><strong>Mirendil</strong>, founded this year by former Anthropic researchers to build models that improve themselves with little human input, is in talks to raise up to <strong>$1B at a $5B valuation</strong>, with <strong>Kleiner Perkins</strong> in line to lead and <strong>Andreessen Horowitz</strong> in discussions (<a href="https://www.bloomberg.com/news/articles/2026-09-22/ex-anthropic-staffers-ai-startup-in-talks-to-raise-at-5-billion-value">Bloomberg</a>, 22 September). The same two firms led a <strong>$200M seed at $1B</strong> roughly three months ago — a <strong>fivefold</strong> mark in a quarter, on a team drawn from Anthropic, xAI, DeepMind and OpenAI, working on biology and materials-science research targets (<a href="https://www.pymnts.com/news/artificial-intelligence/2026/anthropic-alumni-startup-sees-valuation-jump-fivefold/">PYMNTS</a>, <a href="https://techfundingnews.com/report-ex-anthropic-duos-mirendil-in-talks-for-5b-valuation-just-3-months-after-1b-seed/">TechFundingNews</a>). <strong>Talks-stage:</strong> no close, no confirmed terms, no company statement located.</div>
+      <p class="sowhat">Twelve days after four labs argued publicly about pacing the frontier, the private market repriced a recursive-self-improvement bet 5x in a quarter. Note which way the capital reads the argument.</p>
+      <div><span class="chip arc">ARC: RECURSIVE-SELF-IMPROVEMENT-CAPITAL · D1</span><span class="chip">2x SRC</span><span class="chip rumor">TALKS-STAGE</span></div>
+      <div class="src"><a href="https://www.bloomberg.com/news/articles/2026-09-22/ex-anthropic-staffers-ai-startup-in-talks-to-raise-at-5-billion-value">Bloomberg</a> · <a href="https://www.pymnts.com/news/artificial-intelligence/2026/anthropic-alumni-startup-sees-valuation-jump-fivefold/">PYMNTS</a> · <a href="https://techfundingnews.com/report-ex-anthropic-duos-mirendil-in-talks-for-5b-valuation-just-3-months-after-1b-seed/">TechFundingNews</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="snorkel-350m-series-e">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#9</span> <span class="cat">BUSINESS · DATA</span></div>
+      <h4>Snorkel AI takes $350M at $3.5B as training data becomes a product, not a tool</h4>
+      <div class="body">Announced <strong>22 September</strong>: a <strong>$350M Series E</strong> co-led by <strong>Insight Partners</strong> and <strong>S32</strong> at a <strong>$3.5B</strong> valuation, nearly tripling the mark set 17 months earlier, with Addition, March Capital, Greylock, Lightspeed, GV, Prosperity7 and Wells Fargo among the participants (<a href="https://techcrunch.com/2026/09/22/snorkel-ai-triples-valuation-to-3-5b-as-demand-for-ai-training-data-booms/">TechCrunch</a>, <a href="https://www.prnewswire.com/news-releases/snorkel-ai-raises-350m-to-scale-the-data-factory-for-frontier-ai-302886796.html">PR Newswire</a>). Annualised revenue run rate is reported at <strong>$375M</strong>, an <strong>18-fold</strong> increase in twelve months — on a shift from labelling-automation software to finished training and evaluation datasets built with subject experts, plus reinforcement-learning environments.</div>
+      <p class="sowhat">18x ARR in a year says the scarce input is no longer compute or weights — it is curated data and RL environments. Xiaomi publishing 7,000 of the latter for free, today, is the other half of that trade.</p>
+      <div><span class="chip arc">ARC: TRAINING-DATA-ECONOMY · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/09/22/snorkel-ai-triples-valuation-to-3-5b-as-demand-for-ai-training-data-booms/">TechCrunch</a> · <a href="https://www.prnewswire.com/news-releases/snorkel-ai-raises-350m-to-scale-the-data-factory-for-frontier-ai-302886796.html">PR Newswire</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="business" data-story-id="enveda-311m-series-e">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#10</span> <span class="cat">BUSINESS · BIO</span></div>
+      <h4>Enveda raises $311M at ~$2B to push nature-derived AI drugs through the clinic</h4>
+      <div class="body">On <strong>23 September</strong> Colorado-based <strong>Enveda Biosciences</strong> announced a <strong>$311M Series E</strong> at a reported <strong>$2B</strong> valuation, to advance a pipeline of drugs discovered by applying machine learning to natural-world chemistry — <strong>three of them already in human testing</strong> (<a href="https://techcrunch.com/2026/09/23/enveda-secures-311m-to-bring-more-nature-derived-ai-drugs-into-clinical-trials/">TechCrunch</a>, <a href="https://www.biopharmadive.com/news/enveda-ai-drug-discovery-series-e/831161/">BioPharma Dive</a>). It lands the same day as Anthropic's ART result and against a standing scoreboard: as of July 2026 no AI-discovered drug had full FDA approval, with rentosertib the furthest along in Phase III.</div>
+      <p class="sowhat">Discovery claims are cheap this week; clinical stages are not. Enveda's three-in-humans is the number that separates the two halves of the AI-for-bio story.</p>
+      <div><span class="chip arc">ARC: AI-BIO-CAPITAL · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/09/23/enveda-secures-311m-to-bring-more-nature-derived-ai-drugs-into-clinical-trials/">TechCrunch</a> · <a href="https://www.biopharmadive.com/news/enveda-ai-drug-discovery-series-e/831161/">BioPharma Dive</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="enterprise" data-story-id="ema-77m-series-b">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#11</span> <span class="cat">ENTERPRISE · AGENTS</span></div>
+      <h4>Ema takes $77M for "AI employees" already fielded to 240,000 staff</h4>
+      <div class="body">Announced <strong>23 September</strong>: a <strong>$77M Series B</strong> led by <strong>Creaegis</strong>, with Accel, S32 and Prosus increasing existing positions, taking total funding to <strong>$140M</strong> and more than quadrupling the prior valuation (<a href="https://www.globenewswire.com/news-release/2026/09/23/3367506/0/en/ema-raises-77m-series-b-to-put-ai-employees-to-work-across-the-enterprise.html">GlobeNewswire</a>, <a href="https://siliconangle.com/2026/09/23/ema-raises-77m-in-funding-to-deploy-ai-employees-across-enterprise-hr-it-and-finance-departments/">SiliconANGLE</a>). The deployment number is the story: one customer assistant supports more than <strong>240,000 associates across 65 countries</strong>, automating <strong>100+ workflows</strong> and handling roughly <strong>2.9 million employee queries a year</strong>, with response times cut from days to seconds and reported satisfaction up 20%.</div>
+      <p class="sowhat">Adecco's 27,000-seat Agentforce rollout was Tuesday's benchmark; 240,000 associates on HR, IT and finance agents is an order of magnitude past it. The back office is where agent scale is actually being proven.</p>
+      <div><span class="chip arc">ARC: AI-EMPLOYEE-LAYER · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.globenewswire.com/news-release/2026/09/23/3367506/0/en/ema-raises-77m-series-b-to-put-ai-employees-to-work-across-the-enterprise.html">GlobeNewswire</a> · <a href="https://siliconangle.com/2026/09/23/ema-raises-77m-in-funding-to-deploy-ai-employees-across-enterprise-hr-it-and-finance-departments/">SiliconANGLE</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="policy" data-story-id="senate-ai-tools-blocked">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#12</span> <span class="cat">POLICY · US CONGRESS</span></div>
+      <h4>The Senate writing agentic-AI rules is not allowed to use agentic AI</h4>
+      <div class="body">NPR reported on <strong>23 September</strong>, from an internal communication sent to Senate staff in the spring by the <strong>Sergeant at Arms</strong>, that senators and staff have free access to exactly <strong>three chat interfaces</strong> — <strong>Microsoft Copilot Chat</strong>, <strong>Gemini Chat for Google Workspace Enterprise Plus</strong> and <strong>OpenAI ChatGPT Enterprise</strong> — and that <strong>no more advanced tool has been authorised</strong>. The stated reason is cybersecurity: platforms "cannot independently access internal Senate drives, shared folders, email, Teams chats, or other Senate resources" — which is precisely what agentic tools do (<a href="https://www.npr.org/2026/09/23/nx-s1-5978055/congress-ai-regulation">NPR</a>, <a href="https://www.wusf.org/2026-09-23/as-congress-confronts-ai-senate-lawmakers-are-shut-off-from-its-most-advanced-tools">WUSF</a>).</div>
+      <p class="sowhat">Regulators legislating a capability they have never operated is how bad definitions get written. Expect statutory text that describes chatbots and misses agents.</p>
+      <div><span class="chip arc">ARC: GOVERNMENT-AI-CAPACITY · D1</span><span class="chip">Primary</span></div>
+      <div class="src"><a href="https://www.npr.org/2026/09/23/nx-s1-5978055/congress-ai-regulation">NPR (primary reporting)</a> · <a href="https://www.wusf.org/2026-09-23/as-congress-confronts-ai-senate-lawmakers-are-shut-off-from-its-most-advanced-tools">WUSF (syndication)</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="hardware" data-story-id="micron-q4-hbm-sold-out">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">#13</span> <span class="cat">HARDWARE · MEMORY</span></div>
+      <h4>Thursday's compute beat: Micron walks into a $50B quarter with HBM sold out through 2027</h4>
+      <div class="body">The deep beat rotates to hardware, and the live number is memory. Micron guided its <strong>fiscal Q4</strong> to <strong>$50B ±$1B</strong> at roughly <strong>86% gross margin</strong>, against Q3 revenue of <strong>$41.46B</strong> (up 74% QoQ) and GAAP EPS of <strong>$24.67</strong> — guidance issued with the <strong>24 June</strong> Q3 release, not this week (<a href="https://www.globenewswire.com/news-release/2026/06/24/3317151/14450/en/micron-technology-inc-reports-record-results-for-the-third-quarter-of-fiscal-2026.html">Micron</a>). The <strong>21 September</strong> framing is that HBM is sold out through <strong>2027</strong> and Micron can fill only half to two-thirds of its largest AI customers' demand, against <strong>16 Strategic Customer Agreements</strong> — mostly five-year take-or-pay, ~20% of DRAM volume and a third of NAND, near <strong>$100B</strong> of cumulative minimum-price revenue and <strong>$22B</strong> of customer deposits and letters of credit (<a href="https://247wallst.com/investing/2026/09/21/hbm-sold-out-through-2027-microns-customers-are-begging-can-anything-go-wrong/">24/7 Wall St</a>). Results land <strong>30 September</strong>.</div>
+      <p class="sowhat">Take-or-pay memory contracts are the AI capex cycle in its least deniable form — if the 30 September print holds, inference cost curves are locked years out, not quarters.</p>
+      <div><span class="chip arc">ARC: MEMORY-SUPERCYCLE · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.globenewswire.com/news-release/2026/06/24/3317151/14450/en/micron-technology-inc-reports-record-results-for-the-third-quarter-of-fiscal-2026.html">Micron Q3 (primary)</a> · <a href="https://247wallst.com/investing/2026/09/21/hbm-sold-out-through-2027-microns-customers-are-begging-can-anything-go-wrong/">24/7 Wall St</a> · <a href="https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Results-for-the-Third-Quarter-of-Fiscal-2026/default.aspx">Micron IR</a></div>
+    </article>
+
+    <article class="card w2 mon" data-cat="business" data-story-id="numeral-100m-series-c">
+      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#14</span> <span class="cat">BUSINESS · VERTICAL AI</span></div>
+      <h4>Numeral raises $100M for AI sales-tax compliance — the unglamorous end of the boom</h4>
+      <div class="body">On <strong>23 September</strong> San Francisco's <strong>Numeral</strong> closed a <strong>$100M Series C</strong> led by <strong>Insight Partners</strong>, taking total funding to <strong>$157M</strong>, a year after a $35M Series B; Salesforce Ventures, Geodesic, Benchmark, Mayfield and Y Combinator also participated (<a href="https://thenextweb.com/news/numeral-100m-series-c-insight-partners-ai-sales-tax">TNW</a>, <a href="https://finovate.com/numeral-raises-100-million-for-sales-tax-solution/">Finovate</a>). Transaction volume is reported up <strong>327% year on year</strong>, with the tax engine expected to process more than <strong>80 million</strong> transactions and customers cutting filing and registration time by up to 80%.</div>
+      <p class="sowhat">Insight led three AI rounds inside 48 hours — data, tax, agents. The thesis is not models; it is workflows with a compliance deadline attached.</p>
+      <div><span class="chip arc">ARC: VERTICAL-AI-CAPITAL · D1</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://thenextweb.com/news/numeral-100m-series-c-insight-partners-ai-sales-tax">TNW</a> · <a href="https://finovate.com/numeral-raises-100-million-for-sales-tax-solution/">Finovate</a></div>
+    </article>
+
+  </div>
+
+  <!-- ══════════ DEVELOPING ══════════ -->
+  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
+  <div class="mosaic">
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="amodei-pacing-the-frontier">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">D1</span> <span class="cat">POLICY · FRONTIER PACING</span></div>
+      <h4>Day twelve: the pacing argument gets its first empirical test, and ships</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The argument stops being rhetoric. Anthropic released <strong>Opus 5.5</strong> on 22 September explicitly labelled "our first release since we called for pacing the frontier," with <strong>METR and Frontier Design</strong> evaluating pre-launch — and <strong>OpenAI cut GPT-6 API prices in half</strong> the same day. Pacing, as practised by a signatory, means shipping with external evaluators attached, not shipping less or later.</div>
+      <div class="body">Twelve days after Amodei's 12 September essay and the Musk, Altman and Hassabis endorsements that followed within about an hour, the first evidence arrives. Opus 5.5 beats Opus 5 on all nine of Anthropic's own benchmarks and undercuts its predecessor on price; METR's published pre-deployment summary says acceleration is slightly higher than Fable 5.1 but that full automation of AI R&amp;D is unlikely (<a href="https://metr.org/blog/2026-09-22-claude-opus-5-5/">METR</a>, <a href="https://techcrunch.com/2026/09/22/anthropic-releases-opus-5-5-with-lower-prices-and-fable-level-performance/">TechCrunch</a>). Against that, <a href="https://openai.com/index/introducing-gpt-6-sol-and-luna/">GPT-6 Sol and Luna</a> arrived at half the prior tier's price. The antitrust complaint carried in Tracking reads the endorsements themselves as the conspiracy; a release week like this is the defendants' best factual answer to it.</div>
+      <p class="sowhat">The testable claim is now on the record: a signatory shipped, faster and cheaper, with evaluators. Judge the pacing commitment on the evaluator record, not the release cadence — that is the only part of it that produced an artefact.</p>
+      <div><span class="chip arc">ARC: FRONTIER-PACING · D12</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://techcrunch.com/2026/09/22/anthropic-releases-opus-5-5-with-lower-prices-and-fable-level-performance/">TechCrunch</a> · <a href="https://metr.org/blog/2026-09-22-claude-opus-5-5/">METR</a> · <a href="https://openai.com/index/introducing-gpt-6-sol-and-luna/">OpenAI</a></div>
+    </article>
+
+    <article class="card w3 crit" data-cat="policy" data-story-id="us-china-ai-safety-dialogue">
+      <div><span class="impact">IMPACT <b>9</b>/10</span><span class="rank">D2</span> <span class="cat">POLICY · US–CHINA</span></div>
+      <h4>Trump hosts Xi today with AI and AI data centres on the agenda — and expectations set low</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The date arrives. The summit is <strong>today, 24 September</strong>, at the White House, with AI safety, chips and AI data centres reported as headline topics. American officials quoted in the run-up say <strong>neither government expects a breakthrough</strong>; a parallel statement reaffirming the 2024 nuclear-control consensus alongside a general statement of shared concerns is described as plausible. The session convenes after this edition's IST publication.</div>
+      <div class="body">Thirteen editions after this thread opened as an unconfirmed agenda item, it is a dated meeting. <a href="https://www.cnbc.com/2026/09/23/trump-xi-meeting-ai-safety-chips-us-china-dialogue.html">CNBC</a> puts AI safety, chips and the bilateral rivalry in focus; <a href="https://thehill.com/policy/international/6099099-trump-xi-ai-talks-us-china/">The Hill</a> frames AI safety as adding urgency. Trump announced the visit while pressing his administration's data-centre build-out, calling AI "probably the biggest thing anybody's ever seen" and saying "whoever wins that race is probably going to win, period" (<a href="https://www.foxnews.com/politics/trump-says-chinese-president-xi-jinping-visit-us-sept-24">Fox News</a>). The power question rides alongside it: the House recently passed legislation on electricity costs from large data-centre loads. <a href="https://www.piie.com/blogs/realtime-economics/2026/will-trump-xi-summit-make-limited-progress-ai">PIIE</a> sets expectations at limited progress.</div>
+      <p class="sowhat">A summit that both sides pre-brief as producing nothing is still the first time AI safety sits on a US–China leaders' agenda. Watch for a joint statement's existence, not its contents.</p>
+      <div><span class="chip arc">ARC: US-CHINA-AI · D13</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnbc.com/2026/09/23/trump-xi-meeting-ai-safety-chips-us-china-dialogue.html">CNBC</a> · <a href="https://thehill.com/policy/international/6099099-trump-xi-ai-talks-us-china/">The Hill</a> · <a href="https://www.piie.com/blogs/realtime-economics/2026/will-trump-xi-summit-make-limited-progress-ai">PIIE</a></div>
+    </article>
+
+    <article class="card w2 crit" data-cat="policy" data-story-id="un-security-council-ai-briefing">
+      <div><span class="impact">IMPACT <b>8</b>/10</span><span class="rank">D3</span> <span class="cat">POLICY · MULTILATERAL</span></div>
+      <h4>The Council sat, the CEOs asked, Washington said no</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The briefing happened. <strong>Altman</strong> asked for common ways to measure capability, assess risk and report serious incidents. <strong>Amodei</strong> asked for three things: narrow global agreements such as a ban on using AI for biological weapons, evaluation and verification systems so states can check each other's commitments, and common testing standards with an incident-notification system. <strong>Britain</strong> backed common testing and disclosure; <strong>Washington rejected a new global governance structure</strong>, with Trump calling AI oversight a "globalist scheme." No written agreement, and none had been expected.</div>
+      <div class="body">Yesterday's lead resolves into a position map rather than a decision (<a href="https://www.cnn.com/2026/09/23/tech/altman-amodei-ai-safety-un-security-council">CNN</a>, <a href="https://fortune.com/2026/09/23/trump-un-ai-globalist-scheme-altman-amodei-security-council/">Fortune</a>). The divide it exposed is the one that matters: governments seeking common safeguards against a US administration opposed to new international machinery — with the two US labs that asked for standards sitting on the wrong side of their own government (<a href="https://www.implicator.ai/altman-amodei-un-ai-safety-standards/">Implicator</a>, <a href="https://www.securitycouncilreport.org/whatsinblue/2026/09/artificial-intelligence-high-level-briefing-2.php">Security Council Report</a>).</div>
+      <p class="sowhat">Verification, not prohibition, is the ask both CEOs converged on — and it is the one thing a US veto cannot build unilaterally.</p>
+      <div><span class="chip arc">ARC: MULTILATERAL-AI-GOVERNANCE · D2</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://www.cnn.com/2026/09/23/tech/altman-amodei-ai-safety-un-security-council">CNN</a> · <a href="https://fortune.com/2026/09/23/trump-un-ai-globalist-scheme-altman-amodei-security-council/">Fortune</a> · <a href="https://www.securitycouncilreport.org/whatsinblue/2026/09/artificial-intelligence-high-level-briefing-2.php">Security Council Report</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="policy" data-story-id="openai-third-party-assessments">
+      <div><span class="impact">IMPACT <b>7</b>/10</span><span class="rank">D4</span> <span class="cat">POLICY · LAB GOVERNANCE</span></div>
+      <h4>METR moves from "in talks" to a published pre-deployment verdict — on a rival's model</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Yesterday OpenAI's third-party assessment framework listed <strong>METR and Redwood as only in talks</strong>. Today METR is a named pre-deployment evaluator with a published summary — of <strong>Anthropic's</strong> Opus 5.5, alongside Frontier Design. The machinery is real and working; OpenAI still has no signed partner located in this scan.</div>
+      <div class="body">Day ten of the lab-self-governance arc. OpenAI's 22 September principles for third-party assessments spanning training, evaluation and deployment named investigation of misalignment incidents among four priority areas, but attached no signed partner. Anthropic's release the same day produced the artefact instead: METR's public <a href="https://metr.org/blog/2026-09-22-claude-opus-5-5/">pre-deployment evaluation</a> concludes Opus 5.5 gives slightly higher productivity uplift than Fable 5.1, is likely to noticeably accelerate researchers and automate limited aspects of R&amp;D, but is unlikely to fully automate AI R&amp;D (<a href="https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf">system card</a>).</div>
+      <p class="sowhat">The first independent frontier evaluation to reach the public came from the lab that did not publish a framework. Machinery beats memoranda.</p>
+      <div><span class="chip arc">ARC: LAB-SELF-GOVERNANCE · D10</span><span class="chip">2x SRC</span></div>
+      <div class="src"><a href="https://metr.org/blog/2026-09-22-claude-opus-5-5/">METR</a> · <a href="https://www-cdn.anthropic.com/fc1b44717c85dc068bc6ba5024219938094694bd/Claude%20Opus%205.5%20System%20Card.pdf">Anthropic system card</a></div>
+    </article>
+
+    <article class="card w2 note" data-cat="policy" data-story-id="tech-layoffs-175k-2026">
+      <div><span class="impact">IMPACT <b>6</b>/10</span><span class="rank">D5</span> <span class="cat">POLICY · LABOUR</span></div>
+      <h4>The 2026 cut count passes 225,000 — and September runs 199% above August</h4>
+      <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The number moves: trackers put <strong>519 layoff events</strong> affecting <strong>225,122 workers</strong> in 2026 as of <strong>23 September</strong>, up from the 175,000 figure carried on Sunday. September cuts run <strong>199% above August</strong>, with internet companies driving 77% of the month. <strong>AI is now cited in 13%</strong> of US layoffs year-to-date, against 4.5% in 2025.</div>
+      <div class="body">Day 87 of the labour arc, and the attribution share is the part that changed fastest — a near-tripling of the rate at which employers name AI as a cause (<a href="https://intellizence.com/insights/layoff-downsizing/major-companies-that-announced-mass-layoffs/">Intellizence</a>, <a href="https://www.informationweek.com/it-staffing-careers/2026-tech-company-layoffs">InformationWeek</a>). The build side has not stopped: OpenAI plans to roughly double headcount from ~4,500 to ~8,000 by year-end across engineering, product, research and enterprise sales, and India's services tracker still counts 57,000 active openings against a reported 90% shortage in GenAI-ready talent. Figures come from layoff trackers rather than a single audited source and are chip-flagged accordingly.</div>
+      <p class="sowhat">"AI cited in 13% of layoffs" is now a disclosure norm, not an estimate — which makes it the first labour metric a regulator could actually subpoena.</p>
+      <div><span class="chip arc">ARC: AI-LABOUR-IMPACT · D87</span><span class="chip">Agg 1x</span></div>
+      <div class="src"><a href="https://intellizence.com/insights/layoff-downsizing/major-companies-that-announced-mass-layoffs/">Intellizence</a> · <a href="https://www.informationweek.com/it-staffing-careers/2026-tech-company-layoffs">InformationWeek</a></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ STILL TRACKING (collapsed by default) ══════════ -->
+<details class="fold" id="fold-tracking">
+  <summary>Still Tracking <small>23 LONG-RUNNERS · NO MOVEMENT THIS EDITION</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="tracking-strip" id="tracking-strip"></div></div>
+</details>
+
+<!-- ══════════ RESOLVED (collapsed by default) ══════════ -->
+<details class="fold" id="fold-resolved">
+  <summary>Resolved <small>OPEN THREADS, CLOSED</small> <span class="caret"></span></summary>
+  <div class="fold-body"><div class="resolved-strip" id="resolved-strip"></div></div>
+</details>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <p><strong>AI DAILY SIGNAL · EDITION 096 · 2026-09-24 (IST) · FORMAT v2</strong></p>
+    <details class="fold" id="fold-method">
+      <summary>Method, scan gaps &amp; caveats <span class="caret"></span></summary>
+      <div class="fold-body">
+        <p>METHOD: 34 web searches, split roughly evenly across (A) models &amp; core technology — frontier releases, open-weight leaderboards, agents/tooling, AI security, research; (B) applied AI — enterprise deployment, products, startups, funding, vertical AI in health and finance; and (C) people, policy &amp; society — regulation, multilateral governance, workforce and the India/GCC jobs beat. Thursday's rotating deep beat is <strong>hardware/compute</strong> (NVIDIA/Vera Rubin, Qualcomm–AWS, custom ASICs, China export controls, AMD/Intel, memory). v2 format splits the feed into NEW ON THE WIRE (ids absent from edition 095), DEVELOPING (carried threads with an explicit change-line) and STILL TRACKING (long-runners with no movement). Hero = biggest new item unless a developing thread had a major escalation. Aggregator claims cross-checked against ≥2 outlets where possible; confidence chips are 2x SRC / Primary / Agg 1x / Rumor-flag. Impact /10 = breadth of who must act.</p>
+        <p>KNOWN SCAN GAPS AND CAVEATS THIS EDITION: <strong>WebFetch was blocked by the network egress proxy for every domain attempted</strong> (Wikipedia, theneuron.ai), so every item rests on search-result summaries and the source pages listed on each card, not on full-text reads. <strong>NEW.24H discipline:</strong> seven of nineteen cards carry the badge, and every one is dated 23 September — the ART enzyme result, Claude Marketplace, ChatGPT Voice plugins, the NPR Senate story and the Enveda, Ema and Numeral rounds. The three model releases (Opus 5.5, GPT-6 Sol/Luna, MiMo-V2.6, all 22 September) and OpenAI's maths claim (21 September) are genuinely <em>new</em> to this briefing — absent from edition 095 — but are <strong>not</strong> badged NEW.24H and are dated honestly in-card; one source dates the MiMo drop to Monday 21 September rather than Tuesday 22, and the card uses the 22nd per Xiaomi's own post and VentureBeat. <strong>Unverified claims:</strong> OpenAI's "100+ open problems" results remain unpublished and unreviewed, as does the earlier Navier–Stokes claim; Anthropic's ART finding is a company announcement with no peer review, replication or independent characterisation located, and "CRISPR-like" describes repeat architecture, not demonstrated editing activity. <strong>Mirendil is talks-stage</strong> — Bloomberg-reported, no close, no terms, no company statement. <strong>Micron</strong> is honestly dated: the $50B ±$1B Q4 guidance and 86% gross-margin figure were issued with the 24 June Q3 release, and the sold-out-through-2027 framing is 21 September commentary; results land 30 September. <strong>Layoff figures</strong> (519 events / 225,122 workers / 199% month-on-month / AI cited in 13%) come from layoff trackers, not an audited government series, and are chip-flagged Agg 1x. <strong>The Trump–Xi summit convenes today, after this edition's IST publication time</strong> — nothing here reports its outcome. <strong>Beat misses, named:</strong> the hardware/compute deep beat was the thinnest of the run — the freshest items located were AMD's 22 September record close and Micron's forward print, with the substantive chip news (Qualcomm–AWS $60B on 8 September, NVIDIA Vera Rubin/Groq 3 LPX in August, CXMT) already carried or stale; no fresh AI-security incident or CVE surfaced inside the window; the EU AI Act produced only a 17 September AI Board meeting that set no new deadline; India yielded jobs-market data (Bengaluru at 30% of GCC hiring, AI/data roles +38% YoY, 90% GenAI-talent shortage) but no new MeitY/RBI action; UK, Gulf and Singapore hiring beats are honest misses again. A Deutsche Bank / Google Cloud Financial Research Agent item was <strong>dropped</strong> on inspection: the underlying launch was 25 August, outside any honest "new" window.</p>
+        <p>NOTE: Links point to sources found during the scan; where only an outlet root or a syndicated copy was available it is labelled as such. Nothing here is investment advice.</p>
+      </div>
+    </details>
+  </div>
+</footer>
+
+<!-- ══════════ SIGNAL STATE ══════════ -->
+<script id="signal-state" type="application/json">
+{
+  "edition": 96,
+  "date": "2026-09-24",
+  "tz": "Asia/Kolkata",
+  "format": "v2",
+  "scanCount": 34,
+  "counts": {"new": 14, "developing": 5, "tracking": 23},
+  "tiers": {"critical": 8, "notable": 10, "monitor": 1},
+  "stories": [
+    {"id":"claude-art-enzyme-discovery","section":"new","rank":1,"title":"Anthropic says Claude produced the first result from the biology research group it formed in spring 2026: running 950 agents over 21 hours and 210 million tokens, it assembled more than 200,000 reverse transcriptases, flagged 3,500 candidate systems, narrowed them to 20 and characterised a previously uncharacterised enzyme family found mainly in bacteriophages, named array-associated reverse transcriptases (ART) - an RT, a partner gene and a long array of evenly spaced DNA repeats, the structural signature behind CRISPR. Gene-editing stocks fell on the disclosure. No peer review, replication or independent characterisation located; 'CRISPR-like' describes repeat architecture, not demonstrated editing activity.","tier":"critical","impact":9,"delta":"new","arc":"ai-for-science","arcDay":11,"confidence":"2x src","new24h":true,"firstSeen":"2026-09-23","lastUpdate":"2026-09-24","category":"research"},
+    {"id":"claude-opus-55","section":"new","rank":2,"title":"Anthropic released Claude Opus 5.5 on 22 September, explicitly labelled its first release since the call to pace the frontier. Pricing falls to $4/$20 per million tokens from $5/$25 on Opus 5; cache writes $6.25 to $5, cache reads $0.50 to $0.20; output over 30% faster and typical workloads about 40% cheaper on fewer tokens. It outscores Opus 5 on all nine benchmarks in Anthropic's release table and leads Fable 5.1 and GPT-6 Astra on agentic coding, knowledge work and computer use, trailing Astra on two. METR and Frontier Design evaluated pre-launch; METR concludes uplift slightly higher than Fable 5.1 but full automation of AI R&D unlikely.","tier":"critical","impact":9,"delta":"new","arc":"anthropic-model-cadence","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-09-22","lastUpdate":"2026-09-24","category":"models"},
+    {"id":"gpt-6-sol-luna","section":"new","rank":3,"title":"OpenAI launched GPT-6 Sol and GPT-6 Luna on 22 September at half the previous tier's API prices: Sol at $2/$10 per million input/output tokens against $4/$20 for GPT-5.6 Sol, Luna at $0.10/$0.50 against $0.20/$1.20, plus a 90% discount on cached input reads. OpenAI attributes the cut to caching and inference efficiency rather than promotion, saying caching upgrades more than halved fresh-token volume across billions of GitHub Copilot requests. Live for Plus, Pro, Business, Enterprise and Edu users in ChatGPT Work and Codex and on the API; free and Go users get Luna in the desktop app.","tier":"critical","impact":9,"delta":"new","arc":"frontier-price-war","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-09-22","lastUpdate":"2026-09-24","category":"models"},
+    {"id":"openai-math-100-problems-agmai","section":"new","rank":4,"title":"OpenAI says an internal, unreleased model resolved more than 100 long-standing open mathematics problems spanning most branches of the field, in roughly 24 days of training begun 28 August, on top of its earlier claimed Navier-Stokes Millennium Prize proof (reported 21 September). Alongside it a nine-member Advisory Group on Mathematics and AI hosted at Princeton's Institute for Advanced Study: Francois Charles, Camillo De Lellis, Timothy Gowers, Martin Hairer, Nikhil Srivastava, Ulrike Tillmann, Ravi Vakil, Edward Witten and Melanie Matchett Wood. Members are unpaid and have no authority over OpenAI's research pace; their first task is coordinating release of results that remain unpublished.","tier":"critical","impact":8,"delta":"new","arc":"ai-mathematics","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-09-21","lastUpdate":"2026-09-24","category":"research"},
+    {"id":"xiaomi-mimo-v26","section":"new","rank":5,"title":"Xiaomi released the MiMo-V2.6 series on Hugging Face on 22 September under MIT licences: Pro is a 1.02T-parameter MoE with 42B active, omnimodal across text, image, video and audio with up to 1M context; Flash is 309B/15B active at 256K; Distill-Qwen-9B is fine-tuned from Qwen3.5-9B on MiMo-generated data. Pro scores 46 on the Artificial Analysis Intelligence Index v4.3, effectively tying Grok 4.7 and setting a new open-weights ceiling. Xiaomi also published more than 7,000 RL task environments and an end-to-end training framework, and disclosed RL-phase cost of $854,044 for Flash and $2,620,670 for Pro, about $3.5M combined.","tier":"critical","impact":8,"delta":"new","arc":"open-weight-ceiling","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-09-22","lastUpdate":"2026-09-24","category":"models"},
+    {"id":"claude-marketplace-2000","section":"new","rank":6,"title":"Anthropic consolidated plugins, connectors, agents, partner products and implementation firms into the Claude Marketplace on 23 September with more than 2,000 entries, up from six partners at the 6 March launch. Three sections: add (connectors and plugins into workplace apps and data), buy (Claude-powered products from Cursor, CrowdStrike, Harvey, Legora, Lovable, Replit, GitLab, Rogo and Snowflake) and scale (implementation partners including Accenture and Deloitte). Organisations can spend part of an existing Anthropic commitment on partner software.","tier":"notable","impact":7,"delta":"new","arc":"enterprise-agent-adoption","arcDay":2,"confidence":"2x src","new24h":true,"firstSeen":"2026-09-23","lastUpdate":"2026-09-24","category":"enterprise"},
+    {"id":"chatgpt-voice-plugins-work","section":"new","rank":7,"title":"OpenAI added plugin support to the Live voice experience in ChatGPT across web, iOS and Android on 23 September, and made ChatGPT Work drivable by voice on web and mobile. Mid-conversation, Voice can reach connected apps including Gmail, Google Calendar and Slack, so a spoken request can create a document, draft an email or summarise a channel, with the written response following in the chat; sessions are powered by GPT-6 Astra, Sol or Luna. Existing app connections, permissions and usage limits carry over; free and Go users get Voice in Chat with plan-supported plugins.","tier":"notable","impact":7,"delta":"new","arc":"assistant-agentification","arcDay":1,"confidence":"2x src","new24h":true,"firstSeen":"2026-09-23","lastUpdate":"2026-09-24","category":"enterprise"},
+    {"id":"mirendil-5b-valuation","section":"new","rank":8,"title":"Mirendil, founded this year by former Anthropic researchers to build models that improve themselves with little human input, is in talks to raise up to $1B at a $5B valuation with Kleiner Perkins in line to lead and Andreessen Horowitz in discussions (Bloomberg, 22 September). The same two firms led a $200M seed at $1B roughly three months ago - a fivefold mark in a quarter - on a team drawn from Anthropic, xAI, DeepMind and OpenAI, targeting biology and materials-science research. Talks-stage: no close, no confirmed terms, no company statement located.","tier":"notable","impact":7,"delta":"new","arc":"recursive-self-improvement-capital","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-09-22","lastUpdate":"2026-09-24","category":"business"},
+    {"id":"snorkel-350m-series-e","section":"new","rank":9,"title":"Snorkel AI announced a $350M Series E on 22 September co-led by Insight Partners and S32 at a $3.5B valuation, nearly tripling the mark set 17 months earlier, with Addition, March Capital, Greylock, Lightspeed, GV, Prosperity7 and Wells Fargo among participants. Annualised revenue run rate is reported at $375M, an 18-fold increase in twelve months, on a shift from labelling-automation software to finished training and evaluation datasets built with subject experts plus reinforcement-learning environments.","tier":"notable","impact":6,"delta":"new","arc":"training-data-economy","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-09-22","lastUpdate":"2026-09-24","category":"business"},
+    {"id":"enveda-311m-series-e","section":"new","rank":10,"title":"Enveda Biosciences announced a $311M Series E on 23 September at a reported $2B valuation, to advance a pipeline of drugs discovered by applying machine learning to natural-world chemistry, with three already in human testing. It lands against a standing scoreboard: as of July 2026 no AI-discovered drug had full FDA approval, with rentosertib the furthest along in Phase III.","tier":"notable","impact":6,"delta":"new","arc":"ai-bio-capital","arcDay":1,"confidence":"2x src","new24h":true,"firstSeen":"2026-09-23","lastUpdate":"2026-09-24","category":"business"},
+    {"id":"ema-77m-series-b","section":"new","rank":11,"title":"Ema announced a $77M Series B on 23 September led by Creaegis with Accel, S32 and Prosus increasing existing positions, taking total funding to $140M and more than quadrupling the prior valuation. One customer deployment supports more than 240,000 associates across 65 countries, automating 100+ workflows and handling roughly 2.9 million employee queries a year, with response times cut from days to seconds and reported satisfaction up 20%.","tier":"notable","impact":6,"delta":"new","arc":"ai-employee-layer","arcDay":1,"confidence":"2x src","new24h":true,"firstSeen":"2026-09-23","lastUpdate":"2026-09-24","category":"enterprise"},
+    {"id":"senate-ai-tools-blocked","section":"new","rank":12,"title":"NPR reported on 23 September, from an internal communication sent to Senate staff in the spring by the Sergeant at Arms, that senators and staff have free access to exactly three AI chat interfaces - Microsoft Copilot Chat, Gemini Chat for Google Workspace Enterprise Plus and OpenAI ChatGPT Enterprise - and that no more advanced tool has been authorised. The stated reason is cybersecurity: platforms cannot independently access internal Senate drives, shared folders, email, Teams chats or other Senate resources, which is precisely what agentic tools do.","tier":"notable","impact":6,"delta":"new","arc":"government-ai-capacity","arcDay":1,"confidence":"Primary","new24h":true,"firstSeen":"2026-09-23","lastUpdate":"2026-09-24","category":"policy"},
+    {"id":"micron-q4-hbm-sold-out","section":"new","rank":13,"title":"Thursday's hardware/compute deep beat: Micron guided fiscal Q4 to $50B plus or minus $1B at roughly 86% gross margin against Q3 revenue of $41.46B (up 74% QoQ) and GAAP EPS of $24.67 - guidance issued with the 24 June Q3 release, not this week. The 21 September framing is that HBM is sold out through 2027 and Micron can fill only half to two-thirds of its largest AI customers' demand, against 16 Strategic Customer Agreements, mostly five-year take-or-pay covering about 20% of DRAM volume and a third of NAND, near $100B of cumulative minimum-price revenue and $22B of customer deposits and letters of credit. Results land 30 September.","tier":"notable","impact":6,"delta":"new","arc":"memory-supercycle","arcDay":1,"confidence":"2x src","new24h":false,"firstSeen":"2026-09-21","lastUpdate":"2026-09-24","category":"hardware"},
+    {"id":"numeral-100m-series-c","section":"new","rank":14,"title":"Numeral closed a $100M Series C on 23 September led by Insight Partners, taking total funding to $157M a year after a $35M Series B, with Salesforce Ventures, Geodesic, Benchmark, Mayfield and Y Combinator participating. Transaction volume is reported up 327% year on year, with the tax engine expected to process more than 80 million transactions and customers cutting filing and registration time by up to 80%.","tier":"monitor","impact":4,"delta":"new","arc":"vertical-ai-capital","arcDay":1,"confidence":"2x src","new24h":true,"firstSeen":"2026-09-23","lastUpdate":"2026-09-24","category":"business"},
+    {"id":"amodei-pacing-the-frontier","section":"developing","rank":1,"title":"Day twelve of the frontier-pacing argument, and its first empirical test: Anthropic released Claude Opus 5.5 on 22 September explicitly labelled its first release since the pacing call, with METR and Frontier Design evaluating pre-launch, while OpenAI cut GPT-6 API prices in half the same day. Pacing as practised by a signatory means shipping with external evaluators attached, not shipping less or later. The antitrust complaint carried in Tracking reads the public endorsements themselves as the conspiracy; a release week like this is the defendants' best factual answer.","tier":"critical","impact":9,"delta":"escalated","arc":"frontier-pacing","arcDay":12,"confidence":"2x src","new24h":false,"update":"The argument stops being rhetoric: Opus 5.5 ships 22 September labelled the first release since the pacing call, with METR and Frontier Design evaluating pre-launch, and OpenAI halves GPT-6 API prices the same day","firstSeen":"2026-09-13","lastUpdate":"2026-09-24","category":"policy"},
+    {"id":"us-china-ai-safety-dialogue","section":"developing","rank":2,"title":"The Trump-Xi summit is today, 24 September, at the White House, with AI safety, chips and AI data centres reported as headline topics. American officials quoted in the run-up say neither government expects a breakthrough; a parallel statement reaffirming the 2024 nuclear-control consensus alongside a general statement of shared concerns is described as plausible. Trump announced the visit while pressing his data-centre build-out, calling AI 'probably the biggest thing anybody's ever seen' and saying whoever wins the race 'is probably going to win, period'. The House recently passed legislation on electricity costs from large data-centre loads. The session convenes after this edition's IST publication time.","tier":"critical","impact":9,"delta":"escalated","arc":"us-china-ai","arcDay":13,"confidence":"2x src","new24h":false,"update":"The date arrives: the summit is today at the White House with AI safety, chips and AI data centres on the agenda, and both governments pre-briefing that no breakthrough is expected","firstSeen":"2026-09-13","lastUpdate":"2026-09-24","category":"policy"},
+    {"id":"un-security-council-ai-briefing","section":"developing","rank":3,"title":"The 23 September Security Council briefing happened and produced positions, not a decision. Altman asked for common ways to measure AI capability, assess risk and report serious incidents. Amodei asked for three things: narrow global agreements such as a ban on using AI to make biological weapons, evaluation and verification systems so states can verify each other's commitments, and common global testing standards with an incident-notification system. Britain backed common testing and disclosure; Washington rejected a new global governance structure, with Trump calling AI oversight a 'globalist scheme'. No written agreement, and none had been expected.","tier":"critical","impact":8,"delta":"escalated","arc":"multilateral-ai-governance","arcDay":2,"confidence":"2x src","new24h":false,"update":"The briefing happened: Altman asked for capability measurement and incident reporting, Amodei for bioweapon red lines, verification systems and common testing standards; Britain backed disclosure, Washington rejected new global governance","firstSeen":"2026-09-22","lastUpdate":"2026-09-24","category":"policy"},
+    {"id":"openai-third-party-assessments","section":"developing","rank":4,"title":"Day ten of the lab-self-governance arc. OpenAI's 22 September principles for third-party assessments spanning training, evaluation and deployment named investigation of misalignment incidents among four priority areas but attached no signed partner, with METR and Redwood only in talks. The same day METR published a pre-deployment evaluation of Anthropic's Claude Opus 5.5 alongside Frontier Design, concluding slightly higher productivity uplift than Fable 5.1, likely noticeable researcher acceleration and limited R&D automation, but full automation of AI R&D unlikely. The machinery exists; OpenAI still has no signed partner located in this scan.","tier":"notable","impact":7,"delta":"escalated","arc":"lab-self-governance","arcDay":10,"confidence":"2x src","new24h":false,"update":"METR moves from 'in talks' with OpenAI to a published pre-deployment verdict - on Anthropic's Opus 5.5","firstSeen":"2026-09-15","lastUpdate":"2026-09-24","category":"policy"},
+    {"id":"tech-layoffs-175k-2026","section":"developing","rank":5,"title":"The 2026 layoff count moves from 175,000 to 225,122 workers across 519 events as of 23 September, per layoff trackers. September cuts run 199% above August, with internet companies driving 77% of the month, and AI is now cited in 13% of US layoffs year-to-date against 4.5% in 2025. The build side has not stopped: OpenAI plans to roughly double headcount from about 4,500 to about 8,000 by year-end across engineering, product, research and enterprise sales, and India's services tracker still counts 57,000 active openings against a reported 90% shortage in GenAI-ready talent.","tier":"notable","impact":6,"delta":"escalated","arc":"ai-labour-impact","arcDay":87,"confidence":"Agg 1x","new24h":false,"update":"519 events and 225,122 workers in 2026 as of 23 September; September cuts 199% above August; AI cited in 13% of US layoffs YTD against 4.5% in 2025","firstSeen":"2026-09-20","lastUpdate":"2026-09-24","category":"policy"}
+  ],
+  "tracking": [
+    {"id":"banks-agentic-commerce-warning","label":"DEMOTED FROM NEW after one edition: NatWest, Bank of America, ING, Capital One, ASB and Commonwealth Bank still want mandatory agent disclosure at checkout; no regulator response located","arc":"agentic-commerce","arcDay":2},
+    {"id":"aepd-first-agent-breach","label":"Spain's AEPD first GDPR breach notification attributed to an autonomous agent holds, with no enforcement action, controller name or follow-up guidance located","arc":"agent-security","arcDay":88},
+    {"id":"hochul-raise-act-kill-switch","label":"DEMOTED FROM NEW after one edition: New York's RAISE Act regulator is named and kill switches floated, with no rule text, threshold or date","arc":"state-ai-enforcement","arcDay":2},
+    {"id":"intrinsic-core-open-source","label":"DEMOTED FROM NEW after one edition: Alphabet's Intrinsic Core real-time robot control stack stays Apache 2.0 at ROSCon with no adopter announcements","arc":"physical-ai-open-stack","arcDay":2},
+    {"id":"aisle-curl-six-cves","label":"DEMOTED FROM NEW after one edition: AISLE's credit for six curl advisories including a 25-year-old bug holds; no new AI-discovered CVE surfaced in this window","arc":"ai-vuln-discovery","arcDay":2},
+    {"id":"adecco-agentforce-27000","label":"DEMOTED FROM NEW after one edition: Adecco's Claude-powered Agentforce Coworker for 27,000 staff in 40+ countries holds - and is out-scaled today by Ema's 240,000-associate deployment","arc":"enterprise-agent-adoption","arcDay":2},
+    {"id":"verda-189m-unicorn","label":"DEMOTED FROM NEW after one edition: Verda's $189M Emergence-led round at a $1B-plus valuation for a Helsinki neocloud holds with no follow-on detail","arc":"european-compute-sovereignty","arcDay":2},
+    {"id":"unit42-ai-intrusion-10-hours","label":"DEMOTED FROM NEW after one edition: Unit 42's ten-hour AI-driven intrusion holds as the speed benchmark, uncontested and unreplicated","arc":"agent-security","arcDay":88},
+    {"id":"chatgpt-ads-international-shopify","label":"DEMOTED FROM NEW after one edition: the ChatGPT Ads app for Shopify going international holds; today's Voice plugin release is the live assistant-surface story instead","arc":"assistant-monetisation","arcDay":2},
+    {"id":"dod-anthropic-removal-deadline","label":"FIVE DAYS OUT and unmoved: the Department of Defense department-wide removal deadline for Anthropic products is 29 September, with defence vendors required to certify","arc":"procurement","arcDay":13},
+    {"id":"huawei-cloud-aics-global","label":"SIX DAYS OUT and unmoved: Huawei Cloud's AICS goes commercial in China on 30 September and elsewhere on 30 November","arc":"china-compute","arcDay":6},
+    {"id":"mturk-shutdown","label":"SIX DAYS OUT: Amazon Mechanical Turk closes 30 September after 21 years, taking SageMaker Ground Truth and Augmented AI with it","arc":"human-data-labour","arcDay":49},
+    {"id":"gsa-onegov-openai-tokens","label":"SEVEN DAYS OUT: the GSA/OpenAI OneGov 50% token discount takes effect 1 October across federal, state, local and tribal agencies","arc":"public-sector-ai","arcDay":13},
+    {"id":"stepfun-step5-preview","label":"Unmoved: StepFun's Step 5 Preview holds at $1 in and $2.70 out with full open weights dated 15 October - a claim Xiaomi's MIT release today makes harder to wait for","arc":"open-weight-ceiling","arcDay":4},
+    {"id":"unesco-ai-education-consultation","label":"TWENTY-ONE DAYS OUT: UNESCO's consultation on governing AI in education closes for expert feedback on 15 October","arc":"ai-education","arcDay":26},
+    {"id":"fda-genai-device-docket","label":"TWENTY-FIVE DAYS OUT: comments close 19 October on the FDA's discussion paper on generative-AI-enabled medical devices, docket FDA-2026-N-7874","arc":"health-ai-regulation","arcDay":49},
+    {"id":"newsom-ai-kill-switch-eo","label":"Unmoved: California Executive Order N-9-26 still has no lab response, no bill text and no definition of the emergency shutoff GovOps must recommend by 16 November","arc":"state-ai-enforcement","arcDay":17},
+    {"id":"openai-sb53-midas-allegation","label":"Unmoved and increasingly live: the Midas Project's three alleged TFAIA breaches hold with no OpenAI response located","arc":"lab-self-governance","arcDay":9},
+    {"id":"ai-pacing-antitrust-suit","label":"Unmoved but newly testable: Buist v. Anthropic pleads the public pacing endorsements as the conspiracy and a joint slowdown as an overcharge - a week of cheaper, faster releases is the defendants' factual answer","arc":"frontier-pacing","arcDay":12},
+    {"id":"aef-1-evaluator-standard","label":"Unmoved: AEF-1 remains the only published third-party evaluation standard and still rules out the embedded-evaluator model both Amodei and Altman proposed - while METR ran an external pre-deployment evaluation outside it","arc":"lab-self-governance","arcDay":10},
+    {"id":"anthropic-ipo-november-model","label":"Unmoved as a report, partly overtaken by events: Reuters said Anthropic was weighing a new model to counter GPT-6 Astra with the IPO slipping past the November midterms - Opus 5.5 has now shipped","arc":"ipo-wave","arcDay":5},
+    {"id":"naturebench-discovery-gap","label":"Newly relevant, still unmoved: the best-agent-versus-published-SOTA gap on Nature-family papers is the benchmark against which today's ART enzyme claim and OpenAI's 100+ maths results should eventually be scored","arc":"ai-for-science","arcDay":11},
+    {"id":"plugin4shell-coding-agents","label":"Unmoved: the zero-click RCE class defeating SHA pinning across Claude Code, Codex, GitHub Copilot and Gemini CLI holds with no coordinated vendor fix located","arc":"agent-security","arcDay":88}
+  ],
+  "movers": [
+    {"dir":"up","text":"AI FOR SCIENCE - Anthropic's wet lab produces a named finding four days after being confirmed as a facility: Claude characterises ART, a CRISPR-like enzyme family in phages, and gene-editing stocks fall on the disclosure"},
+    {"dir":"down","text":"FRONTIER TOKEN PRICING - two labs cut on the same day: GPT-6 Sol to $2/$10 from $4/$20 and Luna to $0.10/$0.50 from $0.20/$1.20, Opus 5.5 to $4/$20 from $5/$25 with cache reads down 60%"},
+    {"dir":"up","text":"OPEN-WEIGHT CEILING - Xiaomi's MiMo-V2.6-Pro scores 46 on the Artificial Analysis index, effectively tying Grok 4.7 and setting a new top mark for MIT-licensed weights, with 7,000+ RL environments published alongside"},
+    {"dir":"up","text":"EXTERNAL EVALUATION - METR moves from 'in talks' with OpenAI to a published pre-deployment evaluation of a competitor's frontier model, with Frontier Design named as the second evaluator"},
+    {"dir":"up","text":"AI-ATTRIBUTED JOB CUTS - AI now cited in 13% of US layoffs year-to-date against 4.5% in 2025, with 225,122 workers across 519 events and September running 199% above August"},
+    {"dir":"up","text":"AMD - record close of $613.31 on 22 September, up roughly 185% in 2026, as buyers price a credible second source to NVIDIA at rack scale"}
+  ],
+  "arcs": {
+    "ai-for-science": {"day": 11, "note": "The wet lab delivers: Claude names ART, a CRISPR-like enzyme family in bacteriophages, from a 950-agent 21-hour screen of 200,000+ reverse transcriptases; gene-editing stocks fall; no peer review located"},
+    "anthropic-model-cadence": {"day": 1, "note": "New arc: Claude Opus 5.5 ships 22 September as the first release since the pacing call, at $4/$20 with METR and Frontier Design evaluating pre-launch"},
+    "frontier-price-war": {"day": 1, "note": "New arc: GPT-6 Sol and Luna land at half the prior tier's API prices with a 90% cached-read discount, hours from Anthropic's own Opus price cut"},
+    "ai-mathematics": {"day": 1, "note": "New arc: OpenAI claims an internal model resolved 100+ open problems in ~24 days of training and convenes a nine-mathematician advisory group at the IAS with no authority over its pace"},
+    "open-weight-ceiling": {"day": 1, "note": "New arc: Xiaomi's MiMo-V2.6-Pro (1.02T/42B, MIT) ties Grok 4.7 at index 46 and ships 7,000+ RL environments plus a $3.5M disclosed RL bill"},
+    "enterprise-agent-adoption": {"day": 2, "note": "Claude Marketplace reopens at 2,000+ entries with committed spend redirectable to partner software; Adecco's 27,000 seats are out-scaled by Ema's 240,000 associates"},
+    "assistant-agentification": {"day": 1, "note": "New arc: plugins land inside ChatGPT Live voice and Work becomes voice-drivable, reaching Gmail, Calendar and Slack through existing connector permissions"},
+    "recursive-self-improvement-capital": {"day": 1, "note": "New arc: Mirendil in talks for up to $1B at $5B, a fivefold mark in a quarter, on a recursive-self-improvement thesis - talks-stage"},
+    "training-data-economy": {"day": 1, "note": "New arc: Snorkel takes $350M at $3.5B on $375M ARR, up 18x, selling finished datasets and RL environments rather than labelling tools"},
+    "ai-bio-capital": {"day": 1, "note": "New arc: Enveda's $311M Series E at ~$2B with three drugs in humans, against zero full FDA approvals for AI-discovered drugs as of July 2026"},
+    "ai-employee-layer": {"day": 1, "note": "New arc: Ema's $77M Series B on a deployment covering 240,000 associates in 65 countries and ~2.9M queries a year"},
+    "government-ai-capacity": {"day": 1, "note": "New arc: the US Senate regulating agentic AI is restricted to three chat interfaces, with no agentic tool authorised by the Sergeant at Arms"},
+    "memory-supercycle": {"day": 1, "note": "New arc and Thursday's hardware beat: Micron into a $50B guided quarter at ~86% margin with HBM sold out through 2027 and 16 take-or-pay agreements near $100B"},
+    "vertical-ai-capital": {"day": 1, "note": "New arc: Insight leads three AI rounds in 48 hours - Snorkel, Numeral, and a stake in the workflow-with-a-deadline thesis"},
+    "frontier-pacing": {"day": 12, "note": "Day twelve: the argument gets its first empirical test and ships - Opus 5.5 with external evaluators, GPT-6 price cuts the same day"},
+    "us-china-ai": {"day": 13, "note": "The summit is today at the White House with AI safety, chips and data centres on the agenda and no breakthrough expected by either side"},
+    "multilateral-ai-governance": {"day": 2, "note": "The Council sat: Altman asked for capability measurement and incident reporting, Amodei for bioweapon red lines and verification, Britain backed disclosure, Washington rejected new global governance"},
+    "lab-self-governance": {"day": 10, "note": "METR moves from 'in talks' with OpenAI to a published pre-deployment verdict on Anthropic's Opus 5.5, alongside Frontier Design"},
+    "ai-labour-impact": {"day": 87, "note": "225,122 workers across 519 events in 2026; September 199% above August; AI cited in 13% of US layoffs YTD against 4.5% in 2025"},
+    "agent-security": {"day": 88, "note": "Quiet window: AEPD's first agent-attributed GDPR notification, Unit 42's ten-hour intrusion and Plugin4Shell all hold with no new incident or coordinated fix located"}
+  },
+  "resolved": [
+    "THE PACING QUESTION gets its first empirical answer in 48 hours. Yesterday's open question - whether any lab would put machinery behind the pacing argument rather than rhetoric - is answered twice over: Anthropic released Claude Opus 5.5 on 22 September explicitly as its first release since the pacing call, evaluated pre-launch by METR and Frontier Design, and OpenAI shipped GPT-6 Sol and Luna the same day at half the previous tier's prices. Pacing, as practised, did not mean fewer or later releases. Continues as Developing D1, escalated.",
+    "METR CLOSES AS 'IN TALKS'. Named yesterday as a prospective OpenAI assessor with no signed partnership, METR published a pre-deployment evaluation of a competitor's frontier model on 22 September: Claude Opus 5.5 gives slightly higher productivity uplift than Fable 5.1 and is likely to noticeably accelerate researchers and automate limited aspects of R&D, but is unlikely to fully automate AI R&D. The first independent frontier evaluation to reach the public came from the lab that did not publish a framework.",
+    "ANTHROPIC'S WET LAB closes as a facility and reopens as a result. Confirmed on 20 September as a Bay Area lease with a hiring plan and no output, it produced a named finding on 23 September: ART, a previously uncharacterised enzyme family in bacteriophages, from a 950-agent, 21-hour, 210M-token screen of more than 200,000 reverse transcriptases. Gene-editing stocks fell. Peer review has not happened.",
+    "THE UN SECURITY COUNCIL BRIEFING closes as convened and produces positions rather than a decision, exactly as flagged. Altman asked for common capability measurement, risk assessment and serious-incident reporting; Amodei asked for narrow agreements such as a bioweapons red line, verification systems, and common testing standards with incident notification; Britain backed common testing and disclosure; Washington rejected a new global governance structure, with Trump calling AI oversight a 'globalist scheme'. No written agreement, and none had been expected. Continues as Developing D3.",
+    "EIGHT THREADS AUTO-RETIRED this edition under the no-movement rule: Trump's AI Force and unnamed AI czar (five days on, still no agency, budget, statutory basis or name), CXMT's G5 DRAM mass production, the 37,000-agent virtual biotech, the FT clinician-resistance piece, Paper2Agent in Nature, AIR's $50M agent supply-chain seed, MeitY secretary Krishnan's existential-risk concession, and the unverified OpenAI 2027 IPO-delay report that this scan again could not corroborate."
+  ],
+  "deadlines": [
+    {"date": "2026-09-24", "label": "Trump hosts Xi at the White House - AI safety, chips and AI data centres on the agenda; both governments pre-brief that no breakthrough is expected; convenes after this edition's IST publication", "severity": "high"},
+    {"date": "2026-09-29", "label": "DoD department-wide removal deadline for Anthropic products; defence vendors required to certify", "severity": "high"},
+    {"date": "2026-09-30", "label": "Micron reports Q4 and full-year FY2026 against $50B +/- $1B guidance at ~86% gross margin; Amazon Mechanical Turk closes after 21 years; Huawei Cloud's AICS goes commercial in China the same day", "severity": "high"},
+    {"date": "2026-10-01", "label": "GSA/OpenAI OneGov 50% token discount takes effect across federal, state, local and tribal agencies", "severity": "medium"},
+    {"date": "2026-10-15", "label": "StepFun's full open weights for Step 5 Preview - if the date holds, a second MIT-class self-hostable agentic model after Xiaomi's MiMo-V2.6; UNESCO's AI-in-education consultation also closes", "severity": "medium"},
+    {"date": "2026-10-19", "label": "FDA comments close on the generative-AI-enabled medical devices discussion paper, docket FDA-2026-N-7874", "severity": "medium"}
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('signal-state').textContent);
+  var TODAY = state.date;
+
+  // ── delta + NEW.24H badges, injected from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){
+        var b24 = document.createElement('span');
+        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
+        frag.appendChild(b24);
+      }
+      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
+      if(map[s.delta] && el.classList.contains('card')){
+        var bd = document.createElement('span');
+        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
+        frag.appendChild(bd);
+      }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline radar tiles ──
+  var radar = document.getElementById('radar');
+  var fmt = function(d){
+    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var p = d.split('-');
+    return m[parseInt(p[1],10)-1] + ' ' + p[2];
+  };
+  state.deadlines.forEach(function(d){
+    var t = document.createElement('div');
+    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
+    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
+    radar.appendChild(t);
+  });
+
+  // ── movers strip ──
+  var mv = document.getElementById('movers');
+  if(state.movers && state.movers.length){
+    state.movers.forEach(function(m){
+      var s = document.createElement('span');
+      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+      mv.appendChild(s);
+    });
+  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+
+  // ── still-tracking strip from state ──
+  var tk = document.getElementById('tracking-strip');
+  if(tk && state.tracking && state.tracking.length){
+    tk.innerHTML = state.tracking.map(function(t){
+      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
+    }).join('  ·  ');
+  }
+
+  // ── resolved strip from state ──
+  if(state.resolved && state.resolved.length){
+    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
+  }
+
+  // ── deep-link support: #still-tracking / #resolved / #method open the collapsed folds ──
+  var foldMap = {'still-tracking':'fold-tracking','resolved':'fold-resolved','method':'fold-method'};
+  var openFromHash = function(){
+    var id = foldMap[(location.hash||'').replace('#','')];
+    if(id){ var el = document.getElementById(id); if(el){ el.open = true; el.scrollIntoView(); } }
+  };
+  window.addEventListener('hashchange', openFromHash); openFromHash();
+
+  // ── category tabs (filter all cards across New + Developing) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.mosaic .card').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
