@@ -1,4 +1,4 @@
-# AI Daily Signal — Routine (v2)
+# AI Daily Signal — Routine (v2, rev 2.1)
 
 This is the generation routine for "AI Daily Signal." Paste the block below into
 your run setup, replacing the previous routine. Today's date and IST timezone
@@ -21,6 +21,24 @@ split into three explicit buckets, and the routine is tuned to surface genuinely
 - **Still Tracking** — long-running threads with no movement this edition,
   reduced to one-liners.
 
+## 0.1 WHAT CHANGED IN rev 2.1 (read second)
+Added after edition 100 found that **Jev** (TypeSafe AI's decision-only "System One"
+model, launched 15 Sep 2026) was missed for two weeks while it went viral: edition 097
+carried only the company's seed round, and edition 099 retired it as "single-source"
+although TechCrunch, The Register and Bloomberg had covered it. Four fixes, all
+mandatory:
+1. **Emerging-tech beat (1.E)** — every run searches for new *kinds* of AI, not just
+   new releases from named labs.
+2. **Re-search before downgrading** — nothing is labelled single-source, demoted or
+   retired without first re-searching its entity name AND its flagship product name.
+3. **Product-first scoring of money items** — a funding round is scored on the
+   technology it funds, and the product is named in the card.
+4. **Watchlist** — a standing `watchlist[]` of emerging approaches in the state JSON,
+   re-checked every edition.
+The user's primary objective for this briefing: **identify, research and give
+insight on new and upcoming AI advancements.** When in doubt, favour the new
+technique over the incremental release.
+
 ## 1. SCAN (broaden + rotate — this is the anti-rigidity step)
 Run **20–28** web searches across the last 24h (widen to 72h only to confirm or
 when <10 usable NEW findings). Do NOT just re-ping the same eight company names,
@@ -36,6 +54,24 @@ split across the three buckets below — at least a few searches in EACH every r
 - **Hardware & compute** (NVIDIA/AMD/Google TPU/inference, AI PCs, data centers).
 - **Research** (arXiv cs.AI/cs.LG, Nature/Science, notable benchmarks).
 - **AI security & incidents** (prompt injection, supply-chain, CVEs, breaches).
+
+### E. Emerging tech & new paradigms (MANDATORY — at least 3 searches every run; counts toward A's share of the 20–28)
+The lab list in A is how new *releases* are found; it is not how new *kinds* of AI
+are found. A model from an unknown company, or one that isn't an LLM at all, will
+match none of the named-lab queries. So every run also:
+- Searches **without lab names**: "new AI model" / "new type of AI model" / "not an
+  LLM" / "alternative to LLMs" / "new architecture" / "AI startup launches model",
+  scoped to the last 7 days.
+- Searches **new approaches by class**: decision / classification models (e.g. Jev),
+  world models & JEPA, diffusion and other non-autoregressive LMs, state-space and
+  hybrid architectures, small specialised models, neuro-symbolic, on-device models.
+- Checks **developer-attention signals**, which lead the press by days: newly listed
+  models on OpenRouter / Vercel AI Gateway / Cloudflare AI Gateway, Hacker News front
+  page, GitHub trending, viral launch posts on X, and Hugging Face clones or
+  "open-source X" re-implementations appearing (a burst of clones = real traction).
+- Re-searches every entry in `watchlist[]` by name.
+An emerging-tech item with measurable developer adoption (gateway listings, clones,
+widely-covered launch) is **Notable at minimum**, even pre-revenue.
 
 ### B. Applied AI — what companies, builders & people are actually doing
 This is the anti-rigidity heart of the scan. Don't just cover who *built* a model
@@ -79,6 +115,12 @@ Fri=vertical & applied/enterprise · Sat=regional + AI jobs hotspots (India · U
 UK · UAE/Dubai · EU · Singapore) · Sun=money, startups & new ideas. Shift the
 rotation if a beat has run dry lately.
 
+**Re-search before downgrading (rev 2.1).** Before any item is labelled
+single-source / Agg 1x, demoted, or retired, run one search on the entity name AND
+one on its flagship product or model name. If either returns new coverage, update
+the item instead of downgrading it. "Single-source" means "one source after
+re-searching", never "one source found by today's topic queries".
+
 Cross-check aggregator claims against ≥2 outlets. Widen sources beyond AI-trade
 blogs: use mainstream/business press (Reuters, Bloomberg, FT, CNBC, WSJ), regional
 outlets, company/government primary posts, and earnings/filings where relevant.
@@ -94,6 +136,13 @@ today.
   regardless of whether a giant carried thread out-scores them on raw impact.
 - Tiers: Critical (act this week) · Notable (informs this month) · Monitor
   (trajectory). Apply within each section.
+- **Product-first for money items (rev 2.1):** for any funding / M&A / valuation
+  item, name the product or technology in the title and card, and score the
+  technology's significance, not the round size. A small seed behind a genuinely
+  new kind of model outranks a large round for an incremental one.
+- **Novel approach bonus:** a new technique or model class (not a version bump)
+  scores at least Notable when it has independent coverage or measurable developer
+  adoption.
 - **Freshness quota:** target **≥10 New items** per edition. If the honest scan
   yields fewer than ~5 genuinely new items, say "quiet day" in the fold-line and
   ship fewer — never pad with recycled carries.
@@ -110,7 +159,9 @@ For each candidate story:
 - **Still Tracking** (`tracking[]`) = id present before, NO material movement.
   Reduce to a one-liner. **Auto-retire:** a Developing thread with no movement
   for ~3 consecutive editions drops to Tracking; a Tracking thread with a known
-  outcome moves to `resolved[]`; unresolved drops are silently retired.
+  outcome moves to `resolved[]`; unresolved drops are silently retired —
+  **but only after the re-search in §1 finds nothing new** (rev 2.1). An item
+  whose topic moved into `watchlist[]` is retired from Tracking, not from view.
 - **Movers** (`movers[]`) = anything that escalated/deescalated or had a notable
   price move today (1 line each, ▲/▼).
 - Yesterday's stories with a known outcome → one-line `resolved[]` entries.
@@ -144,7 +195,8 @@ Save as `editions/ai_daily_signal_YYYY-MM-DD.html`. Maintain `editions/index.htm
 (reverse-chronological: date, critical count, lead headline). Commit to main with
 message `AI Daily Signal: edition NNN (YYYY-MM-DD)` and push. Report: edition
 number; new/developing/tracking + tier counts; what's new/escalated/resolved vs
-yesterday; auto-retirements; scan gaps. Thin-news days: fewer beats filler.
+yesterday; auto-retirements; **what's new on the emerging-tech beat and any
+watchlist movement**; scan gaps. Thin-news days: fewer beats filler.
 Never invent stories, quotes, numbers, or links.
 
 ## v2 signal-state schema
@@ -173,7 +225,11 @@ Never invent stories, quotes, numbers, or links.
   "movers":   [ { "dir": "up|down", "text": "what moved" } ],
   "arcs":     { "arc-id": { "day": 1, "note": "..." } },
   "resolved": [ "one-line closure" ],
-  "deadlines":[ { "date": "YYYY-MM-DD", "label": "...", "severity": "high|medium|low" } ]
+  "deadlines":[ { "date": "YYYY-MM-DD", "label": "...", "severity": "high|medium|low" } ],
+  // rev 2.1: emerging approaches re-searched every edition (state-only; not rendered)
+  "watchlist":[ { "id": "jev-decision-models", "label": "what it is + why it matters",
+                  "query": "names/terms to re-search", "firstSeen": "YYYY-MM-DD",
+                  "lastChecked": "YYYY-MM-DD", "status": "watching|carded|faded" } ]
 }
 ```
 The renderer keys off `section`, `delta`, `new24h`, `movers`, `tracking`,
@@ -191,7 +247,8 @@ recurs across editions):
 - **business** — startups, new ideas, funding/M&A/IPO, revenue, capex, shutdowns.
 - **policy** — regulation/government AND workforce/labor/society/culture stories.
 - **research** — papers, benchmarks, AI-for-science. **hardware** — chips/compute.
-- **models** — frontier + open-weight model releases.
+- **models** — frontier + open-weight model releases, and new model classes /
+  architectures from the emerging-tech beat (1.E), e.g. decision models like Jev.
 
 If applied/startup/society coverage becomes a large recurring share, promote a
 dedicated tab (e.g. `applied` or `society`) and update the renderer's tab list.
