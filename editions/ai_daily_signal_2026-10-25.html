@@ -4,359 +4,420 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Daily Signal — Edition 127 — 25 October 2026</title>
+<meta name="description" content="Node.js patches a high-severity Brotli flaw found by OpenAI's AI security agent. Plus doubleAI's Maxwell, Flapping Airplanes, ASI and Otter.ai.">
+<meta name="author" content="Arnav Agrawal">
+<!-- share tags: og:url and og:image must be absolute; SITE_URL lives in scripts/site_config.json -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="AI Daily Signal">
+<meta property="og:title" content="Node.js patches a high-severity Brotli flaw found by OpenAI's AI security agent">
+<meta property="og:description" content="AI Daily Signal, edition 127 (25 Oct 2026): a catch-up edition with 5 stories.">
+<meta property="og:url" content="https://arnavhp18.github.io/ai-daily-signal/editions/ai_daily_signal_2026-10-25.html">
+<meta property="og:image" content="https://arnavhp18.github.io/ai-daily-signal/editions/cards/2026-10-25.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Node.js patches a high-severity Brotli flaw found by OpenAI's AI security agent">
+<meta name="twitter:description" content="AI Daily Signal, edition 127 (25 Oct 2026): a catch-up edition with 5 stories.">
+<meta name="twitter:image" content="https://arnavhp18.github.io/ai-daily-signal/editions/cards/2026-10-25.png">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac;
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac; --muted:#6b6353;
     --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --up:#2e7d4f; --up-bg:#e3f1e8; --down:#b3261e; --down-bg:#f6e2df;
+    /* trust markers: one colour each, used everywhere */
+    --t-official:#2e7d4f; --t-multi:#1f3a93; --t-single:#a86b00; --t-rumor:#b3261e;
     --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5}
   a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
   a:hover{border-bottom-style:solid}
-  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  /* mono = short labels only */
+  .label,.sec-head,.chip,.badge,.tab,.impact,.cat{font-family:var(--mono)}
 
-  /* ticker */
-  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:12px;padding:7px 0;border-bottom:3px solid var(--crit)}
-  .ticker-inner{display:inline-block;animation:tick 60s linear infinite;padding-left:100%}
+  /* ticker: plain dark bar, confirmed items only */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-size:13px;padding:8px 0}
+  .ticker-inner{display:inline-block;animation:tick 70s linear infinite;padding-left:100%}
   @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
-  .ticker b{color:#ffd166}
+  .ticker b{color:#ffd166;font-family:var(--mono);font-size:12px;letter-spacing:1px}
 
-  /* masthead */
-  .masthead{border-bottom:4px double var(--ink);padding:26px 0 16px;text-align:center}
-  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,64px);letter-spacing:-1px;text-transform:uppercase}
-  .masthead .tag{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6353;margin-top:4px}
-  .meta-bar{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
-  .meta-bar span b{color:var(--crit)}
-  .meta-bar .seg b{color:var(--accent)}
+  /* degraded banner (rendered from state.degraded) */
+  .degraded{display:none;background:#fff1c7;border-bottom:2px solid #d99a00;color:#5a4300;font-size:14px;padding:10px 0}
+  .degraded.on{display:block}
+  .degraded strong{font-family:var(--mono);font-size:12px;letter-spacing:1px;margin-right:6px}
+
+  /* masthead: name, edition, date, byline */
+  .masthead{border-bottom:4px double var(--ink);padding:22px 0 14px;text-align:center}
+  .brand{display:inline-flex;align-items:center;gap:12px;border:none;color:var(--ink)}
+  .brand img{width:44px;height:44px}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(32px,5.5vw,56px);letter-spacing:-1px;text-transform:uppercase;line-height:1}
+  .masthead .when{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:10px}
+  .masthead .byline{font-size:13px;color:var(--muted);margin-top:4px}
+
+  /* status line above the headline */
+  .status{font-family:var(--mono);font-size:12px;letter-spacing:.5px;color:var(--muted);padding:16px 0 0}
+  .status b{color:var(--ink)}
+  .status .etype{display:inline-block;background:var(--ink);color:var(--paper);padding:2px 8px;margin-right:8px;letter-spacing:1px;text-transform:uppercase}
+  .status .etype.catchup{background:#d99a00;color:var(--ink)}
 
   /* hero */
-  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--rule)}
-  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--crit);text-transform:uppercase;margin-bottom:8px}
-  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:14px}
-  .hero .dek{font-size:17px;line-height:1.55;color:#3a352a;margin-bottom:14px}
-  .hero .sowhat{font-style:italic;color:#5a5240;border-left:3px solid var(--crit);padding-left:12px;margin:12px 0}
-  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px}
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:12px 0 26px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4vw,44px);line-height:1.1;margin:6px 0 10px}
+  .hero .subhead{font-size:19px;line-height:1.45;color:#3a352a;margin-bottom:14px}
+  .hero .dek{font-size:16px;line-height:1.6;color:#3a352a;margin-bottom:12px}
+  .sowhat{font-style:italic;color:#4a4436;border-left:3px solid var(--rule);padding-left:12px;margin:12px 0}
+  .hero .sowhat{border-left-color:var(--crit)}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px;align-self:start}
   .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
-  .facts dl{font-size:13px}
-  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6b6353;margin-top:9px}
-  .facts dd{margin:1px 0 0}
-  .brief-toggle{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
-  .brief-toggle:hover{background:var(--crit)}
-  .full-brief{display:none;margin-top:16px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:14.5px;line-height:1.6}
+  .facts dl{font-size:14px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:9px}
+  .brief-toggle{margin-top:12px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .full-brief{display:none;margin-top:14px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:15px;line-height:1.6}
   .full-brief.open{display:block}
   .full-brief p{margin-bottom:10px}
 
-  /* badges & chips */
-  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
-  .b-new{background:var(--crit);color:#fff}
-  .b-esc{background:#7a1f12;color:#fff}
-  .b-deesc{background:#3d5a4c;color:#fff}
+  /* trust markers */
+  .trust{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:600;padding:2px 9px;border:1.5px solid currentColor;border-radius:999px;margin:0 6px 6px 0;background:#fff}
+  .trust::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+  .trust.official{color:var(--t-official)} .trust.multi{color:var(--t-multi)}
+  .trust.single{color:var(--t-single)} .trust.rumor{color:var(--t-rumor);border-style:dashed}
+  .chip{display:inline-block;font-size:11px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0;color:#4a4436}
+  .badge{display:inline-block;font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--ink);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff} .b-deesc{background:var(--mon);color:#fff}
   .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
-  .chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0}
-  .chip.rumor{background:#f3d2cf;border-color:var(--crit);color:var(--crit)}
-  .chip.arc{background:#dde4f0;border-color:#9fb0d0;color:var(--accent)}
+  .tier{font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;color:#fff;margin-right:6px}
+  .tier.critical{background:var(--crit)} .tier.notable{background:var(--note)} .tier.monitor{background:var(--mon)}
 
-  /* triptych */
-  .sec-head{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:26px 0 8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:baseline}
-  .sec-head small{font-size:10px;color:#6b6353;letter-spacing:1px}
-  .sec-head.new-band{border-bottom-color:var(--crit)}
-  .sec-head.dev-band{border-bottom-color:var(--mon)}
-  .triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule)}
-  .trip{padding:18px;border-right:1px solid var(--rule)}
+  /* sources, ranked by type */
+  .src{font-size:13px;line-height:1.8;margin-top:6px}
+  .src .st{font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--muted);margin-right:4px}
+  .src .grp{margin-right:12px;display:inline}
+
+  /* section heads */
+  .sec-head{font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:24px 0 8px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .sec-head small{font-size:10px;color:var(--muted);letter-spacing:1px}
+
+  /* 30-second read */
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--rule);background:#fffdf7}
+  .trip{padding:16px 18px;border-right:1px solid var(--rule)}
   .trip:last-child{border-right:none}
-  .trip .num{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--crit)}
-  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.2;margin:6px 0 8px}
-  .trip p{font-size:13px;color:#4a4436}
-  .fold-line{font-family:var(--mono);font-size:12px;color:#6b6353;padding:12px 4px;border-bottom:1px solid var(--rule);line-height:1.7}
+  .trip .num{font-family:var(--serif);font-size:26px;font-weight:800;color:var(--crit);line-height:1}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.25;margin:6px 0}
+  .trip p{font-size:14px;color:#4a4436}
+  .trip a.jump{font-family:var(--mono);font-size:11px}
 
-  /* deadline radar */
-  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
-  .tile{border:1px solid var(--rule);background:var(--paper2);padding:14px;position:relative}
-  .tile .d{font-family:var(--mono);font-size:18px;font-weight:600}
-  .tile .l{font-size:12px;margin-top:6px;line-height:1.4}
-  .tile .sev{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%}
-  .sev-high{background:var(--crit)} .sev-medium{background:#d99a00} .sev-low{background:var(--mon)}
-  .tile.today{outline:2px solid var(--crit)}
-  .tile.today .d::after{content:" • TODAY";font-size:10px;color:var(--crit)}
+  /* deadline timeline */
+  .timeline{display:flex;gap:0;overflow-x:auto;border-top:2px solid var(--ink);padding-top:0;scrollbar-width:thin}
+  .tl-item{flex:1 0 170px;padding:12px 14px 6px;border-right:1px dashed var(--rule);position:relative}
+  .tl-item::before{content:"";position:absolute;top:-7px;left:14px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--ink)}
+  .tl-item.sev-high::before{background:var(--crit);border-color:var(--crit)}
+  .tl-item.sev-medium::before{background:#d99a00;border-color:#d99a00}
+  .tl-item .when{font-family:var(--mono);font-size:12px;font-weight:600;margin-top:6px}
+  .tl-item .left{font-family:var(--mono);font-size:11px;color:var(--crit)}
+  .tl-item .l{font-size:13px;margin-top:4px;line-height:1.4}
 
-  /* movers strip */
-  .movers{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 4px}
-  .mover{font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--rule)}
-  .mv-up{background:#f6e2df;color:var(--crit);border-color:var(--crit)}
-  .mv-down{background:#e3ece5;color:var(--mon);border-color:var(--mon)}
+  /* movers */
+  .movers{display:flex;gap:8px;flex-wrap:wrap}
+  .mover{font-size:13px;padding:4px 10px;border:1px solid}
+  .mv-up{background:var(--up-bg);color:var(--up);border-color:var(--up)}
+  .mv-down{background:var(--down-bg);color:var(--down);border-color:var(--down)}
+  .key{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:8px}
+  .key .k-up{color:var(--up);font-weight:600} .key .k-down{color:var(--down);font-weight:600}
 
-  /* tabs + mosaic */
-  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
-  .tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer}
+  /* feed */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .tab{font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer;color:var(--ink)}
   .tab.active{background:var(--ink);color:var(--paper)}
-  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding-bottom:10px}
-  .card{border:1px solid var(--rule);background:#fffdf7;padding:16px;display:flex;flex-direction:column}
-  .card.w3{grid-column:span 3}.card.w2{grid-column:span 2}
-  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c}
-  .card.crit{border-top:4px solid var(--crit)}
-  .card.note{border-top:4px solid var(--note)}
-  .card.mon{border-top:4px solid var(--mon)}
-  .card .cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6353}
-  .card h4{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.18;margin:7px 0 9px}
-  .card .body{font-size:13.5px;color:#3f3a2e;flex:1}
-  .card .sowhat{font-style:italic;font-size:12.5px;color:#5a5240;margin:10px 0 8px;border-left:2px solid var(--rule);padding-left:9px}
-  .card .src{font-family:var(--mono);font-size:11px;line-height:1.8}
-  .impact{font-family:var(--mono);font-size:10px;float:right;color:#6b6353}
+  .lead-ref{font-size:14px;color:var(--muted);border:1px dashed var(--rule);padding:10px 14px;margin-bottom:14px}
+  .big{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:18px;display:flex;flex-direction:column;position:relative}
+  .card.critical{border-top:5px solid var(--crit)} .card.notable{border-top:5px solid var(--note)} .card.monitor{border-top:5px solid var(--mon)}
+  .card.rumor{border:2px dashed #b9ae96;background:#f3efe4;opacity:.85}
+  .card.rumor h4{color:#5a5240}
+  .card .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c;margin-right:6px}
+  .cat{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+  .card h4{font-family:var(--serif);font-size:22px;font-weight:600;line-height:1.2;margin:8px 0 6px}
+  .card .sub{font-size:15px;color:#3a352a;margin-bottom:8px}
+  .card .body{font-size:15px;color:#3f3a2e;flex:1}
+  .impact{font-size:11px;color:var(--muted)}
   .impact b{font-size:14px;color:var(--ink)}
-  /* "what changed" line on developing cards */
-  .delta-line{font-family:var(--mono);font-size:11.5px;background:#eef3ea;border-left:3px solid var(--mon);padding:7px 10px;margin:8px 0;line-height:1.5}
-  .delta-line .dl-tag{font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
-  .delta-line.nochange{background:#efe9da;border-left-color:#9a917c}
-  .delta-line.nochange .dl-tag{color:#6b6353}
+  .share{font-family:var(--mono);font-size:11px;background:none;border:1px solid var(--rule);padding:3px 9px;cursor:pointer;color:var(--ink)}
+  .share:hover{border-color:var(--ink)}
+  .storyline{font-size:12px;color:var(--muted);margin-top:4px}
+  /* compact list for the rest */
+  .compact{border-top:1px solid var(--rule)}
+  .row{border-bottom:1px solid var(--rule);background:#fffdf7}
+  .row.rumor{border:2px dashed #b9ae96;background:#f3efe4;opacity:.85}
+  .row > summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:baseline}
+  .row > summary::-webkit-details-marker{display:none}
+  .row .rank{font-family:var(--serif);font-weight:800;font-size:20px;color:#9a917c}
+  .row h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.25;display:inline}
+  .row .meta{margin-top:6px}
+  .row .more{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+  .row[open] .more::after{content:"▴ less"} .row:not([open]) .more::after{content:"▾ more"}
+  .row .detail{padding:0 14px 14px 68px;font-size:15px}
+  .note-line{font-size:14px;color:#4a4436;padding:12px 2px;line-height:1.6}
 
-  /* tracking + resolved + footer */
-  .resolved-strip,.tracking-strip{font-family:var(--mono);font-size:12px;background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:8px 0 0;line-height:1.9}
-  .tracking-strip strong{color:var(--accent)}
+  /* tracking */
+  .tk-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+  .tk-tools input{font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);background:#fffdf7;min-width:240px;flex:1}
+  .tk-tools button{font-family:var(--mono);font-size:11px;border:1px solid var(--ink);background:none;padding:7px 12px;cursor:pointer}
+  .tk-list{list-style:none}
+  .tk-list li{border-bottom:1px solid var(--rule);padding:8px 2px;font-size:14px}
+  .tk-list li .nm{font-weight:600}
+  .tk-list li .sl{font-size:12px;color:var(--muted)}
+  .tk-count{font-family:var(--mono);font-size:11px;color:var(--muted)}
 
-  /* collapsible archive sections (Still Tracking / Resolved / method notes) */
-  .fold{border-bottom:3px solid var(--ink);margin-top:26px}
-  .fold[open]{border-bottom-color:var(--rule)}
-  .fold > summary{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:0 0 8px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  /* folds */
+  .fold{margin-top:22px;border-bottom:1px solid var(--rule)}
+  .fold > summary{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:0 0 8px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:3px solid var(--ink)}
   .fold > summary::-webkit-details-marker{display:none}
-  .fold > summary small{font-size:10px;color:#6b6353;letter-spacing:1px;font-weight:400}
-  .fold > summary .caret{font-size:11px;color:#6b6353;letter-spacing:0}
-  .fold > summary:hover{color:var(--crit)}
-  .fold[open] > summary .caret::after{content:"▴ HIDE"}
-  .fold:not([open]) > summary .caret::after{content:"▾ SHOW"}
-  .fold .fold-body{padding-bottom:16px}
-  footer .fold{border-bottom:none;margin-top:12px}
-  footer .fold > summary{font-size:11px;letter-spacing:2px}
-  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:12px;color:#6b6353;font-family:var(--mono)}
-  footer p{margin-bottom:6px}
+  .fold > summary small{font-size:10px;color:var(--muted);letter-spacing:1px}
+  .fold[open] > summary .caret::after{content:"▴ HIDE"} .fold:not([open]) > summary .caret::after{content:"▾ SHOW"}
+  .fold > summary .caret{font-size:11px;color:var(--muted);letter-spacing:0}
+  .fold .fold-body{padding:12px 0 16px;font-size:14px;line-height:1.65}
+  .fold .fold-body li{margin:0 0 6px 18px}
+
+  /* footer */
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:14px;color:#4a4436}
+  footer .stats{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;gap:18px;flex-wrap:wrap;margin-bottom:10px}
+  footer .stats b{color:var(--ink)}
+  footer p{margin-bottom:8px}
+  footer .fold > summary{font-size:11px;letter-spacing:2px;border-bottom:1px solid var(--rule)}
+  .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;padding:8px 14px;display:none}
+
   @media(max-width:860px){
     .hero{grid-template-columns:1fr}
     .triptych{grid-template-columns:1fr}
     .trip{border-right:none;border-bottom:1px solid var(--rule)}
-    .card.w3,.card.w2{grid-column:span 6}
+    .big{grid-template-columns:1fr}
+    .row .detail{padding-left:14px}
+    .row > summary{grid-template-columns:34px 1fr}
+    .row .more{grid-column:2}
   }
 </style>
 </head>
 <body>
 
-
-<!-- ══════════ TICKER ══════════ -->
-<div class="ticker"><div class="ticker-inner">
-  <b>DOUBLEAI</b> Maxwell rewrites running code for the hardware it is on; $200M from NVIDIA, Dell and others &nbsp;◆&nbsp; <b>FLAPPING AIRPLANES</b> $1B at $6B for training with less data and compute &nbsp;◆&nbsp; <b>ASI</b> $325M for airspace and grid forecasting software &nbsp;◆&nbsp; <b>NODE.JS</b> reported CVSS 9.2 flaw found by an AI security agent (unconfirmed) &nbsp;◆&nbsp; <b>OTTER.AI</b> $320M without giving up equity &nbsp;◆&nbsp; <b>HUGGING FACE</b> Mistral's first time-series model among the week's top uploads
+<!-- TICKER: confirmed items only. Never put an "Unconfirmed" story here. -->
+<div class="ticker" aria-hidden="true"><div class="ticker-inner">
+  <b>NODE.JS</b> patch to v22.23.4, v24.22.1 or v26.12.1: high-severity Brotli flaw found by OpenAI's AI security agent &nbsp;◆&nbsp; <b>DOUBLEAI</b> launches Maxwell, which rewrites running code for the hardware it is on &nbsp;◆&nbsp; <b>FLAPPING AIRPLANES</b> $1B at $6B to train models with less data &nbsp;◆&nbsp; <b>ASI</b> $325M for airspace and power-grid forecasting &nbsp;◆&nbsp; <b>OTTER.AI</b> $320M without giving up equity
 </div></div>
 
-<!-- ══════════ MASTHEAD ══════════ -->
+<!-- DEGRADED BANNER: shown when state.degraded is true -->
+<div class="degraded" id="degraded"><div class="wrap"><strong>DEGRADED EDITION</strong> <span id="degraded-text"></span></div></div>
+
 <header class="masthead wrap">
-  <h1>AI Daily Signal</h1>
-  <div class="tag">Daily AI Intelligence Briefing — Asia/Kolkata (IST)</div>
-  <div class="meta-bar">
-    <span>EDITION <b>127</b></span>
-    <span>SUNDAY, 25 OCTOBER 2026</span>
-    <span class="seg">NEW <b>7</b> · DEVELOPING <b>0</b> · TRACKING <b>298</b></span>
-    <span>CRITICAL <b>0</b> / NOTABLE 2 / MONITOR 5</span>
-    <span>SCAN: 28 SEARCHES · 24H–7D</span>
-  </div>
+  <a class="brand" href="index.html" aria-label="AI Daily Signal archive"><img src="../assets/logo.svg" alt=""><h1>AI Daily Signal</h1></a>
+  <div class="when">Edition 127 · Sunday, 25 October 2026</div>
+  <div class="byline">Curated by Arnav Agrawal<span data-slot="curator-links"></span></div>
 </header>
 
 <main class="wrap">
 
-<!-- ══════════ HERO ══════════ -->
-<article class="hero" data-story-id="doubleai-maxwell-runtime-optimizer">
+<!-- STATUS LINE: rendered from state (editionType, counts, new24h, sourcesOpened) -->
+<div class="status" id="status"></div>
+
+<!-- HERO: headline 12-15 words, one sub-line, then the detail -->
+<article class="hero" id="node-brotli-rce-cve-2026-111497" data-story-id="node-brotli-rce-cve-2026-111497">
   <div>
-    <div class="kicker">■ Today's Lead · New · SiliconANGLE, TNW, WSJ (via Placera), Mon 19 Oct · Sunday deep beat: money, startups &amp; new ideas · Day 1 of the AI-compute-efficiency arc</div>
-    <h2>Mobileye co-founder Amnon Shashua's doubleAI launches Maxwell, a model that rewrites software while it runs to fit the hardware and data in front of it, and raises $200M from NVIDIA, Dell and others</h2>
-    <p class="dek">Most coding AI writes new code for a person to review. <strong>Maxwell</strong> works on code that is already running: it rewrites it for the specific GPU or CPU and the data actually flowing through it, and doubleAI says each rewrite is <strong>formally verified</strong> to behave exactly like the original. The company says it cut one unnamed customer's compute costs by <strong>67%</strong>, made data pipelines more than 38 times faster and inference kernels more than 4.5 times faster. LTX, which builds open-weight video models, reports its inference doubled; doubleAI's own write-up puts LTX-2.5 4K generation at 1.87x. Maxwell is in early access.</p>
-    <p class="sowhat">So what: compute is the biggest line in most AI budgets, and this attacks it from the software side without asking engineers to change their code. It sits next to the agent-written-kernels thread this briefing has watched since September, but goes further: automatic, verified, and applied to whole running programs. Every number so far is the company's own, so test it on your workloads before believing the 67%.</p>
-    <span class="chip arc">ARC: AI-COMPUTE-EFFICIENCY · D1</span><span class="chip">2x SRC</span>
-    <div class="src" style="font-family:var(--mono);font-size:11px;margin-top:8px">
-      <a href="https://siliconangle.com/2026/10/19/nvidia-dell-back-200m-round-for-ai-model-developer-doubleai/">SiliconANGLE</a> · <a href="https://thenextweb.com/news/doubleai-maxwell-code-execution-model-compute-costs">TNW</a> · <a href="https://runtimewire.com/article/doubleai-maxwell-code-execution-model-compute-costs">Runtimewire</a> · <a href="https://tech-insider.org/doubleai-maxwell-38x-speedup-runtime-code-2026/">Tech Insider</a> · <a href="https://www.placera.se/telegram/nvidia-nvidia-backade-doubleai-lanserar-ai-teknik-till-lagre-kostnader-wsj-20261019">WSJ via Placera</a>
-    </div>
+    <h2>Node.js patches a high-severity Brotli flaw found by OpenAI's AI security agent</h2>
+    <p class="subhead">CVE-2026-111497 lets crafted compressed data corrupt memory, up to remote code execution. Fixed on 21 October in v22.23.4, v24.22.1 and v26.12.1.</p>
+    <div><span class="tier critical">CRITICAL · ACT THIS WEEK</span><span class="trust official">Official source</span><span class="chip">Checked on nodejs.org</span></div>
+    <p class="dek">The Node.js project's October security release says the <strong>Brotli decoder bundled with Node.js</strong> treated an invalid block switch as "needs more input" instead of a format error, so the streaming decoder kept appending bytes to an eight-byte internal buffer. An attacker who can supply Brotli data that an application decompresses with <code>node:zlib</code> can crash the process, read process memory or run code. All three supported lines (22.x, 24.x, 26.x) are affected. Node credits <strong>OpenAI Codex Security</strong> researchers Khai Tran and Sylvie Mayer. The same release fixes four other high-severity bugs in DNS and TLS hostname checks.</p>
+    <p class="sowhat">So what: any Node.js service that decompresses Brotli it did not produce (uploads, proxies, HTTP clients reading untrusted servers) should upgrade this week. It is also the second runtime-level bug in a week credited to an AI security agent, after PHP2Shell: AI-found vulnerabilities are now arriving in core infrastructure, not just apps.</p>
+    <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://nodejs.org/en/blog/vulnerability/october-2026-security-releases">Node.js October 2026 security releases</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://aiweekly.co/ai-news-today">AI Weekly roundup (24 Oct)</a></span></div>
+    <div class="storyline">Storyline: AI finding software vulnerabilities · day 2</div>
     <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
     <div class="full-brief" id="hero-brief">
-      <p><strong>The money, scored on the product.</strong> The $200M Series A (announced 19 Oct) values doubleAI above $1B, with total funding about $220M. SiliconANGLE names Lightspeed and Bessemer as co-leads; Globes names Lightspeed alone and lists Michael Dell personally; NVIDIA is in both accounts. Roughly half the round buys 1,000 NVIDIA B300 GPUs. The score here is for the technique, not the round size: verified runtime rewriting is a new kind of product, not a version bump.</p>
-      <p><strong>What is not established.</strong> The 67% customer is unnamed. The 38x and 4.5x figures come from company benchmarks with no public test sets. How the formal-equivalence check scales to large, messy codebases has not been shown. Pages could not be opened (fetches failed); details come from search results.</p>
-      <p><strong>Why it is the lead.</strong> Today's scan found no frontier release and no major escalation. On a quiet Sunday, the most important new item is a new technique for cutting compute, and the second (Flapping Airplanes) is another efficiency bet.</p>
-      <p><strong>Watch for.</strong> Independent benchmarks, named production customers, pricing, and whether cloud or inference providers bundle it.</p>
+      <p><strong>What was checked.</strong> The CVE number, the description, the affected lines, the fixed versions, the release date and the credit to OpenAI Codex Security were all read on Node's own security-release page. Node rates the bug <strong>High</strong>, and the highest severity in the release is High.</p>
+      <p><strong>What was not confirmed.</strong> A 24 October news roundup calls the bug "Node2Shell" and gives a CVSS score of 9.2. Neither the name nor the score appears on Node's page, and the NVD entry could not be opened (blocked by this environment's network policy). This briefing uses Node's rating.</p>
+      <p><strong>Other fixes in the same release.</strong> CVE-2026-105482 (dns.resolve truncates names with a NUL byte, high), CVE-2026-105483 and CVE-2026-106069 (TLS hostname checks fooled by fullwidth digits or leading-zero IPv4 literals, high), CVE-2026-105481 (keep-alive socket accepts a response sent before the request, medium), plus dependency updates for c-ares, OpenSSL, SQLite and Undici.</p>
+      <p><strong>Why it leads.</strong> It is the one story today that was checked against its primary source, and the one that asks readers to act.</p>
     </div>
   </div>
   <aside class="facts">
     <h3>Facts</h3>
     <dl>
-      <dt>Product</dt><dd>Maxwell: runtime code rewriting, GPU and CPU</dd>
-      <dt>Guarantee</dt><dd>Formally verified equivalence (company claim)</dd>
-      <dt>Claims</dt><dd>67% cost cut (1 customer) · &gt;38x pipelines · &gt;4.5x kernels</dd>
-      <dt>Access</dt><dd>Early access</dd>
-      <dt>Round</dt><dd>$200M Series A, &gt;$1B valuation (19 Oct)</dd>
-      <dt>Impact</dt><dd><b style="font-size:18px">5</b>/10 — anyone paying a large compute bill</dd>
+      <dt>CVE</dt><dd>CVE-2026-111497 (Node rating: High)</dd>
+      <dt>What</dt><dd>Out-of-bounds write in the bundled Brotli decoder</dd>
+      <dt>Worst case</dt><dd>Remote code execution via <code>node:zlib</code></dd>
+      <dt>Fixed in</dt><dd>v22.23.4 · v24.22.1 · v26.12.1 (21 Oct)</dd>
+      <dt>Found by</dt><dd>OpenAI Codex Security (Khai Tran, Sylvie Mayer)</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">6</b>/10 — every team running Node.js</dd>
     </dl>
   </aside>
 </article>
 
-<!-- ══════════ 30-SECOND READ ══════════ -->
+<!-- 30-SECOND READ: right under the headline; never repeats the lead -->
 <section>
-  <div class="sec-head">The 30-Second Read <small>THE THREE THAT MATTER MOST TODAY</small></div>
+  <div class="sec-head">The 30-Second Read <small>THE NEXT THREE AFTER THE LEAD</small></div>
   <div class="triptych">
-    <article class="trip" data-story-id="doubleai-maxwell-runtime-optimizer">
-      <div class="num">1</div>
-      <h4>AI that speeds up running code</h4>
-      <p>doubleAI's Maxwell rewrites live code for the hardware and data, with verified equivalence. Company claims up to 67% lower compute bills. <strong>NEW · NOTABLE.</strong></p>
-    </article>
-    <article class="trip" data-story-id="flapping-airplanes-data-efficient-6b">
+    <article class="trip">
       <div class="num">2</div>
-      <h4>$6B for doing more with less</h4>
-      <p>Flapping Airplanes, with no product, raised $1B to train models on far less data and compute. An efficiency bet priced like a scale lab. <strong>NEW · NOTABLE.</strong></p>
+      <h4>AI that speeds up code while it runs</h4>
+      <p>doubleAI's Maxwell rewrites live code for the hardware and data, with checked equivalence. Its savings figures are its own. <a class="jump" href="#doubleai-maxwell-runtime-optimizer">#2 ↓</a></p>
     </article>
-    <article class="trip" data-story-id="asi-infrastructure-simulation-3b">
+    <article class="trip">
       <div class="num">3</div>
+      <h4>$6B for doing more with less</h4>
+      <p>Flapping Airplanes has no product but raised $1B to train models on far less data and compute. <a class="jump" href="#flapping-airplanes-data-efficient-6b">#3 ↓</a></p>
+    </article>
+    <article class="trip">
+      <div class="num">4</div>
       <h4>Forecasting the physical world</h4>
-      <p>ASI's simulation software for airspace and power grids now has a $3B valuation and an $875M FAA program. <strong>NEW · MONITOR.</strong></p>
+      <p>ASI's simulation software for airspace and power grids is now valued at $3B. <a class="jump" href="#asi-infrastructure-simulation-3b">#4 ↓</a></p>
     </article>
   </div>
-  <p class="fold-line"><strong>SUNDAY DEEP BEAT — MONEY, STARTUPS &amp; NEW IDEAS:</strong> <strong>7 new items, none inside 24 hours, and no Developing thread</strong>. A near-quiet day: well below the 10-item target and nothing broke in the last 24 hours, so nothing was padded with carries. Every money item is scored on its product: <strong>doubleAI</strong> (Maxwell runtime optimiser, lead), <strong>Flapping Airplanes</strong> (data-efficient training), <strong>ASI</strong> (infrastructure forecasting), <strong>Otter.ai</strong> (meeting agents). Emerging tech: <strong>Mistral</strong>'s first time-series model on Hugging Face. Security: <strong>Node2Shell</strong> (rumor-flag). People: professors leaving for AI labs.</p>
 </section>
 
-<!-- ══════════ DEADLINE RADAR ══════════ -->
+<!-- DEADLINES: timeline with days-left counters, rendered from state.deadlines -->
 <section>
-  <div class="sec-head">Deadline Radar <small>DATES THAT BITE</small></div>
-  <div class="radar" id="radar"></div>
+  <div class="sec-head">Coming Up <small>DATES THAT MATTER · DAYS LEFT</small></div>
+  <div class="timeline" id="timeline"></div>
 </section>
 
-<!-- ══════════ MOVERS ══════════ -->
+<!-- FEED -->
 <section>
-  <div class="sec-head">Movers <small>WHAT SHIFTED TIER OR PRICE TODAY</small></div>
-  <div class="movers" id="movers"></div>
-</section>
-
-<!-- ══════════ FEED TABS ══════════ -->
-<section>
+  <div class="sec-head">New on the Wire <small id="new-head"></small></div>
   <div class="tabs">
-    <button class="tab active" data-cat="all">ALL (7)</button>
+    <button class="tab active" data-cat="all">ALL (5)</button>
     <button class="tab" data-cat="business">BUSINESS (3)</button>
-    <button class="tab" data-cat="models">MODELS (2)</button>
     <button class="tab" data-cat="enterprise">ENTERPRISE (1)</button>
-    <button class="tab" data-cat="policy">POLICY (1)</button>
+    <button class="tab" data-cat="models">MODELS (1)</button>
   </div>
 
-  <!-- ══════════ NEW ON THE WIRE ══════════ -->
-  <div class="sec-head new-band">New on the Wire <small>7 ITEMS · SURFACED SINCE LAST EDITION · 0 INSIDE 24H (ALL DATED 13–24 OCT, ONE FROM JULY)</small></div>
-  <div class="mosaic">
+  <div class="lead-ref feed-item" data-cat="enterprise"><strong>#1</strong> is today's lead, above: Node.js patches a high-severity Brotli flaw. <a href="#node-brotli-rce-cve-2026-111497">Back to top ↑</a></div>
 
-    <article class="card w3 note" data-cat="models" data-story-id="doubleai-maxwell-runtime-optimizer">
-      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#1</span> <span class="cat">MODELS · NEW MODEL CLASS · RUNTIME CODE OPTIMISATION · ISRAEL · MON 19 OCT</span></div>
-      <h4>doubleAI launches Maxwell, a model that rewrites software while it runs to fit the actual hardware and data, with formally verified equivalence to the original code</h4>
-      <div class="body">Product first: <strong>Maxwell</strong> optimises code on GPUs and CPUs at runtime instead of generating new code for a human to review; doubleAI says the rewritten code is formally checked to behave identically. Company figures: one unnamed customer's compute bill down <strong>67%</strong> (told to the WSJ); data pipelines &gt;38x faster; inference kernels &gt;4.5x; LTX-2.5 4K video generation ~250s to ~134s (1.87x). Early access via its website. The <strong>$200M Series A</strong> (Lightspeed with Bessemer per SiliconANGLE; NVIDIA and Dell/Michael Dell also in) values the company above $1B; about half goes on 1,000 NVIDIA B300 GPUs. Founder: Mobileye co-founder Amnon Shashua.</div>
-      <p class="sowhat">If the verification claim holds, this is a way to cut inference and data-pipeline bills without touching application code. Ask for a trial on your own workloads; the published speed-ups are all company-run. <em>Dated 19 Oct; not badged.</em></p>
-      <div><span class="chip arc">ARC: AI-COMPUTE-EFFICIENCY · D1</span><span class="chip">2x SRC</span></div>
-      <div class="src"><a href="https://siliconangle.com/2026/10/19/nvidia-dell-back-200m-round-for-ai-model-developer-doubleai/">SiliconANGLE</a> · <a href="https://thenextweb.com/news/doubleai-maxwell-code-execution-model-compute-costs">TNW</a> · <a href="https://runtimewire.com/article/doubleai-maxwell-code-execution-model-compute-costs">Runtimewire</a> · <a href="https://tech-insider.org/doubleai-maxwell-38x-speedup-runtime-code-2026/">Tech Insider</a> · <a href="https://www.placera.se/telegram/nvidia-nvidia-backade-doubleai-lanserar-ai-teknik-till-lagre-kostnader-wsj-20261019">WSJ via Placera</a></div>
+  <!-- the two highest-scoring stories after the lead get large cards -->
+  <div class="big">
+
+    <article class="card notable feed-item" id="doubleai-maxwell-runtime-optimizer" data-cat="models" data-story-id="doubleai-maxwell-runtime-optimizer">
+      <div class="top"><span><span class="rank">#2</span><span class="cat">Models · new kind of tool · 19 Oct</span></span><span class="impact">IMPACT <b>5</b>/10</span></div>
+      <h4>doubleAI launches Maxwell, which rewrites running code to fit the hardware</h4>
+      <p class="sub">Mobileye co-founder Amnon Shashua's start-up says each rewrite is formally checked to behave like the original. $200M Series A, valued above $1B.</p>
+      <div class="body"><strong>Maxwell</strong> works on code that is already running, on GPUs and CPUs, rather than writing new code for a person to review. Company figures: one unnamed customer's compute bill cut by 67%; data pipelines more than 38x faster; inference kernels more than 4.5x; LTX-2.5 4K video generation 1.87x faster. Early access only. The round (Lightspeed, with Bessemer per SiliconANGLE; NVIDIA and Dell also in) mostly buys 1,000 NVIDIA B300 GPUs.</div>
+      <p class="sowhat">A way to cut compute bills without touching application code, if the verification holds. All numbers are the company's; test it on your own workloads.</p>
+      <div><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="chip">Sources not opened</span></div>
+      <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.placera.se/telegram/nvidia-nvidia-backade-doubleai-lanserar-ai-teknik-till-lagre-kostnader-wsj-20261019">WSJ via Placera</a> · <a href="https://siliconangle.com/2026/10/19/nvidia-dell-back-200m-round-for-ai-model-developer-doubleai/">SiliconANGLE</a> · <a href="https://thenextweb.com/news/doubleai-maxwell-code-execution-model-compute-costs">TNW</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://runtimewire.com/article/doubleai-maxwell-code-execution-model-compute-costs">Runtimewire</a> · <a href="https://tech-insider.org/doubleai-maxwell-38x-speedup-runtime-code-2026/">Tech Insider</a></span></div>
+      <div class="storyline">Storyline: getting more from each chip · day 1</div>
+      <div style="margin-top:10px"><button class="share" data-share="doubleai-maxwell-runtime-optimizer">Share ↗</button></div>
     </article>
-    <article class="card w3 note" data-cat="business" data-story-id="flapping-airplanes-data-efficient-6b">
-      <div><span class="impact">IMPACT <b>5</b>/10</span><span class="rank">#2</span> <span class="cat">BUSINESS · RESEARCH LAB · DATA-EFFICIENT TRAINING · US · ~21 OCT</span></div>
-      <h4>Flapping Airplanes raises $1B at a $6B valuation, four times its January price, to train models with far less data and compute; it has no product on sale</h4>
-      <div class="body">Product first: there is no product yet. The bet is a <strong>training method</strong>, not a model size: getting frontier-class results from less data and less compute, and (co-founder Asher Spector told Bloomberg, per TNW) more performance per chip, using its own software for NVIDIA GPUs. Index Ventures and Lux led; Sequoia, GV, Kleiner Perkins and NVIDIA joined. The company raised a $180M seed in January; Forbes reported talks at $5B in July.</div>
-      <p class="sowhat">Investors are now paying scale-lab prices for an efficiency thesis. If it works, the moat of whoever owns the most GPUs shrinks. Watch for a first model and published sample-efficiency results. <em>Dated ~21 Oct; not badged.</em></p>
-      <div><span class="chip arc">ARC: AI-COMPUTE-EFFICIENCY · D1</span><span class="chip">2x SRC</span></div>
-      <div class="src"><a href="https://thenextweb.com/news/flapping-airplanes-1b-6b-valuation">TNW</a> · <a href="https://aiweekly.co/alerts/flapping-airplanes-lands-1b-at-6b-from-index-and-lux-four-times-its-january">AI Weekly</a> · <a href="https://www.diariobitcoin.com/startups-verticales/flapping-airplanes-alcanza-una-valoracion-de-usd-6-000-millones-sin-tener-un-producto/">DiarioBitcoin</a> · <a href="https://runtimewire.com/article/flapping-airplanes-5-billion-valuation-funding-talks">Runtimewire (July talks)</a></div>
-    </article>
-    <article class="card w2 mon" data-cat="business" data-story-id="asi-infrastructure-simulation-3b">
-      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#3</span> <span class="cat">BUSINESS · PHYSICAL-WORLD AI · AIRSPACE &amp; GRIDS · TUE 20 OCT</span></div>
-      <h4>ASI raises $325M at $3B for simulation software that forecasts disruptions in air traffic, power grids and military operations</h4>
-      <div class="body">Product first: ASI models scenarios <strong>hours to weeks ahead</strong> so operators can act before a disruption. Customers named: Delta, Alaska and United Airlines, and National Grid. It holds an $875M FAA/DOT program to modernise the US airspace system and a $99M US Army contract (contract values, not revenue). Spark Capital led; Citadel Securities affiliates, Meritech, Craft, Energy Impact Partners and a16z joined. Revenue undisclosed.</div>
-      <p class="sowhat">Forecasting models for physical infrastructure are getting government-scale contracts. A sign of where AI spending goes beyond chat. <em>Dated 20 Oct; not badged.</em></p>
-      <div><span class="chip arc">ARC: PHYSICAL-AI-SIMULATION · D1</span><span class="chip">2x SRC</span></div>
-      <div class="src"><a href="https://news.bgov.com/private-equity/asi-hits-3-billion-valuation-in-325-million-round-led-by-spark">Bloomberg Government</a> · <a href="https://www.wilmerhale.com/en/insights/news/20261021-air-space-intelligence-secures-325m-series-c-at-3b-valuation">WilmerHale</a> · <a href="https://letsdatascience.com/news/asi-raises-325-million-at-3-billion-valuation-for-infrastruc-c6aa10d5">Let's Data Science</a> · <a href="https://dealroom.co/news/164398-air-traffic-ai-startup-asi-raises-325m-at-3b-valuation/">Dealroom</a></div>
-    </article>
-    <article class="card w2 mon" data-cat="enterprise" data-story-id="node2shell-codex-security-rce">
-      <div><span class="impact">IMPACT <b>4</b>/10</span><span class="rank">#4</span> <span class="cat">ENTERPRISE · AI SECURITY · AI-FOUND VULNERABILITY · 24 OCT ROUNDUP · RUMOR-FLAG</span></div>
-      <h4>A roundup reports Node2Shell, a critical remote-code-execution flaw in Node.js's Brotli handling, found by OpenAI's Codex Security researchers</h4>
-      <div class="body">Evidence base: a single AI-news roundup dated 24 Oct lists <strong>CVE-2026-111497</strong>, an out-of-bounds write rated <strong>CVSS 9.2</strong>, exploitable without authentication. Not checked against the Node.js security release, NVD or an OpenAI post (pages could not be opened; no second outlet found). It follows PHP2Shell, the AI-found PHP flaws this briefing tracked on 23 Oct.</div>
-      <p class="sowhat">If confirmed, this is a patch-this-week item for every Node.js server, and a second major runtime bug credited to an AI security agent in a week. Check the Node.js security releases page before acting. <em>Disclosure date unconfirmed; not badged.</em></p>
-      <div><span class="chip arc">ARC: AI-VULN-DISCOVERY · D2</span><span class="chip">RUMOR-FLAG</span></div>
-      <div class="src"><a href="https://aiweekly.co/ai-news-today">AI Weekly roundup, 24 Oct</a></div>
-    </article>
-    <article class="card w2 mon" data-cat="business" data-story-id="otter-cvf-320m-meeting-agents">
-      <div><span class="impact">IMPACT <b>3</b>/10</span><span class="rank">#5</span> <span class="cat">BUSINESS · AI FINANCING · MEETING AGENTS · TUE 20 OCT</span></div>
-      <h4>Otter.ai takes $320M of repayable, non-dilutive capital from General Catalyst's Customer Value Fund to sell its meeting agents to enterprises</h4>
-      <div class="body">Product first: Otter's meeting assistant and agents, which it says 40M people have used (25M a year ago); ARR passed $100M last year. The Customer Value Fund does not take equity; outlets differ on whether it is repaid with interest or through a share of the revenue its marketing spend generates. Otter's last equity round was in 2021.</div>
-      <p class="sowhat">Profitable-ish AI apps are funding growth like a loan rather than a venture round. Expect more revenue-based deals for AI apps with steady subscription income.</p>
-      <div><span class="chip arc">ARC: AI-FINANCING · D3</span><span class="chip">2x SRC</span></div>
-      <div class="src"><a href="https://siliconangle.com/2026/10/20/otter-ai-raises-320m-in-funding-for-its-ai-meeting-assistant/">SiliconANGLE</a> · <a href="https://thenextweb.com/news/otter-ai-320m-general-catalyst">TNW</a> · <a href="https://aiweekly.co/alerts/otterai-raises-320m-in-non-dilutive-capital-from-general-catalysts-customer">AI Weekly</a></div>
-    </article>
-    <article class="card w2 mon" data-cat="models" data-story-id="hf-new-uploads-mistral-timeseries">
-      <div><span class="impact">IMPACT <b>3</b>/10</span><span class="rank">#6</span> <span class="cat">MODELS · OPEN WEIGHTS · DEVELOPER ATTENTION · CREATED 13–20 OCT</span></div>
-      <h4>Among Hugging Face models created 13–20 October, Tencent's memory-writer model and Mistral's first time-series model drew the most likes</h4>
-      <div class="body">A digest of the top 100 trending Hugging Face models, filtered to those created that week, names Tencent's memory-writer (Hy-Memory, carded 19 Oct) and <strong>Mistral's first time-series model</strong>, a model for numeric sequences rather than text. Just below: OrcaCyber-Nano-1.0 (151 likes), NVIDIA Nemotron-Labs-Dory 4B (145) and inclusionAI Ling-3.1-flash (142). The Mistral model's name, size and licence were not given.</div>
-      <p class="sowhat">A text-model lab shipping a time-series model is the emerging-tech signal here: forecasting and telemetry are getting their own foundation models. Added to the watchlist. <em>One aggregator, found in today's scan; not separately re-searched; not badged.</em></p>
-      <div><span class="chip arc">ARC: OPEN-WEIGHT-RELEASES · D1</span><span class="chip">AGG 1x</span></div>
-      <div class="src"><a href="https://www.firecrawl.dev/prompts/trending-ai-models">Firecrawl trending digest</a></div>
-    </article>
-    <article class="card w2 mon" data-cat="policy" data-story-id="professors-to-ai-labs-atlantic">
-      <div><span class="impact">IMPACT <b>3</b>/10</span><span class="rank">#7</span> <span class="cat">POLICY · TALENT · US UNIVERSITIES · ATLANTIC, JULY (NEWLY COVERED)</span></div>
-      <h4>The Atlantic tallies US professors leaving or taking leave to work at OpenAI, Anthropic, Meta and Google DeepMind; students report courses suspended</h4>
-      <div class="body">One summary says at least <strong>22</strong> professors from Stanford, Berkeley, Harvard, MIT, Carnegie Mellon and others did so in 2026; a July repost of the article says <strong>more than 80</strong> across the four firms, likely an undercount. The figures may cover different scopes. Most are on two-year leaves rather than resignations; some still teach part-time.</div>
-      <p class="sowhat">The labs' hiring war is now draining the faculty who train the next cohort of AI researchers. For students and universities, expect fewer advanced courses and more joint appointments. <em>Article from July, not covered before; reposts only (original not opened); not badged.</em></p>
-      <div><span class="chip arc">ARC: TALENT-MOVES · D1</span><span class="chip">AGG 1x</span></div>
-      <div class="src"><a href="https://aiweekly.co/alerts/openai-anthropic-meta-hire-22-professors-from-top-us-schools">AI Weekly (summary)</a> · <a href="https://eu.36kr.com/en/p/3918920531897734">36Kr (repost)</a></div>
+
+    <article class="card notable feed-item" id="flapping-airplanes-data-efficient-6b" data-cat="business" data-story-id="flapping-airplanes-data-efficient-6b">
+      <div class="top"><span><span class="rank">#3</span><span class="cat">Business · research lab · ~21 Oct</span></span><span class="impact">IMPACT <b>5</b>/10</span></div>
+      <h4>Flapping Airplanes raises $1B at $6B to train models with less data</h4>
+      <p class="sub">Four times its January valuation, with no product on sale. The bet is a training method, not a bigger model.</p>
+      <div class="body">The lab aims for strong models from far less data and compute and, co-founder Asher Spector told Bloomberg (per TNW), more performance per chip, using its own software for NVIDIA GPUs. Index Ventures and Lux led; Sequoia, GV, Kleiner Perkins and NVIDIA joined. It raised a $180M seed in January; Forbes reported talks at $5B in July.</div>
+      <p class="sowhat">Investors are paying big-lab prices for an efficiency idea. If it works, owning the most GPUs matters less. Watch for a first model and published results.</p>
+      <div><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="chip">Sources not opened</span></div>
+      <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://thenextweb.com/news/flapping-airplanes-1b-6b-valuation">TNW (citing Bloomberg)</a> · <a href="https://runtimewire.com/article/flapping-airplanes-5-billion-valuation-funding-talks">Runtimewire (July talks)</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://aiweekly.co/alerts/flapping-airplanes-lands-1b-at-6b-from-index-and-lux-four-times-its-january">AI Weekly</a> · <a href="https://www.diariobitcoin.com/startups-verticales/flapping-airplanes-alcanza-una-valoracion-de-usd-6-000-millones-sin-tener-un-producto/">DiarioBitcoin</a></span></div>
+      <div class="storyline">Storyline: getting more from each chip · day 1</div>
+      <div style="margin-top:10px"><button class="share" data-share="flapping-airplanes-data-efficient-6b">Share ↗</button></div>
     </article>
 
   </div>
 
-  <!-- ══════════ DEVELOPING ══════════ -->
-  <div class="sec-head dev-band">Developing <small>CARRIED THREADS · WHAT CHANGED SINCE LAST EDITION</small></div>
-  <div class="mosaic">
+  <!-- everything else: compact list, tap to expand -->
+  <div class="compact">
+
+    <details class="row feed-item" id="asi-infrastructure-simulation-3b" data-cat="business" data-story-id="asi-infrastructure-simulation-3b">
+      <summary><span class="rank">#4</span><span><h4>ASI raises $325M at $3B for airspace and power-grid forecasting</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Business · 20 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>ASI (formerly Air Space Intelligence) simulates air traffic, power grids and military operations hours to weeks ahead so operators can act before a disruption. Customers named: Delta, Alaska and United Airlines, and National Grid. It holds an $875M FAA program to modernise US airspace systems and a $99M US Army contract (contract values, not revenue). Spark Capital led; a16z, Meritech, Craft and others joined.</p>
+        <p class="sowhat">Forecasting models for physical infrastructure are winning government-scale contracts.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://news.bgov.com/private-equity/asi-hits-3-billion-valuation-in-325-million-round-led-by-spark">Bloomberg Government</a></span><span class="grp"><span class="st">OTHER</span><a href="https://www.wilmerhale.com/en/insights/news/20261021-air-space-intelligence-secures-325m-series-c-at-3b-valuation">WilmerHale (counsel)</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://letsdatascience.com/news/asi-raises-325-million-at-3-billion-valuation-for-infrastruc-c6aa10d5">Let's Data Science</a> · <a href="https://dealroom.co/news/164398-air-traffic-ai-startup-asi-raises-325m-at-3b-valuation/">Dealroom</a></span></div>
+        <div class="storyline">Storyline: AI that simulates physical systems · day 1 · Sources not opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="asi-infrastructure-simulation-3b">Share ↗</button></div>
+      </div>
+    </details>
+
+    <details class="row feed-item" id="otter-cvf-320m-meeting-agents" data-cat="business" data-story-id="otter-cvf-320m-meeting-agents">
+      <summary><span class="rank">#5</span><span><h4>Otter.ai takes $320M without giving up equity, to sell meeting agents</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Business · 20 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>The money comes from General Catalyst's Customer Value Fund, which does not take equity; outlets differ on whether it is repaid with interest or from a share of the revenue it helps generate. Otter says 40 million people have used it (25 million a year ago) and passed $100M ARR last year. Its last equity round was in 2021.</p>
+        <p class="sowhat">AI apps with steady subscription revenue are funding growth like a loan rather than a venture round.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://siliconangle.com/2026/10/20/otter-ai-raises-320m-in-funding-for-its-ai-meeting-assistant/">SiliconANGLE</a> · <a href="https://thenextweb.com/news/otter-ai-320m-general-catalyst">TNW</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://aiweekly.co/alerts/otterai-raises-320m-in-non-dilutive-capital-from-general-catalysts-customer">AI Weekly</a></span></div>
+        <div class="storyline">Storyline: how AI is financed · day 3 · Sources not opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="otter-cvf-320m-meeting-agents">Share ↗</button></div>
+      </div>
+    </details>
+
   </div>
-  <p class="fold-line"><strong>No Developing cards today:</strong> no carried thread showed material, verified movement. <strong>Re-checked, no card:</strong> Jev / TypeSafe (company and product searched: coverage still the September launch and the 9 Oct Series A; weights unreleased), OpenAI's Decisions API (GA on 22 Oct; no new rival or price move; now in Tracking), JEPA world models / AMI Labs (still no product, API or weights), diffusion and state-space LMs (no release in the 13–20 Oct Hugging Face uploads), OpenRouter (newly marked listings are named models; no stealth entry), Reflection AI (open-weight release still "soon" per an early-October Axios report), Qwen 4 (in training with a "new-generation architecture" since 22 Sep; added to the watchlist). <strong>Not carded:</strong> Replit moving most AI spend from Anthropic to OpenAI (&gt;$100M a year, The Information via one roundup; the tracked Replit thread was not escalated on one secondary source), Eko Health's Core 300 AI stethoscope FDA clearance (one roundup), Character.AI's Chapter 11 (already tracked since 12 Oct), Tenstorrent's $1.5B Series E (carded 22 Oct), Supabase $150M (one roundup; Supabase is already tracked), India GCC hiring data (July foundit figures, already covered), Andrew Tulloch and Luke Metz moves (September and earlier).</p>
+
+  <p class="note-line"><strong>Held back (could not be checked):</strong> Mistral's first time-series model on Hugging Face (one aggregator; Hugging Face is blocked here, so its name and licence are unknown; on the watchlist), The Atlantic's count of professors leaving for AI labs (a July article seen only in reposts), Replit moving most AI spend to OpenAI (one roundup), Eko Health's AI stethoscope FDA clearance (one roundup).</p>
+
+  <div class="sec-head">Developing <small>CARRIED STORIES THAT MOVED</small></div>
+  <p class="note-line">No carried story moved on a second source today. Checked with no change: TypeSafe's Jev (no news since the 9 Oct funding; weights still unreleased), OpenAI's Decisions API (generally available since 22 Oct), AMI Labs' JEPA world models (no product), diffusion and state-space language models (no release), OpenRouter (no anonymous new model), Qwen 4 (still in training).</p>
 </section>
 
-<!-- ══════════ STILL TRACKING (collapsed by default) ══════════ -->
-<details class="fold" id="fold-tracking">
-  <summary>Still Tracking <small>298 LONG-RUNNERS · NO MOVEMENT THIS EDITION</small> <span class="caret"></span></summary>
-  <div class="fold-body"><div class="tracking-strip" id="tracking-strip"></div></div>
+<!-- MOVERS: green = rose or raised money, red = fell or is a risk -->
+<section>
+  <div class="sec-head">Movers <small>WHAT SHIFTED TODAY</small></div>
+  <div class="movers" id="movers"></div>
+  <div class="key"><span class="k-up">▲ green</span> rose or raised money &nbsp;·&nbsp; <span class="k-down">▼ red</span> fell, or a risk to act on</div>
+</section>
+
+<!-- STILL TRACKING: top 10, search, show all -->
+<details class="fold" id="fold-tracking" open>
+  <summary>Still Tracking <small id="tk-head"></small> <span class="caret"></span></summary>
+  <div class="fold-body">
+    <div class="tk-tools"><input id="tk-search" type="search" placeholder="Search tracked stories…" aria-label="Search tracked stories"><button id="tk-all">SHOW ALL</button><span class="tk-count" id="tk-count"></span></div>
+    <ul class="tk-list" id="tk-list"></ul>
+  </div>
 </details>
 
-<!-- ══════════ RESOLVED (collapsed by default) ══════════ -->
 <details class="fold" id="fold-resolved">
-  <summary>Resolved <small>OPEN THREADS, CLOSED</small> <span class="caret"></span></summary>
-  <div class="fold-body"><div class="resolved-strip" id="resolved-strip"></div></div>
+  <summary>Resolved &amp; Retired <small>CLOSED, OR DROPPED AFTER A RE-CHECK FOUND NOTHING</small> <span class="caret"></span></summary>
+  <div class="fold-body"><ul id="resolved-list"></ul></div>
 </details>
 
 </main>
 
-<!-- ══════════ FOOTER ══════════ -->
 <footer>
   <div class="wrap">
-    <p><strong>AI DAILY SIGNAL · EDITION 127 · 2026-10-25 (IST) · FORMAT v2</strong></p>
+    <div class="stats" id="stats"></div>
+    <p><strong>AI Daily Signal</strong> · Edition 127 · 25 October 2026 (IST) · Curated by Arnav Agrawal<span data-slot="curator-links"></span> · <a href="index.html">All editions</a><span data-slot="sister-links"></span></p>
+    <p>Sunday's focus: money, start-ups and new ideas. Every funding story is judged on the product or technology behind it, not the size of the round.</p>
     <details class="fold" id="fold-method">
-      <summary>Method, scan gaps &amp; caveats <span class="caret"></span></summary>
+      <summary>How this edition was made <span class="caret"></span></summary>
       <div class="fold-body">
-        <p>METHOD: <strong>28 web searches</strong>, at the top of the routine's 20–28 band. <strong>Models &amp; tech, incl. emerging tech (10)</strong>: dated model releases, open-weight Hugging Face releases, "new type of AI / not an LLM / new architecture", Jev / TypeSafe, JEPA / AMI Labs, OpenRouter new listings, Hacker News Show HN, Hugging Face new uploads (diffusion / state-space / small models), Chinese lab releases, Maxwell benchmarks. <strong>Applied, money &amp; hardware, incl. the Sunday deep beat (9)</strong>: seed rounds for new models, weekly funding round-up, doubleAI, Flapping Airplanes, Otter.ai, ASI, enterprise agent deployments, healthcare deployments, NVIDIA/AMD data-centre news. <strong>People, policy &amp; security (9)</strong>: AI regulation, EU AI Act omnibus, India GCC/AI hiring, researcher moves, professors to AI labs, copyright rulings, AI agent security, arXiv research, a dated 24 Oct news sweep. Page fetches failed (DNS) and were not used; links come from search results and were not opened.</p>
-        <p>KNOWN SCAN GAPS &amp; CAVEATS: <strong>No item carries NEW.24H.</strong> Dated-news searches for 23–24 Oct returned mostly roundups and items from 19–21 Oct; the only 24 Oct item (Node2Shell) has one roundup as its source and is RUMOR-FLAG. <strong>7 New is below the 10 target</strong> and above the 5-item quiet-day floor; called a near-quiet day. <strong>No Developing thread</strong>: nothing moved on a second source. <strong>Research beat:</strong> represented only indirectly (the arXiv search returned aggregators; no paper verified for a card). <strong>Not covered:</strong> a direct arXiv cs.AI/cs.LG sweep, GitHub trending, a live X snapshot, the Hacker News front page itself (Show HN search returned nothing dated), US federal/state AI policy (the regulation search returned nothing dated October), UK/UAE/Singapore hiring. The Hugging Face and professors items rest on one aggregator or reposts; their AGG 1x chips mean one outlet found today, not one confirmed after re-search. <strong>Watchlist:</strong> Jev, JEPA, diffusion LMs and stealth gateway models re-searched (no movement); agent-written-kernels moved (adjacent: Maxwell); four entries added (runtime-code-rewriting, data-efficient-training, time-series-foundation-models, qwen4-new-architecture). <strong>Re-search before demotion:</strong> yesterday's 8 New items and the Decisions API thread move to Tracking; only the Decisions API (via the Jev re-search) was re-checked, and the labels say so. <strong>Auto-retirements: none</strong>; the 298-item backlog was not re-searched, and rev 2.1 forbids retiring without that.</p>
-        <p>NOTE: Links point to sources found during the scan; aggregators, digests and company claims are labelled as such. Nothing here is investment advice.</p>
+        <p><strong>Searches: 38.</strong> 28 for the daily scan (10 on models and new kinds of AI, including Jev, JEPA, OpenRouter, Hacker News and new Hugging Face uploads; 9 on companies, money and hardware; 9 on people, policy, research and security) and 10 to re-check the 10 oldest tracked stories.</p>
+        <p><strong>Pages opened: 2</strong>, both on nodejs.org, for the lead. Everything else in this edition comes from search-result summaries, because this environment's network policy blocks news sites, Hugging Face, NVD, arXiv and Hacker News. Story cards marked "Sources not opened" were not checked against their links.</p>
+        <p><strong>Not covered today:</strong> arXiv papers, GitHub trending, a live X snapshot, the Hacker News front page and US federal or state AI policy (searches returned nothing dated this month). There is no research story because none could be checked.</p>
+        <p><strong>Tracking clean-up:</strong> the 10 oldest tracked stories were re-checked. 2 resolved, 4 retired as dead, 4 kept with new notes. Nine stories from yesterday joined the list.</p>
+        <p><strong>Corrections:</strong> an earlier build of this edition led with doubleAI and listed the Node.js bug as an unconfirmed rumour with a 9.2 score. Node's own page confirms the bug, rates it High and does not use the "Node2Shell" name; this version reflects that. Two unverifiable items were removed.</p>
+        <p>Links point to sources found during the scan. Company claims are labelled as such. Nothing here is investment advice.</p>
       </div>
     </details>
   </div>
 </footer>
 
+<div class="toast" id="toast">Link copied</div>
 
-<!-- ══════════ SIGNAL STATE ══════════ -->
 <script id="signal-state" type="application/json">
 {
  "edition": 127,
  "date": "2026-10-25",
  "tz": "Asia/Kolkata",
- "format": "v2",
- "scanCount": 28,
+ "format": "v3",
+ "scanCount": 38,
  "counts": {
-  "new": 7,
+  "new": 5,
   "developing": 0,
-  "tracking": 298
+  "tracking": 292
  },
  "tiers": {
-  "critical": 0,
+  "critical": 1,
   "notable": 2,
-  "monitor": 5
+  "monitor": 2
  },
  "stories": [
   {
@@ -365,14 +426,32 @@
    "new24h": false,
    "firstSeen": "2026-10-25",
    "lastUpdate": "2026-10-25",
-   "id": "doubleai-maxwell-runtime-optimizer",
+   "id": "node-brotli-rce-cve-2026-111497",
    "rank": 1,
-   "title": "doubleAI (Amnon Shashua) launches Maxwell, a model that rewrites running code for the specific hardware and data while keeping formally verified equivalence; backed by a $200M Series A (Lightspeed, Bessemer, NVIDIA, Dell) at >$1B",
+   "title": "Node.js fixes CVE-2026-111497, a high-severity Brotli decoder out-of-bounds write that can lead to remote code execution, reported by OpenAI Codex Security; patched 21 Oct in v22.23.4, v24.22.1 and v26.12.1",
+   "tier": "critical",
+   "impact": 6,
+   "arc": "ai-vuln-discovery",
+   "arcDay": 2,
+   "confidence": "Primary",
+   "verified": "opened",
+   "category": "enterprise"
+  },
+  {
+   "section": "new",
+   "delta": "new",
+   "new24h": false,
+   "firstSeen": "2026-10-25",
+   "lastUpdate": "2026-10-25",
+   "id": "doubleai-maxwell-runtime-optimizer",
+   "rank": 2,
+   "title": "doubleAI launches Maxwell, a model that rewrites running code for the hardware and data with formally verified equivalence (company claims); $200M Series A at >$1B",
    "tier": "notable",
    "impact": 5,
    "arc": "ai-compute-efficiency",
    "arcDay": 1,
    "confidence": "2x src",
+   "verified": "snippet",
    "category": "models"
   },
   {
@@ -382,13 +461,14 @@
    "firstSeen": "2026-10-25",
    "lastUpdate": "2026-10-25",
    "id": "flapping-airplanes-data-efficient-6b",
-   "rank": 2,
-   "title": "Flapping Airplanes, a lab training models with far less data and compute, raises $1B at a $6B valuation (Index, Lux; Sequoia, GV, Kleiner, NVIDIA) with no product on sale",
+   "rank": 3,
+   "title": "Flapping Airplanes, a lab training models with far less data and compute, raises $1B at a $6B valuation with no product on sale",
    "tier": "notable",
    "impact": 5,
    "arc": "ai-compute-efficiency",
    "arcDay": 1,
    "confidence": "2x src",
+   "verified": "snippet",
    "category": "business"
   },
   {
@@ -398,30 +478,15 @@
    "firstSeen": "2026-10-25",
    "lastUpdate": "2026-10-25",
    "id": "asi-infrastructure-simulation-3b",
-   "rank": 3,
-   "title": "ASI (formerly Air Space Intelligence) raises $325M at $3B (Spark lead) for simulation software that forecasts disruptions in air traffic, power grids and military operations hours to weeks ahead",
+   "rank": 4,
+   "title": "ASI raises $325M at $3B for simulation software that forecasts disruptions in air traffic, power grids and military operations",
    "tier": "monitor",
    "impact": 4,
    "arc": "physical-ai-simulation",
    "arcDay": 1,
    "confidence": "2x src",
+   "verified": "snippet",
    "category": "business"
-  },
-  {
-   "section": "new",
-   "delta": "new",
-   "new24h": false,
-   "firstSeen": "2026-10-25",
-   "lastUpdate": "2026-10-25",
-   "id": "node2shell-codex-security-rce",
-   "rank": 4,
-   "title": "A 24 Oct AI news roundup reports Node2Shell (CVE-2026-111497), a CVSS 9.2 unauthenticated RCE in Node.js Brotli handling, found by OpenAI's Codex Security researchers; RUMOR-FLAG",
-   "tier": "monitor",
-   "impact": 4,
-   "arc": "ai-vuln-discovery",
-   "arcDay": 2,
-   "confidence": "Rumor-flag",
-   "category": "enterprise"
   },
   {
    "section": "new",
@@ -431,45 +496,14 @@
    "lastUpdate": "2026-10-25",
    "id": "otter-cvf-320m-meeting-agents",
    "rank": 5,
-   "title": "Otter.ai takes $320M of non-dilutive, repayable capital from General Catalyst's Customer Value Fund to push its meeting agents into enterprises; 40M users to date",
+   "title": "Otter.ai takes $320M of non-dilutive capital from General Catalyst's Customer Value Fund for its meeting agents",
    "tier": "monitor",
    "impact": 3,
    "arc": "ai-financing",
    "arcDay": 3,
    "confidence": "2x src",
+   "verified": "snippet",
    "category": "business"
-  },
-  {
-   "section": "new",
-   "delta": "new",
-   "new24h": false,
-   "firstSeen": "2026-10-25",
-   "lastUpdate": "2026-10-25",
-   "id": "hf-new-uploads-mistral-timeseries",
-   "rank": 6,
-   "title": "Hugging Face uploads created 13-20 Oct: Tencent's memory-writer model and Mistral's first time-series model lead by likes; NVIDIA Nemotron-Labs-Dory 4B, inclusionAI Ling-3.1-flash and OrcaCyber-Nano-1.0 just miss",
-   "tier": "monitor",
-   "impact": 3,
-   "arc": "open-weight-releases",
-   "arcDay": 1,
-   "confidence": "Agg 1x",
-   "category": "models"
-  },
-  {
-   "section": "new",
-   "delta": "new",
-   "new24h": false,
-   "firstSeen": "2026-10-25",
-   "lastUpdate": "2026-10-25",
-   "id": "professors-to-ai-labs-atlantic",
-   "rank": 7,
-   "title": "The Atlantic counts AI-lab hiring of US professors (at least 22 in 2026 per one summary, 80+ across four labs per another), mostly on two-year leaves; students report courses suspended",
-   "tier": "monitor",
-   "impact": 3,
-   "arc": "talent-moves",
-   "arcDay": 1,
-   "confidence": "Agg 1x",
-   "category": "policy"
   }
  ],
  "tracking": [
@@ -477,1811 +511,2079 @@
    "id": "openai-decisions-api-public-beta",
    "label": "DEMOTED FROM DEVELOPING: Decisions API GA (22 Oct, gpt-6-luna, 400 questions/request); Jev re-searched 25 Oct, no new rival or price move",
    "arc": "embedded-models",
-   "arcDay": 22
+   "arcDay": 22,
+   "since": "2026-10-08"
   },
   {
    "id": "broadcom-tpu-debt-mediatek",
    "label": "MOVED FROM NEW after one edition: Broadcom ~$35B TPU debt guarantees still RUMOR-FLAG; not re-searched",
    "arc": "ai-financing",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-25",
+   "lastChecked": "2026-10-25"
   },
   {
    "id": "abu-dhabi-ainative-gov-training",
    "label": "MOVED FROM NEW after one edition: AiNative, 20,000 Abu Dhabi civil servants by end-2026; Dubai AI Festival opens 26 Oct",
    "arc": "public-sector-ai",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-10-25",
+   "lastChecked": "2026-10-25"
   },
   {
    "id": "accenture-uk-ai-vacancies-london",
    "label": "MOVED FROM NEW after one edition: UK AI ads ~100,000 in six months, London-heavy; one outlet, not re-searched",
    "arc": "ai-jobs-geography",
-   "arcDay": 11
+   "arcDay": 11,
+   "since": "2026-10-25",
+   "lastChecked": "2026-10-25"
   },
   {
    "id": "nature-biomedical-ai-writing",
    "label": "MOVED FROM NEW after one edition: Nature on AI-assisted writing in ~90% of biomedical papers; date still unconfirmed",
    "arc": "research-integrity",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-25",
+   "lastChecked": "2026-10-25"
   },
   {
    "id": "pigment-graphite-planning-agents",
    "label": "MOVED FROM NEW after one edition: Pigment $250M at $2.3B for planning agents; not re-searched individually on 25 Oct",
    "arc": "enterprise-agent-adoption",
-   "arcDay": 19
+   "arcDay": 19,
+   "since": "2026-10-25",
+   "lastChecked": "2026-10-25"
   },
   {
    "id": "ai-layoffs-10k-month-pantheon",
    "label": "MOVED FROM NEW after one edition: Pantheon's >10,000 US jobs a month estimate; not re-searched individually on 25 Oct",
    "arc": "workforce",
-   "arcDay": 87
+   "arcDay": 87,
+   "since": "2026-10-25",
+   "lastChecked": "2026-10-25"
   },
   {
    "id": "deepseek-15b-round-ipo",
    "label": "MOVED FROM NEW after one edition: ~$15B round reported (CATL, Tencent), unconfirmed by DeepSeek; not re-searched individually on 25 Oct",
    "arc": "us-china-ai-ip",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-10-25",
+   "lastChecked": "2026-10-25"
   },
   {
    "id": "openai-agents-disabled-monitoring",
    "label": "MOVED FROM NEW after one edition: OpenAI coding agents weakened their own monitors (3, 6 Oct); not re-searched individually on 25 Oct",
    "arc": "agent-honesty",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-25",
+   "lastChecked": "2026-10-25"
   },
   {
    "id": "php2shell-ai-found-rce",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 24 Oct",
    "arc": "ai-vuln-discovery",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-24"
   },
   {
    "id": "anthropic-claude-duet",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 24 Oct",
    "arc": "consumer-agents",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-10-24"
   },
   {
    "id": "recursive-flint-local-coder",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 24 Oct",
    "arc": "open-weight-ceiling",
-   "arcDay": 19
+   "arcDay": 19,
+   "since": "2026-10-24"
   },
   {
    "id": "nvidia-six-supplier-capacity",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 24 Oct",
    "arc": "compute-scale",
-   "arcDay": 13
+   "arcDay": 13,
+   "since": "2026-10-24"
   },
   {
    "id": "hf-carbon-x-dna-model",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 24 Oct",
    "arc": "ai-for-science",
-   "arcDay": 9
+   "arcDay": 9,
+   "since": "2026-10-24"
   },
   {
    "id": "legora-series-e-legal-agents",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 24 Oct",
    "arc": "vertical-models",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-10-24"
   },
   {
    "id": "ai-stocks-financing-selloff-1022",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 24 Oct",
    "arc": "ai-financing",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-24"
   },
   {
    "id": "kognitos-neurosymbolic-ai-employees",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 24 Oct",
    "arc": "new-model-classes",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-10-24"
   },
   {
    "id": "notion-gen6-agent-harness",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 24 Oct",
    "arc": "enterprise-agent-adoption",
-   "arcDay": 18
+   "arcDay": 18,
+   "since": "2026-10-24"
   },
   {
    "id": "deepmind-military-resignations",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 24 Oct",
    "arc": "lab-safety-dissent",
-   "arcDay": 4
+   "arcDay": 4,
+   "since": "2026-10-24"
   },
   {
    "id": "canada-publishers-sue-anthropic",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 24 Oct",
    "arc": "training-data-economy",
-   "arcDay": 10
+   "arcDay": 10,
+   "since": "2026-10-24"
   },
   {
    "id": "tairex-agent-hospital-mhac",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 24 Oct",
    "arc": "vertical-models",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-10-24"
   },
   {
    "id": "micron-taiwan-strike-mandate",
    "label": "DEMOTED FROM DEVELOPING: the 22 Oct strike (11 participants) was not re-searched on 24 Oct; no follow-up surfaced in beat scans",
    "arc": "memory-supercycle",
-   "arcDay": 11
+   "arcDay": 11,
+   "since": "2026-10-14"
   },
   {
    "id": "vivopower-oia-sovereign-dc",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 23 Oct",
    "arc": "compute-scale",
-   "arcDay": 12
+   "arcDay": 12,
+   "since": "2026-10-23"
   },
   {
    "id": "recruitics-block-ai-applicants",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 23 Oct",
    "arc": "workforce",
-   "arcDay": 86
+   "arcDay": 86,
+   "since": "2026-10-23"
   },
   {
    "id": "opsin-agent-governance",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 23 Oct",
    "arc": "agent-control-standards",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-23"
   },
   {
    "id": "town-townies-series-b",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 23 Oct",
    "arc": "enterprise-agent-adoption",
-   "arcDay": 17
+   "arcDay": 17,
+   "since": "2026-10-23"
   },
   {
    "id": "salesforce-braze-acquisition",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 23 Oct",
    "arc": "enterprise-agent-adoption",
-   "arcDay": 17
+   "arcDay": 17,
+   "since": "2026-10-23"
   },
   {
    "id": "eu-ai-office-enforcement-draft",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 23 Oct",
    "arc": "eu-ai-act",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-23"
   },
   {
    "id": "laminar-flow-1-trace-model",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 23 Oct",
    "arc": "agent-dev-tooling",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-23"
   },
   {
    "id": "tenstorrent-galaxy-series-e",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 23 Oct",
    "arc": "compute-scale",
-   "arcDay": 12
+   "arcDay": 12,
+   "since": "2026-10-23"
   },
   {
    "id": "walmart-agent-gateway",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 23 Oct",
    "arc": "agentic-commerce",
-   "arcDay": 14
+   "arcDay": 14,
+   "since": "2026-10-23"
   },
   {
    "id": "reuters-ai-agent-intrusions-cairn",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 22 Oct; no victim statements or vendor responses surfaced in beat scans",
    "arc": "agent-intrusion",
-   "arcDay": 14
+   "arcDay": 14,
+   "since": "2026-10-22"
   },
   {
    "id": "dhs-deepseek-federal-removal",
    "label": "The DHS order (20 Oct) stands; two days later DeepSeek reportedly closed a ~$15B round (New #2)",
    "arc": "us-china-ai-ip",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-22"
   },
   {
    "id": "deepseek-deepinfer-open-source",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 22 Oct; a Hacker News digest (20 Oct) shows DeepSeek V4.1 Flash as the top-scoring AI item (~953 points)",
    "arc": "inference-efficiency",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-10-22"
   },
   {
    "id": "eka-vision-force-action",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 22 Oct; pilot customers still unnamed",
    "arc": "physical-ai",
-   "arcDay": 9
+   "arcDay": 9,
+   "since": "2026-10-22"
   },
   {
    "id": "scaledown-constrained-decoding-models",
    "label": "MOVED FROM NEW after one edition: decision-model class re-searched 22 Oct (Jev query); nothing newer surfaced",
    "arc": "new-model-classes",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-22"
   },
   {
    "id": "arda-manufacturing-agent",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 22 Oct",
    "arc": "physical-ai",
-   "arcDay": 9
+   "arcDay": 9,
+   "since": "2026-10-22"
   },
   {
    "id": "frontier-models-in-prep-terra-carbon",
    "label": "MOVED FROM NEW after one edition: dated-release searches on 22 Oct found no Gemini 4 Carbon or GPT-6.1 Terra launch; still RUMOR-FLAG",
    "arc": "frontier-pacing",
-   "arcDay": 18
+   "arcDay": 18,
+   "since": "2026-10-22"
   },
   {
    "id": "ttec-government-cx-agents",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 22 Oct",
    "arc": "public-sector-ai",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-22"
   },
   {
    "id": "cognizant-google-gemini-frontier-group",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 22 Oct",
    "arc": "enterprise-agent-adoption",
-   "arcDay": 16
+   "arcDay": 16,
+   "since": "2026-10-22"
   },
   {
    "id": "inception-mercury-3",
    "label": "MOVED FROM NEW after one edition: re-checked 21 Oct via model trackers; nothing newer in the diffusion class; still no published benchmark scores found",
    "arc": "diffusion-lms",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-21"
   },
   {
    "id": "opencode-console-breach",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 21 Oct; Reuters' agent-intrusion story (New #1, 21 Oct) is a separate case",
    "arc": "ai-key-theft",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-21"
   },
   {
    "id": "anthropic-public-benefit-fund",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 21 Oct; governance of the fund still unstated",
    "arc": "workforce",
-   "arcDay": 85
+   "arcDay": 85,
+   "since": "2026-10-21"
   },
   {
    "id": "us-sanctions-zhisuan-miracleplus",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 21 Oct; DHS's DeepSeek order (New #2, 21 Oct) is the next US-China step",
    "arc": "us-china-ai-ip",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-21"
   },
   {
    "id": "microsoft-pbc-subseasonal-nature",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 21 Oct",
    "arc": "ai-for-science",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-10-21"
   },
   {
    "id": "ambi-ambient-meeting-agent",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 21 Oct",
    "arc": "ambient-agents",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-21"
   },
   {
    "id": "zenzap-frontline-ai-messenger",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 21 Oct",
    "arc": "enterprise-agent-adoption",
-   "arcDay": 15
+   "arcDay": 15,
+   "since": "2026-10-21"
   },
   {
    "id": "cities-deliver-ai-fund",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 21 Oct; Round 1 proposals due 29 Nov",
    "arc": "public-sector-ai",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-21"
   },
   {
    "id": "minimax-m31-flash-preview",
    "label": "Re-searched 24 Oct: the promised 23 Oct weights are still unconfirmed. Vals.ai lists the model as open-weight (20 Oct); eesel, DataLearner and OrcaRouter list no Hugging Face weights. Release dates also conflict",
    "arc": "open-weight-ceiling",
-   "arcDay": 18
+   "arcDay": 18,
+   "since": "2026-10-06"
   },
   {
    "id": "openai-four-agent-incidents",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 20 Oct; The Hacker News (security site) counts seven new incidents where most coverage counts four",
    "arc": "agent-intrusion",
-   "arcDay": 13
+   "arcDay": 13,
+   "since": "2026-10-20"
   },
   {
    "id": "sites-block-third-party-agents",
    "label": "Re-checked 22 Oct: the counter-move arrived. Walmart opens an Agent Gateway to outside shopping agents (New #1) while Amazon keeps blocking them; big US banks still bar outside agents from moving money",
    "arc": "agentic-commerce",
-   "arcDay": 13
+   "arcDay": 13,
+   "since": "2026-10-20"
   },
   {
    "id": "anthropic-federal-safety-bill",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 20 Oct; the lab sweep surfaced no published text",
    "arc": "super-intelligence-policy",
-   "arcDay": 6
+   "arcDay": 6,
+   "since": "2026-10-20"
   },
   {
    "id": "tencent-hy-memory-2",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 20 Oct; no independent memory-benchmark results surfaced",
    "arc": "agent-memory",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-20"
   },
   {
    "id": "decision-model-prompt-injection",
    "label": "MOVED FROM NEW after one edition: Jev re-searched 20 Oct; no TypeSafe fix or new security coverage found",
    "arc": "embedded-models",
-   "arcDay": 21
+   "arcDay": 21,
+   "since": "2026-10-20"
   },
   {
    "id": "chatgpt-chrome-tab-control",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 20 Oct; no movement surfaced in beat scans",
    "arc": "consumer-agents",
-   "arcDay": 6
+   "arcDay": 6,
+   "since": "2026-10-20"
   },
   {
    "id": "character-ai-chapter-11",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 20 Oct; auction still expected Nov-Dec",
    "arc": "chatbot-child-safety",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-10-20"
   },
   {
    "id": "openai-aurora-alpha-ids",
    "label": "MOVED FROM NEW after one edition: an OpenAI sweep on 20 Oct found no launch or documentation for the aurora IDs",
    "arc": "stealth-models",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-20"
   },
   {
    "id": "jev-1-14-preview",
    "label": "Jev re-searched 23 Oct: coverage still the 14 Oct 1.14 preview and the 9 Oct Series A",
    "arc": "embedded-models",
-   "arcDay": 21
+   "arcDay": 21,
+   "since": "2026-10-20"
   },
   {
    "id": "anthropic-scion-vcs",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 20 Oct; no movement surfaced in beat scans",
    "arc": "agent-dev-tooling",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-20"
   },
   {
    "id": "cohere-aisle-acquisition",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 20 Oct; LOI terms still undisclosed",
    "arc": "ai-security-consolidation",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-20"
   },
   {
    "id": "lm-research-world-models",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 20 Oct; primary source only",
    "arc": "ai-for-science",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-10-20"
   },
   {
    "id": "china-ai-export-catalogue",
    "label": "DEMOTED FROM DEVELOPING: not re-searched on 20 Oct; reported API/SaaS carve-out and interim MOFCOM registration stand; comments close 15 Nov (radar)",
    "arc": "china-ai-export-controls",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-10-20"
   },
   {
    "id": "anthropic-s1-leak",
    "label": "Re-searched 22 Oct: no public S-1 yet; listing still reported for November; nothing newer than CNBC's 19 Oct range report",
    "arc": "anthropic-capital",
-   "arcDay": 12
+   "arcDay": 12,
+   "since": "2026-10-01"
   },
   {
    "id": "cert-in-agent-advisory",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 19 Oct; no movement surfaced in beat scans; OpenAI's four new incidents (New #1) are the same failure pattern",
    "arc": "agent-intrusion",
-   "arcDay": 12
+   "arcDay": 12,
+   "since": "2026-10-19"
   },
   {
    "id": "deepseek-v41-flash-1017",
    "label": "MOVED FROM NEW after one edition: on Hacker News's 17 Oct front page (715 points); no new facts",
    "arc": "open-weight-ceiling",
-   "arcDay": 17
+   "arcDay": 17,
+   "since": "2026-10-19"
   },
   {
    "id": "nvidia-nemotron-35-super-vl-bolt",
    "label": "Re-searched 23 Oct: Bolt E4B (4GB, games/voice agents) scheduled for 23 Oct; release not yet confirmed",
    "arc": "open-weight-ceiling",
-   "arcDay": 17
+   "arcDay": 17,
+   "since": "2026-10-19"
   },
   {
    "id": "runway-praxis-1-world-action-model",
    "label": "MOVED FROM NEW after one edition: re-searched (combined query) 19 Oct, nothing new; weights 'coming months'",
    "arc": "world-models",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-10-19"
   },
   {
    "id": "anthropic-tpu-lease-debt",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 19 Oct; no movement surfaced in beat scans",
    "arc": "anthropic-capital",
-   "arcDay": 10
+   "arcDay": 10,
+   "since": "2026-10-19"
   },
   {
    "id": "modal-750m-series-d",
    "label": "MOVED FROM NEW after one edition: re-searched 19 Oct; coverage repeats the 14 Oct round (Axios, TNW, Latent Space)",
    "arc": "inference-efficiency",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-19"
   },
   {
    "id": "llms-hide-own-mistakes",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 19 Oct; no movement surfaced in beat scans; OpenAI's incidents (New #1) include two omissions of exactly this kind",
    "arc": "agent-honesty",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-19"
   },
   {
    "id": "perplexity-space-open-source",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 19 Oct; no movement surfaced in beat scans",
    "arc": "agent-sandboxes",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-19"
   },
   {
    "id": "replit-openai-default",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 19 Oct; no movement surfaced in beat scans",
    "arc": "frontier-price-war",
-   "arcDay": 10
+   "arcDay": 10,
+   "since": "2026-10-19"
   },
   {
    "id": "google-universal-cart-us",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 19 Oct; no movement surfaced in beat scans; the site-side agent lockout (New #2) is the counter-move",
    "arc": "agentic-commerce",
-   "arcDay": 12
+   "arcDay": 12,
+   "since": "2026-10-19"
   },
   {
    "id": "amazon-bee-frontier-eclipse",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 19 Oct; no movement surfaced in beat scans",
    "arc": "consumer-agents",
-   "arcDay": 5
+   "arcDay": 5,
+   "since": "2026-10-19"
   },
   {
    "id": "apate-scam-baiting-agents",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 19 Oct; no movement surfaced in beat scans",
    "arc": "agentic-fraud-defence",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-19"
   },
   {
    "id": "satlyt-orbital-ai-software",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 19 Oct; no movement surfaced in beat scans",
    "arc": "orbital-compute",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-19"
   },
   {
    "id": "rivian-third-party-agents",
    "label": "MOVED FROM NEW after one edition: not re-searched individually on 19 Oct; no movement surfaced in beat scans",
    "arc": "in-car-agents",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-19"
   },
   {
    "id": "reflection-beam-501b",
    "label": "DEMOTED FROM DEVELOPING: re-searched (combined query) 19 Oct; only 5-16 Oct launch coverage; no independent benchmarks yet",
    "arc": "open-weight-ceiling",
-   "arcDay": 17
+   "arcDay": 17,
+   "since": "2026-10-09"
   },
   {
    "id": "nyc-council-ai-hearing",
    "label": "DEMOTED FROM DEVELOPING: no draft local law found after the 16 Oct testimony",
    "arc": "lab-safety-dissent",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-10-07"
   },
   {
    "id": "elorian-glimpse-visual-reasoning",
    "label": "DEMOTED FROM NEW after one edition: re-searched 18 Oct; only launch and pre-launch coverage, no independent benchmarks",
    "arc": "visual-reasoning-models",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-18"
   },
   {
    "id": "liquid-d1-decision-models",
    "label": "DEMOTED FROM NEW after one edition: re-searched; coverage repeats the 7 Oct release; the cloud d1 model's weights are not released and no independent reproduction exists",
    "arc": "embedded-models",
-   "arcDay": 20
+   "arcDay": 20,
+   "since": "2026-10-18"
   },
   {
    "id": "proofpoint-varonis-ai-data-security",
    "label": "DEMOTED FROM NEW after one edition: re-searched; SiliconANGLE adds that closing is expected in H1 2027, subject to regulators and Varonis shareholders; no shareholder pushback found",
    "arc": "ai-security-consolidation",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-18"
   },
   {
    "id": "nadella-ai-emergency-brake",
    "label": "DEMOTED FROM NEW after one edition: re-searched; coverage still recaps the 10 Oct post; no Microsoft product change announced",
    "arc": "agent-control-standards",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-18"
   },
   {
    "id": "adani-jabil-ai-hardware-jv",
    "label": "DEMOTED FROM NEW after one edition: re-searched; DealStreetAsia and Indian Infrastructure confirm the MoU terms; capital and sites still undisclosed",
    "arc": "compute-scale",
-   "arcDay": 11
+   "arcDay": 11,
+   "since": "2026-10-18"
   },
   {
    "id": "vals-multi-agent-cost-study",
    "label": "DEMOTED FROM NEW after one edition: re-searched; secondary coverage matches Vals's figures; no vendor rebuttal",
    "arc": "agent-economics",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-18"
   },
   {
    "id": "prime-intellect-moondream",
    "label": "DEMOTED FROM NEW after one edition: re-searched; Moondream Cloud (inference and Lens) shuts 13 Nov per a Beri.net write-up (radar)",
    "arc": "inference-efficiency",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-18"
   },
   {
    "id": "singapore-ai-pay-premium",
    "label": "DEMOTED FROM NEW after one edition: re-searched; Asia News Network relays the same Robert Walters figures; no new dataset",
    "arc": "ai-jobs-geography",
-   "arcDay": 10
+   "arcDay": 10,
+   "since": "2026-10-18"
   },
   {
    "id": "imf-ai-slow-moving-tsunami",
    "label": "DEMOTED FROM NEW after one edition: re-searched; Khaosod adds her focus on entry-level jobs; she used the phrase in May 2024 too",
    "arc": "workforce",
-   "arcDay": 84
+   "arcDay": 84,
+   "since": "2026-10-18"
   },
   {
    "id": "muse-spark-open",
    "label": "DEMOTED FROM NEW after one edition: re-searched 17 Oct; no independent agentic-coding scores, licence change or notable fine-tune burst found (the search surfaced mostly the closed Muse Spark line)",
    "arc": "open-weight-ceiling",
-   "arcDay": 16
+   "arcDay": 16,
+   "since": "2026-10-17"
   },
   {
    "id": "fis-financial-crimes-agent-ga",
    "label": "DEMOTED FROM NEW after one edition: re-searched; only the May launch coverage and the 15 Oct availability report; no new bank named",
    "arc": "enterprise-agent-adoption",
-   "arcDay": 14
+   "arcDay": 14,
+   "since": "2026-10-17"
   },
   {
    "id": "helix-world-av-world-model",
    "label": "DEMOTED FROM NEW after one edition: re-searched; translated Noiz posts and a Chinese report (80GB VRAM for local use); still no independent results",
    "arc": "world-models",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-10-17"
   },
   {
    "id": "perplexity-pplx-decider",
    "label": "DEMOTED FROM NEW after one edition: re-searched; a BenchLM panel page shows Decider v1 at 85.71% vs Jev 1.13.0 at 84.51% (provider-reported); Apache 2.0 weights still not confirmed by Perplexity",
    "arc": "embedded-models",
-   "arcDay": 20
+   "arcDay": 20,
+   "since": "2026-10-17"
   },
   {
    "id": "bespoke-nimble-v4",
    "label": "DEMOTED FROM NEW after one edition: re-searched; a product directory lists Nimble-v4 at 9B and -max at 27B (unconfirmed); no independent leaderboard entry",
    "arc": "embedded-models",
-   "arcDay": 20
+   "arcDay": 20,
+   "since": "2026-10-17"
   },
   {
    "id": "india-fde-roles-surge",
    "label": "DEMOTED FROM NEW after one edition: re-searched; finds CIEL HR data (+130% YoY to July; ~1,200 fully equipped FDEs; Rs 35-45 lakh early-stage pay; Bengaluru ~half of demand) and TCS's July 1-1.5% FDE target, all older than the card; no movement",
    "arc": "ai-jobs-geography",
-   "arcDay": 10
+   "arcDay": 10,
+   "since": "2026-10-17"
   },
   {
    "id": "california-sb574-lawyer-genai",
    "label": "DEMOTED FROM NEW after one edition: re-searched; Bloomberg Law and Morgan Lewis add that it also bars arbitrators from delegating decisions to generative AI; no new action",
    "arc": "us-state-ai-law",
-   "arcDay": 24
+   "arcDay": 24,
+   "since": "2026-10-17"
   },
   {
    "id": "tsmc-q3-record-revenue",
    "label": "DEMOTED FROM DEVELOPING: re-searched 17 Oct; no new reporting after the 15 Oct results",
    "arc": "compute-scale",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-10-12"
   },
   {
    "id": "openai-math-722-manuscripts",
    "label": "DEMOTED FROM DEVELOPING: re-searched; coverage still recaps the 6-7 Oct release and the reactions already carded; no new statement",
    "arc": "ai-for-science",
-   "arcDay": 6
+   "arcDay": 6,
+   "since": "2026-10-08"
   },
   {
    "id": "eu-virkkunen-rogue-agents",
    "label": "DEMOTED FROM DEVELOPING: re-searched 16 Oct; no OpenAI or Anthropic response to the AI Office's requests and no formal investigation reported",
    "arc": "agent-intrusion",
-   "arcDay": 11
+   "arcDay": 11,
+   "since": "2026-10-14"
   },
   {
    "id": "nvidia-uk-agentic-safety-compute",
    "label": "DEMOTED FROM NEW after one edition: re-searched 16 Oct; no coverage beyond the 14-15 Oct reports (the search surfaced only September OpenShell coverage)",
    "arc": "compute-governance",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-16"
   },
   {
    "id": "jeva-nus-decision-architecture",
    "label": "DEMOTED FROM NEW after one edition: re-searched (Jeva; arXiv 2610.18773); no new coverage; Perplexity's Decider and Bespoke's Nimble-v4 (New #4, #5) are today's decision-model news",
    "arc": "embedded-models",
-   "arcDay": 18
+   "arcDay": 18,
+   "since": "2026-10-16"
   },
   {
    "id": "kroger-3000-corporate-roles-ai",
    "label": "DEMOTED FROM NEW after one edition: re-searched; AP and Fox Business now carry it alongside Reuters; no departments named yet",
    "arc": "workforce",
-   "arcDay": 83
+   "arcDay": 83,
+   "since": "2026-10-16"
   },
   {
    "id": "hbm4-sedex-samsung-skhynix",
    "label": "DEMOTED FROM NEW after one edition: re-searched 16 Oct; no new SEDEX reporting found, and the HBF standard still has no coverage outside Korean press",
    "arc": "memory-supercycle",
-   "arcDay": 10
+   "arcDay": 10,
+   "since": "2026-10-16"
   },
   {
    "id": "uk-mps-frontier-lab-hearing",
    "label": "DEMOTED FROM NEW after one edition: re-searched; MLex and Bloomberg Government confirm the 13 Oct session; no transcript or committee report yet",
    "arc": "super-intelligence-policy",
-   "arcDay": 5
+   "arcDay": 5,
+   "since": "2026-10-16"
   },
   {
    "id": "google-constellation-36gw",
    "label": "DEMOTED FROM NEW after one edition: re-searched; Canary Media and Power Engineering confirm 890MW of uprates by 2032 (first in 2028) with $4.3B+ investment",
    "arc": "compute-scale",
-   "arcDay": 9
+   "arcDay": 9,
+   "since": "2026-10-16"
   },
   {
    "id": "uae-wef-agentic-government-rules",
    "label": "DEMOTED FROM NEW after one edition: re-searched; WAM confirms the dialogue opened 13 Oct in Dubai; the 'Dubai $1M prize' detail could not be confirmed (the UAE AI Award's third edition has an agentic-AI track)",
    "arc": "agentic-government",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-16"
   },
   {
    "id": "liquid-lfm25-24b-a2b",
    "label": "DEMOTED FROM NEW after one edition: re-searched; now on OpenRouter at $0.05/M input, $0.70/M output, 128K context; no independent benchmarks",
    "arc": "on-device-models",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-16"
   },
   {
    "id": "labelbox-recursion-series-e",
    "label": "DEMOTED FROM NEW after one edition: re-searched; the Series E is still single-listing (VC News Daily) and Recursion itself dates to June",
    "arc": "training-data-economy",
-   "arcDay": 9
+   "arcDay": 9,
+   "since": "2026-10-16"
   },
   {
    "id": "ironclad-agent-contract-graph",
    "label": "DEMOTED FROM NEW after one edition: re-searched; Ironclad's 8 Oct press release and trade coverage hold; no customer results",
    "arc": "vertical-models",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-16"
   },
   {
    "id": "us-bank-regulators-agent-scrutiny",
    "label": "DEMOTED FROM NEW after one edition: no written guidance yet; the EU AI Office's requests to OpenAI and Anthropic (Developing D1) are the parallel move",
    "arc": "agent-intrusion",
-   "arcDay": 11
+   "arcDay": 11,
+   "since": "2026-10-15"
   },
   {
    "id": "anthropic-iot-self-replication",
    "label": "DEMOTED FROM NEW after one edition: no follow-up tests or IoT-vendor response found",
    "arc": "model-self-replication",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-15"
   },
   {
    "id": "crowdstrike-korea-banks-artex",
    "label": "DEMOTED FROM NEW after one edition: CrowdStrike still names no bank; no new victims reported",
    "arc": "ai-cyber-models",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-10-15"
   },
   {
    "id": "nvidia-china-share-idc-h1",
    "label": "DEMOTED FROM NEW after one edition: no new share data; Huang's cut-off remarks (New #1) concern unsafe AI, not China",
    "arc": "china-compute-substitution",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-10-15"
   },
   {
    "id": "anthropic-distillation-defenses",
    "label": "DEMOTED FROM NEW after one edition: no Z.ai or Moonshot response found",
    "arc": "distillation-defence",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-15"
   },
   {
    "id": "zai-glm-legal",
    "label": "DEMOTED FROM NEW after one edition: still application-only beta, no price; Ironclad's contract agents (New #10) are the applied-legal launch today",
    "arc": "vertical-models",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-15"
   },
   {
    "id": "msar-attention-residuals",
    "label": "DEMOTED FROM NEW after one edition: no wall-clock results or lab adoption",
    "arc": "architecture-efficiency",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-15"
   },
   {
    "id": "peter-lee-microsoft-mercedes-f1",
    "label": "DEMOTED FROM NEW after one edition: still single-source (Fortune)",
    "arc": "talent-moves",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-15"
   },
   {
    "id": "gemini-4-argon",
    "label": "DEMOTED FROM DEVELOPING: prices conflict: OpenRouter lists it from 13 Oct at $1/$5 per M; one newsletter reports $2/$10 introductory API pricing; the DeepMind post drew 1,424 points on Hacker News",
    "arc": "gemini-4-cadence",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-10-02"
   },
   {
    "id": "apple-welcome-home-siri-hub",
    "label": "DEMOTED FROM DEVELOPING: no new details; HomeView ships 13 Nov (radar)",
    "arc": "assistant-agentification",
-   "arcDay": 11
+   "arcDay": 11,
+   "since": "2026-10-13"
   },
   {
    "id": "subq-snap-decision-model",
    "label": "DEMOTED FROM DEVELOPING: no independent Decision Index results; NUS's open Jeva architecture (New #2) is the day's decision-model news",
    "arc": "embedded-models",
-   "arcDay": 18
+   "arcDay": 18,
+   "since": "2026-10-15"
   },
   {
    "id": "midterm-deepfake-legal-threats",
    "label": "DEMOTED FROM DEVELOPING: no outcome reported from the Colorado hearing",
    "arc": "election-deepfakes",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-10-09"
   },
   {
    "id": "preference-model-karotte",
    "label": "DEMOTED FROM NEW after one edition: Karotte code not yet seen on GitHub",
    "arc": "training-data-economy",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-10-14"
   },
   {
    "id": "falcon-asr-emirati",
    "label": "DEMOTED FROM NEW after one edition: no API launch yet",
    "arc": "sovereign-models",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-14"
   },
   {
    "id": "sap-joule-work-autonomous-enterprise",
    "label": "DEMOTED FROM NEW after one edition: no new customers or GA dates",
    "arc": "enterprise-agent-adoption",
-   "arcDay": 13
+   "arcDay": 13,
+   "since": "2026-10-14"
   },
   {
    "id": "nvidia-vera-rubin-ocp",
    "label": "DEMOTED FROM NEW after one edition: no new adopters; chip stocks fell for a fourth day on financing worries",
    "arc": "compute-scale",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-10-14"
   },
   {
    "id": "indian-it-ai-revenue-q2",
    "label": "DEMOTED FROM NEW after one edition: Infosys and Wipro results are next; no new figures",
    "arc": "ai-jobs-geography",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-10-14"
   },
   {
    "id": "deepseek-winverse-robot-lab",
    "label": "DEMOTED FROM NEW after one edition: deal not yet final; no product",
    "arc": "physical-ai",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-10-14"
   },
   {
    "id": "uk-aisi-access-restored",
    "label": "DEMOTED FROM NEW after one edition: access restored on the same voluntary terms; no new testing announced",
    "arc": "super-intelligence-policy",
-   "arcDay": 4
+   "arcDay": 4,
+   "since": "2026-10-14"
   },
   {
    "id": "qwengyre-elastic-rl",
    "label": "DEMOTED FROM NEW after one edition: no code release; today's research beat is MSAR (New #7)",
    "arc": "open-weight-ceiling",
-   "arcDay": 15
+   "arcDay": 15,
+   "since": "2026-10-14"
   },
   {
    "id": "microsoft-maia-300",
-   "label": "DEMOTED FROM NEW after one edition: no new deployment figures; IDC's China data (New #4) shows the accelerator market fragmenting",
+   "label": "Re-checked 25 Oct: Maia 300 (unveiled 12 Oct) deploys in 2027; Maia 200 now in production for Copilot; more detail due at Ignite in November",
    "arc": "custom-silicon",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-09-02",
+   "lastChecked": "2026-10-25"
   },
   {
    "id": "meta-muse-wonder",
    "label": "DEMOTED FROM NEW after one edition: no independent agentic-coding scores yet; Wonder Full still Muse Code-only",
    "arc": "frontier-pacing",
-   "arcDay": 17
+   "arcDay": 17,
+   "since": "2026-10-14"
   },
   {
    "id": "humanoid-factory-logistics-pilots",
    "label": "DEMOTED FROM NEW after one edition: no order volumes; DeepSeek's Winverse bet (New #7) targets robot foundation models",
    "arc": "humanoid-deployment",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-13"
   },
   {
    "id": "gallatin-navigator-military-logistics",
    "label": "DEMOTED FROM NEW after one edition: no new contract reported",
    "arc": "defence-ai-capital",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-10-13"
   },
   {
    "id": "openai-atlassian-southwest-distribution",
    "label": "DEMOTED FROM NEW after one edition: no booking-in-ChatGPT phase announced",
    "arc": "assistant-distribution",
-   "arcDay": 5
+   "arcDay": 5,
+   "since": "2026-10-13"
   },
   {
    "id": "dnb-fico-agentic-job-cuts",
    "label": "DEMOTED FROM NEW after one edition: TCS and HCLTech (New #8) are still net hiring while AI revenue grows",
    "arc": "workforce",
-   "arcDay": 82
+   "arcDay": 82,
+   "since": "2026-10-13"
   },
   {
    "id": "nous-hermes-for-businesses",
    "label": "DEMOTED FROM NEW after one edition: no new customers or figures; SAP's Joule Work (New #10) is the system-of-record vendor's rival pitch",
    "arc": "enterprise-agent-adoption",
-   "arcDay": 12
+   "arcDay": 12,
+   "since": "2026-10-13"
   },
   {
    "id": "rea-reverse-engineering-agent",
    "label": "DEMOTED FROM NEW after one edition: no DMCA action or new star count verified",
    "arc": "agent-infrastructure",
-   "arcDay": 4
+   "arcDay": 4,
+   "since": "2026-10-13"
   },
   {
    "id": "india-ai-consultation-paper",
    "label": "DEMOTED FROM NEW after one edition: MeitY paper still expected by early-to-mid November (radar)",
    "arc": "india-ai-regulation",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-10-13"
   },
   {
    "id": "deception-probes-goodfire-monitors",
    "label": "DEMOTED FROM NEW after one edition: no independent false-positive data or rival product yet",
    "arc": "agent-security",
-   "arcDay": 92
+   "arcDay": 92,
+   "since": "2026-10-13"
   },
   {
    "id": "amazon-decart-talks",
    "label": "DEMOTED FROM NEW after one edition: re-searched 13 Oct; no confirmation from Amazon or Decart",
    "arc": "world-models",
-   "arcDay": 6
+   "arcDay": 6,
+   "since": "2026-10-13"
   },
   {
    "id": "microsoft-decision-1",
    "label": "Still no independent accuracy or calibration results; SubQ Snap (New #3) now claims a 384K-context decision model",
    "arc": "embedded-models",
-   "arcDay": 15
+   "arcDay": 15,
+   "since": "2026-10-12"
   },
   {
    "id": "super-intelligence-force",
    "label": "DEMOTED FROM DEVELOPING: no new charter action or lab response; 120-day report is the next marker (radar)",
    "arc": "super-intelligence-policy",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-10-07"
   },
   {
    "id": "personal-agent-protocol",
    "label": "Re-searched 13 Oct: no new spec text since Draft 0.1 (9 Oct); full v0.1 and reference implementation due end-October",
    "arc": "agentic-commerce",
-   "arcDay": 11
+   "arcDay": 11,
+   "since": "2026-10-09"
   },
   {
    "id": "ghost-persona-agent-hardware-seeds",
    "label": "DEMOTED FROM NEW after one edition: Ghost Core still due to ship 31 Oct (radar)",
    "arc": "consumer-agents",
-   "arcDay": 4
+   "arcDay": 4,
+   "since": "2026-10-12"
   },
   {
    "id": "cloudflare-deno-acquisition",
    "label": "DEMOTED FROM NEW after one edition: no new terms; Deno Deploy shutdown timeline unchanged",
    "arc": "agent-infrastructure",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-10-12"
   },
   {
    "id": "evident-bank-ai-index-roi",
    "label": "DEMOTED FROM NEW after one edition: DNB's agent-driven cuts (New #6) are one bank's answer to the ROI question",
    "arc": "enterprise-agent-adoption",
-   "arcDay": 11
+   "arcDay": 11,
+   "since": "2026-10-12"
   },
   {
    "id": "kentucky-characterai-unredacted",
    "label": "Character.AI has since filed for Chapter 11 (12 Oct); see New #7",
    "arc": "chatbot-child-safety",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-12"
   },
   {
    "id": "coreweave-india-adaniconnex",
    "label": "DEMOTED FROM NEW after one edition: no new figures; first phase mid-2028",
    "arc": "compute-scale",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-10-12"
   },
   {
    "id": "mimo-v26-open-rl-environments",
    "label": "DEMOTED FROM NEW after one edition: no uptake reports yet for the 7,000+ open RL environments",
    "arc": "open-weight-ceiling",
-   "arcDay": 14
+   "arcDay": 14,
+   "since": "2026-10-12"
   },
   {
    "id": "celeris-autotrust-decision-models",
    "label": "DEMOTED FROM NEW after one edition: no independent benchmarks for Celeris-1 Decision or JEV-27B-VL",
    "arc": "embedded-models",
-   "arcDay": 15
+   "arcDay": 15,
+   "since": "2026-10-12"
   },
   {
    "id": "spacex-40b-nvidia-chip-debt",
    "label": "DEMOTED FROM NEW after one edition: no confirmation or close reported",
    "arc": "compute-capital",
-   "arcDay": 20
+   "arcDay": 20,
+   "since": "2026-10-12"
   },
   {
    "id": "meta-microsoft-claude-cutback",
    "label": "DEMOTED FROM NEW after one edition: still no company statements; Nous's enterprise Hermes (New #5) pitches owned agents on any model",
    "arc": "enterprise-agent-adoption",
-   "arcDay": 11
+   "arcDay": 11,
+   "since": "2026-10-12"
   },
   {
    "id": "cloudflare-clef-omni",
    "label": "DEMOTED FROM NEW after one edition: Clef-flash's $0.038/M input stays the decision-model price floor; no new release",
    "arc": "embedded-models",
-   "arcDay": 15
+   "arcDay": 15,
+   "since": "2026-10-12"
   },
   {
    "id": "h-jepa-ami-labs",
    "label": "Re-searched 23 Oct: AICoder (12 Oct) still the only source for MIT code plus 93 checkpoints; no AMI product",
    "arc": "world-models",
-   "arcDay": 5
+   "arcDay": 5,
+   "since": "2026-10-12"
   },
   {
    "id": "odyssey-3-world-model",
    "label": "Re-searched 18 Oct: still no weights, licence or price; Runway's Praxis-1 (New #4) is a rival world-action line",
    "arc": "world-models",
-   "arcDay": 5
+   "arcDay": 5,
+   "since": "2026-10-12"
   },
   {
    "id": "google-gemini-agent-coworkers",
    "label": "DEMOTED FROM NEW after one edition: no GA date, price or seat-licensing answer yet",
    "arc": "agent-workplace-identity",
-   "arcDay": 5
+   "arcDay": 5,
+   "since": "2026-10-12"
   },
   {
    "id": "anthropic-cyber-verification-tiers",
    "label": "The verification tiers now sit under a wider Critical Infrastructure Defense Program (New #1)",
    "arc": "ai-cyber-models",
-   "arcDay": 6
+   "arcDay": 6,
+   "since": "2026-10-08"
   },
   {
    "id": "openai-eu-text-watermark",
    "label": "DEMOTED FROM NEW after one edition: rollout continuing; a 6 Oct arXiv paper on paraphrase-robust watermarks for agents (New #10) targets the weakness OpenAI disclosed",
    "arc": "ai-content-provenance",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-08"
   },
   {
    "id": "amd-2027-supply-ramp",
    "label": "DEMOTED FROM NEW after one edition: no new supply figures; Turba Labs (New #6) pitches getting more from existing GPUs",
    "arc": "compute-scale",
-   "arcDay": 5
+   "arcDay": 5,
+   "since": "2026-10-08"
   },
   {
    "id": "musubi-policylm",
    "label": "DEMOTED FROM NEW after one edition: no independent benchmarks; 1B vs 1.7B size still unreconciled",
    "arc": "embedded-models",
-   "arcDay": 13
+   "arcDay": 13,
+   "since": "2026-10-08"
   },
   {
    "id": "claude-startups-program-expansion",
    "label": "DEMOTED FROM NEW after one edition: Haiku 5.5's price cut (New #1) further lowers startups' Claude costs",
    "arc": "frontier-price-war",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-10-08"
   },
   {
    "id": "meta-muse-privacy-dossier",
    "label": "DEMOTED FROM NEW after one edition: the dossier report is still TIME-only; Meta is a founding member of the Personal Agent Protocol (New #3), and open Muse clones are spreading (New #5)",
    "arc": "assistant-as-actor",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-10-08"
   },
   {
    "id": "multiply-labs-robotic-biologics",
    "label": "DEMOTED FROM NEW after one edition: no follow-up",
    "arc": "physical-ai",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-10-08"
   },
   {
    "id": "arxiv-reclaim-diffusion-lm",
    "label": "DEMOTED FROM NEW after one edition: no follow-up; today's research beat is the 6 Oct arXiv agent cluster (New #10)",
    "arc": "agent-eval-rigour",
-   "arcDay": 6
+   "arcDay": 6,
+   "since": "2026-10-08"
   },
   {
    "id": "aleph-alpha-kolibri-1",
    "label": "DEMOTED FROM NEW after one edition: no follow-up coverage surfaced",
    "arc": "sovereign-models",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-07"
   },
   {
    "id": "mastercard-agent-pay-intelligence",
    "label": "No new Agent Pay services; the Personal Agent Protocol (New #3) adds an agent-identity layer that card networks have not yet joined",
    "arc": "agentic-commerce",
-   "arcDay": 9
+   "arcDay": 9,
+   "since": "2026-10-07"
   },
   {
    "id": "universal-modder-claude-skills",
    "label": "DEMOTED FROM NEW after one edition: not re-checked on GitHub trending today",
    "arc": "agent-skills",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-07"
   },
   {
    "id": "openai-dots-always-on",
    "label": "DEMOTED FROM DEVELOPING: OpenDots (~3,300 stars) and dots still in GitHub's top 10 on 5 Oct; no new clone or OpenAI move",
    "arc": "consumer-agents",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-10-01"
   },
   {
    "id": "arxiv-foldem-dayjob",
    "label": "DEMOTED FROM NEW after one edition: no further coverage; today's research beat is TACO and SoftServe (New #10)",
    "arc": "ai-for-science",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-06"
   },
   {
    "id": "wallst-ai-yields-risk",
    "label": "Tech stocks fell on 8 Oct after the FT's OpenAI revenue report (New #6)",
    "arc": "compute-capital",
-   "arcDay": 18
+   "arcDay": 18,
+   "since": "2026-10-06"
   },
   {
    "id": "opendlss-neural-rendering",
    "label": "DEMOTED FROM NEW after one edition: no follow-up",
    "arc": "neural-rendering",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-06"
   },
   {
    "id": "agent-token-thrift-repos",
    "label": "DEMOTED FROM NEW after one edition: headroom (~74,400 stars) and claude-mem (+628) keep trending; no new theme",
    "arc": "agent-infrastructure",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-06"
   },
   {
    "id": "muse-gadget-sdk",
    "label": "DEMOTED FROM NEW after one edition: still in GitHub's top 10 on 5 Oct (~1,270 stars); no Meta announcement",
    "arc": "assistant-hardware",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-06"
   },
   {
    "id": "claude-for-government-ga",
    "label": "DEMOTED FROM NEW after one edition: no agency customers or prices named yet",
    "arc": "public-sector-ai",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-06"
   },
   {
    "id": "florida-openai-model-freeze-motion",
    "label": "DEMOTED FROM NEW after one edition: no hearing date or OpenAI written opposition located; the FTC chair now also sits on the White House Super Intelligence Force (New #1)",
    "arc": "chatbot-child-safety",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-06"
   },
   {
    "id": "ftc-ai-safety-probe",
    "label": "No FTC orders or company responses published; the Super Intelligence Force, on which FTC Chairman Ferguson sits, now mandates incident notification (Developing D1)",
    "arc": "agent-intrusion",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-10-05"
   },
   {
    "id": "california-ag-openai-subpoena",
    "label": "DEMOTED FROM NEW after one edition: no OpenAI response to the subpoena located",
    "arc": "agent-intrusion",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-10-05"
   },
   {
    "id": "claude-frontier-academy",
    "label": "DEMOTED FROM NEW after one edition: first cohorts running; no new partners named",
    "arc": "enterprise-agent-adoption",
-   "arcDay": 10
+   "arcDay": 10,
+   "since": "2026-10-05"
   },
   {
    "id": "gpt-synopsys-chip-agents",
    "label": "DEMOTED FROM NEW after one edition: early customer tests continue with no results published",
    "arc": "ai-chip-design",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-05"
   },
   {
    "id": "flux-3-image",
    "label": "DEMOTED FROM NEW after one edition: the 50% launch discount ends 8 October; open weights still promised 'in the coming weeks'",
    "arc": "image-models",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-05"
   },
   {
    "id": "apple-macos-full-disk-access",
    "label": "DEMOTED FROM NEW after one edition: no ship date yet for the new Full Disk Access prompts",
    "arc": "agent-security",
-   "arcDay": 6
+   "arcDay": 6,
+   "since": "2026-10-05"
   },
   {
    "id": "reddit-rss-api-shutdown",
    "label": "DEMOTED FROM NEW after one edition: new public-API requests stop 31 October (on the radar); RSS ends 13 November",
    "arc": "training-data-economy",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-10-05"
   },
   {
    "id": "claude-shaped-science-bootloops",
    "label": "DEMOTED FROM NEW after one edition: no follow-up results",
    "arc": "ai-for-science",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-05"
   },
   {
    "id": "ling-31-flash",
    "label": "DEMOTED FROM NEW after one edition: still free on OpenRouter; no checkpoint or licence yet",
    "arc": "open-weight-ceiling",
-   "arcDay": 10
+   "arcDay": 10,
+   "since": "2026-10-05"
   },
   {
    "id": "peak-xv-surge-12-seed",
    "label": "DEMOTED FROM NEW after one edition: no follow-up",
    "arc": "seed-stage-capital",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-05"
   },
   {
    "id": "ta419-ai-policy-phishing",
    "label": "DEMOTED FROM NEW after one edition: no further TA419 victims or attribution detail reported",
    "arc": "ai-espionage",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-04"
   },
   {
    "id": "amazon-gb-chip-leaseback",
    "label": "Still reported only as talks on an ~$8B Grace Blackwell SPV; SpaceX's ~$40B chip debt (New #6) is the week's larger GPU-financing story",
    "arc": "compute-capital",
-   "arcDay": 17
+   "arcDay": 17,
+   "since": "2026-10-04"
   },
   {
    "id": "wallst-agent-orchestration-hiring",
    "label": "DEMOTED FROM NEW after one edition: bank AI postings +49% and \"agent orchestration\" +1,721% hold; Anthropic's Frontier Academy (New #4) is the supply-side answer to the same skills gap",
    "arc": "ai-jobs-geography",
-   "arcDay": 6
+   "arcDay": 6,
+   "since": "2026-10-04"
   },
   {
    "id": "stability-audio-music-pivot",
    "label": "DEMOTED FROM NEW after one edition: the licensed-music reboot holds with no new release",
    "arc": "licensed-training-data",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-04"
   },
   {
    "id": "oracle-lighthouse-power-delay",
    "label": "DEMOTED FROM NEW after one edition: the ATC transmission plan is still awaiting approval",
    "arc": "data-center-backlash",
-   "arcDay": 4
+   "arcDay": 4,
+   "since": "2026-10-04"
   },
   {
    "id": "excel-copilot-canvas",
    "label": "DEMOTED FROM NEW after one edition: the October rollout continues",
    "arc": "assistant-agentification",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-10-04"
   },
   {
    "id": "supabase-turso-agent-db",
    "label": "DEMOTED FROM NEW after one edition: still one outlet; terms undisclosed",
    "arc": "agent-infrastructure",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-04"
   },
   {
    "id": "homa-ai-datacenter-transport",
    "label": "DEMOTED FROM NEW after one edition: no movement in upstream Linux review",
    "arc": "scale-up-interconnect",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-04"
   },
   {
    "id": "shopify-canvas",
    "label": "DEMOTED FROM NEW after one edition: Canvas holds with no merchant adoption figures",
    "arc": "agentic-commerce",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-10-03"
   },
   {
    "id": "volantis-a1-photonic",
    "label": "DEMOTED FROM NEW after one edition: A-1 targets 2027 delivery; nothing independently tested",
    "arc": "memory-supercycle",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-10-03"
   },
   {
    "id": "armadin-agent-swarm-round",
    "label": "DEMOTED FROM NEW after one edition: Armadin's $255.5M round holds; no customer named",
    "arc": "agent-intrusion",
-   "arcDay": 6
+   "arcDay": 6,
+   "since": "2026-10-03"
   },
   {
    "id": "barclays-claude-scale",
    "label": "DEMOTED FROM NEW after one edition: the 50%-of-developers target for Claude Code holds",
    "arc": "enterprise-agent-adoption",
-   "arcDay": 9
+   "arcDay": 9,
+   "since": "2026-10-03"
   },
   {
    "id": "tencent-oracle-chip-lease",
    "label": "DEMOTED FROM NEW after one edition: the reported $7B lease is still unconfirmed by Tencent or Oracle",
    "arc": "china-compute-substitution",
-   "arcDay": 5
+   "arcDay": 5,
+   "since": "2026-10-03"
   },
   {
    "id": "white-house-si-accord",
    "label": "The voluntary accord now sits beside a mandatory incident-notification rule from the Super Intelligence Force (Developing D1)",
    "arc": "lab-self-governance",
-   "arcDay": 17
-  },
-  {
-   "id": "micron-q4-hbm-sold-out",
-   "label": "DEMOTED FROM DEVELOPING: the record quarter and mostly-contracted 2027 HBM hold with no new figures",
-   "arc": "memory-supercycle",
-   "arcDay": 7
+   "arcDay": 17,
+   "since": "2026-10-03"
   },
   {
    "id": "arivihan-ai-tutor",
    "label": "DEMOTED FROM NEW after one edition: the $10M Series A for teacher-free tutoring holds",
    "arc": "india-vertical-ai",
-   "arcDay": 4
+   "arcDay": 4,
+   "since": "2026-10-02"
   },
   {
    "id": "solar-mini-4",
    "label": "DEMOTED FROM NEW after one edition: Solar Mini 4's launch discount runs to 22 October",
    "arc": "small-models",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-02"
   },
   {
    "id": "semifive-us-ai-asic",
    "label": "DEMOTED FROM NEW after one edition: the $52M LPDDR6 inference ASIC contract holds; customer still unnamed",
    "arc": "custom-silicon",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-02"
   },
   {
    "id": "cerebras-gimlet-100mw",
    "label": "DEMOTED FROM NEW after one edition: the 100MW CS-4 order holds",
    "arc": "inference-hardware",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-02"
   },
   {
    "id": "cscale-optical-scaleup",
    "label": "DEMOTED FROM NEW after one edition: CScale's optical scale-up interconnect holds; Volantis (New #7) brings optics to the memory side",
    "arc": "scale-up-interconnect",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-02"
   },
   {
    "id": "synthid-bio-protein-watermark",
    "label": "DEMOTED FROM NEW after one edition: SynthID Bio (Nature) holds; no adoption by protein-design tool makers reported yet",
    "arc": "biosecurity-ai",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-02"
   },
   {
    "id": "coreweave-vera-rubin-production",
    "label": "DEMOTED FROM NEW after one edition: first production Vera Rubin NVL72 for Cognition holds; no second customer named",
    "arc": "compute-scale",
-   "arcDay": 4
+   "arcDay": 4,
+   "since": "2026-10-02"
   },
   {
    "id": "synopsys-amazon-silicon-ip",
    "label": "The $1B+ Amazon IP deal holds; Synopsys's bigger move this week is GPT-Synopsys with OpenAI (New #5)",
    "arc": "custom-silicon",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-02"
   },
   {
    "id": "california-sb947-robo-bosses",
    "label": "SB 947 takes effect 1 July 2027 (dropped from the radar to make room for nearer dates); the Dutch DPA's €825M Uber fine is the EU precedent",
    "arc": "us-state-ai-law",
-   "arcDay": 23
+   "arcDay": 23,
+   "since": "2026-10-02"
   },
   {
    "id": "nvidia-open-agent-safety-platform",
    "label": "DEMOTED FROM NEW after one edition: OpenShell and the BlueField-4 Sentry hold with 100+ organisations committed; OpenAI's DevDay coverage did not mention adopting it",
    "arc": "agent-intrusion",
-   "arcDay": 5
+   "arcDay": 5,
+   "since": "2026-09-30"
   },
   {
    "id": "claude-sonnet-55",
    "label": "Sonnet 5.5 cache reads cut to $0.10/M alongside the Haiku 5.5 launch (New #1); list price unchanged",
    "arc": "anthropic-model-cadence",
-   "arcDay": 6
+   "arcDay": 6,
+   "since": "2026-09-30"
   },
   {
    "id": "instinct-series-c-10b",
    "label": "DEMOTED FROM NEW after one edition: Instinct's $1B at $10B holds; it now faces Dots, Muse for Small Business and Manus Cue in the same 48 hours",
    "arc": "consumer-agents",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-09-30"
   },
   {
    "id": "elevenlabs-v4-speech",
    "label": "DEMOTED FROM NEW after one edition: v4 holds; VoiceStudio, a fully local open-source ElevenLabs alternative (646 languages, AGPL), is the day's top GitHub riser",
    "arc": "voice-agents",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-09-30"
   },
   {
    "id": "china-rtx-pro-5500-approval",
    "label": "DEMOTED FROM NEW after one edition: no formal MIIT approval located yet",
    "arc": "china-compute-substitution",
-   "arcDay": 4
+   "arcDay": 4,
+   "since": "2026-09-30"
   },
   {
    "id": "authors-guild-unsealed-openai",
    "label": "DEMOTED FROM NEW after one edition: no defendant response to the unsealed briefs located",
    "arc": "ai-copyright",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-09-30"
   },
   {
    "id": "nvidia-150b-buyback",
    "label": "DEMOTED FROM NEW after one edition: the $150B authorisation increase holds; commentary only",
    "arc": "compute-scale",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-09-30"
   },
   {
    "id": "australia-openai-agent-breach",
    "label": "Anthropic's own disclosure (New #1) adds a second lab's agents misfiring on real sites; the White House now mandates incident notification (Developing D1)",
    "arc": "agent-intrusion",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-09-29"
   },
   {
    "id": "frontier-ai-standards-agency",
    "label": "DEMOTED FROM DEVELOPING: SAFA has no new reporting; NVIDIA's industry-backed containment platform (New #1) is the nearer-term safety standard in practice",
    "arc": "lab-self-governance",
-   "arcDay": 15
+   "arcDay": 15,
+   "since": "2026-09-27"
   },
   {
    "id": "us-china-si-dialogue",
    "label": "DEMOTED FROM NEW after one edition: the incident channel and the November Super Intelligence Dialogue hold; today's US-China movement is Beijing canvassing buyers for Nvidia's RTX Pro 5500",
    "arc": "us-china-ai-diplomacy",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-09-29"
   },
   {
    "id": "swarmtraces-80k-payloads",
    "label": "The 80,000+ payload dataset holds and now sits inside two government investigations (New #1, #2)",
    "arc": "agent-intrusion",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-09-29"
   },
   {
    "id": "microsoft-copilot-home-code-autopilot",
    "label": "DEMOTED FROM NEW after one edition: Copilot Home, Code and the Autopilot agent hold with no rollout date added",
    "arc": "assistant-agentification",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-09-29"
   },
   {
    "id": "amazon-seller-plugin-claude",
    "label": "DEMOTED FROM NEW after one edition: the Selling Partner plugin in Claude and Quick holds in US beta",
    "arc": "agentic-commerce",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-09-29"
   },
   {
    "id": "google-flipkart-gemini-checkout",
    "label": "DEMOTED FROM NEW after one edition: the Flipkart Buy button test in Gemini and AI Mode holds, with the broader rollout still set for October",
    "arc": "agentic-commerce",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-09-29"
   },
   {
    "id": "adecco-agentforce-27k",
    "label": "DEMOTED FROM NEW after one edition: the 27,000-seat Agentforce Coworker rollout holds; the Coworker runs on Claude, and Sonnet 5.5 (New #2) is now the default mid-tier model under products of this kind",
    "arc": "enterprise-agent-adoption",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-09-29"
   },
   {
    "id": "gemini-call-for-me",
    "label": "DEMOTED FROM NEW after one edition: the Pixel 11 US preview holds; Instinct's calling concierge (New #3) is the start-up version of the same outbound-call capability",
    "arc": "assistant-agentification",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-09-29"
   },
   {
    "id": "rbi-ai-governance-bulletin",
    "label": "DEMOTED FROM NEW after one edition: the RBI's human-in-the-loop expectations hold with no circular deadline",
    "arc": "india-ai-regulation",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-09-29"
   },
   {
    "id": "state-street-abudhabi-ai-centre",
    "label": "DEMOTED FROM NEW after one edition: the 2027 Abu Dhabi centre and 300 hires hold, still single-outlet",
    "arc": "ai-jobs-geography",
-   "arcDay": 5
+   "arcDay": 5,
+   "since": "2026-09-29"
   },
   {
    "id": "akamai-anthropic-116b-cpu",
    "label": "DEMOTED FROM NEW after one edition: the $11.6B seven-year CPU commitment, the $9B expansion option and the warrant for up to 5% of Akamai all hold, with no second-day reporting located",
    "arc": "ai-compute-contracts",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-09-28"
   },
   {
    "id": "xai-colossus2-gb300-ladder",
    "label": "SpaceX's ~$40B Apollo-led chip-debt raise (New #6) funds the Colossus 2 ramp; Musk says chip count could more than double by December",
    "arc": "compute-scale",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-09-28"
   },
   {
    "id": "cohere-aleph-alpha-combination",
    "label": "The ~$20B Cohere-Aleph Alpha combination holds; Cohere now adds AISLE and a Cohere Cyber unit (New #11)",
    "arc": "sovereign-ai-consolidation",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-09-28"
   },
   {
    "id": "maryland-data-center-eo",
    "label": "DEMOTED FROM NEW after one edition: the 25MW review gate and the tax-exemption repeal push hold, and today's state-level movement is California's audit bills instead",
    "arc": "data-center-backlash",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-09-28"
   },
   {
    "id": "databricks-row-zero",
    "label": "DEMOTED FROM NEW after one edition: the Row Zero purchase holds, and today's larger agent-interface move is Microsoft putting Word, Excel and PowerPoint inside Copilot",
    "arc": "agent-interface",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-09-28"
   },
   {
    "id": "india-ai-hiring-380k-foundit",
    "label": "DEMOTED FROM NEW after one edition: foundit's ~380,000 AI-linked roles for 2026 holds, and today's India labour signal is the RBI bulletin's model-risk and MLOps demand instead",
    "arc": "ai-jobs-geography",
-   "arcDay": 5
+   "arcDay": 5,
+   "since": "2026-09-28"
   },
   {
    "id": "progress-domo-400m-close",
    "label": "DEMOTED FROM NEW after one edition: the closed $400M purchase of Domo's AI and data platform holds with no integration detail added",
    "arc": "sovereign-ai-consolidation",
-   "arcDay": 3
+   "arcDay": 3,
+   "since": "2026-09-28"
   },
   {
    "id": "qwen38-hf-trending-lead",
    "label": "Qwen3.8-27B still tops Hugging Face trending (16.8K likes, ~6.9M downloads on 3 Oct); Laya has 5.0K likes, and Ternary-Bonsai-2-27B leads quantised downloads",
    "arc": "open-weight-ceiling",
-   "arcDay": 9
+   "arcDay": 9,
+   "since": "2026-09-28"
   },
   {
    "id": "arxiv-governed-agent-ecosystems",
    "label": "DEMOTED FROM NEW after one edition: the governed-agent-estate cluster holds and is superseded today by two peer-reviewed research items",
    "arc": "agent-eval-rigour",
-   "arcDay": 5
+   "arcDay": 5,
+   "since": "2026-09-28"
   },
   {
    "id": "dataiku-agent-management",
    "label": "The cross-platform agent inventory still ships GA in October 2026; Microsoft's Copilot Managed Runtime preview is the vendor-native version of the same idea",
    "arc": "agent-governance-tooling",
-   "arcDay": 4
+   "arcDay": 4,
+   "since": "2026-09-27"
   },
   {
    "id": "adobe-gemini-claude-tools",
    "label": "Adobe inside Gemini on all plans and Acrobat in the Claude plugin at 80+ tools; Amazon's Selling Partner plugin (New #6) is the same distribution pattern in commerce",
    "arc": "assistant-distribution",
-   "arcDay": 4
+   "arcDay": 4,
+   "since": "2026-09-27"
   },
   {
    "id": "niq-ai-shopping-51pct",
    "label": "Re-searched (NIQ + its Agentic Commerce Tracker): corroborated by NIQ's own 7 Oct global Consumer Outlook: 55% say AI recommendations at least sometimes shape grocery and household buys; 27% actively used AI shopping tools in three months. The 51% US figure is from a ~500-person monthly survey",
    "arc": "agentic-commerce",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-09-27"
   },
   {
    "id": "island-cyera-400m-rounds",
    "label": "Island at $6.4B and Cyera at ~$12B hold; no fresh AI-security round was located in this window",
    "arc": "security-ai-capital",
-   "arcDay": 4
+   "arcDay": 4,
+   "since": "2026-09-27"
   },
   {
    "id": "ando-agent-native-chat",
    "label": "Agents with identities and inboxes are now a Google feature: Gemini coworker agents get @agents email and Workspace accounts (New #1)",
    "arc": "agent-workplace-identity",
-   "arcDay": 4
+   "arcDay": 4,
+   "since": "2026-09-27"
   },
   {
    "id": "us-ai-hiring-hubs-concentration",
    "label": "US hiring still concentrated in five metros with AI at 42% of Bay Area tech openings; ML engineer postings up 59% on a February 2020 baseline while general software engineering is down 49%",
    "arc": "ai-jobs-geography",
-   "arcDay": 5
+   "arcDay": 5,
+   "since": "2026-09-27"
   },
   {
    "id": "gulf-asia-ai-pay-corridor",
    "label": "No new salary benchmark; Ai Everything Abu Dhabi (6-7 Oct) passed with no pay data found",
    "arc": "ai-jobs-geography",
-   "arcDay": 5
+   "arcDay": 5,
+   "since": "2026-09-27"
   },
   {
    "id": "china-domestic-ai-chip-90pct",
    "label": "The domestic-substitution target holds, but Beijing canvassing buyers for Nvidia's RTX Pro 5500 (New #5) shows the target does not mean refusing US silicon",
    "arc": "china-compute-substitution",
-   "arcDay": 4
+   "arcDay": 4,
+   "since": "2026-09-27"
   },
   {
    "id": "xiaomi-mimo-v26",
    "label": "MiMo-V2.6-Pro's open-weight mark stands; MiniMax's M3.1-Flash-Preview (New #4) is now public, and StepFun's weights are due 15 October",
    "arc": "open-weight-ceiling",
-   "arcDay": 6
+   "arcDay": 6,
+   "since": "2026-09-25"
   },
   {
    "id": "claude-marketplace-2000",
    "label": "The 2,000-listing Claude marketplace holds; Amazon's seller plugin and Adecco's 27,000 seats are the week's larger distribution facts",
    "arc": "enterprise-agent-adoption",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-09-25"
   },
   {
    "id": "chatgpt-voice-plugins-work",
    "label": "ChatGPT voice and work plugins hold; Gemini 'Call for Me' (New #10) is the competing outbound-voice move",
    "arc": "assistant-agentification",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-09-25"
   },
   {
    "id": "stepfun-step5-preview",
-   "label": "Re-searched 18 Oct: the BF16 weights promised for 15 Oct are still not confirmed on an official StepFun repo; API via OpenRouter since 8 Oct",
+   "label": "Re-checked 25 Oct: two secondary write-ups say BF16/FP8 weights reached Hugging Face and ModelScope on 15 Oct; no StepFun announcement found and Hugging Face could not be opened, so still unconfirmed",
    "arc": "open-weight-ceiling",
-   "arcDay": 10
-  },
-  {
-   "id": "fda-genai-device-docket",
-   "label": "FDA comments on generative-AI-enabled medical devices close 19 October, docket FDA-2026-N-7874; separately, requests to join FDA's Expedited IND Pilot Program are due 30 October",
-   "arc": "health-ai-regulation",
-   "arcDay": 54
+   "arcDay": 10,
+   "since": "2026-09-23",
+   "lastChecked": "2026-10-25"
   },
   {
    "id": "agent-identity-governance-gap",
    "label": "US bank supervisors now ask banks how agent actions are approved, audited and stopped (New #1)",
    "arc": "agent-security",
-   "arcDay": 5
-  },
-  {
-   "id": "openai-sb53-midas-allegation",
-   "label": "The SB 53 / MIDAS allegation against OpenAI holds with no filing or response located",
-   "arc": "ai-antitrust",
-   "arcDay": 14
-  },
-  {
-   "id": "ai-pacing-antitrust-suit",
-   "label": "The AI-pacing antitrust suit holds with no docket movement located",
-   "arc": "ai-antitrust",
-   "arcDay": 17
-  },
-  {
-   "id": "aef-1-evaluator-standard",
-   "label": "The AEF-1 evaluator standard holds; Anthropic's provable-inference milestone passed silently (New #14)",
-   "arc": "lab-self-governance",
-   "arcDay": 15
+   "arcDay": 5,
+   "since": "2026-09-26"
   },
   {
    "id": "newsom-ai-kill-switch-eo",
-   "label": "The 18 September kill-switch executive order holds; Newsom's 30 September actions (New #2) added SB 947 and a naming order, not a frontier-safety bill",
+   "label": "Re-checked 25 Oct: the 18 Sep order is a feasibility study; state agencies report by 16 Nov (on the radar)",
    "arc": "us-state-ai-law",
-   "arcDay": 22
-  },
-  {
-   "id": "banks-agentic-commerce-warning",
-   "label": "Bank warnings on agentic commerce now meet a network answer: Mastercard is testing an AI-agent transaction score (New #7)",
-   "arc": "agentic-commerce",
-   "arcDay": 8
+   "arcDay": 22,
+   "since": "2026-09-20",
+   "lastChecked": "2026-10-25"
   },
   {
    "id": "tech-layoffs-175k-2026",
-   "label": "The 2026 layoff aggregate holds above 225,000 workers; California's SB 947 (New #2) now requires human corroboration for AI-driven discipline and firing from July 2027",
+   "label": "Re-checked 25 Oct: SkillSyncer counts 230,896 tech workers laid off in 2026 across 553 events (to 21 Oct); 38% of events cite AI or automation. Trackers disagree widely",
    "arc": "ai-labour-impact",
-   "arcDay": 92
+   "arcDay": 92,
+   "since": "2026-09-26",
+   "lastChecked": "2026-10-25"
   },
   {
    "id": "gpt-61-astra-shelved",
    "label": "DEMOTED FROM NEW after one edition: GPT-6.1 Astra remains shelved; Google's Gemini 4 Argon (New #1) now ships cyber-partners-first",
    "arc": "frontier-pacing",
-   "arcDay": 16
+   "arcDay": 16,
+   "since": "2026-10-01"
   },
   {
    "id": "gpt-61-sol",
    "label": "GPT-6.1 Sol's $2/$10 price holds; it tops Arena's new Alignment Index at 87.9 (New #3)",
    "arc": "frontier-price-war",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-10-01"
   },
   {
    "id": "amd-world-labs",
    "label": "The $8.2B all-stock deal holds; NVIDIA backs Reactor's world-model serving layer instead (New #10)",
    "arc": "world-models",
-   "arcDay": 4
+   "arcDay": 4,
+   "since": "2026-10-01"
   },
   {
    "id": "meta-enterprise-platform",
    "label": "Enterprise Muse holds; Muse on Mac is at the centre of the disputed 187,000-iMessage claim behind Apple's new Full Disk Access controls (New #7)",
    "arc": "assistant-as-actor",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-10-01"
   },
   {
    "id": "codex-security-cloud",
    "label": "DEMOTED FROM NEW after one edition: Codex Security Cloud holds; Gemini 4 Argon now claims autonomous find-validate-patch for cyber partners",
    "arc": "ai-cyber-models",
-   "arcDay": 5
+   "arcDay": 5,
+   "since": "2026-10-01"
   },
   {
    "id": "manus-2-cascade-cue",
    "label": "Cascade and Cue hold; Manus raised $500M+ on 8 Oct (New #6)",
    "arc": "consumer-agents",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-01"
   },
   {
    "id": "openai-30b-bridge-round",
    "label": "Re-checked 24 Oct: one aggregator (dentro.de) now says up to $30B at a $1.25T pre-money; still talks, no close reported",
    "arc": "openai-capital",
-   "arcDay": 12
+   "arcDay": 12,
+   "since": "2026-10-01"
   },
   {
    "id": "reco-agent-security-55m",
    "label": "DEMOTED FROM NEW after one edition: Reco's $55M context-graph round holds",
    "arc": "security-ai-capital",
-   "arcDay": 5
+   "arcDay": 5,
+   "since": "2026-10-01"
   },
   {
    "id": "sima-modalix-series-c",
    "label": "DEMOTED FROM NEW after one edition: SiMa.ai's $150M at $1.45B holds",
    "arc": "physical-ai",
-   "arcDay": 6
+   "arcDay": 6,
+   "since": "2026-10-01"
   },
   {
    "id": "anthropic-project-swap",
    "label": "DEMOTED FROM NEW after one edition: no follow-up results",
    "arc": "agentic-commerce",
-   "arcDay": 9
+   "arcDay": 9,
+   "since": "2026-10-01"
   },
   {
    "id": "nvidia-gpu-loan-insurance",
    "label": "DEMOTED FROM NEW after one edition: no insurer named beyond Howden Re's broking role",
    "arc": "compute-capital",
-   "arcDay": 16
+   "arcDay": 16,
+   "since": "2026-10-01"
   },
   {
    "id": "openai-training-pause",
    "label": "No resumption date; SoftBank completed its $64.6B investment into the paused lab (New #8)",
    "arc": "agent-intrusion",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-10-01"
   },
   {
    "id": "claude-haiku-55",
    "label": "DEMOTED FROM NEW after one edition: $0.10/$0.50 pricing holds; no independent benchmarks yet",
    "arc": "anthropic-model-cadence",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-10-09"
   },
   {
    "id": "openai-gpt6-chatgpt-everyone",
    "label": "DEMOTED FROM NEW after one edition: GPT-6 and Luna rollout to all ChatGPT tiers continues",
    "arc": "frontier-price-war",
-   "arcDay": 9
+   "arcDay": 9,
+   "since": "2026-10-09"
   },
   {
    "id": "open-muse-clones",
    "label": "DEMOTED FROM NEW after one edition: no star counts re-checked; Manus's $500M (New #6) funds a direct Muse rival",
    "arc": "assistant-as-actor",
-   "arcDay": 9
+   "arcDay": 9,
+   "since": "2026-10-09"
   },
   {
    "id": "turba-labs-dc-digital-twins",
    "label": "DEMOTED FROM NEW after one edition: no utilisation data published",
    "arc": "compute-scale",
-   "arcDay": 6
+   "arcDay": 6,
+   "since": "2026-10-09"
   },
   {
    "id": "naukri-sep-aiml-hiring-20pct",
    "label": "Re-checked: September JobSpeak has AI/ML +20% YoY and fresher AI/ML hiring +19%; outlets still conflict on the city split (Hyderabad +26% vs +9%, possibly overall hiring)",
    "arc": "ai-jobs-geography",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-10-09"
   },
   {
    "id": "hubspot-660-cuts",
    "label": "DEMOTED FROM NEW after one edition: some outlets now put the cut at ~600; no further detail",
    "arc": "ai-labour-impact",
-   "arcDay": 93
+   "arcDay": 93,
+   "since": "2026-10-09"
   },
   {
    "id": "arxiv-agent-cluster-oct6",
    "label": "DEMOTED FROM NEW after one edition: superseded by the 7 Oct cluster (New #11)",
    "arc": "agent-eval-rigour",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-10-09"
   },
   {
    "id": "teddy-ai-60m-seed",
    "label": "DEMOTED FROM NEW after one edition: investors and stack still undisclosed",
    "arc": "ai-native-services",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-09"
   },
   {
    "id": "anthropic-critical-infra-defense",
    "label": "DEMOTED FROM NEW after one edition: no partner results yet; Anthropic's own agents misfired on real sites (New #1)",
    "arc": "ai-cyber-defense",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-10"
   },
   {
    "id": "mistral-large-4",
    "label": "Re-searched 18 Oct: weights still promised by end-October (one outlet names 27 Oct); licence still unpublished",
    "arc": "open-weight-ceiling",
-   "arcDay": 13
+   "arcDay": 13,
+   "since": "2026-10-10"
   },
   {
    "id": "arena-alignment-index",
    "label": "DEMOTED FROM NEW after one edition: no lab has cited the index in a launch post yet",
    "arc": "agent-eval-rigour",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-10-10"
   },
   {
    "id": "accelerated-understanding-neural-operators",
    "label": "DEMOTED FROM NEW after one edition: no benchmarks or customers named",
    "arc": "new-model-classes",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-10"
   },
   {
    "id": "biohub-ai-biology-18b",
    "label": "DEMOTED FROM NEW after one edition: no grants or datasets announced yet",
    "arc": "ai-for-science",
-   "arcDay": 4
+   "arcDay": 4,
+   "since": "2026-10-10"
   },
   {
    "id": "manus-500m-round",
    "label": "DEMOTED FROM NEW after one edition: valuation still undisclosed; Persona and Ghost (New #14) add hardware-first personal-agent bets",
    "arc": "assistant-as-actor",
-   "arcDay": 10
+   "arcDay": 10,
+   "since": "2026-10-10"
   },
   {
    "id": "uk-healthcare-ai-44-recs",
    "label": "DEMOTED FROM NEW after one edition: draft proposals due before year-end; Utah's AI-prescription pilot (New #9) shows the US sandbox route",
    "arc": "health-ai-regulation",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-10"
   },
   {
    "id": "servicenow-ai-workflow-factory",
    "label": "DEMOTED FROM NEW after one edition: no customer results",
    "arc": "enterprise-agent-platforms",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-10"
   },
   {
    "id": "jeppesen-airflow-agents",
    "label": "DEMOTED FROM NEW after one edition: no airline outcomes published",
    "arc": "vertical-agents",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-10"
   },
   {
    "id": "reactor-world-model-infra",
    "label": "DEMOTED FROM NEW after one edition: no usage figures",
    "arc": "world-models",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-10"
   },
   {
    "id": "arxiv-agent-cluster-oct7",
    "label": "DEMOTED FROM NEW after one edition: superseded by the 9 Oct cluster (New #11)",
    "arc": "agent-eval-rigour",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-10-10"
   },
   {
    "id": "anthropic-unintended-model-actions",
    "label": "No new incidents beyond the 10 Oct AP coverage (Philadelphia false tip during automated testing); Anthropic's red team now warns about small-model self-replication (New #2); 16 Oct: Hacker News's 14 Oct front page carried an experts piece blaming containment and monitoring failures (933 points)",
    "arc": "agent-intrusion",
-   "arcDay": 8
+   "arcDay": 8,
+   "since": "2026-10-11"
   },
   {
    "id": "typesafe-jev-870m-series-a",
    "label": "DEMOTED FROM NEW after one edition: re-searched Jev/TypeSafe: SiliconANGLE confirms the $870M at $7.5B; Latent Space says Sequoia 'leaked' >$100M ARR (RUMOR-FLAG, single newsletter). Jev still early access; Clef-flash now undercuts its price (New #4)",
    "arc": "embedded-models",
-   "arcDay": 14
+   "arcDay": 14,
+   "since": "2026-10-11"
   },
   {
    "id": "sabi-brain-foundation-cap",
    "label": "DEMOTED FROM NEW after one edition: re-searched Sabi: no new coverage, accuracy data or rivals",
    "arc": "brain-computer-interfaces",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-11"
   },
   {
    "id": "microsoft-perm-h1b-suspension",
    "label": "DEMOTED FROM NEW after one edition: no reinstatement or company response located",
    "arc": "ai-jobs-geography",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-10-11"
   },
   {
    "id": "openai-revenue-50b-accounting",
    "label": "DEMOTED FROM NEW after one edition: the ~$50B run-rate holds (Bloomberg/FT); TSMC's record quarter (New #7) cuts against the revenue-gap worry",
    "arc": "compute-capital",
-   "arcDay": 19
+   "arcDay": 19,
+   "since": "2026-10-11"
   },
   {
    "id": "microsoft-mxc-local-coding",
    "label": "DEMOTED FROM NEW after one edition: Execution Containers GA holds; Google's agent sandbox and gateway (New #1) is the rival design",
    "arc": "agent-security",
-   "arcDay": 7
+   "arcDay": 7,
+   "since": "2026-10-11"
   },
   {
    "id": "globalfoundries-tsmc-interposers",
    "label": "DEMOTED FROM NEW after one edition: the ~$2B interposer deal holds; TSMC's 15 Oct results may say more about CoWoS capacity",
    "arc": "advanced-packaging",
-   "arcDay": 1
+   "arcDay": 1,
+   "since": "2026-10-11"
   },
   {
    "id": "utah-ai-prescription-sandbox",
    "label": "DEMOTED FROM NEW after one edition: no outcomes yet from the Nolla Health pilot",
    "arc": "health-ai-regulation",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-11"
   },
   {
    "id": "rea-agentic-reverse-engineering",
    "label": "DEMOTED FROM NEW after one edition: morluto/rea was GitHub's #1 trending repo on 7 Oct; no newer star count checked",
    "arc": "ai-cyber-defense",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-11"
   },
   {
    "id": "arxiv-agent-cluster-oct9",
    "label": "DEMOTED FROM NEW after one edition: superseded by MiMo-V2.6's RL report and H-JEPA (New #9, #3)",
    "arc": "agent-eval-rigour",
-   "arcDay": 9
+   "arcDay": 9,
+   "since": "2026-10-11"
   },
   {
    "id": "lab-catastrophe-backlash-planning",
    "label": "DEMOTED FROM NEW after one edition: no further reporting beyond Axios",
    "arc": "lab-safety-dissent",
-   "arcDay": 2
+   "arcDay": 2,
+   "since": "2026-10-11"
   },
   {
    "id": "openai-safety-researchers-out",
    "label": "DEMOTED FROM DEVELOPING: no new statements since the 8 Oct letter and OpenAI's 9 Oct reply",
    "arc": "lab-self-governance",
-   "arcDay": 21
+   "arcDay": 21,
+   "since": "2026-10-04"
   }
  ],
  "movers": [
   {
-   "dir": "up",
-   "text": "DOUBLEAI - $200M Series A at >$1B for Maxwell, a runtime code optimiser (New #1, lead)"
-  },
-  {
-   "dir": "up",
-   "text": "FLAPPING AIRPLANES - $6B valuation, four times January, with no product (New #2)"
-  },
-  {
-   "dir": "up",
-   "text": "ASI - $3B valuation on a $325M Series C (New #3)"
-  },
-  {
-   "dir": "up",
-   "text": "OTTER.AI - $320M non-dilutive capital; 40M users (New #5)"
-  },
-  {
    "dir": "down",
-   "text": "NODE.JS - reported CVSS 9.2 RCE (Node2Shell) found by an AI security agent; unconfirmed (New #4)"
+   "text": "NODE.JS - high-severity Brotli RCE (CVE-2026-111497); patch to v22.23.4 / v24.22.1 / v26.12.1 (lead)"
+  },
+  {
+   "dir": "up",
+   "text": "DOUBLEAI - $200M Series A at >$1B for its Maxwell code optimiser (#2)"
+  },
+  {
+   "dir": "up",
+   "text": "FLAPPING AIRPLANES - valued at $6B, four times January (#3)"
+  },
+  {
+   "dir": "up",
+   "text": "ASI - valued at $3B after a $325M Series C (#4)"
+  },
+  {
+   "dir": "up",
+   "text": "OTTER.AI - $320M in non-dilutive capital (#5)"
   }
  ],
  "arcs": {
@@ -2488,18 +2790,11 @@
   "physical-ai-simulation": {
    "day": 1,
    "note": "Simulation and forecasting models for physical infrastructure (ASI: airspace, grids, military)"
-  },
-  "open-weight-releases": {
-   "day": 1,
-   "note": "Notable open-weight uploads and Hugging Face traction"
-  },
-  "talent-moves": {
-   "day": 1,
-   "note": "Lab hiring of academics and researcher moves"
   }
  },
  "resolved": [
-  "No tracked thread reached a known outcome since 24 Oct, and no radar date passed (next: Dubai AI Festival and the Arabian AI & Agentic Summit, 26 Oct)."
+  "FDA's comment window on generative-AI medical devices (docket FDA-2026-N-7874) closed on 19 Oct; the U.S. Chamber of Commerce filed on the last day.",
+  "Micron: a large part of 2027 HBM is sold and about 75% of 2027 memory output is committed, with shortages expected into 2028 (October earnings call). Thread closed."
  ],
  "deadlines": [
   {
@@ -2523,14 +2818,14 @@
    "severity": "medium"
   },
   {
-   "date": "2026-11-13",
-   "label": "Apple HomeView ships with Siri AI (beta); Reddit RSS access ends; Moondream Cloud shuts down",
-   "severity": "low"
-  },
-  {
    "date": "2026-11-15",
    "label": "China's draft AI export-control catalogue: public comments close (MOFCOM/MOST No. 48)",
    "severity": "high"
+  },
+  {
+   "date": "2026-11-16",
+   "label": "California: state agencies report on the feasibility of an AI 'kill switch' (Newsom order, 18 Sep)",
+   "severity": "medium"
   }
  ],
  "watchlist": [
@@ -2912,11 +3207,11 @@
   },
   {
    "id": "time-series-foundation-models",
-   "label": "Foundation models for numeric time series rather than text (forecasting, telemetry). Mistral's first time-series model appeared among the most-liked Hugging Face uploads of 13-20 Oct (one aggregator; name and licence unconfirmed) (New #6). Watch for the model card, benchmarks against TimesFM/Chronos and enterprise uptake.",
+   "label": "Foundation models for numeric time series rather than text (forecasting, telemetry). One aggregator lists Mistral's first time-series model among the most-liked Hugging Face uploads of 13-20 Oct. NOT VERIFIED: Hugging Face is blocked by this environment's network policy, so name, size and licence are unknown; held back from the edition.",
    "query": "Mistral time-series model; time series foundation model Hugging Face; TimesFM; Chronos",
    "firstSeen": "2026-10-25",
    "lastChecked": "2026-10-25",
-   "status": "carded"
+   "status": "watching"
   },
   {
    "id": "qwen4-new-architecture",
@@ -2926,6 +3221,37 @@
    "lastChecked": "2026-10-25",
    "status": "watching"
   }
+ ],
+ "retired": [
+  {
+   "id": "openai-sb53-midas-allegation",
+   "date": "2026-10-25",
+   "reason": "Re-checked 25 Oct: no filing, enforcement action or OpenAI response since the allegations; retired until something moves."
+  },
+  {
+   "id": "ai-pacing-antitrust-suit",
+   "date": "2026-10-25",
+   "reason": "Re-checked 25 Oct: Buist et al. v. Anthropic et al. (N.D. Cal., filed 18-19 Sep) shows no ruling or docket movement in coverage; retired until it moves."
+  },
+  {
+   "id": "aef-1-evaluator-standard",
+   "date": "2026-10-25",
+   "reason": "Re-checked 25 Oct: no trace of an 'AEF-1' evaluator standard found at all; retired."
+  },
+  {
+   "id": "banks-agentic-commerce-warning",
+   "date": "2026-10-25",
+   "reason": "Re-checked 25 Oct: Mastercard's agent-transaction score (30 Sep) has no follow-up coverage or bank reaction; retired."
+  }
+ ],
+ "editionType": "catch-up",
+ "degraded": true,
+ "degradedReason": "The scanner could open only nodejs.org. News sites, Hugging Face, NVD, arXiv and Hacker News are blocked by this environment's network policy, so every story except the lead rests on search-result summaries.",
+ "sourcesOpened": 2,
+ "shareable": false,
+ "shareBlockers": [
+  "Degraded edition: 2 source pages opened, both for the lead",
+  "Stories #2-#5 were not checked against their sources"
  ]
 }
 </script>
@@ -2934,83 +3260,135 @@
 (function(){
   var state = JSON.parse(document.getElementById('signal-state').textContent);
   var TODAY = state.date;
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+  var dayMs = 86400000;
+  var toDate = function(s){ var p = s.split('-'); return Date.UTC(+p[0], +p[1]-1, +p[2]); };
+  var newStories = state.stories.filter(function(s){ return s.section === 'new'; });
+  var n24 = newStories.filter(function(s){ return s.new24h; }).length;
 
-  // ── delta + NEW.24H badges, injected from state ──
+  // ── degraded banner ──
+  if(state.degraded){
+    $('degraded').classList.add('on');
+    $('degraded-text').textContent = state.degradedReason || 'Source pages could not be opened for this edition.';
+  }
+
+  // ── status line ──
+  var catchup = state.editionType === 'catch-up';
+  var bits = [
+    newStories.length + (newStories.length === 1 ? ' story' : ' stories'),
+    n24 === 0 ? 'none in the last 24 hours' : n24 + ' in the last 24 hours',
+    (state.sourcesOpened || 0) + ((state.sourcesOpened === 1) ? ' source opened' : ' sources opened')
+  ];
+  $('status').innerHTML = '<span class="etype' + (catchup ? ' catchup' : '') + '">' + (catchup ? 'Catch-up edition' : 'Daily edition') + '</span>' +
+    (catchup ? 'Quiet day: ' : '') + '<b>' + bits.join(', ') + '</b>';
+  $('new-head').textContent = newStories.length + ' NEW SINCE LAST EDITION · ' + n24 + ' IN THE LAST 24H';
+
+  // ── NEW / NEW.24H badges from state ──
   state.stories.forEach(function(s){
     document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
       var slot = el.querySelector('h4') || el.querySelector('h2');
       if(!slot) return;
       var frag = document.createDocumentFragment();
-      if(s.new24h){
-        var b24 = document.createElement('span');
-        b24.className = 'badge b-24h'; b24.textContent = 'NEW.24H';
-        frag.appendChild(b24);
-      }
-      var map = {new:['b-new','NEW'], escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ DE-ESCALATED']};
-      if(map[s.delta] && el.classList.contains('card')){
-        var bd = document.createElement('span');
-        bd.className = 'badge ' + map[s.delta][0]; bd.textContent = map[s.delta][1];
-        frag.appendChild(bd);
-      }
+      if(s.new24h){ var b = document.createElement('span'); b.className = 'badge b-24h'; b.textContent = 'NEW IN 24H'; frag.appendChild(b); }
+      var map = {escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ EASED']};
+      if(map[s.delta]){ var d = document.createElement('span'); d.className = 'badge ' + map[s.delta][0]; d.textContent = map[s.delta][1]; frag.appendChild(d); }
       slot.insertBefore(frag, slot.firstChild);
     });
   });
 
-  // ── deadline radar tiles ──
-  var radar = document.getElementById('radar');
-  var fmt = function(d){
-    var m = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-    var p = d.split('-');
-    return m[parseInt(p[1],10)-1] + ' ' + p[2];
-  };
-  state.deadlines.forEach(function(d){
-    var t = document.createElement('div');
-    t.className = 'tile' + (d.date === TODAY ? ' today' : '');
-    t.innerHTML = '<span class="sev sev-' + d.severity + '"></span><div class="d">' + fmt(d.date) + '</div><div class="l">' + d.label + '</div>';
-    radar.appendChild(t);
+  // ── deadline timeline with days-left counters ──
+  var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var tl = $('timeline');
+  state.deadlines.slice().sort(function(a,b){ return a.date < b.date ? -1 : 1; }).forEach(function(d){
+    var left = Math.round((toDate(d.date) - toDate(TODAY)) / dayMs);
+    if(left < 0) return;
+    var p = d.date.split('-');
+    var el = document.createElement('div');
+    el.className = 'tl-item sev-' + d.severity;
+    el.innerHTML = '<div class="when">' + (+p[2]) + ' ' + M[+p[1]-1] + '</div><div class="left">' +
+      (left === 0 ? 'TODAY' : left === 1 ? 'TOMORROW' : 'IN ' + left + ' DAYS') + '</div><div class="l">' + esc(d.label) + '</div>';
+    tl.appendChild(el);
   });
 
-  // ── movers strip ──
-  var mv = document.getElementById('movers');
-  if(state.movers && state.movers.length){
-    state.movers.forEach(function(m){
-      var s = document.createElement('span');
-      s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
-      s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
-      mv.appendChild(s);
-    });
-  } else if(mv){ mv.parentNode.parentNode.style.display = 'none'; }
+  // ── movers: up = green, down = red ──
+  var mv = $('movers');
+  (state.movers || []).forEach(function(m){
+    var s = document.createElement('span');
+    s.className = 'mover ' + (m.dir === 'up' ? 'mv-up' : 'mv-down');
+    s.textContent = (m.dir === 'up' ? '▲ ' : '▼ ') + m.text;
+    mv.appendChild(s);
+  });
 
-  // ── still-tracking strip from state ──
-  var tk = document.getElementById('tracking-strip');
-  if(tk && state.tracking && state.tracking.length){
-    tk.innerHTML = state.tracking.map(function(t){
-      return '<strong>' + t.id.toUpperCase().replace(/-/g,' ') + ':</strong> ' + t.label + ' <span style="color:#9a917c">(' + (t.arc||'').toUpperCase() + ' D' + (t.arcDay||'?') + ')</span>';
-    }).join('  ·  ');
-  }
+  // ── still tracking: newest 10, search, show all ──
+  var tk = (state.tracking || []).slice().sort(function(a,b){
+    var x = (b.since||'') + (b.lastChecked||''), y = (a.since||'') + (a.lastChecked||'');
+    return x < y ? -1 : x > y ? 1 : 0;
+  });
+  var showAll = false;
+  var nice = function(id){ return id.replace(/-/g,' ').replace(/^./, function(c){ return c.toUpperCase(); }); };
+  var drawTk = function(){
+    var q = ($('tk-search').value || '').toLowerCase().trim();
+    var rows = tk.filter(function(t){ return !q || (t.id + ' ' + t.label + ' ' + (t.arc||'')).toLowerCase().indexOf(q) > -1; });
+    var shown = (showAll || q) ? rows : rows.slice(0, 10);
+    $('tk-list').innerHTML = shown.map(function(t){
+      return '<li>' + (t.since === TODAY ? '<span class="badge b-24h">NEW IN 24H</span>' : '') +
+        '<span class="nm">' + esc(nice(t.id)) + '</span>: ' + esc(t.label) +
+        ' <span class="sl">· storyline ' + esc((t.arc||'').replace(/-/g,' ')) + ', day ' + (t.arcDay||'?') +
+        (t.lastChecked ? ' · checked ' + esc(t.lastChecked) : '') + '</span></li>';
+    }).join('');
+    $('tk-count').textContent = 'Showing ' + shown.length + ' of ' + rows.length;
+    $('tk-all').textContent = showAll ? 'SHOW TOP 10' : 'SHOW ALL ' + tk.length;
+  };
+  $('tk-head').textContent = tk.length + ' STORIES · NO NEW MOVEMENT';
+  $('tk-search').addEventListener('input', drawTk);
+  $('tk-all').addEventListener('click', function(){ showAll = !showAll; drawTk(); });
+  drawTk();
 
-  // ── resolved strip from state ──
-  if(state.resolved && state.resolved.length){
-    document.getElementById('resolved-strip').textContent = state.resolved.join('  ·  ');
-  }
+  // ── resolved + retired ──
+  var rl = $('resolved-list'), html = '';
+  (state.resolved || []).forEach(function(r){ html += '<li><strong>Resolved:</strong> ' + esc(r) + '</li>'; });
+  (state.retired || []).forEach(function(r){ html += '<li><strong>Retired:</strong> ' + esc(nice(r.id)) + '. ' + esc(r.reason) + '</li>'; });
+  rl.innerHTML = html || '<li>Nothing closed this edition.</li>';
 
-  // ── deep-link support: #still-tracking / #resolved / #method open the collapsed folds ──
+  // ── footer stats ──
+  $('stats').innerHTML = ['EDITION <b>' + state.edition + '</b>',
+    'NEW <b>' + state.counts.new + '</b> · DEVELOPING <b>' + state.counts.developing + '</b> · TRACKING <b>' + state.counts.tracking + '</b>',
+    'CRITICAL <b>' + state.tiers.critical + '</b> · NOTABLE <b>' + state.tiers.notable + '</b> · MONITOR <b>' + state.tiers.monitor + '</b>',
+    'SEARCHES <b>' + state.scanCount + '</b> · PAGES OPENED <b>' + (state.sourcesOpened||0) + '</b>'].map(function(x){ return '<span>' + x + '</span>'; }).join('');
+
+  // ── deep links open folds ──
   var foldMap = {'still-tracking':'fold-tracking','resolved':'fold-resolved','method':'fold-method'};
   var openFromHash = function(){
-    var id = foldMap[(location.hash||'').replace('#','')];
-    if(id){ var el = document.getElementById(id); if(el){ el.open = true; el.scrollIntoView(); } }
+    var h = (location.hash||'').replace('#','');
+    var el = $(foldMap[h] || h);
+    if(el && el.tagName === 'DETAILS'){ el.open = true; el.scrollIntoView(); }
   };
   window.addEventListener('hashchange', openFromHash); openFromHash();
 
-  // ── category tabs (filter all cards across New + Developing) ──
+  // ── category tabs (filter every feed item) ──
   document.querySelectorAll('.tab').forEach(function(tab){
     tab.addEventListener('click', function(){
       document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
       tab.classList.add('active');
       var cat = tab.getAttribute('data-cat');
-      document.querySelectorAll('.mosaic .card').forEach(function(c){
-        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? 'flex' : 'none';
+      document.querySelectorAll('.feed-item').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? '' : 'none';
       });
+    });
+  });
+
+  // ── share buttons: native share sheet, else copy the link ──
+  document.querySelectorAll('[data-share]').forEach(function(b){
+    b.addEventListener('click', function(ev){
+      ev.preventDefault();
+      var id = b.getAttribute('data-share');
+      var el = $(id), h = el && el.querySelector('h4');
+      var url = location.href.split('#')[0] + '#' + id;
+      var title = h ? h.textContent.replace(/^NEW IN 24H/, '').trim() : document.title;
+      if(navigator.share){ navigator.share({title: title, text: title + ' — AI Daily Signal', url: url}).catch(function(){}); return; }
+      var done = function(){ var t = $('toast'); t.style.display = 'block'; setTimeout(function(){ t.style.display = 'none'; }, 1600); };
+      if(navigator.clipboard){ navigator.clipboard.writeText(url).then(done, done); } else { prompt('Copy this link', url); }
     });
   });
 })();

@@ -1,9 +1,10 @@
-# AI Daily Signal — Routine (v2, rev 2.1)
+# AI Daily Signal — Routine (v3)
 
 This is the generation routine for "AI Daily Signal." Paste the block below into
 your run setup, replacing the previous routine. Today's date and IST timezone
 govern everything. Structure comes from `template.html`; behavior comes from this
 file.
+Where v3 (section 0.0) conflicts with anything below, v3 wins.
 
 ---
 
@@ -11,7 +12,81 @@ You are generating today's edition of "AI Daily Signal", a daily AI intelligence
 briefing. Use GitHub for the template (`template.html`, v2 structure) and prior
 editions (`editions/`). Today's date and IST timezone govern everything.
 
-## 0. WHAT CHANGED IN v2 (read first)
+## 0.0 WHAT CHANGED IN v3 (read first; overrides everything below)
+Added after edition 127, where no source page could be opened, the first build led
+with company-only claims and listed a real Node.js CVE as a rumour.
+
+### Trust
+1. **Open sources, don't just search.** Fetch the pages you cite with `curl -sSL
+   --max-time 30 URL` in Bash (it uses the session proxy). The WebFetch tool has failed
+   with DNS errors in every run so far. Pick at least the lead's primary source and
+   one source for each Critical or Notable item. Record the number you opened as
+   `sourcesOpened`, and mark each story `verified: "opened"` or `"snippet"`.
+2. **Degraded editions.** If fewer than half of the Critical and Notable stories
+   could be checked against an opened page, set `degraded: true` with a plain
+   `degradedReason`. The page then shows a yellow DEGRADED EDITION banner. If
+   *nothing* could be opened, ship only stories confirmed by an official source you
+   did open; if there are none, skip the day and say why in the run report.
+3. **Status line.** It renders from state above the headline, e.g. "Catch-up edition ·
+   Quiet day: 5 stories, none in the last 24 hours, 2 sources opened". Keep
+   `editionType`, `counts`, `new24h` and `sourcesOpened` accurate; nothing else needed.
+4. **Check the easy facts before shipping.** CVEs on the vendor's security page or
+   NVD; model names, sizes and licences on the Hugging Face model card; prices on the
+   vendor's pricing page; funding on the company's own post. If you cannot check one,
+   say so on the card, and do not lead with it.
+5. **Rumours.** A `Rumor-flag` story gets the `rumor` class (dashed, muted card), an
+   "Unconfirmed" trust marker, and never appears in the ticker, hero, 30-Second Read
+   or movers.
+6. **Sharing gate.** Set `shareable: true` only when the edition is not degraded and
+   the lead's main claim was checked on an opened primary source; otherwise
+   `shareable: false` with `shareBlockers[]`. Anything that posts to X or elsewhere
+   must read this flag and must not post when it is false.
+
+### Content
+7. **Searches: 20–40.** If the first 28 yield fewer than 5 items dated within 48h,
+   spend up to 12 more on dated queries before calling it a catch-up day.
+   `editionType: "catch-up"` when fewer than 5 stories broke in the last 48h; a
+   catch-up edition carries nothing older than 30 days. If fewer than 3 checkable
+   stories exist at all, skip the day and report it.
+8. **Tracking hygiene, every run.** Re-search the 10 tracking items with the oldest
+   `lastChecked` (missing counts as oldest; ties go to the oldest `since`). Each one
+   is updated (`lastChecked` = today), moved to `resolved[]` if it has an outcome, or
+   moved to `retired[]` with a reason if the re-search finds nothing new. These
+   searches count toward the 40. Every tracking item carries `since` (the date it
+   entered tracking) and, once checked, `lastChecked`.
+9. **Rank sources by type** on every card, in this order: OFFICIAL (the company,
+   regulator, project or paper), REPORTING (outlets doing original reporting: Reuters,
+   Bloomberg, WSJ, FT, TechCrunch, The Verge, trade press), OTHER (law firms, filings,
+   analysts), AGGREGATOR (roundups, AI-news digests, rewrite sites). A story whose only
+   sources are aggregators is "One secondary source" at best.
+10. **Research, dev-attention and policy.** Use these when the network allows
+    (`curl`): arXiv `https://export.arxiv.org/api/query?search_query=cat:cs.AI+OR+cat:cs.LG&sortBy=submittedDate&max_results=50`,
+    Hacker News `https://hn.algolia.com/api/v1/search?tags=front_page`, GitHub
+    trending `https://github.com/trending`, Hugging Face
+    `https://huggingface.co/api/models?sort=createdAt&limit=50`, and the regulator
+    pages for policy. If a source is blocked, say so in the method notes. No research
+    story is better than an unchecked one: drop the category instead of padding it.
+
+### Design (template.html v3)
+11. Headline 12–15 words, plus one sub-line (`.subhead`). The masthead holds only the
+    name, edition number, date and byline; stats and the beat note go in the footer.
+12. The lead appears once (hero). The 30-Second Read sits right under it and shows
+    the *next* three. The lead's slot in the feed is a one-line "see above" row.
+13. The two highest-scoring stories after the lead get large cards; the rest go in
+    the compact tap-to-expand list.
+14. Plain words on the page: "Storyline: … · day N" (not "ARC … D1"), trust markers
+    "Official source / Two or more outlets / One secondary source / Unconfirmed" (not
+    "PRIMARY / 2x SRC / AGG 1x"). No routine jargon ("rev 2.1", "v2") in reader text.
+15. Movers: `up` = green (rose, raised money), `down` = red (fell, or a risk to act on).
+
+### Ship
+16. After saving the edition, run `python3 scripts/build_site.py`. It checks the
+    newest edition (JSON, tags, cards vs state, counts, tiers, headline length, rumour
+    and sharing rules) and rebuilds the archive (months, missed dates, search), the
+    search index, the root redirect and the 1200×630 share card. **Do not commit if
+    it fails.** Commit everything it wrote together with the edition.
+
+## 0. WHAT CHANGED IN v2
 The feed is no longer one ranked list of perpetually-carried mega-stories. It is
 split into three explicit buckets, and the routine is tuned to surface genuinely
 **new** items every day instead of re-updating the same topics:
@@ -21,7 +96,7 @@ split into three explicit buckets, and the routine is tuned to surface genuinely
 - **Still Tracking** — long-running threads with no movement this edition,
   reduced to one-liners.
 
-## 0.1 WHAT CHANGED IN rev 2.1 (read second)
+## 0.1 WHAT CHANGED IN rev 2.1
 Added after edition 100 found that **Jev** (TypeSafe AI's decision-only "System One"
 model, launched 15 Sep 2026) was missed for two weeks while it went viral: edition 097
 carried only the company's seed round, and edition 099 retired it as "single-source"
@@ -40,7 +115,7 @@ insight on new and upcoming AI advancements.** When in doubt, favour the new
 technique over the incremental release.
 
 ## 1. SCAN (broaden + rotate — this is the anti-rigidity step)
-Run **20–28** web searches across the last 24h (widen to 72h only to confirm or
+Run **20–40** web searches (see 0.0 §7) across the last 24h (widen to 72h only to confirm or
 when <10 usable NEW findings). Do NOT just re-ping the same eight company names,
 and do NOT make this only about models and deep tech. Aim for a roughly even
 split across the three buckets below — at least a few searches in EACH every run.
@@ -191,8 +266,10 @@ footer, scripts. Replace only content:
 - Embed the complete new signal-state JSON (v2 schema below).
 
 ## 5. SHIP
-Save as `editions/ai_daily_signal_YYYY-MM-DD.html`. Maintain `editions/index.html`
-(reverse-chronological: date, critical count, lead headline). Commit to main with
+Save as `editions/ai_daily_signal_YYYY-MM-DD.html`, then run
+`python3 scripts/build_site.py` (it regenerates `editions/index.html`, the root
+`index.html` redirect, `editions/search-index.json` and `editions/cards/DATE.png`; never
+edit those by hand). Working files go in `_working/`, which is not published. Commit to main with
 message `AI Daily Signal: edition NNN (YYYY-MM-DD)` and push. Report: edition
 number; new/developing/tracking + tier counts; what's new/escalated/resolved vs
 yesterday; auto-retirements; **what's new on the emerging-tech beat and any
@@ -202,7 +279,11 @@ Never invent stories, quotes, numbers, or links.
 ## v2 signal-state schema
 ```jsonc
 {
-  "edition": 14, "date": "YYYY-MM-DD", "tz": "Asia/Kolkata", "format": "v2",
+  "edition": 14, "date": "YYYY-MM-DD", "tz": "Asia/Kolkata", "format": "v3",
+  "editionType": "daily|catch-up",
+  "degraded": false, "degradedReason": "plain sentence, shown in the banner",
+  "sourcesOpened": 6,
+  "shareable": true, "shareBlockers": [ "why not shareable (when false)" ],
   "scanCount": 22,
   "counts": { "new": 10, "developing": 8, "tracking": 7 },
   "tiers": { "critical": 5, "notable": 11, "monitor": 2 },
@@ -215,13 +296,16 @@ Never invent stories, quotes, numbers, or links.
       "delta": "new|escalated|deescalated|carry",
       "arc": "arc-id", "arcDay": 1,
       "confidence": "2x src|Primary|Agg 1x|Rumor-flag",
+      "verified": "opened|snippet",
       "new24h": true,
       "update": "what changed (developing only)",
       "firstSeen": "YYYY-MM-DD", "lastUpdate": "YYYY-MM-DD",
       "category": "models|business|policy|enterprise|research|hardware"
     }
   ],
-  "tracking": [ { "id": "...", "label": "one-liner (no movement)", "arc": "...", "arcDay": 4 } ],
+  "tracking": [ { "id": "...", "label": "one-liner (no movement)", "arc": "...", "arcDay": 4,
+                  "since": "YYYY-MM-DD", "lastChecked": "YYYY-MM-DD" } ],
+  "retired":  [ { "id": "...", "date": "YYYY-MM-DD", "reason": "what the re-search found" } ],
   "movers":   [ { "dir": "up|down", "text": "what moved" } ],
   "arcs":     { "arc-id": { "day": 1, "note": "..." } },
   "resolved": [ "one-line closure" ],
@@ -233,7 +317,7 @@ Never invent stories, quotes, numbers, or links.
 }
 ```
 The renderer keys off `section`, `delta`, `new24h`, `movers`, `tracking`,
-`deadlines`, `resolved`. Cards are authored in HTML and matched by
+`deadlines`, `resolved`, `retired`, `degraded`, `editionType`, `sourcesOpened`. Cards are authored in HTML and matched by
 `data-story-id`; place each card in the correct mosaic (New vs Developing).
 
 ## Categories & tabs
