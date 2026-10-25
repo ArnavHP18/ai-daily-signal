@@ -16,6 +16,19 @@ editions (`editions/`). Today's date and IST timezone govern everything.
 Added after edition 127, where no source page could be opened, the first build led
 with company-only claims and listed a real Node.js CVE as a rumour.
 
+### Where things live
+- `state/signal-state.json` is the single source of truth for bookkeeping: stories,
+  tracking (with `since` / `lastChecked`), watchlist, arcs, deadlines, movers, resolved,
+  retired, `heldBack[]`, `noChange[]` and `runNotes{}`. Read it at the start of every run
+  (it replaces "the signal-state JSON in the most recent edition") and overwrite it at
+  the end. Git history is the archive of past states.
+- `state/REVIEW.md` is generated from it by the build script, for human review. Never
+  edit it by hand.
+- Each edition page shows reader content only and embeds a small
+  `<script id="page-data">` (fields listed in `template.html`). Tracking, watchlist,
+  movers, resolved/retired, held-back notes, scan stats and method notes are NOT
+  rendered on the page.
+
 ### Trust
 1. **Open sources, don't just search.** Fetch the pages you cite with `curl -sSL
    --max-time 30 URL` in Bash (it uses the session proxy). The WebFetch tool has failed
@@ -40,7 +53,8 @@ with company-only claims and listed a real Node.js CVE as a rumour.
 6. **Sharing gate.** Set `shareable: true` only when the edition is not degraded and
    the lead's main claim was checked on an opened primary source; otherwise
    `shareable: false` with `shareBlockers[]`. Anything that posts to X or elsewhere
-   must read this flag and must not post when it is false.
+   must read this flag (in `state/signal-state.json` or the page's `page-data`) and
+   must not post when it is false.
 
 ### Content
 7. **Searches: 20–40.** If the first 28 yield fewer than 5 items dated within 48h,
@@ -53,7 +67,8 @@ with company-only claims and listed a real Node.js CVE as a rumour.
    is updated (`lastChecked` = today), moved to `resolved[]` if it has an outcome, or
    moved to `retired[]` with a reason if the re-search finds nothing new. These
    searches count toward the 40. Every tracking item carries `since` (the date it
-   entered tracking) and, once checked, `lastChecked`.
+   entered tracking) and, once checked, `lastChecked`. `state/REVIEW.md` lists the next
+   10 due.
 9. **Rank sources by type** on every card, in this order: OFFICIAL (the company,
    regulator, project or paper), REPORTING (outlets doing original reporting: Reuters,
    Bloomberg, WSJ, FT, TechCrunch, The Verge, trade press), OTHER (law firms, filings,
@@ -77,12 +92,19 @@ with company-only claims and listed a real Node.js CVE as a rumour.
 14. Plain words on the page: "Storyline: … · day N" (not "ARC … D1"), trust markers
     "Official source / Two or more outlets / One secondary source / Unconfirmed" (not
     "PRIMARY / 2x SRC / AGG 1x"). No routine jargon ("rev 2.1", "v2") in reader text.
-15. Movers: `up` = green (rose, raised money), `down` = red (fell, or a risk to act on).
+15. Keep writing `movers[]` (`up` = rose or raised money, `down` = fell or a risk) to
+    the state file; it is not shown on the page. Record items you could not check in
+    `heldBack[]` and carried stories re-checked without movement in `noChange[]`.
+    Search counts, pages opened, blocked hosts, gaps and corrections go in `runNotes{}`.
+    A short public correction line goes in the page footer only when an edition is
+    republished with a changed claim.
+16. Omit the Developing section when no carried story moved.
 
 ### Ship
-16. After saving the edition, run `python3 scripts/build_site.py`. It checks the
+17. After saving the edition and the state file, run `python3 scripts/build_site.py`. It checks the
     newest edition (JSON, tags, cards vs state, counts, tiers, headline length, rumour
-    and sharing rules) and rebuilds the archive (months, missed dates, search), the
+    and sharing rules; page and state file describe the same edition) and rebuilds
+    `state/REVIEW.md`, the archive (months, missed dates, search), the
     search index, the root redirect and the 1200×630 share card. **Do not commit if
     it fails.** Commit everything it wrote together with the edition.
 
@@ -223,7 +245,7 @@ today.
   ship fewer — never pad with recycled carries.
 
 ## 3. DIFF (sort into the three buckets)
-Read the `<script id="signal-state">` JSON in the most recent file in `editions/`.
+Read `state/signal-state.json` (v3; see 0.0).
 For each candidate story:
 - **New** (`section:"new"`, `delta:"new"`) = id absent in previous edition. (An
   item missed by an earlier narrow scan still counts as new the first time it is
@@ -242,9 +264,8 @@ For each candidate story:
 - Yesterday's stories with a known outcome → one-line `resolved[]` entries.
 
 ## 4. BUILD (copy `template.html` structure EXACTLY)
-Same CSS, fonts, ticker, masthead, hero, 30-second triptych, deadline radar,
-movers strip, two mosaics (New / Developing), Still-Tracking strip, resolved,
-footer, scripts. Replace only content:
+Follow `template.html` v3 (section order is in its header comment; v3 rules in 0.0
+override the v2 list below). Replace only content:
 - Edition number +1; date; `counts` (new/developing/tracking); tier counts;
   scan count; category tab counts (tabs filter across BOTH mosaics).
 - **Hero = the biggest NEW item, UNLESS a Developing thread had a *major*
@@ -262,8 +283,8 @@ footer, scripts. Replace only content:
   correct `delta`, `new24h`, `section` fields. NEW.24H only on items that broke
   within 24h (open-weight catch-up items dated earlier in the month are `new`
   but NOT `new24h`).
-- Movers and Still-Tracking strips render from `movers[]` and `tracking[]`.
-- Embed the complete new signal-state JSON (v2 schema below).
+- Write the complete new state to `state/signal-state.json` (schema below) and embed
+  only the `page-data` subset in the page.
 
 ## 5. SHIP
 Save as `editions/ai_daily_signal_YYYY-MM-DD.html`, then run
@@ -276,7 +297,7 @@ yesterday; auto-retirements; **what's new on the emerging-tech beat and any
 watchlist movement**; scan gaps. Thin-news days: fewer beats filler.
 Never invent stories, quotes, numbers, or links.
 
-## v2 signal-state schema
+## State schema (`state/signal-state.json`)
 ```jsonc
 {
   "edition": 14, "date": "YYYY-MM-DD", "tz": "Asia/Kolkata", "format": "v3",
@@ -309,6 +330,10 @@ Never invent stories, quotes, numbers, or links.
   "movers":   [ { "dir": "up|down", "text": "what moved" } ],
   "arcs":     { "arc-id": { "day": 1, "note": "..." } },
   "resolved": [ "one-line closure" ],
+  "heldBack": [ { "item": "...", "why": "why it could not be checked", "next": "how to check it" } ],
+  "noChange": [ "carried story re-checked: what was found" ],
+  "runNotes": { "searches": "...", "pagesOpened": "...", "blocked": "...", "notCovered": "...",
+                "trackingCleanup": "...", "corrections": "..." },
   "deadlines":[ { "date": "YYYY-MM-DD", "label": "...", "severity": "high|medium|low" } ],
   // rev 2.1: emerging approaches re-searched every edition (state-only; not rendered)
   "watchlist":[ { "id": "jev-decision-models", "label": "what it is + why it matters",
