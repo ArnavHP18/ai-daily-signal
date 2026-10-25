@@ -79,7 +79,8 @@ with company-only claims and listed a real Node.js CVE as a rumour.
     Hacker News `https://hn.algolia.com/api/v1/search?tags=front_page`, GitHub
     trending `https://github.com/trending`, Hugging Face
     `https://huggingface.co/api/models?sort=createdAt&limit=50`, and the regulator
-    pages for policy. If a source is blocked, say so in the method notes. No research
+    pages for policy. arXiv rate-limits (HTTP 429): make one request, and if refused
+    wait 5 seconds and retry once. If a source is blocked, say so in `runNotes.blocked`. No research
     story is better than an unchecked one: drop the category instead of padding it.
 
 ### Design (template.html v3)
