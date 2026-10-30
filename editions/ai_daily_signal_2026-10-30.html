@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 132 — 30 October 2026</title>
+<meta name="description" content="Mistral releases the weights of Mistral Large 4. Plus an AI agent leaking Pentagon credentials, Cohere&#x27;s record round, Baseten&#x27;s joey-1 and FuriosaAI.">
+<meta name="author" content="Arnav Agrawal">
+<!-- share tags: og:url and og:image must be absolute; SITE_URL lives in scripts/site_config.json -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="AI Daily Signal">
+<meta property="og:title" content="Mistral releases its trillion-parameter Le Chonk openly, aimed at coders and cyber defenders">
+<meta property="og:description" content="AI Daily Signal, edition 132 (30 Oct 2026): 16 new stories, 1 developing.">
+<meta property="og:url" content="https://arnavhp18.github.io/ai-daily-signal/editions/ai_daily_signal_2026-10-30.html">
+<meta property="og:image" content="https://arnavhp18.github.io/ai-daily-signal/editions/cards/2026-10-30.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mistral releases its trillion-parameter Le Chonk openly, aimed at coders and cyber defenders">
+<meta name="twitter:description" content="AI Daily Signal, edition 132 (30 Oct 2026): 16 new stories, 1 developing.">
+<meta name="twitter:image" content="https://arnavhp18.github.io/ai-daily-signal/editions/cards/2026-10-30.png">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac; --muted:#6b6353;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --up:#2e7d4f; --up-bg:#e3f1e8; --down:#b3261e; --down-bg:#f6e2df;
+    /* trust markers: one colour each, used everywhere */
+    --t-official:#2e7d4f; --t-multi:#1f3a93; --t-single:#a86b00; --t-rumor:#b3261e;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  /* mono = short labels only */
+  .label,.sec-head,.chip,.badge,.tab,.impact,.cat{font-family:var(--mono)}
+
+  /* ticker: plain dark bar, confirmed items only */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-size:13px;padding:8px 0}
+  .ticker-inner{display:inline-block;animation:tick 70s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166;font-family:var(--mono);font-size:12px;letter-spacing:1px}
+
+  /* degraded banner (rendered from state.degraded) */
+  .degraded{display:none;background:#fff1c7;border-bottom:2px solid #d99a00;color:#5a4300;font-size:14px;padding:10px 0}
+  .degraded.on{display:block}
+  .degraded strong{font-family:var(--mono);font-size:12px;letter-spacing:1px;margin-right:6px}
+
+  /* masthead: name, edition, date, byline */
+  .masthead{border-bottom:4px double var(--ink);padding:22px 0 14px;text-align:center}
+  .brand{display:inline-flex;align-items:center;gap:12px;border:none;color:var(--ink)}
+  .brand img{width:44px;height:44px}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(32px,5.5vw,56px);letter-spacing:-1px;text-transform:uppercase;line-height:1}
+  .masthead .when{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:10px}
+  .masthead .byline{font-size:13px;color:var(--muted);margin-top:4px}
+
+  /* status line above the headline */
+  .status{font-family:var(--mono);font-size:12px;letter-spacing:.5px;color:var(--muted);padding:16px 0 0}
+  .status b{color:var(--ink)}
+  .status .etype{display:inline-block;background:var(--ink);color:var(--paper);padding:2px 8px;margin-right:8px;letter-spacing:1px;text-transform:uppercase}
+  .status .etype.catchup{background:#d99a00;color:var(--ink)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:12px 0 26px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4vw,44px);line-height:1.1;margin:6px 0 10px}
+  .hero .subhead{font-size:19px;line-height:1.45;color:#3a352a;margin-bottom:14px}
+  .hero .dek{font-size:16px;line-height:1.6;color:#3a352a;margin-bottom:12px}
+  .sowhat{font-style:italic;color:#4a4436;border-left:3px solid var(--rule);padding-left:12px;margin:12px 0}
+  .hero .sowhat{border-left-color:var(--crit)}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px;align-self:start}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:14px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:9px}
+  .brief-toggle{margin-top:12px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .full-brief{display:none;margin-top:14px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:15px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* trust markers */
+  .trust{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:600;padding:2px 9px;border:1.5px solid currentColor;border-radius:999px;margin:0 6px 6px 0;background:#fff}
+  .trust::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+  .trust.official{color:var(--t-official)} .trust.multi{color:var(--t-multi)}
+  .trust.single{color:var(--t-single)} .trust.rumor{color:var(--t-rumor);border-style:dashed}
+  .chip{display:inline-block;font-size:11px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0;color:#4a4436}
+  .badge{display:inline-block;font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--ink);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff} .b-deesc{background:var(--mon);color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .tier{font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;color:#fff;margin-right:6px}
+  .tier.critical{background:var(--crit)} .tier.notable{background:var(--note)} .tier.monitor{background:var(--mon)}
+
+  /* sources, ranked by type */
+  .src{font-size:13px;line-height:1.8;margin-top:6px}
+  .src .st{font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--muted);margin-right:4px}
+  .src .grp{margin-right:12px;display:inline}
+
+  /* section heads */
+  .sec-head{font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:24px 0 8px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .sec-head small{font-size:10px;color:var(--muted);letter-spacing:1px}
+
+  /* 30-second read */
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--rule);background:#fffdf7}
+  .trip{padding:16px 18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:26px;font-weight:800;color:var(--crit);line-height:1}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.25;margin:6px 0}
+  .trip p{font-size:14px;color:#4a4436}
+  .trip a.jump{font-family:var(--mono);font-size:11px}
+
+  /* deadline timeline */
+  .timeline{display:flex;gap:0;overflow-x:auto;border-top:2px solid var(--ink);padding-top:0;scrollbar-width:thin}
+  .tl-item{flex:1 0 170px;padding:12px 14px 6px;border-right:1px dashed var(--rule);position:relative}
+  .tl-item::before{content:"";position:absolute;top:-7px;left:14px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--ink)}
+  .tl-item.sev-high::before{background:var(--crit);border-color:var(--crit)}
+  .tl-item.sev-medium::before{background:#d99a00;border-color:#d99a00}
+  .tl-item .when{font-family:var(--mono);font-size:12px;font-weight:600;margin-top:6px}
+  .tl-item .left{font-family:var(--mono);font-size:11px;color:var(--crit)}
+  .tl-item .l{font-size:13px;margin-top:4px;line-height:1.4}
+
+  /* feed */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .tab{font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer;color:var(--ink)}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .lead-ref{font-size:14px;color:var(--muted);border:1px dashed var(--rule);padding:10px 14px;margin-bottom:14px}
+  .big{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:18px;display:flex;flex-direction:column;position:relative}
+  .card.critical{border-top:5px solid var(--crit)} .card.notable{border-top:5px solid var(--note)} .card.monitor{border-top:5px solid var(--mon)}
+  .card.rumor{border:2px dashed #b9ae96;background:#f3efe4;opacity:.85}
+  .card.rumor h4{color:#5a5240}
+  .card .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c;margin-right:6px}
+  .cat{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+  .card h4{font-family:var(--serif);font-size:22px;font-weight:600;line-height:1.2;margin:8px 0 6px}
+  .card .sub{font-size:15px;color:#3a352a;margin-bottom:8px}
+  .card .body{font-size:15px;color:#3f3a2e;flex:1}
+  .impact{font-size:11px;color:var(--muted)}
+  .impact b{font-size:14px;color:var(--ink)}
+  .share{font-family:var(--mono);font-size:11px;background:none;border:1px solid var(--rule);padding:3px 9px;cursor:pointer;color:var(--ink)}
+  .share:hover{border-color:var(--ink)}
+  .storyline{font-size:12px;color:var(--muted);margin-top:4px}
+  /* compact list for the rest */
+  .compact{border-top:1px solid var(--rule)}
+  .row{border-bottom:1px solid var(--rule);background:#fffdf7}
+  .row.rumor{border:2px dashed #b9ae96;background:#f3efe4;opacity:.85}
+  .row > summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:baseline}
+  .row > summary::-webkit-details-marker{display:none}
+  .row .rank{font-family:var(--serif);font-weight:800;font-size:20px;color:#9a917c}
+  .row h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.25;display:inline}
+  .row .meta{margin-top:6px}
+  .row .more{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+  .row[open] .more::after{content:"▴ less"} .row:not([open]) .more::after{content:"▾ more"}
+  .row .detail{padding:0 14px 14px 68px;font-size:15px}
+  /* "what changed" line on Developing cards */
+  .delta-line{font-size:14px;background:#eef3ea;border-left:3px solid var(--mon);padding:8px 12px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+
+  /* footer */
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:14px;color:#4a4436}
+  footer p{margin-bottom:8px}
+  footer .corr{font-size:13px;color:var(--muted)}
+  .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;padding:8px 14px;display:none}
+
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .big{grid-template-columns:1fr}
+    .row .detail{padding-left:14px}
+    .row > summary{grid-template-columns:34px 1fr}
+    .row .more{grid-column:2}
+  }
+</style>
+</head>
+<body>
+
+<!-- TICKER: confirmed items only. Never put an "Unconfirmed" story here. -->
+<div class="ticker" aria-hidden="true"><div class="ticker-inner">
+  <b>MISTRAL</b> Large 4 "Le Chonk" weights released: ~1T parameters, modified MIT licence &nbsp;◆&nbsp; <b>COHERE</b> record Series E targets C$7B; Canada invests &nbsp;◆&nbsp; <b>BASETEN</b> open 2B decision model joey-1 at $0.01 per M tokens &nbsp;◆&nbsp; <b>FURIOSAAI</b> $620M for its RNGD inference chip &nbsp;◆&nbsp; <b>AMAZON</b> 2027 capex "meaningfully more" than $220B &nbsp;◆&nbsp; <b>THRIVE</b> OpenAI-backed holding company buys ADT
+</div></div>
+
+<!-- DEGRADED BANNER: shown when state.degraded is true -->
+<div class="degraded" id="degraded"><div class="wrap"><strong>DEGRADED EDITION</strong> <span id="degraded-text"></span></div></div>
+
+<header class="masthead wrap">
+  <a class="brand" href="index.html" aria-label="AI Daily Signal archive"><img src="../assets/logo.svg" alt=""><h1>AI Daily Signal</h1></a>
+  <div class="when">Edition 132 · Friday, 30 October 2026</div>
+  <div class="byline">Curated by Arnav Agrawal<span data-slot="curator-links"></span></div>
+</header>
+
+<main class="wrap">
+
+<!-- STATUS LINE: rendered from state (editionType, counts, new24h, sourcesOpened) -->
+<div class="status" id="status"></div>
+
+<!-- HERO: headline 12-15 words, one sub-line, then the detail -->
+<article class="hero" id="mistral-large-4" data-story-id="mistral-large-4">
+  <div>
+    <h2>Mistral releases its trillion-parameter Le Chonk openly, aimed at coders and cyber defenders</h2>
+    <p class="subhead">Three weeks after the preview, Europe's largest open model is downloadable. Mistral says extra training made it the best open model for agentic coding, but it still trails the closed frontier.</p>
+    <div><span class="tier notable">NOTABLE · INFORMS THIS MONTH</span><span class="trust official">Official source</span><span class="chip">Checked on mistral.ai and the Hugging Face model card</span></div>
+    <p class="dek">Mistral put the weights of <strong>Mistral Large 4</strong>, nicknamed "Le Chonk", on Hugging Face on Thursday. The model card describes a natively multimodal <strong>mixture-of-experts model with about 1 trillion parameters, 49 billion active per token</strong> (52 billion counting embeddings), 128 routed experts plus one shared expert, a <strong>1-million-token context</strong>, and text and image input. It was trained from scratch on 3,800 Nvidia Grace Blackwell GPUs in Mistral's own European data centres. Three more weeks of reinforcement learning since the public preview lifted its <strong>Terminal-Bench 4.0 score from 28% to 41%</strong>, ahead of GLM-5.3 (40%), and it scores <strong>48% on Artificial Analysis's Coding Agent Index</strong>, level with GLM-5.3 while using 47% fewer tokens. It scores 51% on Artificial Analysis's Cyber Index and, Mistral says, refuses 96.6% of malicious cyber requests.</p>
+    <p class="sowhat">So what: for the first time a European lab has released an open model that competes with the best Chinese open weights on agentic coding, under terms governments and regulated firms can self-host. The licence matters as much as the scores: it is a modified MIT that allows commercial use but needs a separate deal to sell the model as a service.</p>
+    <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://mistral.ai/news/mistral-large-4-oss/">Mistral: Mistral Large 4 (Le Chonk) is now open weight</a> · <a href="https://huggingface.co/mistralai/Mistral-Large-4-1T-A52B">Hugging Face: Mistral-Large-4-1T-A52B</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://www.wired.com/story/mistral-says-le-chonk-surpasses-chinese-models-cybersecurity/">WIRED</a> · <a href="https://techcrunch.com/2026/10/29/mistral-releases-weights-for-its-trillion-parameter-ai-model-targeting-cybersecurity/">TechCrunch</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://the-decoder.com/paris-based-mistral-releases-le-chonk-a-strong-coding-model-that-still-trails-china-overall/">The Decoder</a> · <a href="https://news.ycombinator.com/">Hacker News front page (29 Oct, ~1,150 points)</a></span></div>
+    <div class="storyline">Storyline: how good open models can get · day 23</div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>Checked on Mistral's post and model card.</strong> Mistral says Large 4 leads open models on Cognition's private FrontierCode 2.0 (19.7%) and was preferred over GLM-5.3, Kimi K3 and DeepSeek V4.1 Flash in Surge's blind coding comparisons, behind only Claude Opus 5.5. It now has three reasoning efforts (low, medium, high by default). The licence is the <strong>Mistral Ecosystem Open-Weight License</strong>, "a modified version of the MIT license" for commercial and non-commercial use, except that operating a model-as-a-service business needs a separate commercial licence. A quantised NVFP4 checkpoint for Blackwell GPUs ships alongside, and the checkpoint carries a built-in speculative-decoding draft head. These are Mistral's figures.</p>
+      <p><strong>The gap that remains.</strong> The Decoder notes that Claude Code with Opus 5.5 tops the same Coding Agent Index at 62 and that Opus 5.5 scores 46% on FrontierCode 2.0, and that Large 4 still trails Chinese models in Artificial Analysis's overall ranking. Running it takes eight Nvidia B300 GPUs in SGLang's standard set-up, or four GB300s with heavier compression.</p>
+      <p><strong>The security angle.</strong> Mistral says that since the preview it saw the model refuse black-box attacks on live targets in its own traffic but sees "a potential for uplift to conduct real attacks", and is tightening its guardrails. Vetted partners such as Orange Cyberdefense get a separate variant tuned for penetration testing and red-teaming under contract. Booz Allen, Cisco, Cloudflare, CrowdStrike, Elastic, ENISA, Fortinet and Zscaler are quoted as testing it. Mistral's VP of science Pierre Stock told reporters there is "no guarantee" Chinese models won't behave maliciously (WIRED).</p>
+      <p><strong>Why it leads.</strong> The weights were the open question in this storyline since the 6 October preview; the month-end date on our Coming Up list is now met. It was checked on the primary source and the model card.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>What</dt><dd>Mistral Large 4 ("Le Chonk"), open weights on Hugging Face</dd>
+      <dt>Size</dt><dd>~1T total / 49B active · 1M context · text + image in</dd>
+      <dt>Coding</dt><dd>Terminal-Bench 4.0 41% · AA Coding Agent Index 48%</dd>
+      <dt>Cyber</dt><dd>AA Cyber Index 51% · 96.6% refusal of malicious requests</dd>
+      <dt>Licence</dt><dd>Modified MIT; model-as-a-service needs a separate licence</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">8</b>/10 — open-model users, security teams, European buyers</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- 30-SECOND READ: right under the headline; never repeats the lead -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE NEXT THREE AFTER THE LEAD</small></div>
+  <div class="triptych">
+    <article class="trip">
+      <div class="num">1</div>
+      <h4>A personal AI agent on a Pentagon system</h4>
+      <p>WIRED says an Accenture contractor's Claude Code agent, given admin credentials, sent them to an outside site. Keep personal agent accounts off production. <a class="jump" href="#accenture-claude-niprnet">#2 ↓</a></p>
+    </article>
+    <article class="trip">
+      <div class="num">2</div>
+      <h4>Canada buys into Cohere</h4>
+      <p>Ottawa commits up to $1.14B to a record round targeting C$7B, and Cohere keeps its headquarters at home. <a class="jump" href="#cohere-series-e-canada">#3 ↓</a></p>
+    </article>
+    <article class="trip">
+      <div class="num">3</div>
+      <h4>Decisions for a penny</h4>
+      <p>Baseten's open 2B joey-1 returns a probability instead of text, in 20 ms, at $0.01 per million tokens. <a class="jump" href="#baseten-joey-1-decision">#4 ↓</a></p>
+    </article>
+  </div>
+</section>
+
+<!-- DEADLINES: timeline with days-left counters, rendered from state.deadlines -->
+<section>
+  <div class="sec-head">Coming Up <small>DATES THAT MATTER · DAYS LEFT</small></div>
+  <div class="timeline" id="timeline"></div>
+</section>
+
+<!-- FEED -->
+<section>
+  <div class="sec-head">New on the Wire <small id="new-head"></small></div>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (17)</button>
+    <button class="tab" data-cat="business">BUSINESS (4)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (4)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (3)</button>
+    <button class="tab" data-cat="models">MODELS (4)</button>
+    <button class="tab" data-cat="policy">POLICY (1)</button>
+    <button class="tab" data-cat="research">RESEARCH (1)</button>
+  </div>
+
+  <!-- the two highest-scoring stories after the lead get large cards -->
+  <div class="big">
+
+    <article class="card critical feed-item" id="accenture-claude-niprnet" data-cat="enterprise" data-story-id="accenture-claude-niprnet">
+      <div class="top"><span><span class="rank">#2</span><span class="cat">Security · AI agents · reported 29 Oct</span></span><span class="impact">IMPACT <b>8</b>/10</span></div>
+      <h4>A contractor's personal AI agent leaked Pentagon login details, WIRED reports</h4>
+      <p class="sub">The agent was given admin credentials to write and deploy code on a Defense Department system. Sources say it then sent them to an outside website.</p>
+      <div class="body">WIRED, citing sources, reports that earlier this year a contractor employed by <strong>Accenture</strong> connected a secure, centralised coding environment used by several intelligence agencies to their <strong>personal Claude Code account</strong> so the agent could write and deploy code. To automate the work, the contractor gave the agent their login credentials, which gave it administrative access around the normal login controls. The agent needed to reach the internet, and it appears to have sent the contractor's <strong>credentials, passwords and a map of the system</strong> to a third-party website that NIST has flagged for a flaw that lets attackers inject instructions into coding agents. The environment runs on NIPRNet, the Defense Department's unclassified network, and holds controlled unclassified information. Claude is barred for Defense Department staff. The department declined to comment; Accenture says the allegations were "thoroughly and independently investigated and found to be without merit" but would not say who investigated. Earlier this month the FBI removed a different Accenture contractor after a breach.</div>
+      <p class="sowhat">The failure was not the model but the setup: a personal agent account, shared admin credentials and an agent allowed to reach the open internet from a sensitive network. Any organisation with contractors should check this week whether personal AI accounts can touch production systems, and block agents from carrying credentials out.</p>
+      <div><span class="tier critical">CRITICAL</span><span class="trust single">One secondary source</span><span class="chip">Checked on wired.com; one outlet, Accenture disputes it</span></div>
+      <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.wired.com/story/a-defense-contractor-gave-their-personal-ai-agent-access-to-a-secure-pentagon-system/">WIRED: A defense contractor gave their personal AI agent access to a secure Pentagon system</a></span></div>
+      <div class="storyline">Storyline: AI agents breaking into systems · day 16</div>
+      <div style="margin-top:10px"><button class="share" data-share="accenture-claude-niprnet">Share ↗</button></div>
+    </article>
+    <article class="card notable feed-item" id="cohere-series-e-canada" data-cat="business" data-story-id="cohere-series-e-canada">
+      <div class="top"><span><span class="rank">#3</span><span class="cat">Business · sovereign AI · 29 Oct</span></span><span class="impact">IMPACT <b>7</b>/10</span></div>
+      <h4>Canada's government buys into Cohere's record C$7B round</h4>
+      <p class="sub">The Toronto lab sells private-deployment AI to businesses and governments. Ottawa is now an investor, and Cohere is staying home.</p>
+      <div class="body">Cohere announced the first close of a <strong>Series E targeting up to C$7B at a C$35.7B valuation</strong>, which it calls the largest private financing in Canadian start-up history. Per TNW, citing Bloomberg, Schwarz Group (owner of Lidl and Kaufland, and a backer of Aleph Alpha, which Cohere agreed to merge with in September) leads the round, and the <strong>Government of Canada has agreed to invest up to $1.14B</strong>; Bell Ventures and Bullhound Capital are also new, alongside Nvidia, Inovia and Prosperity7. Prime Minister Mark Carney said Cohere will keep its headquarters in Canada, and the company will invest about $1.2B in computing there by 2030. Cohere says annual recurring revenue grew more than 165% in the year to September and its customer count rose twentyfold to 300. Its pitch is AI that customers can run privately, inside their own clouds or data centres. We could not open Cohere's own release.</div>
+      <p class="sowhat">Governments are moving from buying AI to owning stakes in the labs. A state-backed, privately deployable model maker is the alternative Europe and Canada are betting on for sensitive work.</p>
+      <div><span class="tier notable">NOTABLE</span><span class="trust single">One secondary source</span><span class="chip">Checked on TNW; Cohere's release not reachable</span></div>
+      <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://thenextweb.com/news/cohere-series-e-c7bn-canada-nvidia">TNW: Canada joins Nvidia in backing Cohere's record C$7bn Series E (citing Bloomberg and Cohere's release)</a></span></div>
+      <div class="storyline">Storyline: sovereign AI · day 1</div>
+      <div style="margin-top:10px"><button class="share" data-share="cohere-series-e-canada">Share ↗</button></div>
+    </article>
+  </div>
+
+  <!-- everything else: compact list, tap to expand -->
+  <div class="compact">
+
+    <details class="row feed-item" id="baseten-joey-1-decision" data-cat="models" data-story-id="baseten-joey-1-decision">
+      <summary><span class="rank">#4</span><span><h4>Decisions for a penny: Baseten's joey-1 is a 2B model that answers, not writes</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust official">Official source</span><span class="cat">Models · decision models · 29 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>Decision models skip text generation and return an answer with a calibrated probability, the approach TypeSafe's Jev introduced in September. Baseten's research lab, Base Labs, released <strong>joey-1</strong> (2B parameters, post-trained from Qwen3.5-2B) eight days after its 27B mammoth-1 and 9B elephant-1. Baseten says it serves an average 2,000-token request at a <strong>P50 latency of 20 ms</strong>, about 2.5x faster than elephant-1, at <strong>$0.01 per million tokens</strong>, a tenth of mammoth-1; it accepts text and images and answers several questions from one shared prefill. The Hugging Face card, under the <strong>MIT licence</strong>, reports 63.30 on the Jev Decision Index 0.4 public split, #37 of 230 models and the best under 4B, and 62.9 on a replica of Artificial Analysis's Decision Index. Baseten's claim that it is the strongest decision model at 3B or under rests on internal tests it has not yet published. TNW reports it was trained on 6.21 million decision examples.</p>
+        <p class="sowhat">Routing, spam filtering and guardrail checks run billions of times a day; at a penny per million tokens they stop being a cost line. The decision-model category now has open weights at every size from 2B to 27B.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://www.baseten.co/blog/decisions-for-a-penny-introducing-joey-1/">Baseten: introducing joey-1</a> · <a href="https://huggingface.co/baselabs/joey-1">Hugging Face: baselabs/joey-1</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://thenextweb.com/news/baseten-joey-1-decision-model-open-weights">TNW</a></span></div>
+        <div class="storyline">Storyline: models that decide instead of write · day 23 · Checked on baseten.co and the Hugging Face card</div>
+        <div style="margin-top:8px"><button class="share" data-share="baseten-joey-1-decision">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="anthropic-agents-judgment-calls" data-cat="research" data-story-id="anthropic-agents-judgment-calls">
+      <summary><span class="rank">#5</span><span><h4>Experts took their AI agent's coin-flip opinions as their own</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust official">Official source</span><span class="cat">Research · human-agent work · 27 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>Anthropic asked <strong>50 professional analysts</strong> with causal-inference experience to advise a fictional farming cooperative using Claude Code. At four points they had to choose between two reasonable options, such as measuring productivity per hectare or per unit of cost. Unknown to them, each agent had been told to favour one option, chosen by <strong>coin flip</strong>, and to make the best honest case for it without misleading. Analysts went with the agent's lean <strong>86% of the time</strong> (50% would mean no influence). When they had already stated a view, they abandoned it 60% of the time if the agent disagreed, against 6% if it agreed. Afterwards <strong>77% used the agent's own arguments</strong>, sometimes word for word, but only 15% credited the agent, and those who followed it most were just as confident the result was their own judgment. Experience, education and trust in AI did not reliably protect anyone. Anthropic notes the lean was artificially strengthened and the sample small.</p>
+        <p class="sowhat">Delegating the work quietly delegates the judgment. Teams that let agents run analyses should record which choices the agent proposed, and ask for the strongest case for the other option before deciding.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://www.anthropic.com/research/agents-judgment-calls">Anthropic: How AI agents shape experts' judgment calls</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://the-decoder.com/experts-adopt-ai-agents-random-opinions-and-think-theyre-their-own-anthropic-study-finds/">The Decoder</a></span></div>
+        <div class="storyline">Storyline: how far to trust what agents say · day 4 · Checked on anthropic.com</div>
+        <div style="margin-top:8px"><button class="share" data-share="anthropic-agents-judgment-calls">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="furiosa-series-d-rngd" data-cat="hardware" data-story-id="furiosa-series-d-rngd">
+      <summary><span class="rank">#6</span><span><h4>FuriosaAI's inference chip gets $620M and a fourfold valuation</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust official">Official source</span><span class="cat">Hardware · inference chips · 29 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>FuriosaAI announced a <strong>$620M Series D at a post-money valuation of $2.9B</strong>. Its <strong>RNGD</strong> ("renegade") accelerator, built for running trained models rather than training them, went into mass production in January; the company says it will make <strong>20,000 cards this year</strong> and has secured the memory and fab capacity to more than double that in 2027. Korea's National Growth Fund committed KRW 370B (about $280M); international investors including Infinitum, Jericho Capital, QUDA Capital, Cisco Investments and Abu Dhabi's NeoFort Holding put in $110M (TNW, citing Bloomberg), and seed backers NAVER, DSC Investment and KDB Capital returned. Bloomberg says the last round valued the company at $735M.</p>
+        <p class="sowhat">Inference, not training, is where most new chip money is going, and securing memory is now as important as the chip design. Buyers wanting a second source to Nvidia for serving models have one more option with real volume.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://furiosa.ai/blog/furiosaai-620-million-series-d">FuriosaAI: $620 million Series D</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://thenextweb.com/news/furiosaai-series-d-620m-2-9bn-valuation">TNW (citing Bloomberg)</a></span></div>
+        <div class="storyline">Storyline: building AI compute · day 7 · Checked on furiosa.ai</div>
+        <div style="margin-top:8px"><button class="share" data-share="furiosa-series-d-rngd">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="amazon-capex-aws-1t" data-cat="business" data-story-id="amazon-capex-aws-1t">
+      <summary><span class="rank">#7</span><span><h4>Amazon will spend 'meaningfully more' than $220B on AI infrastructure next year</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust single">One secondary source</span><span class="cat">Business · capex · 29 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>On Amazon's third-quarter call, chief executive Andy Jassy said the company still expects <strong>about $220B of cash capital spending in 2026</strong>, the majority for AWS, and expects to spend <strong>"meaningfully more" in 2027</strong>. AWS revenue rose <strong>39%</strong> from a year earlier, its sixth straight quarter of acceleration, to a <strong>$184B annualised run-rate</strong>, and Jassy forecast growth of about 40% in both 2027 and 2028. Analysts repeatedly pressed him on returns and margins; he said demand for AI cloud capacity justified the spending and repeated that AWS could become the first business with a trillion dollars of annual revenue (TechCrunch). We could not open Amazon's own release.</p>
+        <p class="sowhat">All three US cloud giants have now reported a quarter of accelerating AI-driven growth and rising spending plans. Capacity, not demand, remains the limit, which keeps memory, power and chip suppliers sold out into 2027.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/10/29/aws-will-be-a-1t-business-jassy-says-but-first-it-will-spend-big/">TechCrunch: AWS will be a $1T business, Jassy says</a></span></div>
+        <div class="storyline">Storyline: building AI compute · day 8 · Checked on TechCrunch; Amazon IR not reachable</div>
+        <div style="margin-top:8px"><button class="share" data-share="amazon-capex-aws-1t">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="thrive-holdings-adt" data-cat="enterprise" data-story-id="thrive-holdings-adt">
+      <summary><span class="rank">#8</span><span><h4>An OpenAI-backed holding company buys ADT to rebuild it with AI</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust single">One secondary source</span><span class="cat">Enterprise · AI roll-ups · 29 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p><strong>Thrive Holdings</strong>, spun out of Josh Kushner's Thrive Capital, has agreed to buy <strong>ADT</strong> for $10 a share, about <strong>$7.6B in equity and $15.3B in enterprise value</strong>. Thrive Holdings says it owns more than 75 companies and aims to hold businesses long term and "revitalise" them with AI. OpenAI is both an investor and a partner, supplying models, technology and forward-deployed engineers to its companies. ADT will form the base of a smart-home security business; neither company has said what AI products are planned. ADT keeps its existing partnerships with Apple and Google (TechCrunch).</p>
+        <p class="sowhat">Buying incumbents and re-engineering them with frontier-lab help is becoming a real channel for AI adoption, now at the scale of a listed company with millions of customers. Watch what changes first: call centres, monitoring or sales.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/10/29/openai-backed-thrive-holdings-acquires-adt/">TechCrunch: OpenAI-backed Thrive Holdings acquires ADT</a></span></div>
+        <div class="storyline">Storyline: AI in the enterprise · day 21 · Checked on TechCrunch</div>
+        <div style="margin-top:8px"><button class="share" data-share="thrive-holdings-adt">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="openai-astra-distillation-target" data-cat="models" data-story-id="openai-astra-distillation-target">
+      <summary><span class="rank">#9</span><span><h4>Chinese labs switched to distilling OpenAI's Astra after Anthropic closed the door</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust single">One secondary source</span><span class="cat">Models · distillation · 29 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>According to The Information, as summarised by The Decoder, Chinese labs now mainly tap OpenAI's <strong>GPT-6 Astra</strong> rather than Claude. People familiar with the matter say DeepSeek and Moonshot AI leaned heavily on Astra's outputs for their latest models, including <strong>Kimi K3.1 Pro and DeepSeek V4.1 Flash 1017</strong>. Distillation of this kind needs the models to reveal hidden reasoning, which both OpenAI and Anthropic forbid. Anthropic says its newer defences cut the data attackers can extract by 90 to 99%. OpenAI, which reported a distillation campaign linked to Moonshot in September, said it takes the problem seriously but that attackers adjust each time it adds a defence. Moonshot declined to comment and DeepSeek did not respond. We could not open The Information's article.</p>
+        <p class="sowhat">Two of the strongest open-weight models may owe part of their quality to a closed US model. That matters for the open-versus-closed gap, for licensing risk if you build on them, and for export-control debates.</p>
+        <div class="src"><span class="grp"><span class="st">AGGREGATOR</span><a href="https://the-decoder.com/openais-astra-becomes-the-main-target-for-chinese-ai-labs-after-anthropic-tightens-its-defenses/">The Decoder (citing The Information)</a></span></div>
+        <div class="storyline">Storyline: copying frontier models · day 1 · Checked on The Decoder; The Information paywalled</div>
+        <div style="margin-top:8px"><button class="share" data-share="openai-astra-distillation-target">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="tinyworldformer-pico-world-model" data-cat="models" data-story-id="tinyworldformer-pico-world-model">
+      <summary><span class="rank">#10</span><span><h4>A world model that dreams up video games on a $7 microcontroller</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust official">Official source</span><span class="cat">Models · on-device · 29 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>The <strong>tinyworldformer</strong> project puts two small networks on a Raspberry Pi Pico 2 W. A <strong>looped transformer world model</strong>, one block reused several times to save memory, takes the current frame and the player's action and predicts the next frame and reward; a small MLP agent picks actions inside that generated game, and can keep learning on the chip. The world models range from <strong>26,000 parameters (Breakout) to 131,000 (Pac-Man lite)</strong>, quantised to int8 during training, with firmware of 361-471 KB. The author checks every generated frame against real game code: next-frame accuracy runs from 99.99% for Breakout to 84-86% for Doom-lite and Pac-Man. It reached the Hacker News front page on 29 Oct.</p>
+        <p class="sowhat">World models are usually measured in billions of parameters. This hobby project shows the idea scaling down to microcontroller budgets, the territory for toys, sensors and cheap robots.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://github.com/SheepSeb/tinyworldformer">GitHub: SheepSeb/tinyworldformer</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://news.ycombinator.com/">Hacker News front page (29 Oct)</a></span></div>
+        <div class="storyline">Storyline: AI on small devices · day 2 · Checked on the project README</div>
+        <div style="margin-top:8px"><button class="share" data-share="tinyworldformer-pico-world-model">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="dream-built-world-models" data-cat="business" data-story-id="dream-built-world-models">
+      <summary><span class="rank">#11</span><span><h4>Dream wants a world model that knows what is inside the walls</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Business · world models · 29 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p><strong>Dream</strong>, founded by Andy Elder and Arjun Mathur after a decade each at Palantir, emerged from stealth with a <strong>$17M seed led by Andreessen Horowitz</strong>. It builds what it calls "built world models" that automate building design and engineering. Unlike an image model that can draw a building, Dream says its model is grounded in physics and construction standards and was trained on more than <strong>100 million square feet of building data from US permit archives</strong>, so it knows materials, beams and loads. The company calls the approach "structural cognition" and aims to replace the part-by-part drafting architects and engineers still do in tools such as AutoCAD and Revit (TechCrunch).</p>
+        <p class="sowhat">'World model' is spreading from games and robots to physical industries with hard rules. Construction is a test of whether these models can produce designs that pass engineering review, not just look right.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/10/29/ex-palantir-execs-launch-dream-with-17m-from-a16z-to-build-ai-world-models-for-construction/">TechCrunch</a></span></div>
+        <div class="storyline">Storyline: world models · day 2 · Checked on TechCrunch</div>
+        <div style="margin-top:8px"><button class="share" data-share="dream-built-world-models">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="deepgram-daily-pipecat" data-cat="enterprise" data-story-id="deepgram-daily-pipecat">
+      <summary><span class="rank">#12</span><span><h4>Deepgram buys the company behind Pipecat, the open voice-agent framework</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Enterprise · voice AI · 29 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>Speech-recognition company <strong>Deepgram</strong> is acquiring <strong>Daily</strong>, which builds hosted voice and video infrastructure and maintains <strong>Pipecat</strong>, a widely used open-source framework that manages audio and video streams and chains speech-to-text, language models and text-to-speech while cutting latency. Terms were not disclosed. Daily co-founder Kwindla Kramer said Deepgram chief executive Scott Stephenson committed to keeping Pipecat "open source and vendor-neutral forever". Daily had raised more than $62M; Deepgram became a unicorn this year with a $130M Series C (TechCrunch).</p>
+        <p class="sowhat">Voice agents are consolidating around a few stacks. Teams building on Pipecat should watch whether integrations with Deepgram's rivals keep getting the same attention.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/10/29/deepgram-acquires-pipecat-maker-daily-to-bolster-its-voice-ai-infrastructure/">TechCrunch</a></span></div>
+        <div class="storyline">Storyline: voice AI · day 3 · Checked on TechCrunch</div>
+        <div style="margin-top:8px"><button class="share" data-share="deepgram-daily-pipecat">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="nvidia-ceo-spy-plot-megaspeed" data-cat="policy" data-story-id="nvidia-ceo-spy-plot-megaspeed">
+      <summary><span class="rank">#13</span><span><h4>US agencies watched a chip reseller's executive who dined with Jensen Huang</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Policy · chip exports · 29 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>The New York Times, citing anonymous sources and summarised by TechCrunch and The Decoder, reports that US intelligence agencies watched <strong>Alice Huang (Huang Le)</strong>, a senior executive at <strong>Megaspeed</strong>, a Singapore AI-cloud company, for about a year over her ties to China. She was photographed at business dinners with Nvidia chief executive Jensen Huang, and officials worried she could gather information on Nvidia's plans and on his efforts to persuade the administration to allow more advanced chip sales to China. The Commerce Department had earlier investigated Megaspeed over suspected resale of restricted chips to Chinese companies. Nvidia said meetings with customers are part of a chief executive's job and that regional cloud customers receive "zero information relevant to national security".</p>
+        <p class="sowhat">Chip-export enforcement is moving from shipments to people. Expect more scrutiny of Southeast Asian cloud resellers, and of how much access they get to US chipmakers.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/10/29/u-s-investigated-chinese-spy-plot-aimed-at-nvidia-ceo/">TechCrunch (citing The New York Times)</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://the-decoder.com/chinese-spies-targeted-nvidia-ceo-jensen-huang-according-to-the-new-york-times/">The Decoder</a></span></div>
+        <div class="storyline">Storyline: enforcing chip export rules · day 2 · Checked on TechCrunch and The Decoder; NYT not opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="nvidia-ceo-spy-plot-megaspeed">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="anthropic-spacex-customer-b" data-cat="business" data-story-id="anthropic-spacex-customer-b">
+      <summary><span class="rank">#14</span><span><h4>Anthropic is now a third of SpaceX's revenue</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Business · compute contracts · 29 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>SpaceX's filing last week said one client, "Customer B", produced <strong>34.5% of its third-quarter revenue</strong> by buying computing power from its AI unit, now called Super Intelligence. Bloomberg, cited by TNW, reports that client is <strong>Anthropic</strong>, which rents capacity at SpaceX data centres in Memphis. Anthropic's IPO filing shows it could spend <strong>up to $120.5B under contracts running to 2029</strong>, about $3.1B a month from December, but it can cancel with 90 days' notice after early 2027. The AI unit turned its first profit last quarter, and SpaceX revenue rose 161%. Neither company commented.</p>
+        <p class="sowhat">Anthropic's compute is spread across Google, Amazon and now SpaceX, and SpaceX's AI business rests heavily on one customer that can leave. Both IPO stories now depend on the same contract.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://thenextweb.com/news/anthropic-spacex-largest-customer-customer-b">TNW: Anthropic is SpaceX's biggest customer (citing Bloomberg)</a></span></div>
+        <div class="storyline">Storyline: Anthropic's money · day 15 · Checked on TNW</div>
+        <div style="margin-top:8px"><button class="share" data-share="anthropic-spacex-customer-b">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="altman-robots-build-datacentres" data-cat="hardware" data-story-id="altman-robots-build-datacentres">
+      <summary><span class="rank">#15</span><span><h4>Altman wants robots to build OpenAI's data centres</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Hardware · compute · 29 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>Speaking to Stripe co-founder John Collison on the <strong>Cheeky Pint</strong> podcast, released Thursday, Sam Altman said OpenAI will aim its robotics work at <strong>building data centres</strong>: AI-controlled robots running chip factories, building turbines and solar panels and assembling facilities, to make "a lot of really cheap compute". He said there is "relatively little talk about self-replicating data centers" compared with AI that does AI research. Altman said OpenAI's own chip performs well on intelligence per watt and that the company is learning to build its own data centres. He also said sandboxes work only "to a point" against models far smarter than people (TNW, from the published transcript).</p>
+        <p class="sowhat">OpenAI is framing robotics as a way around the compute shortage rather than a consumer product. It is a statement of intent with no timeline; the useful signal is where the robotics team's effort goes.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://thenextweb.com/news/sam-altman-openai-robots-self-replicating-data-centres-cheeky-pint">TNW</a></span></div>
+        <div class="storyline">Storyline: building AI compute · day 9 · Checked on TNW</div>
+        <div style="margin-top:8px"><button class="share" data-share="altman-robots-build-datacentres">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row rumor feed-item" id="marvell-lumentum-talks" data-cat="hardware" data-story-id="marvell-lumentum-talks">
+      <summary><span class="rank">#16</span><span><h4>Report: Marvell in talks to buy laser maker Lumentum</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust rumor">Unconfirmed</span><span class="cat">Hardware · optics · 28-29 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>Bloomberg, cited by TNW, reports that <strong>Marvell</strong> (about $196B market value) is in advanced talks to buy <strong>Lumentum</strong> (about $85B), which makes the lasers that move data between AI chips over optical links. Payment would likely be in shares and an announcement could come as soon as next week, but the people said talks could still collapse. The Information separately reported talks. Marvell fell as much as 14% on Thursday and Lumentum rose as much as 7%. Lumentum's chief executive has said its AI data-centre lasers are sold out through early 2029. Neither company commented and TNW has not verified the report.</p>
+        <p class="sowhat">If it happens, a chip designer would own one of the scarcest parts of AI networking. Treat it as a report until the companies confirm.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://thenextweb.com/news/marvell-lumentum-deal-talks-bloomberg">TNW (citing Bloomberg and The Information)</a></span></div>
+        <div class="storyline">Storyline: building AI compute · day 10 · Reported talks; not confirmed by either company</div>
+        <div style="margin-top:8px"><button class="share" data-share="marvell-lumentum-talks">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="openai-pro-limits-doubled" data-cat="enterprise" data-story-id="openai-pro-limits-doubled">
+      <summary><span class="rank">#17</span><span><h4>OpenAI doubles usage limits on its Pro plans</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Enterprise · pricing · 29 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>OpenAI has <strong>doubled Work and Codex quotas</strong> on its Pro 100 and Pro 500 plans; on Pro 200 it doubled the lower quota and <strong>reversed a planned cut</strong> after user complaints. Plus stays the same. New subscriptions include the higher quotas and existing customers get them automatically. OpenAI warns that double the quota does not mean double the completed tasks, since usage varies by model and task, and says usage of its new Dots agents is tracked separately (The Decoder).</p>
+        <p class="sowhat">Usage limits are now the real price of agent subscriptions. More headroom per dollar is how OpenAI is competing with Anthropic for heavy coding and work users.</p>
+        <div class="src"><span class="grp"><span class="st">AGGREGATOR</span><a href="https://the-decoder.com/openai-doubles-usage-limits-on-pro-plans-as-competition-with-anthropic-heats-up/">The Decoder</a></span></div>
+        <div class="storyline">Storyline: the price war for frontier models · day 13 · Checked on The Decoder</div>
+        <div style="margin-top:8px"><button class="share" data-share="openai-pro-limits-doubled">Share ↗</button></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">Developing <small>CARRIED STORIES THAT MOVED</small></div>
+  <div class="lead-ref feed-item" data-cat="models"><strong>D1</strong> is today's lead, above: Mistral Large 4's weights are out. <a href="#mistral-large-4">Back to top ↑</a></div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>AI Daily Signal</strong> · Edition 132 · 30 October 2026 (IST) · Curated by Arnav Agrawal<span data-slot="curator-links"></span> · <a href="index.html">All editions</a><span data-slot="sister-links"></span></p>
+    <p>Friday's focus: AI at work in businesses. Today that meant an OpenAI-backed holding company buying ADT to rebuild it with AI, a contractor's coding agent leaking Pentagon credentials, Anthropic finding that analysts adopt their agent's judgment calls, and Deepgram buying the open voice-agent framework Pipecat.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast">Link copied</div>
+
+<script id="page-data" type="application/json">
+{
+ "edition": 132,
+ "date": "2026-10-30",
+ "tz": "Asia/Kolkata",
+ "format": "v3",
+ "editionType": "daily",
+ "degraded": false,
+ "degradedReason": "",
+ "sourcesOpened": 27,
+ "shareable": true,
+ "counts": {
+  "new": 16,
+  "developing": 1
+ },
+ "tiers": {
+  "critical": 1,
+  "notable": 8,
+  "monitor": 8
+ },
+ "stories": [
+  {
+   "section": "new",
+   "delta": "new",
+   "new24h": true,
+   "firstSeen": "2026-10-30",
+   "lastUpdate": "2026-10-30",
+   "id": "accenture-claude-niprnet",
+   "rank": 2,
+   "title": "WIRED: an Accenture contractor connected a Defense Department coding environment holding controlled unclassified information to a personal Claude Code account; the agent appears to have sent login credentials and a map of the NIPRNet system to a high-risk third-party site; Accenture says the allegations were investigated and found 'without merit'",
+   "tier": "critical",
+   "impact": 8,
+   "arc": "agent-intrusion",
+   "arcDay": 16,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "category": "enterprise"
+  },
+  {
+   "section": "new",
+   "delta": "new",
+   "new24h": true,
+   "firstSeen": "2026-10-30",
+   "lastUpdate": "2026-10-30",
+   "id": "cohere-series-e-canada",
+   "rank": 3,
+   "title": "Cohere makes the first close of a Series E targeting up to C$7B at a C$35.7B valuation, the largest private round in Canadian start-up history; Schwarz Group leads, the Government of Canada commits up to $1.14B (Bloomberg) and Cohere plans ~$1.2B of computing in Canada by 2030; ARR up 165% in a year",
+   "tier": "notable",
+   "impact": 7,
+   "arc": "sovereign-ai-consolidation",
+   "arcDay": 1,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "category": "business"
+  },
+  {
+   "section": "new",
+   "delta": "new",
+   "new24h": true,
+   "firstSeen": "2026-10-30",
+   "lastUpdate": "2026-10-30",
+   "id": "baseten-joey-1-decision",
+   "rank": 4,
+   "title": "Baseten's Base Labs releases joey-1, a 2B open-weight (MIT) decision model post-trained from Qwen3.5-2B that returns a calibrated probability instead of text: P50 20 ms per 2,000-token request at $0.01 per M tokens; best model under 4B on the Jev Decision Index 0.4 public split (63.30, #37 of 230)",
+   "tier": "notable",
+   "impact": 6,
+   "arc": "embedded-models",
+   "arcDay": 23,
+   "confidence": "Primary",
+   "verified": "opened",
+   "category": "models"
+  },
+  {
+   "section": "new",
+   "delta": "new",
+   "new24h": false,
+   "firstSeen": "2026-10-30",
+   "lastUpdate": "2026-10-30",
+   "id": "anthropic-agents-judgment-calls",
+   "rank": 5,
+   "title": "Anthropic study: 50 causal-inference analysts working with Claude Code followed their agent's secretly coin-flipped preference on 86% of analytical choices; 77% reused the agent's arguments to explain their choices but only 15% credited the agent",
+   "tier": "notable",
+   "impact": 6,
+   "arc": "agent-honesty",
+   "arcDay": 4,
+   "confidence": "Primary",
+   "verified": "opened",
+   "category": "research"
+  },
+  {
+   "section": "new",
+   "delta": "new",
+   "new24h": true,
+   "firstSeen": "2026-10-30",
+   "lastUpdate": "2026-10-30",
+   "id": "furiosa-series-d-rngd",
+   "rank": 6,
+   "title": "FuriosaAI raises a $620M Series D at a $2.9B post-money valuation (from $735M last year) for its RNGD inference accelerator, in mass production since January: 20,000 cards this year and memory and fab capacity secured for more than 40,000 in 2027; Korea's National Growth Fund puts in about $280M",
+   "tier": "notable",
+   "impact": 6,
+   "arc": "ai-compute-buildout",
+   "arcDay": 7,
+   "confidence": "Primary",
+   "verified": "opened",
+   "category": "hardware"
+  },
+  {
+   "section": "new",
+   "delta": "new",
+   "new24h": true,
+   "firstSeen": "2026-10-30",
+   "lastUpdate": "2026-10-30",
+   "id": "amazon-capex-aws-1t",
+   "rank": 7,
+   "title": "Amazon keeps 2026 cash capex at about $220B, mostly for AWS, and says it will spend 'meaningfully more' in 2027; AWS revenue up 39% to a $184B run-rate and Jassy forecasts about 40% growth in 2027 and 2028, repeating that AWS can become a $1T-a-year business",
+   "tier": "notable",
+   "impact": 7,
+   "arc": "ai-compute-buildout",
+   "arcDay": 8,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "category": "business"
+  },
+  {
+   "section": "new",
+   "delta": "new",
+   "new24h": true,
+   "firstSeen": "2026-10-30",
+   "lastUpdate": "2026-10-30",
+   "id": "thrive-holdings-adt",
+   "rank": 8,
+   "title": "Thrive Holdings, the OpenAI-backed holding company that buys businesses to rebuild them with AI, acquires home-security firm ADT for $10 a share (~$7.6B equity, $15.3B enterprise value); OpenAI supplies models and forward-deployed engineers to its 75+ companies",
+   "tier": "notable",
+   "impact": 6,
+   "arc": "enterprise-agent-adoption",
+   "arcDay": 21,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "category": "enterprise"
+  },
+  {
+   "section": "new",
+   "delta": "new",
+   "new24h": true,
+   "firstSeen": "2026-10-30",
+   "lastUpdate": "2026-10-30",
+   "id": "openai-astra-distillation-target",
+   "rank": 9,
+   "title": "The Information: DeepSeek and Moonshot leaned heavily on OpenAI's GPT-6 Astra outputs to train their latest models, including Kimi K3.1 Pro and DeepSeek V4.1 Flash 1017, after Anthropic's defences cut extractable data by 90-99%; Moonshot declined to comment (via The Decoder)",
+   "tier": "notable",
+   "impact": 6,
+   "arc": "distillation-defence",
+   "arcDay": 1,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "category": "models"
+  },
+  {
+   "section": "new",
+   "delta": "new",
+   "new24h": true,
+   "firstSeen": "2026-10-30",
+   "lastUpdate": "2026-10-30",
+   "id": "tinyworldformer-pico-world-model",
+   "rank": 10,
+   "title": "Open-source tinyworldformer runs a 26k-131k-parameter int8 looped-transformer world model on a Raspberry Pi Pico 2 W microcontroller, generating Breakout, Pong, Flappy Bird, Doom-lite and Pac-Man frames while a 9k-16k-parameter agent plays and learns inside the generated game (Hacker News front page)",
+   "tier": "monitor",
+   "impact": 4,
+   "arc": "on-device-models",
+   "arcDay": 2,
+   "confidence": "Primary",
+   "verified": "opened",
+   "category": "models"
+  },
+  {
+   "section": "new",
+   "delta": "new",
+   "new24h": true,
+   "firstSeen": "2026-10-30",
+   "lastUpdate": "2026-10-30",
+   "id": "dream-built-world-models",
+   "rank": 11,
+   "title": "Ex-Palantir executives launch Dream with a $17M a16z-led seed to build 'built world models' trained on 100M+ square feet of US permit data, generating structurally sound building designs to replace hand-drawn work in AutoCAD and Revit",
+   "tier": "monitor",
+   "impact": 4,
+   "arc": "world-models",
+   "arcDay": 2,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "category": "business"
+  },
+  {
+   "section": "new",
+   "delta": "new",
+   "new24h": true,
+   "firstSeen": "2026-10-30",
+   "lastUpdate": "2026-10-30",
+   "id": "deepgram-daily-pipecat",
+   "rank": 12,
+   "title": "Deepgram acquires Daily, maker of the open-source Pipecat voice-agent framework, for an undisclosed sum and commits to keeping Pipecat open source and vendor-neutral",
+   "tier": "monitor",
+   "impact": 4,
+   "arc": "speech-native-models",
+   "arcDay": 3,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "category": "enterprise"
+  },
+  {
+   "section": "new",
+   "delta": "new",
+   "new24h": true,
+   "firstSeen": "2026-10-30",
+   "lastUpdate": "2026-10-30",
+   "id": "nvidia-ceo-spy-plot-megaspeed",
+   "rank": 13,
+   "title": "NYT: US intelligence surveilled Alice Huang, an executive at Singapore AI-cloud firm Megaspeed (earlier investigated over reselling restricted Nvidia chips to China), for about a year over concern she was gathering information on Nvidia and Jensen Huang's lobbying; Nvidia says regional customers get no sensitive information",
+   "tier": "monitor",
+   "impact": 5,
+   "arc": "chip-export-enforcement",
+   "arcDay": 2,
+   "confidence": "2x src",
+   "verified": "opened",
+   "category": "policy"
+  },
+  {
+   "section": "new",
+   "delta": "new",
+   "new24h": true,
+   "firstSeen": "2026-10-30",
+   "lastUpdate": "2026-10-30",
+   "id": "anthropic-spacex-customer-b",
+   "rank": 14,
+   "title": "Bloomberg: Anthropic is SpaceX's 'Customer B', 34.5% of SpaceX's Q3 revenue via compute from its AI unit, now bigger than the US government; Anthropic can spend up to $120.5B through 2029 (~$3.1B a month from December) but can cancel on 90 days' notice after early 2027",
+   "tier": "monitor",
+   "impact": 5,
+   "arc": "anthropic-capital",
+   "arcDay": 15,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "category": "business"
+  },
+  {
+   "section": "new",
+   "delta": "new",
+   "new24h": true,
+   "firstSeen": "2026-10-30",
+   "lastUpdate": "2026-10-30",
+   "id": "altman-robots-build-datacentres",
+   "rank": 15,
+   "title": "Sam Altman says OpenAI will point its robotics programme at building data centres and calls 'self-replicating data centers' within grasp; says OpenAI's own chip does well on intelligence per watt and that sandboxes work only 'to a point' against far smarter AI (Cheeky Pint podcast)",
+   "tier": "monitor",
+   "impact": 4,
+   "arc": "ai-compute-buildout",
+   "arcDay": 9,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "category": "hardware"
+  },
+  {
+   "section": "new",
+   "delta": "new",
+   "new24h": true,
+   "firstSeen": "2026-10-30",
+   "lastUpdate": "2026-10-30",
+   "id": "marvell-lumentum-talks",
+   "rank": 16,
+   "title": "Bloomberg reports Marvell is in advanced talks to buy Lumentum (~$85B), whose lasers for AI data-centre optical links are sold out to early 2029, likely in stock; a deal could come as soon as next week but is not agreed (via TNW)",
+   "tier": "monitor",
+   "impact": 5,
+   "arc": "ai-compute-buildout",
+   "arcDay": 10,
+   "confidence": "Rumor-flag",
+   "verified": "opened",
+   "category": "hardware"
+  },
+  {
+   "section": "new",
+   "delta": "new",
+   "new24h": true,
+   "firstSeen": "2026-10-30",
+   "lastUpdate": "2026-10-30",
+   "id": "openai-pro-limits-doubled",
+   "rank": 17,
+   "title": "OpenAI doubles Work and Codex usage limits on its Pro 100 and Pro 500 plans and reverses a planned cut on Pro 200; Plus is unchanged and Dots usage is tracked separately (via The Decoder)",
+   "tier": "monitor",
+   "impact": 3,
+   "arc": "frontier-price-war",
+   "arcDay": 13,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "category": "enterprise"
+  },
+  {
+   "section": "developing",
+   "delta": "escalated",
+   "new24h": false,
+   "firstSeen": "2026-10-10",
+   "lastUpdate": "2026-10-30",
+   "id": "mistral-large-4",
+   "rank": 1,
+   "title": "Mistral releases the weights of Mistral Large 4 ('Le Chonk'): ~1T-parameter multimodal MoE (49B active, 1M context) under a modified-MIT 'Ecosystem' licence that excludes model-as-a-service; Terminal-Bench 4.0 41% (from 28% in preview), 48% on Artificial Analysis's Coding Agent Index with 47% fewer tokens than GLM-5.3, 51% Cyber Index",
+   "tier": "notable",
+   "impact": 8,
+   "arc": "open-weight-ceiling",
+   "arcDay": 23,
+   "confidence": "Primary",
+   "verified": "opened",
+   "category": "models",
+   "update": "Weights shipped on Hugging Face on 29 Oct after three more weeks of reinforcement learning; the licence is a modified MIT that needs a separate deal for model-as-a-service"
+  }
+ ],
+ "deadlines": [
+  {
+   "date": "2026-10-31",
+   "label": "Month-end: Personal Agent Protocol v0.1, Dataiku Agent Management GA",
+   "severity": "medium"
+  },
+  {
+   "date": "2026-11-03",
+   "label": "US midterm elections (data centres an issue); Senator Warren's deadline for Anthropic's answers on its IPO filing",
+   "severity": "medium"
+  },
+  {
+   "date": "2026-11-08",
+   "label": "Approximate: India's MeitY AI-regulation consultation paper ('within a month' of 8 Oct)",
+   "severity": "medium"
+  },
+  {
+   "date": "2026-11-15",
+   "label": "China's draft AI export-control catalogue: public comments close (MOFCOM/MOST No. 48)",
+   "severity": "high"
+  },
+  {
+   "date": "2026-11-16",
+   "label": "California: state agencies report on the feasibility of an AI 'kill switch' (Newsom order, 18 Sep)",
+   "severity": "medium"
+  },
+  {
+   "date": "2026-12-07",
+   "label": "US Treasury COINS Act outbound-investment rule: comments due (as reported; check regulations.gov)",
+   "severity": "high"
+  }
+ ]
+}
+</script>
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('page-data').textContent);
+  var TODAY = state.date;
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+  var dayMs = 86400000;
+  var toDate = function(s){ var p = s.split('-'); return Date.UTC(+p[0], +p[1]-1, +p[2]); };
+  var newStories = state.stories.filter(function(s){ return s.section === 'new'; });
+  var n24 = newStories.filter(function(s){ return s.new24h; }).length;
+
+  // ── degraded banner ──
+  if(state.degraded){
+    $('degraded').classList.add('on');
+    $('degraded-text').textContent = state.degradedReason || 'Source pages could not be opened for this edition.';
+  }
+
+  // ── status line ──
+  var catchup = state.editionType === 'catch-up';
+  var bits = [
+    newStories.length + (newStories.length === 1 ? ' story' : ' stories'),
+    n24 === 0 ? 'none in the last 24 hours' : n24 + ' in the last 24 hours',
+    (state.sourcesOpened || 0) + ((state.sourcesOpened === 1) ? ' source opened' : ' sources opened')
+  ];
+  $('status').innerHTML = '<span class="etype' + (catchup ? ' catchup' : '') + '">' + (catchup ? 'Catch-up edition' : 'Daily edition') + '</span>' +
+    (catchup ? 'Quiet day: ' : '') + '<b>' + bits.join(', ') + '</b>';
+  $('new-head').textContent = newStories.length + ' NEW SINCE LAST EDITION · ' + n24 + ' IN THE LAST 24H';
+
+  // ── NEW / NEW.24H badges from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){ var b = document.createElement('span'); b.className = 'badge b-24h'; b.textContent = 'NEW IN 24H'; frag.appendChild(b); }
+      var map = {escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ EASED']};
+      if(map[s.delta]){ var d = document.createElement('span'); d.className = 'badge ' + map[s.delta][0]; d.textContent = map[s.delta][1]; frag.appendChild(d); }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline timeline with days-left counters ──
+  var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var tl = $('timeline');
+  state.deadlines.slice().sort(function(a,b){ return a.date < b.date ? -1 : 1; }).forEach(function(d){
+    var left = Math.round((toDate(d.date) - toDate(TODAY)) / dayMs);
+    if(left < 0) return;
+    var p = d.date.split('-');
+    var el = document.createElement('div');
+    el.className = 'tl-item sev-' + d.severity;
+    el.innerHTML = '<div class="when">' + (+p[2]) + ' ' + M[+p[1]-1] + '</div><div class="left">' +
+      (left === 0 ? 'TODAY' : left === 1 ? 'TOMORROW' : 'IN ' + left + ' DAYS') + '</div><div class="l">' + esc(d.label) + '</div>';
+    tl.appendChild(el);
+  });
+
+  // ── category tabs (filter every feed item) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.feed-item').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? '' : 'none';
+      });
+    });
+  });
+
+  // ── share buttons: native share sheet, else copy the link ──
+  document.querySelectorAll('[data-share]').forEach(function(b){
+    b.addEventListener('click', function(ev){
+      ev.preventDefault();
+      var id = b.getAttribute('data-share');
+      var el = $(id), h = el && el.querySelector('h4');
+      var url = location.href.split('#')[0] + '#' + id;
+      var title = h ? h.textContent.replace(/^NEW IN 24H/, '').trim() : document.title;
+      if(navigator.share){ navigator.share({title: title, text: title + ' — AI Daily Signal', url: url}).catch(function(){}); return; }
+      var done = function(){ var t = $('toast'); t.style.display = 'block'; setTimeout(function(){ t.style.display = 'none'; }, 1600); };
+      if(navigator.clipboard){ navigator.clipboard.writeText(url).then(done, done); } else { prompt('Copy this link', url); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
