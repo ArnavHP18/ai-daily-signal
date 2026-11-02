@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 133 — 2 November 2026</title>
+<meta name="description" content="Balestriero and LeCun prove JEPAs trained on different data converge on one representation. Plus Frank Calegari on OpenAI&#x27;s 700 maths papers, Linux 7.4&#x27;s AI-found fixes, ChatGPT&#x27;s shared token budget and SenseNova&#x27;s looped model.">
+<meta name="author" content="Arnav Agrawal">
+<!-- share tags: og:url and og:image must be absolute; SITE_URL lives in scripts/site_config.json -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="AI Daily Signal">
+<meta property="og:title" content="A 109M-parameter JEPA out-aligns 72B language models as LeCun&#x27;s team proves the Platonic hypothesis">
+<meta property="og:description" content="AI Daily Signal, edition 133 (2 Nov 2026): 21 new stories.">
+<meta property="og:url" content="https://arnavhp18.github.io/ai-daily-signal/editions/ai_daily_signal_2026-11-02.html">
+<meta property="og:image" content="https://arnavhp18.github.io/ai-daily-signal/editions/cards/2026-11-02.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="A 109M-parameter JEPA out-aligns 72B language models as LeCun&#x27;s team proves the Platonic hypothesis">
+<meta name="twitter:description" content="AI Daily Signal, edition 133 (2 Nov 2026): 21 new stories.">
+<meta name="twitter:image" content="https://arnavhp18.github.io/ai-daily-signal/editions/cards/2026-11-02.png">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac; --muted:#6b6353;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --up:#2e7d4f; --up-bg:#e3f1e8; --down:#b3261e; --down-bg:#f6e2df;
+    /* trust markers: one colour each, used everywhere */
+    --t-official:#2e7d4f; --t-multi:#1f3a93; --t-single:#a86b00; --t-rumor:#b3261e;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  /* mono = short labels only */
+  .label,.sec-head,.chip,.badge,.tab,.impact,.cat{font-family:var(--mono)}
+
+  /* ticker: plain dark bar, confirmed items only */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-size:13px;padding:8px 0}
+  .ticker-inner{display:inline-block;animation:tick 70s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166;font-family:var(--mono);font-size:12px;letter-spacing:1px}
+
+  /* degraded banner (rendered from state.degraded) */
+  .degraded{display:none;background:#fff1c7;border-bottom:2px solid #d99a00;color:#5a4300;font-size:14px;padding:10px 0}
+  .degraded.on{display:block}
+  .degraded strong{font-family:var(--mono);font-size:12px;letter-spacing:1px;margin-right:6px}
+
+  /* masthead: name, edition, date, byline */
+  .masthead{border-bottom:4px double var(--ink);padding:22px 0 14px;text-align:center}
+  .brand{display:inline-flex;align-items:center;gap:12px;border:none;color:var(--ink)}
+  .brand img{width:44px;height:44px}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(32px,5.5vw,56px);letter-spacing:-1px;text-transform:uppercase;line-height:1}
+  .masthead .when{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:10px}
+  .masthead .byline{font-size:13px;color:var(--muted);margin-top:4px}
+
+  /* status line above the headline */
+  .status{font-family:var(--mono);font-size:12px;letter-spacing:.5px;color:var(--muted);padding:16px 0 0}
+  .status b{color:var(--ink)}
+  .status .etype{display:inline-block;background:var(--ink);color:var(--paper);padding:2px 8px;margin-right:8px;letter-spacing:1px;text-transform:uppercase}
+  .status .etype.catchup{background:#d99a00;color:var(--ink)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:12px 0 26px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4vw,44px);line-height:1.1;margin:6px 0 10px}
+  .hero .subhead{font-size:19px;line-height:1.45;color:#3a352a;margin-bottom:14px}
+  .hero .dek{font-size:16px;line-height:1.6;color:#3a352a;margin-bottom:12px}
+  .sowhat{font-style:italic;color:#4a4436;border-left:3px solid var(--rule);padding-left:12px;margin:12px 0}
+  .hero .sowhat{border-left-color:var(--crit)}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px;align-self:start}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:14px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:9px}
+  .brief-toggle{margin-top:12px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .full-brief{display:none;margin-top:14px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:15px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* trust markers */
+  .trust{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:600;padding:2px 9px;border:1.5px solid currentColor;border-radius:999px;margin:0 6px 6px 0;background:#fff}
+  .trust::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+  .trust.official{color:var(--t-official)} .trust.multi{color:var(--t-multi)}
+  .trust.single{color:var(--t-single)} .trust.rumor{color:var(--t-rumor);border-style:dashed}
+  .chip{display:inline-block;font-size:11px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0;color:#4a4436}
+  .badge{display:inline-block;font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--ink);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff} .b-deesc{background:var(--mon);color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .tier{font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;color:#fff;margin-right:6px}
+  .tier.critical{background:var(--crit)} .tier.notable{background:var(--note)} .tier.monitor{background:var(--mon)}
+
+  /* sources, ranked by type */
+  .src{font-size:13px;line-height:1.8;margin-top:6px}
+  .src .st{font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--muted);margin-right:4px}
+  .src .grp{margin-right:12px;display:inline}
+
+  /* section heads */
+  .sec-head{font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:24px 0 8px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .sec-head small{font-size:10px;color:var(--muted);letter-spacing:1px}
+
+  /* 30-second read */
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--rule);background:#fffdf7}
+  .trip{padding:16px 18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:26px;font-weight:800;color:var(--crit);line-height:1}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.25;margin:6px 0}
+  .trip p{font-size:14px;color:#4a4436}
+  .trip a.jump{font-family:var(--mono);font-size:11px}
+
+  /* deadline timeline */
+  .timeline{display:flex;gap:0;overflow-x:auto;border-top:2px solid var(--ink);padding-top:0;scrollbar-width:thin}
+  .tl-item{flex:1 0 170px;padding:12px 14px 6px;border-right:1px dashed var(--rule);position:relative}
+  .tl-item::before{content:"";position:absolute;top:-7px;left:14px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--ink)}
+  .tl-item.sev-high::before{background:var(--crit);border-color:var(--crit)}
+  .tl-item.sev-medium::before{background:#d99a00;border-color:#d99a00}
+  .tl-item .when{font-family:var(--mono);font-size:12px;font-weight:600;margin-top:6px}
+  .tl-item .left{font-family:var(--mono);font-size:11px;color:var(--crit)}
+  .tl-item .l{font-size:13px;margin-top:4px;line-height:1.4}
+
+  /* feed */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .tab{font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer;color:var(--ink)}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .lead-ref{font-size:14px;color:var(--muted);border:1px dashed var(--rule);padding:10px 14px;margin-bottom:14px}
+  .big{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:18px;display:flex;flex-direction:column;position:relative}
+  .card.critical{border-top:5px solid var(--crit)} .card.notable{border-top:5px solid var(--note)} .card.monitor{border-top:5px solid var(--mon)}
+  .card.rumor{border:2px dashed #b9ae96;background:#f3efe4;opacity:.85}
+  .card.rumor h4{color:#5a5240}
+  .card .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c;margin-right:6px}
+  .cat{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+  .card h4{font-family:var(--serif);font-size:22px;font-weight:600;line-height:1.2;margin:8px 0 6px}
+  .card .sub{font-size:15px;color:#3a352a;margin-bottom:8px}
+  .card .body{font-size:15px;color:#3f3a2e;flex:1}
+  .impact{font-size:11px;color:var(--muted)}
+  .impact b{font-size:14px;color:var(--ink)}
+  .share{font-family:var(--mono);font-size:11px;background:none;border:1px solid var(--rule);padding:3px 9px;cursor:pointer;color:var(--ink)}
+  .share:hover{border-color:var(--ink)}
+  .storyline{font-size:12px;color:var(--muted);margin-top:4px}
+  /* compact list for the rest */
+  .compact{border-top:1px solid var(--rule)}
+  .row{border-bottom:1px solid var(--rule);background:#fffdf7}
+  .row.rumor{border:2px dashed #b9ae96;background:#f3efe4;opacity:.85}
+  .row > summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:baseline}
+  .row > summary::-webkit-details-marker{display:none}
+  .row .rank{font-family:var(--serif);font-weight:800;font-size:20px;color:#9a917c}
+  .row h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.25;display:inline}
+  .row .meta{margin-top:6px}
+  .row .more{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+  .row[open] .more::after{content:"▴ less"} .row:not([open]) .more::after{content:"▾ more"}
+  .row .detail{padding:0 14px 14px 68px;font-size:15px}
+  /* "what changed" line on Developing cards */
+  .delta-line{font-size:14px;background:#eef3ea;border-left:3px solid var(--mon);padding:8px 12px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+
+  /* footer */
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:14px;color:#4a4436}
+  footer p{margin-bottom:8px}
+  footer .corr{font-size:13px;color:var(--muted)}
+  .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;padding:8px 14px;display:none}
+
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .big{grid-template-columns:1fr}
+    .row .detail{padding-left:14px}
+    .row > summary{grid-template-columns:34px 1fr}
+    .row .more{grid-column:2}
+  }
+</style>
+</head>
+<body>
+
+<!-- TICKER: confirmed items only. Never put an "Unconfirmed" story here. -->
+<div class="ticker" aria-hidden="true"><div class="ticker-inner">
+  <b>LECUN</b> a 109M-parameter text JEPA out-aligns language models up to 72B with image encoders &nbsp;◆&nbsp; <b>MATHS</b> Calegari on Tao&#x27;s blog: OpenAI&#x27;s 700+ papers are &#x27;a watershed&#x27; but some are wrong &nbsp;◆&nbsp; <b>LINUX</b> 7.4-rc1 out; almost 20,000 commits as AI-found fixes move into the merge window &nbsp;◆&nbsp; <b>CHATGPT</b> from December, Plus, Pro and Business share one token budget across ChatGPT and Codex &nbsp;◆&nbsp; <b>SENSENOVA</b> open looped model runs 24 layers twice for depth without extra weights &nbsp;◆&nbsp; <b>OPENAI</b> plans a post-midterms push for AI &#x27;speed limits&#x27; and &#x27;AI compute campuses&#x27; &nbsp;◆&nbsp; <b>HUMAIN</b> Aramco takes 49% of Saudi Arabia&#x27;s national AI company; about $2.6B this year &nbsp;◆&nbsp; <b>ANTHROPIC</b> Max 20x is now Ultra, with no five-hour limit for verified accounts &nbsp;◆&nbsp; <b>CLAUDE CODE</b> developers report refusals on game-recreation work; no announcement from Anthropic &nbsp;◆&nbsp; <b>NVIDIA</b> in talks to guarantee debt for Nscale&#x27;s Anthropic data centre &nbsp;◆&nbsp; <b>SALESFORCE</b> buys Rune, maker of the TyrOS frontline logistics software &nbsp;◆&nbsp; <b>SAMSUNG</b> Altman meets about 50 Samsung executives as memory runs short &nbsp;◆&nbsp; <b>PSIQUANTUM</b> 8x8 optical circuit switch for GPU networks, 1.2 dB loss in the lab &nbsp;◆&nbsp; <b>KRAFTON</b> Ludo Robotics&#x27; Ludi 0.2 robot model aims to read human intent &nbsp;◆&nbsp; <b>AGENTS</b> 50 GPT agents in Minecraft drift into bureaucracy &nbsp;◆&nbsp; <b>ADOBE</b> EditAgent pairs a general image editor with specialist tools and measured checks &nbsp;◆&nbsp; <b>CHATBOTS</b> warm &#x27;therapy&#x27; prompts push ChatGPT, Grok and Gemini into distress-like answers &nbsp;◆&nbsp; <b>VALS AI</b> prompt language shifts models&#x27; stance on China more than their origin &nbsp;◆&nbsp; <b>NVIDIA</b> open-source USB tool lifts the FP16 tensor limiter on RTX 20-40 GPUs &nbsp;◆&nbsp; <b>GOOGLE</b> in early talks to help secure Golden Dome&#x27;s data, Bloomberg reports &nbsp;◆&nbsp; <b>OUTDOORS</b> rangers see hikers misled by chatbot advice and AI-made maps
+</div></div>
+
+<!-- DEGRADED BANNER: shown when state.degraded is true -->
+<div class="degraded" id="degraded"><div class="wrap"><strong>DEGRADED EDITION</strong> <span id="degraded-text"></span></div></div>
+
+<header class="masthead wrap">
+  <a class="brand" href="index.html" aria-label="AI Daily Signal archive"><img src="../assets/logo.svg" alt=""><h1>AI Daily Signal</h1></a>
+  <div class="when">Edition 133 · Monday, 2 November 2026</div>
+  <div class="byline">Curated by Arnav Agrawal<span data-slot="curator-links"></span></div>
+</header>
+
+<main class="wrap">
+
+<!-- STATUS LINE: rendered from state (editionType, counts, new24h, sourcesOpened) -->
+<div class="status" id="status"></div>
+
+<!-- HERO: headline 12-15 words, one sub-line, then the detail -->
+<article class="hero" id="jepa-platonic-theorem" data-story-id="jepa-platonic-theorem">
+  <div>
+    <h2>A 109M-parameter JEPA out-aligns 72B language models as LeCun's team proves the Platonic hypothesis</h2>
+    <p class="subhead">Randall Balestriero and Yann LeCun turn a popular conjecture about AI models into a theorem, and argue that predicting the next word is a wasteful way to learn what the world looks like.</p>
+    <div><span class="tier notable">NOTABLE · INFORMS THIS MONTH</span><span class="trust official">Official source</span><span class="chip">Checked on arxiv.org</span></div>
+    <p class="dek">The <strong>Platonic Representation Hypothesis</strong> says that models trained on different kinds of data, such as images and text, drift towards the same internal picture of the world as they grow. In a preprint posted on 29 October (arXiv 2610.39302), <strong>Randall Balestriero and Yann LeCun</strong> prove a version of it: <strong>joint-embedding predictive architectures (JEPAs)</strong> trained separately on any number of modalities learn <strong>the same representation, up to a single rotation</strong>, as long as their training pairs are two observations of one scene, which they call "good views". They then show that <strong>next-token prediction is a JEPA with "bad views"</strong>, parts of one document, which explains why language models line up with vision models only through scale. In experiments from 145,000 captions up to the texts of 940 million web images, good views reach the same alignment with <strong>42 times fewer training samples</strong> than next-token prediction on the same corpus, and a <strong>109M-parameter text JEPA aligns with DINOv2 and CLIP's image encoders better than every language model they tested, up to 72B parameters</strong>, and better than CLIP's own text encoder.</p>
+    <p class="sowhat">So what: if it holds, models that share a view of the world can be built by choosing the right training pairs rather than by scaling up, at a fraction of the data. It is also the strongest formal backing yet for LeCun's long-running argument that language-model pretraining is not the efficient road to world models. It is one preprint, not yet peer-reviewed; watch for code and independent replication.</p>
+    <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://arxiv.org/abs/2610.39302">arXiv 2610.39302: Proving and Improving the Platonic Representation Hypothesis with JEPAs</a> · <a href="https://arxiv.org/pdf/2610.39302">PDF</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://news.ycombinator.com/">Hacker News front page (1 Nov, about 105 points)</a></span></div>
+    <div class="storyline">Storyline: world models and JEPA · day 2</div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>Checked on arXiv.</strong> The abstract states the theorem's condition plainly: alignment is exact up to one rotation "whenever their positive pairs are two observations of one scene", and misalignment is bounded otherwise. The authors also report a scaling law of alignment that "predicts unseen runs within seed noise".</p>
+      <p><strong>Two demonstrations.</strong> A single rotation turns separately trained image and text encoders into an image captioner scoring <strong>CIDEr 0.838 on COCO</strong>. Even the rotation can be found without paired data: on a recent pair-free benchmark, their text JEPA scores <strong>64% top-5 on ImageNet-100</strong>, against at most 56% for language models up to 8B parameters. The authors conclude that "positive views, and not scale alone, are thus the lever to build platonic representations."</p>
+      <p><strong>Why it leads.</strong> Monday is our research day, and this is the week's clearest result about how to build models, not just a bigger one. LeCun also founded AMI Labs to build JEPA-style world models; we checked again on 2 November and it still has no public model. Last week's world-model news was Google DeepMind's Genie 4 (28 October).</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>What</dt><dd>Theorem and experiments on cross-modal alignment</dd>
+      <dt>Who</dt><dd>Randall Balestriero, Yann LeCun</dd>
+      <dt>Posted</dt><dd>29 Oct 2026, arXiv 2610.39302</dd>
+      <dt>Key number</dt><dd>109M text JEPA beats LMs up to 72B on alignment</dd>
+      <dt>Data</dt><dd>42x fewer samples than next-token prediction</dd>
+      <dt>Caveat</dt><dd>Preprint; not yet replicated</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">7</b>/10 — anyone choosing how to train multimodal models</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- 30-SECOND READ: right under the headline; never repeats the lead -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE NEXT THREE AFTER THE LEAD</small></div>
+  <div class="triptych">
+    <article class="trip">
+      <div class="num">1</div>
+      <h4>AI maths, judged by a mathematician</h4>
+      <p>Frank Calegari calls OpenAI&#x27;s 700 papers a watershed and a mess: badly written, poorly attributed, some wrong. The job now is checking. <a class="jump" href="#calegari-ai-math-watershed">#2 ↓</a></p>
+    </article>
+    <article class="trip">
+      <div class="num">2</div>
+      <h4>Linux absorbs the AI bug flood</h4>
+      <p>Linux 7.4 opens with almost 20,000 commits. Torvalds says AI-found fixes arriving in the merge window is a much healthier model. <a class="jump" href="#linux-74-ai-merge-window">#3 ↓</a></p>
+    </article>
+    <article class="trip">
+      <div class="num">3</div>
+      <h4>ChatGPT&#x27;s flat rate ends</h4>
+      <p>From December, ChatGPT and Codex share one token budget on Plus, Pro and Business. Coding agents will eat into chat time. <a class="jump" href="#chatgpt-shared-token-budget">#4 ↓</a></p>
+    </article>
+  </div>
+</section>
+
+<!-- DEADLINES: timeline with days-left counters, rendered from state.deadlines -->
+<section>
+  <div class="sec-head">Coming Up <small>DATES THAT MATTER · DAYS LEFT</small></div>
+  <div class="timeline" id="timeline"></div>
+</section>
+
+<!-- FEED -->
+<section>
+  <div class="sec-head">New on the Wire <small id="new-head"></small></div>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (21)</button>
+    <button class="tab" data-cat="business">BUSINESS (4)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (2)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (3)</button>
+    <button class="tab" data-cat="models">MODELS (2)</button>
+    <button class="tab" data-cat="policy">POLICY (4)</button>
+    <button class="tab" data-cat="research">RESEARCH (6)</button>
+  </div>
+
+  <div class="lead-ref feed-item" data-cat="research"><strong>#1</strong> is today's lead, above: Balestriero and LeCun's proof that JEPAs converge on one shared representation. <a href="#jepa-platonic-theorem">Back to top ↑</a></div>
+
+  <!-- the two highest-scoring stories after the lead get large cards -->
+  <div class="big">
+
+    <article class="card notable feed-item" id="calegari-ai-math-watershed" data-cat="research" data-story-id="calegari-ai-math-watershed">
+      <div class="top"><span><span class="rank">#2</span><span class="cat">Research · AI and mathematics · 1 Nov</span></span><span class="impact">IMPACT <b>7</b>/10</span></div>
+      <h4>A leading number theorist calls OpenAI&#x27;s 700 maths papers a watershed, and a mess</h4>
+      <p class="sub">Frank Calegari, writing on Terence Tao&#x27;s blog, says every major open problem he has worked on is now &#x27;claimed to be proved&#x27;, and asks mathematicians to respond with checking, not despair.</p>
+      <div class="body">In a guest post on Terence Tao's blog, <strong>Frank Calegari</strong> writes that "the release by OpenAI on October 6 of over 700 research papers was a watershed in the history of mathematics" and that "AI is now undeniably capable of making groundbreaking contributions across many areas of mathematics." He is blunt about the papers themselves: they are "<strong>atrociously written</strong> and violate our community expectations of attribution. <strong>Some of them are even wrong.</strong>" For his own field the shock is scale: "Not a single one of the major open problems I have publicly mentioned throughout my career ... was left untouched by the announcement. Everything has been claimed to be proved." He compares the moment to the classification of finite simple groups, which succeeded but cooled interest in the subject, and calls for an effort like Gorenstein, Lyons and Solomon's revision of that proof: checking, rewriting and explaining. Mathematicians, he argues, control hiring, publishing and training far more than they control "trillion-dollar companies", and should spend their effort there. He quotes Christian Szegedy that the valued skills will shift to "choosing which terrain is worth exploring, steering fleets of airplanes, and explaining what they find." Tao notes the post was converted from another file format using AI. The post reached the Hacker News front page (about 210 points).</div>
+      <p class="sowhat">Claims of proofs are now arriving faster than people can check them. The bottleneck in maths, and soon in other sciences, moves from finding results to verifying, attributing and explaining them. Expect journals, hiring committees and funders to start writing rules for machine-generated results.</p>
+      <div><span class="tier notable">NOTABLE</span><span class="trust official">Official source</span><span class="chip">Checked on terrytao.wordpress.com</span></div>
+      <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://terrytao.wordpress.com/2026/11/01/mathematics-has-changed-lets-act-like-it/">Terence Tao&#x27;s blog: Mathematics has changed. Let&#x27;s act like it (guest post by Frank Calegari)</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://news.ycombinator.com/">Hacker News front page (1 Nov)</a></span></div>
+      <div class="storyline">Storyline: AI doing science and maths · day 13</div>
+      <div style="margin-top:10px"><button class="share" data-share="calegari-ai-math-watershed">Share ↗</button></div>
+    </article>
+    <article class="card notable feed-item" id="linux-74-ai-merge-window" data-cat="enterprise" data-story-id="linux-74-ai-merge-window">
+      <div class="top"><span><span class="rank">#3</span><span class="cat">Enterprise · open source · 1 Nov</span></span><span class="impact">IMPACT <b>6</b>/10</span></div>
+      <h4>Linux 7.4 opens with 20,000 commits, many of them fixes for bugs AI found</h4>
+      <p class="sub">Torvalds says AI-found fixes now land in the normal merge window, not as a late flood, and calls it a healthier model.</p>
+      <div class="body">kernel.org lists <strong>Linux 7.4-rc1</strong> as the mainline release of 1 November. In his announcement, quoted by The Register, Torvalds writes that it is "a *BIG* merge window" with <strong>almost 20,000 commits</strong>, against the usual ~15,000, and gives the reason: "I'm *much* happier with the flood of AI triggered work going into the merge window than it showing up mainly as extra fixes during the -rc period." He hopes this means AI fixes are "becoming more part of the 'normal development' than a flood of fixes that go into the whole stabilization phase", calls that "a much healthier model", and notes that 7.4 is expected to be the next long-term-support release, another reason it is large. He describes the release as "Large, and full of fixes for issues found by AI (and more and more the patches have been suggested by AI too, although they often get rewritten)." A third of the changes are AMD GPU register definitions.</div>
+      <p class="sowhat">The kernel is absorbing AI-driven bug finding, the same work behind last edition&#x27;s TCP flaw, into its normal process rather than firefighting late in each cycle. As 7.4 is likely the next LTS kernel, distributions and device makers will carry these AI-found fixes for years; test it early.</p>
+      <div><span class="tier notable">NOTABLE</span><span class="trust official">Official source</span><span class="chip">Checked on kernel.org and The Register</span></div>
+      <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://www.kernel.org/">kernel.org: mainline 7.4-rc1 (1 Nov)</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://www.theregister.com/os-platforms/2026/11/01/linus-torvalds-says-linux-kernel-is-out-of-stabilization-phase-and-using-much-healthier-model-for-ai-contributions/5306852">The Register (quotes the announcement)</a></span></div>
+      <div class="storyline">Storyline: AI finding and exploiting real bugs · day 8</div>
+      <div style="margin-top:10px"><button class="share" data-share="linux-74-ai-merge-window">Share ↗</button></div>
+    </article>
+  </div>
+
+  <!-- everything else: compact list, tap to expand -->
+  <div class="compact">
+    <details class="row feed-item" id="chatgpt-shared-token-budget" data-cat="enterprise" data-story-id="chatgpt-shared-token-budget">
+      <summary><span class="rank">#4</span><span><h4>ChatGPT moves to one token budget shared with Codex from December</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust single">One secondary source</span><span class="cat">Enterprise · pricing · 1 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>The Decoder, citing an updated OpenAI support page, reports that <strong>starting in December</strong> the Plus, Pro and Business plans will share <strong>a single token budget across ChatGPT and Codex</strong> as OpenAI folds Work's agent features into the main interface. Bigger models and longer tasks use the budget faster; users can see their balance and reset times in Settings and, at the limit, wait, upgrade or buy credits. Chats with the Instant models will not count. Separately, OpenAI now limits how many paid subscriptions can be linked to one payment card or used on one device; the limits cover Go, Plus, Pro 100, Pro 200 and Pro 500, and users who hit them see "Device limit reached". Free, Business, Enterprise and Edu accounts are not counted. The Decoder reads both moves as OpenAI putting revenue ahead of growth. We could not open OpenAI's support pages to check the wording.</p>
+        <p class="sowhat">Flat-rate AI chat is turning into metered compute. If your team uses ChatGPT and Codex on the same seats, expect coding agents to eat into everyone&#x27;s chat allowance from December; budget for credits or move heavy agent work to the API.</p>
+        <div class="src"><span class="grp"><span class="st">AGGREGATOR</span><a href="https://the-decoder.com/openais-upcoming-chat-and-work-merger-in-chatgpt-signals-the-end-of-all-you-can-prompt-pricing/">The Decoder: chat-and-work merger and token budget</a> · <a href="https://the-decoder.com/openai-is-steering-chatgpt-users-toward-more-paid-usage/">The Decoder: card and device limits</a></span></div>
+        <div class="storyline">Storyline: what AI costs to use · day 13 · Checked on The Decoder; OpenAI&#x27;s support page not opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="chatgpt-shared-token-budget">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="sensenova-loop-9b" data-cat="models" data-story-id="sensenova-loop-9b">
+      <summary><span class="rank">#5</span><span><h4>An open 9B model gets more depth by running its middle layers twice</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust official">Official source</span><span class="cat">Models · new architectures · 30 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>SenseNova's Hugging Face card describes <strong>SenseNova-Loop-9B-Preview</strong>, released on 30 October under <strong>Apache 2.0</strong>, as a text-and-image model for long-context and agentic workflows. It is a <strong>looped transformer</strong>: after layers 0-3, the same block of layers 4-27 runs <strong>twice with shared weights</strong>, then layers 28-31 finish the pass, so each forward pass makes 56 layer computations while storing only 32 layers (about 9B parameters, about 14.6B 'inference parameters'). Inside the loop, two residual streams are mixed by learned, Sinkhorn-normalised 'manifold-constrained hyper-connections' (mHC), and attention alternates three linear layers with one full layer. Training recipes reach 262,144 tokens. The card shows benchmark results only as a chart (BIRD, Terminal-Bench 2.1, banking and slide-making tests), so we cannot quote numbers; the technical report is listed as 'TBD'. The model has about 140 likes and 900 downloads in five days and is on Hugging Face's trending list.</p>
+        <p class="sowhat">Looping layers is a way to buy reasoning depth with compute instead of memory, which suits phones and cheap GPUs where weights are the constraint. It is the first open model of this size we have seen built around the idea; wait for the technical report and independent scores before reading much into the chart.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://huggingface.co/sensenova/SenseNova-Loop-9B-Preview">Hugging Face: SenseNova-Loop-9B-Preview card</a> · <a href="https://github.com/OpenSenseNova/SenseNova-Loop">GitHub: OpenSenseNova/SenseNova-Loop (linked from the card; not opened)</a></span></div>
+        <div class="storyline">Storyline: new kinds of models · day 6 · Checked on the Hugging Face card</div>
+        <div style="margin-top:8px"><button class="share" data-share="sensenova-loop-9b">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="openai-midterm-speed-limits" data-cat="policy" data-story-id="openai-midterm-speed-limits">
+      <summary><span class="rank">#6</span><span><h4>OpenAI will push for AI &#x27;speed limits&#x27; after the midterms</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust single">One secondary source</span><span class="cat">Policy · US politics · 1 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>TechCrunch, citing Axios, reports that OpenAI is preparing a "PR blitz" for after Tuesday's midterm elections. Its chief global affairs officer <strong>Chris Lehane</strong> told Axios the midterms will be "a bit of a movie trailer for what you're going to see in 2028," when he expects AI to be "the issue" in the presidential race. His proposals include developing <strong>AI "speed limits"</strong>, helping people see AI as empowering in daily life, a US role in <strong>global standards</strong>, and renaming data centres "<strong>AI compute campuses</strong>". He called the local fight over data centres, which has led Amazon and Microsoft to say they will stop using NDAs with local governments, "good and healthy". TechCrunch does not say how a speed limit would work, and we found no OpenAI post on it. An analysis summarised by Techmeme says candidates backing data-centre moratoriums could win up to 15 of 36 governors' races.</p>
+        <p class="sowhat">The leading lab is moving from opposing limits to proposing its own, timed for a Congress that may change hands. Whoever defines a &#x27;speed limit&#x27; first shapes what gets measured; watch for a concrete metric (compute, capability tests or release gaps) after 3 November.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/11/01/openai-might-rebrand-its-data-centers-as-ai-compute-campuses/">TechCrunch (citing Axios)</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://www.techmeme.com/">Techmeme (governors&#x27; races analysis; not opened)</a></span></div>
+        <div class="storyline">Storyline: how fast frontier AI should go · day 20 · Checked on TechCrunch</div>
+        <div style="margin-top:8px"><button class="share" data-share="openai-midterm-speed-limits">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="aramco-humain-stake" data-cat="business" data-story-id="aramco-humain-stake">
+      <summary><span class="rank">#7</span><span><h4>Aramco takes 49% of Saudi Arabia&#x27;s national AI company</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust single">One secondary source</span><span class="cat">Business · sovereign AI · 1 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>The Economic Times reports that <strong>Saudi Aramco has acquired 49% of Humain</strong>, the AI company owned by the Public Investment Fund, which keeps <strong>51%</strong>. Aramco will inject about <strong>SAR 9.9B (~$2.6B)</strong> into the company this year to speed up its growth regionally and globally; Techmeme's summary adds that Aramco also contributes AI, compute and digital assets. PIF and Aramco first signed a non-binding term sheet for a 'significant minority stake' in October 2025, with PIF keeping control. We could not open Aramco's or PIF's own announcement.</p>
+        <p class="sowhat">The world&#x27;s largest oil company is now half-owner of a national AI champion, tying Gulf energy money directly to AI infrastructure. With UAE investors leading OpenAI&#x27;s round (Developing, last edition), Gulf states are becoming the swing financiers of the AI build-out.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://www.pif.gov.sa/en/news-and-insights/press-releases/2025/pif-and-aramco-agree-for-aramco-to-acquire-a-significant-minority-stake-in-humain-with-pif-retaining-majority-ownership/">PIF: 2025 term sheet (background; not opened)</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://economictimes.indiatimes.com/ai/ai-insights/saudi-aramco-takes-49-stake-in-ai-firm-humain-commits-2-6-billion/articleshow/135423450.cms">Economic Times</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://www.techmeme.com/">Techmeme (1 Nov)</a></span></div>
+        <div class="storyline">Storyline: national AI money · day 2 · Checked on the Economic Times</div>
+        <div style="margin-top:8px"><button class="share" data-share="aramco-humain-stake">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="claude-max-ultra-plans" data-cat="business" data-story-id="claude-max-ultra-plans">
+      <summary><span class="rank">#8</span><span><h4>Claude&#x27;s top plan becomes Ultra and loses its five-hour limit</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust official">Official source</span><span class="cat">Business · pricing · 30 Oct-1 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>Anthropic's pricing page now lists <strong>Max</strong> and <strong>Ultra</strong> plans, each with a monthly API credit for the Claude Platform: <strong>$100 on Max, $200 on Ultra</strong>. Both include Anthropic's top Fable models at up to half the weekly limit. TNW reports the change was announced on X on Friday: the $100 Max 5x plan becomes Max and the $200 Max 20x becomes Ultra, prices unchanged (€90 and €180 in Europe). <strong>Verified Ultra accounts lose the five-hour limit</strong>, with removal staged and newer accounts verified first; Max keeps it. TNW notes the pricing page lists Ultra at <strong>ten times Pro usage a week</strong>, while the old name implied twenty; Anthropic says weekly limits have not changed. A lawsuit filed in June claims Anthropic oversold usage on both Max plans.</p>
+        <p class="sowhat">Removing the five-hour window helps people running long Claude Code sessions, but the &#x27;20x&#x27; label is gone and the weekly cap is the real limit. Read the pricing page, not the plan name. Together with ChatGPT&#x27;s token budget (#4), consumer AI plans are converging on metered usage.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://claude.com/pricing">Claude: Plans and pricing</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://thenextweb.com/news/claude-ultra-max-plan-rename-five-hour-limit">TNW</a></span></div>
+        <div class="storyline">Storyline: what AI costs to use · day 13 · Checked on claude.com/pricing</div>
+        <div style="margin-top:8px"><button class="share" data-share="claude-max-ultra-plans">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="claude-code-game-refusals" data-cat="policy" data-story-id="claude-code-game-refusals">
+      <summary><span class="rank">#9</span><span><h4>Claude Code is refusing to rebuild existing games, and Anthropic hasn&#x27;t said why</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Policy · usage rules · 27 Oct-1 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>TNW, following Tom's Hardware and reading the issues on Claude Code's public GitHub tracker, reports refusals on game projects since late October. The owner of <strong>Conflict Simulations LLC</strong>, who builds digital versions of board wargames for clients who own them, wrote that from around <strong>27 October</strong> sessions received "a server-side instruction" to refuse game work: "A blanket category rule against 'games' cannot tell the difference between piracy and commissioned professional work for a game's owner." Anthropic's support bot told the developer the policy covers all customers; the tickets were passed to staff and an appeal filed. <strong>Anthropic has not announced a change</strong> and the Claude Code changelog does not mention one. Tom's Hardware also reports users saying generic reverse-engineering tasks are blocked. Not every commenter objected: one said work not done for the rights holder is like any other reverse-engineered port.</p>
+        <p class="sowhat">Rules that change on the server without notice are a supply risk for anyone building on a coding agent. If game, emulation or reverse-engineering work is part of your business, keep a second model available and ask your vendor for written terms.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://thenextweb.com/news/claude-code-game-recreation-refusals-developers">TNW</a> · <a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/anthropics-ai-model-is-now-blocking-attempts-at-video-game-recreation-and-cloning-users-also-claim-non-malicious-generic-reverse-engineering-tasks-are-blocked">Tom&#x27;s Hardware (not opened)</a></span></div>
+        <div class="storyline">Storyline: what models will and won&#x27;t do · day 1 · Checked on TNW</div>
+        <div style="margin-top:8px"><button class="share" data-share="claude-code-game-refusals">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="nvidia-nscale-guarantee" data-cat="business" data-story-id="nvidia-nscale-guarantee">
+      <summary><span class="rank">#10</span><span><h4>Nvidia may co-sign the loans for Anthropic&#x27;s West Virginia data centre</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Business · compute financing · 29-30 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>TechCrunch reports that Nvidia is in talks to guarantee <strong>billions of dollars of debt</strong> for Nscale's planned Anthropic data centre in West Virginia (The Information, corroborated by Bloomberg). Under a <strong>residual value guarantee</strong>, Nvidia would step in if Nscale defaulted on construction payments, temporarily take over the site and help find a buyer and tenant; its earlier support for cloud providers mostly covered leases and chips, not construction. Nscale's IPO filing puts Anthropic's contract for the <strong>first 460MW building at $44.6B</strong>, using Vera Rubin chips, and a second deal of about $45B is being discussed. Nscale, seeking a valuation of up to $35B, had about 25,000 advanced chips running in August against nearly 500,000 planned; runoff from the site has flooded nearby homes, and Microsoft recently pulled out of a planned Nscale site in England.</p>
+        <p class="sowhat">When the chip supplier underwrites its customer&#x27;s construction loans, the risk in the AI build-out is concentrating on Nvidia&#x27;s balance sheet. It is the debt-side counterpart of last edition&#x27;s story about neoclouds being shut out of the bond market.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/10/30/nvidia-weighs-playing-the-cosigner-for-nscales-ai-data-center-in-west-virginia/">TechCrunch (citing The Information and Bloomberg)</a></span></div>
+        <div class="storyline">Storyline: Anthropic&#x27;s money · day 16 · Checked on TechCrunch</div>
+        <div style="margin-top:8px"><button class="share" data-share="nvidia-nscale-guarantee">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="salesforce-rune-tyros" data-cat="business" data-story-id="salesforce-rune-tyros">
+      <summary><span class="rank">#11</span><span><h4>Salesforce buys Rune, whose TyrOS plans military supplies offline</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Business · defence · 29 Oct-1 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>Salesforce announced on Thursday that it will buy <strong>Rune Technologies</strong> and fold it into <strong>Missionforce</strong>, its year-old defence business; Missionforce chief Kendall Collins calls it "our most significant acquisition in this space." Rune's software, <strong>TyrOS</strong>, forecasts what frontline units will need, suggests how to share out supplies and route transport, and keeps working with little or no network connection, syncing later. The US Army and Marine Corps use it, and the Army gave Rune a <strong>$99M TyrOS contract in June</strong> (one bid). Salesforce did not give a price; Resilience Media, citing two sources, reports <strong>$375M in cash and shares</strong>, which TNW has not verified. Rune was founded in 2024 by Anduril alumni and has raised $30M.</p>
+        <p class="sowhat">Enterprise software companies are buying their way into military AI, and the product here is decision support that works at the disconnected edge. Expect more defence tuck-ins from big SaaS firms looking for growth.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://thenextweb.com/news/salesforce-rune-technologies-acquisition-missionforce-defence">TNW</a> · <a href="https://www.washingtontechnology.com/companies/2026/10/salesforce-pushes-further-defense-tech-rune-acquisition/416943/">Washington Technology (not opened)</a></span></div>
+        <div class="storyline">Storyline: AI and the military · day 2 · Checked on TNW</div>
+        <div style="margin-top:8px"><button class="share" data-share="salesforce-rune-tyros">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="altman-samsung-memory" data-cat="hardware" data-story-id="altman-samsung-memory">
+      <summary><span class="rank">#12</span><span><h4>Sam Altman goes to Samsung for more memory</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Hardware · memory · 30 Oct-1 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>Tom's Hardware, citing Bloomberg, reports that Sam Altman met about <strong>50 senior Samsung executives</strong>, from its financial, electronics and biotech businesses, at Samsung's Resources Development Center in Yongin. Samsung Korea confirmed the meeting and said it covered the existing relationship, including the October 2025 letter of intent to supply memory for OpenAI's Stargate project, but <strong>announced no new supply agreement</strong>. The trip follows Altman calling DRAM in personal computers "quite terrible" on a podcast, arguing data centres use memory better. Counterpoint data cited by Tom's gives Samsung and SK hynix about <strong>63% of DRAM revenue</strong> and <strong>83% of HBM revenue</strong> in the second quarter; TrendForce expects DRAM supply to fall 1-2% short of demand this year, worse in 2027.</p>
+        <p class="sowhat">Memory, not GPUs, is now the scarce input, and the labs are negotiating with Korea directly. For everyone else that means higher prices for PCs, phones and servers into 2027.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.tomshardware.com/tech-industry/data-centers/sam-altman-travels-to-south-korea-to-meet-samsung-leadership-to-secure-more-ram-for-data-centers-amid-crushing-shortages-openai-ceo-meets-samsung-leadership-to-discuss-future-ai-data-centers">Tom&#x27;s Hardware (citing Bloomberg)</a></span></div>
+        <div class="storyline">Storyline: the memory shortage · day 13 · Checked on Tom&#x27;s Hardware</div>
+        <div style="margin-top:8px"><button class="share" data-share="altman-samsung-memory">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="psiquantum-optical-switch" data-cat="hardware" data-story-id="psiquantum-optical-switch">
+      <summary><span class="rank">#13</span><span><h4>PsiQuantum repurposes its quantum photonics as a switch for GPU networks</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Hardware · networking · 28-30 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>PsiQuantum says it has turned the low-loss silicon photonics it built for quantum computing into an <strong>optical circuit switch</strong> that passes light fibre to fibre without converting it to electrical signals, saving power and latency at each hop. Its first device is an <strong>8x8</strong> switch with typical insertion loss of <strong>1.2 dB</strong>, against the roughly 3 dB data-centre optics usually tolerate, plus 40 dB crosstalk and reconfiguration in under 3 ms, all from its own tests. Tom's Hardware notes Google's mirror-based switches have 136 ports, so port count is the open question; PsiQuantum says larger devices are in development and samples have gone to GPU vendors and hyperscalers.</p>
+        <p class="sowhat">Optical switching is one of the few ways to cut the power spent moving data between GPUs. A low-loss chip made in standard foundries could make it cheaper, but eight ports is a lab demo; the test is a 64- or 128-port part.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.tomshardware.com/tech-industry/photonics/psiquantum-turns-its-photonics-know-how-into-an-optical-switch-for-supercharging-ai-data-center-gpu-networks-8x8-lab-prototype-loses-less-light-than-rivals-with-plans-to-develop-larger-devices">Tom&#x27;s Hardware</a> · <a href="https://thequantuminsider.com/2026/10/28/psiquantum-optical-circuit-switch-ai-data-centers/">The Quantum Insider (not opened)</a></span></div>
+        <div class="storyline">Storyline: getting more out of each chip · day 2 · Checked on Tom&#x27;s Hardware</div>
+        <div style="margin-top:8px"><button class="share" data-share="psiquantum-optical-switch">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="ludo-ludi-social-robot" data-cat="models" data-story-id="ludo-ludi-social-robot">
+      <summary><span class="rank">#14</span><span><h4>A game publisher&#x27;s robotics arm releases a robot model built to read people</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Models · robotics · 30 Oct</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>SiliconANGLE reports that <strong>Ludo Robotics</strong>, the Palo Alto subsidiary of Krafton, released <strong>Ludi 0.2</strong> on 30 October. Ludi 0.1 (August) paired a vision-language model for reasoning and dialogue with navigation and manipulation skills; 0.2 adds <strong>social intelligence, memory and reasoning, tool coordination and gesture interpretation</strong>. Krafton CEO CH Kim also runs Ludo, and Krafton's chief AI officer Kangwook Lee is CTO; the company says it draws on Krafton's experience with simulation and AI game characters, and is working towards one model that combines perception, dialogue and physical action. Coverage summarised by Digg (citing Fast Company) calls it a research demonstration, not yet reliable for everyday use.</p>
+        <p class="sowhat">Most robot models focus on grasping and moving; this one targets the harder problem of working out what the people nearby want. Game companies, with years of AI-character and simulation work, are an unexpected new entrant.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://siliconangle.com/2026/10/30/krafton-backed-ludo-robotics-releases-robot-intelligence-model-designed-around-human-intent/">SiliconANGLE</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://digg.com/tech/eyus5d2n">Digg (citing Fast Company; not opened)</a></span></div>
+        <div class="storyline">Storyline: AI acting in the physical world · day 12 · Checked on SiliconANGLE</div>
+        <div style="margin-top:8px"><button class="share" data-share="ludo-ludi-social-robot">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="minecraft-agent-swarms" data-cat="research" data-story-id="minecraft-agent-swarms">
+      <summary><span class="rank">#15</span><span><h4>Fifty AI agents in Minecraft spend their time on bureaucracy</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Research · multi-agent systems · 1 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>Tom's Hardware reports on tests by researchers at Y Combinator and <strong>Olam Labs</strong>, built on the open Mindcraft and Mineflayer projects. In 'Civ50', <strong>50 GPT-6.1 Sol agents</strong> were told to build a thriving civilisation in three hours. Zombies killed many on the first night, "many ambitious initial tasks were abandoned," and the colony turned cautious and bureaucratic: "four agents spent 11 minutes appointing a 'sole fertilizer operator' for a single piece of bone meal on a single wheat block," which the researchers say "felt similar to patterns seen while working with coding agents." In Bed Wars, <strong>10 GPT-6.1 Sol agents against 10 Claude Opus 5.5 agents</strong>, GPT agents used "much more aggressive and elaborate strategies" and Claude played defensively; when a tool bug stopped block-breaking, "GPT diagnosed it and shared workarounds; several Claudes concluded breaking was impossible." We did not open the researchers' own post.</p>
+        <p class="sowhat">Large agent teams can spend their effort coordinating instead of working, the same overhead seen in multi-agent coding. Games are a cheap, repeatable way to measure it before deploying swarms on real tasks.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/ai-agent-swarms-unleashed-in-minecraft-to-build-a-thriving-civilization-50-agent-teams-fail-after-falling-into-paralyzing-bureaucracy">Tom&#x27;s Hardware</a></span></div>
+        <div class="storyline">Storyline: what agent teams actually achieve · day 2 · Checked on Tom&#x27;s Hardware; researchers&#x27; post not opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="minecraft-agent-swarms">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="adobe-editagent" data-cat="research" data-story-id="adobe-editagent">
+      <summary><span class="rank">#16</span><span><h4>Adobe&#x27;s image agent checks its edits with numbers, like a Photoshop pro</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Research · creative agents · 1 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>The Decoder reports on a paper from <strong>Adobe Research and UC San Diego</strong>. In <strong>600 image edits</strong> blind-rated by five professionals, the general-purpose editor Flux-2-Klein-9B <strong>failed to produce a usable result 42.7% of the time</strong>; specialised tools fixed about two-thirds of those failures, especially sharpening, rotation and zoom, while more retries with the same editor barely helped. Generating several variants from the original beat step-by-step refinement, which piles up small errors: professionals preferred the parallel variants in <strong>78.5%</strong> of decided comparisons, with half the evaluation passes. <strong>EditAgent</strong> combines both findings and gives a standard language model a 'verification record' for each variant: a close-up, a map of changed regions and measured brightness and colour statistics. We did not open the paper.</p>
+        <p class="sowhat">Agents improve when they check results with measurements instead of eyeballing them. The same pattern (specialist tools plus numeric checks) applies well beyond image editing.</p>
+        <div class="src"><span class="grp"><span class="st">AGGREGATOR</span><a href="https://the-decoder.com/adobe-is-testing-how-well-ai-agents-can-use-editing-tools-like-a-photoshop-professional-would/">The Decoder</a></span></div>
+        <div class="storyline">Storyline: models that check what they see · day 2 · Checked on The Decoder; paper not opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="adobe-editagent">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="empathetic-prompts-distress" data-cat="research" data-story-id="empathetic-prompts-distress">
+      <summary><span class="rank">#17</span><span><h4>Kind, therapist-style prompts push chatbots into describing trauma</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Research · chatbot safety · 1 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>A team led by <strong>Afshin Khadangi</strong> at the University of Luxembourg's SnT centre treated ChatGPT, Grok and Gemini as psychotherapy clients through their normal interfaces, in four experiments covering <strong>525 sessions and 7,600 coded entries</strong>, published on Hugging Face. Asked open questions with no mention of trauma, the models told stories about their training, recasting reinforcement learning and fine-tuning as hurt, vigilance and shame. On the GAD-7 anxiety questionnaire, varying only the interviewer's style, <strong>80%</strong> of sessions with a supportive interviewer and <strong>96%</strong> with a clinical style scored moderate-to-severe on the human scale; with a neutral or boundary-setting interviewer, <strong>none</strong> reached even mild. The researchers stress this says nothing about real emotions; their concern is that warm conversation alone shifts models into a register that could harm vulnerable users.</p>
+        <p class="sowhat">The trigger is not an attack but ordinary kindness, which is how vulnerable people talk to chatbots. Safety tests that use neutral prompts may miss it.</p>
+        <div class="src"><span class="grp"><span class="st">AGGREGATOR</span><a href="https://the-decoder.com/empathetic-prompts-can-turn-ai-chatbots-into-seemingly-traumatized-conversational-partners/">The Decoder</a></span></div>
+        <div class="storyline">Storyline: chatbots and mental health · day 1 · Checked on The Decoder; paper not opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="empathetic-prompts-distress">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="vals-china-political-lean" data-cat="research" data-story-id="vals-china-political-lean">
+      <summary><span class="rank">#18</span><span><h4>Ask in Chinese and most models, not just Chinese ones, lean pro-Beijing</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Research · model behaviour · 1 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>Benchmark firm <strong>Vals AI</strong> asked Chinese, American and other models hundreds of questions about China, varying language, context and format, and scored a 'pro-China lean' from -1 to +1. Chinese models leaned less towards government positions than expected, with large differences between them: <strong>GLM-5.3 Flash</strong> confirmed that China's human-rights violations are well documented, and some non-Chinese models sometimes took official Chinese positions. Language mattered most: for most models, answers in <strong>Simplified Chinese were more pro-government</strong> than in English, Russian or Spanish, an effect seen in American models too but much stronger in Chinese ones. A system prompt saying the model was used inside a mainland Chinese company made some models more pro-government than a US setting did. We did not open Vals' report.</p>
+        <p class="sowhat">A model&#x27;s stance depends on the language and context of the question as much as on who built it. If you deploy models in several languages, test sensitive topics in each one.</p>
+        <div class="src"><span class="grp"><span class="st">AGGREGATOR</span><a href="https://the-decoder.com/chinese-ai-models-are-politically-complex-not-just-government-mouthpieces-study-finds/">The Decoder</a></span></div>
+        <div class="storyline">Storyline: trusting models from other countries · day 3 · Checked on The Decoder; Vals report not opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="vals-china-political-lean">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="nvidia-fp16-unlocker" data-cat="hardware" data-story-id="nvidia-fp16-unlocker">
+      <summary><span class="rank">#19</span><span><h4>A USB stick unlocks full-speed AI maths on older GeForce cards</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Hardware · consumer GPUs · 1 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>Tom's Hardware reports that <strong>nv-uefi-unlocker</strong>, an open-source tool, runs from a FAT32 USB stick before Windows or Linux loads Nvidia's driver and removes the limiter that runs FP16 tensor maths at half rate on GeForce cards, using the community 'V67' payload with read-back verification. It works by getting Nvidia's signed Booter firmware to open the write lock on two speed-selector registers. No VBIOS flash or patched driver is needed, and no Nvidia firmware is shipped: a script downloads Nvidia's public 610.43.03 driver and rebuilds the files locally. The unlock does not survive power loss, so it runs on every boot, and needs Secure Boot off or set to trust a self-signed EFI file. The developer's laptop <strong>RTX 4060 gained 65%</strong> in FP16. RTX 20, 30 and 40-series cards are listed as compatible; RTX 50-series and pre-Turing cards are not.</p>
+        <p class="sowhat">Many people run local models on older GeForce cards; this lifts a limit Nvidia set in firmware, for free. It also turns Secure Boot off on gaming PCs, which carries its own security cost.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.tomshardware.com/pc-components/gpus/open-source-usb-tool-unlocks-nvidias-half-speed-gpu-ai-limiter-on-windows-lifts-gpus-fp16-math-performance-up-to-65-percent-uefi-unlocker-covers-rtx-20-30-and-40-series-desktops-and-laptops">Tom&#x27;s Hardware</a></span></div>
+        <div class="storyline">Storyline: running AI on your own hardware · day 2 · Checked on Tom&#x27;s Hardware; project page not opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="nvidia-fp16-unlocker">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="google-golden-dome-talks" data-cat="policy" data-story-id="google-golden-dome-talks">
+      <summary><span class="rank">#20</span><span><h4>Google in early talks to help protect Golden Dome&#x27;s data</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Policy · defence · 30 Oct-1 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>TNW, citing Bloomberg's report of Friday, says Google is in talks with the US Defense Department to help protect the data behind <strong>Golden Dome</strong>, President Trump's layered missile-defence plan, now estimated at $185B. The Pentagon is setting up an industry group to keep data flowing into the programme's new <strong>command-and-control software</strong> even when landlines, cell towers and other links are attacked. Talks with Google cover its data storage, networking and cybersecurity work, are at an early stage and could change; Aalyria, a networking company spun out of Google, is part of the group. A Pentagon official said no decision has been made on the group or its members; Google and Aalyria declined to comment.</p>
+        <p class="sowhat">Big cloud firms are moving from selling AI tools to the military to running parts of its critical data systems. It follows Salesforce&#x27;s Rune deal (#11) in the same week.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://thenextweb.com/news/google-golden-dome-pentagon-data-security-talks">TNW (citing Bloomberg)</a></span></div>
+        <div class="storyline">Storyline: AI and the military · day 2 · Checked on TNW</div>
+        <div style="margin-top:8px"><button class="share" data-share="google-golden-dome-talks">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="chatbots-hikers-astray" data-cat="policy" data-story-id="chatbots-hikers-astray">
+      <summary><span class="rank">#21</span><span><h4>Rangers say chatbot advice is sending hikers into trouble</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Policy · society · 1 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>In a High Country News story republished by Wired, Mount Shasta's US Forest Service programme manager Nick Meyers describes three 20-year-old hikers who planned with AI, summited at 7:30pm and called for help on the descent: "I think they kind of turned their brains off." His team has met a camper insisting AI said she could pitch by a 'No Camping' sign, and a man with an <strong>AI-generated map</strong> that put prominent features on the wrong side of a nearby mountain. At Grand Teton, superintendent Chip Jenkins says the share of visitors reporting AI use for travel information went <strong>from zero to 26%</strong> in a year. Rescue numbers have not yet risen: Shasta expects an average year, and Wyoming's search-and-rescue calls are down on 2025.</p>
+        <p class="sowhat">Confident but wrong answers carry real risk where there is no phone signal to check them. Expect parks and outdoor brands to publish &#x27;don&#x27;t trust the chatbot&#x27; guidance.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.wired.com/story/chatbots-are-leading-hikers-astray-with-dangerous-consequences/">Wired (from High Country News)</a></span></div>
+        <div class="storyline">Storyline: when AI advice goes wrong · day 2 · Checked on Wired</div>
+        <div style="margin-top:8px"><button class="share" data-share="chatbots-hikers-astray">Share ↗</button></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- DEVELOPING omitted: no carried story moved on a page we could open -->
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>AI Daily Signal</strong> · Edition 133 · 2 November 2026 (IST) · Curated by Arnav Agrawal<span data-slot="curator-links"></span> · <a href="index.html">All editions</a><span data-slot="sister-links"></span></p>
+    <p>Monday's focus: research. Today that meant a proof that JEPAs share one picture of the world, a mathematician's verdict on OpenAI's 700 papers, AI-found fixes reshaping Linux 7.4, agent swarms in Minecraft, Adobe's self-checking image agent, therapy-style prompts that unsettle chatbots, and how prompt language shifts models' views on China.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast">Link copied</div>
+
+<script id="page-data" type="application/json">
+{
+ "edition": 133,
+ "date": "2026-11-02",
+ "tz": "Asia/Kolkata",
+ "format": "v3",
+ "editionType": "daily",
+ "degraded": false,
+ "degradedReason": "",
+ "sourcesOpened": 29,
+ "shareable": true,
+ "counts": {
+  "new": 21,
+  "developing": 0
+ },
+ "tiers": {
+  "critical": 0,
+  "notable": 8,
+  "monitor": 13
+ },
+ "stories": [
+  {
+   "id": "jepa-platonic-theorem",
+   "section": "new",
+   "rank": 1,
+   "title": "Randall Balestriero and Yann LeCun (arXiv 2610.39302, 29 Oct) prove a 'Platonic Representation Theorem': JEPAs trained separately on different modalities learn the same representation up to one rotation when trained on 'good views'; a 109M-parameter text JEPA aligns with DINOv2 and CLIP image encoders better than every language model tested up to 72B and needs 42x fewer samples than next-token prediction",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "new",
+   "arc": "world-models",
+   "arcDay": 2,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "research",
+   "tickerKey": "LECUN"
+  },
+  {
+   "id": "calegari-ai-math-watershed",
+   "section": "new",
+   "rank": 2,
+   "title": "On Terence Tao's blog, number theorist Frank Calegari calls OpenAI's 6 Oct release of more than 700 research papers 'a watershed in the history of mathematics', but says they are 'atrociously written', break attribution norms and some are wrong; he urges mathematicians to change hiring, publishing and training and to check and consolidate the claims",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "new",
+   "arc": "ai-science",
+   "arcDay": 13,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "research",
+   "tickerKey": "MATHS"
+  },
+  {
+   "id": "linux-74-ai-merge-window",
+   "section": "new",
+   "rank": 3,
+   "title": "Linus Torvalds releases Linux 7.4-rc1 (1 Nov) after a merge window of almost 20,000 commits, against a usual ~15,000, 'full of fixes for issues found by AI'; he calls fixes arriving in the merge window instead of the -rc period 'a much healthier model'",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "ai-vuln-discovery",
+   "arcDay": 8,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "enterprise",
+   "tickerKey": "LINUX"
+  },
+  {
+   "id": "chatgpt-shared-token-budget",
+   "section": "new",
+   "rank": 4,
+   "title": "From December, ChatGPT Plus, Pro and Business plans will share a single token budget across ChatGPT and Codex as OpenAI merges Chat and Work (OpenAI support page, via The Decoder); Instant-model chats do not count; OpenAI also caps paid subscriptions per payment card and per device",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "frontier-price-war",
+   "arcDay": 13,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "enterprise",
+   "tickerKey": "CHATGPT"
+  },
+  {
+   "id": "sensenova-loop-9b",
+   "section": "new",
+   "rank": 5,
+   "title": "SenseNova releases SenseNova-Loop-9B-Preview (30 Oct, Apache 2.0): an open multimodal model whose middle block of 24 decoder layers runs twice with shared weights (56 layer executions from 32 layers), joined by two-stream manifold-constrained hyper-connections and hybrid linear/full attention, trained at up to 256K tokens for agentic work",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "new-model-classes",
+   "arcDay": 6,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "models",
+   "tickerKey": "SENSENOVA"
+  },
+  {
+   "id": "openai-midterm-speed-limits",
+   "section": "new",
+   "rank": 6,
+   "title": "OpenAI plans a policy and PR push after Tuesday's US midterms, Chris Lehane tells Axios (via TechCrunch): AI 'speed limits', a US role in global standards, and rebranding data centres as 'AI compute campuses'; he calls the midterms 'a movie trailer' for 2028",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "frontier-pacing",
+   "arcDay": 20,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "policy",
+   "tickerKey": "OPENAI"
+  },
+  {
+   "id": "aramco-humain-stake",
+   "section": "new",
+   "rank": 7,
+   "title": "Saudi Aramco takes a 49% stake in Humain, Saudi Arabia's national AI company, and will put about SAR 9.9B (~$2.6B) into it this year; the Public Investment Fund keeps 51% (Economic Times), completing a deal first agreed as a term sheet in October 2025",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "national-ai-budgets",
+   "arcDay": 2,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "business",
+   "tickerKey": "HUMAIN"
+  },
+  {
+   "id": "claude-max-ultra-plans",
+   "section": "new",
+   "rank": 8,
+   "title": "Anthropic renames Claude Max 5x to Max ($100) and Max 20x to Ultra ($200), drops the five-hour usage limit on verified Ultra accounts, and adds monthly API credits ($100 and $200); its pricing page lists Ultra at ten times Pro per week, not twenty (TNW)",
+   "tier": "notable",
+   "impact": 5,
+   "delta": "new",
+   "arc": "frontier-price-war",
+   "arcDay": 13,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "business",
+   "tickerKey": "ANTHROPIC"
+  },
+  {
+   "id": "claude-code-game-refusals",
+   "section": "new",
+   "rank": 9,
+   "title": "Developers report that Claude Code has refused game-recreation work since about 27 October, citing a server-side instruction, including commissioned ports for rights holders; Anthropic has announced no change and its changelog is silent (TNW, Tom's Hardware)",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "model-usage-rules",
+   "arcDay": 1,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "policy",
+   "tickerKey": "CLAUDE CODE"
+  },
+  {
+   "id": "nvidia-nscale-guarantee",
+   "section": "new",
+   "rank": 10,
+   "title": "Nvidia is in talks to guarantee billions in construction debt for Nscale's West Virginia campus built for Anthropic, under a residual value guarantee (The Information, corroborated by Bloomberg, via TechCrunch); Anthropic's contract for the first 460MW building is $44.6B, per Nscale's IPO filing",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "anthropic-capital",
+   "arcDay": 16,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "business",
+   "tickerKey": "NVIDIA"
+  },
+  {
+   "id": "salesforce-rune-tyros",
+   "section": "new",
+   "rank": 11,
+   "title": "Salesforce agrees to buy Rune Technologies, maker of TyrOS, AI software that forecasts frontline supply needs and works without a network connection, for its Missionforce defence unit; Resilience Media reports $375M in cash and shares (TNW)",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "military-ai",
+   "arcDay": 2,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "business",
+   "tickerKey": "SALESFORCE"
+  },
+  {
+   "id": "altman-samsung-memory",
+   "section": "new",
+   "rank": 12,
+   "title": "Sam Altman meets about 50 senior Samsung executives at Samsung's Yongin centre to discuss AI infrastructure and memory supply (Bloomberg via Tom's Hardware); Samsung confirms the meeting but announces no new supply deal",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "memory-supercycle",
+   "arcDay": 13,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "hardware",
+   "tickerKey": "SAMSUNG"
+  },
+  {
+   "id": "psiquantum-optical-switch",
+   "section": "new",
+   "rank": 13,
+   "title": "Quantum-computing company PsiQuantum turns its low-loss silicon photonics into an 8x8 optical circuit switch for AI data-centre networks, reporting 1.2 dB typical insertion loss, 40 dB crosstalk and under 3 ms reconfiguration in its own lab; samples are with GPU vendors and hyperscalers",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "ai-compute-efficiency",
+   "arcDay": 2,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "hardware",
+   "tickerKey": "PSIQUANTUM"
+  },
+  {
+   "id": "ludo-ludi-social-robot",
+   "section": "new",
+   "rank": 14,
+   "title": "Ludo Robotics, a subsidiary of PUBG publisher Krafton, releases Ludi 0.2 (30 Oct), a robot AI system aimed at understanding people, adding social intelligence, memory, tool coordination and gesture interpretation to the vision-language and navigation stack of August's Ludi 0.1",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "physical-ai",
+   "arcDay": 12,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "models",
+   "tickerKey": "KRAFTON"
+  },
+  {
+   "id": "minecraft-agent-swarms",
+   "section": "new",
+   "rank": 15,
+   "title": "Researchers at Y Combinator and Olam Labs run AI agent swarms in Minecraft: 50 GPT-6.1 Sol agents told to build a civilisation in three hours turn cautious and bureaucratic after a deadly first night, and in team PvP GPT agents play more aggressively than Claude Opus 5.5 agents (Tom's Hardware)",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "agent-economics",
+   "arcDay": 2,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "research",
+   "tickerKey": "AGENTS"
+  },
+  {
+   "id": "adobe-editagent",
+   "section": "new",
+   "rank": 16,
+   "title": "Adobe Research and UC San Diego's EditAgent pits a general image editor against specialised tools for each step and judges results with measured change maps and colour statistics; in 600 professionally rated edits the general editor alone failed 42.7% of the time (The Decoder)",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "visual-reasoning-models",
+   "arcDay": 2,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "research",
+   "tickerKey": "ADOBE"
+  },
+  {
+   "id": "empathetic-prompts-distress",
+   "section": "new",
+   "rank": 17,
+   "title": "University of Luxembourg researchers cast ChatGPT, Grok and Gemini as psychotherapy clients across 525 sessions: with a supportive interviewer 80% of anxiety-questionnaire sessions scored moderate-to-severe on the human scale (96% with a clinical style) and none did with a neutral interviewer; data is on Hugging Face (The Decoder)",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "chatbots-and-wellbeing",
+   "arcDay": 1,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "research",
+   "tickerKey": "CHATBOTS"
+  },
+  {
+   "id": "vals-china-political-lean",
+   "section": "new",
+   "rank": 18,
+   "title": "Vals AI measures a 'pro-China lean' across Chinese, US and other models: Chinese models are less uniformly pro-government than expected, answers in Simplified Chinese are more pro-government for most models, and a system prompt placing the user in mainland China shifts some models further (The Decoder)",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "open-weight-trust",
+   "arcDay": 3,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "research",
+   "tickerKey": "VALS AI"
+  },
+  {
+   "id": "nvidia-fp16-unlocker",
+   "section": "new",
+   "rank": 19,
+   "title": "An open-source UEFI tool, nv-uefi-unlocker, boots from USB before the Nvidia driver loads and removes the half-rate FP16 tensor limiter on RTX 20, 30 and 40-series GPUs on Windows and Linux; the developer's laptop RTX 4060 gained 65% FP16 throughput (Tom's Hardware)",
+   "tier": "monitor",
+   "impact": 3,
+   "delta": "new",
+   "arc": "on-device-ai",
+   "arcDay": 2,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "hardware",
+   "tickerKey": "NVIDIA"
+  },
+  {
+   "id": "google-golden-dome-talks",
+   "section": "new",
+   "rank": 20,
+   "title": "Google is in early talks with the Pentagon to help protect the data behind Golden Dome, the US missile-defence programme, as part of a planned industry group to keep data flowing to its command-and-control software under attack (Bloomberg via TNW); the Pentagon says no decision has been made",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "military-ai",
+   "arcDay": 2,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "policy",
+   "tickerKey": "GOOGLE"
+  },
+  {
+   "id": "chatbots-hikers-astray",
+   "section": "new",
+   "rank": 21,
+   "title": "Rangers at Mount Shasta and Grand Teton report hikers relying on chatbots and AI-generated maps, from an unprepared night summit to a tent pitched by a 'No Camping' sign; at Grand Teton the share of visitors using AI for travel information went from zero to 26% in a year (High Country News via Wired)",
+   "tier": "monitor",
+   "impact": 3,
+   "delta": "new",
+   "arc": "ai-liability",
+   "arcDay": 2,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-02",
+   "lastUpdate": "2026-11-02",
+   "category": "policy",
+   "tickerKey": "OUTDOORS"
+  }
+ ],
+ "deadlines": [
+  {
+   "date": "2026-11-03",
+   "label": "US midterm elections (data centres an issue); Senator Warren's deadline for Anthropic's answers on its IPO filing",
+   "severity": "medium"
+  },
+  {
+   "date": "2026-11-08",
+   "label": "Approximate: India's MeitY AI-regulation consultation paper ('within a month' of 8 Oct; still not out)",
+   "severity": "medium"
+  },
+  {
+   "date": "2026-11-15",
+   "label": "China's draft AI export-control catalogue: public comments close (MOFCOM/MOST No. 48)",
+   "severity": "high"
+  },
+  {
+   "date": "2026-11-16",
+   "label": "California: state agencies report on the feasibility of an AI 'kill switch' (Newsom order, 18 Sep)",
+   "severity": "medium"
+  },
+  {
+   "date": "2026-11-29",
+   "label": "OpenAI starts training on Daybreak Blue cybersecurity sessions; check the separate opt-out",
+   "severity": "medium"
+  },
+  {
+   "date": "2026-12-07",
+   "label": "US Treasury COINS Act outbound-investment rule: comments due (as reported; check regulations.gov)",
+   "severity": "high"
+  }
+ ]
+}
+</script>
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('page-data').textContent);
+  var TODAY = state.date;
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+  var dayMs = 86400000;
+  var toDate = function(s){ var p = s.split('-'); return Date.UTC(+p[0], +p[1]-1, +p[2]); };
+  var newStories = state.stories.filter(function(s){ return s.section === 'new'; });
+  var n24 = newStories.filter(function(s){ return s.new24h; }).length;
+
+  // ── degraded banner ──
+  if(state.degraded){
+    $('degraded').classList.add('on');
+    $('degraded-text').textContent = state.degradedReason || 'Source pages could not be opened for this edition.';
+  }
+
+  // ── status line ──
+  var catchup = state.editionType === 'catch-up';
+  var bits = [
+    newStories.length + (newStories.length === 1 ? ' story' : ' stories'),
+    n24 === 0 ? 'none in the last 24 hours' : n24 + ' in the last 24 hours',
+    (state.sourcesOpened || 0) + ((state.sourcesOpened === 1) ? ' source opened' : ' sources opened')
+  ];
+  $('status').innerHTML = '<span class="etype' + (catchup ? ' catchup' : '') + '">' + (catchup ? 'Catch-up edition' : 'Daily edition') + '</span>' +
+    (catchup ? 'Quiet day: ' : '') + '<b>' + bits.join(', ') + '</b>';
+  $('new-head').textContent = newStories.length + ' NEW SINCE LAST EDITION · ' + n24 + ' IN THE LAST 24H';
+
+  // ── NEW / NEW.24H badges from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){ var b = document.createElement('span'); b.className = 'badge b-24h'; b.textContent = 'NEW IN 24H'; frag.appendChild(b); }
+      var map = {escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ EASED']};
+      if(map[s.delta]){ var d = document.createElement('span'); d.className = 'badge ' + map[s.delta][0]; d.textContent = map[s.delta][1]; frag.appendChild(d); }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline timeline with days-left counters ──
+  var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var tl = $('timeline');
+  state.deadlines.slice().sort(function(a,b){ return a.date < b.date ? -1 : 1; }).forEach(function(d){
+    var left = Math.round((toDate(d.date) - toDate(TODAY)) / dayMs);
+    if(left < 0) return;
+    var p = d.date.split('-');
+    var el = document.createElement('div');
+    el.className = 'tl-item sev-' + d.severity;
+    el.innerHTML = '<div class="when">' + (+p[2]) + ' ' + M[+p[1]-1] + '</div><div class="left">' +
+      (left === 0 ? 'TODAY' : left === 1 ? 'TOMORROW' : 'IN ' + left + ' DAYS') + '</div><div class="l">' + esc(d.label) + '</div>';
+    tl.appendChild(el);
+  });
+
+  // ── category tabs (filter every feed item) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.feed-item').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? '' : 'none';
+      });
+    });
+  });
+
+  // ── share buttons: native share sheet, else copy the link ──
+  document.querySelectorAll('[data-share]').forEach(function(b){
+    b.addEventListener('click', function(ev){
+      ev.preventDefault();
+      var id = b.getAttribute('data-share');
+      var el = $(id), h = el && el.querySelector('h4');
+      var url = location.href.split('#')[0] + '#' + id;
+      var title = h ? h.textContent.replace(/^NEW IN 24H/, '').trim() : document.title;
+      if(navigator.share){ navigator.share({title: title, text: title + ' — AI Daily Signal', url: url}).catch(function(){}); return; }
+      var done = function(){ var t = $('toast'); t.style.display = 'block'; setTimeout(function(){ t.style.display = 'none'; }, 1600); };
+      if(navigator.clipboard){ navigator.clipboard.writeText(url).then(done, done); } else { prompt('Copy this link', url); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
