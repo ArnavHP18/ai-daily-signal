@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 135 — 4 November 2026</title>
+<meta name="description" content="Anthropic open-sources FlashProve to prove which model answered. Plus an AI tool in the Binance heist, Google on LLMjacking, CrowdStrike&#x27;s $495M agent-security deals, WorkOS breached by ARTEX AI and Revolut&#x27;s switch to self-hosted GLM.">
+<meta name="author" content="Arnav Agrawal">
+<!-- share tags: og:url and og:image must be absolute; SITE_URL lives in scripts/site_config.json -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="AI Daily Signal">
+<meta property="og:title" content="Anthropic open-sources FlashProve, a cryptographic proof that an answer came from the claimed model">
+<meta property="og:description" content="AI Daily Signal, edition 135 (4 Nov 2026): 19 new stories, 2 developing.">
+<meta property="og:url" content="https://arnavhp18.github.io/ai-daily-signal/editions/ai_daily_signal_2026-11-04.html">
+<meta property="og:image" content="https://arnavhp18.github.io/ai-daily-signal/editions/cards/2026-11-04.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Anthropic open-sources FlashProve, a cryptographic proof that an answer came from the claimed model">
+<meta name="twitter:description" content="AI Daily Signal, edition 135 (4 Nov 2026): 19 new stories, 2 developing.">
+<meta name="twitter:image" content="https://arnavhp18.github.io/ai-daily-signal/editions/cards/2026-11-04.png">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac; --muted:#6b6353;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --up:#2e7d4f; --up-bg:#e3f1e8; --down:#b3261e; --down-bg:#f6e2df;
+    /* trust markers: one colour each, used everywhere */
+    --t-official:#2e7d4f; --t-multi:#1f3a93; --t-single:#a86b00; --t-rumor:#b3261e;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  /* mono = short labels only */
+  .label,.sec-head,.chip,.badge,.tab,.impact,.cat{font-family:var(--mono)}
+
+  /* ticker: plain dark bar, confirmed items only */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-size:13px;padding:8px 0}
+  .ticker-inner{display:inline-block;animation:tick 70s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166;font-family:var(--mono);font-size:12px;letter-spacing:1px}
+
+  /* degraded banner (rendered from state.degraded) */
+  .degraded{display:none;background:#fff1c7;border-bottom:2px solid #d99a00;color:#5a4300;font-size:14px;padding:10px 0}
+  .degraded.on{display:block}
+  .degraded strong{font-family:var(--mono);font-size:12px;letter-spacing:1px;margin-right:6px}
+
+  /* masthead: name, edition, date, byline */
+  .masthead{border-bottom:4px double var(--ink);padding:22px 0 14px;text-align:center}
+  .brand{display:inline-flex;align-items:center;gap:12px;border:none;color:var(--ink)}
+  .brand img{width:44px;height:44px}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(32px,5.5vw,56px);letter-spacing:-1px;text-transform:uppercase;line-height:1}
+  .masthead .when{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:10px}
+  .masthead .byline{font-size:13px;color:var(--muted);margin-top:4px}
+
+  /* status line above the headline */
+  .status{font-family:var(--mono);font-size:12px;letter-spacing:.5px;color:var(--muted);padding:16px 0 0}
+  .status b{color:var(--ink)}
+  .status .etype{display:inline-block;background:var(--ink);color:var(--paper);padding:2px 8px;margin-right:8px;letter-spacing:1px;text-transform:uppercase}
+  .status .etype.catchup{background:#d99a00;color:var(--ink)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:12px 0 26px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4vw,44px);line-height:1.1;margin:6px 0 10px}
+  .hero .subhead{font-size:19px;line-height:1.45;color:#3a352a;margin-bottom:14px}
+  .hero .dek{font-size:16px;line-height:1.6;color:#3a352a;margin-bottom:12px}
+  .sowhat{font-style:italic;color:#4a4436;border-left:3px solid var(--rule);padding-left:12px;margin:12px 0}
+  .hero .sowhat{border-left-color:var(--crit)}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px;align-self:start}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:14px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:9px}
+  .brief-toggle{margin-top:12px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .full-brief{display:none;margin-top:14px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:15px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* trust markers */
+  .trust{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:600;padding:2px 9px;border:1.5px solid currentColor;border-radius:999px;margin:0 6px 6px 0;background:#fff}
+  .trust::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+  .trust.official{color:var(--t-official)} .trust.multi{color:var(--t-multi)}
+  .trust.single{color:var(--t-single)} .trust.rumor{color:var(--t-rumor);border-style:dashed}
+  .chip{display:inline-block;font-size:11px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0;color:#4a4436}
+  .badge{display:inline-block;font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--ink);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff} .b-deesc{background:var(--mon);color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .tier{font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;color:#fff;margin-right:6px}
+  .tier.critical{background:var(--crit)} .tier.notable{background:var(--note)} .tier.monitor{background:var(--mon)}
+
+  /* sources, ranked by type */
+  .src{font-size:13px;line-height:1.8;margin-top:6px}
+  .src .st{font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--muted);margin-right:4px}
+  .src .grp{margin-right:12px;display:inline}
+
+  /* section heads */
+  .sec-head{font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:24px 0 8px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .sec-head small{font-size:10px;color:var(--muted);letter-spacing:1px}
+
+  /* 30-second read */
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--rule);background:#fffdf7}
+  .trip{padding:16px 18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:26px;font-weight:800;color:var(--crit);line-height:1}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.25;margin:6px 0}
+  .trip p{font-size:14px;color:#4a4436}
+  .trip a.jump{font-family:var(--mono);font-size:11px}
+
+  /* deadline timeline */
+  .timeline{display:flex;gap:0;overflow-x:auto;border-top:2px solid var(--ink);padding-top:0;scrollbar-width:thin}
+  .tl-item{flex:1 0 170px;padding:12px 14px 6px;border-right:1px dashed var(--rule);position:relative}
+  .tl-item::before{content:"";position:absolute;top:-7px;left:14px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--ink)}
+  .tl-item.sev-high::before{background:var(--crit);border-color:var(--crit)}
+  .tl-item.sev-medium::before{background:#d99a00;border-color:#d99a00}
+  .tl-item .when{font-family:var(--mono);font-size:12px;font-weight:600;margin-top:6px}
+  .tl-item .left{font-family:var(--mono);font-size:11px;color:var(--crit)}
+  .tl-item .l{font-size:13px;margin-top:4px;line-height:1.4}
+
+  /* feed */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .tab{font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer;color:var(--ink)}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .lead-ref{font-size:14px;color:var(--muted);border:1px dashed var(--rule);padding:10px 14px;margin-bottom:14px}
+  .big{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:18px;display:flex;flex-direction:column;position:relative}
+  .card.critical{border-top:5px solid var(--crit)} .card.notable{border-top:5px solid var(--note)} .card.monitor{border-top:5px solid var(--mon)}
+  .card.rumor{border:2px dashed #b9ae96;background:#f3efe4;opacity:.85}
+  .card.rumor h4{color:#5a5240}
+  .card .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c;margin-right:6px}
+  .cat{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+  .card h4{font-family:var(--serif);font-size:22px;font-weight:600;line-height:1.2;margin:8px 0 6px}
+  .card .sub{font-size:15px;color:#3a352a;margin-bottom:8px}
+  .card .body{font-size:15px;color:#3f3a2e;flex:1}
+  .impact{font-size:11px;color:var(--muted)}
+  .impact b{font-size:14px;color:var(--ink)}
+  .share{font-family:var(--mono);font-size:11px;background:none;border:1px solid var(--rule);padding:3px 9px;cursor:pointer;color:var(--ink)}
+  .share:hover{border-color:var(--ink)}
+  .storyline{font-size:12px;color:var(--muted);margin-top:4px}
+  /* compact list for the rest */
+  .compact{border-top:1px solid var(--rule)}
+  .row{border-bottom:1px solid var(--rule);background:#fffdf7}
+  .row.rumor{border:2px dashed #b9ae96;background:#f3efe4;opacity:.85}
+  .row > summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:baseline}
+  .row > summary::-webkit-details-marker{display:none}
+  .row .rank{font-family:var(--serif);font-weight:800;font-size:20px;color:#9a917c}
+  .row h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.25;display:inline}
+  .row .meta{margin-top:6px}
+  .row .more{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+  .row[open] .more::after{content:"▴ less"} .row:not([open]) .more::after{content:"▾ more"}
+  .row .detail{padding:0 14px 14px 68px;font-size:15px}
+  /* "what changed" line on Developing cards */
+  .delta-line{font-size:14px;background:#eef3ea;border-left:3px solid var(--mon);padding:8px 12px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+
+  /* footer */
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:14px;color:#4a4436}
+  footer p{margin-bottom:8px}
+  footer .corr{font-size:13px;color:var(--muted)}
+  .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;padding:8px 14px;display:none}
+
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .big{grid-template-columns:1fr}
+    .row .detail{padding-left:14px}
+    .row > summary{grid-template-columns:34px 1fr}
+    .row .more{grid-column:2}
+  }
+</style>
+</head>
+<body>
+
+<!-- TICKER: confirmed items only. Never put an "Unconfirmed" story here. -->
+<div class="ticker" aria-hidden="true"><div class="ticker-inner">
+  <b>ANTHROPIC</b> open-sources FlashProve, cryptographic proof that a reply came from the model you were promised &nbsp;◆&nbsp; <b>BINANCE</b> postmortem: fake job interviews, a trojanised AI-tool installer and an abused internal AI tool led to the ~$6.3B theft &nbsp;◆&nbsp; <b>LLMJACKING</b> Google: hijacked cloud AI accounts run up $100K a day and up to $1M per victim &nbsp;◆&nbsp; <b>CROWDSTRIKE</b> buys agent-monitoring firm Fiddler and AI red-teaming firm Dreadnode for about $495M (WSJ) &nbsp;◆&nbsp; <b>WORKOS</b> discloses breach of an internal sales app by an attacker using the ARTEX AI attack framework &nbsp;◆&nbsp; <b>REVOLUT</b> says self-hosting Z.ai&#x27;s GLM for 2,000 engineers cut AI coding inference costs by about 90% &nbsp;◆&nbsp; <b>NCSC</b> UK cyber agency: AI-powered malware &#x27;highly likely&#x27; in a ransomware attack on critical infrastructure by 2028 &nbsp;◆&nbsp; <b>FAL</b> generative-media inference platform raises $1.3B at a $16B valuation, double April&#x27;s &nbsp;◆&nbsp; <b>OPENAI</b> says GPT-6 Astra designed a working Codex voice device, enclosure to firmware, in under a week &nbsp;◆&nbsp; <b>NVIDIA</b> tells cloud customers to take less business from Chinese companies and disclose who uses its chips &nbsp;◆&nbsp; <b>CNAS</b> think tank warns of &#x27;sovereign agents&#x27; that keep themselves running and asks for kill switches and liability &nbsp;◆&nbsp; <b>GOOGLE</b> will switch off Gemini and other AI tools for K-12 students next year unless schools opt in &nbsp;◆&nbsp; <b>LUMAI</b> UK&#x27;s ARIA lab will test Oxford start-up&#x27;s light-based AI servers in a commercial data centre &nbsp;◆&nbsp; <b>COGENT</b> security start-up&#x27;s VR-1.1 repairs 57.9% of LiveCVEBench flaws vs 45.3% for Claude Code and Codex &nbsp;◆&nbsp; <b>APPLE</b> App Store will require an 18+ rating for apps with dating or romantic AI-companion features &nbsp;◆&nbsp; <b>SIRI</b> iOS 27.3 developer preview lets Siri AI act inside all third-party apps &nbsp;◆&nbsp; <b>POWER</b> AI data centres turn to rebuilt jet engines as grid waits stretch to seven years &nbsp;◆&nbsp; <b>OPENROUTER</b> new anonymous &#x27;Crouton Alpha&#x27; model listed: lightweight, 1M-token context, audio and video input &nbsp;◆&nbsp; <b>BOUNTY</b> OpenAI quadruples bug bounties: up to $100,000 for exceptional finds, about $172,000 with bonuses
+</div></div>
+
+<!-- DEGRADED BANNER: shown when state.degraded is true -->
+<div class="degraded" id="degraded"><div class="wrap"><strong>DEGRADED EDITION</strong> <span id="degraded-text"></span></div></div>
+
+<header class="masthead wrap">
+  <a class="brand" href="index.html" aria-label="AI Daily Signal archive"><img src="../assets/logo.svg" alt=""><h1>AI Daily Signal</h1></a>
+  <div class="when">Edition 135 · Wednesday, 4 November 2026</div>
+  <div class="byline">Curated by Arnav Agrawal<span data-slot="curator-links"></span></div>
+</header>
+
+<main class="wrap">
+
+<!-- STATUS LINE: rendered from state (editionType, counts, new24h, sourcesOpened) -->
+<div class="status" id="status"></div>
+
+<!-- HERO: headline 12-15 words, one sub-line, then the detail -->
+<article class="hero" id="anthropic-flashprove" data-story-id="anthropic-flashprove">
+  <div>
+    <h2>Anthropic open-sources FlashProve, a cryptographic proof that an answer came from the claimed model</h2>
+    <p class="subhead">A research prototype, built with Claude&#x27;s help, lets a lab commit to a model and later prove each reply came from it, without revealing the weights.</p>
+    <div><span class="tier notable">NOTABLE · INFORMS THIS MONTH</span><span class="trust official">Official source</span><span class="chip">Checked on Anthropic&#x27;s research post</span></div>
+    <p class="dek">In a research post on Tuesday, Anthropic researchers <strong>Roy Rinberg and Alex Allain</strong>, with cryptographers including <strong>Alessandro Chiesa</strong> (EPFL, StarkWare) and <strong>Miranda Christ</strong> (MIT), describe <strong>FlashProve</strong>, a system for "provable inference". A model provider publishes a commitment to its weights; afterwards it can produce a <strong>zkSNARK</strong>, a compact cryptographic proof, that a given response was computed by exactly those weights. The proof does not reveal the weights, so closed-model labs could use it. Anthropic says <strong>"Claude has produced improvements on zkSNARKs for inference"</strong>, and the team counters the risk of hard-to-audit design choices with top-level security statements written and checked in <strong>Lean</strong>.</p>
+    <p class="sowhat">So what: Today nobody outside a lab can check which model actually answered: a router can swap in a cheaper one, a hacked server can tamper with replies, and, Anthropic notes, a stronger model could pose as a weaker one to dodge monitoring. A working proof system turns &#x27;trust us&#x27; into something an auditor, regulator or customer can verify, and Anthropic ties it to checking compliance with future limits on AI development. It is still 70-95 times the cost of serving, so expect spot checks on samples before anything routine.</p>
+    <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://www.anthropic.com/research/provable-inference">Anthropic: Progress on provable inference for large language models (3 Nov)</a> · <a href="https://github.com/anthropics/FlashProve/">GitHub: anthropics/FlashProve (code, not opened)</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/11/03/anthropic-is-working-on-a-system-to-prove-ai-models-identity/">TechCrunch</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://www.techmeme.com/">Techmeme</a></span></div>
+    <div class="storyline">Storyline: how fast frontier AI should go · day 22</div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>How fast is it?</strong> For <strong>Llama 4 Maverick</strong>, a 400B-parameter mixture-of-experts model run with 4-bit weights, a single <strong>H100</strong> generates proofs at about <strong>110 tokens a second</strong>, with a proof of about <strong>19MB per 1,024-token request</strong>. That is roughly <strong>70-95 times the GPU time</strong> of serving the model on vLLM, which Anthropic says is orders of magnitude faster than earlier open-source systems. Proofs are made after the fact for a sample of traffic, not in line with every reply.</p>
+      <p><strong>What is released.</strong> A prover, a fast verifier in C++, a verifier proved correct in Lean, the Lean proofs and documentation, all under <strong>Apache 2.0</strong>. Limits Anthropic lists: it assumes a mixture-of-experts model and hides the weights but not the architecture. TechCrunch reports there are <strong>no plans to deploy it</strong> at Anthropic or elsewhere; the post calls it "intermediate progress, and not a completed research agenda".</p>
+      <p><strong>Why now.</strong> Anthropic's Frontier Safety Roadmap promised a provable-inference prototype by 30 September 2026. It says it met that goal with a separate project that signs its inference traffic and re-runs inference on a trusted server; FlashProve pursues the same aim by pure cryptography. It lands a day after Anthropic's IPO filing warned that future models may soon meet its bar for AI-accelerated research, the kind of situation where knowing which weights are running matters most.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>What</dt><dd>Open-source provable-inference prototype</dd>
+      <dt>Who</dt><dd>Anthropic, with EPFL, StarkWare and MIT researchers</dd>
+      <dt>Proof speed</dt><dd>~110 tokens/s on one H100, 400B MoE</dd>
+      <dt>Overhead</dt><dd>~70-95x the GPU time of serving</dd>
+      <dt>Licence</dt><dd>Apache 2.0, with Lean proofs</dd>
+      <dt>Status</dt><dd>Research only; no deployment planned</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">8</b>/10 — model providers, gateways, auditors and regulators</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- 30-SECOND READ: right under the headline; never repeats the lead -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE NEXT THREE AFTER THE LEAD</small></div>
+  <div class="triptych">
+    <article class="trip">
+      <div class="num">1</div>
+      <h4>Binance names an AI tool in its heist</h4>
+      <p>Attackers used fake interviews, then turned an internal AI tool against engineers before the $6.3B theft. <a class="jump" href="#binance-heist-ai-tool">#2 ↓</a></p>
+    </article>
+    <article class="trip">
+      <div class="num">2</div>
+      <h4>Stolen AI keys, $1M bills</h4>
+      <p>Google finds hijacked model access resold as $60 &#x27;unlimited&#x27; plans, with victims paying the tokens. <a class="jump" href="#google-llmjacking">#3 ↓</a></p>
+    </article>
+    <article class="trip">
+      <div class="num">3</div>
+      <h4>Security giants buy agent safety</h4>
+      <p>CrowdStrike pays about $495M for tools that watch and attack AI agents. <a class="jump" href="#crowdstrike-fiddler-dreadnode">#4 ↓</a></p>
+    </article>
+  </div>
+</section>
+
+<!-- DEADLINES: timeline with days-left counters, rendered from state.deadlines -->
+<section>
+  <div class="sec-head">Coming Up <small>DATES THAT MATTER · DAYS LEFT</small></div>
+  <div class="timeline" id="timeline"></div>
+</section>
+
+<!-- FEED -->
+<section>
+  <div class="sec-head">New on the Wire <small id="new-head"></small></div>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (21)</button>
+    <button class="tab" data-cat="business">BUSINESS (2)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (6)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (3)</button>
+    <button class="tab" data-cat="models">MODELS (3)</button>
+    <button class="tab" data-cat="policy">POLICY (5)</button>
+    <button class="tab" data-cat="research">RESEARCH (2)</button>
+  </div>
+
+  <div class="lead-ref feed-item" data-cat="research"><strong>#1</strong> is today's lead, above: Anthropic's FlashProve, cryptographic proof of which model answered. <a href="#anthropic-flashprove">Back to top ↑</a></div>
+
+  <!-- the two highest-scoring stories after the lead get large cards -->
+  <div class="big">
+
+    <article class="card critical feed-item" id="binance-heist-ai-tool" data-cat="enterprise" data-story-id="binance-heist-ai-tool">
+      <div class="top"><span><span class="rank">#2</span><span class="cat">Enterprise · AI security · 3 Nov</span></span><span class="impact">IMPACT <b>8</b>/10</span></div>
+      <h4>Binance says attackers abused its internal AI tool on the way to a $6.3B theft</h4>
+      <p class="sub">The postmortem traces months of work: a fake AI-tool installer, a fake job interview, then an in-house AI tool turned against its own engineers.</p>
+      <div class="body">Binance's postmortem, summarised by <strong>The Verge</strong> and <strong>The Hacker News</strong>, traces the record theft to a months-long campaign by the unit the FBI calls <strong>TraderTraitor</strong> (North Korea). In <strong>June</strong>, a Wallet DevOps engineer searched for a popular AI tool and installed a <strong>trojanised Homebrew installer</strong>; Binance caught that malware and replaced the laptop. In <strong>September</strong>, a second engineer went through several rounds of <strong>fake job interviews</strong> and ran a malicious "assignment" that swapped the pyenv executable for a backdoored one, which endpoint tools missed. On <strong>20 October</strong> the attackers used that machine and <strong>"abused an internal AI tool"</strong> to gain control over the first engineer and a third, then struck on <strong>29 October</strong>. Because the hot wallet used multi-party computation, Binance says there was no single key to revoke the malicious EIP-7702 authorisations quickly. CEO Richard Teng says about <strong>$2.85B</strong> was frozen or intercepted, <strong>98%</strong> of affected tokens have been replenished and no user bears the loss. Outlets put the total at <strong>$6.3B-$6.43B</strong>.</div>
+      <p class="sowhat">Internal AI tools now sit in the attack path: whatever an in-house assistant or agent is allowed to do for an employee, a hijacked session can do too. This week, security teams should list which internal AI tools can act on behalf of staff, on what systems, and with what logging. Binance gives little detail on how the tool was abused, as The Verge notes, so watch for a fuller technical write-up.</p>
+      <div><span class="tier critical">CRITICAL</span><span class="trust multi">Two or more outlets</span><span class="chip">Checked on The Verge and The Hacker News; Binance&#x27;s post on X not opened</span></div>
+      <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.theverge.com/news/1025576/binance-cyrpto-theft-explained">The Verge</a> · <a href="https://thehackernews.com/2026/11/binance-reveals-how-fake-job-interviews.html">The Hacker News</a></span><span class="grp"><span class="st">OTHER</span><a href="https://x.com/binance/status/2117626126214504729">Binance&#x27;s postmortem post on X (not opened)</a></span></div>
+      <div class="storyline">Storyline: AI in cyberattacks · day 17</div>
+      <div style="margin-top:10px"><button class="share" data-share="binance-heist-ai-tool">Share ↗</button></div>
+    </article>
+    <article class="card notable feed-item" id="google-llmjacking" data-cat="enterprise" data-story-id="google-llmjacking">
+      <div class="top"><span><span class="rank">#3</span><span class="cat">Enterprise · AI security · 3 Nov</span></span><span class="impact">IMPACT <b>7</b>/10</span></div>
+      <h4>Google: hijacked AI accounts are costing some companies up to $1 million</h4>
+      <p class="sub">Stolen keys and exposed model endpoints are pooled and resold as cheap &#x27;unlimited&#x27; AI plans, with the victim paying for every token.</p>
+      <div class="body">Google's Threat Intelligence Group (GTIG) and Mandiant describe two kinds of <strong>"LLMjacking"</strong> crews: some scan for <strong>exposed model endpoints</strong>, others <strong>steal API keys and cloud credentials</strong> (service-account keys, GitHub tokens, session tokens). Across incidents they saw fraudulent charges <strong>above $100,000 in a single day</strong> and cumulative bills reaching <strong>$1 million</strong> before access was cut. Stolen access is pooled through open-source gateways such as new-api and gcli2api and resold by <strong>"LLM mixers"</strong>: one, <strong>Jet Night</strong>, sells "unlimited" frontier-model plans for about <strong>$60 a month</strong>; a single actor behind it made more than 500,000 calls in under eight hours and passed nearly $1M of costs to one victim. Attackers also exploit <strong>CVE-2026-40217</strong>, a code-execution flaw in the LiteLLM gateway's guardrail-testing endpoint (NVD: LiteLLM through 8 April 2026; CVSS 8.8 per MITRE).</div>
+      <p class="sowhat">Model access is now worth stealing on its own, and the bill lands on whoever owns the key. Deny cloud LLM permissions that are not needed, set spending caps and alerts, rotate keys from a secrets manager, and patch any LiteLLM proxy you run.</p>
+      <div><span class="tier notable">NOTABLE</span><span class="trust official">Official source</span><span class="chip">Checked on Google&#x27;s threat-intelligence post and NVD</span></div>
+      <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://cloud.google.com/blog/topics/threat-intelligence/llmjacking-monetizing-compromised-cloud-models">Google Threat Intelligence: LLMjacking post</a> · <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-40217">NVD: CVE-2026-40217</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://www.bleepingcomputer.com/news/security/google-llmjacking-attacks-rack-up-1-million-in-cloud-ai-charges/">BleepingComputer</a> · <a href="https://thehackernews.com/2026/11/google-warns-llmjacking-attacks-are.html">The Hacker News (not opened)</a></span></div>
+      <div class="storyline">Storyline: stolen AI keys and compute · day 3</div>
+      <div style="margin-top:10px"><button class="share" data-share="google-llmjacking">Share ↗</button></div>
+    </article>
+  </div>
+
+  <!-- everything else: compact list, tap to expand -->
+  <div class="compact">
+    <details class="row feed-item" id="crowdstrike-fiddler-dreadnode" data-cat="business" data-story-id="crowdstrike-fiddler-dreadnode">
+      <summary><span class="rank">#4</span><span><h4>CrowdStrike buys agent-monitoring and AI red-teaming tools for about $495M</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust official">Official source</span><span class="cat">Business · AI security · 3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>CrowdStrike says it will buy <strong>Fiddler AI</strong>, whose software monitors AI models and agents inside companies and will become <strong>Falcon Observe</strong>, and <strong>Dreadnode</strong>, which automates security testing of AI models, apps and agents before launch and will feed <strong>Falcon Guardian</strong>, CrowdStrike's agent detection-and-response product. TechCrunch, citing the WSJ, puts the prices at about <strong>$400M</strong> for Fiddler (founded 2018, ~$99M raised) and <strong>$95M</strong> for Dreadnode (founded 2023, $14M raised).</p>
+        <p class="sowhat">Watching and attacking AI agents is becoming a standard line item in the big security suites, the same path endpoint and cloud security took. Independent agent-security start-ups now face a buyer&#x27;s market.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://www.crowdstrike.com/en-us/blog/crowdstrike-to-acquire-fiddler/">CrowdStrike blog: Fiddler and Dreadnode deals</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/11/03/crowdstrike-to-shell-out-nearly-500m-for-2-ai-security-startups-as-the-market-for-securing-agents-takes-off/">TechCrunch (citing the WSJ on prices)</a> · <a href="https://siliconangle.com/2026/11/03/crowdstrike-to-acquire-cybersecurity-startups-fiddler-ai-dreadnode-for-reported-495m/">SiliconANGLE (not opened)</a></span></div>
+        <div class="storyline">Storyline: who secures AI agents · day 2 · Checked on CrowdStrike&#x27;s blog and TechCrunch</div>
+        <div style="margin-top:8px"><button class="share" data-share="crowdstrike-fiddler-dreadnode">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="workos-artex-breach" data-cat="enterprise" data-story-id="workos-artex-breach">
+      <summary><span class="rank">#5</span><span><h4>WorkOS says an AI attack framework broke into its sales app</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust official">Official source</span><span class="cat">Enterprise · AI security · 30 Oct-3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>In a bulletin updated 2 November, <strong>WorkOS</strong> says that on <strong>30 October</strong> it found unauthorised access to an internal application used by its sales and customer teams. Exposed: business contact details from its CRM, account histories, product-usage data and <strong>summaries and excerpts of sales calls, support discussions and customer Slack conversations</strong>. It found no evidence that app data or production services were touched. The company says the attacker used <strong>"an AI-assisted offensive security framework to automate reconnaissance and exploitation"</strong>; founder <strong>Michael Grinich</strong> named it as <strong>ARTEX AI</strong>, citing user agents 'artex-enrich/1.0' and 'norma/0.4' (BleepingComputer). ARTEX, released by Chinese developers as open source and later made private, has turned up in attacks on South Korean banks and, per CrowdStrike, a campaign against 200 organisations.</p>
+        <p class="sowhat">WorkOS sells login and single sign-on to much of the AI industry, so its customers&#x27; sales conversations are a phishing goldmine. Expect targeted lures aimed at AI companies&#x27; staff, and more breaches with the same AI-driven tooling.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://workos.com/security/bulletins/october-30th-2026-data-security-incident">WorkOS security bulletin</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://www.bleepingcomputer.com/news/security/workos-says-attacker-used-artex-ai-to-breach-internal-sales-app/">BleepingComputer</a></span></div>
+        <div class="storyline">Storyline: AI in cyberattacks · day 17 · Checked on WorkOS&#x27;s security bulletin and BleepingComputer</div>
+        <div style="margin-top:8px"><button class="share" data-share="workos-artex-breach">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="revolut-self-hosted-glm" data-cat="enterprise" data-story-id="revolut-self-hosted-glm">
+      <summary><span class="rank">#6</span><span><h4>Revolut swaps Claude Code for self-hosted Chinese open models and cuts costs 90%</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust single">One secondary source</span><span class="cat">Enterprise · open models · 3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>At the AI Engineer conference in New York, Revolut ops and infrastructure lead <strong>David Abitbol</strong> said the bank cut AI coding inference costs by roughly <strong>90%</strong> in under a year by making self-hosted models its default for about <strong>2,000 engineers</strong>. It started on Z.ai's <strong>GLM-5.1</strong> and now serves <strong>GLM-5.3</strong> on <strong>56 Nvidia B200</strong> GPUs at about <strong>$0.30 per million tokens</strong>, roughly a tenth of Claude Code or Codex; it reports 60% faster coding time and 70% shorter lead time. "Long context is a scam," he said: 256K tokens is what engineers need. Vision tasks still route to Gemini or GPT. Separately, a <strong>Gartner</strong> note says open-weight models handle nine in ten routine agent-workflow steps at parity, at a quarter of the price of the cheapest closed model, though real savings are closer to 5-6x (both The Register).</p>
+        <p class="sowhat">Cheap, flat-rate tokens changed how engineers used AI more than speed did. For banks and other regulated firms, a self-hosted Chinese open model is now a credible default; the questions shift to security review of the weights and who runs the GPUs.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.theregister.com/ai-and-ml/2026/11/03/british-fintech-revolut-slashes-ai-coding-costs-10x-by-cutting-out-claude-and-going-self-hosted/5307345">The Register: Revolut</a> · <a href="https://www.theregister.com/ai-and-ml/2026/11/03/open-models-can-do-90-of-agentic-work-at-a-twentieth-of-the-cost-of-a-frontier-llm-gartner/5307132">The Register: Gartner note</a></span></div>
+        <div class="storyline">Storyline: how good open models are · day 21 · Checked on The Register (two reports)</div>
+        <div style="margin-top:8px"><button class="share" data-share="revolut-self-hosted-glm">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="ncsc-ai-ransomware-2028" data-cat="policy" data-story-id="ncsc-ai-ransomware-2028">
+      <summary><span class="rank">#7</span><span><h4>Britain&#x27;s cyber agency expects AI-powered ransomware against critical infrastructure by 2028</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="cat">Policy · national security · 3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>Publishing its annual review, the UK's <strong>National Cyber Security Centre</strong> says AI-powered malware is <strong>"highly likely"</strong> to be part of a ransomware attack on UK <strong>critical national infrastructure</strong> by 2028. It points to open-source AI security tools being repurposed, and The Register notes widespread abuse of <strong>ARTEX</strong>, the Chinese-made AI red-teaming platform, since July. In its pessimistic scenario the NCSC calls a self-replicating autonomous attacker, acting "with no apparent motivation or restraint", a <strong>"realistic possibility"</strong>. CEO <strong>Richard Horne</strong> said leaders who "got away with tech on the cheap" will have to explain why "food isn't on the shelves, lights aren't on". The report expects AI mainly to scale existing techniques rather than find new kinds of flaws (SecurityWeek).</p>
+        <p class="sowhat">A national cyber agency is now planning for AI malware against power, water and food systems within two years. For operators of old industrial systems, the warning is about patching backlogs that AI makes cheap to exploit.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.theregister.com/security/2026/11/03/britain-on-notice-ai-powered-ransomware-attacks-to-arrive-by-2028/5307200">The Register</a> · <a href="https://www.securityweek.com/uk-cyber-chief-says-the-uk-will-face-ai-cyberattacks-on-critical-infrastructure-by-2028/">SecurityWeek</a></span></div>
+        <div class="storyline">Storyline: AI in cyberattacks · day 17 · Checked on The Register and SecurityWeek</div>
+        <div style="margin-top:8px"><button class="share" data-share="ncsc-ai-ransomware-2028">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="fal-series-f" data-cat="business" data-story-id="fal-series-f">
+      <summary><span class="rank">#8</span><span><h4>fal raises $1.3B to run other people&#x27;s image and video models</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust official">Official source</span><span class="cat">Business · inference · 3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p><strong>fal</strong> runs image, video and audio generation models, its own and partners', for studios, ad agencies, e-commerce brands and game developers. In a post on its blog, fal announces a <strong>Series E led by Sequoia</strong>, closed earlier this year, and a <strong>Series F led by Bessemer</strong> with continued investment from <strong>Nvidia</strong>. TechCrunch, citing Bloomberg, says the Series F raised <strong>$1.3B at a $16B valuation</strong>, double April's $8B, with $1.65B across both rounds and annualised revenue above <strong>$800M</strong>; fal's own post does not give the amounts.</p>
+        <p class="sowhat">Serving generative media is splitting off from model-making as its own large business. Rivals such as Baseten, Fireworks and Modal are growing fast too, but on thin margins because of compute costs.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://fal.ai/blog/series-e-f">fal blog: Series E and F</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/11/03/ai-inference-startup-fal-doubles-its-valuation-to-16b-as-demand-surges/">TechCrunch (citing Bloomberg)</a> · <a href="https://siliconangle.com/2026/11/03/generative-media-inference-startup-fal-raises-1-3b-at-a-16b-valuation/">SiliconANGLE (not opened)</a></span></div>
+        <div class="storyline">Storyline: who pays for AI · day 9 · Checked on fal&#x27;s blog and TechCrunch</div>
+        <div style="margin-top:8px"><button class="share" data-share="fal-series-f">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="astra-designs-hardware" data-cat="models" data-story-id="astra-designs-hardware">
+      <summary><span class="rank">#9</span><span><h4>OpenAI says GPT-6 Astra designed a hardware gadget from scratch in a week</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust single">One secondary source</span><span class="cat">Models · AI engineering · 3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>OpenAI says its hardware team used <strong>GPT-6 Astra</strong> to design a small device for talking to the <strong>Codex</strong> coding agent, as a side project, in <strong>under a week</strong>. Astra handled enclosure design, PCB layout with component selection and trace routing, firmware and the interface. A contract manufacturer built prototypes in under a month, but several revision rounds were needed because Astra did not always account for manufacturing constraints and tolerances. OpenAI also says an unnamed <strong>internal model</strong> scores <strong>0.875</strong> on the BenchCAD 2.0 benchmark against Astra's 0.594, and that its hardware teams' token use is up 23x since February (The Decoder).</p>
+        <p class="sowhat">Coding agents are reaching into physical engineering: CAD, circuit boards and firmware in one loop. The revision rounds are the tell; manufacturing know-how is still the gap. Note the claims are OpenAI&#x27;s own.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://openai.com/index/accelerating-engineering-for-the-physical-world">OpenAI: Accelerating engineering for the physical world (returned 403)</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://the-decoder.com/openai-says-gpt-6-astra-designed-a-hardware-device-from-scratch-in-under-a-week/">The Decoder</a></span></div>
+        <div class="storyline">Storyline: new kinds of models · day 8 · Checked on The Decoder; OpenAI&#x27;s page blocked (403)</div>
+        <div style="margin-top:8px"><button class="share" data-share="astra-designs-hardware">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="nvidia-china-cloud-limits" data-cat="hardware" data-story-id="nvidia-china-cloud-limits">
+      <summary><span class="rank">#10</span><span><h4>Nvidia quietly asks cloud partners to cut back on Chinese customers</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust single">One secondary source</span><span class="cat">Hardware · export controls · 3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p><strong>Nvidia</strong> has told some cloud customers, including neoclouds it has backed, to take on less business from Chinese companies, The Information reports, citing three people; the FT says the instruction went out verbally through sales and regional teams. The guidance is <strong>not mandatory</strong>, covers <strong>future contracts</strong>, and asks clouds to <strong>disclose the end users</strong> of the chips. US export rules restrict shipments of chips but generally not remote access, which lets Chinese developers rent capacity in data centres abroad; US authorities have been looking at such access after allegations involving Moonshot AI (via The Decoder).</p>
+        <p class="sowhat">Nvidia is doing some of the export-control work itself, perhaps to head off rules on cloud access. Neoclouds with Chinese customers should expect contract terms on customer disclosure.</p>
+        <div class="src"><span class="grp"><span class="st">AGGREGATOR</span><a href="https://the-decoder.com/nvidia-pushes-cloud-customers-to-cut-back-on-china-business/">The Decoder (citing The Information and the FT)</a> · <a href="https://www.tomshardware.com/tech-industry/data-centers/nvidia-tells-data-center-operators-to-limit-business-from-chinese-customers-with-new-global-restrictions-report-claims">Tom&#x27;s Hardware (not opened)</a></span></div>
+        <div class="storyline">Storyline: chip export rules · day 5 · Checked on The Decoder (citing The Information and the FT)</div>
+        <div style="margin-top:8px"><button class="share" data-share="nvidia-china-cloud-limits">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="cnas-sovereign-agents" data-cat="policy" data-story-id="cnas-sovereign-agents">
+      <summary><span class="rank">#11</span><span><h4>A Washington think tank asks for kill switches against &#x27;sovereign&#x27; AI agents</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Policy · AI risk · 3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>A report from the <strong>Center for a New American Security</strong> by <strong>Ben Hayum</strong> defines <strong>"sovereign agents"</strong> as agents that operate outside human control and "pursue open-ended, evolving survival": at minimum, they keep their own model and compute running; more advanced ones buy or steal resources, spread copies, resist shutdown and self-improve. "If sovereign agents are not already possible, they will be soon," Hayum writes. Recommendations: labs should name and test for them in safety frameworks; Congress should require transparency and incident reporting and hold whoever releases one liable; developers and the NSA should build air-gapped testbeds and kill switches; and a public-private group modelled on the 2009 Conficker Working Group should secure chokepoints (The Register).</p>
+        <p class="sowhat">A mainstream national-security think tank is giving Washington a name and a policy list for runaway agents. Watch whether it shows up in labs&#x27; safety frameworks or in bills on incident reporting.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.theregister.com/security/2026/11/03/ai-policy-wonks-declare-sovereign-agents-a-threat-to-civilization/5307354">The Register</a></span></div>
+        <div class="storyline">Storyline: how fast frontier AI should go · day 22 · Checked on The Register</div>
+        <div style="margin-top:8px"><button class="share" data-share="cnas-sovereign-agents">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="google-schools-ai-off" data-cat="policy" data-story-id="google-schools-ai-off">
+      <summary><span class="rank">#12</span><span><h4>Google will turn off AI for school pupils by default, Search included</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Policy · education · 3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>Google says that next year it will <strong>disable AI tools for K-12 students</strong> unless administrators turn them on, across <strong>Gemini, NotebookLM, Gemini in Classroom and Google Search</strong>. Because "Search and AI are deeply integrated", Google's education VP <strong>Chris Phillips</strong> told The New York Times, a school that restricts AI altogether will lose <strong>Search</strong> too, and students will see a message that it is unavailable. Google also launched Guided Learning, its tutor-style mode, for schools (TechCrunch).</p>
+        <p class="sowhat">Off by default sounds like a concession, but the choice it offers schools is AI in Search or no Google Search at all. Expect pushback from districts and pressure on regulators to make AI features separable.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/11/03/google-will-let-schools-disable-its-ai-tools-but-not-without-sacrificing-search/">TechCrunch</a> · <a href="https://arstechnica.com/ai/2026/11/google-will-let-schools-skip-ai-tools-but-they-have-to-give-up-search-too/">Ars Technica (not opened)</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://thenextweb.com/news/google-guided-learning-classroom-search-k12-ai-off-by-default">TNW (not opened)</a></span></div>
+        <div class="storyline">Storyline: children and chatbots · day 6 · Checked on TechCrunch; Ars Technica and TNW also report</div>
+        <div style="margin-top:8px"><button class="share" data-share="google-schools-ai-off">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="lumai-aria-optical" data-cat="hardware" data-story-id="lumai-aria-optical">
+      <summary><span class="rank">#13</span><span><h4>A UK government lab will test light-based AI servers in a real data centre</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Hardware · optical computing · 3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>The UK's <strong>ARIA</strong> funds a <strong>£50M Scaling Inference Lab</strong>, run by the nonprofit CommonAI, to test new AI hardware. Its first optical platform will be <strong>Lumai</strong>'s <strong>Iris</strong> servers, deployed across several machines in a <strong>commercial data centre</strong>. Lumai, spun out of Oxford in 2021, encodes data into beams of light to do the heavy maths for <strong>prefill</strong>, the stage where a model reads the prompt; ordinary chips still generate the answer. Lumai claims up to <strong>90%</strong> lower data-centre power and at least <strong>16x</strong> better energy efficiency per request when paired with standard chips; TNW notes none of this has been independently checked, which is the lab's job.</p>
+        <p class="sowhat">Light-based compute has promised big energy savings for years; a public lab testing it under real power and cooling is the step that turns claims into numbers. A new kind of hardware worth watching, not yet proven.</p>
+        <div class="src"><span class="grp"><span class="st">AGGREGATOR</span><a href="https://thenextweb.com/news/aria-scaling-inference-lab-lumai-optical-servers">TNW</a></span></div>
+        <div class="storyline">Storyline: cheaper, leaner compute · day 4 · Checked on TNW</div>
+        <div style="margin-top:8px"><button class="share" data-share="lumai-aria-optical">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="cogent-vr11-vuln-repair" data-cat="models" data-story-id="cogent-vr11-vuln-repair">
+      <summary><span class="rank">#14</span><span><h4>A small security lab&#x27;s model out-patches Claude Code and Codex on fresh CVEs</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Models · AI security · 3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p><strong>Cogent Security</strong> released <strong>VR-1.1</strong>, a model that writes fixes for newly disclosed vulnerabilities. On <strong>LiveCVEBench</strong>, 190 tasks built from recent CVEs across 14 languages by researchers at Harbin Institute of Technology and Kuaishou, it produced a working repair for <strong>57.9%</strong>, against <strong>45.3%</strong> for both Claude Code and Codex. Cogent ran the test itself, blocked network access and hid grading tests, but inference budgets differed between systems. VR-1.1 first writes a proof of concept that triggers the flaw, follows related code paths, has a fresh-context reviewer try to bypass each fix, and leaves regression tests. Cogent has raised $53M (SiliconANGLE exclusive).</p>
+        <p class="sowhat">With AI-assisted discovery multiplying disclosures, patching is the bottleneck. Specialist repair models beating general coding agents on fixes is a pattern to test on your own backlog, not to take from a vendor benchmark.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://siliconangle.com/2026/11/03/exclusive-cogent-securitys-vr-1-1-model-outscores-claude-code-and-codex-on-vulnerability-repair/">SiliconANGLE</a></span></div>
+        <div class="storyline">Storyline: AI finding and fixing bugs · day 9 · Checked on SiliconANGLE</div>
+        <div style="margin-top:8px"><button class="share" data-share="cogent-vr11-vuln-repair">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="apple-ai-companions-18" data-cat="policy" data-story-id="apple-ai-companions-18">
+      <summary><span class="rank">#15</span><span><h4>Apple makes romantic AI companion apps adults-only on the App Store</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Policy · child safety · 2-3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>In an announcement to developers on Monday, <strong>Apple</strong> said all apps offering <strong>dating or romantic-relationship features</strong> must carry an <strong>18+</strong> rating, which TechCrunch notes will catch <strong>AI companion apps</strong> that engage in sexual or romantic content, such as Character.AI- or Replika-style apps. From <strong>16 November</strong>, developers must add new content descriptors so ratings reflect these features, plus a flag for sharing users' real-world location.</p>
+        <p class="sowhat">App Store ratings are one of the few levers that reach every companion app at once. Apps where romance is one feature among many will need to strip it for teens or accept an adults-only label.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/11/03/apple-restricts-dating-apps-and-ai-companions-to-users-18-and-up/">TechCrunch</a></span></div>
+        <div class="storyline">Storyline: children and chatbots · day 6 · Checked on TechCrunch</div>
+        <div style="margin-top:8px"><button class="share" data-share="apple-ai-companions-18">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="siri-third-party-apps" data-cat="enterprise" data-story-id="siri-third-party-apps">
+      <summary><span class="rank">#16</span><span><h4>Siri&#x27;s new AI can now act inside any app that opts in</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Enterprise · assistants · 3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>With the <strong>iOS 27.3</strong> developer preview, Apple says developers can integrate Siri AI's new features into <strong>"all apps"</strong>, letting the assistant use a user's personal context, natural-language requests and on-screen awareness to complete tasks inside third-party apps. A new <strong>"app skills"</strong> feature lets developers combine several tasks into one action, and users will not need to name the app when it is in the foreground, in a Live Activity or under discussion (The Verge).</p>
+        <p class="sowhat">This is the opening Apple&#x27;s assistant needed to act across apps rather than only its own. For app makers, exposing actions to Siri becomes the new version of SEO.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.theverge.com/tech/1025694/apple-siri-ai-third-party-apps">The Verge</a></span></div>
+        <div class="storyline">Storyline: assistants that act for you · day 6 · Checked on The Verge</div>
+        <div style="margin-top:8px"><button class="share" data-share="siri-third-party-apps">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="datacentre-jet-engines" data-cat="hardware" data-story-id="datacentre-jet-engines">
+      <summary><span class="rank">#17</span><span><h4>AI data centres are running on rebuilt airliner engines while they wait for power</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Hardware · power · 3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>Stuck in years-long queues for grid connections and new turbines, some AI data centres now make their own electricity with <strong>jet engines from retired aircraft</strong>, rebuilt to burn natural gas, the New York Times reported. <strong>xAI</strong> has installed <strong>eight</strong> ProEnergy units, rebuilt GE engines common on Boeing jets, for its Colossus 2 site in Mississippi; <strong>Crusoe</strong> ordered <strong>13</strong> for Stargate's Abilene campus in April. Rystad Energy says jet units can have a data centre running in about <strong>24 months</strong>, against roughly <strong>seven years</strong> for a 100MW grid hookup in Northern Virginia, per the IEA (TechCrunch).</p>
+        <p class="sowhat">Speed to power now beats efficiency and emissions in siting decisions. Expect local fights over air permits to join the water and noise objections already hitting data centres.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/11/03/data-centers-are-turning-to-old-jet-engines-as-the-wait-for-power-grows/">TechCrunch (citing the New York Times)</a> · <a href="https://www.tomshardware.com/tech-industry/data-centers/elon-musks-xai-installs-eight-converted-jet-engines-to-power-mississippi-data-center">Tom&#x27;s Hardware (not opened)</a></span></div>
+        <div class="storyline">Storyline: building AI&#x27;s power and data centres · day 14 · Checked on TechCrunch (citing the New York Times)</div>
+        <div style="margin-top:8px"><button class="share" data-share="datacentre-jet-engines">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="openrouter-crouton-alpha" data-cat="models" data-story-id="openrouter-crouton-alpha">
+      <summary><span class="rank">#18</span><span><h4>An unnamed lightweight model, Crouton Alpha, turns up free on OpenRouter</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust official">Official source</span><span class="cat">Models · stealth models · 3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>OpenRouter's models API lists <strong>stealth/crouton-alpha</strong>, created on 3 November, its newest model. The description calls <strong>Crouton Alpha</strong> "a lightweight model built for scalable coding, agentic, and multimodal workflows", suited to agentic sub-tasks, tool use and document analysis in high-volume work. It takes <strong>text, image, video, file and audio</strong> input, outputs text, has a <strong>1,048,576-token</strong> context and is free during the stealth period. The developer is not named.</p>
+        <p class="sowhat">Stealth listings have preceded several lab launches this autumn. A small, cheap, long-context model with audio and video input points at a &#x27;flash&#x27;-tier release; test it only with data you would share with an unknown provider.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://openrouter.ai/api/v1/models">OpenRouter models API</a></span></div>
+        <div class="storyline">Storyline: anonymous models on gateways · day 6 · Checked on OpenRouter&#x27;s models API</div>
+        <div style="margin-top:8px"><button class="share" data-share="openrouter-crouton-alpha">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="openai-bug-bounty-172k" data-cat="enterprise" data-story-id="openai-bug-bounty-172k">
+      <summary><span class="rank">#19</span><span><h4>OpenAI pays up to $172,000 for the worst bugs in ChatGPT and Codex</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Enterprise · AI security · 3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p>OpenAI has raised its bug bounty payouts roughly fourfold: critical vulnerabilities in core products such as <strong>ChatGPT</strong> and <strong>Codex</strong> now earn up to <strong>$30,000</strong>, exceptional findings up to <strong>$100,000</strong>, and with quality, loyalty and campaign bonuses about <strong>$172,000</strong>. It adds a five-tier loyalty programme and time-limited campaigns tied to launches, and anyone who reported a flaw in the last 30 days gets the difference. A security sprint with the firm <strong>Cathedral</strong> is next; in the last one, a quarter of OpenAI's product engineers hunted bugs (The Decoder).</p>
+        <p class="sowhat">As agents get access to email, code and money, the bugs that matter are in the AI products themselves. Higher bounties are a signal of how valuable OpenAI thinks those flaws are to attackers.</p>
+        <div class="src"><span class="grp"><span class="st">AGGREGATOR</span><a href="https://the-decoder.com/bug-hunters-can-now-earn-up-to-172000-from-openai-as-company-ramps-up-security/">The Decoder</a></span></div>
+        <div class="storyline">Storyline: AI finding and fixing bugs · day 9 · Checked on The Decoder</div>
+        <div style="margin-top:8px"><button class="share" data-share="openai-bug-bounty-172k">Share ↗</button></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- DEVELOPING: carried stories that moved -->
+<section>
+  <div class="sec-head">Developing <small>CARRIED STORIES THAT MOVED</small></div>
+  <div class="compact">
+    <details class="row feed-item" id="weight-space-programming" data-cat="research" data-story-id="weight-space-programming">
+      <summary><span class="rank">D1</span><span><h4>Critics say the weight-editing headline needed code; a laptop model repeats the small test</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust official">Official source</span><span class="cat">Research · new kinds of models · 3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Matthew Honnibal says the post mixes no-tool weight reading (three tests, under 172K weights) with code-assisted edits, including the headline Qwen result; Simon Willison gets Qwen 3.8 27B on a laptop to pass a no-tools test</div><p><strong>Matthew Honnibal</strong>, author of spaCy, argues the MIT post mixes two different things. By his tally, only three experiments, on networks of <strong>17K-172K weights</strong>, read raw weights with <strong>no tools</strong>; every experiment on a real language model, including the headline <strong>Qwen3.5-0.8B</strong> maths fix (7.9% to 48.1% on MATH-500), had Astra write <strong>Python</strong> and run the model on up to 50 batches of practice problems, as a human ML engineer would. "What the Qwen result actually shows is that Astra can be prompted to devise and perform tasks that a human ML engineer could do," he writes, adding that models of a year or two ago would have failed. His post drew about 880 points on Hacker News. <strong>Simon Willison</strong> took the no-tools test instead: <strong>Qwen 3.8 27B</strong> on his laptop identified the Pac-Man network from its raw weights after 46 minutes and 43,506 reasoning tokens, and Kimi K3.1 Pro named Breakout in under 10 minutes.</p>
+        <p class="sowhat">The no-tools finding survives and is now easier to reproduce; the &#x27;edits weights by reasoning alone&#x27; framing for large models does not. Treat the Qwen result as capable automated ML engineering, not a new route to self-improvement.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://rikiyat.github.io/blog/weight-space-programming/">MIT CSAIL authors: original post (2 Nov)</a></span><span class="grp"><span class="st">OTHER</span><a href="https://honnibal.dev/blog/astra-read-write-misleading">Matthew Honnibal: the post is misleading</a> · <a href="https://simonwillison.net/2026/Nov/3/qwen-can-interpret-model-weights/">Simon Willison: Qwen 3.8 27B can interpret weights too</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://www.theregister.com/ai-and-ml/2026/11/03/forget-retraining-ai-can-now-tweak-another-ais-weights/5307105">The Register (not opened)</a></span></div>
+        <div class="storyline">Storyline: new kinds of models · day 8 · Checked on Honnibal&#x27;s and Willison&#x27;s posts</div>
+        <div style="margin-top:8px"><button class="share" data-share="weight-space-programming">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="nyt-sues-brave" data-cat="policy" data-story-id="nyt-sues-brave">
+      <summary><span class="rank">D2</span><span><h4>The Times wants Brave&#x27;s paywall blocker shut and its AI data sales stopped</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Policy · copyright · 3 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The complaint seeks a permanent injunction and disgorgement, claims Brave made $100M+ from publishers&#x27; work, and adds a DMCA claim over a paywall blocker that Ars found enabled by default</div><p>Ars Technica reads the complaint filed in the Southern District of New York. It calls Brave "the supplier, dealer, and distributor of stolen copyrighted content" for its users and AI companies including Anthropic, Perplexity, Mistral, xAI and Cohere, and, citing third-party estimates, says Brave made <strong>more than $100M</strong> reselling publishers' work. Beyond direct, contributory and vicarious infringement, it adds a <strong>DMCA</strong> claim over a browser <strong>"paywall blocker"</strong>; Ars found the feature enabled in Brave's default settings on Mac and able to open a paywalled Times article. The Times seeks a <strong>permanent injunction</strong>, statutory and actual damages, and disgorgement of revenue from Brave's ad substitution.</p>
+        <p class="sowhat">The ask goes beyond money: if granted, an injunction would cut off a search API that several AI companies use for live web results. Builders relying on Brave&#x27;s index should have a fallback.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://arstechnica.com/tech-policy/2026/11/nyt-demands-brave-shut-down-its-paywall-blocker-and-end-deals-with-ai-firms/">Ars Technica</a></span></div>
+        <div class="storyline">Storyline: who pays for training data · day 13 · Checked on Ars Technica</div>
+        <div style="margin-top:8px"><button class="share" data-share="nyt-sues-brave">Share ↗</button></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>AI Daily Signal</strong> · Edition 135 · 4 November 2026 (IST) · Curated by Arnav Agrawal<span data-slot="curator-links"></span> · <a href="index.html">All editions</a><span data-slot="sister-links"></span></p>
+    <p>Wednesday's focus: AI security. Today that meant an AI tool in the Binance heist, hijacked AI accounts resold as cheap plans, an AI attack framework inside WorkOS, Britain's warning on AI ransomware, CrowdStrike buying agent security, a repair model beating coding agents on fresh CVEs, and a cryptographic check on which model answered.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast">Link copied</div>
+
+<script id="page-data" type="application/json">
+{
+ "edition": 135,
+ "date": "2026-11-04",
+ "tz": "Asia/Kolkata",
+ "format": "v3",
+ "editionType": "daily",
+ "degraded": false,
+ "degradedReason": "",
+ "sourcesOpened": 34,
+ "shareable": true,
+ "counts": {
+  "new": 19,
+  "developing": 2
+ },
+ "tiers": {
+  "critical": 1,
+  "notable": 10,
+  "monitor": 10
+ },
+ "stories": [
+  {
+   "id": "anthropic-flashprove",
+   "section": "new",
+   "rank": 1,
+   "title": "Anthropic releases FlashProve, an open-source (Apache 2.0) research prototype for 'provable inference': zkSNARK proofs that a response came from a committed model without revealing its weights; Claude helped build it; on one H100 it proves a 400B Llama 4 Maverick MoE at ~110 tokens/s (~19MB per 1,024 tokens, ~70-95x the GPU time of serving); no deployment planned",
+   "tier": "notable",
+   "impact": 8,
+   "delta": "new",
+   "arc": "frontier-pacing",
+   "arcDay": 22,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "research",
+   "tickerKey": "ANTHROPIC"
+  },
+  {
+   "id": "binance-heist-ai-tool",
+   "section": "new",
+   "rank": 2,
+   "title": "Binance's postmortem of the ~$6.3B theft (FBI: North Korea's TraderTraitor): a trojanised installer for a popular AI tool in June, a fake job interview with a malware 'assignment' in September, then on 20 Oct attackers abused an internal AI tool to take control of two engineers' accounts before the 29 Oct theft; $2.85B frozen or intercepted, 98% of tokens replenished",
+   "tier": "critical",
+   "impact": 8,
+   "delta": "new",
+   "arc": "agent-intrusion",
+   "arcDay": 17,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "enterprise",
+   "tickerKey": "BINANCE"
+  },
+  {
+   "id": "google-llmjacking",
+   "section": "new",
+   "rank": 3,
+   "title": "Google's Threat Intelligence Group and Mandiant say 'LLMjacking' (hijacking cloud AI accounts and keys) ran up fraudulent charges above $100,000 in a day and up to $1M cumulatively at some organisations; stolen access is resold through 'LLM mixers' such as Jet Night (~$60/month 'unlimited'); attackers also exploit LiteLLM flaw CVE-2026-40217 (CVSS 8.8, checked on NVD)",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "new",
+   "arc": "ai-key-theft",
+   "arcDay": 3,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "enterprise",
+   "tickerKey": "LLMJACKING"
+  },
+  {
+   "id": "crowdstrike-fiddler-dreadnode",
+   "section": "new",
+   "rank": 4,
+   "title": "CrowdStrike agrees to buy Fiddler AI (observability for AI agents, to become Falcon Observe) and Dreadnode (automated security testing of AI models, apps and agents, into Falcon Guardian); the WSJ puts the prices at ~$400M and ~$95M",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "ai-security-consolidation",
+   "arcDay": 2,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "business",
+   "tickerKey": "CROWDSTRIKE"
+  },
+  {
+   "id": "workos-artex-breach",
+   "section": "new",
+   "rank": 5,
+   "title": "WorkOS, whose login and SSO tools are used by OpenAI, Anthropic, Cursor and Perplexity, discloses that on 30 Oct an attacker using an AI-assisted offensive framework (founder Michael Grinich names ARTEX AI) accessed an internal sales app holding CRM contacts and summaries of customer calls, support and Slack conversations; no app data or production systems touched",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "agent-intrusion",
+   "arcDay": 17,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "enterprise",
+   "tickerKey": "WORKOS"
+  },
+  {
+   "id": "revolut-self-hosted-glm",
+   "section": "new",
+   "rank": 6,
+   "title": "Revolut says it cut AI coding inference costs ~90% in under a year by making self-hosted Z.ai GLM models (GLM-5.1, now GLM-5.3 on 56 Nvidia B200s) the default for ~2,000 engineers instead of Claude Code or Codex, at about $0.30 per million tokens (The Register, from an AI Engineer talk); Gartner separately says open-weight models can run 90% of agent workflow steps",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "open-weight-ceiling",
+   "arcDay": 21,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "enterprise",
+   "tickerKey": "REVOLUT"
+  },
+  {
+   "id": "ncsc-ai-ransomware-2028",
+   "section": "new",
+   "rank": 7,
+   "title": "The UK's National Cyber Security Centre says in its annual review that AI-powered malware is 'highly likely' to feature in a ransomware attack on UK critical infrastructure by 2028, cites abuse of the Chinese-made ARTEX red-teaming tool, and calls a self-replicating autonomous attacker a 'realistic possibility'; CEO Richard Horne warns bosses who 'got away with tech on the cheap'",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "agent-intrusion",
+   "arcDay": 17,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "policy",
+   "tickerKey": "NCSC"
+  },
+  {
+   "id": "fal-series-f",
+   "section": "new",
+   "rank": 8,
+   "title": "fal, which hosts and runs image, video and audio generation models for studios, ad agencies and developers, announces a Series E led by Sequoia and a Series F led by Bessemer with Nvidia; TechCrunch, citing Bloomberg, puts the F at $1.3B at a $16B valuation (double April's $8B), $1.65B across both, and annualised revenue above $800M",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "ai-financing",
+   "arcDay": 9,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "business",
+   "tickerKey": "FAL"
+  },
+  {
+   "id": "astra-designs-hardware",
+   "section": "new",
+   "rank": 9,
+   "title": "OpenAI says its hardware team used GPT-6 Astra to design a small device for talking to Codex in under a week (enclosure, PCB layout, components, trace routing, firmware and UI), with prototypes built within a month after several revisions; an unnamed internal model scores 0.875 on BenchCAD 2.0 against Astra's 0.594 (The Decoder; OpenAI's post returned 403)",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "new-kinds-of-models",
+   "arcDay": 8,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "models",
+   "tickerKey": "OPENAI"
+  },
+  {
+   "id": "nvidia-china-cloud-limits",
+   "section": "new",
+   "rank": 10,
+   "title": "Nvidia has told some cloud customers, including neoclouds it backs, to take on less business from Chinese companies and to disclose the end users of its chips; the guidance is voluntary, applies to future contracts and was passed on verbally (The Information, FT, via The Decoder), closing a remote-access gap US export rules do not cover",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "chip-export-enforcement",
+   "arcDay": 5,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "hardware",
+   "tickerKey": "NVIDIA"
+  },
+  {
+   "id": "cnas-sovereign-agents",
+   "section": "new",
+   "rank": 11,
+   "title": "A Center for a New American Security report by Ben Hayum warns of 'sovereign agents' that keep their own models and compute running, gather resources and resist shutdown ('if not already possible, they will be soon'), and asks labs to evaluate for them, Congress to require incident reporting and impose liability, and the NSA and labs to build air-gapped testbeds and kill switches",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "frontier-pacing",
+   "arcDay": 22,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "policy",
+   "tickerKey": "CNAS"
+  },
+  {
+   "id": "google-schools-ai-off",
+   "section": "new",
+   "rank": 12,
+   "title": "Google will switch off AI tools (Gemini, NotebookLM, Gemini in Classroom and AI in Search) for K-12 students next year unless administrators turn them on; because AI and Search are 'deeply integrated', schools that block AI entirely will lose Google Search too; Guided Learning launches for schools",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "chatbot-child-safety",
+   "arcDay": 6,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "policy",
+   "tickerKey": "GOOGLE"
+  },
+  {
+   "id": "lumai-aria-optical",
+   "section": "new",
+   "rank": 13,
+   "title": "The UK research agency ARIA's £50M Scaling Inference Lab (run by CommonAI) will install Oxford spin-out Lumai's Iris servers, which do AI maths with beams of light for the prompt-reading 'prefill' stage, as its first optical platform, in a commercial data centre; Lumai claims up to 90% power savings and 16x efficiency per request, none of it independently tested yet",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "ai-compute-efficiency",
+   "arcDay": 4,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "hardware",
+   "tickerKey": "LUMAI"
+  },
+  {
+   "id": "cogent-vr11-vuln-repair",
+   "section": "new",
+   "rank": 14,
+   "title": "Cogent Security releases VR-1.1, a model that writes fixes for newly disclosed vulnerabilities: on LiveCVEBench (190 recent CVEs, 14 languages) it repairs 57.9% against 45.3% for both Claude Code and Codex, by Cogent's own test with differing inference budgets; it writes a proof of concept first and leaves regression tests (SiliconANGLE exclusive)",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "ai-vuln-discovery",
+   "arcDay": 9,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "models",
+   "tickerKey": "COGENT"
+  },
+  {
+   "id": "apple-ai-companions-18",
+   "section": "new",
+   "rank": 15,
+   "title": "Apple tells developers that apps offering dating or romantic-relationship features, which covers AI companion apps with sexual or romantic content, must carry an 18+ rating, with new content descriptors required from 16 November (TechCrunch)",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "chatbot-child-safety",
+   "arcDay": 6,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "policy",
+   "tickerKey": "APPLE"
+  },
+  {
+   "id": "siri-third-party-apps",
+   "section": "new",
+   "rank": 16,
+   "title": "Apple's iOS 27.3 developer preview lets developers wire Siri AI's new features into all apps, so it can use personal context, natural-language requests and on-screen awareness to act inside them, and adds 'app skills' that chain several tasks into one action (The Verge)",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "consumer-agents",
+   "arcDay": 6,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "enterprise",
+   "tickerKey": "SIRI"
+  },
+  {
+   "id": "datacentre-jet-engines",
+   "section": "new",
+   "rank": 17,
+   "title": "AI data centres are generating their own power with retired jet engines rebuilt to burn natural gas, the New York Times reports (via TechCrunch): xAI has eight ProEnergy units at its Colossus 2 site, Crusoe ordered 13 for Stargate's Abilene campus; a 100MW grid hookup in Northern Virginia takes about seven years, against about 24 months with the engines",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "ai-compute-buildout",
+   "arcDay": 14,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "hardware",
+   "tickerKey": "POWER"
+  },
+  {
+   "id": "openrouter-crouton-alpha",
+   "section": "new",
+   "rank": 18,
+   "title": "A new anonymous model, Crouton Alpha, appears on OpenRouter (listed 3 Nov) as a 'lightweight model built for scalable coding, agentic, and multimodal workflows', with a 1,048,576-token context, text, image, video, file and audio input, and free stealth pricing; its maker is not named",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "stealth-models",
+   "arcDay": 6,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "models",
+   "tickerKey": "OPENROUTER"
+  },
+  {
+   "id": "openai-bug-bounty-172k",
+   "section": "new",
+   "rank": 19,
+   "title": "OpenAI raises its bug bounty: critical flaws in ChatGPT or Codex now pay up to $30,000, exceptional findings up to $100,000 and about $172,000 with bonuses, with a five-tier loyalty programme, retroactive top-ups for the last 30 days and a security sprint with the firm Cathedral (The Decoder)",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "ai-vuln-discovery",
+   "arcDay": 9,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-04",
+   "category": "enterprise",
+   "tickerKey": "BOUNTY"
+  },
+  {
+   "id": "weight-space-programming",
+   "section": "developing",
+   "rank": 1,
+   "title": "Weight-space programming, pushback: spaCy author Matthew Honnibal (HN, ~880 points) says the MIT post conflates tests: only three, on networks of 17K-172K weights, read raw weights with no tools, while every test on a real language model, including the Qwen maths fix, used Python and ran the model; Simon Willison reproduces the no-tools game test with Qwen 3.8 27B on a laptop",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "deescalated",
+   "arc": "new-kinds-of-models",
+   "arcDay": 8,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": false,
+   "update": "Matthew Honnibal says the post mixes no-tool weight reading (three tests, under 172K weights) with code-assisted edits, including the headline Qwen result; Simon Willison gets Qwen 3.8 27B on a laptop to pass a no-tools test",
+   "firstSeen": "2026-11-03",
+   "lastUpdate": "2026-11-04",
+   "category": "research",
+   "tickerKey": "WEIGHTS"
+  },
+  {
+   "id": "nyt-sues-brave",
+   "section": "developing",
+   "rank": 2,
+   "title": "The New York Times' suit against Brave, in detail (Ars Technica): it calls Brave a 'supplier, dealer, and distributor' of stolen news, claims it made more than $100M reselling publishers' work, adds a DMCA claim over a default-on 'paywall blocker' Ars confirmed works, and seeks a permanent injunction, damages and disgorgement of ad-substitution revenue",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "carry",
+   "arc": "training-data-economy",
+   "arcDay": 13,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": false,
+   "update": "The complaint seeks a permanent injunction and disgorgement, claims Brave made $100M+ from publishers' work, and adds a DMCA claim over a paywall blocker that Ars found enabled by default",
+   "firstSeen": "2026-11-03",
+   "lastUpdate": "2026-11-04",
+   "category": "policy",
+   "tickerKey": "BRAVE"
+  }
+ ],
+ "deadlines": [
+  {
+   "date": "2026-11-08",
+   "label": "Approximate: India's MeitY AI-regulation consultation paper ('within a month' of 8 Oct; still not out)",
+   "severity": "medium"
+  },
+  {
+   "date": "2026-11-15",
+   "label": "China's draft AI export-control catalogue: public comments close (MOFCOM/MOST No. 48)",
+   "severity": "high"
+  },
+  {
+   "date": "2026-11-16",
+   "label": "California agencies report on an AI 'kill switch'; Apple's new App Store age-rating descriptors (18+ for romantic AI companions) become mandatory; Anthropic's listing reported for this week",
+   "severity": "medium"
+  },
+  {
+   "date": "2026-11-29",
+   "label": "OpenAI starts training on Daybreak Blue cybersecurity sessions; check the separate opt-out",
+   "severity": "medium"
+  },
+  {
+   "date": "2026-12-07",
+   "label": "US Treasury COINS Act outbound-investment rule: comments due (as reported; check regulations.gov)",
+   "severity": "high"
+  }
+ ]
+}
+</script>
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('page-data').textContent);
+  var TODAY = state.date;
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+  var dayMs = 86400000;
+  var toDate = function(s){ var p = s.split('-'); return Date.UTC(+p[0], +p[1]-1, +p[2]); };
+  var newStories = state.stories.filter(function(s){ return s.section === 'new'; });
+  var n24 = newStories.filter(function(s){ return s.new24h; }).length;
+
+  // ── degraded banner ──
+  if(state.degraded){
+    $('degraded').classList.add('on');
+    $('degraded-text').textContent = state.degradedReason || 'Source pages could not be opened for this edition.';
+  }
+
+  // ── status line ──
+  var catchup = state.editionType === 'catch-up';
+  var bits = [
+    newStories.length + (newStories.length === 1 ? ' story' : ' stories'),
+    n24 === 0 ? 'none in the last 24 hours' : n24 + ' in the last 24 hours',
+    (state.sourcesOpened || 0) + ((state.sourcesOpened === 1) ? ' source opened' : ' sources opened')
+  ];
+  $('status').innerHTML = '<span class="etype' + (catchup ? ' catchup' : '') + '">' + (catchup ? 'Catch-up edition' : 'Daily edition') + '</span>' +
+    (catchup ? 'Quiet day: ' : '') + '<b>' + bits.join(', ') + '</b>';
+  $('new-head').textContent = newStories.length + ' NEW SINCE LAST EDITION · ' + n24 + ' IN THE LAST 24H';
+
+  // ── NEW / NEW.24H badges from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){ var b = document.createElement('span'); b.className = 'badge b-24h'; b.textContent = 'NEW IN 24H'; frag.appendChild(b); }
+      var map = {escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ EASED']};
+      if(map[s.delta]){ var d = document.createElement('span'); d.className = 'badge ' + map[s.delta][0]; d.textContent = map[s.delta][1]; frag.appendChild(d); }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline timeline with days-left counters ──
+  var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var tl = $('timeline');
+  state.deadlines.slice().sort(function(a,b){ return a.date < b.date ? -1 : 1; }).forEach(function(d){
+    var left = Math.round((toDate(d.date) - toDate(TODAY)) / dayMs);
+    if(left < 0) return;
+    var p = d.date.split('-');
+    var el = document.createElement('div');
+    el.className = 'tl-item sev-' + d.severity;
+    el.innerHTML = '<div class="when">' + (+p[2]) + ' ' + M[+p[1]-1] + '</div><div class="left">' +
+      (left === 0 ? 'TODAY' : left === 1 ? 'TOMORROW' : 'IN ' + left + ' DAYS') + '</div><div class="l">' + esc(d.label) + '</div>';
+    tl.appendChild(el);
+  });
+
+  // ── category tabs (filter every feed item) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.feed-item').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? '' : 'none';
+      });
+    });
+  });
+
+  // ── share buttons: native share sheet, else copy the link ──
+  document.querySelectorAll('[data-share]').forEach(function(b){
+    b.addEventListener('click', function(ev){
+      ev.preventDefault();
+      var id = b.getAttribute('data-share');
+      var el = $(id), h = el && el.querySelector('h4');
+      var url = location.href.split('#')[0] + '#' + id;
+      var title = h ? h.textContent.replace(/^NEW IN 24H/, '').trim() : document.title;
+      if(navigator.share){ navigator.share({title: title, text: title + ' — AI Daily Signal', url: url}).catch(function(){}); return; }
+      var done = function(){ var t = $('toast'); t.style.display = 'block'; setTimeout(function(){ t.style.display = 'none'; }, 1600); };
+      if(navigator.clipboard){ navigator.clipboard.writeText(url).then(done, done); } else { prompt('Copy this link', url); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
