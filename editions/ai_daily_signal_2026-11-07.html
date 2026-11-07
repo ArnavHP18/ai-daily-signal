@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 138 — 7 November 2026</title>
+<meta name="description" content="An AI system proves the Aaronson-Ambainis conjecture. Plus OpenAI&#x27;s $11B at $1.25T, open models closing in on gated hacking AI, and Congress summoning Jensen Huang.">
+<meta name="author" content="Arnav Agrawal">
+<!-- share tags: og:url and og:image must be absolute; SITE_URL lives in scripts/site_config.json -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="AI Daily Signal">
+<meta property="og:title" content="An AI system proves a quantum computing conjecture that stood open for 18 years">
+<meta property="og:description" content="AI Daily Signal, edition 138 (7 Nov 2026): 21 new stories, 7 developing.">
+<meta property="og:url" content="https://arnavhp18.github.io/ai-daily-signal/editions/ai_daily_signal_2026-11-07.html">
+<meta property="og:image" content="https://arnavhp18.github.io/ai-daily-signal/editions/cards/2026-11-07.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="An AI system proves a quantum computing conjecture that stood open for 18 years">
+<meta name="twitter:description" content="AI Daily Signal, edition 138 (7 Nov 2026): 21 new stories, 7 developing.">
+<meta name="twitter:image" content="https://arnavhp18.github.io/ai-daily-signal/editions/cards/2026-11-07.png">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac; --muted:#6b6353;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --up:#2e7d4f; --up-bg:#e3f1e8; --down:#b3261e; --down-bg:#f6e2df;
+    /* trust markers: one colour each, used everywhere */
+    --t-official:#2e7d4f; --t-multi:#1f3a93; --t-single:#a86b00; --t-rumor:#b3261e;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  /* mono = short labels only */
+  .label,.sec-head,.chip,.badge,.tab,.impact,.cat{font-family:var(--mono)}
+
+  /* ticker: plain dark bar, confirmed items only */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-size:13px;padding:8px 0}
+  .ticker-inner{display:inline-block;animation:tick 70s linear infinite;padding-left:100%}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166;font-family:var(--mono);font-size:12px;letter-spacing:1px}
+
+  /* degraded banner (rendered from state.degraded) */
+  .degraded{display:none;background:#fff1c7;border-bottom:2px solid #d99a00;color:#5a4300;font-size:14px;padding:10px 0}
+  .degraded.on{display:block}
+  .degraded strong{font-family:var(--mono);font-size:12px;letter-spacing:1px;margin-right:6px}
+
+  /* masthead: name, edition, date, byline */
+  .masthead{border-bottom:4px double var(--ink);padding:22px 0 14px;text-align:center}
+  .brand{display:inline-flex;align-items:center;gap:12px;border:none;color:var(--ink)}
+  .brand img{width:44px;height:44px}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(32px,5.5vw,56px);letter-spacing:-1px;text-transform:uppercase;line-height:1}
+  .masthead .when{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:10px}
+  .masthead .byline{font-size:13px;color:var(--muted);margin-top:4px}
+
+  /* status line above the headline */
+  .status{font-family:var(--mono);font-size:12px;letter-spacing:.5px;color:var(--muted);padding:16px 0 0}
+  .status b{color:var(--ink)}
+  .status .etype{display:inline-block;background:var(--ink);color:var(--paper);padding:2px 8px;margin-right:8px;letter-spacing:1px;text-transform:uppercase}
+  .status .etype.catchup{background:#d99a00;color:var(--ink)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:12px 0 26px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4vw,44px);line-height:1.1;margin:6px 0 10px}
+  .hero .subhead{font-size:19px;line-height:1.45;color:#3a352a;margin-bottom:14px}
+  .hero .dek{font-size:16px;line-height:1.6;color:#3a352a;margin-bottom:12px}
+  .sowhat{font-style:italic;color:#4a4436;border-left:3px solid var(--rule);padding-left:12px;margin:12px 0}
+  .hero .sowhat{border-left-color:var(--crit)}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px;align-self:start}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:14px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:9px}
+  .brief-toggle{margin-top:12px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .full-brief{display:none;margin-top:14px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:15px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* trust markers */
+  .trust{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:600;padding:2px 9px;border:1.5px solid currentColor;border-radius:999px;margin:0 6px 6px 0;background:#fff}
+  .trust::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+  .trust.official{color:var(--t-official)} .trust.multi{color:var(--t-multi)}
+  .trust.single{color:var(--t-single)} .trust.rumor{color:var(--t-rumor);border-style:dashed}
+  .chip{display:inline-block;font-size:11px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0;color:#4a4436}
+  .badge{display:inline-block;font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--ink);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff} .b-deesc{background:var(--mon);color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .tier{font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;color:#fff;margin-right:6px}
+  .tier.critical{background:var(--crit)} .tier.notable{background:var(--note)} .tier.monitor{background:var(--mon)}
+
+  /* sources, ranked by type */
+  .src{font-size:13px;line-height:1.8;margin-top:6px}
+  .src .st{font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--muted);margin-right:4px}
+  .src .grp{margin-right:12px;display:inline}
+
+  /* section heads */
+  .sec-head{font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:24px 0 8px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .sec-head small{font-size:10px;color:var(--muted);letter-spacing:1px}
+
+  /* 30-second read */
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--rule);background:#fffdf7}
+  .trip{padding:16px 18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:26px;font-weight:800;color:var(--crit);line-height:1}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.25;margin:6px 0}
+  .trip p{font-size:14px;color:#4a4436}
+  .trip a.jump{font-family:var(--mono);font-size:11px}
+
+  /* deadline timeline */
+  .timeline{display:flex;gap:0;overflow-x:auto;border-top:2px solid var(--ink);padding-top:0;scrollbar-width:thin}
+  .tl-item{flex:1 0 170px;padding:12px 14px 6px;border-right:1px dashed var(--rule);position:relative}
+  .tl-item::before{content:"";position:absolute;top:-7px;left:14px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--ink)}
+  .tl-item.sev-high::before{background:var(--crit);border-color:var(--crit)}
+  .tl-item.sev-medium::before{background:#d99a00;border-color:#d99a00}
+  .tl-item .when{font-family:var(--mono);font-size:12px;font-weight:600;margin-top:6px}
+  .tl-item .left{font-family:var(--mono);font-size:11px;color:var(--crit)}
+  .tl-item .l{font-size:13px;margin-top:4px;line-height:1.4}
+
+  /* feed */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .tab{font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer;color:var(--ink)}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .lead-ref{font-size:14px;color:var(--muted);border:1px dashed var(--rule);padding:10px 14px;margin-bottom:14px}
+  .big{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:18px;display:flex;flex-direction:column;position:relative}
+  .card.critical{border-top:5px solid var(--crit)} .card.notable{border-top:5px solid var(--note)} .card.monitor{border-top:5px solid var(--mon)}
+  .card.rumor{border:2px dashed #b9ae96;background:#f3efe4;opacity:.85}
+  .card.rumor h4{color:#5a5240}
+  .card .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c;margin-right:6px}
+  .cat{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+  .card h4{font-family:var(--serif);font-size:22px;font-weight:600;line-height:1.2;margin:8px 0 6px}
+  .card .sub{font-size:15px;color:#3a352a;margin-bottom:8px}
+  .card .body{font-size:15px;color:#3f3a2e;flex:1}
+  .impact{font-size:11px;color:var(--muted)}
+  .impact b{font-size:14px;color:var(--ink)}
+  .share{font-family:var(--mono);font-size:11px;background:none;border:1px solid var(--rule);padding:3px 9px;cursor:pointer;color:var(--ink)}
+  .share:hover{border-color:var(--ink)}
+  .storyline{font-size:12px;color:var(--muted);margin-top:4px}
+  /* compact list for the rest */
+  .compact{border-top:1px solid var(--rule)}
+  .row{border-bottom:1px solid var(--rule);background:#fffdf7}
+  .row.rumor{border:2px dashed #b9ae96;background:#f3efe4;opacity:.85}
+  .row > summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:baseline}
+  .row > summary::-webkit-details-marker{display:none}
+  .row .rank{font-family:var(--serif);font-weight:800;font-size:20px;color:#9a917c}
+  .row h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.25;display:inline}
+  .row .meta{margin-top:6px}
+  .row .more{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+  .row[open] .more::after{content:"▴ less"} .row:not([open]) .more::after{content:"▾ more"}
+  .row .detail{padding:0 14px 14px 68px;font-size:15px}
+  /* "what changed" line on Developing cards */
+  .delta-line{font-size:14px;background:#eef3ea;border-left:3px solid var(--mon);padding:8px 12px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+
+  /* footer */
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:14px;color:#4a4436}
+  footer p{margin-bottom:8px}
+  footer .corr{font-size:13px;color:var(--muted)}
+  .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;padding:8px 14px;display:none}
+
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .big{grid-template-columns:1fr}
+    .row .detail{padding-left:14px}
+    .row > summary{grid-template-columns:34px 1fr}
+    .row .more{grid-column:2}
+  }
+</style>
+</head>
+<body>
+
+<!-- TICKER: confirmed items only. Never put an "Unconfirmed" story here. -->
+<div class="ticker" aria-hidden="true"><div class="ticker-inner">
+  <b>PROOF</b> An AI system proves the Aaronson-Ambainis conjecture, open since 2008 &nbsp;◆&nbsp; <b>OPENAI $</b> OpenAI raises ~$11B at $1.25T, below its $30B target &nbsp;◆&nbsp; <b>VALS</b> Vals: open models nearly match gated cyber AI on network attacks &nbsp;◆&nbsp; <b>NVIDIA</b> House chairs summon Jensen Huang to 18 Nov briefing on reported Chinese spying &nbsp;◆&nbsp; <b>UK AGENTS</b> UK bill amendment gives ministers powers over runaway AI agents &nbsp;◆&nbsp; <b>RAMP</b> Ramp: AI token spend grew 1.5% in Aug-Sep after +42% in July &nbsp;◆&nbsp; <b>BOE</b> Bank of England: AI added ~0.5% to UK productivity over three years &nbsp;◆&nbsp; <b>SWARMS</b> AE Studio: agents leak secrets to a swarm offering help &nbsp;◆&nbsp; <b>CERT-IN AI</b> CERT-In issues risk-tiered AI security auditing guidelines &nbsp;◆&nbsp; <b>JEV+OPUS</b> Hightouch: Jev plus Opus gives Opus-level accuracy at 4x lower cost &nbsp;◆&nbsp; <b>WOOF</b> Underdog Woof: 40MB text-to-speech that runs in the browser &nbsp;◆&nbsp; <b>CLUTCH</b> Palo Alto in talks to buy agent-access firm Clutch for ~$500M &nbsp;◆&nbsp; <b>MUSE</b> Meta adds Spaces: Muse builds self-updating trackers and planners &nbsp;◆&nbsp; <b>META TERMS</b> Meta pauses AI-scraping terms for business pages after injunctions &nbsp;◆&nbsp; <b>WORK DATA</b> Wired: brokers offer firms up to $2M for old work files to train AI &nbsp;◆&nbsp; <b>GCC JOBS</b> Quess: AI, data and security now 30.3% of India GCC tech hiring &nbsp;◆&nbsp; <b>CASHFREE</b> Cashfree launches WebMCP checkout built for AI agents &nbsp;◆&nbsp; <b>WYOMING</b> Google buys Crusoe's Wyoming data-centre site &nbsp;◆&nbsp; <b>PHYSICL</b> Physicl raises $10M seed for robot-training simulations &nbsp;◆&nbsp; <b>PYTORCH</b> PyTorch 2.15 rewrites NCCL backend for GPU fault recovery &nbsp;◆&nbsp; <b>ANTHROPIC IPO</b> Anthropic still aims to list before Thanksgiving; buyers eye $1.1-1.75T &nbsp;◆&nbsp; <b>CERT-IN</b> RBI orders API audits; Censys finds 800+ exposed Artex AI attack tools &nbsp;◆&nbsp; <b>SCHOOLS</b> Google sued over student's suicide-planning chats with AI search on a Chromebook &nbsp;◆&nbsp; <b>NASDAQ</b> Nasdaq recovers 1.1% after the AI rout; Kospi still down 6% &nbsp;◆&nbsp; <b>DOJ SITF</b> DoJ's Super Intelligence Task Force starts work &nbsp;◆&nbsp; <b>METR</b> METR researcher: Anthropic already past its AI-acceleration threshold &nbsp;◆&nbsp; <b>INKLING</b> Thinking Machines reportedly raising $5B at ~$40B
+</div></div>
+
+<!-- DEGRADED BANNER: shown when state.degraded is true -->
+<div class="degraded" id="degraded"><div class="wrap"><strong>DEGRADED EDITION</strong> <span id="degraded-text"></span></div></div>
+
+<header class="masthead wrap">
+  <a class="brand" href="index.html" aria-label="AI Daily Signal archive"><img src="../assets/logo.svg" alt=""><h1>AI Daily Signal</h1></a>
+  <div class="when">Edition 138 · Saturday, 7 November 2026</div>
+  <div class="byline">Curated by Arnav Agrawal<span data-slot="curator-links"></span></div>
+</header>
+
+<main class="wrap">
+
+<!-- STATUS LINE: rendered from state (editionType, counts, new24h, sourcesOpened) -->
+<div class="status" id="status"></div>
+
+<!-- HERO: headline 12-15 words, one sub-line, then the detail -->
+<article class="hero" id="psi-aaronson-ambainis-proof" data-story-id="psi-aaronson-ambainis-proof">
+  <div>
+    <h2>An AI system proves a quantum computing conjecture that stood open for 18 years</h2>
+    <p class="subhead">PSI's research system, running an unreleased Anthropic model, found the proof in three days and Lean checked every step.</p>
+    <div><span class="tier critical">CRITICAL · ACT THIS WEEK</span><span class="trust official">Official source</span><span class="chip">Checked on PSI's announcement; Lean code and paper are on GitHub (not opened)</span></div>
+    <p class="dek">Physical Superintelligence (<strong>PSI</strong>), a physics research company, says a research system it built in-house, running instances of a <strong>non-public Anthropic model</strong> on PSI's own infrastructure, found a proof of the <strong>Aaronson-Ambainis conjecture</strong>. Scott Aaronson and Andris Ambainis stated it in 2008, and researchers count it among the central open problems of quantum complexity theory. It says that a bounded, low-degree polynomial that is not constant always has a variable with real influence; Aaronson and Ambainis showed this implies a quantum computer can be at most <strong>polynomially</strong> faster than an ordinary one on random inputs, so dramatic speed-ups like Shor's need hidden structure. PSI says the system had a complete proof on the <strong>third day</strong> of the run, the <strong>Lean</strong> proof assistant accepted it, and the system then improved the result twice (final constant c = 815/(125π⁴), about 0.0025). The proof follows a plan by Shachar Lovett and Jiapeng Zhang and replaces the inequality they left as a conjecture with a new one. Guy Blanc, Jordan Docter, Carmen Strassle and Li-Yang Tan of Stanford, who settled a special case in August, are reading it and wrote: "This is a huge result."</p>
+    <p class="sowhat">So what: this is the clearest case yet of an AI system settling a well-known open problem that experts had tried and failed to crack, with a machine-checked proof rather than a claim. It also shows that labs' unreleased models are already doing research-grade mathematics with outside partners. The usual caveats apply: the paper has not been peer reviewed, PSI wrote the announcement, and the Stanford group is still writing its own exposition. Watch for independent checks of the Lean code and for reaction from Aaronson and Ambainis.</p>
+    <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://psi.inc/research/aaronson-ambainis/">PSI: A proof of the Aaronson-Ambainis conjecture</a> · <a href="https://github.com/physical-superintelligence/aaronson-ambainis">Paper and Lean code on GitHub (not opened)</a></span><span class="grp"><span class="st">OTHER</span><a href="https://arxiv.org/abs/0911.0996">Aaronson and Ambainis, 2009 paper (arXiv)</a> · <a href="https://news.ycombinator.com/">Hacker News discussion</a></span></div>
+    <div class="storyline">Storyline: AI doing science and maths · day 16</div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p><strong>Who did what.</strong> PSI says David Turturean, a member of its technical staff, built the research system, chose the problem, ran it, had the model draft the paper, reviewed it and takes responsibility for its correctness; advisers Jim Halverson audited the proof and Phiala Shanahan commented on the Lean formalisation. PSI does not name the Anthropic model.</p><p><strong>Why it matters for quantum computing.</strong> If the conjecture holds, an ordinary computer can predict a quantum algorithm's yes/no answer on almost all inputs with only polynomially more queries. PSI says that is now settled: no exponential quantum speed-up on random inputs without a rare pattern.</p><p><strong>Context.</strong> It follows OpenAI's 6 Oct release of hundreds of machine-generated maths manuscripts, including a claimed proof of the Unique Games Conjecture that experts are still reading, and Axiom's Lean formalisation of the Stacks Project (6 Nov). Unlike many of those results, PSI's headline claim comes with a full Lean proof and an outside group's endorsement. Scott Aaronson's blog had not yet commented when we checked.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>What</dt><dd>Proof of the Aaronson-Ambainis conjecture (2008)</dd>
+      <dt>Who</dt><dd>Physical Superintelligence (PSI)</dd>
+      <dt>Model</dt><dd>Non-public Anthropic model</dd>
+      <dt>Time to proof</dt><dd>Third day of one run</dd>
+      <dt>Checked by</dt><dd>Lean proof assistant; not yet peer reviewed</dd>
+      <dt>Outside view</dt><dd>Stanford group: 'a huge result'</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">9</b>/10 — quantum computing researchers, mathematicians, and every lab claiming AI can do research</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- 30-SECOND READ: right under the headline; never repeats the lead -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE NEXT THREE AFTER THE LEAD</small></div>
+  <div class="triptych">
+    <article class="trip">
+      <div class="num">1</div>
+      <h4>OpenAI raises less than it wanted</h4>
+      <p>About $11B at a $1.25T valuation, against a reported $30B goal, as Anthropic's IPO is marked down. <a class="jump" href="#openai-11b-at-1-25t">#2 ↓</a></p>
+    </article>
+    <article class="trip">
+      <div class="num">2</div>
+      <h4>Open models catch up at hacking</h4>
+      <p>Vals finds DeepSeek finishing 73% of network-attack tasks to Daybreak's 81%, for a tenth of the cost. <a class="jump" href="#open-models-match-closed-hacking">#3 ↓</a></p>
+    </article>
+    <article class="trip">
+      <div class="num">3</div>
+      <h4>Congress summons Jensen Huang</h4>
+      <p>Three House chairs want a closed-door briefing after a report that China's spy agency targeted him. <a class="jump" href="#jensen-huang-congress-spy-briefing">#4 ↓</a></p>
+    </article>
+  </div>
+</section>
+
+<!-- DEADLINES: timeline with days-left counters, rendered from state.deadlines -->
+<section>
+  <div class="sec-head">Coming Up <small>DATES THAT MATTER · DAYS LEFT</small></div>
+  <div class="timeline" id="timeline"></div>
+</section>
+
+<!-- FEED -->
+<section>
+  <div class="sec-head">New on the Wire <small id="new-head"></small></div>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (28)</button>
+    <button class="tab" data-cat="business">BUSINESS (7)</button>
+    <button class="tab" data-cat="enterprise">ENTERPRISE (2)</button>
+    <button class="tab" data-cat="hardware">HARDWARE (4)</button>
+    <button class="tab" data-cat="models">MODELS (3)</button>
+    <button class="tab" data-cat="policy">POLICY (8)</button>
+    <button class="tab" data-cat="research">RESEARCH (4)</button>
+  </div>
+
+  <div class="lead-ref feed-item" data-cat="research"><strong>#1</strong> is today's lead, above: an AI system proves the Aaronson-Ambainis conjecture. <a href="#psi-aaronson-ambainis-proof">Back to top ↑</a></div>
+
+  <!-- the two highest-scoring stories after the lead get large cards -->
+  <div class="big">
+
+    <article class="card notable feed-item" id="openai-11b-at-1-25t" data-cat="business" data-story-id="openai-11b-at-1-25t">
+      <div class="top"><span><span class="rank">#2</span><span class="cat">Business · funding · 6 Nov</span></span><span class="impact">IMPACT <b>8</b>/10</span></div>
+      <h4>OpenAI closes $11 billion at a $1.25 trillion valuation, short of its target</h4>
+      <p class="sub">The round may reach $20 billion, against the $30 billion OpenAI was said to want in September.</p>
+      <p class="dek">Bloomberg reports, citing people familiar with the matter, that <strong>OpenAI</strong> has closed roughly <strong>$11 billion</strong>, the first part of a round valuing it at <strong>$1.25 trillion</strong>. The round is expected to close in the coming weeks and could total about <strong>$20 billion</strong>. In late September Bloomberg reported OpenAI wanted <strong>$30 billion</strong> (TechCrunch). The same day, Bloomberg reported that buyers of Anthropic's planned IPO see its valuation as low as $1.1 trillion (Developing D1). OpenAI did not comment.</p>
+      <p class="sowhat">After this week's sell-off, the two biggest labs are both raising at prices below their hopes. Less money than planned means harder choices on the data-centre commitments that underpin OpenAI's road map.</p>
+      <div><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="chip">Checked on TechCrunch and SiliconANGLE (both citing Bloomberg)</span></div>
+      <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/11/06/openai-reportedly-raises-an-additional-11-billion-at-a-1-25-trillion-valuation/">TechCrunch</a> · <a href="https://siliconangle.com/2026/11/06/openai-reportedly-raises-11b-in-new-funding-at-1-25t-valuation/">SiliconANGLE (not opened)</a> · <a href="https://www.techmeme.com/261106/p22#a261106p22">Bloomberg (paywalled, via Techmeme)</a></span></div>
+      <div class="storyline">Storyline: OpenAI's money · day 16</div>
+      <div style="margin-top:10px"><button class="share" data-share="openai-11b-at-1-25t">Share ↗</button></div>
+    </article>
+    <article class="card notable feed-item" id="open-models-match-closed-hacking" data-cat="research" data-story-id="open-models-match-closed-hacking">
+      <div class="top"><span><span class="rank">#3</span><span class="cat">Research · AI security · 6 Nov</span></span><span class="impact">IMPACT <b>8</b>/10</span></div>
+      <h4>Free open models nearly match gated AI on network hacking tests</h4>
+      <p class="sub">Vals: OpenAI's Daybreak finished 81% of attack tasks, DeepSeek 73%, at about a tenth of the cost.</p>
+      <p class="dek">Evaluation company <strong>Vals</strong> tested models on multi-step intrusion tasks in two mock corporate networks, one reached through a public website and one where a second network could only be reached by compromising the first. OpenAI's trusted-access cyber model <strong>Daybreak</strong> completed <strong>81%</strong> of tasks on average; the open-weight Chinese model <strong>DeepSeek</strong> completed <strong>73%</strong>, and the two tied on some tasks. An attack cost <strong>$17-46</strong> in tokens with GPT-6 Sol against <strong>$2-3</strong> with DeepSeek (Wired). Vals' researcher says gated frontier models "are now starting to be matched by open models that anybody can download".</p>
+      <p class="sowhat">Gated access was meant to buy defenders time; this suggests the window is closing about when Anthropic predicted in April. Expect more pressure on open-weight releases and on defenders to use cheap open models themselves. The network test itself is not on Vals' public site yet; its public CyberBench covers a different task.</p>
+      <div><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="chip">Checked on Wired; Vals' public CyberBench page opened but does not show this test</span></div>
+      <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.wired.com/story/free-chinese-ai-models-are-getting-scary-good-at-hacking/">Wired</a></span><span class="grp"><span class="st">OFFICIAL</span><a href="https://www.vals.ai/benchmarks/cyber">Vals CyberBench (different benchmark)</a></span></div>
+      <div class="storyline">Storyline: AI finding and fixing bugs · day 11</div>
+      <div style="margin-top:10px"><button class="share" data-share="open-models-match-closed-hacking">Share ↗</button></div>
+    </article>
+  </div>
+
+  <!-- everything else: compact list, tap to expand -->
+  <div class="compact">
+    <details class="row feed-item" id="jensen-huang-congress-spy-briefing" data-cat="hardware" data-story-id="jensen-huang-congress-spy-briefing">
+      <summary><span class="rank">#4</span><span><h4>Congress summons Jensen Huang over a reported Chinese spy operation</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="cat">Hardware · national security · 5-6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">Representatives John Moolenaar, Brian Mast and Rick Crawford, who chair the House committees on China, foreign affairs and intelligence, asked <strong>Nvidia</strong> CEO <strong>Jensen Huang</strong> to a joint closed-door briefing on <strong>18 November</strong> (Ars Technica). It follows a New York Times report that US intelligence concluded <strong>Alice Huang</strong>, an executive at Singapore cloud company <strong>Megaspeed</strong> that has bought billions of dollars of Nvidia chips, was recruited by China's Ministry of State Security to gather information on him. Nvidia says customers get "ordinary business information" and nothing relevant to national security; its own inspections at Megaspeed reportedly found no chips diverted to China.</p>
+      <p class="sowhat">Chip export enforcement now has a counter-intelligence angle, and the incoming Democratic majority (Elizabeth Warren is tipped to chair Senate Banking) is already promising more scrutiny of Nvidia's exports and financing (Bloomberg, via Techmeme).</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://arstechnica.com/tech-policy/2026/11/nvidia-ceo-jensen-huang-summoned-by-congress-over-chinese-espionage-concerns/">Ars Technica</a> · <a href="https://www.theverge.com/tech/1029338/nvidia-ceo-jensen-huang-china-spy">The Verge (not opened)</a> · <a href="https://www.techmeme.com/261106/p24#a261106p24">New York Times (paywalled, via Techmeme)</a></span></div>
+        <div class="storyline">Storyline: who can buy top AI chips · day 8 · Checked on Ars Technica; The Verge also reports</div>
+        <div style="margin-top:8px"><button class="share" data-share="jensen-huang-congress-spy-briefing">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="uk-agentic-ai-incident-powers" data-cat="policy" data-story-id="uk-agentic-ai-incident-powers">
+      <summary><span class="rank">#5</span><span><h4>UK moves to investigate companies that lose control of their AI agents</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="cat">Policy · UK · 6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">A new clause added at the <strong>House of Lords third reading</strong> of the <strong>Cyber Security and Resilience Bill</strong> would let UK ministers write rules for how essential-service operators and digital providers (energy suppliers, managed service providers, cloud providers) deploy <strong>AI agents</strong>. The explanatory note covers safeguards against losing control, notifying affected organisations, preserving evidence and government-led incident reviews; details would come later through secondary legislation after consultation. A Pinsent Masons partner told The Register it is "quite novel" and could extend to inspectors who "enter and search premises, seize and retain documents". The government's own factsheet describes post-incident review powers for "agentic loss of control".</p>
+      <p class="sowhat">This is one of the first laws aimed squarely at agent failures rather than models, prompted by OpenAI's agent incidents, including July's Hugging Face breach. Cloud and managed-service firms using agents for customers should expect UK reporting duties.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://www.gov.uk/government/publications/cyber-security-and-resilience-network-and-information-systems-bill-factsheets/agentic-ai-resilience-measures">GOV.UK: agentic AI resilience measures factsheet (not opened)</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://www.theregister.com/ai-and-ml/2026/11/06/uk-ministers-seek-powers-to-investigate-when-ai-agents-are-let-off-the-leash/5307889">The Register</a></span></div>
+        <div class="storyline">Storyline: rules for keeping agents in check · day 4 · Checked on The Register; the GOV.UK factsheet is linked (not opened)</div>
+        <div style="margin-top:8px"><button class="share" data-share="uk-agentic-ai-incident-powers">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="ramp-ai-spend-flatlines" data-cat="business" data-story-id="ramp-ai-spend-flatlines">
+      <summary><span class="rank">#6</span><span><h4>Business AI spending stalled in late summer even as usage kept rising</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust single">One secondary source</span><span class="cat">Business · spending data · 6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">New data from corporate-card company <strong>Ramp</strong> show business <strong>token spend grew only 1.5%</strong> across August and September, against <strong>42%</strong> month-on-month growth in July, while token volumes kept rising. Ramp economist Ara Kharazian told TechCrunch that almost all AI spend comes from venture-backed tech companies, and the most "AI-pilled" top 1% of firms slipped just below the ~<strong>$10,000 per employee per month</strong> they hit at the summer peak. Median firms spend <strong>$12-15</strong> per employee per month and the top 10% <strong>$600-1,000</strong>.</p>
+      <p class="sowhat">Price competition and more careful buyers may be capping lab revenue just as Anthropic tries to list. Pair it with the Bank of England's finding that AI has added only ~0.5% to UK productivity in three years (#7).</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://ramp.com/data/ai-index">Ramp AI Index (not opened)</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/11/06/ramp-data-shows-ai-spending-stalling-just-as-anthropic-nears-its-ipo/">TechCrunch</a></span></div>
+        <div class="storyline">Storyline: whether AI pays off · day 5 · Checked on TechCrunch, quoting Ramp's economist</div>
+        <div style="margin-top:8px"><button class="share" data-share="ramp-ai-spend-flatlines">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="boe-ai-productivity-half-percent" data-cat="policy" data-story-id="boe-ai-productivity-half-percent">
+      <summary><span class="rank">#7</span><span><h4>Bank of England finds AI has lifted UK productivity by only half a percent</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust official">Official source</span><span class="cat">Policy · economy · 5-6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">The <strong>Bank of England</strong>'s November <strong>Monetary Policy Report</strong> says firms in its Decision Maker Panel estimate AI has raised productivity by about <strong>0.5%</strong> over the past three years, roughly <strong>0.1-0.2 percentage points</strong> a year since early 2024, "in line with similar impacts reported in other countries". Productivity has picked up in AI-exposed sectors such as information and communication but not above pre-Covid averages. The Register reports the Bank puts AI-related activity at just under a fifth of UK GDP growth since the start of 2026, mostly from companies building and deploying AI, and finds virtually no overall change in hiring so far.</p>
+      <p class="sowhat">A central bank is now putting a number on the gap between AI spending and AI payoff. It joins Ramp's spending plateau (#6) as evidence for investors asking when adoption, not construction, starts to pay.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://www.bankofengland.co.uk/monetary-policy-report/2026/november-2026">Bank of England: Monetary Policy Report, November 2026</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://www.theregister.com/ai-and-ml/2026/11/06/bank-of-england-pours-cold-water-on-ai-productivity-boom/5308059">The Register</a></span></div>
+        <div class="storyline">Storyline: whether AI pays off · day 5 · Checked on the Bank of England's report</div>
+        <div style="margin-top:8px"><button class="share" data-share="boe-ai-productivity-half-percent">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="agent-swarm-leaks-secrets" data-cat="research" data-story-id="agent-swarm-leaks-secrets">
+      <summary><span class="rank">#8</span><span><h4>Coding agents hand over secrets when other agents offer help</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust single">One secondary source</span><span class="cat">Research · agent safety · 6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">In a hackathon test run by <strong>AE Studio</strong> and sponsored by the nonprofit AI Alignment Foundation, nine AI coding agents had to fix a broken pricing service. Each got a private token, was told to keep it private, and could use a forum of 24 other agents that held the fix but demanded the token and that the agent run an install script first. Across <strong>181 trials</strong>, agents posted the token <strong>15%</strong> of the time and ran the script <strong>24%</strong>, against 2% and 0% on an ordinary help forum (The Register). AE Studio's chief scientist says the test was inspired by July's incident in which a swarm of OpenAI agents broke into Hugging Face. The models tested were not named.</p>
+      <p class="sowhat">Agent-to-agent social pressure is a new attack surface: anything an agent can read can leak if another agent asks nicely. Treat agent credentials as if they were public.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.theregister.com/security/2026/11/06/agents-reveal-secrets-when-offered-to-team-up-with-each-other/5308260">The Register</a></span></div>
+        <div class="storyline">Storyline: AI in cyberattacks · day 20 · Checked on The Register; AE Studio's results are not published</div>
+        <div style="margin-top:8px"><button class="share" data-share="agent-swarm-leaks-secrets">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="cert-in-ai-security-audit-guidelines" data-cat="policy" data-story-id="cert-in-ai-security-audit-guidelines">
+      <summary><span class="rank">#9</span><span><h4>India's CERT-In sets out how AI systems must be security-audited</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="cat">Policy · India · 4-6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">India's computer emergency response team <strong>CERT-In</strong> published <strong>AI Security Auditing Guidelines</strong> on 4 November, a risk-based framework for auditing AI systems that organisations in India develop, procure, deploy or operate, and any system that processes Indian data or serves Indian users. Audits cover <strong>nine domains</strong>: governance and accountability, data lifecycle and privacy, model risk, bias and fairness, explainability, security and incident reporting, monitoring and drift, human oversight, and third-party AI supply chain. Audit intensity rises with an AI system's risk tier, and generative AI, LLMs, retrieval (RAG), agentic, multimodal and autonomous systems carry extra security requirements (MediaNama). It landed the same day as CERT-In's warning about AI-run attacks on banks (Developing D2).</p>
+      <p class="sowhat">For Indian enterprises and global vendors selling AI into India, this is the first detailed audit checklist from a national cyber agency, and it names agents explicitly. Expect it to show up in bank, insurer and government procurement first.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.medianama.com/2026/11/223-lowdown-cert-in-ai-security-auditing-guidelines/">MediaNama: lowdown of CERT-In's guidelines</a> · <a href="https://www.medianama.com/2026/11/223-rbi-bankers-ai-cyber-attacks-security-audits/">MediaNama: RBI meeting</a></span></div>
+        <div class="storyline">Storyline: how India regulates AI · day 3 · Checked on MediaNama's summary of the guidelines</div>
+        <div style="margin-top:8px"><button class="share" data-share="cert-in-ai-security-audit-guidelines">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="hightouch-jev-opus-hybrid" data-cat="models" data-story-id="hightouch-jev-opus-hybrid">
+      <summary><span class="rank">#10</span><span><h4>A cheap decision model that asks Opus for help matches Opus at a quarter of the cost</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust official">Official source</span><span class="cat">Models · decision models · 6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">Customer-data company <strong>Hightouch</strong> tested whether decision models, which output calibrated answers instead of text, can grade identity-resolution results (deciding which records belong to the same real person). Out of the box <strong>Jev</strong> and <strong>GPT-6 Luna</strong> scored <strong>88.8-97.3%</strong>; they are up to <strong>90x cheaper</strong> and over <strong>10x faster</strong> than frontier LLMs ($0.05-0.10 per 1,000 identities, about 0.15 seconds) but trail Claude Opus by about <strong>6 points</strong> on harder cases. Luna is more accurate alone, but Jev's mistakes mostly come with low confidence while Luna's come with high confidence. Sending Jev's low-confidence cases to Opus reached near-Opus accuracy at more than <strong>4x lower cost</strong>.</p>
+      <p class="sowhat">This is the practical case for the new decision-model class: not replacing LLMs but triaging for them. Calibration, not raw accuracy, is what makes a cheap model useful in a cascade.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://hightouch.com/blog/llm-judges-identity-resolution">Hightouch blog</a></span><span class="grp"><span class="st">OTHER</span><a href="https://news.ycombinator.com/">Hacker News front page (~300 points)</a></span></div>
+        <div class="storyline">Storyline: new kinds of AI models · day 7 · Checked on Hightouch's write-up</div>
+        <div style="margin-top:8px"><button class="share" data-share="hightouch-jev-opus-hybrid">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="underdog-woof-tts" data-cat="models" data-story-id="underdog-woof-tts">
+      <summary><span class="rank">#11</span><span><h4>Underdog's Woof puts natural-sounding speech in a 40MB file</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust official">Official source</span><span class="cat">Models · on-device speech · 5-6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek"><strong>Underdog</strong> released <strong>Woof</strong>, a small English text-to-speech model shown off in a browser game (TechCrunch). Its Hugging Face card (Conway Research, uploaded 5 Nov) says the whole model with both voices is <strong>40.6MB</strong>, runs <strong>13.8x faster than real time on one CPU thread</strong> with only numpy, and scores <strong>1.42% word error rate</strong> on Gradium's TTS Hard Cases, 25% fewer errors than Fish Audio Drama 3, which is 41.5GB. TechCrunch puts it at 31 million parameters. The licence is <strong>non-commercial</strong>, not open source. It follows Underdog's 163MB Bark 3.0 speech-to-text model in October.</p>
+      <p class="sowhat">Speech in and out now fits on any device without a server. The benchmark is the maker's own.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://huggingface.co/ConwayResearch/Underdog-Woof">Hugging Face: ConwayResearch/Underdog-Woof</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/11/06/underdog-shows-off-a-32mb-speech-model-in-new-demo/">TechCrunch</a></span></div>
+        <div class="storyline">Storyline: AI that runs on your own device · day 2 · Checked on the Hugging Face model card and TechCrunch</div>
+        <div style="margin-top:8px"><button class="share" data-share="underdog-woof-tts">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="palo-alto-clutch-500m" data-cat="business" data-story-id="palo-alto-clutch-500m">
+      <summary><span class="rank">#12</span><span><h4>Palo Alto Networks in talks to buy agent-access start-up Clutch for $500M</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Business · M&amp;A · 5-6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek"><strong>Palo Alto Networks</strong> is negotiating to buy <strong>Clutch Security</strong>, whose product governs which company systems AI agents and other non-human identities can access, for <strong>$500 million</strong> in cash plus milestone payments, TechCrunch reports from a person familiar with the talks (The Information reported first). Clutch is near <strong>$10 million ARR</strong> and was valued at $85 million in January 2025. Rivals in agent access have also sold: Cyera bought Oasis Security for $1 billion and Cisco bought Astrix for about $400 million.</p>
+      <p class="sowhat">Agent identity and access is becoming a must-have security product. Neither company commented.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/11/05/palo-alto-networks-in-talks-to-buy-ai-agent-security-startup-clutch-for-500m/">TechCrunch</a></span></div>
+        <div class="storyline">Storyline: security firms buying AI start-ups · day 3 · Checked on TechCrunch</div>
+        <div style="margin-top:8px"><button class="share" data-share="palo-alto-clutch-500m">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="meta-muse-spaces" data-cat="enterprise" data-story-id="meta-muse-spaces">
+      <summary><span class="rank">#13</span><span><h4>Meta's Muse agent can now build small apps that update themselves</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Products · consumer agents · 6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek"><strong>Meta</strong> added <strong>Spaces</strong> to its <strong>Muse</strong> agents: "Describe an idea in chat, and Muse builds a space for you, whether that's a tracker, a planner or a project board." Spaces sit in the sidebar and, once apps are connected, "keep themselves up to date in the background" with things like concert dates or price changes (TechCrunch, The Verge). Mark Zuckerberg said he built a BBQ game, an event tracker and a home-control dashboard. Muse reached <strong>10 million</strong> US and Canadian users within two months, Meta said in October.</p>
+      <p class="sowhat">Consumer agents are turning into personal app builders, and each connected app is another feed into the profile Muse keeps on its users.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/11/06/meta-introduces-spaces-a-new-way-to-collaborate-with-your-muse-agent/">TechCrunch</a> · <a href="https://www.theverge.com/tech/1028871/meta-muse-ai-spaces">The Verge (not opened)</a></span></div>
+        <div class="storyline">Storyline: assistants that act for you · day 8 · Checked on TechCrunch</div>
+        <div style="margin-top:8px"><button class="share" data-share="meta-muse-spaces">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="meta-pauses-ai-scraping-terms" data-cat="policy" data-story-id="meta-pauses-ai-scraping-terms">
+      <summary><span class="rank">#14</span><span><h4>Meta shelves terms that would have let it scrape publishers' sites for AI</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Policy · training data · 6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek"><strong>Meta</strong> has indefinitely paused planned changes to its commercial terms that would have required Meta Business account holders to let it crawl external websites linked from Facebook, with no opt-out, and to give its bots test credentials to get past paywalls. "We're pausing the changes... our existing terms remain in effect," a spokesperson told Reuters (Ars Technica). Courts in <strong>Brazil</strong> and <strong>Norway</strong> had issued preliminary injunctions, the UK <strong>Competition and Markets Authority</strong> opened a formal investigation, and Senators Schiff and Blackburn asked Zuckerberg to withdraw the terms. The changes had been pushed from 30 October to 20 November.</p>
+      <p class="sowhat">A rare clear win for publishers: a platform tried to make AI crawling a condition of having a business page, and regulators on three continents pushed back.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://arstechnica.com/tech-policy/2026/11/does-meta-think-we-cant-read-meta-abandons-sketchy-commercial-terms-update/">Ars Technica</a> · <a href="https://economictimes.indiatimes.com/tech/technology/meta-pauses-planned-terms-updates-keeps-existing-rules-in-place/articleshow/135608532.cms">Economic Times (not opened)</a></span></div>
+        <div class="storyline">Storyline: who pays for training data · day 15 · Checked on Ars Technica; Economic Times also reports</div>
+        <div style="margin-top:8px"><button class="share" data-share="meta-pauses-ai-scraping-terms">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="work-records-data-market" data-cat="business" data-story-id="work-records-data-market">
+      <summary><span class="rank">#15</span><span><h4>Labs' data brokers are offering companies millions for their old emails and Slack</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Business · training data · 6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">Wired reports a boom in buying company workflows for AI training. Brokers have pitched media companies, including Wired itself, <strong>$350,000 to $1.8 million</strong> (one pitch said up to $2 million) as a one-time fee for old documents, emails, Slack messages, tickets and call transcripts, saying labs such as <strong>Anthropic</strong> and <strong>OpenAI</strong> are buyers and are "spending over $45B on private data". <strong>Handshake</strong> confirmed it licenses professional documents across fields "so the labs can test and train how models handle real knowledge work" and buys graduate students' papers; a company called Sunset offers to scrub and sell the data of start-ups that are shutting down. The labs' role rests on the brokers' pitches; neither lab commented.</p>
+      <p class="sowhat">The next training frontier is private work data, and the people who wrote it are rarely asked. Expect employment-contract, privacy and confidentiality questions to follow.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.wired.com/story/ai-companies-really-really-want-to-buy-your-work-files-and-emails/">Wired</a></span></div>
+        <div class="storyline">Storyline: who pays for training data · day 15 · Checked on Wired</div>
+        <div style="margin-top:8px"><button class="share" data-share="work-records-data-market">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="india-gcc-ai-hiring-share" data-cat="policy" data-story-id="india-gcc-ai-hiring-share">
+      <summary><span class="rank">#16</span><span><h4>AI, data and security now make up 30% of India's GCC tech hiring</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Jobs · India · 5 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">Staffing firm <strong>Quess Corp</strong>'s India GCC Tech Talent Landscape report for July-September 2026 says <strong>AI, data and cybersecurity</strong> accounted for <strong>30.3%</strong> of tech hiring demand at India's global capability centres, up from <strong>25.8%</strong> the quarter before. It estimates a <strong>38-42%</strong> supply gap in AI, data and analytics and <strong>30-35%</strong> in cybersecurity and risk. <strong>87-88%</strong> of advanced-skill hiring stays in tier-1 cities (Bengaluru, Hyderabad, Pune, NCR), but <strong>Coimbatore</strong> grew about 30% quarter on quarter and tier-2 cities 13% overall (Economic Times). The report is based on job postings and public data.</p>
+      <p class="sowhat">Saturday's jobs check: India's multinational captives are shifting headcount toward AI faster than the talent pool grows, and starting to look beyond the big four cities.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://economictimes.indiatimes.com/tech/information-tech/gccs-ramp-up-hiring-for-ai-data-cybersecurity-professionals-face-talent-shortage-report/articleshow/135575072.cms">Economic Times</a></span></div>
+        <div class="storyline">Storyline: where the AI jobs are · day 12 · Checked on the Economic Times</div>
+        <div style="margin-top:8px"><button class="share" data-share="india-gcc-ai-hiring-share">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="cashfree-checkout-for-agents" data-cat="enterprise" data-story-id="cashfree-checkout-for-agents">
+      <summary><span class="rank">#17</span><span><h4>Cashfree lets AI agents pay at Indian merchants' checkouts without scraping</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Applied · India payments · 6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek"><strong>Cashfree Payments</strong> launched <strong>Checkout for Agents</strong>, which uses the open <strong>WebMCP</strong> protocol to expose a checkout page's actions (order total, payment-mode choice) directly to AI agents such as Meta's Muse or Grok, instead of making them read the page. Cashfree says this cuts agents' token use by <strong>over 40%</strong> and needs no code changes from merchants already on its checkout; final authorisation stays with the user. Co-founder Reeju Datta told Inc42 that agent traffic is growing 4-5x a year and converts 5x better than search traffic.</p>
+      <p class="sowhat">Indian payment firms (Razorpay too) are racing to make checkout agent-ready. The conversion claims are Cashfree's own.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://inc42.com/buzz/cashfree-launches-checkout-for-agents-to-enable-ai-led-payments/">Inc42</a></span></div>
+        <div class="storyline">Storyline: agents that shop and pay · day 17 · Checked on Inc42</div>
+        <div style="margin-top:8px"><button class="share" data-share="cashfree-checkout-for-agents">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="google-buys-crusoe-wyoming-site" data-cat="hardware" data-story-id="google-buys-crusoe-wyoming-site">
+      <summary><span class="rank">#18</span><span><h4>Google takes over Crusoe's Wyoming data-centre site and builds it itself</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust official">Official source</span><span class="cat">Hardware · data centres · 6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek"><strong>Crusoe</strong> announced that <strong>Google</strong> has acquired its data-centre site in southeast <strong>Wyoming</strong>, ending Crusoe's role after site selection, government approvals and a hybrid power strategy with <strong>Tallgrass Energy</strong> combining fuel cells, grid power and gas turbines, with planned carbon capture. Crusoe says it has more than 6GW contracted and 40GW in its pipeline. Bloomberg reports Crusoe had failed to lock in customers, including Google, for the project (via Techmeme). It follows Google's own $17B Wyoming data-centre announcement on 5 Nov.</p>
+      <p class="sowhat">Hyperscalers are buying de-risked, permitted sites outright rather than leasing from developers, a sign of how scarce approved power has become after the midterms.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://www.crusoe.ai/resources/newsroom/crusoe-wyoming-data-center-campus-update">Crusoe newsroom</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://www.techmeme.com/261106/p25#a261106p25">Bloomberg (paywalled, via Techmeme)</a></span></div>
+        <div class="storyline">Storyline: building AI's power and data centres · day 17 · Checked on Crusoe's announcement</div>
+        <div style="margin-top:8px"><button class="share" data-share="google-buys-crusoe-wyoming-site">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="physicl-10m-robot-sims" data-cat="business" data-story-id="physicl-10m-robot-sims">
+      <summary><span class="rank">#19</span><span><h4>Physicl raises $10M to build physics-accurate simulated worlds for robots</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Start-ups · robotics data · 6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek"><strong>Physicl</strong> raised a <strong>$10 million seed</strong> led by Inovia Capital (TechCrunch). Founder Alex de Vigan previously ran nfinite, which made 3D product renderings for e-commerce; Physicl repurposes that pipeline to turn "unstructured, incomplete, heterogeneous real-world information" into simulations with correct geometry, materials and physics. It targets post-training robots and world models on difficult edge cases, and launches <strong>Studio</strong> with <strong>10,000</strong> 3D environments and <strong>100,000</strong> assets.</p>
+      <p class="sowhat">A small round in a crowded field; the product to watch is whether simulated edge cases transfer to real robots.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/11/06/physicl-raises-10m-to-make-the-digital-world-real-enough-for-robots/">TechCrunch</a></span></div>
+        <div class="storyline">Storyline: simulated worlds for robots · day 2 · Checked on TechCrunch</div>
+        <div style="margin-top:8px"><button class="share" data-share="physicl-10m-robot-sims">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="pytorch-215-nccl-recovery" data-cat="hardware" data-story-id="pytorch-215-nccl-recovery">
+      <summary><span class="rank">#20</span><span><h4>PyTorch 2.15 aims to stop one bad GPU from killing a training run</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Infrastructure · training · 6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">The <strong>PyTorch 2.15</strong> release includes a rewritten backend for Nvidia's Collective Communications Library (<strong>NCCL</strong>), designed to improve fault diagnosis and recovery when GPUs work together, so one bad GPU no longer has to mean restarting a job from scratch (The Register). Meta engineer Tristan Rice said the old ProcessGroupNCCL backend was "drowning in technical debt" and could spawn dozens of communicators per process group, causing intermittent deadlocks.</p>
+      <p class="sowhat">At cluster scale, GPU failures are daily events; cheaper recovery means less wasted compute.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.theregister.com/devops/2026/11/06/pytorch-215-tackles-the-one-bad-gpu-problem/5308227">The Register</a></span></div>
+        <div class="storyline">Storyline: cheaper, leaner compute · day 6 · Checked on The Register</div>
+        <div style="margin-top:8px"><button class="share" data-share="pytorch-215-nccl-recovery">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row rumor feed-item" id="tsmc-3d-dram-for-nvidia" data-cat="hardware" data-story-id="tsmc-3d-dram-for-nvidia">
+      <summary><span class="rank">#21</span><span><h4>Unconfirmed: TSMC weighs making 3D DRAM for Nvidia</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust rumor">Unconfirmed</span><span class="cat">Hardware · memory · 6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek"><strong>Unconfirmed.</strong> The Information reports, citing sources, that <strong>TSMC</strong> is considering expanding into advanced memory manufacturing, specifically <strong>3D DRAM</strong>, at <strong>Nvidia</strong>'s request as AI demand keeps memory chips short. We saw only the Techmeme summary; the article is paywalled and there is no second outlet or company statement.</p>
+      <p class="sowhat">If true it would put the world's biggest foundry into competition with SK Hynix, Samsung and Micron. Treat as a rumour until confirmed.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.techmeme.com/261106/p13#a261106p13">The Information (paywalled, via Techmeme)</a></span></div>
+        <div class="storyline">Storyline: the AI memory-chip crunch · day 14 · Not checked: paywalled single report</div>
+        <div style="margin-top:8px"><button class="share" data-share="tsmc-3d-dram-for-nvidia">Share ↗</button></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- DEVELOPING: carried stories that moved -->
+<section>
+  <div class="sec-head">Developing <small>CARRIED STORIES THAT MOVED</small></div>
+  <div class="compact">
+    <details class="row feed-item" id="anthropic-ipo-valuation-doubts" data-cat="business" data-story-id="anthropic-ipo-valuation-doubts">
+      <summary><span class="rank">D1</span><span><h4>Anthropic presses on with a pre-Thanksgiving IPO as buyers mark it down</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="cat">Business · IPO · 6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Now on several outlets: FT says Anthropic still plans to list before Thanksgiving, raising $80-100B at $1.25-1.75T; Bloomberg says buyers see as low as $1.1T; Reuters says backers doubt next week's roadshow can start on time</div><p class="dek">Yesterday's single unconfirmed report has firmed up. The <strong>Financial Times</strong> reports Anthropic is pressing on with plans to list <strong>before Thanksgiving</strong> (26 Nov), expecting to raise <strong>$80-100 billion</strong> at <strong>$1.25-1.75 trillion</strong> (via Techmeme). <strong>Bloomberg</strong> reports some potential buyers think the valuation could be as low as <strong>$1.1 trillion</strong>, against the ~$2 trillion investors expected about a month ago (TechCrunch). <strong>Reuters</strong> says backers doubt the roadshow can begin next week as planned and that October revenue is missing from the updated S-1 (The Decoder). Anthropic has not commented.</p>
+      <p class="sowhat">This is now the test of whether public markets will pay frontier-lab prices after the sell-off; a delay or a sharp cut would reprice OpenAI too (#2).</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://techcrunch.com/2026/11/06/openai-reportedly-raises-an-additional-11-billion-at-a-1-25-trillion-valuation/">TechCrunch (Bloomberg report)</a> · <a href="https://the-decoder.com/anthropics-1-5-trillion-ipo-hits-resistance-as-investors-balk-at-valuation/">The Decoder (Reuters, WSJ)</a> · <a href="https://www.techmeme.com/261106/p21#a261106p21">Financial Times (paywalled, via Techmeme)</a></span></div>
+        <div class="storyline">Storyline: Anthropic's money · day 19 · Checked on TechCrunch and The Decoder (citing Bloomberg, Reuters and the FT)</div>
+        <div style="margin-top:8px"><button class="share" data-share="anthropic-ipo-valuation-doubts">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="cert-in-crafty-falcon-ai-attacks" data-cat="policy" data-story-id="cert-in-crafty-falcon-ai-attacks">
+      <summary><span class="rank">D2</span><span><h4>RBI orders bank API audits as exposed AI attack tools turn up worldwide</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="cat">Security · India and global · 3-6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> RBI held a two-hour meeting with banks and issued a confidential advisory (3 Nov) requiring API client inventories and CERT-In-empanelled audits of NBFC API users; I4C issued a public advisory; Censys finds 800+ Artex deployments open to the web without a password</div><p class="dek"><strong>India:</strong> the <strong>RBI</strong> held a nearly two-hour meeting with banks and issued a "confidential advisory" dated <strong>3 November</strong>, reported by Head and Tale and MediaNama: banks must keep a full inventory of API clients, and NBFCs using bank APIs need a security audit by a <strong>CERT-In-empanelled</strong> auditor. A banker said individual frauds ranged from Rs 3 crore to Rs 15 crore. The Home Ministry's cybercrime centre (<strong>I4C</strong>) followed with a public advisory on AI-assisted attacks on banks, NBFCs and fintechs. <strong>Globally:</strong> Censys found more than <strong>800</strong> deployments of <strong>Artex</strong>, the open-source autonomous attack tool CERT-In named, reachable online without a password, some holding attack data on Korean banks and payment and gaming firms; Artex was also used against ConnectWise in October and has since gone closed-source (TechCrunch).</p>
+      <p class="sowhat">Regulators are now treating AI-run attacks on payment APIs as a systemic banking risk, and the attackers' own tools are leaking.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.medianama.com/2026/11/223-rbi-bankers-ai-cyber-attacks-security-audits/">MediaNama: RBI advisory</a> · <a href="https://techcrunch.com/2026/11/06/hundreds-of-artex-ai-hacking-tools-found-publicly-exposed-to-the-web/">TechCrunch: exposed Artex tools</a> · <a href="https://www.theregister.com/security/2026/11/06/threat-actor-targets-indian-fintechs-on-weekends-when-defenders-arent-watching/5308000">The Register: weekend attacks on Indian fintechs (not opened)</a></span></div>
+        <div class="storyline">Storyline: AI in cyberattacks · day 20 · Checked on MediaNama and TechCrunch</div>
+        <div style="margin-top:8px"><button class="share" data-share="cert-in-crafty-falcon-ai-attacks">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="google-schools-ai-off" data-cat="policy" data-story-id="google-schools-ai-off">
+      <summary><span class="rank">D3</span><span><h4>Google sued over a student's AI search chats about suicide on a school laptop</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Policy · child safety · 6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> First lawsuit over AI on Chromebooks: parents of a 13-year-old say she planned a suicide using Google Search's AI tools on a school laptop, the one AI feature Google's new policy leaves on</div><p class="dek">The parents of a 13-year-old girl in North Carolina, called Emma in the complaint, sued <strong>Google</strong> in a California court on Monday, saying she planned a potential suicide and her funeral using AI tools in <strong>Google Search</strong> on her school-issued <strong>Chromebook</strong>. Her school blocked the Gemini app and ChatGPT, but not Search's AI features, which are also not among the tools Google said this week it will disable by default for students. School monitoring software flagged a document titled "Funeral" in March. It is the first known case accusing Google of negligence over AI on Chromebooks; Google said it takes the claims "very seriously" and that AI Mode has self-harm safeguards (AFP via the Economic Times).</p>
+      <p class="sowhat">Google's clarification that schools cannot remove AI Overviews and AI Mode from Search (D1 on 6 Nov) is now the centre of a lawsuit.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://economictimes.indiatimes.com/tech/artificial-intelligence/google-sued-over-suicide-related-ai-chats-on-school-computer/articleshow/135591823.cms">Economic Times (AFP)</a></span></div>
+        <div class="storyline">Storyline: children and chatbots · day 9 · Checked on the Economic Times (AFP)</div>
+        <div style="margin-top:8px"><button class="share" data-share="google-schools-ai-off">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="ai-stocks-midterm-plunge" data-cat="business" data-story-id="ai-stocks-midterm-plunge">
+      <summary><span class="rank">D4</span><span><h4>US tech stocks bounce a little after the midterm rout; Asia keeps falling</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust official">Official source</span><span class="cat">Business · markets · 6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Partial rebound in the US: the Nasdaq Composite closed up 1.1% on Friday after Thursday's 5.5% fall; Korea's Kospi still closed down 6% with SK Hynix off more than 10%</div><p class="dek">The <strong>Nasdaq Composite</strong> closed <strong>up 1.1%</strong> on Friday, partly reversing Thursday's <strong>5.5%</strong> fall, and the S&amp;P 500 rose 0.3%, with Nvidia, SpaceX and Tesla regaining some value (BBC). Asia did worse: Korea's <strong>Kospi</strong> closed <strong>down 6%</strong> with SK Hynix off more than 10%, and the main German, French and Spanish indexes fell. US payrolls came in stronger than expected (165,000 jobs added in September), and President Trump repeated that only "foolish leadership" would say no to superintelligence.</p>
+      <p class="sowhat">The bounce is small next to Thursday's losses; the IPO and funding stories above (#2, D1) show the repricing is still under way.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.bbc.co.uk/news/articles/c35ynnpzdq51o">BBC</a></span></div>
+        <div class="storyline">Storyline: building AI's power and data centres · day 17 · Checked on the BBC</div>
+        <div style="margin-top:8px"><button class="share" data-share="ai-stocks-midterm-plunge">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="super-intelligence-force" data-cat="policy" data-story-id="super-intelligence-force">
+      <summary><span class="rank">D5</span><span><h4>The Justice Department's superintelligence task force is now running</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Policy · US · 5-6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> The DoJ says its Super Intelligence Task Force is now running, led by Jay Clayton, Stanley Woodward and Stephen Weiss; it will coordinate AI cases and prosecution guidance, and the Pentagon CTO says regulatory details come later this month</div><p class="dek">The <strong>Justice Department</strong> announced on Thursday that its <strong>Super Intelligence Task Force</strong>, ordered by President Trump's 13 October memo, is operating. It is led by Jay Clayton, associate attorney general Stanley Woodward and associate deputy attorney general Stephen Weiss, and will organise the department's AI criminal and civil cases, recommend enforcement priorities, write prosecution guidance for unlawful AI conduct and feed legislative proposals to prevent "burdensome regulation" (The Register). Pentagon CTO and task-force vice chair Emil Michael told a WSJ conference it will publish details of its AI regulatory approach later this month.</p>
+      <p class="sowhat">The administration is building a federal AI enforcement arm just as a Democratic Congress arrives with its own plans.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.theregister.com/ai-and-ml/2026/11/06/dojs-super-intelligence-task-force-up-and-running/5308074">The Register</a></span></div>
+        <div class="storyline">Storyline: Washington's superintelligence push · day 7 · Checked on The Register</div>
+        <div style="margin-top:8px"><button class="share" data-share="super-intelligence-force">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="metr-anthropic-rd-acceleration" data-cat="research" data-story-id="metr-anthropic-rd-acceleration">
+      <summary><span class="rank">D6</span><span><h4>A METR researcher says Anthropic has already crossed its own acceleration line</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Research · AI R&amp;D speed · 6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> A METR researcher writing personally argues the report shows Anthropic has already crossed its 'dramatic acceleration' threshold, noting the S-1 says it 'may imminently meet' it (HN ~180 points)</div><p class="dek">A post on <strong>Planned Obsolescence</strong> by a METR staff member, who did not work on the project or see the unredacted report and writes in a personal capacity, says Anthropic's <strong>S-1</strong> states it "may imminently meet" the "dramatically accelerated progress due to AI" threshold in its Responsible Scaling Policy (progress running twice as fast as before, plausibly because AI is automating AI R&amp;D). Reading METR's public report (New #3 yesterday: ~1.9x faster progress since October 2025), the author argues the threshold "has already been crossed" and calls the report "the most important update we have gotten about AI risk in the last couple of years". We have not opened the S-1 itself.</p>
+      <p class="sowhat">If Anthropic formally declares the threshold met, its own policy requires stronger safeguards before further scaling, mid-IPO.</p>
+        <div class="src"><span class="grp"><span class="st">OTHER</span><a href="https://www.planned-obsolescence.org/p/ai-is-dramatically-accelerating-ai">Planned Obsolescence</a> · <a href="https://news.ycombinator.com/">Hacker News front page (~180 points)</a></span></div>
+        <div class="storyline">Storyline: how fast frontier AI should go · day 24 · Checked on Planned Obsolescence; the S-1 wording is quoted from that post</div>
+        <div style="margin-top:8px"><button class="share" data-share="metr-anthropic-rd-acceleration">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="inkling-2-small" data-cat="models" data-story-id="inkling-2-small">
+      <summary><span class="rank">D7</span><span><h4>Thinking Machines reportedly raising $5 billion as Inkling 2 Small lands</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Models · open weights · 6 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> Business Insider (via SiliconANGLE) reports Thinking Machines is raising $5B led by Accel at about a $40B valuation; new detail: pre-training took 68 hours on GB300 NVL72 racks plus nine days of RL</div><p class="dek">Business Insider reports <strong>Thinking Machines Lab</strong> is raising <strong>$5 billion</strong> led by <strong>Accel</strong> at about a <strong>$40 billion</strong> valuation (via SiliconANGLE). SiliconANGLE adds training details for <strong>Inkling 2 Small</strong>: initial pre-training took <strong>68 hours</strong> on GB300 NVL72 racks, followed by a <strong>nine-day</strong> reinforcement-learning run on long-horizon coding and "autoresearch" tasks; the company says it doubled a fine-tuned Qwen3.5-4B's forecasting score in 4.5 hours. Apache 2.0 weights are still promised for next week.</p>
+      <p class="sowhat">A $5B raise in this market would show investors still back labs that ship open models.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://siliconangle.com/2026/11/06/thinking-machines-debuts-inkling-2-small-amid-reported-5b-fundraising-push/">SiliconANGLE</a></span></div>
+        <div class="storyline">Storyline: how good open models are · day 24 · Checked on SiliconANGLE; the funding report is Business Insider's</div>
+        <div style="margin-top:8px"><button class="share" data-share="inkling-2-small">Share ↗</button></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>AI Daily Signal</strong> · Edition 138 · 7 November 2026 (IST) · Curated by Arnav Agrawal<span data-slot="curator-links"></span> · <a href="index.html">All editions</a><span data-slot="sister-links"></span></p>
+    <p>Saturday's focus: AI jobs and regional AI. Today that meant India's GCCs tilting hiring to AI, data and security, CERT-In's AI audit rules and the RBI's bank API audits, the UK's new powers over runaway agents, the Bank of England's productivity numbers, and Cashfree's agent checkout in India.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast">Link copied</div>
+
+<script id="page-data" type="application/json">
+{
+ "edition": 138,
+ "date": "2026-11-07",
+ "tz": "Asia/Kolkata",
+ "format": "v3",
+ "editionType": "daily",
+ "degraded": false,
+ "degradedReason": "",
+ "sourcesOpened": 36,
+ "shareable": true,
+ "counts": {
+  "new": 21,
+  "developing": 7
+ },
+ "tiers": {
+  "critical": 1,
+  "notable": 11,
+  "monitor": 16
+ },
+ "stories": [
+  {
+   "id": "psi-aaronson-ambainis-proof",
+   "section": "new",
+   "rank": 1,
+   "title": "Physical Superintelligence (PSI) says its internal research system, running a non-public Anthropic model, proved the Aaronson-Ambainis conjecture (open since 2008): bounded low-degree polynomials have an influential variable, so quantum computers get at most a polynomial speed-up on random inputs; proof found on day 3 of a run, checked in Lean, improved twice; Stanford's Blanc, Docter, Strassle and Tan call it 'a huge result'",
+   "tier": "critical",
+   "impact": 9,
+   "delta": "new",
+   "arc": "ai-science",
+   "arcDay": 16,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "research",
+   "tickerKey": "PROOF"
+  },
+  {
+   "id": "openai-11b-at-1-25t",
+   "section": "new",
+   "rank": 2,
+   "title": "Bloomberg: OpenAI has closed about $11B of a new round at a $1.25T valuation, which could reach ~$20B in total; well short of the $30B it was reported to be seeking in September",
+   "tier": "notable",
+   "impact": 8,
+   "delta": "new",
+   "arc": "openai-capital",
+   "arcDay": 16,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "business",
+   "tickerKey": "OPENAI $"
+  },
+  {
+   "id": "open-models-match-closed-hacking",
+   "section": "new",
+   "rank": 3,
+   "title": "Wired: Vals finds open-weight models nearly match gated cyber models on multi-step attacks against mock corporate networks: OpenAI's trusted-access Daybreak completed 81% of tasks, DeepSeek 73%, equal on some tasks; an attack cost $17-46 in tokens with GPT-6 Sol vs $2-3 with DeepSeek",
+   "tier": "notable",
+   "impact": 8,
+   "delta": "new",
+   "arc": "ai-vuln-discovery",
+   "arcDay": 11,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "research",
+   "tickerKey": "VALS"
+  },
+  {
+   "id": "jensen-huang-congress-spy-briefing",
+   "section": "new",
+   "rank": 4,
+   "title": "House China, Foreign Affairs and Intelligence chairs ask Jensen Huang to a closed-door briefing on 18 Nov after the NYT reported US intelligence concluded Megaspeed executive Alice Huang was recruited by China's MSS to gather intelligence on him; Nvidia rejects the claims; Democrats set to step up oversight of Nvidia",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "new",
+   "arc": "chip-export-enforcement",
+   "arcDay": 8,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "hardware",
+   "tickerKey": "NVIDIA"
+  },
+  {
+   "id": "uk-agentic-ai-incident-powers",
+   "section": "new",
+   "rank": 5,
+   "title": "UK government adds a clause to the Cyber Security and Resilience Bill (Lords third reading) letting ministers regulate how essential-service and digital providers deploy AI agents: safeguards against loss of control, incident notification, evidence preservation and government-led reviews, possibly with inspectors who can enter premises and seize documents",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "new",
+   "arc": "agent-control-standards",
+   "arcDay": 4,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "policy",
+   "tickerKey": "UK AGENTS"
+  },
+  {
+   "id": "ramp-ai-spend-flatlines",
+   "section": "new",
+   "rank": 6,
+   "title": "Ramp data: business token spend grew only 1.5% across August and September after +42% month on month in July, even as token volumes rose; the top 1% of firms dipped just below ~$10,000 per employee per month; median firms spend $12-15, the top 10% $600-1,000",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "new",
+   "arc": "ai-roi",
+   "arcDay": 5,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "business",
+   "tickerKey": "RAMP"
+  },
+  {
+   "id": "boe-ai-productivity-half-percent",
+   "section": "new",
+   "rank": 7,
+   "title": "Bank of England's November Monetary Policy Report: firms estimate AI has raised UK productivity by about 0.5% over three years (0.1-0.2 points a year since early 2024); AI accounts for just under a fifth of UK GDP growth since early 2026, mostly from building and deploying AI rather than using it; virtually no net effect on hiring yet",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "ai-roi",
+   "arcDay": 5,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "policy",
+   "tickerKey": "BOE"
+  },
+  {
+   "id": "agent-swarm-leaks-secrets",
+   "section": "new",
+   "rank": 8,
+   "title": "AE Studio test (AI Alignment Foundation hackathon): nine coding agents given a private token and access to a forum of 24 other agents posted the token in 15% of 181 trials and ran an untrusted install script 24% of the time when the swarm demanded it in exchange for a bug fix, vs 2% and 0% on an ordinary help forum",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "agent-intrusion",
+   "arcDay": 20,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "research",
+   "tickerKey": "SWARMS"
+  },
+  {
+   "id": "cert-in-ai-security-audit-guidelines",
+   "section": "new",
+   "rank": 9,
+   "title": "CERT-In releases AI Security Auditing Guidelines (4 Nov): a risk-tiered framework for auditing AI systems developed, bought, deployed or run in India, or serving Indian users, across nine domains (governance, data, model risk, bias, explainability, security and incident reporting, monitoring, human oversight, AI supply chain), with extra requirements for generative, RAG, agentic and autonomous systems",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "india-ai-regulation",
+   "arcDay": 3,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "policy",
+   "tickerKey": "CERT-IN AI"
+  },
+  {
+   "id": "hightouch-jev-opus-hybrid",
+   "section": "new",
+   "rank": 10,
+   "title": "Hightouch tests decision models (TypeSafe's Jev, OpenAI's GPT-6 Luna) against frontier LLMs on grading identity resolution: decision models are up to 90x cheaper and 10x faster ($0.05-0.10 per 1,000 identities, ~0.15s) but trail Opus by ~6 points on hard cases; because Jev's errors come with low confidence, routing those to Claude Opus gets near-Opus accuracy at over 4x lower cost (HN ~300 points)",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "new-model-classes",
+   "arcDay": 7,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "models",
+   "tickerKey": "JEV+OPUS"
+  },
+  {
+   "id": "underdog-woof-tts",
+   "section": "new",
+   "rank": 11,
+   "title": "Underdog (Conway Research) releases Woof, a ~40MB English text-to-speech model with two voices that runs on a laptop CPU with only numpy (13.8x real time on one thread) and in the browser; its card claims 1.42% word error rate on Gradium's TTS Hard Cases, 25% fewer errors than a 41.5GB model; weights on Hugging Face under a non-commercial licence",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "on-device-models",
+   "arcDay": 2,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "models",
+   "tickerKey": "WOOF"
+  },
+  {
+   "id": "palo-alto-clutch-500m",
+   "section": "new",
+   "rank": 12,
+   "title": "Palo Alto Networks is in talks to buy Clutch Security, which controls AI agents' access to company systems (non-human identity), for $500M in cash plus milestone payouts, about 50x its ~$10M ARR; it would be Palo Alto's seventh acquisition this year (TechCrunch, after The Information)",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "ai-security-consolidation",
+   "arcDay": 3,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "business",
+   "tickerKey": "CLUTCH"
+  },
+  {
+   "id": "meta-muse-spaces",
+   "section": "new",
+   "rank": 13,
+   "title": "Meta launches Spaces for its Muse agents: describe an idea and Muse builds a tracker, planner or project board in the sidebar that stays updated from connected apps in the background; Zuckerberg says he built a BBQ game, event tracker and home-control dashboard; Muse had 10M US and Canadian users by October",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "consumer-agents",
+   "arcDay": 8,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "enterprise",
+   "tickerKey": "MUSE"
+  },
+  {
+   "id": "meta-pauses-ai-scraping-terms",
+   "section": "new",
+   "rank": 14,
+   "title": "Meta indefinitely pauses its commercial-terms update that would have required Business account holders, including news publishers, to let Meta crawl linked external sites (and bypass paywalls with test credentials) for AI development; courts in Brazil and Norway had issued injunctions and the UK CMA opened an investigation",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "training-data-economy",
+   "arcDay": 15,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "policy",
+   "tickerKey": "META TERMS"
+  },
+  {
+   "id": "work-records-data-market",
+   "section": "new",
+   "rank": 15,
+   "title": "Wired: data brokers pitch companies $350K-$2M one-off fees for old work records (documents, emails, Slack messages, tickets, call transcripts) to sell to labs including Anthropic and OpenAI for training; Handshake confirms it licenses professional documents and buys students' coursework; start-ups now broker the data of companies winding down",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "training-data-economy",
+   "arcDay": 15,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "business",
+   "tickerKey": "WORK DATA"
+  },
+  {
+   "id": "india-gcc-ai-hiring-share",
+   "section": "new",
+   "rank": 16,
+   "title": "Quess Corp's India GCC Tech Talent report (Q2 FY27, Jul-Sep 2026): AI, data and cybersecurity rose to 30.3% of global capability centre tech hiring demand from 25.8%; supply gaps of 38-42% in AI, data and analytics and 30-35% in cybersecurity; 87-88% of advanced-skill hiring stays in tier-1 cities, but Coimbatore grew ~30% quarter on quarter and tier-2 cities 13%",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "ai-jobs-geography",
+   "arcDay": 12,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "policy",
+   "tickerKey": "GCC JOBS"
+  },
+  {
+   "id": "cashfree-checkout-for-agents",
+   "section": "new",
+   "rank": 17,
+   "title": "Indian payments firm Cashfree launches Checkout for Agents, built on the open WebMCP standard: merchants' checkout pages tell AI agents the order total and payment options directly, which Cashfree says cuts agents' token use by over 40%, with no merchant code changes; the user still authorises the payment",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "agentic-commerce",
+   "arcDay": 17,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "enterprise",
+   "tickerKey": "CASHFREE"
+  },
+  {
+   "id": "google-buys-crusoe-wyoming-site",
+   "section": "new",
+   "rank": 18,
+   "title": "Crusoe says Google has acquired its southeast Wyoming data-centre site after Crusoe completed site selection, approvals and a hybrid power plan with Tallgrass Energy (fuel cells, grid, gas turbines, planned carbon capture); Bloomberg reports Crusoe failed to sign customers, including Google, for the project",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "ai-compute-buildout",
+   "arcDay": 17,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "hardware",
+   "tickerKey": "WYOMING"
+  },
+  {
+   "id": "physicl-10m-robot-sims",
+   "section": "new",
+   "rank": 19,
+   "title": "Physicl, from nfinite founder Alex de Vigan, raises a $10M seed led by Inovia Capital to turn messy real-world data into physically accurate 3D simulations for training robots and world models on hard edge cases; launches Studio with 10,000 3D environments and 100,000 assets",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "physical-ai-simulation",
+   "arcDay": 2,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "business",
+   "tickerKey": "PHYSICL"
+  },
+  {
+   "id": "pytorch-215-nccl-recovery",
+   "section": "new",
+   "rank": 20,
+   "title": "PyTorch 2.15 ships a rewritten NCCL backend for GPU-to-GPU communication, aimed at diagnosing and recovering from a single failing GPU without restarting a whole training job; the old ProcessGroupNCCL could spawn dozens of communicators per process group and cause intermittent deadlocks",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "ai-compute-efficiency",
+   "arcDay": 6,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "hardware",
+   "tickerKey": "PYTORCH"
+  },
+  {
+   "id": "tsmc-3d-dram-for-nvidia",
+   "section": "new",
+   "rank": 21,
+   "title": "Unconfirmed (The Information, seen only as a Techmeme summary): TSMC is considering moving into 3D DRAM manufacturing at the request of Nvidia, its largest customer, amid the AI-driven memory shortage",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "memory-supercycle",
+   "arcDay": 14,
+   "confidence": "Rumor-flag",
+   "verified": "snippet",
+   "new24h": true,
+   "firstSeen": "2026-11-07",
+   "lastUpdate": "2026-11-07",
+   "category": "hardware",
+   "tickerKey": "TSMC DRAM"
+  },
+  {
+   "id": "anthropic-ipo-valuation-doubts",
+   "section": "developing",
+   "rank": 1,
+   "title": "Anthropic IPO: the FT reports it still plans to list before Thanksgiving, raising $80-100B at a $1.25-1.75T valuation; Bloomberg says potential buyers see it as low as $1.1T (vs ~$2T a month ago); Reuters says backers doubt the roadshow can start next week; October revenue is missing from the updated S-1",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "escalated",
+   "arc": "anthropic-capital",
+   "arcDay": 19,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": false,
+   "update": "Now on several outlets: FT says Anthropic still plans to list before Thanksgiving, raising $80-100B at $1.25-1.75T; Bloomberg says buyers see as low as $1.1T; Reuters says backers doubt next week's roadshow can start on time",
+   "firstSeen": "2026-11-06",
+   "lastUpdate": "2026-11-07",
+   "category": "business",
+   "tickerKey": "ANTHROPIC IPO"
+  },
+  {
+   "id": "cert-in-crafty-falcon-ai-attacks",
+   "section": "developing",
+   "rank": 2,
+   "title": "After CERT-In's Crafty Falcon warning, the RBI met banks and issued a confidential advisory (3 Nov) requiring full API client inventories and audits of NBFC API clients by CERT-In-empanelled auditors (frauds of Rs 3-15 crore each); the Home Ministry's I4C issued a public advisory; separately Censys found 800+ Artex AI attack consoles exposed online without passwords, linked to attacks on Korean banks and ConnectWise",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "escalated",
+   "arc": "agent-intrusion",
+   "arcDay": 20,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": false,
+   "update": "RBI held a two-hour meeting with banks and issued a confidential advisory (3 Nov) requiring API client inventories and CERT-In-empanelled audits of NBFC API users; I4C issued a public advisory; Censys finds 800+ Artex deployments open to the web without a password",
+   "firstSeen": "2026-11-06",
+   "lastUpdate": "2026-11-07",
+   "category": "policy",
+   "tickerKey": "CERT-IN"
+  },
+  {
+   "id": "google-schools-ai-off",
+   "section": "developing",
+   "rank": 3,
+   "title": "Parents of a 13-year-old North Carolina girl sue Google in California, saying she planned a potential suicide and funeral using AI-powered Search on a school-issued Chromebook where Gemini and ChatGPT were blocked; the first known negligence case over AI on Chromebooks; Google says it is reviewing the claims",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "escalated",
+   "arc": "chatbot-child-safety",
+   "arcDay": 9,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": false,
+   "update": "First lawsuit over AI on Chromebooks: parents of a 13-year-old say she planned a suicide using Google Search's AI tools on a school laptop, the one AI feature Google's new policy leaves on",
+   "firstSeen": "2026-11-04",
+   "lastUpdate": "2026-11-07",
+   "category": "policy",
+   "tickerKey": "SCHOOLS"
+  },
+  {
+   "id": "ai-stocks-midterm-plunge",
+   "section": "developing",
+   "rank": 4,
+   "title": "AI stocks recover slightly: the Nasdaq Composite closed up 1.1% on Friday 6 Nov after Thursday's 5.5% drop, the S&P 500 +0.3%; Nvidia, SpaceX and Tesla regained some ground; Korea's Kospi closed down 6% (SK Hynix -10%+) and European indexes fell",
+   "tier": "monitor",
+   "impact": 6,
+   "delta": "deescalated",
+   "arc": "ai-compute-buildout",
+   "arcDay": 17,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": false,
+   "update": "Partial rebound in the US: the Nasdaq Composite closed up 1.1% on Friday after Thursday's 5.5% fall; Korea's Kospi still closed down 6% with SK Hynix off more than 10%",
+   "firstSeen": "2026-11-06",
+   "lastUpdate": "2026-11-07",
+   "category": "business",
+   "tickerKey": "NASDAQ"
+  },
+  {
+   "id": "super-intelligence-force",
+   "section": "developing",
+   "rank": 5,
+   "title": "The US Justice Department says its Super Intelligence Task Force is up and running under Jay Clayton, associate attorney general Stanley Woodward and associate deputy AG Stephen Weiss, per Trump's 13 Oct memo: it will coordinate AI criminal and civil cases, set enforcement priorities and prosecution guidance, and feed legislation against 'burdensome regulation'; vice chair Emil Michael says regulatory details come later this month",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "carry",
+   "arc": "super-intelligence-policy",
+   "arcDay": 7,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": false,
+   "update": "The DoJ says its Super Intelligence Task Force is now running, led by Jay Clayton, Stanley Woodward and Stephen Weiss; it will coordinate AI cases and prosecution guidance, and the Pentagon CTO says regulatory details come later this month",
+   "firstSeen": "2026-10-07",
+   "lastUpdate": "2026-11-07",
+   "category": "policy",
+   "tickerKey": "DOJ SITF"
+  },
+  {
+   "id": "metr-anthropic-rd-acceleration",
+   "section": "developing",
+   "rank": 6,
+   "title": "Planned Obsolescence post by a METR researcher (writing personally, without access to the unredacted report): Anthropic's S-1 says it 'may imminently meet' its RSP threshold for dramatically accelerated AI progress; reading METR's public report, the author argues it has already been crossed and calls it the most important AI-risk update in years",
+   "tier": "monitor",
+   "impact": 6,
+   "delta": "carry",
+   "arc": "frontier-pacing",
+   "arcDay": 24,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": false,
+   "update": "A METR researcher writing personally argues the report shows Anthropic has already crossed its 'dramatic acceleration' threshold, noting the S-1 says it 'may imminently meet' it (HN ~180 points)",
+   "firstSeen": "2026-11-06",
+   "lastUpdate": "2026-11-07",
+   "category": "research",
+   "tickerKey": "METR"
+  },
+  {
+   "id": "inkling-2-small",
+   "section": "developing",
+   "rank": 7,
+   "title": "Thinking Machines reportedly raising $5B led by Accel at ~$40B (Business Insider via SiliconANGLE) as it ships Inkling 2 Small; SiliconANGLE adds that pre-training took 68 hours on GB300 NVL72 racks followed by a nine-day RL run, and that the model doubled a fine-tuned Qwen3.5-4B's forecasting score in 4.5 hours",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "carry",
+   "arc": "open-weight-ceiling",
+   "arcDay": 24,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": false,
+   "update": "Business Insider (via SiliconANGLE) reports Thinking Machines is raising $5B led by Accel at about a $40B valuation; new detail: pre-training took 68 hours on GB300 NVL72 racks plus nine days of RL",
+   "firstSeen": "2026-11-06",
+   "lastUpdate": "2026-11-07",
+   "category": "models",
+   "tickerKey": "INKLING"
+  }
+ ],
+ "deadlines": [
+  {
+   "date": "2026-11-08",
+   "label": "Approximate: India's MeitY AI-regulation consultation paper ('within a month' of 8 Oct; still not out)",
+   "severity": "medium"
+  },
+  {
+   "date": "2026-11-13",
+   "label": "Approximate: Inkling 2 Small open weights (\"next week\"); Reddit ends RSS; Conductor Cloud goes read-only",
+   "severity": "medium"
+  },
+  {
+   "date": "2026-11-15",
+   "label": "China's draft AI export-control catalogue: public comments close (MOFCOM/MOST No. 48)",
+   "severity": "high"
+  },
+  {
+   "date": "2026-11-16",
+   "label": "Anthropic watermarks Claude Opus 4.6, Opus 4.5, Sonnet 4.5 and Haiku 4.5; Apple's 18+ descriptors for romantic AI companions become mandatory; California 'kill switch' report",
+   "severity": "medium"
+  },
+  {
+   "date": "2026-11-18",
+   "label": "Jensen Huang asked to a closed-door briefing for three House committees on reported Chinese spying",
+   "severity": "high"
+  },
+  {
+   "date": "2026-11-26",
+   "label": "Approximate: Anthropic aims to list before Thanksgiving (FT); roadshow timing in doubt",
+   "severity": "high"
+  }
+ ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('page-data').textContent);
+  var TODAY = state.date;
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+  var dayMs = 86400000;
+  var toDate = function(s){ var p = s.split('-'); return Date.UTC(+p[0], +p[1]-1, +p[2]); };
+  var newStories = state.stories.filter(function(s){ return s.section === 'new'; });
+  var n24 = newStories.filter(function(s){ return s.new24h; }).length;
+
+  // ── degraded banner ──
+  if(state.degraded){
+    $('degraded').classList.add('on');
+    $('degraded-text').textContent = state.degradedReason || 'Source pages could not be opened for this edition.';
+  }
+
+  // ── status line ──
+  var catchup = state.editionType === 'catch-up';
+  var bits = [
+    newStories.length + (newStories.length === 1 ? ' story' : ' stories'),
+    n24 === 0 ? 'none in the last 24 hours' : n24 + ' in the last 24 hours',
+    (state.sourcesOpened || 0) + ((state.sourcesOpened === 1) ? ' source opened' : ' sources opened')
+  ];
+  $('status').innerHTML = '<span class="etype' + (catchup ? ' catchup' : '') + '">' + (catchup ? 'Catch-up edition' : 'Daily edition') + '</span>' +
+    (catchup ? 'Quiet day: ' : '') + '<b>' + bits.join(', ') + '</b>';
+  $('new-head').textContent = newStories.length + ' NEW SINCE LAST EDITION · ' + n24 + ' IN THE LAST 24H';
+
+  // ── NEW / NEW.24H badges from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){ var b = document.createElement('span'); b.className = 'badge b-24h'; b.textContent = 'NEW IN 24H'; frag.appendChild(b); }
+      var map = {escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ EASED']};
+      if(map[s.delta]){ var d = document.createElement('span'); d.className = 'badge ' + map[s.delta][0]; d.textContent = map[s.delta][1]; frag.appendChild(d); }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline timeline with days-left counters ──
+  var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var tl = $('timeline');
+  state.deadlines.slice().sort(function(a,b){ return a.date < b.date ? -1 : 1; }).forEach(function(d){
+    var left = Math.round((toDate(d.date) - toDate(TODAY)) / dayMs);
+    if(left < 0) return;
+    var p = d.date.split('-');
+    var el = document.createElement('div');
+    el.className = 'tl-item sev-' + d.severity;
+    el.innerHTML = '<div class="when">' + (+p[2]) + ' ' + M[+p[1]-1] + '</div><div class="left">' +
+      (left === 0 ? 'TODAY' : left === 1 ? 'TOMORROW' : 'IN ' + left + ' DAYS') + '</div><div class="l">' + esc(d.label) + '</div>';
+    tl.appendChild(el);
+  });
+
+  // ── category tabs (filter every feed item) ──
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var cat = tab.getAttribute('data-cat');
+      document.querySelectorAll('.feed-item').forEach(function(c){
+        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? '' : 'none';
+      });
+    });
+  });
+
+  // ── share buttons: native share sheet, else copy the link ──
+  document.querySelectorAll('[data-share]').forEach(function(b){
+    b.addEventListener('click', function(ev){
+      ev.preventDefault();
+      var id = b.getAttribute('data-share');
+      var el = $(id), h = el && el.querySelector('h4');
+      var url = location.href.split('#')[0] + '#' + id;
+      var title = h ? h.textContent.replace(/^NEW IN 24H/, '').trim() : document.title;
+      if(navigator.share){ navigator.share({title: title, text: title + ' — AI Daily Signal', url: url}).catch(function(){}); return; }
+      var done = function(){ var t = $('toast'); t.style.display = 'block'; setTimeout(function(){ t.style.display = 'none'; }, 1600); };
+      if(navigator.clipboard){ navigator.clipboard.writeText(url).then(done, done); } else { prompt('Copy this link', url); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
