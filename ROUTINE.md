@@ -102,6 +102,17 @@ catch-up days), not live news.
   Prefer hands-on tests, comparisons and real problems over hype titles. A reaction is
   never a fact: if it claims something (a bug, a hidden cost, a leak), say "unconfirmed"
   in `note`, or check it and make it a story.
+- **Keep each update short:** one line, under about 100 characters. The swipe app shows
+  two lines per update and cuts the rest.
+- **Blocked or silent changelogs.** Some official changelogs refuse automated fetches (the
+  digest shows `(failed: ... 403)` under the company; x.ai's Grok Bot changelog always
+  does). For those companies, and for any major company whose products ship weekly but
+  show no official entry in the digest (xAI's Grok Bot and Grok Build, for example),
+  search the news for the product names over the last 7 days and list what shipped from
+  the reports (name the outlet in `source`, e.g. "TeslaNorth, citing the official @bot
+  account"). Never conclude "nothing shipped" from a failed or blocked source.
+- **Catch-up window for product updates:** an item from the last 7 days that no earlier
+  data file listed may be added, with its real date; it is not repeated after that.
 - **Leave out** companies with nothing shipped. A big launch is also a story card.
 - On Sundays (or with `"weeklyRoundup": true`) the renderer adds "This Week in Products"
   from the last seven data files automatically.

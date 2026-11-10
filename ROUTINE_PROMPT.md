@@ -68,7 +68,13 @@ Content rules:
   niche, all of its technology) that shipped something, list what shipped
   (linked to the official changelog or newsroom) and 1–3 of the most useful
   reactions (videos, Reddit, Hacker News), labelled as reactions, never as
-  facts. Leave out companies with nothing shipped.
+  facts. Leave out companies with nothing shipped. Keep each update line under
+  about 100 characters. If a company's official changelog failed or is blocked
+  (x.ai's Grok Bot changelog always is), or a weekly-shipping product (Grok Bot,
+  Grok Build) shows nothing, search the news for it over the last 7 days and list
+  what shipped from the reports; never treat a blocked source as "nothing
+  shipped". Items from the last 7 days not listed in an earlier edition may be
+  added with their real date.
 - What are we missing: act on every unmapped trend, suggested source and
   missing company in the digest (card it, add it to config/companies.json,
   config/sources.json or the watchlist, or say why not) and summarise in
