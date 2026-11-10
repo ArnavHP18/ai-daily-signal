@@ -44,18 +44,8 @@ SIGNAL_STATE = os.path.join(ROOT, 'state', 'signal-state.json')
 UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36'
 NOW = dt.datetime.now(dt.timezone.utc)
 
-TOPIC_WORDS = {
-    'security': r'vulnerab|CVE-|exploit|breach|hack|malware|ransomware|phishing|prompt injection|jailbreak|leak|attack|spy|espionage|backdoor|zero-day|security',
-    'robotics': r'robot|humanoid|Optimus|drone|autonomous|self-driving|robotaxi|Waymo|Zoox|Unitree|Figure AI|manipulat',
-    'health': r'health|medical|medicine|clinic|patient|hospital|drug|biotech|protein|FDA|diagnos|cancer|radiolog|genom|pharma',
-    'energy': r'energy|power plant|grid|electricit|nuclear|gas turbine|solar|battery|data cent|gigawatt|\bGW\b|cooling|utility',
-    'hardware': r'chip|GPU|TPU|semiconductor|Nvidia|AMD|Intel|TSMC|HBM|wafer|accelerator|server|Blackwell|Rubin|Starlink|Starship|SpaceX',
-    'research': r'paper|arXiv|study|researchers|benchmark|proof|theorem|Nature|Science|conjecture|dataset',
-    'models': r'model|LLM|GPT|Claude|Gemini|Grok|Llama|Qwen|DeepSeek|Mistral|open-weight|open source|release|launch',
-    'policy': r'law|bill|regulat|court|lawsuit|sue|FTC|DOJ|Congress|Senate|parliament|EU |AI Act|government|minister|ban|copyright|jobs|layoff|hiring|workers|union|election',
-    'business': r'raise|funding|valuation|IPO|acqui|merger|revenue|investor|Series [A-F]|seed round|billion|stock|shares',
-    'enterprise': r'enterprise|customers|deploy|partnership|integrat|agent|Copilot|workflow|platform|SaaS',
-}
+CATEGORIES = json.load(open(os.path.join(ROOT, 'config', 'categories.json')))['categories']
+TOPIC_WORDS = {c['id']: c['hint'] for c in CATEGORIES}     # sorting hints only; the run decides the category
 STOP = set('''the a an and or of to in on for with by at from as is are was were be been it its this that these those how why what when where who which
 new news report reports says said say will can could would should may might more most over into after before about than up out off not no yes just
 ai artificial intelligence update updates today week year years day days time first last next big top best you your our we they he she his her their
@@ -102,7 +92,16 @@ def parse_date(s):
         try:
             d = dt.datetime.fromisoformat(s.replace('Z', '+00:00'))
         except ValueError:
-            return None
+            # loose formats: "Friday, November 6, 2026 - 10:02", "Nov 9, 2026 11:35am", "9 November 2026"
+            m = re.search(r'([A-Z][a-z]{2})[a-z]*\.? (\d{1,2}),? (20\d\d)', s) or re.search(r'(\d{1,2}) ([A-Z][a-z]{2})[a-z]* (20\d\d)', s)
+            if not m:
+                return None
+            a, b, y = m.groups()
+            mon, day = (a, b) if a[0].isalpha() else (b, a)
+            try:
+                d = dt.datetime(int(y), dt.datetime.strptime(mon[:3], '%b').month, int(day))
+            except ValueError:
+                return None
     return d if d.tzinfo else d.replace(tzinfo=dt.timezone.utc)
 
 
@@ -147,8 +146,10 @@ def norm_title(t):
     return ' '.join(re.findall(r'[a-z0-9]+', t.lower())[:9])
 
 
-def topics_for(text):
-    return [k for k, rx in TOPIC_WORDS.items() if re.search(rx, text, re.I)][:3] or ['enterprise']
+def topics_for(text, source_topics=()):
+    hits = [k for k, rx in TOPIC_WORDS.items() if re.search(rx, text, re.I)]
+    both = [k for k in source_topics if k in hits]
+    return (both or list(source_topics)[:1] or hits[:1] or ['business'])[:3]
 
 
 # ---------------------------------------------------------------- sources
@@ -165,7 +166,9 @@ def collect_source(src, since):
         return src, st, items
     try:
         if k in ('rss', 'gnews'):
-            for it in parse_feed(text):
+            for n_item, it in enumerate(parse_feed(text)):
+                if it['date'] is None and n_item >= 10:
+                    continue          # undated feed: trust only the first (newest) items
                 if not in_window(it['date'], since):
                     continue
                 if k == 'gnews':
@@ -398,6 +401,7 @@ def main():
             for it in items:
                 it['source'] = it.get('outlet') or src['name'] if src['kind'] == 'gnews' else src['name']
                 it['sourceId'] = src['id']
+                it['sourceTopics'] = src.get('topics', [])
                 it['kind'] = src['kind']
                 raw.append(it)
     log('sources: %d fetched, %d items, %.0fs' % (len(stats), len(raw), time.time() - t0))
@@ -411,7 +415,7 @@ def main():
         c = cands.get(k)
         if c is None:
             c = cands[k] = {'kind': it['kind'], 'title': it['title'], 'url': it['url'], 'date': it['date'], 'summary': it.get('summary', ''),
-                            'sources': [], 'outlets': [], 'topics': topics_for(it['title'] + ' ' + it.get('summary', ''))}
+                            'sources': [], 'outlets': [], 'topics': topics_for(it['title'] + ' ' + it.get('summary', ''), it.get('sourceTopics', []))}
             for x in ('points', 'comments', 'discussion', 'likes', 'upvotes'):
                 if x in it:
                     c[x] = it[x]
@@ -562,10 +566,11 @@ def write_digest(out_dir, date, stats, cand, comp, companies, trends, ser):
          'Window: last %d hours. %d of %d sources answered; %d unique items. Nothing here is verified: open the source before carding.' % (
              stats['windowHours'], stats['sourcesOk'], stats['sources'], stats['candidates']), '']
     L += ['## Top stories by topic (most sources first)', '']
-    for topic in ['models', 'research', 'hardware', 'security', 'robotics', 'health', 'energy', 'enterprise', 'business', 'policy']:
-        rows = [c for c in cand if c['topics'][0] == topic and c['kind'] in ('rss', 'gnews')][:15]
+    for cat in CATEGORIES:
+        topic = cat['id']
+        rows = [c for c in cand if c['topics'][0] == topic and c['kind'] in ('rss', 'gnews')][:20]
         if rows:
-            L += ['### ' + topic, '']
+            L += ['### %s (%s)' % (cat['label'], topic), '']
             for c in rows:
                 n = len(set(c['sources'] + c['outlets']))
                 L.append('- [%d src] %s — %s · %s %s' % (n, c['title'][:160], ', '.join((c['sources'] + c['outlets'])[:4]),

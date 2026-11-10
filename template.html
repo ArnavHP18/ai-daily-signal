@@ -226,6 +226,10 @@
   .pu-co .say b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--muted);margin-bottom:2px}
   .pu-week .pu-co{background:var(--paper2)}
   .followup{font-size:13px;color:var(--muted);margin-top:6px}
+  /* second tab row: categories inside the chosen area */
+  .tabs.cats{margin-top:-8px}
+  .tabs.cats .tab{font-size:10px;padding:4px 10px;border-color:var(--rule);color:var(--muted)}
+  .tabs.cats .tab.active{background:var(--paper2);color:var(--ink);border-color:var(--ink)}
 </style>
 </head>
 <body>
@@ -615,14 +619,23 @@
     tl.appendChild(el);
   });
 
-  // ── category tabs (filter every feed item) ──
+  // ── area and category tabs (filter every feed item) ──
+  // Row 1: ALL + areas (data-area). Row 2: categories (data-cat), showing only the chosen area's.
+  var catTabs = document.querySelectorAll('.tab.cat');
+  function showCats(area){ catTabs.forEach(function(t){ t.style.display = (!area || t.getAttribute('data-area') === area) ? '' : 'none'; }); }
   document.querySelectorAll('.tab').forEach(function(tab){
     tab.addEventListener('click', function(){
-      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      var cat = tab.getAttribute('data-cat'), area = tab.classList.contains('area') ? tab.getAttribute('data-area') : null;
+      if (!tab.classList.contains('cat')) {
+        document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+        showCats(area);
+      } else {
+        catTabs.forEach(function(t){ t.classList.remove('active'); });
+      }
       tab.classList.add('active');
-      var cat = tab.getAttribute('data-cat');
       document.querySelectorAll('.feed-item').forEach(function(c){
-        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? '' : 'none';
+        var show = cat === 'all' ? true : area ? c.getAttribute('data-area') === area : c.getAttribute('data-cat') === cat;
+        c.style.display = show ? '' : 'none';
       });
     });
   });

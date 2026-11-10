@@ -13,8 +13,10 @@ editions (`editions/`). Today's date and IST timezone govern everything.
 
 ## 0.00 WHAT CHANGED IN v4 (read first; overrides everything below)
 Added on 10 Nov 2026 (edition 139). The reader is a tech professional anywhere in the
-world. The goal is unchanged: identify, research and explain new AI advances, plus
-what the major and niche tech companies are shipping.
+world, working in banking, who uses this as their main daily news source. The goal:
+identify, research and explain new AI advances and what major and niche tech companies
+ship, and summarise everything else important that happened, with banking first among
+the non-tech areas.
 
 ### The daily workflow
 1. **Collect.** `python3 scripts/collect.py` (about 1 minute). It pulls every source in
@@ -47,23 +49,45 @@ what the major and niche tech companies are shipping.
 7. Commit everything it wrote (including `state/collector-state.json`, which lets the
    collector find only new changelog entries tomorrow), push, report.
 
-### Coverage: global, by importance
-- **Region-agnostic.** Rank by how many people must act, worldwide. There are no regional
-  quotas; the regional sources (Asia, Europe, India, Middle East, Africa, Latin America)
-  exist so important news from anywhere is found. This replaces the hotspot list and the
-  daily city-by-city jobs searches in §1.C.
-- **AI jobs and work** are a global topic: card hiring and layoff data when a real
-  release lands (e.g. Naukri JobSpeak early in the month, Indeed Hiring Lab, large
-  layoffs), not from daily searches.
-- **No maximum** on stories. The minimum is still 10 new (fewer means quiet day or
-  catch-up, §0.0.7), and every story must meet the trust rules.
-- **Categories** (tabs): `models · research · hardware · security · robotics · health ·
-  energy · enterprise · business · policy` (shown as "Policy & society": regulation,
-  labour, culture). Security, robotics, health and energy are new; use them instead of
-  forcing such stories into enterprise or policy.
-- **Deep beat:** Mon research · Tue open-source/models · Wed AI security · Thu hardware,
-  compute and energy · Fri applied AI, robotics and health · Sat work and jobs worldwide ·
-  Sun week in storylines (and the automatic "This Week in Products" roundup).
+### Coverage: everything worth knowing, global, by importance
+This is the reader's main daily news source, read each morning: AI and technology first,
+plus finance (banking above all), business, health, energy, world affairs, society,
+sports and entertainment. It covers what happened since the last edition (wider on
+catch-up days), not live news.
+- **Region-agnostic.** Rank by importance worldwide; there are no regional quotas. World &
+  politics is global. Regional sources exist so important news from anywhere is found.
+  This replaces the hotspot list and the daily city-by-city jobs searches in §1.C.
+- **As many stories as the day has.** 10, 20, 30, 40 or more: card everything important
+  the sources produced, and nothing padded. The minimum is still 10 new (fewer means quiet
+  day or catch-up, §0.0.7). Quality over quantity, but nothing important missed.
+- **20 categories in 7 areas** (`config/categories.json`; the page shows area tabs, then
+  the categories in that area):
+  - Money & finance: `banking` (the reader's main focus) · `payments` (payments & fintech)
+    · `insurance` · `markets` (markets & economy) · `crypto` (crypto & digital assets)
+  - AI & technology: `models` (AI models & labs) · `products` (products & builders: what
+    shipped and what people build with Claude, Cursor, Grok, Gemini and other tools) ·
+    `research` (research & science) · `hardware` (hardware & chips) · `security` ·
+    `robotics` (robotics & autonomy) · `emerging` (quantum, space, biotech, BCIs, new computing)
+  - Business: `business` (business & startups, including enterprise adoption)
+  - Health: `health` (health & medicine)
+  - Energy & climate: `energy`
+  - World & society: `policy` (policy & regulation) · `world` (world & politics) · `society`
+    (society & culture: work and jobs, education, media, online life)
+  - Sports & entertainment: `sports` · `entertainment`
+- **Sources: at least 10 healthy per category** (`config/sources.json`, 282 today).
+  `python3 scripts/check_sources.py` tests every source and prints the count per category;
+  run it every Sunday and whenever sources change, drop or replace failing ones, and add
+  new sources only after they pass. Prefer original reporting and official sources over
+  rewrite sites.
+- **AI jobs and work** are a global `society` topic: card hiring and layoff data when a real
+  release lands, not from daily searches.
+- **Builders and ideas.** In `products`, include notable things people built with AI tools
+  (Show HN, Product Hunt, r/ClaudeAI, r/LocalLLaMA, specialist blogs) when they are new
+  ideas worth copying; say plainly what was built and with what.
+- **Deep beat:** Mon research & AI models · Tue products, builders & open source · Wed
+  security · Thu hardware, energy & emerging tech · Fri banking, payments & insurance ·
+  Sat markets, business & world · Sun week in storylines (and the automatic "This Week in
+  Products" roundup; also re-search "weekly" watchlist entries and run check_sources.py).
 
 ### Product updates (every edition)
 - For each company in `config/companies.json` (mainstream and niche, all of its
@@ -116,7 +140,7 @@ Summarise in `runNotes.missing` (required). Remove sources that keep failing.
     "id": "kebab-id", "section": "new|developing", "tier": "critical|notable|monitor", "impact": 7,
     "delta": "new|escalated|deescalated|carry", "update": "what changed (developing only)",
     "arc": "arc-id", "arcDay": 1, "confidence": "Primary|2x src|Agg 1x|Rumor-flag", "verified": "opened|snippet",
-    "new24h": true, "firstSeen": "YYYY-MM-DD", "category": "one of the 10 categories",
+    "new24h": true, "firstSeen": "YYYY-MM-DD", "category": "one of the 20 category ids",
     "title": "one-sentence summary (state file and search)",
     "h": "card headline", "sub": "one sub-line (required for the lead)",
     "cat": "Models · open models · 9 Nov", "tickerKey": "SHORT KEY", "ticker": "ticker line ('' for rumours)",

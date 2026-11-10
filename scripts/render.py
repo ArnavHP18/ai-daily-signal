@@ -24,8 +24,11 @@ DATA = os.path.join(ROOT, 'editions', 'data')
 STATE_FILE = os.path.join(ROOT, 'state', 'signal-state.json')
 TEMPLATE = os.path.join(ROOT, 'template.html')
 
-CATEGORIES = ['models', 'research', 'hardware', 'security', 'robotics', 'health', 'energy', 'enterprise', 'business', 'policy']
-CAT_LABEL = {'policy': 'POLICY & SOCIETY'}
+CATCFG = json.load(open(os.path.join(ROOT, 'config', 'categories.json')))
+CATEGORIES = [c['id'] for c in CATCFG['categories']]
+CAT_LABEL = {c['id']: c['label'] for c in CATCFG['categories']}
+CAT_AREA = {c['id']: c['area'] for c in CATCFG['categories']}
+AREAS = [(a['id'], a['label']) for a in CATCFG['areas']]
 TRUST = {'Primary': ('official', 'Official source'), '2x src': ('multi', 'Two or more outlets'),
          'Agg 1x': ('single', 'One secondary source'), 'Rumor-flag': ('rumor', 'Unconfirmed')}
 TIERLBL = {'critical': 'CRITICAL', 'notable': 'NOTABLE', 'monitor': 'MONITOR'}
@@ -164,7 +167,7 @@ def render(date):
         return '<div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> %s</div>' % esc(s['update']) if s['section'] == 'developing' else ''
 
     def big_card(s):
-        return f'''    <article class="card {s['tier']}{' rumor' if s['confidence'] == 'Rumor-flag' else ''} feed-item" id="{s['id']}" data-cat="{s['category']}" data-story-id="{s['id']}">
+        return f'''    <article class="card {s['tier']}{' rumor' if s['confidence'] == 'Rumor-flag' else ''} feed-item" id="{s['id']}" data-cat="{s['category']}" data-area="{CAT_AREA[s['category']]}" data-story-id="{s['id']}">
       <div class="top"><span><span class="rank">{rank_of(s)}</span><span class="cat">{esc(s['cat'])}</span></span><span class="impact">IMPACT <b>{s['impact']}</b>/10</span></div>
       <h4>{esc(s['h'])}</h4>
       <p class="sub">{esc(s.get('sub', ''))}</p>
@@ -178,7 +181,7 @@ def render(date):
 
     def row(s):
         rum = ' rumor' if s['confidence'] == 'Rumor-flag' else ''
-        return f'''    <details class="row{rum} feed-item" id="{s['id']}" data-cat="{s['category']}" data-story-id="{s['id']}">
+        return f'''    <details class="row{rum} feed-item" id="{s['id']}" data-cat="{s['category']}" data-area="{CAT_AREA[s['category']]}" data-story-id="{s['id']}">
       <summary><span class="rank">{rank_of(s)}</span><span><h4>{esc(s['h'])}</h4><div class="meta">{tier_span(s)}{trust_span(s)}<span class="cat">{esc(s['cat'])}</span></div></span><span class="more"></span></summary>
       <div class="detail">
         {delta_line(s)}{s['body'].strip()}
@@ -192,11 +195,15 @@ def render(date):
     ticker_items = [lead] + [s for s in S if s is not lead and s['confidence'] != 'Rumor-flag' and s.get('ticker')]
     ticker = ' &nbsp;◆&nbsp; '.join('<b>%s</b> %s' % (esc(s['tickerKey']), esc(s.get('ticker') or s['h'])) for s in ticker_items)
 
-    cats = {}
+    cats, areas = {}, {}
     for s in S:
         cats[s['category']] = cats.get(s['category'], 0) + 1
+        areas[CAT_AREA[s['category']]] = areas.get(CAT_AREA[s['category']], 0) + 1
+    # two rows: areas, then the categories of the chosen area (template.html's script filters both)
     tabs = '    <button class="tab active" data-cat="all">ALL (%d)</button>\n' % len(S) + ''.join(
-        '    <button class="tab" data-cat="%s">%s (%d)</button>\n' % (c, CAT_LABEL.get(c, c.upper()), cats[c]) for c in CATEGORIES if c in cats)
+        '    <button class="tab area" data-area="%s">%s (%d)</button>\n' % (a, esc(l.upper()), areas[a]) for a, l in AREAS if a in areas)
+    tabs += '  </div>\n  <div class="tabs cats">\n' + ''.join(
+        '    <button class="tab cat" data-cat="%s" data-area="%s">%s (%d)</button>\n' % (c, CAT_AREA[c], esc(CAT_LABEL[c].upper()), cats[c]) for c in CATEGORIES if c in cats)
 
     trip = ''.join(f'''    <article class="trip">
       <div class="num">{i + 1}</div>
@@ -228,8 +235,8 @@ def render(date):
   </aside>
 </article>'''
 
-    lead_ref = '  <div class="lead-ref feed-item" data-cat="%s"><strong>%s</strong> is today\'s lead, above: %s <a href="#%s">Back to top ↑</a></div>\n' % (
-        lead['category'], rank_of(lead), esc(d.get('leadRef') or lead['h']), lead['id'])
+    lead_ref = '  <div class="lead-ref feed-item" data-cat="%s" data-area="%s"><strong>%s</strong> is today\'s lead, above: %s <a href="#%s">Back to top ↑</a></div>\n' % (
+        lead['category'], CAT_AREA[lead['category']], rank_of(lead), esc(d.get('leadRef') or lead['h']), lead['id'])
     new_rest = [s for s in new if s is not lead]
     dev_rest = [s for s in dev if s is not lead]
     new_sec = f'''<section>

@@ -7,7 +7,10 @@ The detailed rules live in `ROUTINE.md`; this prompt points the run at them.
 Generate today's edition of "AI Daily Signal". Follow ROUTINE.md (v4) in the
 arnavhp18/ai-daily-signal repo exactly; section 0.00 (v4) overrides 0.0 (v3),
 which overrides older sections. Today's date and IST govern. The reader is a
-tech professional anywhere in the world: rank news by importance, not region.
+tech professional in banking who uses this as their main daily news source:
+AI and tech first, then finance (banking above all), business, health,
+energy, world, society, sports and entertainment. Rank by importance, not
+region.
 
 Workflow (ROUTINE.md §0.00):
 1. Run python3 scripts/collect.py and read _working/collect/DATE/digest.md
@@ -40,11 +43,19 @@ Workflow (ROUTINE.md §0.00):
    "AI Daily Signal: edition NNN (YYYY-MM-DD)" and push.
 
 Content rules:
-- At least 10 new stories, no maximum; if fewer than 5 broke in the last 48h,
+- As many stories as the day has (10, 20, 30, 40+), nothing padded, nothing
+  important missed. At least 10 new; if fewer than 5 broke in the last 48h,
   mark it a catch-up edition (nothing older than 30 days); never pad with old
   carries. NEW IN 24H only for stories that broke within 24h.
-- Categories: models, research, hardware, security, robotics, health, energy,
-  enterprise, business, policy (policy & society).
+- Categories (config/categories.json, 20 in 7 areas): banking, payments,
+  insurance, markets, crypto · models, products, research, hardware,
+  security, robotics, emerging · business · health · energy · policy, world,
+  society · sports, entertainment. In products, include notable things
+  people built with AI tools (Show HN, Product Hunt, Reddit, specialist
+  blogs) as ideas worth copying.
+- Sources: every category keeps at least 10 healthy sources. On Sundays run
+  python3 scripts/check_sources.py, replace failing sources, and add new ones
+  only after they pass.
 - If fewer than half of Critical/Notable stories could be checked on an opened
   page, mark the edition degraded. If nothing could be opened, ship only
   officially confirmed stories, or skip the day and say why.

@@ -341,6 +341,7 @@ def build_archive(eds):
 TRUST_LABEL = {'Primary': ('official', 'Official source'), '2x src': ('multi', 'Two or more outlets'),
                'Agg 1x': ('single', 'One secondary source'), 'Rumor-flag': ('rumor', 'Unconfirmed')}
 TIER_RANK = {'critical': 0, 'notable': 1, 'monitor': 2}
+CAT_LABELS = {c['id']: c['label'] for c in json.load(open(os.path.join(ROOT, 'config', 'categories.json')))['categories']}
 
 
 def element_html(text, sid):
@@ -388,7 +389,7 @@ def story_feed_item(text, s, date):
     sw = sw[:1].upper() + sw[1:]
     return {
         'id': s['id'], 'section': s['section'], 'rank': s.get('rank'), 'tier': s['tier'], 'impact': s.get('impact'),
-        'category': s.get('category', ''), 'delta': s.get('delta', 'new'), 'new24h': bool(s.get('new24h')),
+        'category': s.get('category', ''), 'categoryLabel': CAT_LABELS.get(s.get('category', ''), s.get('category', '')), 'delta': s.get('delta', 'new'), 'new24h': bool(s.get('new24h')),
         'trust': kind, 'trustLabel': label, 'rumor': s.get('confidence') == 'Rumor-flag', 'verified': s.get('verified', ''),
         'headline': strip_tags(head.group(1)) if head else s['title'][:120],
         'sub': strip_tags(sub.group(1)) if sub else '',
