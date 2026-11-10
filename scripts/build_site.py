@@ -341,7 +341,8 @@ def build_archive(eds):
 TRUST_LABEL = {'Primary': ('official', 'Official source'), '2x src': ('multi', 'Two or more outlets'),
                'Agg 1x': ('single', 'One secondary source'), 'Rumor-flag': ('rumor', 'Unconfirmed')}
 TIER_RANK = {'critical': 0, 'notable': 1, 'monitor': 2}
-CAT_LABELS = {c['id']: c['label'] for c in json.load(open(os.path.join(ROOT, 'config', 'categories.json')))['categories']}
+CATCFG = json.load(open(os.path.join(ROOT, 'config', 'categories.json')))
+CAT_LABELS = {c['id']: c['label'] for c in CATCFG['categories']}
 
 
 def element_html(text, sid):
@@ -434,6 +435,10 @@ def build_feed(date, f):
         'shareUrl': '%s/editions/%s' % (CFG['site_url'], f),
         'deck': ([lead] if lead else []) + full, 'alsoToday': also,
         'productUpdates': (site_extras.load_data(date) or {}).get('productUpdates', []),
+        # the app's menu: areas, then their categories (with today's story counts)
+        'areas': [{'id': a['id'], 'label': a['label'],
+                   'categories': [{'id': c['id'], 'label': c['label'], 'count': sum(1 for i in items if i['category'] == c['id'])}
+                                  for c in CATCFG['categories'] if c['area'] == a['id']]} for a in CATCFG['areas']],
     }
     os.makedirs(os.path.join(ED, 'feeds'), exist_ok=True)
     data = json.dumps(feed, ensure_ascii=False, indent=1)

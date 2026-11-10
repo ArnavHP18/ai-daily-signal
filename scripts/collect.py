@@ -344,6 +344,10 @@ def hn_search(q, since):
         hits = json.loads(text)['hits']
     except (ValueError, KeyError):
         return st, []
+    # Algolia also matches URLs, authors and story text; keep only stories whose title names the query,
+    # otherwise unrelated front-page posts show up as "reactions" (e.g. paper airplanes under xAI)
+    rx = re.compile(r'\b%s\b' % re.escape(q), re.I)
+    hits = [x for x in hits if rx.search(x.get('title') or '')]
     return st, [{'title': x['title'], 'url': 'https://news.ycombinator.com/item?id=%s' % x['objectID'], 'points': x.get('points', 0),
                  'comments': x.get('num_comments', 0)} for x in sorted(hits, key=lambda x: -(x.get('points') or 0))[:4]]
 

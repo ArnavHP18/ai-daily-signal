@@ -129,6 +129,58 @@
   .install{border:1px dashed var(--rule);border-radius:10px;padding:12px;font-size:14px;line-height:1.5;color:var(--ink);text-align:left}
   .install[hidden]{display:none}
 
+
+  /* menu button, drawer (categories, sections, refresh, links) */
+  .menu-btn{width:34px;height:34px;margin-left:-6px;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:21px;line-height:1}
+  .menu-btn:active{background:var(--paper2)}
+  .bar .name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .fchip{display:none;align-items:center;gap:6px;border:1px solid var(--ink);border-radius:999px;padding:4px 10px;font-size:12.5px;font-weight:600;white-space:nowrap;max-width:46vw;overflow:hidden;text-overflow:ellipsis}
+  .filtered .fchip{display:inline-flex} .filtered .bar .name{display:none}
+  .dscrim{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:11;opacity:0;pointer-events:none;transition:opacity .2s}
+  .dscrim.on{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;bottom:0;left:0;z-index:12;width:min(84vw,340px);background:var(--paper);border-right:1px solid var(--rule);transform:translateX(-102%);transition:transform .22s ease;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
+  .drawer.on{transform:none}
+  .dhead{display:flex;align-items:center;gap:10px;padding:14px 16px 10px;border-bottom:1px solid var(--rule)}
+  .dhead .t{font-family:var(--serif);font-weight:800;font-size:17px;text-transform:uppercase;letter-spacing:-.3px}
+  .dhead .s{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:2px}
+  .dhead .x{margin-left:auto;font-size:24px;color:var(--muted);padding:2px 8px}
+  .dbody{overflow-y:auto;padding:6px 0 calc(var(--bottom) + 24px);-webkit-overflow-scrolling:touch}
+  .dsec{font-family:var(--mono);font-size:10.5px;letter-spacing:1.2px;color:var(--muted);padding:14px 16px 6px;text-transform:uppercase}
+  .dsec.area{padding:10px 16px 2px;font-size:10px;color:var(--ink);opacity:.75}
+  .ditem{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 16px;font-size:15px;color:var(--ink);text-decoration:none}
+  .ditem:active,.ditem.on{background:var(--paper2)}
+  .ditem.on{font-weight:600;box-shadow:inset 3px 0 0 var(--crit)}
+  .ditem .c{margin-left:auto;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+  .ditem[disabled]{color:var(--muted);opacity:.55;cursor:default}
+  .ditem.refresh{font-weight:600}
+  .ditem .ic{width:18px;text-align:center}
+  .dnote{font-size:12px;color:var(--muted);padding:0 16px 6px 44px}
+  .spin{display:inline-block;animation:spin .8s linear infinite} @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* "new stories" banner when a newer feed is found while the app is open */
+  .newbar{position:fixed;left:50%;top:calc(var(--top) + 10px);transform:translate(-50%,-20px);opacity:0;pointer-events:none;z-index:8;background:var(--crit);color:#fff;border-radius:999px;padding:9px 16px;font-size:13.5px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:all .25s;white-space:nowrap}
+  .newbar.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+
+  /* product updates: companies packed together, as many per page as fit */
+  .pu-page{min-height:0;flex:1;overflow:hidden;border-top:1px solid var(--rule)}
+  .pu-page.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .pu-co{padding:8px 0 7px;border-bottom:1px solid var(--rule)}
+  .pu-co h4{font-family:var(--serif);font-weight:800;font-size:16px;line-height:1.2;margin-bottom:2px}
+  .pu-co ul{list-style:none;margin:0;padding:0}
+  .pu-co li{padding:2px 0 2px 12px;position:relative;font-size:14px;line-height:1.35}
+  .pu-co li a{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+  .pu-co .say li a{-webkit-line-clamp:1}
+  .pu-co .n{display:block;margin-left:0;font-size:11.5px}
+  .pu-co li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--muted)}
+  .pu-co li a{color:var(--ink);text-decoration:none}
+  .pu-co .n{color:var(--muted)}
+  .pu-co .say{margin-top:4px}
+  .pu-co .say li{font-size:13px;color:var(--muted)}
+  .pu-co .say li::before{background:none;border:1px solid var(--muted)}
+  .pu-co .say a{color:var(--muted)}
+  .pu-co .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.8px;text-transform:uppercase;margin-right:5px}
+  .cat-kicker{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--crit);font-weight:600;margin-top:12px;text-transform:uppercase}
+
   /* rumour cards (never in the deck, but styled if opened) */
   .rumor-note{font-family:var(--mono);font-size:11px;color:var(--t-rumor);letter-spacing:1px}
 
@@ -154,14 +206,16 @@
   .toast.on{opacity:1}
   .status{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;color:var(--muted)}
   @media (min-width:700px){ .slide{padding-left:24px;padding-right:24px} }
-  @media (prefers-reduced-motion: reduce){ .hint{animation:none} .sheet,.scrim,.progress i{transition:none} }
+  @media (prefers-reduced-motion: reduce){ .hint{animation:none} .sheet,.scrim,.progress i,.drawer,.dscrim,.newbar{transition:none} }
 </style>
 </head>
 <body>
 <header class="bar">
   <div class="bar-row">
+    <button class="menu-btn" id="menu-btn" aria-label="Menu: categories, refresh and more" aria-controls="drawer" aria-expanded="false">☰</button>
     <img src="../assets/logo.svg" alt="">
     <span class="name">AI Daily Signal</span>
+    <button class="fchip" id="fchip" aria-label="Show all stories"></button>
     <span class="ed" id="ed"></span>
   </div>
   <div class="progress"><i id="prog"></i></div>
@@ -176,11 +230,22 @@
   <div class="sheet-body" id="sheet-body"></div>
 </section>
 <div class="toast" id="toast">Link copied</div>
+<button class="newbar" id="newbar">New stories are in · Tap to refresh</button>
+
+<div class="dscrim" id="dscrim"></div>
+<nav class="drawer" id="drawer" aria-label="Menu" aria-hidden="true">
+  <div class="dhead">
+    <img src="../assets/logo.svg" alt="" width="26" height="26" style="border-radius:6px">
+    <div><div class="t">AI Daily Signal</div><div class="s" id="dsub"></div></div>
+    <button class="x" id="dclose" aria-label="Close menu">×</button>
+  </div>
+  <div class="dbody" id="dbody"></div>
+</nav>
 
 <script>
 (function(){
   var $ = function(id){ return document.getElementById(id); };
-  var deck = $('deck'), feed = null, slides = [], current = 0;
+  var deck = $('deck'), feed = null, slides = [], current = 0, slideStory = [], filter = null, io = null, sig = '', lastCheck = 0;
 
   function store(k, v){ try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(e){ return null; } }
   function el(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
@@ -190,15 +255,51 @@
   var date = params.get('date');
   var src = date && /^\d{4}-\d{2}-\d{2}$/.test(date) ? '../editions/feeds/' + date + '.json' : 'feed.json';
 
-  fetch(src, {cache: 'no-cache'}).then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(render)
-    .catch(function(){
-      $('status').innerHTML = 'Could not load the edition. <br><a href="../">Open the full site</a>';
-    });
+  // ---- loading and refreshing. The app can stay open for days on a phone, so it re-checks the feed
+  // whenever it comes back to the foreground (and every 15 minutes while open), and from the menu.
+  function getFeed(){
+    lastCheck = Date.now();
+    return fetch(src + (src.indexOf('?') < 0 ? '?' : '&') + 't=' + Date.now(), {cache: 'no-store'})
+      .then(function(r){ if (!r.ok) throw new Error(r.status); return r.text(); })
+      .then(function(txt){ return {text: txt, data: JSON.parse(txt)}; });
+  }
+  function signature(txt){ var h = 0; for (var i = 0; i < txt.length; i++) { h = (h * 31 + txt.charCodeAt(i)) | 0; } return txt.length + ':' + h; }
+  var pending = null;
+  function check(manual){
+    var btn = $('refresh-btn');
+    if (manual && btn) btn.querySelector('.ic').className = 'ic spin';
+    return getFeed().then(function(r){
+      var s = signature(r.text);
+      if (!feed) { sig = s; render(r.data); return; }
+      if (s === sig) { if (manual) toast("You're up to date"); return; }
+      if (manual) { apply(r.data, s); toast('Updated: edition ' + r.data.edition); }
+      else { pending = {data: r.data, sig: s}; $('newbar').textContent = (r.data.date !== feed.date ? 'New edition is out' : 'New stories are in') + ' · Tap to refresh'; $('newbar').classList.add('on'); }
+    }).catch(function(){
+      if (!feed) $('status').innerHTML = 'Could not load the edition. <br><a href="../">Open the full site</a>';
+      else if (manual) toast("Couldn't reach the server; showing the last copy");
+    }).then(function(){ if (btn) btn.querySelector('.ic').className = 'ic'; updateChecked(); });
+  }
+  function apply(data, s){
+    sig = s; pending = null; $('newbar').classList.remove('on');
+    var keepFilter = filter && (data.deck.concat(data.alsoToday || [])).some(function(x){ return x.category === filter; }) ? filter : null;
+    if (data.date !== feed.date) { keepFilter = null; }
+    feed = data; filter = keepFilter;
+    buildHeader(); buildMenu(); buildDeck(0);
+  }
+  $('newbar').onclick = function(){ if (pending) { apply(pending.data, pending.sig); toast('Updated: edition ' + feed.edition); } };
+  document.addEventListener('visibilitychange', function(){
+    if (document.visibilityState === 'visible' && feed && Date.now() - lastCheck > 60000) {
+      check(false);
+      if (navigator.serviceWorker && navigator.serviceWorker.getRegistration) navigator.serviceWorker.getRegistration().then(function(r){ if (r) r.update(); }).catch(function(){});
+    }
+  });
+  setInterval(function(){ if (document.visibilityState === 'visible' && feed) check(false); }, 15 * 60000);
+  check(false);
 
   function metaRow(s){
     var m = el('div', 'meta');
     m.appendChild(el('span', 'tier ' + s.tier, tierLabel(s.tier)));
+    if (s.rumor) m.appendChild(el('span', 'badge up', 'Unconfirmed'));
     if (s.section === 'developing') m.appendChild(el('span', 'badge up', s.delta === 'escalated' ? '▲ Escalated' : 'Developing'));
     else if (s.new24h) m.appendChild(el('span', 'badge', 'New · 24h'));
     if (s.arc && followed()[s.arc]) m.appendChild(el('span', 'badge fol', '★ Following'));
@@ -234,18 +335,19 @@
     c.appendChild(cover(s));
     c.appendChild(metaRow(s));
     if (isLead) c.appendChild(el('div', 'lead-tag', "TODAY'S LEAD"));
+    else if (filter && i === 0) c.appendChild(el('div', 'cat-kicker', catLabel(filter) + ' · ' + catCount(filter) + (catCount(filter) === 1 ? ' story' : ' stories')));
     c.appendChild(el('h2', null, s.headline));
     if (s.section === 'developing' && s.update && !isLead) {
       var ch = el('div', 'changed'); ch.appendChild(el('b', null, 'WHAT CHANGED')); ch.appendChild(document.createTextNode(s.update)); c.appendChild(ch);
     }
-    c.appendChild(el('p', 'summary', s.summary));
+    c.appendChild(el('p', 'summary', s.summary || s.sub || ''));
     if (s.whyItMatters) { var w = el('div', 'why'); w.appendChild(el('b', null, 'WHY IT MATTERS')); w.appendChild(el('div', 'wt', s.whyItMatters)); c.appendChild(w); }
     c.appendChild(el('span', 'trust ' + s.trust, s.trustLabel));
     var a = el('div', 'actions');
     var more = el('button', 'more', 'Full story ↑'); more.onclick = function(){ openSheet(s); };
     var sh = el('button', 'share', 'Share'); sh.setAttribute('aria-label', 'Share this story'); sh.onclick = function(){ share(s); };
     a.appendChild(more); a.appendChild(sh); c.appendChild(a);
-    if (i === 0) c.appendChild(el('div', 'hint', 'SWIPE UP FOR THE NEXT STORY'));
+    if (i === 0 && !filter) c.appendChild(el('div', 'hint', 'SWIPE UP FOR THE NEXT STORY'));
     slide.appendChild(c);
     // tap on the card body (not buttons) also opens the full story
     c.addEventListener('click', function(e){ if (!e.target.closest('button,a')) openSheet(s); });
@@ -274,35 +376,62 @@
     renderMine(document.getElementById('mine-box'));
   }
 
-  // ---- one card per company that shipped something: what shipped, then what people are saying
-  var KIND = {video: 'Video', reddit: 'Reddit', hn: 'Hacker News', news: 'Coverage', post: 'Post'};
-  function productSlide(c, i, n){
-    var slide = el('section', 'slide'); slide.id = 's-pu-' + i;
-    var card = el('div', 'card');
-    card.appendChild(el('div', 'pu-kicker', 'PRODUCT UPDATES · ' + (i + 1) + ' OF ' + n));
-    card.appendChild(el('div', 'list-head', c.company));
-    var list = el('div', 'list');
-    var ul = el('ul', 'pu-list');
+  // ---- product updates: companies packed together, as many as fit on a screen, so a company with one
+  // line no longer takes a whole page. Pages are measured after layout and re-packed on resize.
+  var KIND = {video: 'Video', reddit: 'Reddit', hn: 'HN', news: 'Coverage', post: 'Post'};
+  function link(text, url){ var a = el('a', null, text); a.href = url; a.target = '_blank'; a.rel = 'noopener'; return a; }
+  function companyBlock(c){
+    var b = el('div', 'pu-co');
+    b.appendChild(el('h4', null, c.company));
+    var ul = el('ul');
     c.updates.forEach(function(u){
-      var li = el('li'), a = el('a'); a.href = u.url; a.target = '_blank'; a.rel = 'noopener';
-      a.textContent = u.text; li.appendChild(a);
-      li.appendChild(el('span', 'n', [u.source, u.date].filter(Boolean).join(' · ')));
+      var li = el('li'); var a = link(u.text, u.url); li.appendChild(a);
+      var n = [u.source, u.date].filter(Boolean).join(' · '); if (n) a.title = n;
       ul.appendChild(li);
     });
-    list.appendChild(ul);
+    b.appendChild(ul);
     if (c.reactions && c.reactions.length) {
-      list.appendChild(el('div', 'pu-say', 'WHAT PEOPLE ARE SAYING'));
-      var ur = el('ul', 'pu-list');
+      var ur = el('ul', 'say');
       c.reactions.forEach(function(r){
-        var li = el('li'), a = el('a'); a.href = r.url; a.target = '_blank'; a.rel = 'noopener';
-        li.appendChild(el('span', 'k', KIND[r.kind] || r.kind)); a.textContent = r.title; li.appendChild(a);
-        if (r.note) li.appendChild(el('span', 'n', r.note));
+        var li = el('li'), a = link(r.title, r.url); a.insertBefore(el('span', 'k', KIND[r.kind] || r.kind), a.firstChild); li.appendChild(a);
+        if (r.note) li.title = r.note;
+        if (r.note && /unconfirmed/i.test(r.note)) a.insertBefore(el('span', 'k', 'Unconfirmed ·'), a.childNodes[1]);
         ur.appendChild(li);
       });
-      list.appendChild(ur);
+      b.appendChild(ur);
     }
-    card.appendChild(list); slide.appendChild(card);
-    return slide;
+    return b;
+  }
+  function puPage(){
+    var slide = el('section', 'slide pu'), card = el('div', 'card');
+    card.appendChild(el('div', 'pu-kicker', 'PRODUCT UPDATES'));
+    card.appendChild(el('div', 'list-head', 'What shipped'));
+    card.appendChild(el('div', 'list-sub', 'Official changelogs first; what people are saying underneath (reactions, not facts).'));
+    var body = el('div', 'pu-page'); card.appendChild(body); slide.appendChild(card);
+    return {slide: slide, card: card, body: body};
+  }
+  // appends pages to the deck just before `before` (or at the end) and returns them
+  function packProducts(companies, before){
+    var pages = [];
+    function fits(pg){ return pg.body.scrollHeight <= pg.body.clientHeight + 1; }
+    function newPage(){ var pg = puPage(); deck.insertBefore(pg.slide, before || null); if (pages.length) pg.card.removeChild(pg.card.children[2]); pages.push(pg); return pg; }
+    // first fit: each company goes on the earliest page with room, so short entries fill the gaps
+    // left by long ones and no company sits alone on a page unless it fills it
+    companies.forEach(function(c){
+      var b = companyBlock(c);
+      for (var i = 0; i < pages.length; i++) {
+        pages[i].body.appendChild(b);
+        if (fits(pages[i])) return;
+        pages[i].body.removeChild(b);
+      }
+      var pg = newPage(); pg.body.appendChild(b);
+      if (!fits(pg)) pg.body.classList.add('scroll');   // one very long company: let that page scroll
+    });
+    pages.forEach(function(p, i){
+      p.slide.id = 's-pu-' + i;
+      p.card.firstChild.textContent = 'PRODUCT UPDATES · ' + companies.length + ' COMPANIES' + (pages.length > 1 ? ' · PAGE ' + (i + 1) + ' OF ' + pages.length : '');
+    });
+    return pages.map(function(p){ return p.slide; });
   }
 
   function alsoSlide(items){
@@ -361,32 +490,121 @@
 
   function render(data){
     feed = data;
-    $('status').remove();
-    var d = new Date(data.date + 'T00:00:00');
+    var st = $('status'); if (st) st.remove();
+    try { var f = store('ads-filter'); if (f && allStories().some(function(s){ return s.category === f; })) filter = f; } catch(e){}
+    buildHeader(); buildMenu();
+    // resume where the reader left off for this edition (or jump to a story from the URL)
+    var hash = location.hash.slice(1);
+    buildDeck(hash ? 0 : parseInt(store(posKey()) || '0', 10), hash);
+    deck.addEventListener('scroll', function(){ store(posKey(), String(current)); }, {passive: true});
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ rebuildKeepingPlace(); });
+  }
+  function posKey(){ return 'ads-pos-' + feed.date + (filter ? '-' + filter : ''); }
+  function allStories(){ return feed.deck.concat(feed.alsoToday || []); }
+  function catLabel(id){ var l = id; (feed.areas || []).forEach(function(a){ a.categories.forEach(function(c){ if (c.id === id) l = c.label; }); }); return l; }
+  function catCount(id){ return allStories().filter(function(s){ return s.category === id; }).length; }
+
+  function buildHeader(){
+    var d = new Date(feed.date + 'T00:00:00');
     $('ed').innerHTML = '';
-    $('ed').appendChild(document.createTextNode('Edition ' + data.edition)); $('ed').appendChild(el('br'));
+    $('ed').appendChild(document.createTextNode('Edition ' + feed.edition)); $('ed').appendChild(el('br'));
     $('ed').appendChild(document.createTextNode(d.toLocaleDateString('en-GB', {weekday:'short', day:'numeric', month:'short'})));
-    document.title = 'AI Daily Signal — ' + data.longDate;
-    data.deck.forEach(function(s, i){ deck.appendChild(storySlide(s, i, i === 0)); });
-    (data.productUpdates || []).forEach(function(c, i, all){ deck.appendChild(productSlide(c, i, all.length)); });
-    if (data.alsoToday && data.alsoToday.length) deck.appendChild(alsoSlide(data.alsoToday));
-    deck.appendChild(endSlide());
+    document.title = 'AI Daily Signal — ' + feed.longDate;
+    $('dsub').textContent = 'Edition ' + feed.edition + ' · ' + feed.longDate;
+    document.body.classList.toggle('filtered', !!filter);
+    $('fchip').textContent = filter ? catLabel(filter) + '  ✕' : '';
+  }
+
+  function buildDeck(target, hash){
+    if (io) io.disconnect();
+    deck.innerHTML = ''; slideStory = [];
+    var list;
+    if (filter) {
+      list = allStories().filter(function(s){ return s.category === filter; });
+      list.forEach(function(s, i){ deck.appendChild(storySlide(s, i, false)); slideStory.push(s); });
+      if (filter === 'products' && feed.productUpdates && feed.productUpdates.length) packProducts(feed.productUpdates).forEach(function(){ slideStory.push(null); });
+    } else {
+      feed.deck.forEach(function(s, i){ deck.appendChild(storySlide(s, i, i === 0)); slideStory.push(s); });
+      if (feed.productUpdates && feed.productUpdates.length) packProducts(feed.productUpdates).forEach(function(){ slideStory.push(null); });
+      if (feed.alsoToday && feed.alsoToday.length) { deck.appendChild(alsoSlide(feed.alsoToday)); slideStory.push(null); }
+    }
+    deck.appendChild(endSlide()); slideStory.push(null);
     slides = Array.prototype.slice.call(deck.children);
     fitAll();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
     deck.querySelectorAll('.cover img').forEach(function(img){ img.addEventListener('load', fitAll); });
-    var io = new IntersectionObserver(function(es){
+    io = new IntersectionObserver(function(es){
       es.forEach(function(e){ if (e.isIntersecting) { current = slides.indexOf(e.target); progress(); } });
     }, {root: deck, threshold: 0.6});
     slides.forEach(function(s){ io.observe(s); });
-    progress();
-    // resume where the reader left off for this edition
-    var key = 'ads-pos-' + data.date, saved = parseInt(store(key) || '0', 10);
-    var hash = location.hash.slice(1);
-    var target = hash ? slides.findIndex(function(s){ return s.id === 's-' + hash; }) : saved;
+    current = 0; deck.scrollTop = 0; progress();
+    if (hash) target = slides.findIndex(function(s){ return s.id === 's-' + hash; });
     if (target > 0) requestAnimationFrame(function(){ go(target, true); });
-    deck.addEventListener('scroll', function(){ store(key, String(current)); }, {passive: true});
   }
+  // re-pack (fonts arrived, screen rotated) without losing the reader's place
+  function rebuildKeepingPlace(){
+    if (!feed) return;
+    var id = slides[current] && slides[current].id, s = slideStory[current];
+    buildDeck(0);
+    var i = s ? slides.findIndex(function(x){ return x.id === 's-' + s.id; }) : slides.findIndex(function(x){ return x.id === id; });
+    if (i > 0) go(i, true);
+  }
+
+  function setFilter(cat){
+    filter = cat || null; store('ads-filter', filter || '');
+    buildHeader(); buildMenu(); buildDeck(0); closeMenu();
+  }
+  $('fchip').onclick = function(){ setFilter(null); };
+
+  // ---- the ☰ menu: refresh, jump to a section, categories by area, links
+  function buildMenu(){
+    var b = $('dbody'); b.innerHTML = '';
+    function item(label, cls, onclick, count, icon){
+      var x = el('button', 'ditem' + (cls ? ' ' + cls : ''));
+      x.appendChild(el('span', 'ic', icon || ''));
+      x.appendChild(el('span', null, label));
+      if (count != null) x.appendChild(el('span', 'c', String(count)));
+      if (onclick) x.onclick = onclick; else x.disabled = true;
+      b.appendChild(x); return x;
+    }
+    function linkItem(label, href, icon){ var a = el('a', 'ditem'); a.href = href; a.appendChild(el('span', 'ic', icon || '')); a.appendChild(el('span', null, label)); b.appendChild(a); }
+    var r = item('Refresh', 'refresh', function(){ check(true); }, null, '↻'); r.id = 'refresh-btn';
+    var note = el('div', 'dnote'); note.id = 'checked-note'; b.appendChild(note); updateChecked();
+
+    b.appendChild(el('div', 'dsec', 'Jump to'));
+    function jump(id){ return function(){ if (filter) { filter = null; store('ads-filter', ''); buildHeader(); buildMenu(); buildDeck(0); } closeMenu(); var i = slides.findIndex(function(s){ return s.id === id; }); if (i >= 0) go(i, true); }; }
+    item('Top stories', null, jump(slides[0] ? slides[0].id : ''), feed.deck.length, '★');
+    if (feed.productUpdates && feed.productUpdates.length) item('Product updates', null, jump('s-pu-0'), feed.productUpdates.length, '◆');
+    if (feed.alsoToday && feed.alsoToday.length) item('Also today', null, jump('s-also'), feed.alsoToday.length, '≡');
+    item('Storylines you follow', null, jump('s-end'), null, '☆');
+
+    b.appendChild(el('div', 'dsec', 'Categories'));
+    item('All stories', filter ? null : 'on', function(){ setFilter(null); }, allStories().length, '•');
+    (feed.areas || []).forEach(function(a){
+      var cats = a.categories.filter(function(c){ return catCount(c.id) > 0; });
+      if (!cats.length) return;
+      b.appendChild(el('div', 'dsec area', a.label));
+      cats.forEach(function(c){ item(c.label, filter === c.id ? 'on' : null, function(){ setFilter(c.id); }, catCount(c.id)); });
+    });
+    var empty = [];
+    (feed.areas || []).forEach(function(a){ a.categories.forEach(function(c){ if (!catCount(c.id)) empty.push(c.label); }); });
+    if (empty.length) b.appendChild(el('div', 'dnote', 'Nothing today in: ' + empty.join(', ') + '.'));
+
+    b.appendChild(el('div', 'dsec', 'More'));
+    linkItem('Read the full edition', feed.editionUrl, '▤');
+    linkItem('All editions', feed.archiveUrl, '⌂');
+    linkItem('All storylines', '../storylines/index.html', '↗');
+  }
+  function updateChecked(){
+    var n = $('checked-note'); if (!n || !lastCheck) return;
+    n.textContent = 'Last checked ' + new Date(lastCheck).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}) + '. The app also checks when you reopen it.';
+  }
+  function openMenu(){ buildMenu(); $('drawer').classList.add('on'); $('dscrim').classList.add('on'); $('drawer').setAttribute('aria-hidden', 'false'); $('menu-btn').setAttribute('aria-expanded', 'true'); }
+  function closeMenu(){ $('drawer').classList.remove('on'); $('dscrim').classList.remove('on'); $('drawer').setAttribute('aria-hidden', 'true'); $('menu-btn').setAttribute('aria-expanded', 'false'); }
+  $('menu-btn').onclick = openMenu; $('dclose').onclick = closeMenu; $('dscrim').onclick = closeMenu;
+  // swipe the drawer left to close it
+  (function(){ var x0 = null; $('drawer').addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive: true});
+    $('drawer').addEventListener('touchend', function(e){ if (x0 !== null && x0 - e.changedTouches[0].clientX > 70) closeMenu(); x0 = null; }); })();
+  function toast(msg){ var t = $('toast'); t.textContent = msg; t.classList.add('on'); setTimeout(function(){ t.classList.remove('on'); }, 1800); }
 
   // make every card fit one screen: the image shrinks first (CSS), then trim
   // "why it matters", then the summary, then drop the image, never cutting the headline
@@ -407,7 +625,12 @@
     for (var i = 0; i < steps.length && over(); i++) steps[i]();
   }
   function fitAll(){ document.querySelectorAll('.slide .card').forEach(function(c){ if (c.querySelector('.summary')) fitCard(c); }); }
-  var fitTimer; window.addEventListener('resize', function(){ clearTimeout(fitTimer); fitTimer = setTimeout(fitAll, 120); });
+  var fitTimer, lastW = window.innerWidth, lastH = window.innerHeight;
+  window.addEventListener('resize', function(){ clearTimeout(fitTimer); fitTimer = setTimeout(function(){
+    // address-bar show/hide changes height slightly: only re-pack product pages on a real size change
+    if (Math.abs(window.innerWidth - lastW) > 40 || Math.abs(window.innerHeight - lastH) > 120) { lastW = window.innerWidth; lastH = window.innerHeight; rebuildKeepingPlace(); }
+    else fitAll();
+  }, 150); });
 
   function progress(){
     var n = slides.length;
@@ -418,10 +641,11 @@
     deck.scrollTo({top: slides[i].offsetTop, behavior: instant ? 'auto' : 'smooth'});
   }
   document.addEventListener('keydown', function(e){
+    if ($('drawer').classList.contains('on')) { if (e.key === 'Escape') closeMenu(); return; }
     if ($('sheet').classList.contains('on')) { if (e.key === 'Escape') closeSheet(); return; }
     if (e.key === 'ArrowDown' || e.key === 'j' || e.key === ' ') { e.preventDefault(); go(current + 1); }
     if (e.key === 'ArrowUp' || e.key === 'k') { e.preventDefault(); go(current - 1); }
-    if (e.key === 'Enter' && feed) { var all = feed.deck; if (all[current]) openSheet(all[current]); }
+    if (e.key === 'Enter' && feed && slideStory[current]) openSheet(slideStory[current]);
   });
 
   // ---- full-story sheet
@@ -471,7 +695,7 @@
     var url = feed.shareUrl + '#' + s.id;
     if (navigator.share) { navigator.share({title: s.headline, text: s.headline + ' — AI Daily Signal', url: url}).catch(function(){}); return; }
     (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(function(){
-      var t = $('toast'); t.classList.add('on'); setTimeout(function(){ t.classList.remove('on'); }, 1600);
+      toast('Link copied');
     }).catch(function(){ prompt('Copy this link', url); });
   }
 
