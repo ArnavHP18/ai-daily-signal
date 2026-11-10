@@ -17,6 +17,11 @@ It writes:
   editions/search-index.json every edition's stories, for archive search
   editions/cards/DATE.png    share image for the newest edition
   app/feed.json              swipe-view data for the newest edition (and editions/feeds/DATE.json)
+  storylines/                one page per storyline, plus an index
+  state/quality.json         quality log per edition (and editions/quality.html)
+Before checking it archives stale tracking items to state/archive/tracking.json and keeps the
+watchlist to 20 daily entries (site_extras.maintain_state). From 2026-11-10 it also requires
+editions/data/DATE.json, a page rendered from it, next-day follow-ups and runNotes.missing.
 and fills the byline / sister-site link slots from scripts/site_config.json.
 
 It exits non-zero if the newest edition fails a check, so the routine must not
@@ -30,6 +35,9 @@ import re
 import subprocess
 import sys
 from html.parser import HTMLParser
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import site_extras  # noqa: E402  (pipeline v4: state upkeep, data checks, storylines, quality log)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ED = os.path.join(ROOT, 'editions')
@@ -392,6 +400,7 @@ def story_feed_item(text, s, date):
         'detailHtml': re.sub(r'<p class="sowhat">.*?</p>', '', detail, flags=re.S).strip(),
         'sourcesHtml': srcs.group(0) if srcs else '',
         'url': '../editions/ai_daily_signal_%s.html#%s' % (date, s['id']),
+        'arc': s.get('arc', ''), 'storylineUrl': '../storylines/%s.html' % s.get('arc', '') if s.get('arc') else '',
         'stat': s.get('stat') or None,     # {value, label}: key number for the generated cover
         'image': s.get('image') if (s.get('image') or {}).get('url', '').startswith('https://') else None,  # {url, credit}: official source image
     }
@@ -423,6 +432,7 @@ def build_feed(date, f):
         'editionUrl': '../editions/' + f, 'archiveUrl': '../editions/index.html',
         'shareUrl': '%s/editions/%s' % (CFG['site_url'], f),
         'deck': ([lead] if lead else []) + full, 'alsoToday': also,
+        'productUpdates': (site_extras.load_data(date) or {}).get('productUpdates', []),
     }
     os.makedirs(os.path.join(ED, 'feeds'), exist_ok=True)
     data = json.dumps(feed, ensure_ascii=False, indent=1)
@@ -526,6 +536,7 @@ ARCHIVE = '''<!DOCTYPE html>
 <header><img src="../assets/logo.svg" alt=""><div><h1>AI Daily Signal</h1></div></header>
 <div class="tag">ALL %(count)s EDITIONS · NEWEST FIRST · IST · CURATED BY %(curator)s</div>
 <a class="latest" href="%(latest)s">Read the latest edition →</a>
+<div class="tag" style="margin-top:6px"><a href="../app/">📱 Swipe view</a> · <a href="../storylines/index.html">Storylines</a> · <a href="quality.html">Quality log</a></div>
 <input id="q" type="search" placeholder="Search every edition (company, model, topic…)" aria-label="Search every edition">
 <div id="qinfo"></div>
 <div id="months">
@@ -617,7 +628,9 @@ def main():
     path = os.path.join(ED, f)
     st = read_state(open(path).read()) or {}
     if st.get('format') == 'v3':
-        problems = check_edition(path)
+        if os.path.exists(STATE_FILE):
+            print('state upkeep: %s' % site_extras.maintain_state(date))
+        problems = check_edition(path) + site_extras.check_data(date, st)
         if problems:
             print('NEWEST EDITION FAILS CHECKS:', *problems, sep='\n  - ')
             sys.exit(1)
@@ -625,13 +638,17 @@ def main():
         add_swipe_link(path)
         print('checks passed: %s' % f)
         feed = build_feed(date, f)
-        print('swipe feed: app/feed.json and editions/feeds/%s.json (%d cards, %d also today)' % (date, len(feed['deck']), len(feed['alsoToday'])))
+        print('swipe feed: app/feed.json and editions/feeds/%s.json (%d cards, %d also today, %d product-update companies)' % (
+            date, len(feed['deck']), len(feed['alsoToday']), len(feed['productUpdates'])))
     if os.path.exists(STATE_FILE):
         build_review()
         print('state/REVIEW.md rebuilt')
     latest = build_archive(eds)
     build_root(latest)
     print('archive, search index and root redirect rebuilt (latest: %s)' % latest)
+    n, active = site_extras.build_storylines(eds, read_state)
+    print('storylines: %d pages (%d active) in storylines/' % (n, active))
+    print('quality log: %d editions in state/quality.json and editions/quality.html' % site_extras.update_quality(eds, read_state))
     if '--no-card' not in sys.argv and st.get('format') == 'v3':
         print('share card: %s' % build_card(date, f))
 

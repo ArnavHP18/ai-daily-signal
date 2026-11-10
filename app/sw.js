@@ -1,7 +1,7 @@
 // AI Daily Signal swipe app: offline support.
 // Network first for everything on this site (so a new edition shows as soon as it is published),
 // falling back to the last copy we saw; cache first for web fonts.
-const CACHE = 'ads-app-v1';
+const CACHE = 'ads-app-v2';
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'feed.json', 'icons/icon-180.png', 'icons/icon-192.png', '../assets/logo.svg'];
 
 self.addEventListener('install', e => {

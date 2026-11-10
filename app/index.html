@@ -103,6 +103,18 @@
 
   /* also today + end */
   .list-head{font-family:var(--serif);font-weight:800;font-size:26px;margin-bottom:4px}
+  .pu-kicker{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--muted);margin-bottom:6px}
+  .pu-list{list-style:none;margin:0 0 10px;padding:0}
+  .pu-list li{padding:9px 0;border-bottom:1px solid var(--rule);font-size:15.5px;line-height:1.45}
+  .pu-list li a{color:var(--ink);text-decoration:none}
+  .pu-list .k{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--muted);margin-right:6px;text-transform:uppercase}
+  .pu-list .n{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+  .pu-say{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;color:var(--muted);margin:6px 0 2px}
+  .follow{border:1px solid var(--rule);border-radius:999px;padding:8px 12px;font-size:13px;margin-top:10px}
+  .follow.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .badge.fol{color:var(--accent)}
+  .mine{list-style:none;text-align:left;font-size:14px}
+  .mine li{padding:6px 0;border-bottom:1px solid var(--rule)}
   .list-sub{color:var(--muted);font-size:14px;margin-bottom:10px}
   .list{overflow-y:auto;min-height:0;flex:1;border-top:1px solid var(--rule);-webkit-overflow-scrolling:touch}
   .list button{display:block;width:100%;text-align:left;padding:12px 2px;border-bottom:1px solid var(--rule)}
@@ -189,6 +201,7 @@
     m.appendChild(el('span', 'tier ' + s.tier, tierLabel(s.tier)));
     if (s.section === 'developing') m.appendChild(el('span', 'badge up', s.delta === 'escalated' ? '▲ Escalated' : 'Developing'));
     else if (s.new24h) m.appendChild(el('span', 'badge', 'New · 24h'));
+    if (s.arc && followed()[s.arc]) m.appendChild(el('span', 'badge fol', '★ Following'));
     if (s.category) m.appendChild(el('span', null, s.category));
     return m;
   }
@@ -239,6 +252,59 @@
     return slide;
   }
 
+  // ---- storylines the reader follows (kept on this device only)
+  function followed(){ try { return JSON.parse(store('ads-follow') || '{}'); } catch(e){ return {}; } }
+  function renderMine(box){
+    if (!box) return;
+    box.innerHTML = '';
+    var f = followed(), keys = Object.keys(f);
+    if (keys.length) {
+      box.appendChild(el('div', 'pu-say', 'STORYLINES YOU FOLLOW'));
+      var ul = el('ul', 'mine');
+      keys.forEach(function(k){ var li = el('li'), a = el('a'); a.href = f[k].url || ('../storylines/' + k + '.html'); a.textContent = f[k].label; li.appendChild(a); ul.appendChild(li); });
+      box.appendChild(ul);
+    } else {
+      box.appendChild(el('p', null, 'Tip: open any story and tap "Follow this storyline" to keep track of it here.'));
+    }
+  }
+  function setFollow(s, on){
+    var f = followed();
+    if (on) f[s.arc] = {label: (s.storyline || s.arc).replace(/^Storyline: /, '').replace(/ · day \d+$/, ''), url: s.storylineUrl}; else delete f[s.arc];
+    store('ads-follow', JSON.stringify(f));
+    renderMine(document.getElementById('mine-box'));
+  }
+
+  // ---- one card per company that shipped something: what shipped, then what people are saying
+  var KIND = {video: 'Video', reddit: 'Reddit', hn: 'Hacker News', news: 'Coverage', post: 'Post'};
+  function productSlide(c, i, n){
+    var slide = el('section', 'slide'); slide.id = 's-pu-' + i;
+    var card = el('div', 'card');
+    card.appendChild(el('div', 'pu-kicker', 'PRODUCT UPDATES · ' + (i + 1) + ' OF ' + n));
+    card.appendChild(el('div', 'list-head', c.company));
+    var list = el('div', 'list');
+    var ul = el('ul', 'pu-list');
+    c.updates.forEach(function(u){
+      var li = el('li'), a = el('a'); a.href = u.url; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = u.text; li.appendChild(a);
+      li.appendChild(el('span', 'n', [u.source, u.date].filter(Boolean).join(' · ')));
+      ul.appendChild(li);
+    });
+    list.appendChild(ul);
+    if (c.reactions && c.reactions.length) {
+      list.appendChild(el('div', 'pu-say', 'WHAT PEOPLE ARE SAYING'));
+      var ur = el('ul', 'pu-list');
+      c.reactions.forEach(function(r){
+        var li = el('li'), a = el('a'); a.href = r.url; a.target = '_blank'; a.rel = 'noopener';
+        li.appendChild(el('span', 'k', KIND[r.kind] || r.kind)); a.textContent = r.title; li.appendChild(a);
+        if (r.note) li.appendChild(el('span', 'n', r.note));
+        ur.appendChild(li);
+      });
+      list.appendChild(ur);
+    }
+    card.appendChild(list); slide.appendChild(card);
+    return slide;
+  }
+
   function alsoSlide(items){
     var slide = el('section', 'slide'); slide.id = 's-also';
     var c = el('div', 'card');
@@ -267,6 +333,8 @@
     var full = el('a', 'btn primary', 'Read the full edition'); full.href = feed.editionUrl; c.appendChild(full);
     var arch = el('a', 'btn', 'All editions'); arch.href = feed.archiveUrl; c.appendChild(arch);
     var top = el('button', 'btn', 'Back to the top'); top.onclick = function(){ go(0); }; c.appendChild(top);
+    var box = el('div'); box.id = 'mine-box'; c.appendChild(box); renderMine(box);
+    var sl = el('a', 'btn', 'All storylines'); sl.href = '../storylines/index.html'; c.appendChild(sl);
     c.appendChild(installTip());
     slide.appendChild(c);
     return slide;
@@ -300,6 +368,7 @@
     $('ed').appendChild(document.createTextNode(d.toLocaleDateString('en-GB', {weekday:'short', day:'numeric', month:'short'})));
     document.title = 'AI Daily Signal — ' + data.longDate;
     data.deck.forEach(function(s, i){ deck.appendChild(storySlide(s, i, i === 0)); });
+    (data.productUpdates || []).forEach(function(c, i, all){ deck.appendChild(productSlide(c, i, all.length)); });
     if (data.alsoToday && data.alsoToday.length) deck.appendChild(alsoSlide(data.alsoToday));
     deck.appendChild(endSlide());
     slides = Array.prototype.slice.call(deck.children);
@@ -371,6 +440,13 @@
     if (s.sourcesHtml) { var sr = el('div'); sr.innerHTML = s.sourcesHtml; b.appendChild(sr.firstElementChild || sr); }
     b.querySelectorAll('a[href^="http"]').forEach(function(a){ a.target = '_blank'; a.rel = 'noopener'; });
     if (s.storyline) b.appendChild(el('div', 'storyline', s.storyline));
+    if (s.arc) {
+      var on = !!followed()[s.arc];
+      var fb = el('button', 'follow' + (on ? ' on' : ''), on ? '★ Following this storyline' : '☆ Follow this storyline');
+      fb.onclick = function(){ on = !on; setFollow(s, on); fb.className = 'follow' + (on ? ' on' : ''); fb.textContent = on ? '★ Following this storyline' : '☆ Follow this storyline'; };
+      b.appendChild(fb);
+      if (s.storylineUrl) { var sl = el('a', 'storyline', 'See every story in this storyline →'); sl.href = s.storylineUrl; sl.style.display = 'block'; b.appendChild(sl); }
+    }
     var full = el('a', 'btn full', 'Open in the full edition'); full.href = s.url; b.appendChild(full);
     b.scrollTop = 0;
     $('sheet').classList.add('on'); $('scrim').classList.add('on');

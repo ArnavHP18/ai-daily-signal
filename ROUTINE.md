@@ -1,16 +1,138 @@
-# AI Daily Signal — Routine (v3)
+# AI Daily Signal — Routine (v4)
 
-This is the generation routine for "AI Daily Signal." Paste the block below into
-your run setup, replacing the previous routine. Today's date and IST timezone
-govern everything. Structure comes from `template.html`; behavior comes from this
-file.
-Where v3 (section 0.0) conflicts with anything below, v3 wins.
+This is the generation routine for "AI Daily Signal." Today's date and IST timezone
+govern everything. Design comes from `template.html` (rendered by `scripts/render.py`);
+behavior comes from this file. The scheduled-task prompt is in `ROUTINE_PROMPT.md`.
+Where v4 (section 0.00) conflicts with anything below, v4 wins; then v3 (section 0.0).
 
 ---
 
 You are generating today's edition of "AI Daily Signal", a daily AI intelligence
 briefing. Use GitHub for the template (`template.html`, v2 structure) and prior
 editions (`editions/`). Today's date and IST timezone govern everything.
+
+## 0.00 WHAT CHANGED IN v4 (read first; overrides everything below)
+Added on 10 Nov 2026 (edition 139). The reader is a tech professional anywhere in the
+world. The goal is unchanged: identify, research and explain new AI advances, plus
+what the major and niche tech companies are shipping.
+
+### The daily workflow
+1. **Collect.** `python3 scripts/collect.py` (about 1 minute). It pulls every source in
+   `config/sources.json` and every company in `config/companies.json`, and writes
+   `_working/collect/DATE/digest.md`. **Read the digest first.** It holds top stories by
+   topic, product updates per company (new official changelog entries, headline mentions,
+   and what people are saying on YouTube, Reddit and Hacker News), developer signals,
+   and "What are we missing?". Nothing in it is verified.
+2. **Search and check.** Use the 20–40 web searches for verification, the deep beat, the
+   10 tracking re-checks and the watchlist (below), not for basic discovery. Open every
+   page you cite with curl, as before.
+3. **Next-day accuracy check.** Before writing anything new, re-check every Critical and
+   Notable story in the previous edition against new reporting. Record one `followups[]`
+   entry each: `{id, label, status, note, url?}`, with `status` one of `confirmed`
+   (nothing contradicts it), `changed` (moved; say how), `corrected` (we got something
+   wrong: also add a plain sentence to `corrections[]`, shown in the footer), `unresolved`
+   (still unclear) or `quiet` (no new reporting). A story that moved materially can also
+   become a Developing card.
+4. **Write the edition as data.** Write `editions/data/DATE.json` (format below) and only
+   the bookkeeping parts of `state/signal-state.json`: tracking, watchlist, retired,
+   resolved, movers, heldBack, noChange, runNotes (including `runNotes.missing`). Do not
+   hand-write HTML pages and do not write per-day builder scripts.
+5. **Render.** `python3 scripts/render.py DATE` checks the data file, renders the page from
+   `template.html`, and writes the edition-level fields of the state file (edition, date,
+   flags, counts, tiers, stories, deadlines, arcs). Fix whatever it reports and re-run.
+6. **Build.** `python3 scripts/build_site.py` archives stale tracking items, checks the
+   edition (all v3 checks, swipe fields, data file vs page, follow-ups,
+   `runNotes.missing`, watchlist size), and rebuilds the archive, search index, share
+   card, swipe-app feed, storyline pages and quality log. **Do not commit if it fails.**
+7. Commit everything it wrote (including `state/collector-state.json`, which lets the
+   collector find only new changelog entries tomorrow), push, report.
+
+### Coverage: global, by importance
+- **Region-agnostic.** Rank by how many people must act, worldwide. There are no regional
+  quotas; the regional sources (Asia, Europe, India, Middle East, Africa, Latin America)
+  exist so important news from anywhere is found. This replaces the hotspot list and the
+  daily city-by-city jobs searches in §1.C.
+- **AI jobs and work** are a global topic: card hiring and layoff data when a real
+  release lands (e.g. Naukri JobSpeak early in the month, Indeed Hiring Lab, large
+  layoffs), not from daily searches.
+- **No maximum** on stories. The minimum is still 10 new (fewer means quiet day or
+  catch-up, §0.0.7), and every story must meet the trust rules.
+- **Categories** (tabs): `models · research · hardware · security · robotics · health ·
+  energy · enterprise · business · policy` (shown as "Policy & society": regulation,
+  labour, culture). Security, robotics, health and energy are new; use them instead of
+  forcing such stories into enterprise or policy.
+- **Deep beat:** Mon research · Tue open-source/models · Wed AI security · Thu hardware,
+  compute and energy · Fri applied AI, robotics and health · Sat work and jobs worldwide ·
+  Sun week in storylines (and the automatic "This Week in Products" roundup).
+
+### Product updates (every edition)
+- For each company in `config/companies.json` (mainstream and niche, all of its
+  technology, not only AI) that shipped something in the window, add an entry to
+  `productUpdates[]`: `{company, updates:[{text, url, date, source}], reactions:[{kind,
+  title, url, note?}]}`.
+- **updates** are what shipped: one plain line each, linked to the official changelog,
+  newsroom or release notes. A report of a launch is acceptable when no official page
+  exists (name the outlet in `source`).
+- **reactions** are what people are saying: 1–3 of the most useful YouTube videos, Reddit
+  threads and Hacker News discussions. Kinds are `video | reddit | hn | news | post`.
+  Prefer hands-on tests, comparisons and real problems over hype titles. A reaction is
+  never a fact: if it claims something (a bug, a hidden cost, a leak), say "unconfirmed"
+  in `note`, or check it and make it a story.
+- **Leave out** companies with nothing shipped. A big launch is also a story card.
+- On Sundays (or with `"weeklyRoundup": true`) the renderer adds "This Week in Products"
+  from the last seven data files automatically.
+
+### "What are we missing?" (every edition)
+The digest lists unmapped trends (topics in 3+ sources that match no company, storyline,
+watchlist entry or recent story), outlets cited often that are not in our sources, and
+companies in the news but not in our directory. Act on each one: card it, add it to
+`config/companies.json`, `config/sources.json` or the watchlist, or explain why not.
+Summarise in `runNotes.missing` (required). Remove sources that keep failing.
+
+### Tracking, watchlist and storylines
+- `build_site.py` archives tracking items with no check or movement for 14 days to
+  `state/archive/tracking.json`. Re-check the 10 oldest remaining items each run (§0.0.8).
+- The watchlist has at most **20 `cadence: "daily"`** entries, re-searched every run;
+  the rest are `"weekly"`, re-searched on Sundays. Promote or demote as activity changes.
+- Every story belongs to a storyline (`arc`). New storylines need a reader label in
+  `arcLabels` (e.g. `"chip-export-enforcement": "who can buy top AI chips"`). Each one
+  gets a page in `storylines/`, linked from every card; readers can follow storylines in
+  the swipe app.
+
+### Edition data file (`editions/data/DATE.json`)
+```jsonc
+{
+  "format": "edition-v1", "edition": 140, "date": "YYYY-MM-DD",
+  "editionType": "daily|catch-up", "degraded": false, "degradedReason": "",
+  "sourcesOpened": 30, "scanCount": 28, "shareable": true, "shareBlockers": [],
+  "lead": "story-id",                       // a new story, or a Developing one with a major escalation
+  "leadRef": "one line for the 'see above' row",
+  "description": "meta description, one or two sentences",
+  "thirtySecond": [ {"id": "story-id", "h": "3-6 words", "p": "one sentence"} ],   // exactly 3, never the lead or a rumour
+  "footerNote": "the deep beat in a sentence or two",
+  "arcLabels": { "new-arc-id": "reader label" },
+  "deadlines": [ {"date": "YYYY-MM-DD", "label": "...", "severity": "high|medium|low"} ],
+  "stories": [ {
+    "id": "kebab-id", "section": "new|developing", "tier": "critical|notable|monitor", "impact": 7,
+    "delta": "new|escalated|deescalated|carry", "update": "what changed (developing only)",
+    "arc": "arc-id", "arcDay": 1, "confidence": "Primary|2x src|Agg 1x|Rumor-flag", "verified": "opened|snippet",
+    "new24h": true, "firstSeen": "YYYY-MM-DD", "category": "one of the 10 categories",
+    "title": "one-sentence summary (state file and search)",
+    "h": "card headline", "sub": "one sub-line (required for the lead)",
+    "cat": "Models · open models · 9 Nov", "tickerKey": "SHORT KEY", "ticker": "ticker line ('' for rumours)",
+    "body": "<p class=\"dek\">...</p><p class=\"sowhat\">So what: ...</p>",   // allowed tags: p div strong em b i code a span br ul ol li
+    "chip": "what we checked, in plain words",
+    "src": [ ["OFFICIAL", [["label", "https://..."]]], ["REPORTING", [...]], ["OTHER", [...]], ["AGGREGATOR", [...]] ],
+    "brief": "<p>...</p>", "facts": [["What", "..."]], "impactWho": "...",     // the lead only
+    "short": "35-60 word card summary", "stat": {"value": "-4.27%", "label": "..."},
+    "image": {"url": "https://official-source/og-image.png", "credit": "Nvidia"}  // swipe fields, §16a
+  } ],
+  "productUpdates": [ ... ], "followups": [ ... ], "corrections": [ "..." ]
+}
+```
+Order stories with section `new` first (in rank order), then `developing`. The renderer
+numbers them, places the lead in the hero, gives the next two new stories large cards and
+everything else compact rows, and omits Developing when there is none.
 
 ## 0.0 WHAT CHANGED IN v3 (read first; overrides everything below)
 Added after edition 127, where no source page could be opened, the first build led
@@ -102,7 +224,7 @@ with company-only claims and listed a real Node.js CVE as a rumour.
 16. Omit the Developing section when no carried story moved.
 16a. **Swipe view (`app/`).** Phones can read each edition one story per screen. The deck is
     the lead, then every Critical and Notable story; Monitor stories and all rumours go in an
-    "Also today" list. For every deck story, write in both the state file and `page-data`:
+    "Also today" list. For every deck story, write in the data file (v4; `render.py` copies them to the state file and `page-data`):
     - `short`: a plain-text summary of at most 60 words, written for the card (the key fact,
       the number that matters, and what is unconfirmed). Without it the build cuts the
       card's first paragraph, which reads worse.
@@ -118,7 +240,7 @@ with company-only claims and listed a real Node.js CVE as a rumour.
     the state file.
 
 ### Ship
-17. After saving the edition and the state file, run `python3 scripts/build_site.py`. It checks the
+17. (v4: run `python3 scripts/render.py DATE` first; see §0.00.) Then run `python3 scripts/build_site.py`. It checks the
     newest edition (JSON, tags, cards vs state, counts, tiers, headline length, rumour
     and sharing rules, swipe-card fields; page and state file describe the same edition) and rebuilds
     `state/REVIEW.md`, the archive (months, missed dates, search), the

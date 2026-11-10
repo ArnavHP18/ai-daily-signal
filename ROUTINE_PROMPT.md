@@ -4,60 +4,73 @@ Paste the block below into the scheduled task. It replaces the previous prompt.
 The detailed rules live in `ROUTINE.md`; this prompt points the run at them.
 
 ```
-Generate today's edition of "AI Daily Signal". Follow ROUTINE.md (v3) in the
-arnavhp18/ai-daily-signal repo exactly; where section 0.0 conflicts with older
-sections, 0.0 wins. Today's date and IST govern.
+Generate today's edition of "AI Daily Signal". Follow ROUTINE.md (v4) in the
+arnavhp18/ai-daily-signal repo exactly; section 0.00 (v4) overrides 0.0 (v3),
+which overrides older sections. Today's date and IST govern. The reader is a
+tech professional anywhere in the world: rank news by importance, not region.
 
-Start: read state/signal-state.json (the prior state; not the edition pages) and
-state/REVIEW.md (the next 10 tracked items due for re-check). Use template.html
-(v3) for structure.
+Workflow (ROUTINE.md §0.00):
+1. Run python3 scripts/collect.py and read _working/collect/DATE/digest.md
+   first: top stories by topic, product updates per company (official
+   changelog entries, mentions, and what people are saying on YouTube, Reddit
+   and Hacker News), developer signals, and "What are we missing?".
+2. Read state/signal-state.json (prior state) and state/REVIEW.md (the next 10
+   tracked items due for re-check).
+3. Next-day accuracy check: re-check every Critical and Notable story from the
+   previous edition; write one followups[] entry each (confirmed / changed /
+   corrected / unresolved / quiet, with a note). Anything corrected also goes
+   in corrections[] (shown in the footer).
+4. 20–40 web searches for verification, the day's deep beat, the 10 tracking
+   re-checks and the watchlist (the 20 "daily" entries every run; "weekly"
+   ones on Sundays). Include emerging-tech searches (new model types, non-LLM
+   approaches, OpenRouter, Hacker News, Hugging Face).
+5. Open sources with curl: at minimum the lead's primary source and one source
+   per Critical/Notable story. Count them in sourcesOpened. Check the easy
+   facts (CVEs on the vendor page or NVD, model details on the Hugging Face
+   card, funding on the company's post). Never fabricate URLs, quotes,
+   numbers or image links.
+6. Write editions/data/DATE.json (format in ROUTINE.md §0.00) and only the
+   bookkeeping parts of state/signal-state.json (tracking, watchlist, retired,
+   resolved, movers, heldBack, noChange, runNotes including runNotes.missing).
+   Do not hand-write HTML.
+7. python3 scripts/render.py DATE, then python3 scripts/build_site.py. Fix
+   anything either reports and run them again. Do not commit if the build
+   fails.
+8. Commit everything (including state/collector-state.json) to main as
+   "AI Daily Signal: edition NNN (YYYY-MM-DD)" and push.
 
-Hard requirements:
-- 20–40 web searches, split evenly across Models & tech / Applied AI / People &
-  policy, with the day's deep beat. Include the mandatory emerging-tech searches
-  (new model types, non-LLM approaches, OpenRouter, Hacker News, X, new Hugging
-  Face uploads) and re-search every watchlist entry.
-- Open sources with curl in Bash: at minimum the lead's primary source and one
-  source per Critical/Notable story. Count them in sourcesOpened. Check the easy
-  facts (CVEs on the vendor page or NVD, model details on the Hugging Face card,
-  funding on the company's post). Never fabricate URLs, quotes or numbers.
-- If fewer than half of Critical/Notable stories could be checked, mark the
-  edition degraded. If nothing could be opened, ship only officially confirmed
-  stories, or skip the day and say why.
-- Re-search the 10 tracked items with the oldest lastChecked; update, resolve or
-  retire each one.
-- Before labelling anything single-source or retiring it, re-search its name and
-  its flagship product. Score funding items on the product, not the round.
-- Target ≥10 new stories; if fewer than 5 broke in the last 48h, mark it a
-  catch-up edition (nothing older than 30 days); never pad with old carries.
-  NEW IN 24H only for stories that broke within 24h.
-- Rumours: dashed, muted card; "Unconfirmed" marker; never in the ticker, hero
-  or 30-second read. Set shareable=true only if the edition is not degraded and
-  the lead was checked on an opened primary source.
-- Swipe view (ROUTINE.md §16a): for the lead and every Critical and Notable
-  story that is not a rumour, write in BOTH state/signal-state.json and the
-  page's page-data:
-    - "short": a plain-text card summary, 35–60 words, written for the card
-      (the key fact, the number that matters, what is unconfirmed);
-    - "stat": {"value", "label"} — the one key number for the card cover,
-      value at most 9 characters (e.g. "-4.27%", "$0.10", "1.7 GW");
-    - "image" (optional): {"url", "credit"} — only the og:image of the story's
-      OFFICIAL source page you opened, credited to that source. Never use news
-      outlets' or agencies' photos, never guess an image URL, and never give a
-      rumour an image.
-  Monitor stories and rumours need none of these; they go in the app's
-  "Also today" list.
-- Write the full state (tracking, watchlist, movers, resolved, retired,
-  heldBack, noChange, runNotes) to state/signal-state.json. The page embeds
-  only the page-data subset and shows reader content only.
-- Save editions/ai_daily_signal_YYYY-MM-DD.html, then run
-  python3 scripts/build_site.py. It checks the edition (including the swipe
-  fields above) and writes the archive, share card and swipe-view feeds
-  (app/feed.json, editions/feeds/DATE.json). Do not commit if it fails; fix
-  what it reports and run it again. Commit everything to main as
-  "AI Daily Signal: edition NNN (YYYY-MM-DD)" and push.
-- Report: edition number, counts and tiers, sources opened, degraded or
-  catch-up status, shareable, swipe deck size (cards and "Also today" items),
-  what's new / escalated / resolved / retired, emerging-tech and watchlist
-  movement, and scan gaps.
+Content rules:
+- At least 10 new stories, no maximum; if fewer than 5 broke in the last 48h,
+  mark it a catch-up edition (nothing older than 30 days); never pad with old
+  carries. NEW IN 24H only for stories that broke within 24h.
+- Categories: models, research, hardware, security, robotics, health, energy,
+  enterprise, business, policy (policy & society).
+- If fewer than half of Critical/Notable stories could be checked on an opened
+  page, mark the edition degraded. If nothing could be opened, ship only
+  officially confirmed stories, or skip the day and say why.
+- Before labelling anything single-source or retiring it, re-search its name
+  and its flagship product. Score funding items on the product, not the round.
+- Rumours: Rumor-flag (dashed card, "Unconfirmed"); never the lead, ticker,
+  30-second read, swipe deck or an image. shareable=true only if the edition
+  is not degraded and the lead was checked on an opened primary source.
+- Product updates: for every company in config/companies.json (mainstream and
+  niche, all of its technology) that shipped something, list what shipped
+  (linked to the official changelog or newsroom) and 1–3 of the most useful
+  reactions (videos, Reddit, Hacker News), labelled as reactions, never as
+  facts. Leave out companies with nothing shipped.
+- What are we missing: act on every unmapped trend, suggested source and
+  missing company in the digest (card it, add it to config/companies.json,
+  config/sources.json or the watchlist, or say why not) and summarise in
+  runNotes.missing.
+- Swipe view: for the lead and every Critical and Notable story that is not a
+  rumour, write "short" (35–60 plain words), "stat" {value ≤ 9 characters,
+  label} and, only from the story's opened OFFICIAL source page, an optional
+  "image" {url, credit}.
+- New storylines need a reader label in arcLabels.
+
+Report: edition number, counts and tiers, sources opened, degraded or
+catch-up status, shareable, swipe deck size, product-update companies,
+follow-up results (confirmed / changed / corrected), what's new / escalated /
+resolved / retired, what the "what are we missing" check found and what you
+did, emerging-tech and watchlist movement, and scan gaps.
 ```
