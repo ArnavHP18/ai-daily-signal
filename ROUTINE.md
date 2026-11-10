@@ -100,13 +100,26 @@ with company-only claims and listed a real Node.js CVE as a rumour.
     A short public correction line goes in the page footer only when an edition is
     republished with a changed claim.
 16. Omit the Developing section when no carried story moved.
+16a. **Swipe view (`app/`).** Phones can read each edition one story per screen. The deck is
+    the lead, then every Critical and Notable story; Monitor stories and all rumours go in an
+    "Also today" list. For every deck story, write in both the state file and `page-data`:
+    - `short`: a plain-text summary of at most 60 words, written for the card (the key fact,
+      the number that matters, and what is unconfirmed). Without it the build cuts the
+      card's first paragraph, which reads worse.
+    - `stat`: `{ "value": "-4.27%", "label": "Nvidia shares on Monday" }`, the one number
+      the generated cover shows (keep the value to about 7 characters).
+    - `image` (optional): `{ "url": "https://…", "credit": "Anthropic" }`, only the share
+      image (og:image) of the story's OFFICIAL source page you opened. Never use news
+      outlets' or agencies' photos, and never guess a URL. With no image, the card shows
+      the generated `stat` cover.
 
 ### Ship
 17. After saving the edition and the state file, run `python3 scripts/build_site.py`. It checks the
     newest edition (JSON, tags, cards vs state, counts, tiers, headline length, rumour
     and sharing rules; page and state file describe the same edition) and rebuilds
     `state/REVIEW.md`, the archive (months, missed dates, search), the
-    search index, the root redirect and the 1200×630 share card. **Do not commit if
+    search index, the root redirect, the 1200×630 share card, and the swipe-view feeds
+    (`app/feed.json` and `editions/feeds/DATE.json`). **Do not commit if
     it fails.** Commit everything it wrote together with the edition.
 
 ## 0. WHAT CHANGED IN v2
@@ -322,7 +335,10 @@ Never invent stories, quotes, numbers, or links.
       "new24h": true,
       "update": "what changed (developing only)",
       "firstSeen": "YYYY-MM-DD", "lastUpdate": "YYYY-MM-DD",
-      "category": "models|business|policy|enterprise|research|hardware"
+      "category": "models|business|policy|enterprise|research|hardware",
+      // swipe view (§16a), deck stories only:
+      "short": "<=60-word card summary", "stat": { "value": "65", "label": "..." },
+      "image": { "url": "https://official-source/og-image.png", "credit": "Anthropic" }
     }
   ],
   "tracking": [ { "id": "...", "label": "one-liner (no movement)", "arc": "...", "arcDay": 4,

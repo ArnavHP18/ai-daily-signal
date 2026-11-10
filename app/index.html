@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<!--
+  AI Daily Signal — swipe view (installable web app).
+  Static shell: reads feed.json (newest edition) or ../editions/feeds/DATE.json (?date=YYYY-MM-DD),
+  both written by scripts/build_site.py. One story per screen; swipe up for the next.
+  The full edition pages are unchanged; every card links back to its story there.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI Daily Signal — Swipe</title>
+<meta name="description" content="Today's AI Daily Signal, one story per screen. Swipe up for the next.">
+<meta name="theme-color" content="#16140f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AI Signal">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac; --muted:#6b6353;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93; --why:#eef3ea;
+    --t-official:#2e7d4f; --t-multi:#1f3a93; --t-single:#a86b00; --t-rumor:#b3261e;
+    --mono:'IBM Plex Mono',ui-monospace,monospace; --serif:'Fraunces',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+    --top:calc(env(safe-area-inset-top,0px) + 58px); --bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#efe9dc; --paper:#15130f; --paper2:#211e18; --rule:#3a352b; --muted:#a49a86;
+      --crit:#ef6b5f; --note:#d9b54a; --mon:#8fb8a2; --accent:#8fa8f0; --why:#1f2a22;
+      --t-official:#6cc08f; --t-multi:#8fa8f0; --t-single:#e0a64a; --t-rumor:#ef6b5f;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#efe9dc; --paper:#15130f; --paper2:#211e18; --rule:#3a352b; --muted:#a49a86;
+    --crit:#ef6b5f; --note:#d9b54a; --mon:#8fb8a2; --accent:#8fa8f0; --why:#1f2a22;
+    --t-official:#6cc08f; --t-multi:#8fa8f0; --t-single:#e0a64a; --t-rumor:#ef6b5f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-text-size-adjust:100%}
+  body{overflow:hidden;overscroll-behavior:none}
+  a{color:var(--accent)}
+  button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+
+  /* top bar: brand, edition, progress */
+  .bar{position:fixed;inset:0 0 auto 0;z-index:5;background:var(--paper);padding:calc(env(safe-area-inset-top,0px) + 10px) 16px 0;border-bottom:1px solid var(--rule)}
+  .bar-row{display:flex;align-items:center;gap:10px;max-width:560px;margin:0 auto;height:38px}
+  .bar img{width:26px;height:26px;border-radius:6px}
+  .bar .name{font-family:var(--serif);font-weight:800;font-size:17px;letter-spacing:-.3px;text-transform:uppercase}
+  .bar .ed{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.5px;text-align:right;line-height:1.3}
+  .progress{height:3px;background:var(--paper2);max-width:560px;margin:0 auto 0}
+  .progress i{display:block;height:100%;width:0;background:var(--crit);transition:width .25s}
+
+  /* the deck: one slide per screen, snap on swipe */
+  .deck{position:fixed;inset:0;overflow-y:auto;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  .slide{height:100vh;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;padding:calc(var(--top) + 14px) 18px calc(var(--bottom) + 18px);display:flex}
+  .card{max-width:560px;width:100%;margin:0 auto;display:flex;flex-direction:column;min-height:0;position:relative;overflow:hidden}
+  /* cover: official source image, or a generated key-number panel */
+  .cover{position:relative;flex:0 1 min(26vh,210px);min-height:64px;border-radius:12px;overflow:hidden;margin-bottom:14px;background:var(--paper2)}
+  .cover img{width:100%;height:100%;object-fit:cover;display:block}
+  .cover .credit{position:absolute;right:8px;bottom:6px;font-family:var(--mono);font-size:10px;letter-spacing:.5px;color:#fff;background:rgba(0,0,0,.5);padding:2px 6px;border-radius:3px}
+  .cover.gen{display:flex;flex-direction:column;justify-content:center;padding:16px 18px;color:#fff}
+  .cover.gen.critical{background:linear-gradient(135deg,#7a1a14,#b3261e 60%,#d9553f)}
+  .cover.gen.notable{background:linear-gradient(135deg,#4f3e00,#8a6d00 60%,#c19a1e)}
+  .cover.gen.monitor{background:linear-gradient(135deg,#1f3027,#3d5a4c 60%,#5f8572)}
+  .cover.gen::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 2px,transparent 2px 18px);pointer-events:none}
+  .cover .bars{position:absolute;right:16px;top:14px;display:flex;align-items:flex-end;gap:5px;opacity:.55}
+  .cover .bars i{display:block;width:9px;background:#f5f1e8;border-radius:2px}
+  .cover .val{font-family:var(--serif);font-weight:800;font-size:clamp(34px,11vw,54px);line-height:1;letter-spacing:-1px;position:relative}
+  .cover .lab{font-family:var(--mono);font-size:11.5px;letter-spacing:.6px;margin-top:6px;opacity:.92;position:relative}
+  @media (max-height:760px){ .summary{font-size:16px} .why{font-size:14px} h2{font-size:23px;margin:10px 0 8px} .hint{display:none} }
+  .sheet .cover{flex:none;height:180px;margin-top:6px}
+  .card>*:not(.cover):not(.actions){flex-shrink:0}
+  .meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
+  .tier{color:#fff;padding:3px 8px;border-radius:3px;font-weight:600}
+  .tier.critical{background:var(--crit)} .tier.notable{background:var(--note)} .tier.monitor{background:var(--mon)}
+  .badge{border:1px solid currentColor;padding:2px 7px;border-radius:3px}
+  .badge.up{color:var(--crit)}
+  h2{font-family:var(--serif);font-weight:800;font-size:clamp(23px,6.6vw,31px);line-height:1.12;letter-spacing:-.4px;margin:14px 0 12px}
+  .lead-tag{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--crit);font-weight:600;margin-top:12px}
+  .summary{font-size:clamp(16px,4.4vw,18px);line-height:1.55;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:9}
+  .changed{font-size:14px;line-height:1.45;border-left:3px solid var(--crit);padding:6px 10px;margin-bottom:10px;background:var(--paper2)}
+  .changed b{font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--crit);margin-right:4px}
+  .why{margin-top:14px;background:var(--why);border-left:3px solid var(--mon);padding:10px 12px;font-size:14.5px;line-height:1.5}
+  .why .wt{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4}
+  .why b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--mon);margin-bottom:3px}
+  .trust{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11.5px;margin-top:12px}
+  .trust::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+  .trust.official{color:var(--t-official)} .trust.multi{color:var(--t-multi)} .trust.single{color:var(--t-single)} .trust.rumor{color:var(--t-rumor)}
+  .checked{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}
+  .actions{margin-top:auto;padding-top:14px;display:flex;gap:10px;align-items:center}
+  .more{flex:1;border:1px solid var(--ink);border-radius:999px;padding:11px 14px;font-weight:600;font-size:14px;text-align:center}
+  .share{border:1px solid var(--rule);border-radius:999px;padding:11px 14px;font-size:14px}
+  .hint{text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--muted);margin-top:10px;animation:nudge 1.8s ease-in-out infinite}
+  @keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  .degraded{background:#fff1c7;color:#5a4300;border:1px solid #d99a00;border-radius:6px;padding:8px 10px;font-size:13px;margin-bottom:10px}
+
+  /* also today + end */
+  .list-head{font-family:var(--serif);font-weight:800;font-size:26px;margin-bottom:4px}
+  .list-sub{color:var(--muted);font-size:14px;margin-bottom:10px}
+  .list{overflow-y:auto;min-height:0;flex:1;border-top:1px solid var(--rule);-webkit-overflow-scrolling:touch}
+  .list button{display:block;width:100%;text-align:left;padding:12px 2px;border-bottom:1px solid var(--rule)}
+  .list .lh{font-family:var(--serif);font-weight:600;font-size:17px;line-height:1.3;margin-top:4px}
+  .list .rumor .lh{color:var(--muted)}
+  .list .rumor{border-left:2px dashed var(--t-rumor);padding-left:10px}
+  .end{justify-content:center;text-align:center;gap:14px}
+  .end h2{margin:0}
+  .end p{color:var(--muted);line-height:1.5}
+  .btn{display:block;border:1px solid var(--ink);border-radius:999px;padding:12px;font-weight:600;text-decoration:none;color:var(--ink)}
+  .btn.primary{background:var(--ink);color:var(--paper)}
+  .install{border:1px dashed var(--rule);border-radius:10px;padding:12px;font-size:14px;line-height:1.5;color:var(--ink);text-align:left}
+  .install[hidden]{display:none}
+
+  /* rumour cards (never in the deck, but styled if opened) */
+  .rumor-note{font-family:var(--mono);font-size:11px;color:var(--t-rumor);letter-spacing:1px}
+
+  /* bottom sheet: full story */
+  .scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9;opacity:0;pointer-events:none;transition:opacity .2s}
+  .scrim.on{opacity:1;pointer-events:auto}
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:10;max-height:90dvh;max-height:90vh;background:var(--paper);border-radius:16px 16px 0 0;transform:translateY(105%);transition:transform .25s ease;display:flex;flex-direction:column;max-width:640px;margin:0 auto}
+  .sheet.on{transform:none}
+  .grab{padding:10px 0 4px;display:flex;justify-content:center;align-items:center;position:relative;touch-action:none}
+  .grab::before{content:"";width:40px;height:5px;border-radius:3px;background:var(--rule)}
+  .close{position:absolute;right:12px;top:6px;font-size:22px;line-height:1;padding:4px 8px;color:var(--muted)}
+  .sheet-body{overflow-y:auto;padding:4px 20px calc(var(--bottom) + 24px);-webkit-overflow-scrolling:touch}
+  .sheet h3{font-family:var(--serif);font-weight:800;font-size:24px;line-height:1.15;margin:10px 0 6px}
+  .sheet .sub{color:var(--muted);margin-bottom:10px}
+  .sheet .detail p,.sheet .detail div{font-size:16px;line-height:1.6;margin-bottom:12px}
+  .sheet .src{margin-top:12px;font-size:13.5px;line-height:1.7;border-top:1px solid var(--rule);padding-top:10px}
+  .sheet .src .grp{display:block}
+  .sheet .src .st{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;color:var(--muted);margin-right:8px}
+  .sheet .storyline{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:10px}
+  .sheet .full{margin-top:16px}
+
+  .toast{position:fixed;left:50%;bottom:calc(var(--bottom) + 24px);transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:999px;font-size:13px;opacity:0;transition:opacity .2s;z-index:20;pointer-events:none}
+  .toast.on{opacity:1}
+  .status{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;color:var(--muted)}
+  @media (min-width:700px){ .slide{padding-left:24px;padding-right:24px} }
+  @media (prefers-reduced-motion: reduce){ .hint{animation:none} .sheet,.scrim,.progress i{transition:none} }
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="bar-row">
+    <img src="../assets/logo.svg" alt="">
+    <span class="name">AI Daily Signal</span>
+    <span class="ed" id="ed"></span>
+  </div>
+  <div class="progress"><i id="prog"></i></div>
+</header>
+
+<main class="deck" id="deck" aria-live="polite"></main>
+<div class="status" id="status">Loading today's edition…</div>
+
+<div class="scrim" id="scrim"></div>
+<section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Full story">
+  <div class="grab" id="grab"><button class="close" id="close" aria-label="Close">×</button></div>
+  <div class="sheet-body" id="sheet-body"></div>
+</section>
+<div class="toast" id="toast">Link copied</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var deck = $('deck'), feed = null, slides = [], current = 0;
+
+  function store(k, v){ try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(e){ return null; } }
+  function el(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function tierLabel(t){ return {critical:'Critical', notable:'Notable', monitor:'Monitor'}[t] || t; }
+
+  var params = new URLSearchParams(location.search);
+  var date = params.get('date');
+  var src = date && /^\d{4}-\d{2}-\d{2}$/.test(date) ? '../editions/feeds/' + date + '.json' : 'feed.json';
+
+  fetch(src, {cache: 'no-cache'}).then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(render)
+    .catch(function(){
+      $('status').innerHTML = 'Could not load the edition. <br><a href="../">Open the full site</a>';
+    });
+
+  function metaRow(s){
+    var m = el('div', 'meta');
+    m.appendChild(el('span', 'tier ' + s.tier, tierLabel(s.tier)));
+    if (s.section === 'developing') m.appendChild(el('span', 'badge up', s.delta === 'escalated' ? '▲ Escalated' : 'Developing'));
+    else if (s.new24h) m.appendChild(el('span', 'badge', 'New · 24h'));
+    if (s.category) m.appendChild(el('span', null, s.category));
+    return m;
+  }
+
+  // cover: the official source's image with a credit; if there is none (or it fails to load),
+  // a generated panel in the tier colour showing the story's key number
+  function genCover(s){
+    var g = el('div', 'cover gen ' + s.tier);
+    var bars = el('div', 'bars'); [18, 30, 42].forEach(function(h){ var b = el('i'); b.style.height = h + 'px'; bars.appendChild(b); });
+    g.appendChild(bars);
+    g.appendChild(el('div', 'val', s.stat ? s.stat.value : (s.category || 'AI').toUpperCase()));
+    g.appendChild(el('div', 'lab', s.stat ? s.stat.label : (s.trustLabel || '')));
+    g.setAttribute('aria-hidden', 'true');
+    return g;
+  }
+  function cover(s){
+    if (!s.image || !s.image.url) return genCover(s);
+    var c = el('div', 'cover'), img = el('img');
+    img.src = s.image.url; img.alt = ''; img.loading = 'lazy'; img.decoding = 'async'; img.referrerPolicy = 'no-referrer';
+    img.onerror = function(){ c.replaceWith(genCover(s)); };
+    c.appendChild(img);
+    if (s.image.credit) c.appendChild(el('span', 'credit', 'Image: ' + s.image.credit));
+    return c;
+  }
+
+  function storySlide(s, i, isLead){
+    var slide = el('section', 'slide'); slide.id = 's-' + s.id;
+    var c = el('article', 'card');
+    if (i === 0 && feed.degraded) c.appendChild(el('div', 'degraded', 'Degraded edition: ' + (feed.degradedReason || 'fewer sources could be checked today.')));
+    c.appendChild(cover(s));
+    c.appendChild(metaRow(s));
+    if (isLead) c.appendChild(el('div', 'lead-tag', "TODAY'S LEAD"));
+    c.appendChild(el('h2', null, s.headline));
+    if (s.section === 'developing' && s.update && !isLead) {
+      var ch = el('div', 'changed'); ch.appendChild(el('b', null, 'WHAT CHANGED')); ch.appendChild(document.createTextNode(s.update)); c.appendChild(ch);
+    }
+    c.appendChild(el('p', 'summary', s.summary));
+    if (s.whyItMatters) { var w = el('div', 'why'); w.appendChild(el('b', null, 'WHY IT MATTERS')); w.appendChild(el('div', 'wt', s.whyItMatters)); c.appendChild(w); }
+    c.appendChild(el('span', 'trust ' + s.trust, s.trustLabel));
+    var a = el('div', 'actions');
+    var more = el('button', 'more', 'Full story ↑'); more.onclick = function(){ openSheet(s); };
+    var sh = el('button', 'share', 'Share'); sh.setAttribute('aria-label', 'Share this story'); sh.onclick = function(){ share(s); };
+    a.appendChild(more); a.appendChild(sh); c.appendChild(a);
+    if (i === 0) c.appendChild(el('div', 'hint', 'SWIPE UP FOR THE NEXT STORY'));
+    slide.appendChild(c);
+    // tap on the card body (not buttons) also opens the full story
+    c.addEventListener('click', function(e){ if (!e.target.closest('button,a')) openSheet(s); });
+    return slide;
+  }
+
+  function alsoSlide(items){
+    var slide = el('section', 'slide'); slide.id = 's-also';
+    var c = el('div', 'card');
+    c.appendChild(el('div', 'list-head', 'Also today'));
+    c.appendChild(el('div', 'list-sub', items.length + ' smaller stories. Tap one to read it.'));
+    var list = el('div', 'list');
+    items.forEach(function(s){
+      var b = el('button', s.rumor ? 'rumor' : null);
+      var m = el('div', 'meta');
+      if (s.rumor) m.appendChild(el('span', 'rumor-note', 'UNCONFIRMED'));
+      else m.appendChild(el('span', null, tierLabel(s.tier)));
+      if (s.category) m.appendChild(el('span', null, '· ' + s.category));
+      b.appendChild(m); b.appendChild(el('div', 'lh', s.headline));
+      b.onclick = function(){ openSheet(s); };
+      list.appendChild(b);
+    });
+    c.appendChild(list); slide.appendChild(c);
+    return slide;
+  }
+
+  function endSlide(){
+    var slide = el('section', 'slide'); slide.id = 's-end';
+    var c = el('div', 'card end');
+    c.appendChild(el('h2', null, "You're caught up"));
+    c.appendChild(el('p', null, 'Edition ' + feed.edition + ' · ' + feed.longDate + '. ' + (feed.sourcesOpened ? feed.sourcesOpened + ' sources opened and checked.' : '')));
+    var full = el('a', 'btn primary', 'Read the full edition'); full.href = feed.editionUrl; c.appendChild(full);
+    var arch = el('a', 'btn', 'All editions'); arch.href = feed.archiveUrl; c.appendChild(arch);
+    var top = el('button', 'btn', 'Back to the top'); top.onclick = function(){ go(0); }; c.appendChild(top);
+    c.appendChild(installTip());
+    slide.appendChild(c);
+    return slide;
+  }
+
+  // install help: iOS has no install prompt, so explain Add to Home Screen; Android/desktop get a button
+  var deferredPrompt = null;
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferredPrompt = e; var b = $('install-btn'); if (b) b.hidden = false; });
+  function installTip(){
+    var box = el('div', 'install'); box.id = 'install';
+    var standalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+    if (standalone) { box.hidden = true; return box; }
+    var ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (ios) {
+      box.innerHTML = '<b>Get it on your home screen:</b> tap the Share button (the square with an arrow) in Safari, then <b>Add to Home Screen</b>. It opens full-screen like an app and works offline.';
+    } else {
+      box.appendChild(el('div', null, 'Install AI Daily Signal as an app on this device.'));
+      var b = el('button', 'btn', 'Install app'); b.id = 'install-btn'; b.style.marginTop = '8px'; b.hidden = !deferredPrompt;
+      b.onclick = function(){ if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; b.hidden = true; } };
+      box.appendChild(b);
+    }
+    return box;
+  }
+
+  function render(data){
+    feed = data;
+    $('status').remove();
+    var d = new Date(data.date + 'T00:00:00');
+    $('ed').innerHTML = '';
+    $('ed').appendChild(document.createTextNode('Edition ' + data.edition)); $('ed').appendChild(el('br'));
+    $('ed').appendChild(document.createTextNode(d.toLocaleDateString('en-GB', {weekday:'short', day:'numeric', month:'short'})));
+    document.title = 'AI Daily Signal — ' + data.longDate;
+    data.deck.forEach(function(s, i){ deck.appendChild(storySlide(s, i, i === 0)); });
+    if (data.alsoToday && data.alsoToday.length) deck.appendChild(alsoSlide(data.alsoToday));
+    deck.appendChild(endSlide());
+    slides = Array.prototype.slice.call(deck.children);
+    fitAll();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
+    deck.querySelectorAll('.cover img').forEach(function(img){ img.addEventListener('load', fitAll); });
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting) { current = slides.indexOf(e.target); progress(); } });
+    }, {root: deck, threshold: 0.6});
+    slides.forEach(function(s){ io.observe(s); });
+    progress();
+    // resume where the reader left off for this edition
+    var key = 'ads-pos-' + data.date, saved = parseInt(store(key) || '0', 10);
+    var hash = location.hash.slice(1);
+    var target = hash ? slides.findIndex(function(s){ return s.id === 's-' + hash; }) : saved;
+    if (target > 0) requestAnimationFrame(function(){ go(target, true); });
+    deck.addEventListener('scroll', function(){ store(key, String(current)); }, {passive: true});
+  }
+
+  // make every card fit one screen: the image shrinks first (CSS), then trim
+  // "why it matters", then the summary, then drop the image, never cutting the headline
+  function fitCard(card){
+    var sum = card.querySelector('.summary'), why = card.querySelector('.why'), wt = card.querySelector('.why .wt'),
+        cov = card.querySelector('.cover'), extra = card.querySelectorAll('.changed, .lead-tag, .hint');
+    if (sum) sum.style.webkitLineClamp = '';
+    if (wt) wt.style.webkitLineClamp = '';
+    [why, cov].concat(Array.prototype.slice.call(extra)).forEach(function(x){ if (x) x.style.display = ''; });
+    function over(){ return card.scrollHeight > card.clientHeight + 1; }
+    function hide(x){ return function(){ if (x) x.style.display = 'none'; }; }
+    function clamp(x, n){ return function(){ if (x) x.style.webkitLineClamp = n; }; }
+    // order: keep the summary longest; the image is the last thing to go
+    var steps = [clamp(wt, 3), clamp(wt, 2), hide(why), clamp(sum, 8), clamp(sum, 7), clamp(sum, 6),
+                 hide(cov), clamp(sum, 5)];
+    Array.prototype.forEach.call(extra, function(x){ steps.push(hide(x)); });
+    steps.push(clamp(sum, 4), clamp(sum, 3));
+    for (var i = 0; i < steps.length && over(); i++) steps[i]();
+  }
+  function fitAll(){ document.querySelectorAll('.slide .card').forEach(function(c){ if (c.querySelector('.summary')) fitCard(c); }); }
+  var fitTimer; window.addEventListener('resize', function(){ clearTimeout(fitTimer); fitTimer = setTimeout(fitAll, 120); });
+
+  function progress(){
+    var n = slides.length;
+    $('prog').style.width = (n ? ((current + 1) / n) * 100 : 0) + '%';
+  }
+  function go(i, instant){
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    deck.scrollTo({top: slides[i].offsetTop, behavior: instant ? 'auto' : 'smooth'});
+  }
+  document.addEventListener('keydown', function(e){
+    if ($('sheet').classList.contains('on')) { if (e.key === 'Escape') closeSheet(); return; }
+    if (e.key === 'ArrowDown' || e.key === 'j' || e.key === ' ') { e.preventDefault(); go(current + 1); }
+    if (e.key === 'ArrowUp' || e.key === 'k') { e.preventDefault(); go(current - 1); }
+    if (e.key === 'Enter' && feed) { var all = feed.deck; if (all[current]) openSheet(all[current]); }
+  });
+
+  // ---- full-story sheet
+  function openSheet(s){
+    var b = $('sheet-body'); b.innerHTML = '';
+    if (!s.rumor) b.appendChild(cover(s));
+    b.appendChild(metaRow(s));
+    if (s.rumor) b.appendChild(el('div', 'rumor-note', 'UNCONFIRMED · treat as a claim, not a finding'));
+    b.appendChild(el('h3', null, s.headline));
+    if (s.sub) b.appendChild(el('p', 'sub', s.sub));
+    if (s.update) { var ch = el('div', 'changed'); ch.appendChild(el('b', null, 'WHAT CHANGED')); ch.appendChild(document.createTextNode(s.update)); b.appendChild(ch); }
+    var det = el('div', 'detail'); det.innerHTML = s.detailHtml || ''; b.appendChild(det);   // HTML written by our own build
+    if (s.whyItMatters) { var w = el('div', 'why'); w.style.webkitLineClamp = 'unset'; w.style.display = 'block'; w.appendChild(el('b', null, 'WHY IT MATTERS')); w.appendChild(document.createTextNode(s.whyItMatters)); b.appendChild(w); }
+    b.appendChild(el('span', 'trust ' + s.trust, s.trustLabel));
+    if (s.checked) b.appendChild(el('div', 'checked', 'What we checked: ' + s.checked));
+    if (s.sourcesHtml) { var sr = el('div'); sr.innerHTML = s.sourcesHtml; b.appendChild(sr.firstElementChild || sr); }
+    b.querySelectorAll('a[href^="http"]').forEach(function(a){ a.target = '_blank'; a.rel = 'noopener'; });
+    if (s.storyline) b.appendChild(el('div', 'storyline', s.storyline));
+    var full = el('a', 'btn full', 'Open in the full edition'); full.href = s.url; b.appendChild(full);
+    b.scrollTop = 0;
+    $('sheet').classList.add('on'); $('scrim').classList.add('on');
+  }
+  function closeSheet(){ $('sheet').classList.remove('on'); $('scrim').classList.remove('on'); $('sheet').style.transform = ''; }
+  $('scrim').onclick = closeSheet; $('close').onclick = closeSheet;
+  // drag the handle (or the top of the sheet) down to close
+  (function(){
+    var sheet = $('sheet'), body = $('sheet-body'), y0 = null, dy = 0;
+    sheet.addEventListener('touchstart', function(e){ if (body.scrollTop <= 0 || e.target.closest('.grab')) { y0 = e.touches[0].clientY; dy = 0; } }, {passive: true});
+    sheet.addEventListener('touchmove', function(e){
+      if (y0 === null) return; dy = e.touches[0].clientY - y0;
+      if (dy > 0) { sheet.style.transition = 'none'; sheet.style.transform = 'translateY(' + dy + 'px)'; }
+    }, {passive: true});
+    sheet.addEventListener('touchend', function(){
+      sheet.style.transition = ''; if (y0 !== null && dy > 90) closeSheet(); else sheet.style.transform = ''; y0 = null;
+    });
+  })();
+
+  // ---- share: the full edition's link for this story
+  function share(s){
+    var url = feed.shareUrl + '#' + s.id;
+    if (navigator.share) { navigator.share({title: s.headline, text: s.headline + ' — AI Daily Signal', url: url}).catch(function(){}); return; }
+    (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(function(){
+      var t = $('toast'); t.classList.add('on'); setTimeout(function(){ t.classList.remove('on'); }, 1600);
+    }).catch(function(){ prompt('Copy this link', url); });
+  }
+
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function(){});
+})();
+</script>
+</body>
+</html>

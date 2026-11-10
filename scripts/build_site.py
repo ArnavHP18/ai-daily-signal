@@ -283,6 +283,121 @@ def build_archive(eds):
     return latest
 
 
+TRUST_LABEL = {'Primary': ('official', 'Official source'), '2x src': ('multi', 'Two or more outlets'),
+               'Agg 1x': ('single', 'One secondary source'), 'Rumor-flag': ('rumor', 'Unconfirmed')}
+TIER_RANK = {'critical': 0, 'notable': 1, 'monitor': 2}
+
+
+def element_html(text, sid):
+    """Inner HTML of the article/details element carrying data-story-id=sid (first match outside scripts)."""
+    m = re.search(r'<(article|details)\b[^>]*data-story-id="%s"[^>]*>' % re.escape(sid), text)
+    if not m:
+        return ''
+    tag, depth, i = m.group(1), 1, m.end()
+    for t in re.finditer(r'<(/?)%s\b[^>]*>' % tag, text[i:]):
+        depth += -1 if t.group(1) else 1
+        if depth == 0:
+            return text[i:i + t.start()]
+    return ''
+
+
+def first_words(s, lo=35, hi=62):
+    """Plain-text summary: whole sentences up to about hi words, else a cut at hi words."""
+    words, out = s.split(), []
+    for w in words:
+        out.append(w)
+        if len(out) >= lo and re.search(r'[.!?]["”’)]?$', w):
+            break
+        if len(out) >= hi:
+            return ' '.join(out).rstrip(',;:') + '…'
+    return ' '.join(out)
+
+
+def story_feed_item(text, s, date):
+    """One story as plain data for the swipe app, read from its card on the edition page."""
+    el = element_html(text, s['id'])
+    head = re.search(r'<h[24]>(.*?)</h[24]>', el, re.S)
+    sub = re.search(r'<p class="sub(?:head)?">(.*?)</p>', el, re.S)
+    sowhat = re.search(r'<p class="sowhat">(.*?)</p>', el, re.S)
+    chip = re.search(r'<span class="chip">(.*?)</span>', el, re.S)
+    srcs = re.search(r'<div class="src">.*?</div>(?=\s*<div class="storyline"|\s*$)', el, re.S)
+    storyline = re.search(r'<div class="storyline">(.*?)</div>', el, re.S)
+    # detail = the card's prose (dek/body/paragraphs), minus the so-what line and chrome
+    detail = ''.join(re.findall(r'<(?:p|div) class="(?:dek|body)">.*?</(?:p|div)>|<p>.*?</p>', el, re.S))
+    if not detail:
+        detail = ''.join(re.findall(r'<p(?: class="dek")?>.*?</p>', el, re.S))
+    prose = strip_tags(re.sub(r'<div class="delta-line">.*?</div>', '', detail, flags=re.S))
+    kind, label = TRUST_LABEL.get(s.get('confidence'), ('single', 'One secondary source'))
+    sw = strip_tags(sowhat.group(1)) if sowhat else ''
+    sw = re.sub(r'^So what:\s*', '', sw)
+    sw = sw[:1].upper() + sw[1:]
+    return {
+        'id': s['id'], 'section': s['section'], 'rank': s.get('rank'), 'tier': s['tier'], 'impact': s.get('impact'),
+        'category': s.get('category', ''), 'delta': s.get('delta', 'new'), 'new24h': bool(s.get('new24h')),
+        'trust': kind, 'trustLabel': label, 'rumor': s.get('confidence') == 'Rumor-flag', 'verified': s.get('verified', ''),
+        'headline': strip_tags(head.group(1)) if head else s['title'][:120],
+        'sub': strip_tags(sub.group(1)) if sub else '',
+        'summary': s.get('short') or first_words(prose or s['title']),
+        'whyItMatters': sw,
+        'update': s.get('update', ''),
+        'checked': strip_tags(chip.group(1)) if chip else '',
+        'storyline': ' · '.join(strip_tags(storyline.group(1)).split(' · ')[:2]) if storyline else '',
+        'detailHtml': re.sub(r'<p class="sowhat">.*?</p>', '', detail, flags=re.S).strip(),
+        'sourcesHtml': srcs.group(0) if srcs else '',
+        'url': '../editions/ai_daily_signal_%s.html#%s' % (date, s['id']),
+        'stat': s.get('stat') or None,     # {value, label}: key number for the generated cover
+        'image': s.get('image') if (s.get('image') or {}).get('url', '').startswith('https://') else None,  # {url, credit}: official source image
+    }
+
+
+def build_feed(date, f):
+    """Write editions/feeds/DATE.json and app/feed.json (newest) for the swipe app."""
+    text = open(os.path.join(ED, f)).read()
+    st = read_state(text)
+    if not st or st.get('format') != 'v3':
+        return None
+    hero = re.search(r'<article class="hero"[^>]*data-story-id="([^"]+)"', text)
+    lead_id = hero.group(1) if hero else None
+    items = [story_feed_item(text, s, date) for s in st.get('stories', [])]
+    by_id = {i['id']: i for i in items}
+    lead = by_id.get(lead_id)
+    rest = [i for i in items if i is not lead]
+    full = [i for i in rest if i['tier'] in ('critical', 'notable') and not i['rumor']]
+    full.sort(key=lambda i: (TIER_RANK[i['tier']], i['section'] != 'new', i.get('rank') or 99))
+    also = [i for i in rest if i not in full]
+    also.sort(key=lambda i: (i['rumor'], i['section'] != 'new', i.get('rank') or 99))
+    d = dt.date.fromisoformat(date)
+    feed = {
+        'format': 'feed-v1', 'site': CFG['site_name'], 'edition': st.get('edition'), 'date': date,
+        'longDate': d.strftime('%A, ') + str(d.day) + d.strftime(' %B %Y'),
+        'editionType': st.get('editionType', 'daily'), 'degraded': bool(st.get('degraded')),
+        'degradedReason': st.get('degradedReason', ''), 'shareable': bool(st.get('shareable')),
+        'counts': st.get('counts', {}), 'sourcesOpened': st.get('sourcesOpened'),
+        'editionUrl': '../editions/' + f, 'archiveUrl': '../editions/index.html',
+        'shareUrl': '%s/editions/%s' % (CFG['site_url'], f),
+        'deck': ([lead] if lead else []) + full, 'alsoToday': also,
+    }
+    os.makedirs(os.path.join(ED, 'feeds'), exist_ok=True)
+    data = json.dumps(feed, ensure_ascii=False, indent=1)
+    open(os.path.join(ED, 'feeds', date + '.json'), 'w').write(data)
+    os.makedirs(os.path.join(ROOT, 'app'), exist_ok=True)
+    open(os.path.join(ROOT, 'app', 'feed.json'), 'w').write(data)
+    return feed
+
+
+SWIPE_LINK = '<a class="swipe-link" href="../app/" style="display:inline-block;margin-top:8px;font-family:var(--mono);font-size:12px;letter-spacing:1px;border:1px solid var(--rule);border-radius:999px;padding:4px 12px">📱 SWIPE VIEW</a>'
+
+
+def add_swipe_link(path):
+    """Put a link to the swipe app under the masthead byline (idempotent)."""
+    text = open(path).read()
+    if 'class="swipe-link"' in text:
+        return
+    new = re.sub(r'(<div class="byline">.*?</div>)', lambda m: m.group(1) + '\n  ' + SWIPE_LINK, text, count=1, flags=re.S)
+    if new != text:
+        open(path, 'w').write(new)
+
+
 def build_root(latest):
     page = ROOT_PAGE % {'latest': latest, 'site': html.escape(CFG['site_url'])}
     open(os.path.join(ROOT, 'index.html'), 'w').write(page)
@@ -460,7 +575,10 @@ def main():
             print('NEWEST EDITION FAILS CHECKS:', *problems, sep='\n  - ')
             sys.exit(1)
         fill_slots(path)
+        add_swipe_link(path)
         print('checks passed: %s' % f)
+        feed = build_feed(date, f)
+        print('swipe feed: app/feed.json and editions/feeds/%s.json (%d cards, %d also today)' % (date, len(feed['deck']), len(feed['alsoToday'])))
     if os.path.exists(STATE_FILE):
         build_review()
         print('state/REVIEW.md rebuilt')
