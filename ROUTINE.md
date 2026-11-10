@@ -111,12 +111,16 @@ with company-only claims and listed a real Node.js CVE as a rumour.
     - `image` (optional): `{ "url": "https://…", "credit": "Anthropic" }`, only the share
       image (og:image) of the story's OFFICIAL source page you opened. Never use news
       outlets' or agencies' photos, and never guess a URL. With no image, the card shows
-      the generated `stat` cover.
+      the generated `stat` cover. Rumours never carry an image.
+    `build_site.py` fails the edition if a deck story lacks `short` (35-60 words, plain
+    text) or `stat`, if a `stat` value is over 9 characters, if an image is not https or
+    has no credit, if a rumour has an image, or if these fields differ between the page and
+    the state file.
 
 ### Ship
 17. After saving the edition and the state file, run `python3 scripts/build_site.py`. It checks the
     newest edition (JSON, tags, cards vs state, counts, tiers, headline length, rumour
-    and sharing rules; page and state file describe the same edition) and rebuilds
+    and sharing rules, swipe-card fields; page and state file describe the same edition) and rebuilds
     `state/REVIEW.md`, the archive (months, missed dates, search), the
     search index, the root redirect, the 1200×630 share card, and the swipe-view feeds
     (`app/feed.json` and `editions/feeds/DATE.json`). **Do not commit if

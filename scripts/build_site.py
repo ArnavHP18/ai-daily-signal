@@ -16,6 +16,7 @@ It writes:
   editions/index.html        archive: by month, missed dates, search, tap to expand
   editions/search-index.json every edition's stories, for archive search
   editions/cards/DATE.png    share image for the newest edition
+  app/feed.json              swipe-view data for the newest edition (and editions/feeds/DATE.json)
 and fills the byline / sister-site link slots from scripts/site_config.json.
 
 It exits non-zero if the newest edition fails a check, so the routine must not
@@ -141,6 +142,52 @@ def check_edition(path):
     for href in re.findall(r'href="([^"]+)"', text):
         if href.startswith('http') and not re.match(r'https?://[^/\s]+\.[^/\s]+', href):
             problems.append('suspicious link: %s' % href)
+
+    if st.get('date', '') >= SWIPE_SINCE:
+        lead_id = h2 and re.search(r'<article class="hero"[^>]*data-story-id="([^"]+)"', text)
+        problems += check_swipe_fields(stories, lead_id.group(1) if lead_id else None,
+                                       {x['id']: x for x in full.get('stories', [])})
+    return problems
+
+
+SWIPE_SINCE = '2026-11-10'   # first edition written with swipe-card fields (ROUTINE.md §16a)
+
+
+def check_swipe_fields(stories, lead_id, state_by_id):
+    """Every swipe-deck story (the lead, plus Critical and Notable non-rumours) needs a card
+    summary and a key number, in the page and in the state file; images must be credited https."""
+    problems = []
+    for s in stories:
+        if s.get('confidence') == 'Rumor-flag':
+            if s.get('image'):
+                problems.append('%s is unconfirmed and must not carry a swipe image' % s['id'])
+            continue
+        on_deck = s['id'] == lead_id or s.get('tier') in ('critical', 'notable')
+        if not on_deck:
+            continue
+        sid, short, stat, img = s['id'], s.get('short', ''), s.get('stat') or {}, s.get('image')
+        if not short.strip():
+            problems.append('%s is a swipe card but has no "short" summary' % sid)
+        else:
+            n = len(short.split())
+            if n > 60:
+                problems.append('%s "short" is %d words (limit 60)' % (sid, n))
+            if n < 20:
+                problems.append('%s "short" is only %d words (write 35-60)' % (sid, n))
+            if '<' in short:
+                problems.append('%s "short" must be plain text, not HTML' % sid)
+        if not str(stat.get('value', '')).strip() or not str(stat.get('label', '')).strip():
+            problems.append('%s is a swipe card but has no "stat" {value, label}' % sid)
+        elif len(str(stat['value'])) > 9:
+            problems.append('%s "stat" value "%s" is too long for the cover (9 characters max)' % (sid, stat['value']))
+        if img is not None:
+            if not str(img.get('url', '')).startswith('https://'):
+                problems.append('%s "image" url must be https' % sid)
+            if not str(img.get('credit', '')).strip():
+                problems.append('%s "image" needs a credit (the official source)' % sid)
+        st_s = state_by_id.get(sid, {})
+        if (st_s.get('short'), st_s.get('stat'), st_s.get('image')) != (s.get('short'), s.get('stat'), s.get('image')):
+            problems.append('%s swipe fields (short/stat/image) differ between page-data and state file' % sid)
     return problems
 
 
