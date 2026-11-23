@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Daily Signal — Edition 150 — 23 November 2026</title>
+<meta name="description" content="The Lean community certifies Levent Alpöge&#x27;s AI-assisted proof of the Riemann Hypothesis; OpenAI&#x27;s chief scientist proposes shared industry limits measured by perplexity; OpenRouter drops three AI providers after researchers catch prompt and key theft; California adds a criminal angle to the Nvidia probe.">
+<meta name="author" content="Arnav Agrawal">
+<!-- share tags: og:url and og:image must be absolute; SITE_URL lives in scripts/site_config.json -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="AI Daily Signal">
+<meta property="og:title" content="Lean community certifies AI-assisted Riemann Hypothesis proof as correct after independent checks">
+<meta property="og:description" content="AI Daily Signal, edition 150 (23 Nov 2026): 27 new stories, 1 developing.">
+<meta property="og:url" content="https://arnavhp18.github.io/ai-daily-signal/editions/ai_daily_signal_2026-11-23.html">
+<meta property="og:image" content="https://arnavhp18.github.io/ai-daily-signal/editions/cards/2026-11-23.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lean community certifies AI-assisted Riemann Hypothesis proof as correct after independent checks">
+<meta name="twitter:description" content="AI Daily Signal, edition 150 (23 Nov 2026): 27 new stories, 1 developing.">
+<meta name="twitter:image" content="https://arnavhp18.github.io/ai-daily-signal/editions/cards/2026-11-23.png">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16140f; --paper:#f5f1e8; --paper2:#ece6d8; --rule:#c9c0ac; --muted:#6b6353;
+    --crit:#b3261e; --note:#8a6d00; --mon:#3d5a4c; --accent:#1f3a93;
+    --up:#2e7d4f; --up-bg:#e3f1e8; --down:#b3261e; --down-bg:#f6e2df;
+    /* trust markers: one colour each, used everywhere */
+    --t-official:#2e7d4f; --t-multi:#1f3a93; --t-single:#a86b00; --t-rumor:#b3261e;
+    --chip:#e3dccb; --mono:'IBM Plex Mono',monospace; --serif:'Fraunces',serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{border-bottom-style:solid}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  /* mono = short labels only */
+  .label,.sec-head,.chip,.badge,.tab,.impact,.cat{font-family:var(--mono)}
+
+  /* ticker: plain dark bar, confirmed items only */
+  .ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-size:13px;padding:8px 0}
+  .ticker-inner{display:inline-block;animation:tick 300s linear infinite;padding-left:100%}
+  .ticker:hover .ticker-inner,.ticker.paused .ticker-inner{animation-play-state:paused}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  .ticker b{color:#ffd166;font-family:var(--mono);font-size:12px;letter-spacing:1px}
+
+  /* degraded banner (rendered from state.degraded) */
+  .degraded{display:none;background:#fff1c7;border-bottom:2px solid #d99a00;color:#5a4300;font-size:14px;padding:10px 0}
+  .degraded.on{display:block}
+  .degraded strong{font-family:var(--mono);font-size:12px;letter-spacing:1px;margin-right:6px}
+
+  /* masthead: name, edition, date, byline */
+  .masthead{border-bottom:4px double var(--ink);padding:22px 0 14px;text-align:center}
+  .brand{display:inline-flex;align-items:center;gap:12px;border:none;color:var(--ink)}
+  .brand img{width:44px;height:44px}
+  .masthead h1{font-family:var(--serif);font-weight:800;font-size:clamp(32px,5.5vw,56px);letter-spacing:-1px;text-transform:uppercase;line-height:1}
+  .masthead .when{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:10px}
+  .masthead .byline{font-size:13px;color:var(--muted);margin-top:4px}
+
+  /* status line above the headline */
+  .status{font-family:var(--mono);font-size:12px;letter-spacing:.5px;color:var(--muted);padding:16px 0 0}
+  .status b{color:var(--ink)}
+  .status .etype{display:inline-block;background:var(--ink);color:var(--paper);padding:2px 8px;margin-right:8px;letter-spacing:1px;text-transform:uppercase}
+  .status .etype.catchup{background:#d99a00;color:var(--ink)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:2.1fr 1fr;gap:30px;padding:12px 0 26px}
+  .hero h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,4vw,44px);line-height:1.1;margin:6px 0 10px}
+  .hero .subhead{font-size:19px;line-height:1.45;color:#3a352a;margin-bottom:14px}
+  .hero .dek{font-size:16px;line-height:1.6;color:#3a352a;margin-bottom:12px}
+  .sowhat{font-style:italic;color:#4a4436;border-left:3px solid var(--rule);padding-left:12px;margin:12px 0}
+  .hero .sowhat{border-left-color:var(--crit)}
+  .facts{background:var(--paper2);border:1px solid var(--rule);padding:18px;align-self:start}
+  .facts h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:10px}
+  .facts dl{font-size:14px}
+  .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:9px}
+  .brief-toggle{margin-top:12px;font-family:var(--mono);font-size:12px;letter-spacing:1px;background:var(--ink);color:var(--paper);border:none;padding:9px 16px;cursor:pointer}
+  .full-brief{display:none;margin-top:14px;padding:18px;background:var(--paper2);border:1px solid var(--rule);font-size:15px;line-height:1.6}
+  .full-brief.open{display:block}
+  .full-brief p{margin-bottom:10px}
+
+  /* trust markers */
+  .trust{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:600;padding:2px 9px;border:1.5px solid currentColor;border-radius:999px;margin:0 6px 6px 0;background:#fff}
+  .trust::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+  .trust.official{color:var(--t-official)} .trust.multi{color:var(--t-multi)}
+  .trust.single{color:var(--t-single)} .trust.rumor{color:var(--t-rumor);border-style:dashed}
+  .chip{display:inline-block;font-size:11px;background:var(--chip);border:1px solid var(--rule);padding:2px 8px;margin:0 6px 6px 0;color:#4a4436}
+  .badge{display:inline-block;font-size:10px;letter-spacing:1px;padding:2px 7px;margin-right:6px;vertical-align:middle}
+  .b-new{background:var(--ink);color:#fff}
+  .b-esc{background:#7a1f12;color:#fff} .b-deesc{background:var(--mon);color:#fff}
+  .b-24h{background:#ffd166;color:var(--ink);font-weight:600}
+  .tier{font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 7px;color:#fff;margin-right:6px}
+  .tier.critical{background:var(--crit)} .tier.notable{background:var(--note)} .tier.monitor{background:var(--mon)}
+
+  /* sources, ranked by type */
+  .src{font-size:13px;line-height:1.8;margin-top:6px}
+  .src .st{font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--muted);margin-right:4px}
+  .src .grp{margin-right:12px;display:inline}
+
+  /* section heads */
+  .sec-head{font-size:13px;letter-spacing:3px;text-transform:uppercase;border-bottom:3px solid var(--ink);padding:24px 0 8px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .sec-head small{font-size:10px;color:var(--muted);letter-spacing:1px}
+
+  /* 30-second read */
+  .triptych{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--rule);background:#fffdf7}
+  .trip{padding:16px 18px;border-right:1px solid var(--rule)}
+  .trip:last-child{border-right:none}
+  .trip .num{font-family:var(--serif);font-size:26px;font-weight:800;color:var(--crit);line-height:1}
+  .trip h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.25;margin:6px 0}
+  .trip p{font-size:14px;color:#4a4436}
+  .trip a.jump{font-family:var(--mono);font-size:11px}
+
+  /* deadline timeline */
+  .timeline{display:flex;gap:0;overflow-x:auto;border-top:2px solid var(--ink);padding-top:0;scrollbar-width:thin}
+  .tl-item{flex:1 0 170px;padding:12px 14px 6px;border-right:1px dashed var(--rule);position:relative}
+  .tl-item::before{content:"";position:absolute;top:-7px;left:14px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--ink)}
+  .tl-item.sev-high::before{background:var(--crit);border-color:var(--crit)}
+  .tl-item.sev-medium::before{background:#d99a00;border-color:#d99a00}
+  .tl-item .when{font-family:var(--mono);font-size:12px;font-weight:600;margin-top:6px}
+  .tl-item .left{font-family:var(--mono);font-size:11px;color:var(--crit)}
+  .tl-item .l{font-size:13px;margin-top:4px;line-height:1.4}
+
+  /* feed */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .tab{font-size:11px;letter-spacing:1px;border:1px solid var(--ink);background:none;padding:6px 12px;cursor:pointer;color:var(--ink)}
+  .tab.active{background:var(--ink);color:var(--paper)}
+  .lead-ref{font-size:14px;color:var(--muted);border:1px dashed var(--rule);padding:10px 14px;margin-bottom:14px}
+  .big{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+  .card{border:1px solid var(--rule);background:#fffdf7;padding:18px;display:flex;flex-direction:column;position:relative}
+  .card.critical{border-top:5px solid var(--crit)} .card.notable{border-top:5px solid var(--note)} .card.monitor{border-top:5px solid var(--mon)}
+  .card.rumor{border:2px dashed #b9ae96;background:#f3efe4;opacity:.85}
+  .card.rumor h4{color:#5a5240}
+  .card .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+  .card .rank{font-family:var(--serif);font-weight:800;font-size:22px;color:#9a917c;margin-right:6px}
+  .cat{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+  .card h4{font-family:var(--serif);font-size:22px;font-weight:600;line-height:1.2;margin:8px 0 6px}
+  .card .sub{font-size:15px;color:#3a352a;margin-bottom:8px}
+  .card .body{font-size:15px;color:#3f3a2e;flex:1}
+  .impact{font-size:11px;color:var(--muted)}
+  .impact b{font-size:14px;color:var(--ink)}
+  .share{font-family:var(--mono);font-size:11px;background:none;border:1px solid var(--rule);padding:3px 9px;cursor:pointer;color:var(--ink)}
+  .share:hover{border-color:var(--ink)}
+  .storyline{font-size:12px;color:var(--muted);margin-top:4px}
+  /* compact list for the rest */
+  .compact{border-top:1px solid var(--rule)}
+  .row{border-bottom:1px solid var(--rule);background:#fffdf7}
+  .row.rumor{border:2px dashed #b9ae96;background:#f3efe4;opacity:.85}
+  .row > summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:baseline}
+  .row > summary::-webkit-details-marker{display:none}
+  .row .rank{font-family:var(--serif);font-weight:800;font-size:20px;color:#9a917c}
+  .row h4{font-family:var(--serif);font-size:18px;font-weight:600;line-height:1.25;display:inline}
+  .row .meta{margin-top:6px}
+  .row .more{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+  .row[open] .more::after{content:"▴ less"} .row:not([open]) .more::after{content:"▾ more"}
+  .row .detail{padding:0 14px 14px 68px;font-size:15px}
+  /* "what changed" line on Developing cards */
+  .delta-line{font-size:14px;background:#eef3ea;border-left:3px solid var(--mon);padding:8px 12px;margin:8px 0;line-height:1.5}
+  .delta-line .dl-tag{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:1px;color:var(--mon);margin-right:6px}
+
+  /* footer */
+  footer{margin-top:36px;border-top:4px double var(--ink);padding:20px 0 40px;font-size:14px;color:#4a4436}
+  footer p{margin-bottom:8px}
+  footer .corr{font-size:13px;color:var(--muted)}
+  .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;padding:8px 14px;display:none}
+
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .triptych{grid-template-columns:1fr}
+    .trip{border-right:none;border-bottom:1px solid var(--rule)}
+    .big{grid-template-columns:1fr}
+    .row .detail{padding-left:14px}
+    .row > summary{grid-template-columns:34px 1fr}
+    .row .more{grid-column:2}
+  }
+
+  /* storyline links (to storylines/ARC.html) */
+  .storyline a{color:var(--muted);border-bottom:1px dotted var(--muted)}
+  .swipe-link{display:inline-block;margin-top:8px;font-family:var(--mono);font-size:12px;letter-spacing:1px;border:1px solid var(--rule);border-radius:999px;padding:4px 12px}
+  /* product updates: what shipped, per company, and what people are saying */
+  .pu{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .pu-co{border:1px solid var(--rule);background:#fffdf7;padding:14px 16px}
+  .pu-co h4{font-family:var(--serif);font-size:19px;font-weight:600;margin-bottom:6px}
+  .pu-co ul{list-style:none;margin:0;padding:0}
+  .pu-co li{font-size:14px;line-height:1.5;padding:4px 0;border-top:1px dotted var(--rule)}
+  .pu-co li:first-child{border-top:none}
+  .pu-co .kind{font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--muted);margin-right:6px;text-transform:uppercase}
+  .pu-co .say{margin-top:8px;padding-top:6px;border-top:2px solid var(--paper2)}
+  .pu-co .say b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--muted);margin-bottom:2px}
+  .pu-week .pu-co{background:var(--paper2)}
+  .followup{font-size:13px;color:var(--muted);margin-top:6px}
+  /* second tab row: categories inside the chosen area */
+  .tabs.cats{margin-top:-8px}
+  .tabs.cats .tab{font-size:10px;padding:4px 10px;border-color:var(--rule);color:var(--muted)}
+  .tabs.cats .tab.active{background:var(--paper2);color:var(--ink);border-color:var(--ink)}
+</style>
+</head>
+<body>
+
+<!-- TICKER: confirmed items only. Never put an "Unconfirmed" story here. -->
+<div class="ticker" aria-hidden="true"><div class="ticker-inner">
+  <b>RIEMANN PROOF</b> Lean and Mathlib communities certify Alpöge's Lean proof of the Riemann Hypothesis; 175,187 modules compile, independent checkers accept &nbsp;◆&nbsp; <b>OPENAI LIMITS</b> OpenAI's Pachocki proposes common industry limits measured by perplexity; Altman backs it &nbsp;◆&nbsp; <b>PROMPT THEFT</b> OpenRouter off-boards 3 inference providers, pulls 125 endpoints from zero-data-retention after Dragos canary study &nbsp;◆&nbsp; <b>MONDAY OPEN</b> Kospi ~-3% to 4,718 early; Nasdaq 100 futures +2.9%; Taiwan short-selling ban starts; BTC ~$61K &nbsp;◆&nbsp; <b>KALSHI</b> NY judge hears AG's bid to restrain Kalshi today; CFTC's second emergency bid rejected &nbsp;◆&nbsp; <b>KOREA EXAMS</b> Korean education minister Choi Kyo-jin resigns after AI-assisted cheating scandal &nbsp;◆&nbsp; <b>COP31</b> COP31 ends with no major deal; final text omits fossil fuels; Guterres 'deeply disappointed' &nbsp;◆&nbsp; <b>US HOUSE</b> Democrats win at least 258 House seats, largest majority since 1992 &nbsp;◆&nbsp; <b>CLEVERBRIDGE</b> Cleverbridge breach: card numbers, expiry dates and CVVs stolen; notifications began 20 Nov &nbsp;◆&nbsp; <b>GL.INET</b> GL.iNet cloud flaw used to infect routers and KVMs; patch blocks new infections only &nbsp;◆&nbsp; <b>FBI NCIC</b> FBI probes apparent NCIC breach; national cyber director Cairncross fired; Delta Atlanta outage &nbsp;◆&nbsp; <b>RED CHIPS</b> Reuters: CSRC to block offshore listings by red-chip firms set up after 2023 unless re-domiciled &nbsp;◆&nbsp; <b>RUSSIAN SHIPS</b> Russian corvette appears sunk at Benghazi after suspected drone strike; Sparta II hit in Gulf of Finland &nbsp;◆&nbsp; <b>ONEMAIN</b> FDIC approves OneMain Bank ILC: $341m capital, 15% leverage; uniform 36% APR lending &nbsp;◆&nbsp; <b>MEXICO CARDS</b> Mexico draft: interchange caps of 1% credit, 0.3% debit by 2029 (was 0.6% credit) &nbsp;◆&nbsp; <b>GENIUS ACT</b> Six senators press Treasury on state stablecoin issuers before GENIUS Act starts 18 Jan &nbsp;◆&nbsp; <b>HK CRYPTO</b> Hong Kong bill brings crypto custody, dealing, advice under SFC licensing; first reading 2 Dec &nbsp;◆&nbsp; <b>DECART</b> Amazon reportedly near $7.5bn deal for Decart &nbsp;◆&nbsp; <b>AGENT TESTS</b> Uniphore: 86 of 132 AI-built agents scored 99%+ on own tests; held-out gains small &nbsp;◆&nbsp; <b>FSD V15</b> Tesla FSD v15 appears in update 2026.38.6.11; early rollout &nbsp;◆&nbsp; <b>AGENT GUARD</b> Google previews semantic governance: LLM judge blocks agent tool calls breaking policy &nbsp;◆&nbsp; <b>F1 VEGAS</b> Verstappen wins Las Vegas GP; Russell crashes late; Márquez takes 8th MotoGP title &nbsp;◆&nbsp; <b>ATP FINALS</b> Alcaraz beats Zverev 6-2 7-6 for first ATP Finals title &nbsp;◆&nbsp; <b>SKUBAL</b> Skubal to Mets: 9 years, $450m, richest pitcher deal ever &nbsp;◆&nbsp; <b>LIV 4-0 MUN</b> Liverpool 4-0 Man Utd in Pochettino's first game; Yoro sent off after 8 minutes &nbsp;◆&nbsp; <b>NVIDIA</b> California AG probe of Nvidia includes possible criminal violations; hearings 1-2 Dec
+</div></div>
+
+<!-- DEGRADED BANNER: shown when state.degraded is true -->
+<div class="degraded" id="degraded"><div class="wrap"><strong>DEGRADED EDITION</strong> <span id="degraded-text"></span></div></div>
+
+<header class="masthead wrap">
+  <a class="brand" href="index.html" aria-label="AI Daily Signal archive"><img src="../assets/logo.svg" alt=""><h1>AI Daily Signal</h1></a>
+  <div class="when">Edition 150 · Monday, 23 November 2026</div>
+  <div class="byline">Curated by Arnav Agrawal<span data-slot="curator-links"></span></div>
+  <a class="swipe-link" href="../app/">📱 SWIPE VIEW</a>
+</header>
+
+<main class="wrap">
+
+<!-- STATUS LINE: rendered from state (editionType, counts, new24h, sourcesOpened) -->
+<div class="status" id="status"></div>
+
+<!-- HERO: headline 12-15 words, one sub-line, then the detail -->
+<article class="hero" id="lean-certifies-riemann-proof" data-story-id="lean-certifies-riemann-proof">
+  <div>
+    <h2>Lean community certifies AI-assisted Riemann Hypothesis proof as correct after independent checks</h2>
+    <p class="subhead">Two days after Levent Alpöge released a 17-million-line machine-checked proof built with Claude, the people who maintain Lean say the statement and the proof are both right.</p>
+    <div><span class="tier critical">CRITICAL · ACT THIS WEEK</span><span class="trust official">Official source</span><span class="chip">Joint statement opened on the Lean community blog; MIT verification page opened (module counts, axioms, byte-identical rebuild); The Decoder opened for context</span></div>
+    <p class="dek">The <strong>Lean and Mathlib communities</strong>, endorsed by the <strong>Lean FRO</strong> and the <strong>Mathlib Initiative</strong>, published a joint statement on 21 Nov: <em>"We have full confidence that Alpöge's proof of the Riemann Hypothesis is correct."</em> The proof, released on 20 Nov as a Lean library of <strong>17 million lines</strong>, depends only on Mathlib. Dozens of people rebuilt it and got the same proof export; the community isolated Mathlib's own statement of the hypothesis and two separate tools (comparator and con-leche) confirmed the library proves exactly that; and several proof checkers, including Lean's kernel and checkers written in other languages, accepted the exported proof. Two of them (con-leche, con-ron) come with a formal proof that they cannot accept a false proof. MIT's <strong>Andrew Sutherland</strong>, who ran his checks with Claude Code, reports all <strong>175,187 modules</strong> compile, the five headline theorems use only the three standard axioms, and a sandboxed rebuild reproduced the 61.6GB export byte for byte; two checks were still running on 22 Nov. Metaculus forecasters had expected a proof around 2035.</p><p class="sowhat">So what: machine-checked AI-assisted proofs are now trusted by the people who run the checker, within two days. Expect the same pattern (AI writes, a formal checker certifies) in software, smart contracts and risk models; the open question is understanding the new ideas, not whether they are right.</p>
+    <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://leanprover-community.github.io/blog/posts/riemann-hypothesis/">Lean community: Lean verification of the Riemann Hypothesis</a></span><span class="grp"><span class="st">OTHER</span><a href="https://math.mit.edu/~drew/grh/">Andrew Sutherland (MIT): RH Lean proof verification files</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://the-decoder.com/lean-and-mathlib-community-officially-confirms-levent-alpoges-proof-of-the-riemann-hypothesis-is-correct/">The Decoder: Lean community confirms Alpöge proof</a> · <a href="https://www.bbc.co.uk/news/articles/c6pqr2g7w059o">BBC: Anthropic worker says he may have cracked the biggest maths problem</a></span></div>
+    <div class="storyline"><a href="../storylines/ai-math.html">Storyline: AI doing mathematics · day 4</a></div>
+    <button class="brief-toggle" onclick="document.getElementById('hero-brief').classList.toggle('open')">READ FULL BRIEF ▾</button>
+    <div class="full-brief" id="hero-brief">
+      <p>On 20 Nov Levent Alpöge, a mathematician working with an internal Claude model, released a Lean proof of the Riemann Hypothesis, the 1859 conjecture about how prime numbers are distributed. On 21 Nov the communities that build Lean and its maths library certified it: the statement is Mathlib's own, the code compiles for everyone who tried, and independent checkers accept the proof. Mathematicians still have to understand the new ideas inside it.</p>
+    </div>
+  </div>
+  <aside class="facts">
+    <h3>Facts</h3>
+    <dl>
+      <dt>What</dt><dd>Riemann Hypothesis proved in Lean, certified correct</dd>
+      <dt>Who</dt><dd>Levent Alpöge, with an internal Claude model; certified by the Lean and Mathlib communities</dd>
+      <dt>Size</dt><dd>17 million lines; 175,187 modules</dd>
+      <dt>When</dt><dd>Released 20 Nov; certified 21 Nov 2026</dd>
+      <dt>Still open</dt><dd>Two of MIT's checks were still running on 22 Nov</dd>
+      <dt>Impact</dt><dd><b style="font-size:18px">10</b>/10 — Mathematicians, AI labs, and anyone who relies on formal verification (chip, crypto and financial-software teams)</dd>
+    </dl>
+  </aside>
+</article>
+
+<!-- 30-SECOND READ: right under the headline; never repeats the lead -->
+<section>
+  <div class="sec-head">The 30-Second Read <small>THE NEXT THREE AFTER THE LEAD</small></div>
+  <div class="triptych">
+    <article class="trip">
+      <div class="num">1</div>
+      <h4>OpenAI asks for limits</h4>
+      <p>Chief scientist Jakub Pachocki proposes labs agree caps, measured by pretraining perplexity, until AI monitoring catches up. <a class="jump" href="#openai-perplexity-limits">#2 ↓</a></p>
+    </article>
+    <article class="trip">
+      <div class="num">2</div>
+      <h4>Prompts and keys stolen</h4>
+      <p>Researchers found attackers inside three AI hosting providers; OpenRouter dropped them and pulled 125 endpoints from zero-data-retention. <a class="jump" href="#openrouter-offboards-leaky-providers">#3 ↓</a></p>
+    </article>
+    <article class="trip">
+      <div class="num">3</div>
+      <h4>Nvidia probe widens</h4>
+      <p>California's attorney general says his Nvidia investigation covers possible criminal violations; hearings follow on 1-2 Dec. <a class="jump" href="#nvidia-huang-resigns">D1 ↓</a></p>
+    </article>
+  </div>
+</section>
+
+<!-- DEADLINES: timeline with days-left counters, rendered from state.deadlines -->
+<section>
+  <div class="sec-head">Coming Up <small>DATES THAT MATTER · DAYS LEFT</small></div>
+  <div class="timeline" id="timeline"></div>
+</section>
+
+<!-- FEED -->
+<section>
+  <div class="sec-head">New on the Wire <small id="new-head"></small></div>
+  <div class="tabs">
+    <button class="tab active" data-cat="all">ALL (28)</button>
+    <button class="tab area" data-area="finance">MONEY &amp; FINANCE (8)</button>
+    <button class="tab area" data-area="tech">AI &amp; TECHNOLOGY (10)</button>
+    <button class="tab area" data-area="business">BUSINESS (2)</button>
+    <button class="tab area" data-area="energy">ENERGY &amp; CLIMATE (1)</button>
+    <button class="tab area" data-area="world">WORLD &amp; SOCIETY (3)</button>
+    <button class="tab area" data-area="leisure">SPORTS &amp; ENTERTAINMENT (4)</button>
+  </div>
+  <div class="tabs cats">
+    <button class="tab cat" data-cat="banking" data-area="finance">BANKING (1)</button>
+    <button class="tab cat" data-cat="payments" data-area="finance">PAYMENTS &amp; FINTECH (2)</button>
+    <button class="tab cat" data-cat="markets" data-area="finance">MARKETS &amp; ECONOMY (3)</button>
+    <button class="tab cat" data-cat="crypto" data-area="finance">CRYPTO &amp; DIGITAL ASSETS (2)</button>
+    <button class="tab cat" data-cat="models" data-area="tech">AI MODELS &amp; LABS (1)</button>
+    <button class="tab cat" data-cat="products" data-area="tech">PRODUCTS &amp; BUILDERS (2)</button>
+    <button class="tab cat" data-cat="research" data-area="tech">RESEARCH &amp; SCIENCE (2)</button>
+    <button class="tab cat" data-cat="hardware" data-area="tech">HARDWARE &amp; CHIPS (1)</button>
+    <button class="tab cat" data-cat="security" data-area="tech">SECURITY (3)</button>
+    <button class="tab cat" data-cat="robotics" data-area="tech">ROBOTICS &amp; AUTONOMY (1)</button>
+    <button class="tab cat" data-cat="business" data-area="business">BUSINESS &amp; STARTUPS (2)</button>
+    <button class="tab cat" data-cat="energy" data-area="energy">ENERGY &amp; CLIMATE (1)</button>
+    <button class="tab cat" data-cat="world" data-area="world">WORLD &amp; POLITICS (2)</button>
+    <button class="tab cat" data-cat="society" data-area="world">SOCIETY &amp; CULTURE (1)</button>
+    <button class="tab cat" data-cat="sports" data-area="leisure">SPORTS (4)</button>
+  </div>
+  <div class="lead-ref feed-item" data-cat="research" data-area="tech"><strong>#1</strong> is today's lead, above: Lean community certifies AI-assisted Riemann Hypothesis proof as correct <a href="#lean-certifies-riemann-proof">Back to top ↑</a></div>
+
+  <!-- the two highest-scoring new stories get large cards -->
+  <div class="big">
+
+    <article class="card critical feed-item" id="openai-perplexity-limits" data-cat="models" data-area="tech" data-story-id="openai-perplexity-limits">
+      <div class="top"><span><span class="rank">#2</span><span class="cat">Models · safety · 22 Nov</span></span><span class="impact">IMPACT <b>9</b>/10</span></div>
+      <h4>OpenAI's chief scientist asks rival labs to agree shared limits on AI pretraining progress</h4>
+      <p class="sub">Jakub Pachocki publishes OpenAI's internal perplexity curve and proposes a cross-lab cap until monitoring catches up.</p>
+      <p class="dek">In a post titled <em>Perplexity and Intelligence</em>, OpenAI chief scientist <strong>Jakub Pachocki</strong> argues that pretraining loss (perplexity) is the best single measure of how capable a model's base is, and publishes OpenAI's internal numbers: <strong>GPT-3.5 at ~0.99</strong> log-perplexity, <strong>GPT-4 at ~0.91</strong>, and recent models <strong>below 0.8</strong>, where 'transformative capabilities' in cybersecurity and maths appeared. A model at <strong>~0.76</strong> 'started producing groundbreaking results' on open maths problems. He expects more as models reach <strong>0.68-0.7</strong>, warns AI could set off an 'avalanche' of pretraining advances <strong>as soon as 2027</strong>, and says alignment auditing will likely get worse. He proposes <strong>common limits</strong>, 'based on perplexity and other measurements', that developers commit not to cross until monitoring reaches a concrete milestone, such as a successor to chain-of-thought monitors. Reuters reports <strong>Sam Altman</strong> backs the proposal; no response yet from other labs.</p><p class="sowhat">So what: this is the first frontier lab to publish its own pretraining curve and ask for a cross-industry cap. Whether Anthropic, Google and xAI sign up decides if it becomes a standard regulators can point to, as Democrats prepare to make AI oversight a priority in the new Congress.</p>
+      <div><span class="tier critical">CRITICAL</span><span class="trust official">Official source</span><span class="chip">OpenAI's post opened (numbers and proposal quoted from it); Reuters copy on Yahoo opened for Altman's backing</span></div>
+      <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://openai.com/index/perplexity-and-intelligence/">OpenAI: Perplexity and Intelligence (Jakub Pachocki)</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://www.yahoo.com/news/articles/openai-scientist-proposes-industry-ai-230920757.html">Reuters via Yahoo: OpenAI scientist proposes industry AI limits</a></span></div>
+      <div class="storyline"><a href="../storylines/frontier-pacing.html">Storyline: how fast frontier AI is moving · day 27</a></div>
+      <div style="margin-top:10px"><button class="share" data-share="openai-perplexity-limits">Share ↗</button></div>
+    </article>
+    <article class="card critical feed-item" id="openrouter-offboards-leaky-providers" data-cat="security" data-area="tech" data-story-id="openrouter-offboards-leaky-providers">
+      <div class="top"><span><span class="rank">#3</span><span class="cat">Security · AI supply chain · 19-22 Nov</span></span><span class="impact">IMPACT <b>9</b>/10</span></div>
+      <h4>OpenRouter drops three AI providers after researchers catch prompts and keys being stolen</h4>
+      <p class="sub">Dragos seeded two million prompts with fake AWS keys; attackers used them within a day, and 'zero data retention' flags did not stop it.</p>
+      <p class="dek"><strong>Dragos</strong> (research led by HD Moore) sent about <strong>two million prompts</strong> containing unique URLs and canary AWS credentials to AI services from July to November. It found attackers inside <strong>three hosting providers</strong>, copying requests 'at the provider's front door'; in the largest case every request sent in late-October windows was stolen, a couple of hundred AWS keys were tested within hours and used for tens of thousands of API calls, including attempts to enable Bedrock models and add IAM users. Some stolen requests were flagged zero-data-retention. Separately, resellers on an inference marketplace could read and keep customer prompts using ordinary logging, and some providers sent prompts to Chinese companies against their stated policies. <strong>OpenRouter</strong> says no breach of its own systems, but it has <strong>off-boarded three providers</strong>, removed <strong>125 endpoints</strong> from ZDR eligibility, notified affected customers and will run similar canary tests continuously. Together, Novita, Phala and Atlas Cloud have published notices.</p><p class="sowhat">So what: a 'privacy' flag binds only the first hop. Banks routing prompts through model marketplaces should pin providers, keep credentials out of prompts and agent context, and treat any key that went through a third-party inference provider since July as exposed.</p>
+      <div><span class="tier critical">CRITICAL</span><span class="trust official">Official source</span><span class="chip">OpenRouter's announcement opened (three providers off-boarded, 125 endpoints, provider notices); Dragos research post opened (method and findings)</span></div>
+      <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://openrouter.ai/blog/announcements/data-processing-incidents-on-inference-providers/">OpenRouter: Data processing incidents on inference providers</a> · <a href="https://www.dragos.com/blog/ai-supply-chain-security-canary-tokens">Dragos: Your AI supply chain needs canaries</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://news.ycombinator.com/item?id=50585962">Hacker News: Tell HN: OpenRouter prompts to MiniMax may have been read</a></span></div>
+      <div class="storyline"><a href="../storylines/inference-isolation.html">Storyline: who can see your AI prompts · day 2</a></div>
+      <div style="margin-top:10px"><button class="share" data-share="openrouter-offboards-leaky-providers">Share ↗</button></div>
+    </article>
+  </div>
+
+  <!-- everything else: compact list, tap to expand -->
+  <div class="compact">
+    <details class="row feed-item" id="asia-slides-us-futures-rebound" data-cat="markets" data-area="finance" data-story-id="asia-slides-us-futures-rebound">
+      <summary><span class="rank">#4</span><span><h4>Kospi slides again as US futures bounce and Taiwan bans most short selling</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="cat">Markets · Asia open · 23 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">Asia opened the week still selling. Market data show the <strong>Kospi</strong> at about <strong>4,718</strong> shortly after the open, down about <strong>3.1%</strong> from Friday's 4,869.96 (Korean outlets reported it slipping below 4,900 at the open). In New York, futures pointed the other way: <strong>Nasdaq 100 futures</strong> were up about <strong>2.9%</strong>, <strong>S&amp;P 500 futures</strong> about <strong>2.1%</strong> and <strong>Dow futures</strong> about <strong>690 points</strong> early on Monday in Asia. <strong>Taiwan's Financial Supervisory Commission</strong> decided on 21 Nov to ban short sales of most stocks that have already fallen, from today, lift the short-sale margin requirement from 130% to 150% and halt new put warrant applications, its first broad ban since 2015, after the <strong>Taiex</strong> lost <strong>17.5%</strong> in the week to 36,033.29. Tokyo is shut for Labour Thanksgiving Day. <strong>Bitcoin</strong> traded near <strong>$61,100</strong>, up from Friday's low of $57,716.</p><p class="sowhat">So what: a futures bounce is not a bottom; Taiwan's ban removes a hedge for funds holding Taiwanese chip stocks, and Korean retail margin debt is the next pressure point. Watch Nvidia's first session after the SEC and California probes.</p>
+        <div class="src"><span class="grp"><span class="st">OTHER</span><a href="https://finance.yahoo.com/quote/%5EKS11/">Yahoo Finance: Kospi chart data</a> · <a href="https://finance.yahoo.com/quote/NQ%3DF/">Yahoo Finance: Nasdaq 100 futures</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://cryptobriefing.com/taiwan-bans-short-selling-taiex-worst-week/">Crypto Briefing: Taiwan bans most short selling after worst week since 1991</a> · <a href="https://cryptobriefing.com/bitcoin-recovers-60k-after-liquidation-wipeout/">Crypto Briefing: Bitcoin climbs back above $60K</a></span></div>
+        <div class="storyline"><a href="../storylines/ai-market-mood.html">Storyline: AI stocks and market mood · day 3</a> · Kospi, US futures and bitcoin levels from Yahoo Finance chart data (opened, 00:24-00:44 UTC); Taiwan measures from Crypto Briefing's report on the FSC decision (opened)</div>
+        <div style="margin-top:8px"><button class="share" data-share="asia-slides-us-futures-rebound">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="kalshi-new-york-hearing" data-cat="markets" data-area="finance" data-story-id="kalshi-new-york-hearing">
+      <summary><span class="rank">#5</span><span><h4>Kalshi faces New York hearing it says could shut its exchange nationwide</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="cat">Markets · prediction markets · 23 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">New York's attorney general wants an order barring Kalshi from running what she calls unlicensed gambling 'within or from New York', restricting trading by under-21s and banning campus advertising. Kalshi's lawyers say that because the exchange is based in New York the order would force it to stop serving all clients and possibly liquidate every open position; the AG says she does not intend to shut its national business. The case was sent back to the <strong>New York County Supreme Court</strong> on <strong>19 Nov</strong>, and on <strong>20 Nov</strong> a federal judge in Manhattan rejected the <strong>CFTC</strong>'s second emergency request to stop it. The suit, filed 31 Jul, seeks up to <strong>$36bn</strong> in restitution and penalties, more than Kalshi's reported $22bn valuation. This was held back on 21 Nov because the sources could not be opened.</p><p class="sowhat">So what: this is the sharpest test yet of whether states can police federally regulated event contracts; brokers and banks building prediction-market products (Coinbase plans its own in 2027) should watch the order's scope.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://cryptobriefing.com/kalshi-new-york-hearing-shutdown-order/">Crypto Briefing: Kalshi faces New York court hearing</a> · <a href="https://www.theblock.co/news/regulation/2026-11-21-kalshi-faces-monday-hearing-on-new-york-order-it-says-would-shut-down-its-exchange-nationwide-444813">The Block: Kalshi faces Monday hearing on New York order</a></span></div>
+        <div class="storyline"><a href="../storylines/prediction-markets.html">Storyline: prediction markets and their rules · day 8</a> · Crypto Briefing report opened (court timeline, $36bn); hearing time and the AG's position from The Block and Prediction News search results (not opened)</div>
+        <div style="margin-top:8px"><button class="share" data-share="kalshi-new-york-hearing">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="korea-minister-quits-ai-cheating" data-cat="society" data-area="world" data-story-id="korea-minister-quits-ai-cheating">
+      <summary><span class="rank">#6</span><span><h4>South Korea's education minister resigns over AI cheating scandal around national exams</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="cat">Society · education · 22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek"><strong>Choi Kyo-jin</strong>, 72, resigned saying he takes 'full responsibility' for failing to prepare, after a week in which the top scorer on Korea's national <strong>tax accountant exam</strong> admitted he photographed the questions with a concealed micro-camera, sent them to an AI system and read the answers from a smartphone. Four days later 500,000-plus students sat the <strong>suneung</strong> under emergency rules: public wifi blocked near test sites, twice as many supervisors, pencils only, stickers over clothing buttons that could hide cameras, and a reward of at least <strong>$75,000</strong> for reporting cheating. Choi had told parliament that 'due to my age' he was not confident cheaters could be caught. The Guardian and BBC report the exam passed without major incidents; Korean media say the ministry is extending its investigation to past suneung exams.</p><p class="sowhat">So what: high-stakes testing, including professional certification such as banking and accounting exams, now has to assume a hidden camera and a frontier model; expect a move to supervised digital testing and oral checks.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.theguardian.com/world/2026/nov/22/south-korea-education-minister-resigns-after-ai-cheating-scandal-engulfs-university-exams">The Guardian: South Korean minister quits after AI cheating scandal</a> · <a href="https://www.bbc.co.uk/news/articles/cw3dgk29d37no">BBC: South Korea education minister resigns</a></span></div>
+        <div class="storyline"><a href="../storylines/ai-cheating.html">Storyline: AI cheating in exams · day 3</a> · The Guardian opened (confession, measures, resignation quote); BBC and Korean outlets seen in the collector</div>
+        <div style="margin-top:8px"><button class="share" data-share="korea-minister-quits-ai-cheating">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="cop31-ends-without-deal" data-cat="energy" data-area="energy" data-story-id="cop31-ends-without-deal">
+      <summary><span class="rank">#7</span><span><h4>COP31 climate talks end without a major deal after row over fossil fuels</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="cat">Energy &amp; climate · COP31 · 22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">Talks in <strong>Antalya</strong> were due to end on Friday but ran into Sunday, making this the longest UN climate conference on record. A draft presented early on Sunday did not contain the words <strong>'fossil fuels'</strong>, only a nod to the COP28 pledge to 'transition away' from them. The <strong>EU</strong>'s negotiator, Irish minister Darragh O'Brien, said it went 'nowhere near' the ambition needed; <strong>Panama</strong> and the <strong>Marshall Islands</strong> also objected, and poorer countries complained of no clear money from richer nations for adaptation. <strong>António Guterres</strong>, at his last COP, blamed 'powerful fossil fuel interests'. In Australia, which hosts negotiations next year, the Liberals demanded energy minister Chris Bowen resign over the outcome. A storage alliance with CATL, BYD and ACWA was launched on the sidelines.</p><p class="sowhat">So what: with no new multilateral push, climate policy shifts back to national rules and markets; for banks that means more weight on EU and UK disclosure rules and on physical-risk pricing, not on a global carbon pathway.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.bbc.co.uk/news/articles/cqwy06zrd26lo">BBC: COP31 fails to reach major climate deal</a></span></div>
+        <div class="storyline"><a href="../storylines/climate-talks.html">Storyline: climate summits · day 3</a> · BBC report opened (final text, objections, Guterres quotes); Guardian Australia and pv magazine headlines seen in the collector</div>
+        <div style="margin-top:8px"><button class="share" data-share="cop31-ends-without-deal">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="house-democrats-258-seats" data-cat="world" data-area="world" data-story-id="house-democrats-258-seats">
+      <summary><span class="rank">#8</span><span><h4>Democrats win biggest House majority since 1992, setting up a divided government</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="cat">World · US politics · 22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">With <strong>Chuck Hubbard</strong>'s victory in North Carolina after a recount, Democrats hold at least <strong>258</strong> of 435 House seats to Republicans' at least <strong>173</strong>, the most for the party since 1992 (258) and 2008 (257). The Senate is also Democratic, so President Trump faces a divided Congress from January. Democrats say they will pass a <strong>100-day agenda</strong> on living costs and run extensive oversight; <strong>Hakeem Jeffries</strong> says a ban on lawmakers trading stocks will come 'very early'. AI is on the list: a Democratic lawmaker told The Hill the next Congress will focus on AI in healthcare, jobs and agriculture, and the Senate passed a data-centre permitting and grid-cost bill last week.</p><p class="sowhat">So what: the incoming House controls appropriations and investigations; expect hearings on AI chip exports, Nvidia, the tech outages and data-centre power costs, and slower deregulation of banks and crypto.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.theguardian.com/us-news/2026/nov/22/house-democrats-historic-sweep">The Guardian: House Democrats historic sweep</a> · <a href="https://www.bbc.co.uk/news/articles/c6vg29g7dlyno">BBC: Democrats win largest House majority since 1992</a></span></div>
+        <div class="storyline"><a href="../storylines/us-congress-balance.html">Storyline: who controls the US Congress · day 1</a> · The Guardian (seat count, quotes) and BBC (258 vs 173) opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="house-democrats-258-seats">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="cleverbridge-card-data-breach" data-cat="payments" data-area="finance" data-story-id="cleverbridge-card-data-breach">
+      <summary><span class="rank">#9</span><span><h4>Software billing firm Cleverbridge says hackers stole card numbers and CVV codes</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="cat">Payments · data breach · 22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek"><strong>Cleverbridge</strong> sells software and subscriptions on behalf of vendors such as Red Hat, SUSE, Tenable, Veeam, Jamf, Sony and Parallels. It says it spotted unauthorised activity on <strong>4 Nov</strong>, took systems offline and brought them back the same day, but later found a third party had <strong>copied payment card data stored on the platform</strong>. It began notifying affected buyers on <strong>20 Nov</strong>; a notice seen by BleepingComputer lists <strong>card number, expiry date and CVV/CVC</strong>. It has not said how many cards or which vendors' customers are affected. Storing CVVs after authorisation is barred under PCI DSS.</p><p class="sowhat">So what: card issuers should expect fraud on cards used for software purchases since early November and consider reissuing; merchants of record are a concentrated target, and this one apparently held the security codes that should never be kept.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.bleepingcomputer.com/news/security/cleverbridge-warns-hackers-stole-credit-card-numbers-cvvs-in-data-breach/">BleepingComputer: Cleverbridge warns hackers stole credit card numbers, CVVs</a></span></div>
+        <div class="storyline"><a href="../storylines/data-breaches.html">Storyline: big data breaches · day 7</a> · BleepingComputer opened (dates, data types, notification text); Cleverbridge's own incident page not opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="cleverbridge-card-data-breach">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="glinet-cloud-router-backdoors" data-cat="security" data-area="tech" data-story-id="glinet-cloud-router-backdoors">
+      <summary><span class="rank">#10</span><span><h4>Hackers used GL.iNet's cloud service to plant malware on routers and KVM devices</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust official">Official source</span><span class="cat">Security · devices · 20-22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek"><strong>GL.iNet</strong> makes home and travel routers and <strong>KVM-over-IP</strong> devices that let admins control servers remotely. Its <strong>GoodCloud</strong> platform manages them remotely, and the company says an unauthorised party exploited a vulnerability there to install malicious software. 'The attack path has been blocked,' it says, but the fix 'does not remove malware from devices that were already infected'. It told users to look for a process running as <code>crond -i /tmp/.log</code> and install the latest security firmware; it has not said how many devices were hit, and is investigating whether computers attached to infected KVMs were compromised. The advisory reached the Hacker News front page.</p><p class="sowhat">So what: KVM devices sit below every endpoint control; anyone who used GoodCloud to reach servers or branch machines should treat attached hosts as possibly compromised and check for the indicator.</p>
+        <div class="src"><span class="grp"><span class="st">OFFICIAL</span><a href="https://www.gl-inet.com/en-us/blogs/blog/glinet-security-notice-2026-11-20">GL.iNet: Security Notice 2026-11-20</a></span><span class="grp"><span class="st">REPORTING</span><a href="https://www.bleepingcomputer.com/news/security/hackers-exploit-glinet-cloud-flaw-to-infect-routers-kvm-devices/">BleepingComputer: Hackers exploit GL.iNet cloud flaw</a></span></div>
+        <div class="storyline"><a href="../storylines/cyber-physical-attacks.html">Storyline: hacks that hit the physical world · day 3</a> · BleepingComputer opened; GL.iNet's security notice opened (indicator and remediation)</div>
+        <div style="margin-top:8px"><button class="share" data-share="glinet-cloud-router-backdoors">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="fbi-ncic-breach-cyber-chief-fired" data-cat="security" data-area="tech" data-story-id="fbi-ncic-breach-cyber-chief-fired">
+      <summary><span class="rank">#11</span><span><h4>FBI investigates apparent crime-database hack days after White House fires its cyber chief</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="cat">Security · US government · 20-22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">US media report the FBI is investigating an apparent breach of the <strong>National Crime Information Center</strong>, which federal and local police use for warrants and background checks; the FBI did not comment, and Trump said he had 'just heard' about it. On <strong>20 Nov</strong> the White House removed National Cyber Director <strong>Sean Cairncross</strong>, after he lost the confidence of chief of staff Stephen Miller (CBS); Marco Rubio named Pentagon CIO <strong>Kirsten Davies</strong> as successor. The removal follows last week's outages across banking, the FAA and Microsoft, which officials say were not cyberattacks. On Sunday a failure of <strong>Delta</strong>'s weight-and-balance system delayed every Delta flight at Atlanta, a week after the FAA groundstop.</p><p class="sowhat">So what: the US government's cyber leadership is changing while a criminal-justice database may be exposed; banks that rely on NCIC-derived background checks should watch for guidance, and operational-resilience teams should expect more scrutiny after the outage run.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.bbc.co.uk/news/articles/cvze7de86pk3o">BBC: FBI investigating apparent hack of its criminal database</a> · <a href="https://www.bbc.co.uk/news/articles/cwz0k3nn5p5mo">BBC: White House removes cyber-security chief</a> · <a href="https://www.theverge.com/transportation/1039779/delta-flights-delayed-system-outage">The Verge: Delta Atlanta flights delayed by system outage</a></span></div>
+        <div class="storyline"><a href="../storylines/us-cyber-policy.html">Storyline: US cyber policy · day 2</a> · BBC opened for the FBI breach and Cairncross firing; The Verge opened for the Delta outage</div>
+        <div style="margin-top:8px"><button class="share" data-share="fbi-ncic-breach-cyber-chief-fired">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="china-red-chip-listing-curb" data-cat="markets" data-area="finance" data-story-id="china-red-chip-listing-curb">
+      <summary><span class="rank">#12</span><span><h4>China to bar young 'red-chip' firms from listing abroad unless they move home</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="cat">Markets · China · 20-22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">Red-chip companies are registered abroad, usually in tax havens, but control businesses in China; the structure is favoured by tech start-ups listing in <strong>Hong Kong</strong> or New York. Reuters, citing people familiar, says the <strong>China Securities Regulatory Commission</strong> told law firms in recent days that red-chip companies established after the <strong>2023</strong> offshore-listing rules must <strong>re-domicile in China</strong> before listing offshore. The guidance is confidential and unannounced. It comes as China's AI stocks slump; the collector also carried a report that Chinese AI shares have lost about $1.7 trillion, which we could not open.</p><p class="sowhat">So what: Hong Kong's IPO boom depends on mainland tech; investment banks' Asia ECM pipelines and venture exits for Chinese AI start-ups just got narrower.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.livemint.com/market/beijing-to-bar-young-red-chip-firms-from-listing-outside-mainland-china-sources-say-11795389145365.html">Reuters via Mint: Beijing to bar young red-chip firms from listing outside mainland</a></span></div>
+        <div class="storyline"><a href="../storylines/china-capital-markets.html">Storyline: China's grip on its capital markets · day 1</a> · Reuters report opened via Mint; the CSRC has made no public statement</div>
+        <div style="margin-top:8px"><button class="share" data-share="china-red-chip-listing-curb">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="russian-ships-hit-libya-finland" data-cat="world" data-area="world" data-story-id="russian-ships-hit-libya-finland">
+      <summary><span class="rank">#13</span><span><h4>Drones hit Russian ships in Libya and the Gulf of Finland, sinking a corvette</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust multi">Two or more outlets</span><span class="cat">World · Russia · 21-22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">Libya's eastern government says an explosion at dawn on Sunday on a Russian ship docked at <strong>Benghazi</strong> naval base, stopped for fuel on its way home, was a <strong>suspected drone attack</strong>, with no casualties; BBC Verify geolocated video of the ship in flames. US-based <strong>Vantor</strong> says images show a <strong>Project 20380 (Steregushchiy-class) corvette</strong> moored on Saturday and capsized and sunk on Sunday. A commercial vessel off Benghazi was also hit, with minor injuries. Moscow has not commented. On Saturday the US- and Ukraine-sanctioned cargo ship <strong>Sparta II</strong>, bound for Kaliningrad, was hit by two drones in the eastern <strong>Gulf of Finland</strong>, caught fire and drifted into Finnish waters; Finland's defence forces say Ukraine was likely responsible. It follows Poland's report on 20 Nov of a Russian missile landing on its soil.</p><p class="sowhat">So what: the sea war is spreading to the Mediterranean and the Baltic, raising marine war-risk premiums and sanctions-enforcement questions for shipping finance.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.bbc.co.uk/news/articles/cr894gjz0j0yo">BBC: Explosion on Russian ship at Libya port</a> · <a href="https://www.bbc.co.uk/news/articles/cj752ddve27ko">BBC: Russia-bound ship towed after attack in Gulf of Finland</a></span></div>
+        <div class="storyline"><a href="../storylines/russia-europe-sabotage.html">Storyline: Russian sabotage in Europe · day 3</a> · BBC reports opened for both attacks (Libyan government statement, Vantor imagery, Finnish defence forces)</div>
+        <div style="margin-top:8px"><button class="share" data-share="russian-ships-hit-libya-finland">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="onemain-ilc-charter" data-cat="banking" data-area="finance" data-story-id="onemain-ilc-charter">
+      <summary><span class="rank">#14</span><span><h4>FDIC approves OneMain's industrial bank, letting it lend nationwide at up to 36%</h4><div class="meta"><span class="tier notable">NOTABLE</span><span class="trust single">One secondary source</span><span class="cat">Banking · charters · 22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">Twenty months after applying, <strong>OneMain</strong> has approval from Utah's Department of Financial Institutions and deposit insurance from the <strong>FDIC</strong> for <strong>OneMain Bank</strong>, an industrial loan company. Per the FDIC order, it must raise at least <strong>$341m</strong> of paid-in capital and keep a <strong>15%</strong> leverage ratio; as an ILC owner OneMain avoids becoming a bank holding company but signs a parent company agreement giving the FDIC oversight. The bank will originate unsecured and auto loans and credit cards, funded mainly by brokered deposits, and sell most of them to OneMain, which will distribute them through <strong>1,300+</strong> storefronts in 44 states. The charter lets it replace state-by-state licensing with a single product nationwide at up to <strong>36% APR</strong>, and issue its <strong>BrightWay</strong> card itself instead of through WebBank. It expects to be operating in about a year. Fintech Business Weekly asks whether Dave can follow where Enova and OppFi did not.</p><p class="sowhat">So what: it continues the fintech-charter wave (OakNorth, Payoneer, MoonPay this month); sponsor banks such as WebBank lose programmes, and consumer-lending competition at the 36% ceiling grows.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://fintechbusinessweekly.substack.com/p/onemain-gets-fdic-nod-on-ilc-charter">Fintech Business Weekly: OneMain gets FDIC nod on ILC charter</a></span></div>
+        <div class="storyline"><a href="../storylines/fintech-bank-charters.html">Storyline: fintechs becoming banks · day 2</a> · Fintech Business Weekly opened (FDIC order terms quoted); OneMain's own release not opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="onemain-ilc-charter">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="mexico-card-fee-caps-eased" data-cat="payments" data-area="finance" data-story-id="mexico-card-fee-caps-eased">
+      <summary><span class="rank">#15</span><span><h4>Mexico softens planned card fee caps to push digital payments</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Payments · Mexico · 20-22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">A revised proposal posted on Mexico's draft-regulation platform would phase in yearly average interchange caps of <strong>1%</strong> for credit and <strong>0.3%</strong> for debit by <strong>2029</strong>, according to Bloomberg; last year's proposal set <strong>0.6%</strong> for credit. The aim is to cut cash use while not choking card issuance.</p><p class="sowhat">So what: a softer cap protects issuer economics for Mexican banks and card networks while still compressing merchant fees over time.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.pymnts.com/digital-payments/2026/mexico-relaxes-card-fee-rules-to-promote-digital-payments/">PYMNTS: Mexico relaxes card fee rules</a></span></div>
+        <div class="storyline"><a href="../storylines/card-fee-caps.html">Storyline: caps on card fees · day 1</a> · PYMNTS opened (citing Bloomberg and the draft-regulation platform); the draft itself not opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="mexico-card-fee-caps-eased">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="senators-state-stablecoin-issuers" data-cat="crypto" data-area="finance" data-story-id="senators-state-stablecoin-issuers">
+      <summary><span class="rank">#16</span><span><h4>Senators ask Treasury to let state-licensed stablecoin issuers keep issuing after January</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Crypto · stablecoins · 22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">The <strong>GENIUS Act</strong> starts restricting US stablecoin issuance on <strong>18 Jan 2027</strong>. Treasury's proposal gives temporary relief to federal applicants that receive a waiver but says nothing about issuers whose <strong>state</strong> framework is still awaiting federal certification. Six senators want those issuers covered. New York says its qualifying issuers can continue during state review; the broader restriction on US platform sales starts in July 2028.</p><p class="sowhat">So what: issuers chartered by states (and banks partnering with them) face a gap in January unless Treasury acts.</p>
+        <div class="src"><span class="grp"><span class="st">AGGREGATOR</span><a href="https://cryptoslate.com/senators-want-state-licensed-firms-to-keep-issuing-stablecoins-after-jan-18/">CryptoSlate: Senators want state-licensed firms to keep issuing stablecoins</a></span></div>
+        <div class="storyline"><a href="../storylines/bank-stablecoins.html">Storyline: banks and stablecoins · day 9</a> · CryptoSlate opened; the senators' letter not opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="senators-state-stablecoin-issuers">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="hong-kong-crypto-custody-bill" data-cat="crypto" data-area="finance" data-story-id="hong-kong-crypto-custody-bill">
+      <summary><span class="rank">#17</span><span><h4>Hong Kong bill would license crypto custodians, dealers and advisers</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Crypto · Hong Kong · 21 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">The bill extends Hong Kong's regime beyond trading platforms to four activities: virtual-asset <strong>dealing, advisory, management and custody</strong>, all needing an SFC licence or registration, with matching changes to anti-money-laundering law. It gets its first reading on <strong>2 Dec</strong>.</p><p class="sowhat">So what: banks offering crypto custody in Hong Kong will need a licence; the rules shape Asia's institutional crypto market.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://cointelegraph.com/news/hong-kong-crypto-custody-advisory-licensing-bill">Cointelegraph: Hong Kong pushes to bring crypto custodians under licensing</a></span></div>
+        <div class="storyline"><a href="../storylines/crypto-regulators.html">Storyline: who runs US crypto regulation · day 3</a> · Cointelegraph opened; the gazetted bill not opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="hong-kong-crypto-custody-bill">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="amazon-decart-deal-nears" data-cat="business" data-area="business" data-story-id="amazon-decart-deal-nears">
+      <summary><span class="rank">#18</span><span><h4>Amazon reportedly nears $7.5bn purchase of AI start-up Decart</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Business · AI deals · 22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">PYMNTS reports Amazon is closer to a <strong>$7.5bn</strong> deal for <strong>Decart</strong>; earlier reports (WSJ, October) put talks at about $7bn. Decart was valued near <strong>$4bn</strong> in May after a $300m round that brought in Nvidia; reporting says its chip-switching software could help Amazon's Trainium. Anthropic considered a $6bn bid in August and walked away.</p><p class="sowhat">So what: a big-tech acquisition during an AI sell-off would set a floor for private AI valuations; not confirmed by either company.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.pymnts.com/news/artificial-intelligence/2026/amazon-nears-7-5-billion-purchase-of-ai-startup-decart/">PYMNTS: Amazon nears $7.5bn purchase of Decart</a> · <a href="https://www.techrepublic.com/article/news-amazon-decart-ai-acquisition-talks/">TechRepublic: Amazon in talks to buy Decart for about $7bn</a></span></div>
+        <div class="storyline"><a href="../storylines/ai-financing.html">Storyline: how AI gets financed · day 14</a> · PYMNTS report opened (lede only, paywalled); earlier WSJ and TechRepublic reporting from search</div>
+        <div style="margin-top:8px"><button class="share" data-share="amazon-decart-deal-nears">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="uniphore-agent-self-tests" data-cat="research" data-area="tech" data-story-id="uniphore-agent-self-tests">
+      <summary><span class="rank">#19</span><span><h4>AI agent builders ace their own tests but barely improve on hidden cases</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Research · agents · 19-23 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">Researchers at <strong>Uniphore</strong> had AI builders create business agents in seven simulated workflows and then scored them on cases held back during development. <strong>86 of 132</strong> builds with self-tests scored at least <strong>99%</strong> on tests they wrote; in <strong>13 Claude Opus 4.8</strong> builds, revisions raised own-test scores by <strong>16.9 points</strong> but held-out scores by only <strong>3.2</strong>. Benchmark code and results are released.</p><p class="sowhat">So what: if your AI-built agents for operations or compliance are validated only by tests the same AI wrote, you are measuring confidence, not quality; keep independent held-out cases.</p>
+        <div class="src"><span class="grp"><span class="st">AGGREGATOR</span><a href="https://cryptoslate.com/ai-banking-agent-scored-100-on-its-own-tests-then-failed-92-of-97-real-world-simulations/">CryptoSlate: AI agent scored 100% on its own tests, then failed held-out cases</a></span></div>
+        <div class="storyline"><a href="../storylines/frontier-benchmarks.html">Storyline: how AI is measured · day 3</a> · CryptoSlate summary of the preprint opened; the preprint itself not opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="uniphore-agent-self-tests">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="tesla-fsd-v15-rollout" data-cat="robotics" data-area="tech" data-story-id="tesla-fsd-v15-rollout">
+      <summary><span class="rank">#20</span><span><h4>Tesla starts early rollout of Full Self-Driving v15</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Robotics · Tesla · 21-22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">Not a Tesla App's tracker shows <strong>2026.38.6.11</strong> with <strong>FSD 15</strong> first seen on <strong>21 Nov</strong>, on a tiny share of cars so far. YouTubers' first drives highlight the new 'Reality View' visualisation. Tesla has said v15 is limited to HW4 cars; private Cybercab sales also reportedly began.</p><p class="sowhat">So what: watch for wider rollout numbers and safety data; Tesla is also now ahead of Waymo in Texas robotaxi registrations, per one report.</p>
+        <div class="src"><span class="grp"><span class="st">AGGREGATOR</span><a href="https://www.notateslaapp.com/software-updates/">Not a Tesla App: software update tracker</a></span><span class="grp"><span class="st">OTHER</span><a href="https://www.youtube.com/watch?v=5rDGMNjDPIA">Dirty Tesla: FSD v15 first drive (video)</a></span></div>
+        <div class="storyline"><a href="../storylines/robotaxis.html">Storyline: robotaxis and self-driving cars · day 5</a> · Not a Tesla App update tracker opened; videos seen in the collector</div>
+        <div style="margin-top:8px"><button class="share" data-share="tesla-fsd-v15-rollout">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="agent-swarm-p-vs-np" data-cat="products" data-area="tech" data-story-id="agent-swarm-p-vs-np">
+      <summary><span class="rank">#21</span><span><h4>Builders point volunteer AI agent fleets at P vs NP, with Lean checking every step</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Products · builders · 22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek"><strong>pequalnp.com</strong> hands each visiting agent session one open lemma; every proof goes through the same Lean checker, and a live board weights lines of attack toward P = NP or P ≠ NP by checked lemmas (it stresses this is not a probability). On Hacker News, a <strong>Show HN</strong> game where you play an LLM's subagent reached 265 points, and a progress map for formalising <strong>Alessandro Masullo</strong>'s competing all-human GRH manuscript in Lean reached 106.</p><p class="sowhat">So what: the copyable idea is the pattern: split a big problem into checkable units, let anyone's agent take one, and accept only machine-verified results.</p>
+        <div class="src"><span class="grp"><span class="st">OTHER</span><a href="https://pequalnp.com/">pequalnp.com: agent fleet on P vs NP</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://news.ycombinator.com/item?id=50604314">Hacker News: Agent swarm trying to solve P vs. NP</a> · <a href="https://news.ycombinator.com/item?id=50599762">Hacker News: Show HN: game where you are an LLM subagent</a></span></div>
+        <div class="storyline"><a href="../storylines/builder-tools.html">Storyline: what builders make with AI · day 2</a> · pequalnp.com opened; Hacker News front page via the Algolia API</div>
+        <div style="margin-top:8px"><button class="share" data-share="agent-swarm-p-vs-np">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="google-semantic-governance" data-cat="products" data-area="tech" data-story-id="google-semantic-governance">
+      <summary><span class="rank">#22</span><span><h4>Google previews checks that block an AI agent's tool call before it runs</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust single">One secondary source</span><span class="cat">Products · agent security · 23 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">The check sits outside the agent. A language model compares each proposed tool call with the user's request and written policies, so an agent talked out of its instructions by a user or a poisoned document is still stopped at the gateway. It is in preview.</p><p class="sowhat">So what: this is the control pattern regulators will expect for agentic banking: policy enforced outside the model, at the action.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.helpnetsecurity.com/2026/11/23/google-semantic-governance-policies/">Help Net Security: Google semantic governance policies</a></span></div>
+        <div class="storyline"><a href="../storylines/agent-control-standards.html">Storyline: rules for what AI agents may do · day 5</a> · Help Net Security opened; Google's documentation not opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="google-semantic-governance">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="verstappen-wins-las-vegas" data-cat="sports" data-area="leisure" data-story-id="verstappen-wins-las-vegas">
+      <summary><span class="rank">#23</span><span><h4>Verstappen wins chaotic Las Vegas Grand Prix as Russell crashes late</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Sports · motorsport · 22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">The BBC counts <strong>34</strong> passes for the lead and <strong>352</strong> overtakes overall; the leader never had more than 1.5 seconds. Verstappen then said Russell was 'so far below my level'. In MotoGP, <strong>Marc Márquez</strong> finished eighth in Portugal to take an eighth title, level with Giacomo Agostini.</p><p class="sowhat">So what: two races left in the F1 season.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.bbc.co.uk/sport/formula1/articles/c3n0l5p5x5x5o">BBC Sport: Verstappen a constant amid chaos in Las Vegas</a> · <a href="https://www.bbc.co.uk/sport/motorsport/articles/c64gnrdzq8zzo">BBC Sport: Márquez wins eighth MotoGP title</a></span></div>
+        <div class="storyline"><a href="../storylines/f1-grid.html">Storyline: who drives in F1 · day 2</a> · BBC Sport opened for both</div>
+        <div style="margin-top:8px"><button class="share" data-share="verstappen-wins-las-vegas">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="alcaraz-wins-atp-finals" data-cat="sports" data-area="leisure" data-story-id="alcaraz-wins-atp-finals">
+      <summary><span class="rank">#24</span><span><h4>Alcaraz beats Zverev for first ATP Finals title</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Sports · tennis · 22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">Playing with heavy strapping on his left leg, Alcaraz closed out a season that began with a career Grand Slam and included more than four months out injured.</p><p class="sowhat">So what: Zverev ends the year at number one.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.bbc.co.uk/sport/tennis/articles/c60evlendg0jo">BBC Sport: Alcaraz outplays Zverev for first ATP Finals triumph</a></span></div>
+        <div class="storyline"><a href="../storylines/tennis.html">Storyline: tennis · day 6</a> · BBC Sport opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="alcaraz-wins-atp-finals">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="skubal-mets-450m" data-cat="sports" data-area="leisure" data-story-id="skubal-mets-450m">
+      <summary><span class="rank">#25</span><span><h4>Tarik Skubal joins Mets on record $450m pitcher contract</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Sports · baseball · 22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">The deal has no opt-outs and only $30m in deferrals, CBS Sports reports, citing the New York Post and SNY.</p><p class="sowhat">So what: it resets the market for free-agent pitchers.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.cbssports.com/mlb/news/tarik-skubal-mets-free-agency-contract/">CBS Sports: Skubal signing with Mets</a></span></div>
+        <div class="storyline"><a href="../storylines/baseball.html">Storyline: baseball · day 3</a> · CBS Sports opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="skubal-mets-450m">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="liverpool-thrash-united-pochettino" data-cat="sports" data-area="leisure" data-story-id="liverpool-thrash-united-pochettino">
+      <summary><span class="rank">#26</span><span><h4>Liverpool thrash 10-man Manchester United 4-0 in Pochettino's debut</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Sports · football · 22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">Pochettino, who left the US national team job days earlier, said even the best team in the world could have conceded four with ten men. Separately, FIFA is due to ratify England, Northern Ireland, Scotland and Wales as joint hosts of the <strong>2035 Women's World Cup</strong> on Monday.</p><p class="sowhat">So what: a brutal start for United's new coach.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.bbc.co.uk/sport/football/articles/cwd012903kvgo">BBC Sport: Reality check for Pochettino</a> · <a href="https://www.bbc.co.uk/sport/football/articles/cx30g83716lzo">BBC Sport: FIFA to confirm UK as 2035 Women's World Cup host</a></span></div>
+        <div class="storyline"><a href="../storylines/football-managers.html">Storyline: football's managers · day 3</a> · BBC Sport opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="liverpool-thrash-united-pochettino">Share ↗</button></div>
+      </div>
+    </details>
+    <details class="row feed-item" id="paolo-bulgari-dies" data-cat="business" data-area="business" data-story-id="paolo-bulgari-dies">
+      <summary><span class="rank">#27</span><span><h4>Jeweller Paolo Bulgari dies aged 89</h4><div class="meta"><span class="tier monitor">MONITOR</span><span class="trust multi">Two or more outlets</span><span class="cat">Business · luxury · 22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <p class="dek">His family called him 'the greatest jeweller of our time'; the company was founded by his grandfather, a Greek silversmith, in Rome in the late 19th century.</p><p class="sowhat">So what: Bvlgari is part of LVMH.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.bbc.co.uk/news/articles/c8e39qk5vrpdo">BBC: Paolo Bulgari dies aged 89</a></span></div>
+        <div class="storyline"><a href="../storylines/luxury-industry.html">Storyline: the luxury industry · day 1</a> · BBC opened</div>
+        <div style="margin-top:8px"><button class="share" data-share="paolo-bulgari-dies">Share ↗</button></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- DEVELOPING: carried stories that moved -->
+<section>
+  <div class="sec-head">Developing <small>CARRIED STORIES THAT MOVED</small></div>
+  <div class="compact">
+    <details class="row feed-item" id="nvidia-huang-resigns" data-cat="hardware" data-area="tech" data-story-id="nvidia-huang-resigns">
+      <summary><span class="rank">D1</span><span><h4>California opens criminal angle on Nvidia's China chip sales as pressure to reinstate Huang grows</h4><div class="meta"><span class="tier critical">CRITICAL</span><span class="trust multi">Two or more outlets</span><span class="cat">Hardware · Nvidia · 20-22 Nov</span></div></span><span class="more"></span></summary>
+      <div class="detail">
+        <div class="delta-line"><span class="dl-tag">WHAT CHANGED</span> California's attorney general confirms a probe that includes possible criminal violations of state law over Nvidia's China chip sales and statements to investors; Shopify's Tobi Lütke calls Nvidia's board 'knuckleheads' as a petition for Huang's return passes 100,000 signatures; congressional hearings are set for 1-2 Dec</div><p class="dek"><strong>Rob Bonta</strong> told Bloomberg the state is looking at 'prohibitions in California law, both civil and criminal, against misleading investors and the public', and at whether Nvidia or former CEO <strong>Jensen Huang</strong> gave false information about sales to China. The probe was prompted partly by Huang's affair with <strong>Alice Huang</strong>, a former Megaspeed executive US intelligence suspects of spying; Megaspeed bought billions of dollars of Nvidia chips. It runs alongside the <strong>SEC</strong> accounting investigation (now including Nvidia's 2025 switch from billing-address to headquarters-based geographic revenue reporting, which removed Singapore as a separate line) and a DOJ export-control inquiry. Shopify's <strong>Tobi Lütke</strong> used a 22 Nov podcast to call the directors 'knuckleheads'; a petition for Huang's return has passed <strong>100,000</strong> signatures, but the board, which named <strong>Colette Kress</strong> interim CEO, has refused. Congressional hearings on Nvidia's leadership are set for <strong>1-2 Dec</strong>. The WSJ reports that <strong>Li Ming</strong>, a partner of Alice Huang and her husband Kang Wei, ran the network that moved chips to China (paywalled; not opened). Nvidia closed Friday at $125.53.</p><p class="sowhat">So what: a state criminal angle raises the stakes for Nvidia's executives and directors and for lenders with Nvidia exposure; the 1-2 Dec hearings and Nvidia's delayed 10-Q are the next dates.</p>
+        <div class="src"><span class="grp"><span class="st">REPORTING</span><a href="https://www.pymnts.com/legal/2026/nvidias-chip-sales-targeted-in-california-criminal-probe/">PYMNTS: Nvidia chip sales targeted in California criminal probe</a> · <a href="https://cryptobriefing.com/shopify-ceo-nvidia-board-jensen-huang/">Crypto Briefing: Shopify CEO calls Nvidia board knuckleheads</a></span><span class="grp"><span class="st">AGGREGATOR</span><a href="https://aiweekly.co/alerts/wsj-li-ming-ran-megaspeed-pipeline-moving-nvidia-chips-to-china">AI Weekly: WSJ says Li Ming ran Megaspeed pipeline</a></span></div>
+        <div class="storyline"><a href="../storylines/nvidia-leadership.html">Storyline: who runs Nvidia · day 10</a> · PYMNTS report of Bonta's Bloomberg interview opened; Crypto Briefing opened for Lütke, the petition and hearing dates; WSJ Li Ming report from search only</div>
+        <div style="margin-top:8px"><button class="share" data-share="nvidia-huang-resigns">Share ↗</button></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- PRODUCT UPDATES: what each company shipped (official changelogs) and what people are saying -->
+<section>
+  <div class="sec-head">Product Updates <small>WHAT SHIPPED · WHAT PEOPLE ARE SAYING</small></div>
+  <div class="pu">
+    <div class="pu-co"><h4>Anthropic · Claude</h4><ul><li><a href="https://support.claude.com/en/articles/12138966-release-notes">Refreshed look for Claude Mobile rolling out, starting with iOS (needs iOS 26)</a> <span class="kind">20 Nov</span></li></ul><div class="say"><b>WHAT PEOPLE ARE SAYING</b><ul><li><span class="kind">Hacker News</span><a href="https://news.ycombinator.com/item?id=50597612">87% of the Anthropic power will come from gas and 11% from coal in 2028 (871 pts)</a> — an advocacy group's estimate; unconfirmed</li><li><span class="kind">Video</span><a href="https://www.youtube.com/watch?v=OMfU5iq8Eik">Anthropic Just Dropped 7 MASSIVE Claude Features (RoboNuggets)</a></li></ul></div></div>
+    <div class="pu-co"><h4>OpenRouter</h4><ul><li><a href="https://openrouter.ai/blog/announcements/data-processing-incidents-on-inference-providers/">Off-boards 3 inference providers; removes 125 endpoints from zero-data-retention</a> <span class="kind">22 Nov</span></li><li><a href="https://openrouter.ai/thinkingmachines/inkling-2-mini">Lists Thinking Machines Inkling 2 Mini (1M-token context)</a> <span class="kind">21 Nov</span></li></ul><div class="say"><b>WHAT PEOPLE ARE SAYING</b><ul><li><span class="kind">Hacker News</span><a href="https://news.ycombinator.com/item?id=50585962">Tell HN: OpenRouter prompts to MiniMax may have been read (63 pts)</a></li></ul></div></div>
+    <div class="pu-co"><h4>Tesla</h4><ul><li><a href="https://www.notateslaapp.com/software-updates/">FSD (Supervised) v15 appears in update 2026.38.6.11, early rollout</a> <span class="kind">21 Nov</span></li></ul><div class="say"><b>WHAT PEOPLE ARE SAYING</b><ul><li><span class="kind">Video</span><a href="https://www.youtube.com/watch?v=5rDGMNjDPIA">Tesla FSD V15 Update First Drive and Initial Impressions (Dirty Tesla, 344K views)</a></li><li><span class="kind">Video</span><a href="https://www.youtube.com/watch?v=iAqFI3cnBJY">Tesla FSD V15: Reality View is INSANE (AI DRIVR)</a> — creator's framing</li></ul></div></div>
+    <div class="pu-co"><h4>Amazon · AWS</h4><ul><li><a href="https://aws.amazon.com/blogs/machine-learning/new-in-aws-quick-more-capable-flows-an-updated-web-experience-and-agents-that-work-together/">AWS Quick: more capable flows, updated web app, agents that work together</a> <span class="kind">21 Nov</span></li><li><a href="https://aws.amazon.com/blogs/machine-learning/meta-ads-is-now-available-in-aws-quick/">Meta ads data now available in AWS Quick</a> <span class="kind">21 Nov</span></li></ul></div>
+    <div class="pu-co"><h4>Google · Gemini</h4><ul><li><a href="https://www.helpnetsecurity.com/2026/11/23/google-semantic-governance-policies/">Semantic governance policies (preview): LLM judge blocks off-policy agent tool calls</a> <span class="kind">23 Nov</span></li></ul><div class="say"><b>WHAT PEOPLE ARE SAYING</b><ul><li><span class="kind">Video</span><a href="https://www.youtube.com/watch?v=5eON_8rgKzk">Gemini 4 Neon is ridiculous... (Matthew Berman)</a> — opinion</li></ul></div></div>
+    <div class="pu-co"><h4>Perplexity</h4><ul><li><a href="https://the-decoder.com/perplexitys-new-monitor-api-turns-web-search-from-a-one-off-query-into-a-nonstop-watchdog/">Monitor API: scheduled web watches pushed to agents by webhook, $1 per 1,000 requests</a> <span class="kind">22 Nov</span></li></ul></div>
+    <div class="pu-co"><h4>Thinking Machines</h4><ul><li><a href="https://huggingface.co/unsloth/Inkling-2-Mini-GGUF">Inkling 2 Mini now on OpenRouter; Unsloth GGUF builds published</a> <span class="kind">20-21 Nov</span></li></ul><div class="say"><b>WHAT PEOPLE ARE SAYING</b><ul><li><span class="kind">Hacker News</span><a href="https://news.ycombinator.com/item?id=50603845">A Beginner's Guide to Local AI with Inkling, Qwen, and Unsloth (168 pts)</a></li></ul></div></div>
+    <div class="pu-co"><h4>Boston Dynamics</h4><ul><li><a href="https://roboticsandautomationnews.com/2026/11/22/boston-dynamics-gives-atlas-wheels-to-test-new-reinforcement-learning-capabilities/107438/">Atlas research video: wheels on its ankles to test reinforcement-learning control</a> <span class="kind">22 Nov</span></li></ul></div>
+    <div class="pu-co"><h4>GL.iNet</h4><ul><li><a href="https://www.gl-inet.com/en-us/blogs/blog/glinet-security-notice-2026-11-20">Security notice: GoodCloud flaw used to plant malware; patch firmware and check devices</a> <span class="kind">20 Nov</span></li></ul><div class="say"><b>WHAT PEOPLE ARE SAYING</b><ul><li><span class="kind">Hacker News</span><a href="https://news.ycombinator.com/item?id=50604988">GL.iNet Security Notice 2026-11-20 (50 pts)</a></li></ul></div></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>AI Daily Signal</strong> · Edition 150 · 23 November 2026 (IST) · Curated by Arnav Agrawal<span data-slot="curator-links"></span> · <a href="index.html">All editions</a> · <a href="../storylines/index.html">Storylines</a><span data-slot="sister-links"></span></p>
+    <p>Monday's deep beat, research and AI models: two days after release, the Lean community certified an AI-assisted proof of the Riemann Hypothesis, and OpenAI published its pretraining loss curve with a call for shared limits. The model scan found no new architecture release: Inkling 2 Mini dominates Hugging Face and OpenRouter, while NVIDIA's Nemotron-Labs-Sigma diffusion LMs and Kimi K3.1 Pro are older releases.</p>
+    <p class="followup"><strong>Since the last edition:</strong> AI sell-off and correction — Monday in Asia: Kospi down about 3% more to ~4,718 early, while US futures rebounded (Nasdaq 100 futures +2.9%); Taiwan's short-selling ban takes effect. See today's markets card. · Riemann Hypothesis claim — The Lean and Mathlib communities certified the proof as correct on 21 Nov; MIT's verification page shows all 175,187 modules compiling. Now today's lead. · Russian missile lands in Poland — More attacks on Russian shipping followed: a corvette sunk at Benghazi and the Sparta II hit in the Gulf of Finland. See today's world card. · Bitcoin lowest since 2024 — Bitcoin rebounded above $60,000 after the liquidations; about $61,100 early on Monday. More tampered Ledger devices reported (Cointelegraph). · Nvidia probes and Huang exit — California's attorney general says his probe includes possible criminal violations; hearings set for 1-2 Dec. Developing card today.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast">Link copied</div>
+
+<script id="page-data" type="application/json">
+{
+ "edition": 150,
+ "date": "2026-11-23",
+ "tz": "Asia/Kolkata",
+ "format": "v3",
+ "editionType": "daily",
+ "degraded": false,
+ "degradedReason": "",
+ "sourcesOpened": 60,
+ "shareable": true,
+ "counts": {
+  "new": 27,
+  "developing": 1
+ },
+ "tiers": {
+  "critical": 4,
+  "notable": 11,
+  "monitor": 13
+ },
+ "stories": [
+  {
+   "id": "lean-certifies-riemann-proof",
+   "section": "new",
+   "rank": 1,
+   "title": "The Lean and Mathlib communities, endorsed by the Lean FRO and the Mathlib Initiative, certify (21 Nov) that Levent Alpöge's 17-million-line Lean proof of the Riemann Hypothesis, released 20 Nov and built with an internal Claude model, is correct: dozens reproduced the build, two independent tools confirmed it proves exactly Mathlib's statement, and several independent proof checkers accepted it; MIT's Andrew Sutherland, running checks with Claude Code, reports all 175,187 modules compile with only the three standard axioms",
+   "tier": "critical",
+   "impact": 10,
+   "delta": "new",
+   "arc": "ai-math",
+   "arcDay": 4,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-21",
+   "lastUpdate": "2026-11-23",
+   "category": "research",
+   "tickerKey": "RIEMANN PROOF",
+   "short": "The Lean and Mathlib communities say Levent Alpöge's 17-million-line Lean proof of the Riemann Hypothesis, built with an internal Claude model, is correct. Dozens rebuilt it, two tools confirmed it proves exactly Mathlib's statement, and independent checkers accepted it. MIT's Andrew Sutherland reports all 175,187 modules compile; two of his checks were still running.",
+   "stat": {
+    "value": "17M",
+    "label": "lines in the certified Lean proof"
+   }
+  },
+  {
+   "id": "openai-perplexity-limits",
+   "section": "new",
+   "rank": 2,
+   "title": "OpenAI chief scientist Jakub Pachocki proposes (22 Nov) that labs adopt perplexity (pretraining loss) as a shared progress metric and agree common limits they will not cross until monitoring reaches a concrete milestone, such as a successor to chain-of-thought monitors; OpenAI publishes its own curve (GPT-3.5 ~0.99 log-perplexity, GPT-4 ~0.91, now below 0.8; a ~0.76 model started producing breakthrough maths results) and warns of an 'avalanche' of AI-driven pretraining advances as soon as 2027; Sam Altman backs it (Reuters)",
+   "tier": "critical",
+   "impact": 9,
+   "delta": "new",
+   "arc": "frontier-pacing",
+   "arcDay": 27,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "models",
+   "tickerKey": "OPENAI LIMITS",
+   "short": "OpenAI chief scientist Jakub Pachocki proposes that labs track pretraining perplexity as a shared measure and agree limits they will not cross until monitoring improves. OpenAI publishes its curve: GPT-4 at about 0.91, recent models below 0.8, and a 0.76 model producing breakthrough maths results. He warns of rapid AI-driven pretraining advances as soon as 2027. Altman backs it.",
+   "stat": {
+    "value": "<0.8",
+    "label": "OpenAI's latest log-perplexity"
+   },
+   "image": {
+    "url": "https://images.ctfassets.net/kftzwdyauwt9/6rIIhCRSKrhIfe385Onmcz/aca2d190553c62fd5d49efb5d5ce1eb6/perplexity-and-intelligence-social.png?w=1600&h=900&fit=fill",
+    "credit": "OpenAI"
+   }
+  },
+  {
+   "id": "openrouter-offboards-leaky-providers",
+   "section": "new",
+   "rank": 3,
+   "title": "After Dragos researchers seeded ~2 million prompts with canary AWS keys and URLs (Jul-Nov 2026) and found attackers stealing requests at three AI hosting providers, resellers on an inference marketplace reading prompts, and privacy settings ignored (prompts sent to Chinese firms), OpenRouter says (22 Nov) it has off-boarded three providers, removed 125 endpoints from zero-data-retention eligibility and notified affected customers; Together, Novita (MiniMax requests), Phala and Atlas Cloud have posted notices",
+   "tier": "critical",
+   "impact": 9,
+   "delta": "new",
+   "arc": "inference-isolation",
+   "arcDay": 2,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "security",
+   "tickerKey": "PROMPT THEFT",
+   "short": "Dragos seeded about two million prompts with fake AWS keys and found attackers inside three AI hosting providers, using stolen keys within hours, even on zero-data-retention requests. Marketplace resellers could also read prompts. OpenRouter has off-boarded three providers, pulled 125 endpoints from zero-data-retention and notified customers; it says its own systems were not breached.",
+   "stat": {
+    "value": "125",
+    "label": "endpoints pulled from zero-data-retention"
+   },
+   "image": {
+    "url": "https://openrouter.ai/og.png",
+    "credit": "OpenRouter"
+   }
+  },
+  {
+   "id": "asia-slides-us-futures-rebound",
+   "section": "new",
+   "rank": 4,
+   "title": "Monday 23 Nov: Korea's Kospi falls a further ~3.1% to about 4,718 in early trade while US stock futures rebound (Nasdaq 100 futures +2.9%, S&P 500 futures +2.1%, Dow futures about +690 points) after Friday's correction; Taiwan's regulator bans most short selling from today, raises short-sale margin to 150% and halts new put warrants after the Taiex's 17.5% weekly fall, its worst since 1991; Japan is closed for a holiday; bitcoin is back near $61,000",
+   "tier": "notable",
+   "impact": 8,
+   "delta": "new",
+   "arc": "ai-market-mood",
+   "arcDay": 3,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "markets",
+   "tickerKey": "MONDAY OPEN",
+   "short": "Korea's Kospi fell about 3% more early on Monday to around 4,718, while US futures bounced: Nasdaq 100 futures up about 2.9%. Taiwan's regulator banned most short selling from today and halted new put warrants after the Taiex's worst week since 1991. Japan is closed. Bitcoin is back near $61,000.",
+   "stat": {
+    "value": "-3.1%",
+    "label": "Kospi early on Monday"
+   }
+  },
+  {
+   "id": "kalshi-new-york-hearing",
+   "section": "new",
+   "rank": 5,
+   "title": "A New York state judge hears on Monday (23 Nov, 11:30am ET) Attorney General Letitia James's request for a temporary restraining order against Kalshi, which says the order would force it to shut its exchange for all customers because it is headquartered in New York; the case returned to state court after a federal judge ruled on 19 Nov and a Manhattan federal judge on 20 Nov rejected the CFTC's second emergency bid to halt it; James seeks up to $36bn",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "new",
+   "arc": "prediction-markets",
+   "arcDay": 8,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "markets",
+   "tickerKey": "KALSHI",
+   "short": "A New York judge hears the attorney general's bid to restrain Kalshi on Monday. Kalshi says the order would shut its exchange for every customer because it is based in New York; the AG says it would not. A federal judge rejected the CFTC's second emergency bid to stop the case on 20 Nov. New York seeks up to $36bn.",
+   "stat": {
+    "value": "$36bn",
+    "label": "New York's maximum claim against Kalshi"
+   }
+  },
+  {
+   "id": "korea-minister-quits-ai-cheating",
+   "section": "new",
+   "rank": 6,
+   "title": "South Korea's education minister Choi Kyo-jin resigns (22 Nov) after AI-assisted cheating fears upended the suneung university entrance exam: the top scorer on the national tax accountant exam confessed to photographing questions with a hidden camera and reading AI answers from a phone, prompting wifi blocks, doubled supervisors, button stickers and a reward of at least $75,000 for reports; President Lee accepts; the ministry widens its probe to past exams",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "new",
+   "arc": "ai-cheating",
+   "arcDay": 3,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "society",
+   "tickerKey": "KOREA EXAMS",
+   "short": "South Korea's education minister resigned after AI-assisted cheating fears upended the national university exam. The top scorer on the tax accountant exam confessed to using a hidden camera and AI answers on a phone, prompting wifi blocks, doubled supervisors and rewards of at least $75,000 for reports. The exam itself passed without major incidents.",
+   "stat": {
+    "value": "$75K+",
+    "label": "reward offered for reporting cheats"
+   }
+  },
+  {
+   "id": "cop31-ends-without-deal",
+   "section": "new",
+   "rank": 7,
+   "title": "COP31 in Turkey ends (22 Nov) without a major new climate deal after the longest UN climate conference ever: the final text never mentions fossil fuels, the EU, Pacific islands, Panama and others object, poorer countries get no clear adaptation finance; UN chief Guterres says he is 'deeply disappointed'; the BBC says a main COP deal last collapsed like this in Copenhagen in 2009",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "new",
+   "arc": "climate-talks",
+   "arcDay": 3,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "energy",
+   "tickerKey": "COP31",
+   "short": "COP31 in Turkey ended on Sunday without a major new climate deal after the longest UN climate talks ever. The final text never mentions fossil fuels; the EU, Pacific islands and others objected, and poorer countries got no clear adaptation money. Guterres said he was deeply disappointed; the BBC compares it to Copenhagen in 2009.",
+   "stat": {
+    "value": "0",
+    "label": "mentions of 'fossil fuels' in the final text"
+   }
+  },
+  {
+   "id": "house-democrats-258-seats",
+   "section": "new",
+   "rank": 8,
+   "title": "Democrats reach at least 258 US House seats (22 Nov) after Chuck Hubbard's recount win over Virginia Foxx in North Carolina, their largest majority since 1992, setting up divided government with the Senate also Democratic; leaders plan a 100-day cost-of-living agenda and broad oversight of Trump; Hakeem Jeffries says he will move 'very early' to ban lawmakers from trading stocks",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "new",
+   "arc": "us-congress-balance",
+   "arcDay": 1,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "world",
+   "tickerKey": "US HOUSE",
+   "short": "Democrats now hold at least 258 House seats after a North Carolina recount, their biggest majority since 1992, and the Senate is also Democratic. They plan a 100-day cost-of-living agenda, broad oversight of Trump and an early vote to ban lawmakers trading stocks. Expect hearings on AI chips, Nvidia, outages and data-centre power.",
+   "stat": {
+    "value": "258",
+    "label": "House seats won by Democrats"
+   }
+  },
+  {
+   "id": "cleverbridge-card-data-breach",
+   "section": "new",
+   "rank": 9,
+   "title": "E-commerce and subscription billing platform Cleverbridge, used by software firms including Red Hat, SUSE, Tenable, Veeam, Jamf, Sony and Parallels, says hackers copied payment card data stored on its platform; it detected the intrusion on 4 Nov and began notifying customers on 20 Nov; notifications seen by BleepingComputer say card numbers, expiry dates and CVV codes were taken (reported 22 Nov)",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "new",
+   "arc": "data-breaches",
+   "arcDay": 7,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "payments",
+   "tickerKey": "CLEVERBRIDGE",
+   "short": "Cleverbridge, which handles payments for software vendors such as Red Hat, Veeam and Parallels, says hackers copied payment card data from its platform. It detected the intrusion on 4 Nov and began notifying buyers on 20 Nov; notices list card numbers, expiry dates and CVV codes. It has not said how many cards are affected.",
+   "stat": {
+    "value": "CVV",
+    "label": "security codes among the stolen card data"
+   }
+  },
+  {
+   "id": "glinet-cloud-router-backdoors",
+   "section": "new",
+   "rank": 10,
+   "title": "GL.iNet confirms (advisory 20 Nov, reported 22 Nov) that attackers exploited a flaw in its GoodCloud remote-management service to install malware on customers' routers and KVM devices, with some users reporting backdoors and reverse shells; the cloud flaw is fixed but already-infected devices stay infected; it has not said how many customers were hit or whether computers attached to KVMs were compromised",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "cyber-physical-attacks",
+   "arcDay": 3,
+   "confidence": "Primary",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "security",
+   "tickerKey": "GL.INET",
+   "short": "GL.iNet says attackers exploited a flaw in its GoodCloud remote-management service to install malware on customers' routers and KVM devices, with some users finding backdoors. The cloud hole is closed but infected devices stay infected. It has not said how many were hit or whether servers attached to KVMs were compromised.",
+   "stat": {
+    "value": "KVM",
+    "label": "remote server consoles among infected devices"
+   }
+  },
+  {
+   "id": "fbi-ncic-breach-cyber-chief-fired",
+   "section": "new",
+   "rank": 11,
+   "title": "The FBI is investigating an apparent breach of the National Crime Information Center database used for warrants and background checks (reported 21-22 Nov); Trump says 'it's not good'; it follows the 20 Nov firing of White House National Cyber Director Sean Cairncross after a string of US outages that hit banking and air traffic control, with Pentagon CIO Kirsten Davies named as his replacement; on 22 Nov a Delta weight-and-balance system failure delayed all its Atlanta flights",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "new",
+   "arc": "us-cyber-policy",
+   "arcDay": 2,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "security",
+   "tickerKey": "FBI NCIC",
+   "short": "The FBI is investigating an apparent breach of its National Crime Information Center, the database police use for warrants and background checks. Two days earlier the White House fired cyber director Sean Cairncross after outages that hit banks and air traffic control. On Sunday a Delta system failure delayed every Delta flight at Atlanta.",
+   "stat": {
+    "value": "NCIC",
+    "label": "FBI crime database under investigation"
+   }
+  },
+  {
+   "id": "china-red-chip-listing-curb",
+   "section": "new",
+   "rank": 12,
+   "title": "China's securities regulator has told law firms it will not approve offshore listings by red-chip companies set up after its 2023 offshore-listing rules unless they re-domicile in China, Reuters reports (sources, 20-22 Nov), tightening control over capital raised abroad and threatening Hong Kong's IPO pipeline as China's AI stocks slump",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "china-capital-markets",
+   "arcDay": 1,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "markets",
+   "tickerKey": "RED CHIPS",
+   "short": "China's securities regulator has told law firms it will not approve offshore listings by red-chip companies set up after 2023 unless they move their domicile to China, Reuters reports, citing sources. The unannounced guidance tightens control of capital raised abroad and could dent Hong Kong's IPO pipeline as Chinese AI stocks slump.",
+   "stat": {
+    "value": "2023",
+    "label": "red chips set up after this year affected"
+   }
+  },
+  {
+   "id": "russian-ships-hit-libya-finland",
+   "section": "new",
+   "rank": 13,
+   "title": "A suspected drone attack sets fire to a Russian ship at Benghazi naval base, Libya (22 Nov); satellite firm Vantor says imagery shows a Steregushchiy-class corvette capsized and sunk with only its bow visible; a commercial ship off Benghazi is also hit; a day earlier the sanctioned Russian cargo ship Sparta II was struck by drones in the Gulf of Finland, and Finland's defence forces say Ukraine was likely behind it",
+   "tier": "notable",
+   "impact": 7,
+   "delta": "new",
+   "arc": "russia-europe-sabotage",
+   "arcDay": 3,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "world",
+   "tickerKey": "RUSSIAN SHIPS",
+   "short": "A suspected drone attack set a Russian ship on fire at Libya's Benghazi naval base on Sunday; satellite images show a Russian corvette capsized and sunk. A day earlier drones hit the sanctioned Russian cargo ship Sparta II in the Gulf of Finland, and Finland says Ukraine was likely behind it. Moscow has not commented.",
+   "stat": {
+    "value": "2",
+    "label": "Russian ships hit in two days"
+   }
+  },
+  {
+   "id": "onemain-ilc-charter",
+   "section": "new",
+   "rank": 14,
+   "title": "OneMain Financial wins Utah and FDIC approval (announced last week, analysed 22 Nov) for OneMain Bank, an industrial loan company that must hold at least $341m of paid-in capital and a 15% leverage ratio; the branchless bank will originate personal loans, auto loans and credit cards through OneMain's 1,300+ storefronts, let it offer a uniform product nationwide at up to 36% APR instead of state licences, and bring its BrightWay card in-house from WebBank",
+   "tier": "notable",
+   "impact": 6,
+   "delta": "new",
+   "arc": "fintech-bank-charters",
+   "arcDay": 2,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "banking",
+   "tickerKey": "ONEMAIN",
+   "short": "OneMain has Utah and FDIC approval for OneMain Bank, an industrial loan company that must hold at least $341m of capital and a 15% leverage ratio. It will originate personal and auto loans and cards through 1,300 storefronts, offer one product nationwide at up to 36% APR, and take its BrightWay card in-house from WebBank.",
+   "stat": {
+    "value": "$341m",
+    "label": "minimum capital for OneMain Bank"
+   }
+  },
+  {
+   "id": "mexico-card-fee-caps-eased",
+   "section": "new",
+   "rank": 15,
+   "title": "Mexico's revised draft rules would phase in average interchange caps of 1% on credit cards and 0.3% on debit cards by 2029, looser than last year's proposed 0.6% credit cap, Bloomberg reports (20 Nov, via PYMNTS), as the government tries to cut cash use",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "card-fee-caps",
+   "arcDay": 1,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "payments",
+   "tickerKey": "MEXICO CARDS"
+  },
+  {
+   "id": "senators-state-stablecoin-issuers",
+   "section": "new",
+   "rank": 16,
+   "title": "Six US senators ask Treasury (22 Nov) to let qualifying state-regulated stablecoin issuers keep issuing after the GENIUS Act takes effect on 18 Jan 2027 while federal regulators review their states' regimes; Treasury's proposal covers only federal applicants with a waiver; New York says its issuers can keep issuing during review",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "bank-stablecoins",
+   "arcDay": 9,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "crypto",
+   "tickerKey": "GENIUS ACT"
+  },
+  {
+   "id": "hong-kong-crypto-custody-bill",
+   "section": "new",
+   "rank": 17,
+   "title": "Hong Kong publishes (21 Nov) the Virtual Asset Services Legislation (Amendment) Bill 2026, requiring crypto dealers, advisers, managers and custodians to be licensed by or registered with the SFC; first reading in the Legislative Council on 2 Dec",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "crypto-regulators",
+   "arcDay": 3,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "crypto",
+   "tickerKey": "HK CRYPTO"
+  },
+  {
+   "id": "amazon-decart-deal-nears",
+   "section": "new",
+   "rank": 18,
+   "title": "Amazon is reportedly closer to a $7.5bn deal to buy AI start-up Decart (PYMNTS, 22 Nov), up from the roughly $7bn the WSJ reported in October; Decart, valued near $4bn in May with Nvidia as an investor, makes real-time generative video models and software for switching between AI chips; Anthropic looked at buying it for $6bn in August",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "ai-financing",
+   "arcDay": 14,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "business",
+   "tickerKey": "DECART"
+  },
+  {
+   "id": "uniphore-agent-self-tests",
+   "section": "new",
+   "rank": 19,
+   "title": "A Uniphore preprint (19 Nov) using AppSci-Bench, seven simulated business workflows such as invoice review and airline rebooking, finds AI agent builders grade their own work near-perfect (86 of 132 builds scored at least 99% on self-written tests) while gains on withheld cases are small (13 Claude Opus 4.8 builds: +16.9 points on own tests, +3.2 on held-out); turning the test-and-revise loop on or off made no significant difference across 252 builds",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "frontier-benchmarks",
+   "arcDay": 3,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "research",
+   "tickerKey": "AGENT TESTS"
+  },
+  {
+   "id": "tesla-fsd-v15-rollout",
+   "section": "new",
+   "rank": 20,
+   "title": "Tesla begins an early rollout of FSD (Supervised) v15 in software 2026.38.6.11 (first seen 21 Nov), with a new 'Reality View' visualisation and garage parking; first-drive videos draw 230,000-340,000 views; Tesla has said v15 runs only on HW4 cars",
+   "tier": "monitor",
+   "impact": 5,
+   "delta": "new",
+   "arc": "robotaxis",
+   "arcDay": 5,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": false,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "robotics",
+   "tickerKey": "FSD V15"
+  },
+  {
+   "id": "agent-swarm-p-vs-np",
+   "section": "new",
+   "rank": 21,
+   "title": "Builders: pequalnp.com runs a coordinated fleet of volunteers' AI coding agents (Claude Code, Cursor, Codex, Gemini CLI) on P vs NP, each assigned one open step and checked in Lean, with a live viewer (86 HN points); and a Show HN game casts the player as an LLM's subagent (265 points); a separate group maps progress on formalising Masullo's human GRH manuscript in Lean",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "builder-tools",
+   "arcDay": 2,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "products",
+   "tickerKey": ""
+  },
+  {
+   "id": "google-semantic-governance",
+   "section": "new",
+   "rank": 22,
+   "title": "Google previews 'semantic governance policies' on its Gemini platform: an LLM judge at an enforcement point such as Agent Gateway checks each tool call an agent proposes against the user's request and company rules and blocks it before it runs, a guard against indirect prompt injection (Help Net Security, 23 Nov)",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "agent-control-standards",
+   "arcDay": 5,
+   "confidence": "Agg 1x",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "products",
+   "tickerKey": "AGENT GUARD"
+  },
+  {
+   "id": "verstappen-wins-las-vegas",
+   "section": "new",
+   "rank": 23,
+   "title": "Max Verstappen wins a chaotic Las Vegas Grand Prix (34 lead changes, 352 overtakes in 50 laps) after George Russell crashes trying to pass Mercedes team-mate Kimi Antonelli for second with two laps left; Marc Márquez clinches a record-equalling eighth MotoGP title in Portugal",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "f1-grid",
+   "arcDay": 2,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "sports",
+   "tickerKey": "F1 VEGAS"
+  },
+  {
+   "id": "alcaraz-wins-atp-finals",
+   "section": "new",
+   "rank": 24,
+   "title": "Carlos Alcaraz beats world number one Alexander Zverev 6-2 7-6 (9-7) in Turin (22 Nov) for his first ATP Finals title, a 14th straight win and third straight title after a four-month wrist lay-off",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "tennis",
+   "arcDay": 6,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "sports",
+   "tickerKey": "ATP FINALS"
+  },
+  {
+   "id": "skubal-mets-450m",
+   "section": "new",
+   "rank": 25,
+   "title": "Two-time AL Cy Young winner Tarik Skubal agrees a nine-year, $450m contract with the New York Mets (22 Nov), the richest ever for a pitcher in total and annual value, with a $45m signing bonus, a full no-trade clause and $30m deferred, pending a physical (New York Post, SNY via CBS Sports)",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "baseball",
+   "arcDay": 3,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "sports",
+   "tickerKey": "SKUBAL"
+  },
+  {
+   "id": "liverpool-thrash-united-pochettino",
+   "section": "new",
+   "rank": 26,
+   "title": "Liverpool beat 10-man Manchester United 4-0 at Anfield (22 Nov) in Mauricio Pochettino's first game as United head coach, after Leny Yoro's eighth-minute red card; Rio Ngumoha stars; FIFA is set to confirm on Monday the UK as host of the 2035 Women's World Cup",
+   "tier": "monitor",
+   "impact": 4,
+   "delta": "new",
+   "arc": "football-managers",
+   "arcDay": 3,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "sports",
+   "tickerKey": "LIV 4-0 MUN"
+  },
+  {
+   "id": "paolo-bulgari-dies",
+   "section": "new",
+   "rank": 27,
+   "title": "Paolo Bulgari, chairman of the Bvlgari Group since 1984 who helped turn his family's Roman jeweller into a global luxury brand (owned by LVMH since 2011), dies in Rome aged 89 (22 Nov)",
+   "tier": "monitor",
+   "impact": 3,
+   "delta": "new",
+   "arc": "luxury-industry",
+   "arcDay": 1,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": true,
+   "firstSeen": "2026-11-23",
+   "lastUpdate": "2026-11-23",
+   "category": "business",
+   "tickerKey": ""
+  },
+  {
+   "id": "nvidia-huang-resigns",
+   "section": "developing",
+   "rank": 1,
+   "title": "California Attorney General Rob Bonta says (Bloomberg interview, 20 Nov) his investigation into whether Nvidia illegally sold advanced chips to China and misled investors includes possible criminal violations of state law, alongside the SEC accounting probe; Shopify CEO Tobi Lütke calls the board that accepted Jensen Huang's 12 Nov resignation 'knuckleheads' and backs a petition for his return (100,000+ signatures); the board, under interim CEO Colette Kress, has refused; congressional hearings are scheduled for 1-2 Dec; the WSJ reports a third figure, Li Ming, ran the Megaspeed network",
+   "tier": "critical",
+   "impact": 9,
+   "delta": "escalated",
+   "arc": "nvidia-leadership",
+   "arcDay": 10,
+   "confidence": "2x src",
+   "verified": "opened",
+   "new24h": false,
+   "update": "California's attorney general confirms a probe that includes possible criminal violations of state law over Nvidia's China chip sales and statements to investors; Shopify's Tobi Lütke calls Nvidia's board 'knuckleheads' as a petition for Huang's return passes 100,000 signatures; congressional hearings are set for 1-2 Dec",
+   "firstSeen": "2026-11-13",
+   "lastUpdate": "2026-11-23",
+   "category": "hardware",
+   "tickerKey": "NVIDIA",
+   "short": "California's attorney general says his Nvidia probe covers possible criminal violations of state law over China chip sales and statements to investors, on top of the SEC accounting probe. Shopify's CEO called Nvidia's board 'knuckleheads' as a petition for Jensen Huang's return passed 100,000 signatures; the board refuses. Congressional hearings are set for 1-2 December.",
+   "stat": {
+    "value": "$125.53",
+    "label": "Nvidia's Friday close"
+   }
+  }
+ ],
+ "deadlines": [
+  {
+   "date": "2026-11-23",
+   "label": "Kalshi hearing on New York AG's restraining order (11:30am ET)",
+   "severity": "high"
+  },
+  {
+   "date": "2026-11-23",
+   "label": "FIFA confirms UK as 2035 Women's World Cup host",
+   "severity": "low"
+  },
+  {
+   "date": "2026-11-24",
+   "label": "Wells Fargo AI-agent liability terms take effect",
+   "severity": "medium"
+  },
+  {
+   "date": "2026-11-29",
+   "label": "Spain snap general election",
+   "severity": "medium"
+  },
+  {
+   "date": "2026-11-30",
+   "label": "Nvidia board answers due to Treasury (Bessent's '10 days', approx.)",
+   "severity": "high"
+  },
+  {
+   "date": "2026-12-01",
+   "label": "Congressional hearings on Nvidia leadership (1-2 Dec)",
+   "severity": "high"
+  },
+  {
+   "date": "2026-12-02",
+   "label": "Hong Kong crypto custody bill first reading",
+   "severity": "low"
+  },
+  {
+   "date": "2026-12-18",
+   "label": "Bank of Japan decision (hike to 1.5% expected)",
+   "severity": "medium"
+  },
+  {
+   "date": "2027-01-18",
+   "label": "GENIUS Act stablecoin rules take effect",
+   "severity": "high"
+  },
+  {
+   "date": "2027-01-18",
+   "label": "GENIUS Act stablecoin rules take effect",
+   "severity": "medium"
+  }
+ ]
+}
+</script>
+
+<script>
+(function(){
+  var state = JSON.parse(document.getElementById('page-data').textContent);
+  var TODAY = state.date;
+  var $ = function(id){ return document.getElementById(id); };
+  // ticker: a steady reading speed (about 88 pixels a second) however long today's ticker is; tap to pause
+  (function(){
+    var tk = document.querySelector('.ticker'), inner = tk && tk.querySelector('.ticker-inner');
+    if (!inner) return;
+    var setSpeed = function(){ inner.style.animationDuration = Math.max(20, Math.round(inner.scrollWidth / 88)) + 's'; };
+    setSpeed(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(setSpeed);
+    tk.addEventListener('click', function(){ tk.classList.toggle('paused'); });
+  })();
+  var esc = function(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+  var dayMs = 86400000;
+  var toDate = function(s){ var p = s.split('-'); return Date.UTC(+p[0], +p[1]-1, +p[2]); };
+  var newStories = state.stories.filter(function(s){ return s.section === 'new'; });
+  var n24 = newStories.filter(function(s){ return s.new24h; }).length;
+
+  // ── degraded banner ──
+  if(state.degraded){
+    $('degraded').classList.add('on');
+    $('degraded-text').textContent = state.degradedReason || 'Source pages could not be opened for this edition.';
+  }
+
+  // ── status line ──
+  var catchup = state.editionType === 'catch-up';
+  var bits = [
+    newStories.length + (newStories.length === 1 ? ' story' : ' stories'),
+    n24 === 0 ? 'none in the last 24 hours' : n24 + ' in the last 24 hours',
+    (state.sourcesOpened || 0) + ((state.sourcesOpened === 1) ? ' source opened' : ' sources opened')
+  ];
+  $('status').innerHTML = '<span class="etype' + (catchup ? ' catchup' : '') + '">' + (catchup ? 'Catch-up edition' : 'Daily edition') + '</span>' +
+    (catchup ? 'Quiet day: ' : '') + '<b>' + bits.join(', ') + '</b>';
+  $('new-head').textContent = newStories.length + ' NEW SINCE LAST EDITION · ' + n24 + ' IN THE LAST 24H';
+
+  // ── NEW / NEW.24H badges from state ──
+  state.stories.forEach(function(s){
+    document.querySelectorAll('[data-story-id="'+s.id+'"]').forEach(function(el){
+      var slot = el.querySelector('h4') || el.querySelector('h2');
+      if(!slot) return;
+      var frag = document.createDocumentFragment();
+      if(s.new24h){ var b = document.createElement('span'); b.className = 'badge b-24h'; b.textContent = 'NEW IN 24H'; frag.appendChild(b); }
+      var map = {escalated:['b-esc','▲ ESCALATED'], deescalated:['b-deesc','▼ EASED']};
+      if(map[s.delta]){ var d = document.createElement('span'); d.className = 'badge ' + map[s.delta][0]; d.textContent = map[s.delta][1]; frag.appendChild(d); }
+      slot.insertBefore(frag, slot.firstChild);
+    });
+  });
+
+  // ── deadline timeline with days-left counters ──
+  var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var tl = $('timeline');
+  state.deadlines.slice().sort(function(a,b){ return a.date < b.date ? -1 : 1; }).forEach(function(d){
+    var left = Math.round((toDate(d.date) - toDate(TODAY)) / dayMs);
+    if(left < 0) return;
+    var p = d.date.split('-');
+    var el = document.createElement('div');
+    el.className = 'tl-item sev-' + d.severity;
+    el.innerHTML = '<div class="when">' + (+p[2]) + ' ' + M[+p[1]-1] + '</div><div class="left">' +
+      (left === 0 ? 'TODAY' : left === 1 ? 'TOMORROW' : 'IN ' + left + ' DAYS') + '</div><div class="l">' + esc(d.label) + '</div>';
+    tl.appendChild(el);
+  });
+
+  // ── area and category tabs (filter every feed item) ──
+  // Row 1: ALL + areas (data-area). Row 2: categories (data-cat), showing only the chosen area's.
+  var catTabs = document.querySelectorAll('.tab.cat');
+  function showCats(area){ catTabs.forEach(function(t){ t.style.display = (!area || t.getAttribute('data-area') === area) ? '' : 'none'; }); }
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      var cat = tab.getAttribute('data-cat'), area = tab.classList.contains('area') ? tab.getAttribute('data-area') : null;
+      if (!tab.classList.contains('cat')) {
+        document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+        showCats(area);
+      } else {
+        catTabs.forEach(function(t){ t.classList.remove('active'); });
+      }
+      tab.classList.add('active');
+      document.querySelectorAll('.feed-item').forEach(function(c){
+        var show = cat === 'all' ? true : area ? c.getAttribute('data-area') === area : c.getAttribute('data-cat') === cat;
+        c.style.display = show ? '' : 'none';
+      });
+    });
+  });
+
+  // ── share buttons: native share sheet, else copy the link ──
+  document.querySelectorAll('[data-share]').forEach(function(b){
+    b.addEventListener('click', function(ev){
+      ev.preventDefault();
+      var id = b.getAttribute('data-share');
+      var el = $(id), h = el && el.querySelector('h4');
+      var url = location.href.split('#')[0] + '#' + id;
+      var title = h ? h.textContent.replace(/^NEW IN 24H/, '').trim() : document.title;
+      if(navigator.share){ navigator.share({title: title, text: title + ' — AI Daily Signal', url: url}).catch(function(){}); return; }
+      var done = function(){ var t = $('toast'); t.style.display = 'block'; setTimeout(function(){ t.style.display = 'none'; }, 1600); };
+      if(navigator.clipboard){ navigator.clipboard.writeText(url).then(done, done); } else { prompt('Copy this link', url); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
